@@ -3,187 +3,91 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="description" content="Beautiful Context の公開ページ。作品ページとコンテクストページをデータから描画します。">
+<meta name="description" content="Beautiful Context の作品ページ。その作品が関わるすべてのコンテクストへの導線が並びます。">
 <title>Beautiful Context</title>
 <link rel="stylesheet" href="app.css">
 </head>
 <body>
-<main class="stage">
-  <div class="phone">
-    <div class="screen">
-      <div class="scroll" id="scroll"></div>
-      <div class="toast" id="toast" role="status" aria-live="polite"></div>
-      <div class="bottom" id="dock"></div>
-    </div>
+
+<div class="app">
+  <div id="main"></div>
+</div>
+
+<div class="dock" id="dock">
+  <div class="map" id="map"></div>
+  <div class="actions">
+    <a href="editor.html" id="remix">ReMixIt!</a>
+    <a class="primary" href="index.html">UNIverseIt!</a>
   </div>
-</main>
+</div>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
 
 <script src="js/seed.js"></script>
 <script src="js/store.js"></script>
+<script src="js/render.js"></script>
 <script>
 (() => {
-  const S = window.BCStore;
-  const scroll = document.getElementById('scroll');
-  const dock   = document.getElementById('dock');
-  const toastEl= document.getElementById('toast');
+  const S = window.BCStore, R = window.BCRender;
+  const main = document.getElementById('main');
+  const map  = document.getElementById('map');
+  const qs   = new URLSearchParams(location.search);
 
-  const qs = new URLSearchParams(location.search);
-  const esc = (s) => { const d=document.createElement('div'); d.textContent = s==null?'':String(s); return d.innerHTML; };
+  /* コンテクストはストリーム側にあるので、そちらへ送る */
+  const ctx = qs.get('context');
+  if (ctx){ location.replace('index.html#' + encodeURIComponent(ctx)); return; }
 
-  /* エディターの本文は contenteditable 由来の HTML。許可タグだけ残す。 */
-  const ALLOWED = new Set(['P','BR','STRONG','B','EM','I','H3','H4','UL','OL','LI','BLOCKQUOTE']);
-  function clean(html){
-    const box = document.createElement('div');
-    box.innerHTML = html || '';
-    (function walk(node){
-      [...node.childNodes].forEach(ch => {
-        if (ch.nodeType === 1){
-          if (!ALLOWED.has(ch.tagName)){
-            const span = document.createDocumentFragment();
-            while (ch.firstChild) span.appendChild(ch.firstChild);
-            ch.replaceWith(span);
-            return walk(node);
-          }
-          [...ch.attributes].forEach(a => ch.removeAttribute(a.name));
-          walk(ch);
-        } else if (ch.nodeType !== 3){
-          ch.remove();
-        }
-      });
-    })(box);
-    return box.innerHTML;
+  const slug = qs.get('work');
+  const hit  = slug ? S.workBySlug(slug) : null;
+
+  if (!hit){
+    main.innerHTML = `<div class="empty"><b>作品が見つかりません</b>
+      <button class="back" type="button" onclick="location.href='index.html'">← ストリームへ戻る</button></div>`;
+    document.getElementById('dock').classList.add('dark');
+    return;
   }
 
-  let toastTimer;
-  function toast(msg){
-    toastEl.textContent = msg;
-    toastEl.classList.add('show');
-    clearTimeout(toastTimer);
-    toastTimer = setTimeout(() => toastEl.classList.remove('show'), 1500);
-  }
+  const w = hit.work;
+  document.title = `${w.title}｜Beautiful Context`;
 
-  function art(work, extraClass){
-    const initial = (work.title || '?').replace(/[『』「」]/g,'').trim().charAt(0) || '?';
-    const inner = work.image
-      ? `<img src="${esc(work.image)}" alt="${esc(work.title)}">`
-      : `<span class="ph">${esc(initial)}<small>${esc(work.type || '作品')}</small></span>`;
-    return `<div class="art ${extraClass||''}">${inner}</div>`;
-  }
+  const links = hit.contexts.map(({ entry, side }) => {
+    const other = entry[side === 'a' ? 'b' : 'a'];
+    return `<button class="tease" data-ctx="${R.esc(entry.context.slug)}">
+      ${R.esc(other.title)} とのコンテクストを読む
+      <small style="display:block;margin-top:4px;color:#6b6a65;font-weight:400">【${R.esc(entry.context.routeName)}】</small>
+      <span>›</span></button>`;
+  }).join('');
 
-  function emptyState(msg){
-    scroll.innerHTML = `<div class="empty"><b>${esc(msg)}</b>
-      まだ公開されたページがありません。<br>エディターから最初のコンテクストを作成してください。</div>`;
-    dock.innerHTML = `<div class="actions">
-      <a href="universe.html">UniverseIt!</a>
-      <a class="primary" href="editor.html">ReMixIt!</a></div>`;
-  }
+  main.innerHTML = `
+    <div class="hero">${R.art(w)}</div>
+    <div class="content">
+      <p class="meta">${R.esc(w.type || '作品')}・${R.esc(w.year || '----')}年　CURRENT STATION</p>
+      <h2>${R.esc(w.title)}</h2>
+      ${w.creator ? `<p>${R.esc(w.creator)}</p>` : ''}
+      ${w.summary ? `<p>${R.esc(w.summary)}</p>` : ''}
+      <p class="meta" style="margin-top:22px">この駅から延びる区間　${hit.contexts.length}本</p>
+      ${links}
+      <button class="back" type="button" onclick="location.href='index.html'">← ストリームへ戻る</button>
+    </div>`;
 
-  /* ---------- 作品ページ ---------- */
-  function renderWork(slug){
-    const hit = S.workBySlug(slug);
-    if (!hit) return emptyState('作品が見つかりません');
-    const w = hit.work;
-    document.title = `${w.title}｜Beautiful Context`;
-
-    const links = hit.contexts.map(({entry, side}) => {
-      const other = entry[side === 'a' ? 'b' : 'a'];
-      return `<button class="tease" data-context="${esc(entry.context.slug)}">
-        ${esc(other.title)} とのコンテクストを見る <span>›</span></button>`;
-    }).join('');
-
-    scroll.innerHTML = `
-      <div class="hero">${art(w)}</div>
-      <div class="content">
-        <p class="meta">${esc(w.type || '作品')}・${esc(w.year || '----')}年　CURRENT STATION</p>
-        <h2>${esc(w.title)}</h2>
-        ${w.creator ? `<p>${esc(w.creator)}</p>` : ''}
-        <p>${esc(w.summary)}</p>
-        ${links}
-      </div>`;
-
-    const first = hit.contexts[0];
-    const other = first ? first.entry[first.side === 'a' ? 'b' : 'a'] : null;
-    renderDock({
-      lineName: first ? first.entry.context.routeName : '',
-      left: w.title, right: other ? other.title : '—',
-      currentSide: 'left', label: '',
-      contextSlug: first ? first.entry.context.slug : null,
-      otherWorkSlug: other ? other.slug : null
-    });
-  }
-
-  /* ---------- コンテクストページ ---------- */
-  function renderContext(slug){
-    const e = S.byContextSlug(slug);
-    if (!e) return emptyState('コンテクストが見つかりません');
-    const c = e.context;
-    document.title = `${c.routeName}｜Beautiful Context`;
-    const mins = S.readingMinutes(c.body);
-
-    scroll.innerHTML = `
-      <div class="duo-hero"><div class="duo">${art(e.a)}${art(e.b)}</div></div>
-      <div class="context-lead">
-        <p class="route-label">${esc(c.label || 'CONTEXT')}　【${esc(c.routeName)}】　約${mins}分</p>
-        <h2>${esc(c.headline).replace(/\n/g,'<br>')}</h2>
-        <div class="pair">${esc(c.relation).split('──').map(s=>`<span>${esc(s.trim())}</span>`).join('')}</div>
-        <button class="read" id="read">このつながりを読む　約${mins}分 <span>↓</span></button>
-      </div>
-      <div class="context-body" id="body">
-        <h2>${esc(c.routeName)}</h2>
-        ${clean(c.body)}
-      </div>`;
-
-    document.getElementById('read').addEventListener('click', () => {
-      document.getElementById('body').scrollIntoView({behavior:'smooth', block:'start'});
-    });
-
-    renderDock({
-      lineName: c.routeName,
-      left: c.leftStation || e.a.title,
-      right: c.rightStation || e.b.title,
-      currentSide: 'segment', label: c.label || 'CONTEXT',
-      workASlug: e.a.slug, workBSlug: e.b.slug,
-      editSlug: c.slug
-    });
-  }
-
-  /* ---------- 下部ドック ---------- */
-  function renderDock(o){
-    const seg = o.currentSide === 'segment';
-    dock.innerHTML = `
-      <div class="map">
-        <span class="line-name">${esc(o.lineName || '')}</span>
-        <span class="line"></span>
-        ${seg ? '<span class="segment"></span>' : ''}
-        ${seg && o.label ? `<span class="section-label">${esc(o.label)}</span>` : ''}
-        <span class="dot left ${o.currentSide==='left'?'current':''}"></span>
-        <span class="dot right ${o.currentSide==='right'?'current':''}"></span>
-        <button class="station left ${o.currentSide==='left'?'current':''}" data-work="${esc(o.workASlug||'')}">${esc(o.left)}</button>
-        <button class="station right ${o.currentSide==='right'?'current':''}" data-work="${esc(o.workBSlug||'')}">${esc(o.right)}</button>
-      </div>
-      <div class="actions">
-        <a href="editor.html${o.editSlug ? '?slug='+encodeURIComponent(o.editSlug) : ''}">ReMixIt!</a>
-        <a class="primary" href="universe.html">UNIverseIt!</a>
-      </div>`;
-  }
-
-  /* ---------- 遷移 ---------- */
-  document.addEventListener('click', (ev) => {
-    const t = ev.target.closest('[data-context]');
-    if (t){ location.href = 'page.html?context=' + encodeURIComponent(t.dataset.context); return; }
-    const w = ev.target.closest('[data-work]');
-    if (w && w.dataset.work){ location.href = 'page.html?work=' + encodeURIComponent(w.dataset.work); }
+  const first = hit.contexts[0];
+  const other = first ? first.entry[first.side === 'a' ? 'b' : 'a'] : null;
+  map.innerHTML = R.mapMarkup({
+    lineName: first ? first.entry.context.routeName : '',
+    left: w.title, right: other ? other.title : '—',
+    label: '', current: 'left',
+    aSlug: '', bSlug: other ? other.slug : ''
   });
-
-  /* ---------- 起動 ---------- */
-  const ctx = qs.get('context'), work = qs.get('work');
-  if (work) renderWork(work);
-  else if (ctx) renderContext(ctx);
-  else {
-    const all = S.all();
-    if (all.length) location.replace('page.html?context=' + encodeURIComponent(all[0].context.slug));
-    else emptyState('ページがありません');
+  if (first){
+    document.getElementById('remix').href = 'editor.html?slug=' + encodeURIComponent(first.entry.context.slug);
   }
+
+  document.addEventListener('click', ev => {
+    const t = ev.target.closest('[data-ctx]');
+    if (t) location.href = 'index.html#' + encodeURIComponent(t.dataset.ctx);
+    const s = ev.target.closest('[data-work]');
+    if (s && s.dataset.work) location.href = 'page.html?work=' + encodeURIComponent(s.dataset.work);
+  });
 })();
 </script>
 </body>

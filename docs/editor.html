@@ -192,7 +192,7 @@
   <div class="app">
     <header class="topbar">
       <div class="brand"><span class="brand-mark"><i></i></span><span>Beautiful Context</span></div>
-      <a class="btn ghost small" href="universe.html" style="margin-left:14px;text-decoration:none;display:inline-flex;align-items:center">&larr;　UniverseIt! へ</a>
+      <a class="btn ghost small" href="index.html" style="margin-left:14px;text-decoration:none;display:inline-flex;align-items:center">&larr;　UniverseIt! へ</a>
       <div class="top-title">コンテンツ／コンテクスト エディター</div>
       <div class="top-actions">
         <span class="save-state" id="saveState">未保存</span>
@@ -473,7 +473,7 @@
       currentId = saved.id;
       $('saveState').textContent='公開済み'; $('saveState').classList.add('saved');
       showToast('公開しました。ページを開きます');
-      setTimeout(()=>{ location.href='page.html?context='+encodeURIComponent(saved.context.slug); }, 900);
+      setTimeout(()=>{ location.href='index.html#'+encodeURIComponent(saved.context.slug); }, 900);
     }
     bindInputs(); switchPage('a');
   })();

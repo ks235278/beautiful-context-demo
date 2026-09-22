@@ -2,77 +2,245 @@
 <html lang="ja">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="description" content="Beautiful Context 起動画面。タップして UniverseIt! へ進みます。">
-<title>Beautiful Context｜起動画面</title>
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="description" content="Beautiful Context — 起動画面から縦にスクロールして、作品と作品の間のコンテクストを読み続けるストリーム。">
+<title>Beautiful Context</title>
+<link rel="stylesheet" href="app.css">
 <style>
-  :root{--ink:#121212;--paper:#f7f4ed;--gold:#a97717;--pcb:#2f6fb5;--charcoal:#10141a}
-  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-  body{margin:0;min-height:100vh;display:grid;place-items:center;background:#e9e6df;
-       font-family:"Hiragino Kaku Gothic ProN","Yu Gothic",system-ui,sans-serif}
-  .stage{width:100%;max-width:1100px;padding:32px 20px 48px;text-align:center}
-  .lead{margin:0 0 6px;font-size:13px;letter-spacing:.16em;color:var(--gold);font-weight:700}
-  .sub{margin:0 0 28px;font-size:12px;color:#6b6a65;letter-spacing:.06em}
-  .phone{position:relative;width:300px;height:620px;margin:0 auto;border-radius:44px;
-         background:#0b0d10;padding:11px;box-shadow:0 26px 70px rgba(16,20,26,.34)}
-  .screen{position:relative;width:100%;height:100%;border-radius:34px;overflow:hidden;
-          background:var(--charcoal);display:flex;align-items:center;justify-content:center;cursor:pointer}
-  .pcb{position:absolute;inset:0;opacity:.5}
-  .wordmark{position:relative;z-index:2;color:#fff;font-size:21px;font-weight:700;
-            letter-spacing:.3em;text-indent:.3em;text-shadow:0 2px 18px rgba(0,0,0,.6)}
-  .tap{position:absolute;left:0;right:0;bottom:64px;z-index:2;color:#cfd6e0;font-size:12px;
-       letter-spacing:.14em;animation:pulse 2.4s ease-in-out infinite}
-  @keyframes pulse{0%,100%{opacity:.45}50%{opacity:1}}
-  .note{margin:26px auto 0;max-width:460px;font-size:12px;line-height:1.9;color:#6b6a65}
-  .note b{color:var(--ink);font-weight:600}
-  @media (prefers-reduced-motion:reduce){.tap{animation:none;opacity:.8}}
-  @media (max-width:760px){
-    body{background:var(--charcoal);display:block}
-    .stage{padding:0;max-width:none}
-    .lead,.sub,.note{display:none}
-    .phone{width:100vw;height:100vh;height:100dvh;margin:0;padding:0;border-radius:0;
-           background:none;box-shadow:none}
-    .screen{border-radius:0}
-  }
+  .uv{position:fixed;inset:0;z-index:40;background:rgba(10,13,18,.97);display:none}
+  .uv.open{display:block}
+  .uv-in{position:relative;width:100%;max-width:var(--w);height:100%;margin:0 auto;overflow:hidden}
+  .uv .pcb{position:absolute;inset:0;width:100%;height:100%;opacity:.35}
+  .uv-head{position:absolute;top:calc(34px + env(safe-area-inset-top));left:0;right:0;z-index:3;
+    text-align:center;pointer-events:none}
+  .uv-head h1{margin:0;color:#fff;font:400 31px/1.1 "Hiragino Mincho ProN","Yu Mincho",serif}
+  .uv-head p{margin:6px 0 0;color:#aab6c6;font-size:10.5px;letter-spacing:.16em}
+  .uv-close{position:absolute;top:calc(10px + env(safe-area-inset-top));right:8px;z-index:6;width:46px;height:46px;
+    background:none;border:0;color:#fff;font-size:23px;line-height:1;cursor:pointer}
+  .cloud{position:absolute;top:calc(112px + env(safe-area-inset-top));left:0;right:0;bottom:104px;z-index:2;
+    overflow:hidden;display:flex;flex-direction:column;justify-content:space-evenly}
+  .cloud::before,.cloud::after{content:"";position:absolute;left:0;right:0;height:26px;z-index:2;pointer-events:none}
+  .cloud::before{top:0;background:linear-gradient(#0a0d12,rgba(10,13,18,0))}
+  .cloud::after{bottom:0;background:linear-gradient(rgba(10,13,18,0),#0a0d12)}
+  .row{display:flex;width:max-content;align-items:baseline;will-change:transform}
+  .row.paused{animation-play-state:paused}
+  @keyframes driftL{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+  @keyframes driftR{from{transform:translateX(-50%)}to{transform:translateX(0)}}
+  .tag{flex:0 0 auto;margin:0 9px;padding:3px 0;background:none;border:0;font-family:inherit;
+    cursor:pointer;white-space:nowrap;line-height:1.5;transition:color .18s}
+  .tag.ctx{color:#eef2f8}
+  .tag.work{color:#9fb0c6}
+  .tag .h{color:#6f8db4;margin-right:1px}
+  .tag:hover,.tag:focus-visible{color:#ffd489;outline:none}
+  .uv-foot{position:absolute;left:0;right:0;bottom:0;z-index:4;padding:0 16px
+    calc(18px + env(safe-area-inset-bottom));text-align:center}
+  .uv-count{color:#8fa0b6;font-size:9.5px;letter-spacing:.18em;margin-bottom:12px}
+  .uv-new{display:inline-block;padding:12px 22px;border:1px solid #46525f;border-radius:7px;
+    color:#e8edf4;font-size:11px;text-decoration:none}
+  .uv-none{position:absolute;left:24px;right:24px;top:46%;z-index:3;text-align:center;color:#aab6c6;
+    font-size:12px;line-height:2}
 </style>
 </head>
 <body>
-<main class="stage">
-  <p class="lead">BEAUTIFUL CONTEXT</p>
-  <p class="sub">起動画面 ／ 画面をタップして進みます</p>
 
-  <div class="phone">
-    <a class="screen" href="universe.html" aria-label="UniverseIt! へ進む">
-      <svg class="pcb" viewBox="0 0 300 620" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
-        <defs>
-          <pattern id="trace" width="75" height="75" patternUnits="userSpaceOnUse">
-            <g fill="none" stroke="#2f6fb5" stroke-width="1.4" stroke-linecap="round">
-              <path d="M0 18 H30 L44 32 H75"/>
-              <path d="M0 56 H18 L30 44 V8"/>
-              <path d="M56 0 V26 L68 38 V75"/>
-              <path d="M8 75 V60 L22 46 H50"/>
-              <path d="M75 62 H60 L50 52"/>
-            </g>
-            <g fill="#2f6fb5">
-              <circle cx="30" cy="30" r="2.6"/><circle cx="56" cy="26" r="2.2"/>
-              <circle cx="18" cy="56" r="2.2"/><circle cx="50" cy="46" r="2.4"/>
-              <rect x="60" y="6" width="9" height="9" rx="1.6"/>
-              <rect x="6" y="34" width="7" height="7" rx="1.4"/>
-            </g>
-          </pattern>
-        </defs>
-        <rect width="300" height="620" fill="#10141a"/>
-        <rect width="300" height="620" fill="url(#trace)"/>
-      </svg>
+<div class="app" id="app">
+  <section class="splash">
+    <svg class="pcb" viewBox="0 0 430 900" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+      <defs>
+        <pattern id="trace" width="75" height="75" patternUnits="userSpaceOnUse">
+          <g fill="none" stroke="#2f6fb5" stroke-width="1.4" stroke-linecap="round">
+            <path d="M0 18 H30 L44 32 H75"/><path d="M0 56 H18 L30 44 V8"/>
+            <path d="M56 0 V26 L68 38 V75"/><path d="M8 75 V60 L22 46 H50"/><path d="M75 62 H60 L50 52"/>
+          </g>
+          <g fill="#2f6fb5">
+            <circle cx="30" cy="30" r="2.6"/><circle cx="56" cy="26" r="2.2"/>
+            <circle cx="18" cy="56" r="2.2"/><circle cx="50" cy="46" r="2.4"/>
+            <rect x="60" y="6" width="9" height="9" rx="1.6"/><rect x="6" y="34" width="7" height="7" rx="1.4"/>
+          </g>
+        </pattern>
+      </defs>
+      <rect width="430" height="900" fill="#10141a"/><rect width="430" height="900" fill="url(#trace)"/>
+    </svg>
+    <h1 class="wordmark">BEAUTIFUL CONTEXT</h1>
+    <p class="scroll-hint">SCROLL<i>↓</i></p>
+  </section>
 
-      <div class="wordmark">BEAUTIFUL CONTEXT</div>
-      <div class="tap">TAP TO START</div>
-    </a>
+  <div id="stream"></div>
+</div>
+
+<div class="dock dark" id="dock">
+  <div class="map" id="map"></div>
+  <div class="actions">
+    <a href="editor.html" id="remix">ReMixIt!</a>
+    <button class="primary" type="button" id="uniBtn">UNIverseIt!</button>
   </div>
+</div>
 
-  <p class="note">
-    <b>1 / 4</b>　起動画面 → UniverseIt! → 作品・コンテクストページ → エディター
-  </p>
-</main>
+<div class="uv" id="uv" role="dialog" aria-label="UniverseIt!">
+  <div class="uv-in">
+    <svg class="pcb" viewBox="0 0 430 900" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+      <rect width="430" height="900" fill="#0a0d12"/><rect width="430" height="900" fill="url(#trace)"/>
+    </svg>
+    <button class="uv-close" type="button" id="uvClose" aria-label="閉じる">×</button>
+    <div class="uv-head"><h1>UniverseIt!</h1><p>言葉から、つながりを辿る</p></div>
+    <div class="cloud" id="cloud"></div>
+    <div class="uv-foot">
+      <div class="uv-count" id="uvCount"></div>
+      <a class="uv-new" href="editor.html?new=1">新しいつながりを創る</a>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script src="js/seed.js"></script>
+<script src="js/store.js"></script>
+<script src="js/render.js"></script>
+<script>
+(() => {
+  const S = window.BCStore, R = window.BCRender;
+  const stream = document.getElementById('stream');
+  const dock = document.getElementById('dock');
+  const map = document.getElementById('map');
+
+  /* ---------- ストリームを組み立てる ---------- */
+  function build(){
+    const all = S.all();
+    stream.textContent = '';
+    if (!all.length){
+      stream.innerHTML = `<div class="empty"><b>まだつながりがありません</b>
+        ReMixIt! から最初のコンテクストを作成してください。</div>`;
+      return;
+    }
+    all.forEach((e, i) => {
+      const sec = document.createElement('section');
+      sec.className = 'ctx';
+      sec.id = e.context.slug;
+      sec.dataset.slug = e.context.slug;
+      sec.innerHTML = R.contextSection(e) + `
+        <div class="ctx-foot">
+          <button type="button" data-work="${R.esc(e.a.slug)}">${R.esc(e.a.title)}<small>この駅を見る</small></button>
+          <button type="button" data-work="${R.esc(e.b.slug)}">${R.esc(e.b.title)}<small>この駅を見る</small></button>
+        </div>`;
+      stream.appendChild(sec);
+      if (i < all.length - 1){
+        const sep = document.createElement('div');
+        sep.className = 'ctx-sep';
+        stream.appendChild(sep);
+      }
+    });
+    observe();
+  }
+
+  /* ---------- スクロールに合わせてドックを更新 ---------- */
+  let current = null;
+  function setDock(e){
+    if (!e){
+      dock.classList.add('dark');
+      map.innerHTML = '';
+      document.getElementById('remix').href = 'editor.html';
+      return;
+    }
+    dock.classList.remove('dark');
+    const c = e.context;
+    map.innerHTML = R.mapMarkup({
+      lineName: c.routeName,
+      left: c.leftStation || e.a.title,
+      right: c.rightStation || e.b.title,
+      label: c.label || 'CONTEXT',
+      aSlug: e.a.slug, bSlug: e.b.slug
+    });
+    document.getElementById('remix').href = 'editor.html?slug=' + encodeURIComponent(c.slug);
+  }
+
+  let io;
+  function observe(){
+    if (io) io.disconnect();
+    io = new IntersectionObserver(entries => {
+      entries.forEach(en => {
+        if (!en.isIntersecting) return;
+        const slug = en.target.dataset.slug;
+        if (slug === current) return;
+        current = slug;
+        setDock(S.byContextSlug(slug));
+        history.replaceState(null, '', '#' + slug);
+      });
+    }, { rootMargin: '-45% 0px -45% 0px', threshold: 0 });
+    document.querySelectorAll('.ctx').forEach(el => io.observe(el));
+
+    /* 起動画面に戻ったら暗いドックへ。ハッシュで下へ跳んだ直後にも
+       初回コールバックが来るので、実際に上にいるときだけ反応させる。 */
+    const sp = new IntersectionObserver(en => {
+      if (!en[0].isIntersecting || en[0].intersectionRatio <= .6) return;
+      if (window.scrollY > window.innerHeight * 0.5) return;
+      current = null; setDock(null); history.replaceState(null, '', location.pathname);
+    }, { threshold: [0, .6, 1] });
+    sp.observe(document.querySelector('.splash'));
+  }
+
+  /* ---------- UniverseIt! ---------- */
+  const uv = document.getElementById('uv');
+  const cloud = document.getElementById('cloud');
+
+  function openUv(){
+    R.buildCloud(cloud, document.getElementById('uvCount'));
+    uv.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeUv(){
+    uv.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+  document.getElementById('uniBtn').addEventListener('click', openUv);
+  document.getElementById('uvClose').addEventListener('click', closeUv);
+
+  cloud.addEventListener('click', ev => {
+    const t = ev.target.closest('.tag');
+    if (!t) return;
+    closeUv();
+    if (t.dataset.work){ location.href = 'page.html?work=' + encodeURIComponent(t.dataset.work); return; }
+    const el = document.getElementById(t.dataset.ctx);
+    if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  });
+  const hold = on => cloud.querySelectorAll('.row').forEach(r => r.classList.toggle('paused', on));
+  cloud.addEventListener('pointerenter', () => hold(true));
+  cloud.addEventListener('pointerleave', () => hold(false));
+
+  /* ---------- 駅へ ---------- */
+  document.addEventListener('click', ev => {
+    const w = ev.target.closest('[data-work]');
+    if (w && w.dataset.work && !w.closest('.cloud')){
+      location.href = 'page.html?work=' + encodeURIComponent(w.dataset.work);
+    }
+  });
+
+  /* ---------- 起動 ---------- */
+  build();
+  setDock(null);
+  /* ハッシュ付きで開かれたら、その区間まで送る。画像の読み込みで
+     レイアウトがずれるので、読み込み完了後にもう一度合わせる。 */
+  const hash = decodeURIComponent(location.hash.slice(1));
+  if (hash){
+    /* ブラウザのスクロール位置復元がこちらの移動を上書きするので切る */
+    if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+    /* html の scroll-behavior:smooth が効いていると、この初期移動が
+       途中で打ち切られる。一時的に auto に落として跳ばす。 */
+    const jump = () => {
+      const el = document.getElementById(hash);
+      if (!el) return;
+      const de = document.documentElement;
+      const keep = de.style.scrollBehavior;
+      de.style.scrollBehavior = 'auto';
+      window.scrollTo(0, el.getBoundingClientRect().top + window.scrollY);
+      requestAnimationFrame(() => { de.style.scrollBehavior = keep; });
+      /* 交差状態が変わらないと observer は鳴らないので、ここで直接合わせる */
+      const e = S.byContextSlug(hash);
+      if (e){ current = hash; setDock(e); }
+    };
+    requestAnimationFrame(jump);
+    window.addEventListener('load', () => setTimeout(jump, 60), { once: true });
+  }
+})();
+</script>
 </body>
 </html>
