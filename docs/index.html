@@ -14,7 +14,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Beautiful Context">
 <title>Beautiful Context</title>
-<link rel="stylesheet" href="app.css?v=60">
+<link rel="stylesheet" href="app.css?v=61">
 <link rel="stylesheet" href="fade.css?v=59">
 <style>
   /* 路線。角度の違う線と縦書きの線が交差する。
@@ -180,8 +180,10 @@
 
   /* ---------- ドック ---------- */
   let current = null;
+  let mapSwap = 0;
   function setDock(e){
     if (!e){
+      mapSwap++;
       map.innerHTML = '';
       document.getElementById('remix').href = 'editor.html';
       current = null;
@@ -190,7 +192,7 @@
     }
     applyTheme();
     const c = e.context;
-    map.innerHTML = R.mapMarkup({
+    const markup = R.mapMarkup({
       lineName: c.routeName,
       left: c.leftStation || e.a.title,
       right: c.rightStation || e.b.title,
@@ -198,6 +200,31 @@
       aSlug: e.a.slug, bSlug: e.b.slug
     });
     document.getElementById('remix').href = 'editor.html?slug=' + encodeURIComponent(c.slug);
+
+    /* 古い路線を消してから差し替えるのではなく、二枚を短く重ねて渡す。 */
+    const oldLayers = [...map.querySelectorAll('.map-layer')];
+    const old = oldLayers.pop() || null;
+    oldLayers.forEach(layer => layer.remove());
+    if (!old || matchMedia('(prefers-reduced-motion:reduce)').matches){
+      map.innerHTML = `<div class="map-layer">${markup}</div>`;
+      return;
+    }
+
+    const next = document.createElement('div');
+    next.className = 'map-layer entering';
+    next.innerHTML = markup;
+    map.appendChild(next);
+    const swap = ++mapSwap;
+    requestAnimationFrame(() => {
+      old.classList.add('leaving');
+      next.classList.remove('entering');
+    });
+    setTimeout(() => {
+      if (swap !== mapSwap) return;
+      [...map.querySelectorAll('.map-layer')].forEach(layer => {
+        if (layer !== next) layer.remove();
+      });
+    }, 340);
   }
 
   let io;
