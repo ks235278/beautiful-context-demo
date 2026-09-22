@@ -230,7 +230,7 @@
     const p = clamp(raw);
     /* 上へ流れる距離と薄れる時間を同じ進行にする。
        上端近くへ着くころには、止まることなく完全に消えている。 */
-    const wordmarkFlow = ease((p - 0.02) / 0.30);
+    const wordmarkFlow = ease((p - 0.02) / 0.42);
     const wy = -window.innerHeight * 0.42 * wordmarkFlow;
     const wm = 1 - wordmarkFlow;
     /* 見出しは導入部で立ち上がり、そのあともページの後ろで流れ続ける。
