@@ -102,7 +102,7 @@
   function makeTag(it, i){
     const b = document.createElement('button');
     b.type = 'button';
-    b.className = 'tag ' + it.kind;
+    b.className = 'tag k-' + it.kind;   /* k- を付けるのは、区間の節 .ctx と衝突させないため */
     b.style.fontSize = SIZES[i % SIZES.length] + (it.kind === 'ctx' ? 2 : 0) + 'px';
     if (it.kind === 'work'){
       const h = document.createElement('span'); h.className = 'h'; h.textContent = '#';

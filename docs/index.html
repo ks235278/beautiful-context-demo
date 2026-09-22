@@ -3,36 +3,23 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="description" content="Beautiful Context — 起動画面から縦にスクロールして、作品と作品の間のコンテクストを読み続けるストリーム。">
+<meta name="description" content="Beautiful Context — 表紙から路線図へ、そしてコンテクストのストリームへ、縦のスクロール一本で続きます。">
 <title>Beautiful Context</title>
-<link rel="stylesheet" href="app.css?v=6">
+<link rel="stylesheet" href="app.css?v=9">
 <style>
-  .uv{position:fixed;inset:0;z-index:40;background:rgba(10,13,18,.97);display:none}
-  .uv.open{display:block}
-  .uv-in{position:relative;width:100%;max-width:var(--w);height:100%;margin:0 auto;overflow:hidden}
-  .uv .pcb{position:absolute;inset:0;width:100%;height:100%;opacity:.35}
-  .uv-head{position:absolute;top:calc(34px + env(safe-area-inset-top));left:0;right:0;z-index:3;
-    text-align:center;pointer-events:none}
-  .uv-head h1{margin:0;color:#fff;font:400 31px/1.1 "Hiragino Mincho ProN","Yu Mincho",serif}
-  .uv-head p{margin:6px 0 0;color:#aab6c6;font-size:10.5px;letter-spacing:.16em}
-  .uv-close{position:absolute;top:calc(10px + env(safe-area-inset-top));right:8px;z-index:6;width:46px;height:46px;
-    background:none;border:0;color:#fff;font-size:23px;line-height:1;cursor:pointer}
-  .cloud{position:absolute;top:calc(100px + env(safe-area-inset-top));left:0;right:0;bottom:96px;z-index:2;
-    overflow:hidden}
-  .cloud::before,.cloud::after{content:"";position:absolute;left:0;right:0;height:30px;z-index:3;pointer-events:none}
-  .cloud::before{top:0;background:linear-gradient(#0a0d12,rgba(10,13,18,0))}
-  .cloud::after{bottom:0;background:linear-gradient(rgba(10,13,18,0),#0a0d12)}
-
-  /* 路線。斜め・水平の線と、縦書きの線が交差する。
-     線の箱は画面より大きいので、当たり判定は見出しだけに持たせる。 */
+  /* 路線。角度の違う線と縦書きの線が交差する。
+     箱は画面より大きいので、当たり判定は見出しだけに持たせる。 */
+  .cloud{position:absolute;inset:0;z-index:2;overflow:hidden;
+    opacity:var(--cl,0);will-change:opacity}
+  .cloud::before,.cloud::after{content:"";position:absolute;left:0;right:0;height:34px;z-index:3;
+    pointer-events:none}
+  .cloud::before{top:0;background:linear-gradient(#10141a,rgba(16,20,26,0))}
+  .cloud::after{bottom:0;background:linear-gradient(rgba(16,20,26,0),#10141a)}
   .track{position:absolute;will-change:transform;pointer-events:none}
   .track .run{pointer-events:none}
-  .track.d{left:50%;top:var(--y);width:280vmax;
-    transform:translate(-50%,-50%) rotate(var(--a))}
-  .track.d .run{display:flex;width:max-content;align-items:baseline;
-    animation:runX linear infinite}
-  .track.v{top:50%;left:var(--x);height:280vmax;
-    transform:translate(-50%,-50%)}
+  .track.d{left:50%;top:var(--y);width:280vmax;transform:translate(-50%,-50%) rotate(var(--a))}
+  .track.d .run{display:flex;width:max-content;align-items:baseline;animation:runX linear infinite}
+  .track.v{top:50%;left:var(--x);height:280vmax;transform:translate(-50%,-50%)}
   .track.v .run{display:flex;flex-direction:column;height:max-content;align-items:center;
     animation:runY linear infinite}
   .track.v .tag{writing-mode:vertical-rl;text-orientation:mixed;margin:22px 0;padding:7px 9px;
@@ -43,45 +30,52 @@
   @keyframes runY{from{transform:translateY(0)}to{transform:translateY(-50%)}}
   .tag{flex:0 0 auto;margin:0 22px;padding:9px 7px;background:none;border:0;font-family:inherit;
     cursor:pointer;white-space:nowrap;line-height:1.5;transition:color .18s;pointer-events:auto}
-  .tag:active{color:#ffd489}
-  .tag.ctx{color:#eef2f8}
-  .tag.work{color:#9fb0c6}
+  .tag.k-ctx{color:#eef2f8}
+  .tag.k-work{color:#9fb0c6}
   .tag .h{color:#6f8db4;margin-right:1px}
-  .tag:hover,.tag:focus-visible{color:#ffd489;outline:none}
-  .uv-foot{position:absolute;left:0;right:0;bottom:0;z-index:4;padding:0 16px
-    calc(18px + env(safe-area-inset-bottom));text-align:center}
-  .uv-count{color:#8fa0b6;font-size:9.5px;letter-spacing:.18em;margin-bottom:12px}
-  .uv-new{display:inline-block;padding:12px 22px;border:1px solid #46525f;border-radius:7px;
-    color:#e8edf4;font-size:11px;text-decoration:none}
-  .uv-none{position:absolute;left:24px;right:24px;top:46%;z-index:3;text-align:center;color:#aab6c6;
+  .tag:hover,.tag:focus-visible,.tag:active{color:#ffd489;outline:none}
+  .uv-none{position:absolute;left:24px;right:24px;top:48%;z-index:3;text-align:center;color:#aab6c6;
     font-size:12px;line-height:2}
+  .net-count{position:absolute;left:0;right:0;z-index:3;text-align:center;pointer-events:none;
+    bottom:calc(var(--dock) + env(safe-area-inset-bottom) + 18px);
+    color:#8fa0b6;font-size:9.5px;letter-spacing:.18em;opacity:var(--cl,0)}
 </style>
 </head>
 <body>
 
-<div class="app" id="app">
-  <section class="splash">
-    <svg class="pcb" viewBox="0 0 430 900" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
-      <defs>
-        <pattern id="trace" width="75" height="75" patternUnits="userSpaceOnUse">
-          <g fill="none" stroke="#2f6fb5" stroke-width="1.4" stroke-linecap="round">
-            <path d="M0 18 H30 L44 32 H75"/><path d="M0 56 H18 L30 44 V8"/>
-            <path d="M56 0 V26 L68 38 V75"/><path d="M8 75 V60 L22 46 H50"/><path d="M75 62 H60 L50 52"/>
-          </g>
-          <g fill="#2f6fb5">
-            <circle cx="30" cy="30" r="2.6"/><circle cx="56" cy="26" r="2.2"/>
-            <circle cx="18" cy="56" r="2.2"/><circle cx="50" cy="46" r="2.4"/>
-            <rect x="60" y="6" width="9" height="9" rx="1.6"/><rect x="6" y="34" width="7" height="7" rx="1.4"/>
-          </g>
-        </pattern>
-      </defs>
-      <rect width="430" height="900" fill="#10141a"/><rect width="430" height="900" fill="url(#trace)"/>
-    </svg>
-    <h1 class="wordmark">BEAUTIFUL CONTEXT</h1>
-    <span class="cue" aria-hidden="true"></span>
+<div class="app locked" id="app">
+  <section class="intro" id="intro">
+    <div class="intro-stick">
+      <svg class="pcb" viewBox="0 0 430 900" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+        <defs>
+          <pattern id="trace" width="75" height="75" patternUnits="userSpaceOnUse">
+            <g fill="none" stroke="#2f6fb5" stroke-width="1.4" stroke-linecap="round">
+              <path d="M0 18 H30 L44 32 H75"/><path d="M0 56 H18 L30 44 V8"/>
+              <path d="M56 0 V26 L68 38 V75"/><path d="M8 75 V60 L22 46 H50"/><path d="M75 62 H60 L50 52"/>
+            </g>
+            <g fill="#2f6fb5">
+              <circle cx="30" cy="30" r="2.6"/><circle cx="56" cy="26" r="2.2"/>
+              <circle cx="18" cy="56" r="2.2"/><circle cx="50" cy="46" r="2.4"/>
+              <rect x="60" y="6" width="9" height="9" rx="1.6"/><rect x="6" y="34" width="7" height="7" rx="1.4"/>
+            </g>
+          </pattern>
+        </defs>
+        <rect width="430" height="900" fill="#10141a"/><rect width="430" height="900" fill="url(#trace)"/>
+      </svg>
+
+      <div class="cloud" id="cloud"></div>
+
+      <div class="net-label" id="netLabel">
+        <b>UniverseIt!</b><small>言葉から、つながりを辿る</small>
+      </div>
+      <div class="net-count" id="netCount"></div>
+
+      <h1 class="wordmark" id="wordmark">BEAUTIFUL CONTEXT</h1>
+      <span class="cue" aria-hidden="true"></span>
+    </div>
   </section>
 
-  <div id="stream"></div>
+  <div id="stream" hidden></div>
 </div>
 
 <div class="dock dark" id="dock">
@@ -92,34 +86,22 @@
   </div>
 </div>
 
-<div class="uv" id="uv" role="dialog" aria-label="UniverseIt!">
-  <div class="uv-in">
-    <svg class="pcb" viewBox="0 0 430 900" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
-      <rect width="430" height="900" fill="#0a0d12"/><rect width="430" height="900" fill="url(#trace)"/>
-    </svg>
-    <button class="uv-close" type="button" id="uvClose" aria-label="閉じる">×</button>
-    <div class="uv-head"><h1>UniverseIt!</h1><p>言葉から、つながりを辿る</p></div>
-    <div class="cloud" id="cloud"></div>
-    <div class="uv-foot">
-      <div class="uv-count" id="uvCount"></div>
-      <a class="uv-new" href="editor.html?new=1">新しいつながりを創る</a>
-    </div>
-  </div>
-</div>
-
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
-<script src="js/seed.js?v=6"></script>
-<script src="js/store.js?v=6"></script>
-<script src="js/render.js?v=6"></script>
+<script src="js/seed.js?v=9"></script>
+<script src="js/store.js?v=9"></script>
+<script src="js/render.js?v=9"></script>
 <script>
 (() => {
   const S = window.BCStore, R = window.BCRender;
   const stream = document.getElementById('stream');
-  const dock = document.getElementById('dock');
-  const map = document.getElementById('map');
+  const dock   = document.getElementById('dock');
+  const map    = document.getElementById('map');
+  const intro  = document.getElementById('intro');
+  const stick  = intro.querySelector('.intro-stick');
+  const cloud  = document.getElementById('cloud');
 
-  /* ---------- ストリームを組み立てる ---------- */
+  /* ---------- ストリーム ---------- */
   function build(){
     const all = S.all();
     stream.textContent = '';
@@ -148,13 +130,14 @@
     observe();
   }
 
-  /* ---------- スクロールに合わせてドックを更新 ---------- */
+  /* ---------- ドック ---------- */
   let current = null;
   function setDock(e){
     if (!e){
       dock.classList.add('dark');
       map.innerHTML = '';
       document.getElementById('remix').href = 'editor.html';
+      current = null;
       return;
     }
     dock.classList.remove('dark');
@@ -183,55 +166,90 @@
       });
     }, { rootMargin: '-45% 0px -45% 0px', threshold: 0 });
     document.querySelectorAll('.ctx').forEach(el => io.observe(el));
-
-    /* 起動画面に戻ったら暗いドックへ。ハッシュで下へ跳んだ直後にも
-       初回コールバックが来るので、実際に上にいるときだけ反応させる。 */
-    const sp = new IntersectionObserver(en => {
-      if (!en[0].isIntersecting || en[0].intersectionRatio <= .6) return;
-      if (window.scrollY > window.innerHeight * 0.5) return;
-      current = null; setDock(null); history.replaceState(null, '', location.pathname);
-    }, { threshold: [0, .6, 1] });
-    sp.observe(document.querySelector('.splash'));
   }
 
+  /* ---------- 導入部のスクロール連動 ----------
+     表紙が薄れるにつれて路線図が現れ、線はそのまま流れ続ける。 */
+  const clamp = v => v < 0 ? 0 : v > 1 ? 1 : v;
+  const ease  = v => { const t = clamp(v); return t * t * (3 - 2 * t); };
+
+  let introEnd = 0, ticking = false, inIntro = true;
+  function measure(){ introEnd = Math.max(1, intro.offsetHeight - window.innerHeight); }
+
+  function paint(){
+    ticking = false;
+    const p = clamp(window.scrollY / introEnd);
+    const wm = 1 - ease((p - 0.02) / 0.34);   /* 表題が消える */
+    const cl = ease((p - 0.16) / 0.42);       /* 路線図が現れる */
+    stick.style.setProperty('--wm', wm.toFixed(3));
+    stick.style.setProperty('--cl', cl.toFixed(3));
+    cloud.style.pointerEvents = cl > 0.55 ? 'auto' : 'none';
+
+    /* 導入部が画面の半分以上を占めている間はドックを暗いままにする */
+    const nowIn = window.scrollY + window.innerHeight * 0.5 < intro.offsetHeight;
+    if (nowIn !== inIntro){
+      inIntro = nowIn;
+      if (nowIn){ setDock(null); history.replaceState(null, '', location.pathname); }
+    }
+  }
+  function onScroll(){ if (!ticking){ ticking = true; requestAnimationFrame(paint); } }
+
+  window.addEventListener('scroll', onScroll, { passive: true });
+  window.addEventListener('resize', () => { measure(); paint(); });
+  /* 裏に回っている間は rAF が止まるので、戻ってきたら測り直して描き直す */
+  document.addEventListener('visibilitychange', () => {
+    if (!document.hidden){ measure(); paint(); }
+  });
+
   /* ---------- 区間へ跳ぶ ----------
-     html の scroll-behavior:smooth が効いていると window.scrollTo が
-     途中で打ち切られるため、跳ぶ瞬間だけ auto に落とす。
-     交差状態が変わらないと observer は鳴らないので、ドックも直接更新する。 */
-  function goTo(slug){
-    const el = document.getElementById(slug);
-    if (!el) return;
+     scroll-behavior:smooth が効いていると scrollTo が打ち切られるため、
+     跳ぶ瞬間だけ auto に落とす。交差状態が変わらないと observer は
+     鳴らないので、ドックもここで直接合わせる。 */
+  function scrollToY(y){
     const de = document.documentElement;
     const keep = de.style.scrollBehavior;
     de.style.scrollBehavior = 'auto';
-    window.scrollTo(0, el.getBoundingClientRect().top + window.scrollY);
+    window.scrollTo(0, y);
     requestAnimationFrame(() => { de.style.scrollBehavior = keep; });
+  }
+  function goTo(slug){
+    const el = document.getElementById(slug);
+    if (!el) return;
+    scrollToY(el.getBoundingClientRect().top + window.scrollY);
     const e = S.byContextSlug(slug);
     if (e){ current = slug; setDock(e); }
     history.replaceState(null, '', '#' + slug);
+    paint();
   }
 
-  /* ---------- UniverseIt! ---------- */
-  const uv = document.getElementById('uv');
-  const cloud = document.getElementById('cloud');
+  /* ---------- 続きを開く ----------
+     開くまでストリームを組み立てないので、ページは路線図でちょうど終わる。
+     スクロールを塞ぐ小細工は要らない。 */
+  let opened = false;
+  function open(){
+    if (opened) return false;
+    opened = true;
+    stream.hidden = false;
+    document.getElementById('app').classList.remove('locked');
+    measure();
+    return true;
+  }
 
-  function openUv(){
-    R.buildCloud(cloud, document.getElementById('uvCount'));
-    uv.classList.add('open');
-    document.body.style.overflow = 'hidden';
-  }
-  function closeUv(){
-    uv.classList.remove('open');
-    document.body.style.overflow = '';
-  }
-  document.getElementById('uniBtn').addEventListener('click', openUv);
-  document.getElementById('uvClose').addEventListener('click', closeUv);
+  document.getElementById('uniBtn').addEventListener('click', () => {
+    if (open()){
+      const first = document.querySelector('.ctx');
+      if (first) goTo(first.dataset.slug);
+    } else {
+      scrollToY(introEnd);   /* すでに開いていれば路線図へ戻る */
+      paint();
+    }
+  });
 
   cloud.addEventListener('click', ev => {
     const t = ev.target.closest('.tag');
     if (!t) return;
-    closeUv();
     if (t.dataset.work){ location.href = 'page.html?work=' + encodeURIComponent(t.dataset.work); return; }
+    open();
     goTo(t.dataset.ctx);
   });
   const hold = on => cloud.querySelectorAll('.run').forEach(r => r.classList.toggle('paused', on));
@@ -248,29 +266,21 @@
 
   /* ---------- 起動 ---------- */
   build();
+  R.buildCloud(cloud, document.getElementById('netCount'));
+  measure();
   setDock(null);
-  /* ハッシュ付きで開かれたら、その区間まで送る。画像の読み込みで
-     レイアウトがずれるので、読み込み完了後にもう一度合わせる。 */
+  paint();
+
+  /* 区間を名指しで開かれたときは、最初から続きを開いた状態にする */
   const hash = decodeURIComponent(location.hash.slice(1));
   if (hash){
-    /* ブラウザのスクロール位置復元がこちらの移動を上書きするので切る */
     if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
-    /* html の scroll-behavior:smooth が効いていると、この初期移動が
-       途中で打ち切られる。一時的に auto に落として跳ばす。 */
-    const jump = () => {
-      const el = document.getElementById(hash);
-      if (!el) return;
-      const de = document.documentElement;
-      const keep = de.style.scrollBehavior;
-      de.style.scrollBehavior = 'auto';
-      window.scrollTo(0, el.getBoundingClientRect().top + window.scrollY);
-      requestAnimationFrame(() => { de.style.scrollBehavior = keep; });
-      /* 交差状態が変わらないと observer は鳴らないので、ここで直接合わせる */
-      const e = S.byContextSlug(hash);
-      if (e){ current = hash; setDock(e); }
-    };
+    open();
+    const jump = () => { measure(); goTo(hash); };
     requestAnimationFrame(jump);
     window.addEventListener('load', () => setTimeout(jump, 60), { once: true });
+  } else {
+    window.addEventListener('load', () => { measure(); paint(); }, { once: true });
   }
 })();
 </script>
