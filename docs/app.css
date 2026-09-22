@@ -40,9 +40,15 @@ a{color:inherit}
 /* 表紙から路線図へ、スクロールで移り変わる導入部。
    .intro は画面2つ分の高さを持ち、中身は貼り付いたまま中身だけが変わる。 */
 .intro{position:relative;height:220svh;min-height:900px}
-.intro-stick{position:sticky;top:0;height:100vh;height:100svh;min-height:430px;
+.intro-stick{position:sticky;top:0;height:100vh;height:100dvh;min-height:430px;
   background:var(--ground);overflow:hidden;display:grid;place-items:center}
-.intro-stick .pcb{position:absolute;inset:0;width:100%;height:100%;opacity:.5}
+/* 模様を安全領域の外まで延ばす。Safari が描かせてくれる範囲では模様が
+   そのまま端まで回り込み、描かせない範囲は body の地色が受け持つ。
+   どちらに転んでも画面全体がひとつの地になる。 */
+.intro-stick .pcb{position:absolute;left:0;right:0;width:100%;opacity:.5;
+  top:calc(-1 * env(safe-area-inset-top));
+  bottom:calc(-1 * env(safe-area-inset-bottom));
+  height:calc(100% + env(safe-area-inset-top) + env(safe-area-inset-bottom))}
 /* 端で模様を溶かすことはしない。溶かすと、そこが無地の塊になって
    帯と一続きの暗い帯に見え、かえって二つの塊が大きくなる。
    模様は端まで届かせ、代わりに帯の色を中央に合わせる。 */
