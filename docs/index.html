@@ -14,7 +14,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Beautiful Context">
 <title>Beautiful Context</title>
-<link rel="stylesheet" href="app.css?v=55">
+<link rel="stylesheet" href="app.css?v=60">
 <link rel="stylesheet" href="fade.css?v=59">
 <style>
   /* 路線。角度の違う線と縦書きの線が交差する。
@@ -247,7 +247,11 @@
        ReMixIt! / UNIverseIt! を現し、十分に見えるまで触れない。 */
     const dk = ease((p - 0.68) / 0.20);
     dock.style.setProperty('--dk', dk.toFixed(3));
-    if (actions) actions.style.pointerEvents = dk > 0.5 ? 'auto' : 'none';
+    const firstContext = stream.querySelector('.ctx');
+    const reading = !!(opened && firstContext &&
+      firstContext.getBoundingClientRect().top <= window.innerHeight * 0.72);
+    dock.classList.toggle('reading', reading);
+    if (actions) actions.style.pointerEvents = !reading && dk > 0.5 ? 'auto' : 'none';
 
     /* 導入部が画面の半分以上を占めている間はドックを暗いままにする */
     const nowIn = window.scrollY + window.innerHeight * 0.5 < intro.offsetHeight;

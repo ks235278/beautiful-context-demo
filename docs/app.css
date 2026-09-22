@@ -143,7 +143,7 @@ a{color:inherit}
 
 @media (min-width:761px) and (pointer:fine){ .dock{max-width:var(--w)} }
 /* 暗い側の地色は ::before の階調が受け持つ */
-.map{position:relative;height:64px;color:var(--gold)}
+.map{position:relative;height:64px;color:var(--gold);transition:transform .28s ease}
 .line-name{position:absolute;z-index:5;left:17px;top:4px;padding:0 5px;color:#d9a441;
   background:rgba(20,28,37,.82);border-radius:3px;
   font:700 10px/1.4 "Yu Mincho",serif;max-width:58%;overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
@@ -167,6 +167,11 @@ a{color:inherit}
      最後の段階に入ってから、二つのボタンだけを浮かび上がらせる。 */
   opacity:var(--dk,1);transform:translateY(calc((1 - var(--dk,1)) * 12px));
   will-change:opacity,transform}
+
+/* コンテクストの二作品が画面へ入ったら、導入部の二つの操作は役目を終える。
+   路線図だけを画面下端へ送り、本文を覆うものを残さない。 */
+.dock.reading .map{transform:translateY(55px)}
+.dock.reading .actions{opacity:0;transform:translateY(18px)}
 
 .actions button,.actions a{display:grid;place-items:center;border:1px solid #46525f;border-radius:20px;
   background:none;color:var(--cream);font-size:12px;font-weight:750;cursor:pointer;text-decoration:none}
