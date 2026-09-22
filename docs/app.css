@@ -63,7 +63,7 @@ a{color:inherit}
 
 
 /* ---------- 作品の絵 ---------- */
-.art{position:relative;overflow:hidden;aspect-ratio:672/1000;color:#fff;background:#0d0f12;
+.art{position:relative;overflow:hidden;aspect-ratio:672/1000;color:#fff;background:#0b131c;
   display:grid;place-items:center}
 .art>img{position:absolute;inset:0;width:100%;height:100%;display:block;object-fit:cover;
   object-position:center 45%;background:#050505}
@@ -73,7 +73,7 @@ a{color:inherit}
 
 /* ---------- コンテクスト（ストリームの1件） ---------- */
 .ctx{scroll-margin-top:0}
-.duo-hero{padding:26px 14px 0;background:#080808}
+.duo-hero{padding:26px 14px 0}
 .duo{position:relative;display:grid;grid-template-columns:1fr 1fr;gap:7px}
 .duo .art{aspect-ratio:3/4.08}
 .duo .art .ph{font-size:38px}
@@ -101,7 +101,12 @@ a{color:inherit}
 .ctx-sep{height:9px;background:repeating-linear-gradient(90deg,#d6d0c4 0 6px,transparent 6px 12px)}
 
 /* ---------- 作品ページ（page.html） ---------- */
-.hero{padding:26px 18px 0;background:#070707}
+.hero{padding:26px 18px 0}
+/* 作品の絵のまわりにも同じ回路を敷く。ここで模様が途切れると、
+   そこから下が別の板として読めてしまう。作品は基板の上に置く。 */
+.duo-hero,.hero{background-color:var(--ground);
+  background-image:url("data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20width%3D%2775%27%20height%3D%2775%27%20viewBox%3D%270%200%2075%2075%27%3E%3Cg%20fill%3D%27none%27%20stroke%3D%27%23224569%27%20stroke-width%3D%271.4%27%20stroke-linecap%3D%27round%27%3E%3Cpath%20d%3D%27M0%2018%20H30%20L44%2032%20H75%27%2F%3E%3Cpath%20d%3D%27M0%2056%20H18%20L30%2044%20V8%27%2F%3E%3Cpath%20d%3D%27M56%200%20V26%20L68%2038%20V75%27%2F%3E%3Cpath%20d%3D%27M8%2075%20V60%20L22%2046%20H50%27%2F%3E%3Cpath%20d%3D%27M75%2062%20H60%20L50%2052%27%2F%3E%3C%2Fg%3E%3Cg%20fill%3D%27%23224569%27%3E%3Ccircle%20cx%3D%2730%27%20cy%3D%2730%27%20r%3D%272.6%27%2F%3E%3Ccircle%20cx%3D%2756%27%20cy%3D%2726%27%20r%3D%272.2%27%2F%3E%3Ccircle%20cx%3D%2718%27%20cy%3D%2756%27%20r%3D%272.2%27%2F%3E%3Ccircle%20cx%3D%2750%27%20cy%3D%2746%27%20r%3D%272.4%27%2F%3E%3Crect%20x%3D%2760%27%20y%3D%276%27%20width%3D%279%27%20height%3D%279%27%20rx%3D%271.6%27%2F%3E%3Crect%20x%3D%276%27%20y%3D%2734%27%20width%3D%277%27%20height%3D%277%27%20rx%3D%271.4%27%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E")}
+
 .content{padding:24px 23px 40px;background:linear-gradient(#faf9f5,#f2efe7);
   font-family:"Yu Mincho","Hiragino Mincho ProN",serif}
 .meta{margin:0 0 8px;color:var(--gold);font:700 10px/1.4 sans-serif;letter-spacing:.12em}
