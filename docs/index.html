@@ -14,8 +14,8 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Beautiful Context">
 <title>Beautiful Context</title>
-<link rel="stylesheet" href="app.css?v=53">
-<link rel="stylesheet" href="fade.css?v=53">
+<link rel="stylesheet" href="app.css?v=54">
+<link rel="stylesheet" href="fade.css?v=54">
 <style>
   /* 路線。角度の違う線と縦書きの線が交差する。
      箱は画面より大きいので、当たり判定は見出しだけに持たせる。 */
@@ -229,12 +229,15 @@
     const raw = window.scrollY / introEnd;   /* clamp する前の生の値 */
     const p = clamp(raw);
     const wm = 1 - ease((p - 0.02) / 0.34);   /* 表題が消える */
+    /* 表題はその場で薄くなるのではなく、スクロールに連れて上へ流れながら消える。 */
+    const wy = -window.innerHeight * 0.42 * ease((p - 0.02) / 0.42);
     /* 見出しは導入部で立ち上がり、そのあともページの後ろで流れ続ける。
        ただし本文の下敷きになるので、読める濃さまで落ち着かせる。 */
     const after = Math.max(0, (window.scrollY - introEnd) / 420);
     const cl = raw <= 1 ? ease((p - 0.16) / 0.42)
                         : 1 - 0.66 * Math.min(1, after);
     stick.style.setProperty('--wm', wm.toFixed(3));
+    stick.style.setProperty('--wy', wy.toFixed(1) + 'px');
     bg.style.setProperty('--cl', cl.toFixed(3));
     cloud.style.pointerEvents = cl > 0.55 ? 'auto' : 'none';
 
