@@ -14,8 +14,8 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Beautiful Context">
 <title>Beautiful Context</title>
-<link rel="stylesheet" href="app.css?v=51">
-<link rel="stylesheet" href="fade.css?v=51">
+<link rel="stylesheet" href="app.css?v=50">
+<link rel="stylesheet" href="fade.css?v=50">
 <style>
   /* 路線。角度の違う線と縦書きの線が交差する。
      箱は画面より大きいので、当たり判定は見出しだけに持たせる。 */
@@ -35,26 +35,12 @@
   .run.paused{animation-play-state:paused}
   @keyframes runX{from{transform:translateX(0)}to{transform:translateX(-50%)}}
   @keyframes runY{from{transform:translateY(0)}to{transform:translateY(-50%)}}
-  /* 見出しを説明文なしで「触れられるもの」に見せる。
-     薄い駅名標の輪郭と、ごく時々起きる呼吸だけで操作性を伝える。 */
-  .tag{flex:0 0 auto;margin:0 22px;padding:9px 12px;background:rgba(10,16,23,.16);
-    border:0;border-radius:999px;box-shadow:inset 0 0 0 1px rgba(159,176,198,.12);
-    font-family:inherit;cursor:pointer;white-space:nowrap;line-height:1.5;
-    transition:color .18s,background .18s,box-shadow .18s,transform .18s;pointer-events:auto}
+  .tag{flex:0 0 auto;margin:0 22px;padding:9px 7px;background:none;border:0;font-family:inherit;
+    cursor:pointer;white-space:nowrap;line-height:1.5;transition:color .18s;pointer-events:auto}
   .tag.k-ctx{color:#eef2f8}
   .tag.k-work{color:#9fb0c6}
   .tag .h{color:#6f8db4;margin-right:1px}
-  .tag:hover,.tag:focus-visible,.tag:active{color:#ffd489;background:rgba(31,58,104,.42);
-    box-shadow:inset 0 0 0 1px rgba(255,212,137,.62),0 0 18px rgba(47,111,181,.2);
-    transform:scale(1.035);outline:none}
-  .tag:nth-child(4n+1){animation:inviteTap 7.2s ease-in-out infinite}
-  .tag:nth-child(4n+2){animation:inviteTap 7.2s 2.4s ease-in-out infinite}
-  .tag:nth-child(4n+3){animation:inviteTap 7.2s 4.8s ease-in-out infinite}
-  @keyframes inviteTap{
-    0%,84%,100%{background:rgba(10,16,23,.16);box-shadow:inset 0 0 0 1px rgba(159,176,198,.12)}
-    90%{background:rgba(31,58,104,.34);box-shadow:inset 0 0 0 1px rgba(159,176,198,.42),0 0 16px rgba(47,111,181,.18)}
-  }
-  @media (prefers-reduced-motion:reduce){.tag{animation:none!important}}
+  .tag:hover,.tag:focus-visible,.tag:active{color:#ffd489;outline:none}
   .uv-none{position:absolute;left:24px;right:24px;top:48%;z-index:3;text-align:center;color:#aab6c6;
     font-size:12px;line-height:2}
 </style>
