@@ -83,7 +83,39 @@
   const SIZES = [12,13,14,16,18,20];
   const shuffle = a => a.map(v => [Math.random(), v]).sort((x,y) => x[0]-y[0]).map(p => p[1]);
 
-  function buildCloud(cloud, countEl, rows){
+  /* 路線図。見出しはそれぞれの線を走る列車で、線どうしが交わるところが
+     作品を共有している場所にあたる。駅（作品名）は縦書きで、
+     ホームの駅名標のように立てる。 */
+  const TRACKS = [
+    { dir:'d', angle: -57, at:'20%', dur: 98,  rev:false, kind:'ctx',  o:.42 },
+    { dir:'d', angle: -26, at:'41%', dur: 76,  rev:true,  kind:'ctx',  o:1   },
+    { dir:'d', angle:  -7, at:'60%', dur:112,  rev:false, kind:'any',  o:.55 },
+    { dir:'d', angle:  21, at:'76%', dur: 84,  rev:true,  kind:'ctx',  o:.9  },
+    { dir:'d', angle:  46, at:'11%', dur:124,  rev:false, kind:'any',  o:.38 },
+    { dir:'v', at:'17%', dur: 94,  rev:false, kind:'work', o:.5  },
+    { dir:'v', at:'53%', dur:122,  rev:true,  kind:'work', o:.34 },
+    { dir:'v', at:'84%', dur: 78,  rev:false, kind:'work', o:.62 }
+  ];
+
+  const PER_TRACK = 16;
+
+  function makeTag(it, i){
+    const b = document.createElement('button');
+    b.type = 'button';
+    b.className = 'tag ' + it.kind;
+    b.style.fontSize = SIZES[i % SIZES.length] + (it.kind === 'ctx' ? 2 : 0) + 'px';
+    if (it.kind === 'work'){
+      const h = document.createElement('span'); h.className = 'h'; h.textContent = '#';
+      b.appendChild(h);
+      b.dataset.work = it.work;
+    } else {
+      b.dataset.ctx = it.ctx;
+    }
+    b.appendChild(document.createTextNode(it.text));
+    return b;
+  }
+
+  function buildCloud(cloud, countEl){
     const items = cloudPool();
     cloud.textContent = '';
     if (countEl) countEl.textContent = items.length
@@ -92,35 +124,41 @@
       cloud.innerHTML = '<p class="uv-none">まだ公開されたページがありません。<br>新しいつながりを創ってください。</p>';
       return;
     }
-    const ROWS = rows || 9;
-    const perRow = Math.max(8, Math.ceil(26 / items.length) * items.length);
-    for (let r = 0; r < ROWS; r++){
-      const row = document.createElement('div');
-      row.className = 'row';
-      row.style.animation = `${r % 2 === 0 ? 'driftL' : 'driftR'} ${72 + (r % 5) * 16}s linear infinite`;
+
+    const ctxItems  = items.filter(i => i.kind === 'ctx');
+    const workItems = items.filter(i => i.kind === 'work');
+
+    TRACKS.forEach((t, ti) => {
+      let source = items;
+      if (t.kind === 'ctx'  && ctxItems.length)  source = ctxItems;
+      if (t.kind === 'work' && workItems.length) source = workItems;
+
+      const track = document.createElement('div');
+      track.className = 'track ' + t.dir;
+      track.style.opacity = t.o;
+      if (t.dir === 'd'){
+        track.style.setProperty('--a', t.angle + 'deg');
+        track.style.setProperty('--y', t.at);
+      } else {
+        track.style.setProperty('--x', t.at);
+      }
+
+      const run = document.createElement('div');
+      run.className = 'run';
+      run.style.animationDuration = t.dur + 's';
+      if (t.rev) run.style.animationDirection = 'reverse';
+
       const half = document.createDocumentFragment();
       let bag = [];
-      for (let i = 0; i < perRow; i++){
-        if (!bag.length) bag = shuffle(items.slice());
-        const it = bag.pop();
-        const b = document.createElement('button');
-        b.type = 'button';
-        b.className = 'tag ' + it.kind;
-        b.style.fontSize = SIZES[(i + r) % SIZES.length] + (it.kind === 'ctx' ? 2 : 0) + 'px';
-        if (it.kind === 'work'){
-          const h = document.createElement('span'); h.className = 'h'; h.textContent = '#';
-          b.appendChild(h);
-          b.dataset.work = it.work;
-        } else {
-          b.dataset.ctx = it.ctx;
-        }
-        b.appendChild(document.createTextNode(it.text));
-        half.appendChild(b);
+      for (let i = 0; i < PER_TRACK; i++){
+        if (!bag.length) bag = shuffle(source.slice());
+        half.appendChild(makeTag(bag.pop(), i + ti));
       }
-      row.appendChild(half.cloneNode(true));
-      row.appendChild(half);
-      cloud.appendChild(row);
-    }
+      run.appendChild(half.cloneNode(true));
+      run.appendChild(half);
+      track.appendChild(run);
+      cloud.appendChild(track);
+    });
   }
 
   window.BCRender = { esc, clean, art, contextSection, mapMarkup, cloudPool, buildCloud };

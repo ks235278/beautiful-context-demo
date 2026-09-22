@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="description" content="Beautiful Context — 起動画面から縦にスクロールして、作品と作品の間のコンテクストを読み続けるストリーム。">
 <title>Beautiful Context</title>
-<link rel="stylesheet" href="app.css?v=4">
+<link rel="stylesheet" href="app.css?v=6">
 <style>
   .uv{position:fixed;inset:0;z-index:40;background:rgba(10,13,18,.97);display:none}
   .uv.open{display:block}
@@ -17,17 +17,33 @@
   .uv-head p{margin:6px 0 0;color:#aab6c6;font-size:10.5px;letter-spacing:.16em}
   .uv-close{position:absolute;top:calc(10px + env(safe-area-inset-top));right:8px;z-index:6;width:46px;height:46px;
     background:none;border:0;color:#fff;font-size:23px;line-height:1;cursor:pointer}
-  .cloud{position:absolute;top:calc(112px + env(safe-area-inset-top));left:0;right:0;bottom:104px;z-index:2;
-    overflow:hidden;display:flex;flex-direction:column;justify-content:space-evenly}
-  .cloud::before,.cloud::after{content:"";position:absolute;left:0;right:0;height:26px;z-index:2;pointer-events:none}
+  .cloud{position:absolute;top:calc(100px + env(safe-area-inset-top));left:0;right:0;bottom:96px;z-index:2;
+    overflow:hidden}
+  .cloud::before,.cloud::after{content:"";position:absolute;left:0;right:0;height:30px;z-index:3;pointer-events:none}
   .cloud::before{top:0;background:linear-gradient(#0a0d12,rgba(10,13,18,0))}
   .cloud::after{bottom:0;background:linear-gradient(rgba(10,13,18,0),#0a0d12)}
-  .row{display:flex;width:max-content;align-items:baseline;will-change:transform}
-  .row.paused{animation-play-state:paused}
-  @keyframes driftL{from{transform:translateX(0)}to{transform:translateX(-50%)}}
-  @keyframes driftR{from{transform:translateX(-50%)}to{transform:translateX(0)}}
-  .tag{flex:0 0 auto;margin:0 9px;padding:3px 0;background:none;border:0;font-family:inherit;
-    cursor:pointer;white-space:nowrap;line-height:1.5;transition:color .18s}
+
+  /* 路線。斜め・水平の線と、縦書きの線が交差する。
+     線の箱は画面より大きいので、当たり判定は見出しだけに持たせる。 */
+  .track{position:absolute;will-change:transform;pointer-events:none}
+  .track .run{pointer-events:none}
+  .track.d{left:50%;top:var(--y);width:280vmax;
+    transform:translate(-50%,-50%) rotate(var(--a))}
+  .track.d .run{display:flex;width:max-content;align-items:baseline;
+    animation:runX linear infinite}
+  .track.v{top:50%;left:var(--x);height:280vmax;
+    transform:translate(-50%,-50%)}
+  .track.v .run{display:flex;flex-direction:column;height:max-content;align-items:center;
+    animation:runY linear infinite}
+  .track.v .tag{writing-mode:vertical-rl;text-orientation:mixed;margin:22px 0;padding:7px 9px;
+    letter-spacing:.08em}
+  .track.v .tag .h{writing-mode:horizontal-tb;margin:0 0 2px}
+  .run.paused{animation-play-state:paused}
+  @keyframes runX{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+  @keyframes runY{from{transform:translateY(0)}to{transform:translateY(-50%)}}
+  .tag{flex:0 0 auto;margin:0 22px;padding:9px 7px;background:none;border:0;font-family:inherit;
+    cursor:pointer;white-space:nowrap;line-height:1.5;transition:color .18s;pointer-events:auto}
+  .tag:active{color:#ffd489}
   .tag.ctx{color:#eef2f8}
   .tag.work{color:#9fb0c6}
   .tag .h{color:#6f8db4;margin-right:1px}
@@ -93,9 +109,9 @@
 
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
-<script src="js/seed.js?v=4"></script>
-<script src="js/store.js?v=4"></script>
-<script src="js/render.js?v=4"></script>
+<script src="js/seed.js?v=6"></script>
+<script src="js/store.js?v=6"></script>
+<script src="js/render.js?v=6"></script>
 <script>
 (() => {
   const S = window.BCStore, R = window.BCRender;
@@ -178,6 +194,23 @@
     sp.observe(document.querySelector('.splash'));
   }
 
+  /* ---------- 区間へ跳ぶ ----------
+     html の scroll-behavior:smooth が効いていると window.scrollTo が
+     途中で打ち切られるため、跳ぶ瞬間だけ auto に落とす。
+     交差状態が変わらないと observer は鳴らないので、ドックも直接更新する。 */
+  function goTo(slug){
+    const el = document.getElementById(slug);
+    if (!el) return;
+    const de = document.documentElement;
+    const keep = de.style.scrollBehavior;
+    de.style.scrollBehavior = 'auto';
+    window.scrollTo(0, el.getBoundingClientRect().top + window.scrollY);
+    requestAnimationFrame(() => { de.style.scrollBehavior = keep; });
+    const e = S.byContextSlug(slug);
+    if (e){ current = slug; setDock(e); }
+    history.replaceState(null, '', '#' + slug);
+  }
+
   /* ---------- UniverseIt! ---------- */
   const uv = document.getElementById('uv');
   const cloud = document.getElementById('cloud');
@@ -199,10 +232,9 @@
     if (!t) return;
     closeUv();
     if (t.dataset.work){ location.href = 'page.html?work=' + encodeURIComponent(t.dataset.work); return; }
-    const el = document.getElementById(t.dataset.ctx);
-    if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    goTo(t.dataset.ctx);
   });
-  const hold = on => cloud.querySelectorAll('.row').forEach(r => r.classList.toggle('paused', on));
+  const hold = on => cloud.querySelectorAll('.run').forEach(r => r.classList.toggle('paused', on));
   cloud.addEventListener('pointerenter', () => hold(true));
   cloud.addEventListener('pointerleave', () => hold(false));
 
