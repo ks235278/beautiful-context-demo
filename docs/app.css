@@ -49,9 +49,9 @@ a{color:inherit}
 }
 
 /* ---------- 起動画面 ---------- */
-/* 表紙から路線図へ、スクロールで移り変わる導入部。
-   .intro は画面2つ分の高さを持ち、中身は貼り付いたまま中身だけが変わる。 */
-.intro{position:relative;height:220svh;min-height:900px;pointer-events:none}
+/* 表紙 → 流れる見出しだけ → 流れる見出し＋操作ボタン、の3段階。
+   .intro は画面3つ分の高さを持ち、中身は貼り付いたまま段階だけが変わる。 */
+.intro{position:relative;height:300svh;min-height:1290px;pointer-events:none}
 .intro-stick{position:sticky;top:0;height:100vh;height:100dvh;min-height:430px;
   overflow:hidden;display:grid;place-items:center;
   /* 起動画面の面は画面いっぱいに居座るが、触れるものは何も載っていない。
@@ -163,8 +163,8 @@ a{color:inherit}
 .section-label{position:absolute;z-index:5;left:50%;top:22px;transform:translateX(-50%);padding:2px 6px;
   border:1px solid #46617f;border-radius:3px;background:rgba(20,28,37,.9);color:#c7d0dc;font-size:8px;font-weight:700;white-space:nowrap}
 .actions{height:55px;padding:6px 10px 11px;display:grid;grid-template-columns:1fr 1fr;gap:7px;
-  /* 起動画面では、まだ何も操作するものが無い。表題が薄れ、路線図が
-     立ち上がってくるのに少し遅れて、手で触れるものが姿を現す。 */
+  /* 起動画面と「流れる見出しだけ」の段階では操作を隠す。
+     最後の段階に入ってから、二つのボタンだけを浮かび上がらせる。 */
   opacity:var(--dk,1);transform:translateY(calc((1 - var(--dk,1)) * 12px));
   will-change:opacity,transform}
 

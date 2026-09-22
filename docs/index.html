@@ -14,8 +14,8 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Beautiful Context">
 <title>Beautiful Context</title>
-<link rel="stylesheet" href="app.css?v=49">
-<link rel="stylesheet" href="fade.css?v=49">
+<link rel="stylesheet" href="app.css?v=50">
+<link rel="stylesheet" href="fade.css?v=50">
 <style>
   /* 路線。角度の違う線と縦書きの線が交差する。
      箱は画面より大きいので、当たり判定は見出しだけに持たせる。 */
@@ -238,9 +238,9 @@
     bg.style.setProperty('--cl', cl.toFixed(3));
     cloud.style.pointerEvents = cl > 0.55 ? 'auto' : 'none';
 
-    /* 操作する二つは、路線図に少し遅れて現れる。まだ薄いうちは
-       触れても何も起きないようにしておく。 */
-    const dk = ease((p - 0.34) / 0.40);
+    /* 第2段階では流れる見出しだけを見せる。第3段階に入ってから
+       ReMixIt! / UNIverseIt! を現し、十分に見えるまで触れない。 */
+    const dk = ease((p - 0.68) / 0.20);
     dock.style.setProperty('--dk', dk.toFixed(3));
     if (actions) actions.style.pointerEvents = dk > 0.5 ? 'auto' : 'none';
 
