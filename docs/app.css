@@ -16,6 +16,7 @@
      canvas で SVG を描き直した値は Safari の実描画と合わなかったので
      使わない。実機で測った値だけを採る。 */
   --ground:#141c25;
+  --cream:#e9e4d8; --dim:#9aa7b8;
   --line:#dedbd2; --dock:119px; --w:430px;
 }
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
@@ -25,8 +26,15 @@ body{margin:0;color:var(--ink);background:var(--ground);overflow-x:hidden;
 button{font:inherit}
 a{color:inherit}
 
+/* 背景は一枚だけ。回路も流れる見出しもここに固定し、ページ全体の
+   後ろで動き続ける。本文はこの上に浮いているだけで、自分の下敷きを
+   持たない。作品の絵だけが「上に置かれたもの」になる。 */
+#bg{position:fixed;inset:0;z-index:0;background:var(--ground);overflow:hidden}
+#bg .pcb{position:absolute;inset:0;width:100%;height:100%;opacity:.5}
+#bg .cloud{position:absolute;inset:0;overflow:hidden;opacity:var(--cl,0);will-change:opacity}
+
 /* 実機では画面いっぱい。大きな画面のときだけ幅を絞って中央に置く。 */
-.app{position:relative;width:100%;margin:0 auto;background:var(--paper);
+.app{position:relative;z-index:1;width:100%;margin:0 auto;background:transparent;color:var(--cream);
   padding-bottom:calc(var(--dock) + env(safe-area-inset-bottom))}
 /* 続きを開くまでは余白も要らない。ページが路線図でぴたりと終わる */
 .app.locked{padding-bottom:0}
@@ -41,11 +49,11 @@ a{color:inherit}
    .intro は画面2つ分の高さを持ち、中身は貼り付いたまま中身だけが変わる。 */
 .intro{position:relative;height:220svh;min-height:900px}
 .intro-stick{position:sticky;top:0;height:100vh;height:100dvh;min-height:430px;
-  background:var(--ground);overflow:hidden;display:grid;place-items:center}
+  overflow:hidden;display:grid;place-items:center}
 /* ホーム画面から開いた全画面モードでは、ビューポート自体が
    Dynamic Island の裏まで広がる。起動画面は top:0 から画面の高さぶん
    あるので、模様は inset:0 のままで島の裏まで回り込む。 */
-.intro-stick .pcb{position:absolute;inset:0;width:100%;height:100%;opacity:.5}
+
 /* 全画面では画面全体がページのものなので、端をぼかす必要がない。
    ぼかしていたのは Safari の帯に合わせるためだった。模様は端まで
    そのままの濃さで届かせる。 */
@@ -81,42 +89,39 @@ a{color:inherit}
   display:grid;place-items:center;width:30px;height:30px;border-radius:50%;background:#fff;color:#111;
   font-weight:700;box-shadow:0 3px 12px #0008}
 
-.context-lead{padding:24px 22px 25px;background:linear-gradient(#faf9f5,#f1eee6);text-align:center;
+.context-lead{padding:24px 22px 25px;text-align:center;
   font-family:"Yu Mincho","Hiragino Mincho ProN",serif}
-.route-label{margin:0 0 9px;color:var(--gold);font:700 10px/1.4 sans-serif;letter-spacing:.08em}
+.route-label{margin:0 0 9px;color:#d9a441;font:700 10px/1.4 sans-serif;letter-spacing:.08em}
 .context-lead h2{margin:0 auto 12px;max-width:12em;font-size:24px;line-height:1.48}
-.pair{display:grid;gap:3px;padding-top:11px;border-top:1px solid #aaa;font-size:12px;line-height:1.45}
+.pair{display:grid;gap:3px;padding-top:11px;border-top:1px solid #33465c;font-size:12px;line-height:1.45;color:var(--dim)}
 
-.context-body{padding:24px 23px 40px;background:linear-gradient(#faf9f5,#f1eee6);
-  border-top:1px solid #d1ccc3;font-family:"Yu Mincho","Hiragino Mincho ProN",serif}
+.context-body{padding:24px 23px 40px;border-top:1px solid #26384c;font-family:"Yu Mincho","Hiragino Mincho ProN",serif}
 .context-body h2{margin:0 0 15px;font-size:22px;line-height:1.48}
 .context-body h3{margin:22px 0 8px;font-size:17px}
 .context-body p{margin:0 0 13px;font-size:13px;line-height:1.95;text-align:justify}
 .context-body ul,.context-body ol{margin:0 0 13px;padding-left:1.3em;font-size:13px;line-height:1.95}
 
-.ctx-foot{display:flex;gap:8px;padding:0 22px 34px;background:linear-gradient(#f1eee6,#eae6dc)}
-.ctx-foot button{flex:1;padding:11px 8px;border:1px solid #b9b2a5;border-radius:4px;background:#fff9;
+.ctx-foot{display:flex;gap:8px;padding:0 22px 34px}
+.ctx-foot button{flex:1;padding:11px 8px;border:1px solid #3a4f68;border-radius:4px;background:rgba(20,28,37,.55);color:var(--cream);
   font:650 11px/1.35 sans-serif;cursor:pointer}
-.ctx-foot button small{display:block;margin-top:3px;color:var(--muted);font-weight:400;font-size:9.5px}
-.ctx-sep{height:9px;background:repeating-linear-gradient(90deg,#d6d0c4 0 6px,transparent 6px 12px)}
+.ctx-foot button small{display:block;margin-top:3px;color:var(--dim);font-weight:400;font-size:9.5px}
+.ctx-sep{height:9px;background:repeating-linear-gradient(90deg,#2b3d52 0 6px,transparent 6px 12px)}
 
 /* ---------- 作品ページ（page.html） ---------- */
 .hero{padding:26px 18px 0}
-/* 作品の絵のまわりにも同じ回路を敷く。ここで模様が途切れると、
-   そこから下が別の板として読めてしまう。作品は基板の上に置く。 */
-.duo-hero,.hero{background-color:var(--ground);
+.duo-hero,.hero{background:none;
   background-image:url("data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20width%3D%2775%27%20height%3D%2775%27%20viewBox%3D%270%200%2075%2075%27%3E%3Cg%20fill%3D%27none%27%20stroke%3D%27%23224569%27%20stroke-width%3D%271.4%27%20stroke-linecap%3D%27round%27%3E%3Cpath%20d%3D%27M0%2018%20H30%20L44%2032%20H75%27%2F%3E%3Cpath%20d%3D%27M0%2056%20H18%20L30%2044%20V8%27%2F%3E%3Cpath%20d%3D%27M56%200%20V26%20L68%2038%20V75%27%2F%3E%3Cpath%20d%3D%27M8%2075%20V60%20L22%2046%20H50%27%2F%3E%3Cpath%20d%3D%27M75%2062%20H60%20L50%2052%27%2F%3E%3C%2Fg%3E%3Cg%20fill%3D%27%23224569%27%3E%3Ccircle%20cx%3D%2730%27%20cy%3D%2730%27%20r%3D%272.6%27%2F%3E%3Ccircle%20cx%3D%2756%27%20cy%3D%2726%27%20r%3D%272.2%27%2F%3E%3Ccircle%20cx%3D%2718%27%20cy%3D%2756%27%20r%3D%272.2%27%2F%3E%3Ccircle%20cx%3D%2750%27%20cy%3D%2746%27%20r%3D%272.4%27%2F%3E%3Crect%20x%3D%2760%27%20y%3D%276%27%20width%3D%279%27%20height%3D%279%27%20rx%3D%271.6%27%2F%3E%3Crect%20x%3D%276%27%20y%3D%2734%27%20width%3D%277%27%20height%3D%277%27%20rx%3D%271.4%27%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E")}
 
-.content{padding:24px 23px 40px;background:linear-gradient(#faf9f5,#f2efe7);
+.content{padding:24px 23px 40px;
   font-family:"Yu Mincho","Hiragino Mincho ProN",serif}
-.meta{margin:0 0 8px;color:var(--gold);font:700 10px/1.4 sans-serif;letter-spacing:.12em}
+.meta{margin:0 0 8px;color:#d9a441;font:700 10px/1.4 sans-serif;letter-spacing:.12em}
 .content h2{margin:0 0 14px;font-size:23px;line-height:1.42}
 .content p{margin:0 0 12px;font-size:13px;line-height:1.9;text-align:justify}
-.tease{display:block;width:100%;margin-top:17px;padding:12px;border:1px solid #aaa;background:#fff9;
-  text-align:left;font:650 11px/1.4 sans-serif;cursor:pointer}
+.tease{display:block;width:100%;margin-top:17px;padding:12px;border:1px solid #3a4f68;
+  background:rgba(20,28,37,.55);color:var(--cream);text-align:left;font:650 11px/1.4 sans-serif;cursor:pointer}
 .tease span{float:right;font-size:18px}
 .tease+.tease{margin-top:9px}
-.back{display:block;width:100%;padding:13px;border:0;background:none;color:var(--muted);
+.back{display:block;width:100%;padding:13px;border:0;background:none;color:var(--dim);
   font-size:11px;text-align:center;cursor:pointer}
 
 /* ---------- 下部ドック（固定） ---------- */
@@ -125,18 +130,15 @@ a{color:inherit}
 .dock{position:fixed;z-index:25;left:0;right:0;bottom:0;width:100%;margin:0 auto;
   height:calc(var(--dock) + env(safe-area-inset-bottom));padding-bottom:env(safe-area-inset-bottom);
   background:none;border:0;box-shadow:none}
-.dock::before{content:"";position:absolute;z-index:-1;left:0;right:0;bottom:0;top:-72px;
-  pointer-events:none;
-  background:linear-gradient(to bottom,rgba(247,244,237,0),rgba(247,244,237,.86) 34%,var(--paper) 58%)}
-/* 暗い側はボタンを模様の上に直接置く。前田先生の原図と同じ。 */
-.dock.dark::before{background:none}
+/* ドックに下敷きは要らない。ボタンは背景の上に直接浮く。 */
+
 @media (min-width:761px) and (pointer:fine){ .dock{max-width:var(--w)} }
 /* 暗い側の地色は ::before の階調が受け持つ */
 .map{position:relative;height:64px;color:var(--gold)}
-.line-name{position:absolute;z-index:5;left:17px;top:4px;padding:0 5px;color:var(--gold);
-  background:var(--paper);border-radius:3px;
+.line-name{position:absolute;z-index:5;left:17px;top:4px;padding:0 5px;color:#d9a441;
+  background:rgba(20,28,37,.82);border-radius:3px;
   font:700 10px/1.4 "Yu Mincho",serif;max-width:58%;overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
-.dock.dark .line-name{background:var(--ground);color:#d9a441}
+
 .line{position:absolute;left:17px;right:17px;top:33px;height:3px;border-radius:3px;background:currentColor}
 .segment{position:absolute;left:18%;right:18%;top:31px;height:7px;border-radius:5px;background:currentColor;opacity:.2}
 .dot{position:absolute;z-index:4;top:24px;width:21px;height:21px}
@@ -144,26 +146,26 @@ a{color:inherit}
   border-radius:50%;background:#fff}
 .dot.left{left:15%}.dot.right{right:15%}
 .dot.current:before{left:1px;top:1px;width:14px;height:14px;border-width:4px}
-.station{position:absolute;top:44px;max-width:44%;color:#111;font:9px/1.2 "Yu Mincho",serif;
+.station{position:absolute;top:44px;max-width:44%;color:#c7d0dc;font:9px/1.2 "Yu Mincho",serif;
   white-space:nowrap;overflow:hidden;text-overflow:ellipsis;background:none;border:0;padding:6px 0;cursor:pointer}
 .station.left{left:9px;text-align:left}
 .station.right{right:9px;text-align:right}
-.dock.dark .station{color:#c7d0dc}
+
 .section-label{position:absolute;z-index:5;left:50%;top:22px;transform:translateX(-50%);padding:2px 6px;
-  border:1px solid #111;border-radius:3px;background:#fff;color:#111;font-size:8px;font-weight:700;white-space:nowrap}
+  border:1px solid #46617f;border-radius:3px;background:rgba(20,28,37,.9);color:#c7d0dc;font-size:8px;font-weight:700;white-space:nowrap}
 .actions{height:55px;padding:6px 10px 11px;display:grid;grid-template-columns:1fr 1fr;gap:7px}
 
-.actions button,.actions a{display:grid;place-items:center;border:1px solid #171717;border-radius:20px;
-  background:#fff;color:#111;font-size:12px;font-weight:750;cursor:pointer;text-decoration:none}
-.actions .primary{background:#171717;color:#fff}
-.dock.dark .actions button,.dock.dark .actions a{border-color:#46525f;background:none;color:#e8edf4}
-.dock.dark .actions .primary{background:var(--orange);border-color:var(--orange);color:#fff}
+.actions button,.actions a{display:grid;place-items:center;border:1px solid #46525f;border-radius:20px;
+  background:none;color:var(--cream);font-size:12px;font-weight:750;cursor:pointer;text-decoration:none}
+.actions .primary{background:var(--orange);border-color:var(--orange);color:#fff}
+
+
 
 /* ---------- 画面はひとつ ----------
    内容が入れ替わるときは必ず、消えるものが薄れてから現れるものが濃くなる。
    別ページへ移るときも同じで、暗転してから渡す。 */
 .view{position:fixed;inset:0;z-index:35;overflow-y:auto;overscroll-behavior:contain;
-  background:var(--paper);opacity:0;visibility:hidden;
+  background:var(--ground);color:var(--cream);opacity:0;visibility:hidden;
   transition:opacity .32s ease,visibility 0s linear .32s;
   padding-bottom:calc(var(--dock) + env(safe-area-inset-bottom))}
 .view.on{opacity:1;visibility:visible;transition:opacity .34s ease}
@@ -178,6 +180,6 @@ a{color:inherit}
   padding:8px 13px;border-radius:16px;background:#111e;color:#fff;font-size:10.5px;white-space:nowrap;
   opacity:0;pointer-events:none;transition:opacity .18s}
 .toast.show{opacity:1}
-.empty{padding:70px 26px;text-align:center;color:var(--muted);font-size:13px;line-height:2}
-.empty b{display:block;margin-bottom:10px;color:var(--ink);font-size:15px}
+.empty{padding:70px 26px;text-align:center;color:var(--dim);font-size:13px;line-height:2}
+.empty b{display:block;margin-bottom:10px;color:var(--cream);font-size:15px}
 @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{animation:none !important}}
