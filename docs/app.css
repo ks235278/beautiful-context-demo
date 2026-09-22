@@ -100,15 +100,23 @@ a{color:inherit}
   font-size:11px;text-align:center;cursor:pointer}
 
 /* ---------- 下部ドック（固定） ---------- */
+/* 下の操作帯は、別の板として載せない。ページの地色が下から立ち上がってきて、
+   その上に文字とボタンが浮いているように見せる。境界線は引かない。 */
 .dock{position:fixed;z-index:25;left:0;right:0;bottom:0;width:100%;margin:0 auto;
   height:calc(var(--dock) + env(safe-area-inset-bottom));padding-bottom:env(safe-area-inset-bottom);
-  background:#fbfaf6f3;backdrop-filter:blur(16px);border-top:1px solid #cac5bc;box-shadow:0 -7px 20px #0001}
+  background:none;border:0;box-shadow:none}
+.dock::before{content:"";position:absolute;z-index:-1;left:0;right:0;bottom:0;top:-72px;
+  pointer-events:none;
+  background:linear-gradient(to bottom,rgba(247,244,237,0),rgba(247,244,237,.86) 34%,var(--paper) 58%)}
+.dock.dark::before{
+  background:linear-gradient(to bottom,rgba(16,20,26,0),rgba(16,20,26,.88) 34%,var(--charcoal) 58%)}
 @media (min-width:761px) and (pointer:fine){ .dock{max-width:var(--w)} }
-.dock.dark{background:#0e1218f2;border-top-color:#2a3340}
+/* 暗い側の地色は ::before の階調が受け持つ */
 .map{position:relative;height:64px;color:var(--gold)}
-.line-name{position:absolute;z-index:5;left:17px;top:4px;padding:0 4px;background:#fbfaf6;color:var(--gold);
+.line-name{position:absolute;z-index:5;left:17px;top:4px;padding:0 5px;color:var(--gold);
+  background:var(--paper);border-radius:3px;
   font:700 10px/1.4 "Yu Mincho",serif;max-width:58%;overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
-.dock.dark .line-name{background:#0e1218;color:#d9a441}
+.dock.dark .line-name{background:var(--charcoal);color:#d9a441}
 .line{position:absolute;left:17px;right:17px;top:33px;height:3px;border-radius:3px;background:currentColor}
 .segment{position:absolute;left:18%;right:18%;top:31px;height:7px;border-radius:5px;background:currentColor;opacity:.2}
 .dot{position:absolute;z-index:4;top:24px;width:21px;height:21px}
@@ -123,9 +131,8 @@ a{color:inherit}
 .dock.dark .station{color:#c7d0dc}
 .section-label{position:absolute;z-index:5;left:50%;top:22px;transform:translateX(-50%);padding:2px 6px;
   border:1px solid #111;border-radius:3px;background:#fff;color:#111;font-size:8px;font-weight:700;white-space:nowrap}
-.actions{height:55px;padding:6px 10px 11px;display:grid;grid-template-columns:1fr 1fr;gap:7px;
-  border-top:1px solid #ddd7ce}
-.dock.dark .actions{border-top-color:#2a3340}
+.actions{height:55px;padding:6px 10px 11px;display:grid;grid-template-columns:1fr 1fr;gap:7px}
+
 .actions button,.actions a{display:grid;place-items:center;border:1px solid #171717;border-radius:20px;
   background:#fff;color:#111;font-size:12px;font-weight:750;cursor:pointer;text-decoration:none}
 .actions .primary{background:#171717;color:#fff}
