@@ -4,9 +4,10 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="description" content="Beautiful Context — 表紙から路線図へ、そしてコンテクストのストリームへ、縦のスクロール一本で続きます。">
+<meta name="theme-color" content="#10141a">
 <title>Beautiful Context</title>
-<link rel="stylesheet" href="app.css?v=13">
-<link rel="stylesheet" href="fade.css?v=13">
+<link rel="stylesheet" href="app.css?v=14">
+<link rel="stylesheet" href="fade.css?v=14">
 <style>
   /* 路線。角度の違う線と縦書きの線が交差する。
      箱は画面より大きいので、当たり判定は見出しだけに持たせる。 */
@@ -94,10 +95,10 @@ setTimeout(() => document.documentElement.classList.remove('entering'), 1200);
 
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
-<script src="js/seed.js?v=13"></script>
-<script src="js/store.js?v=13"></script>
-<script src="js/render.js?v=13"></script>
-<script src="js/transition.js?v=13"></script>
+<script src="js/seed.js?v=14"></script>
+<script src="js/store.js?v=14"></script>
+<script src="js/render.js?v=14"></script>
+<script src="js/transition.js?v=14"></script>
 <script>
 (() => {
   const S = window.BCStore, R = window.BCRender;
@@ -137,17 +138,35 @@ setTimeout(() => document.documentElement.classList.remove('entering'), 1200);
     observe();
   }
 
+  /* ---------- 画面の外側も地色に合わせる ----------
+     ステータスバーの帯はブラウザが塗るので、こちらから色を渡す。
+     渡さないと、そこだけ地色から浮いて見える。 */
+  const themeMeta = document.querySelector('meta[name="theme-color"]');
+  const CHARCOAL = '#10141a', PAPER = '#f7f4ed', BLACK = '#070707';
+
+  /* 色を決める場所はここ一箇所。二箇所から書くと、
+     スクロールの監視と重ね表示が互いに上書きし合う。 */
+  function applyTheme(){
+    if (!themeMeta) return;
+    const hex = document.getElementById('workView').classList.contains('on') ? BLACK
+              : dock.classList.contains('dark') ? CHARCOAL
+              : PAPER;
+    if (themeMeta.content !== hex) themeMeta.content = hex;
+  }
+
   /* ---------- ドック ---------- */
   let current = null;
   function setDock(e){
     if (!e){
       dock.classList.add('dark');
+      applyTheme();
       map.innerHTML = '';
       document.getElementById('remix').href = 'editor.html';
       current = null;
       return;
     }
     dock.classList.remove('dark');
+    applyTheme();
     const c = e.context;
     map.innerHTML = R.mapMarkup({
       lineName: c.routeName,
@@ -305,10 +324,12 @@ setTimeout(() => document.documentElement.classList.remove('entering'), 1200);
     workView.scrollTop = 0;
     workView.classList.add('on');
     document.body.style.overflow = 'hidden';
+    applyTheme();
   }
   function closeWork(){
     workView.classList.remove('on');
     document.body.style.overflow = '';
+    applyTheme();
   }
 
   workView.addEventListener('click', ev => {
