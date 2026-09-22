@@ -12,10 +12,12 @@
   }
   function restore(){
     clearTimeout(undo);
+    if (frame){ cancelAnimationFrame(frame); frame = 0; }
     document.documentElement.classList.remove('leaving');
     document.body.style.transition = '';
     document.body.style.transform = '';
     document.body.style.opacity = '';
+    document.body.style.willChange = '';
   }
 
   document.addEventListener('click', ev => {
@@ -58,6 +60,7 @@
   const LOCK = 16;   /* ここを超え、かつ縦より横が勝っていたら横の操作 */
 
   let sx = 0, sy = 0, dx = 0, live = false, locked = false;
+  let frame = 0, paintedX = 0;
   const dbg = new URLSearchParams(location.search).has('debug');
   let note = null;
 
@@ -73,16 +76,27 @@
     note.textContent = t;
   }
 
-  const paint = (v, fade) => {
-    document.body.style.transform = v ? 'translateX(' + Math.round(v) + 'px)' : '';
-    document.body.style.opacity = fade == null ? '' : String(fade);
+  /* touchmove は一フレームに何度も届く。最後の位置だけを rAF で描き、
+     長いエディター全体を毎イベント再合成しない。 */
+  const paintNow = v => {
+    paintedX = v;
+    document.body.style.transform = v ? 'translate3d(' + Math.round(v) + 'px,0,0)' : '';
+  };
+  const paint = v => {
+    paintedX = v;
+    if (frame) return;
+    frame = requestAnimationFrame(() => { frame = 0; paintNow(paintedX); });
   };
 
   /* 押し足りなかったとき。元の位置へ返す。 */
   const settle = () => {
-    document.body.style.transition = 'transform .22s ease, opacity .22s ease';
-    paint(0, null);
-    setTimeout(() => { document.body.style.transition = ''; }, 240);
+    if (frame){ cancelAnimationFrame(frame); frame = 0; }
+    document.body.style.transition = 'transform .28s cubic-bezier(.22,.72,.24,1)';
+    paintNow(0);
+    setTimeout(() => {
+      document.body.style.transition = '';
+      document.body.style.willChange = '';
+    }, 300);
   };
 
   /* 押し切ったとき。そのまま送り出す。 */
@@ -95,9 +109,10 @@
     const here = (location.pathname.split('/').pop() || 'index.html');
     if (here === 'index.html' || here === ''){ settle(); return; }   /* もう家に居る */
 
-    document.body.style.transition = 'transform .2s ease-out, opacity .2s ease-out';
-    paint(window.innerWidth, 0);
-    setTimeout(() => window.BCLeave('index.html', 0), 170);
+    if (frame){ cancelAnimationFrame(frame); frame = 0; }
+    document.body.style.transition = 'transform .24s cubic-bezier(.2,.72,.2,1)';
+    paintNow(window.innerWidth * 1.04);
+    setTimeout(() => window.BCLeave('index.html', 0), 220);
   }
 
   const NOSWIPE = 'input,textarea,select,[contenteditable],[contenteditable] *';
@@ -110,6 +125,7 @@
     }
     sx = t.clientX; sy = t.clientY; dx = 0; live = true; locked = false;
     document.body.style.transition = '';
+    document.body.style.willChange = 'transform';
     say('start x=' + Math.round(t.clientX));
   }, { passive: true, capture: true });
 
@@ -123,7 +139,7 @@
     if (!locked) return;
 
     if (e.cancelable) e.preventDefault();        /* giữ cho trang khỏi cuộn theo */
-    paint(dx, 1 - 0.25 * Math.min(1, dx / HALF()));
+    paint(dx);
     say('day ' + Math.round(dx) + ' / nua man ' + Math.round(HALF()));
   }, { passive: false, capture: true });
 
@@ -131,7 +147,7 @@
   document.addEventListener('touchend', () => {
     if (!live) return;
     live = false;
-    if (!locked) return;
+    if (!locked){ document.body.style.willChange = ''; return; }
     if (dx >= HALF()) leave();
     else { settle(); say('tha tay ' + Math.round(dx) + ' -> ve cho cu'); }
   }, { passive: true, capture: true });
