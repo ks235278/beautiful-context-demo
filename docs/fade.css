@@ -28,9 +28,9 @@ html.leaving body{opacity:0}
   html.leaving body{opacity:1}
 }
 
-/* 横方向は Safari 本来の履歴スワイプへ渡す。前画面の実スナップショットを
-   ブラウザが保持するため、現在画面との二層だけで滑らかに戻れる。 */
-html,body{overscroll-behavior-x:auto}
+/* standalone Safari の履歴スナップショットは fixed 背景を欠くことがある。
+   OS の横払いは止め、transition.js は面を動かさずジェスチャーだけを読む。 */
+html,body{overscroll-behavior-x:none}
 
 /* 送りの跡は見せない。画面はひとつ、という約束の続きで、
    紙の横に定規が立っているように見えるものを外す。
