@@ -6,11 +6,16 @@
   --paper:#f7f4ed; --ink:#121212; --gold:#a97717; --muted:#6b6a65;
   --charcoal:#10141a; --pcb:#2f6fb5; --orange:#d9761f; --navy:#1f3a68;
   /* 帯の色。Safari は body の背景色をここに使う。
-     画面に見えている色は 0.5×模様 + 0.5×地色 なので、これが地色と
-     等しくなる条件は「地色 = 模様の平均色」。模様の平均は #131d2a
-     だったので、この値にすると三つがちょうど一致する。
-     模様と模様のあいだの色（#0f1319）を使うと、帯だけ暗くなる。 */
-  --ground:#131d2a;
+     画面に見えている色は 0.5×模様 + 0.5×地色。これが地色と等しくなる
+     条件は「地色 = 模様の色」なので、模様の色を実機の写真から逆算した。
+
+       見えている色 C = rgb(16.7, 29.1, 40.9)
+       そのときの地色 B = rgb(20, 29, 42)
+       模様の色 S = 2C − B = rgb(13, 29, 40)
+
+     canvas で SVG を描き直して測ると rgb(19,29,42) になったが、
+     Safari の実描画とは合わなかった。実機の値を採る。 */
+  --ground:#0d1d28;
   --line:#dedbd2; --dock:119px; --w:430px;
 }
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
@@ -116,7 +121,7 @@ a{color:inherit}
   pointer-events:none;
   background:linear-gradient(to bottom,rgba(247,244,237,0),rgba(247,244,237,.86) 34%,var(--paper) 58%)}
 .dock.dark::before{
-  background:linear-gradient(to bottom,rgba(19,29,42,0),rgba(19,29,42,.86) 36%,var(--ground) 62%)}
+  background:linear-gradient(to bottom,rgba(13,29,40,0),rgba(13,29,40,.86) 36%,var(--ground) 62%)}
 @media (min-width:761px) and (pointer:fine){ .dock{max-width:var(--w)} }
 /* 暗い側の地色は ::before の階調が受け持つ */
 .map{position:relative;height:64px;color:var(--gold)}

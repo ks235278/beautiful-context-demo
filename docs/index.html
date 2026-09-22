@@ -4,10 +4,10 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="description" content="Beautiful Context — 表紙から路線図へ、そしてコンテクストのストリームへ、縦のスクロール一本で続きます。">
-<meta name="theme-color" content="#131d2a">
+<meta name="theme-color" content="#0d1d28">
 <title>Beautiful Context</title>
-<link rel="stylesheet" href="app.css?v=24">
-<link rel="stylesheet" href="fade.css?v=24">
+<link rel="stylesheet" href="app.css?v=25">
+<link rel="stylesheet" href="fade.css?v=25">
 <style>
   /* 路線。角度の違う線と縦書きの線が交差する。
      箱は画面より大きいので、当たり判定は見出しだけに持たせる。 */
@@ -17,9 +17,9 @@
   .cloud::before,.cloud::after{content:"";position:absolute;left:0;right:0;z-index:3;
     pointer-events:none}
   .cloud::before{top:0;height:44px;
-    background:linear-gradient(rgba(19,29,42,.85),rgba(19,29,42,0))}
+    background:linear-gradient(rgba(13,29,40,.85),rgba(13,29,40,0))}
   .cloud::after{bottom:0;height:64px;
-    background:linear-gradient(rgba(19,29,42,0),rgba(19,29,42,.85))}
+    background:linear-gradient(rgba(13,29,40,0),rgba(13,29,40,.85))}
   .track{position:absolute;will-change:transform;pointer-events:none}
   .track .run{pointer-events:none}
   .track.d{left:50%;top:var(--y);width:280vmax;transform:translate(-50%,-50%) rotate(var(--a))}
@@ -98,10 +98,10 @@ setTimeout(() => document.documentElement.classList.remove('entering'), 1200);
 
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
-<script src="js/seed.js?v=24"></script>
-<script src="js/store.js?v=24"></script>
-<script src="js/render.js?v=24"></script>
-<script src="js/transition.js?v=24"></script>
+<script src="js/seed.js?v=25"></script>
+<script src="js/store.js?v=25"></script>
+<script src="js/render.js?v=25"></script>
+<script src="js/transition.js?v=25"></script>
 <script>
 (() => {
   const S = window.BCStore, R = window.BCRender;
@@ -146,7 +146,7 @@ setTimeout(() => document.documentElement.classList.remove('entering'), 1200);
      渡さないと、そこだけ地色から浮いて見える。 */
   const themeMeta = document.querySelector('meta[name="theme-color"]');
   /* GROUND は模様が乗った状態の平均色。app.css の --ground と同じ値。 */
-  const GROUND = '#131d2a', PAPER = '#f7f4ed', BLACK = '#070707';
+  const GROUND = '#0d1d28', PAPER = '#f7f4ed', BLACK = '#070707';
 
   /* 画面の一番上に実際に来ているものの色を読む。ストリームでは
      作品の絵（黒）と本文（紙）が入れ替わり続けるので、決め打ちでは合わない。 */
