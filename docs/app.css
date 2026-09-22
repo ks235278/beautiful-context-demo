@@ -18,7 +18,9 @@ a{color:inherit}
 /* 実機では画面いっぱい。大きな画面のときだけ幅を絞って中央に置く。 */
 .app{position:relative;width:100%;margin:0 auto;background:var(--paper);
   padding-bottom:calc(var(--dock) + env(safe-area-inset-bottom))}
-@media (min-width:761px){
+/* 枠を付けるのはマウスのある画面だけ。webview が広い幅を返してきても
+   タッチ端末なら必ず全幅で表示する。 */
+@media (min-width:761px) and (pointer:fine){
   .app{max-width:var(--w);box-shadow:0 0 0 1px #0003,0 24px 60px #0006}
 }
 
@@ -103,7 +105,7 @@ a{color:inherit}
 .dock{position:fixed;z-index:25;left:0;right:0;bottom:0;width:100%;margin:0 auto;
   height:calc(var(--dock) + env(safe-area-inset-bottom));padding-bottom:env(safe-area-inset-bottom);
   background:#fbfaf6f3;backdrop-filter:blur(16px);border-top:1px solid #cac5bc;box-shadow:0 -7px 20px #0001}
-@media (min-width:761px){ .dock{max-width:var(--w)} }
+@media (min-width:761px) and (pointer:fine){ .dock{max-width:var(--w)} }
 .dock.dark{background:#0e1218f2;border-top-color:#2a3340}
 .map{position:relative;height:64px;color:var(--gold)}
 .line-name{position:absolute;z-index:5;left:17px;top:4px;padding:0 4px;background:#fbfaf6;color:var(--gold);
