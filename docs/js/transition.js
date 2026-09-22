@@ -18,6 +18,7 @@
     document.body.style.transform = '';
     document.body.style.opacity = '';
     document.body.style.willChange = '';
+    document.documentElement.style.background = '';
   }
 
   document.addEventListener('click', ev => {
@@ -80,7 +81,12 @@
      長いエディター全体を毎イベント再合成しない。 */
   const paintNow = v => {
     paintedX = v;
-    document.body.style.transform = v ? 'translate3d(' + Math.round(v) + 'px,0,0)' : '';
+    const progress = Math.min(1, v / HALF());
+    /* 現在の面はわずかに退きながら薄れる。大きく横へ動かさないので、
+       下の暗い面との間にエディターの地色が第三の層として現れない。 */
+    const shift = v * .12;
+    document.body.style.transform = v ? 'translate3d(' + Math.round(shift) + 'px,0,0)' : '';
+    document.body.style.opacity = v ? String(1 - .52 * progress) : '';
   };
   const paint = v => {
     paintedX = v;
@@ -91,11 +97,12 @@
   /* 押し足りなかったとき。元の位置へ返す。 */
   const settle = () => {
     if (frame){ cancelAnimationFrame(frame); frame = 0; }
-    document.body.style.transition = 'transform .28s cubic-bezier(.22,.72,.24,1)';
+    document.body.style.transition = 'transform .28s cubic-bezier(.22,.72,.24,1), opacity .24s ease-out';
     paintNow(0);
     setTimeout(() => {
       document.body.style.transition = '';
       document.body.style.willChange = '';
+      document.documentElement.style.background = '';
     }, 300);
   };
 
@@ -110,8 +117,9 @@
     if (here === 'index.html' || here === ''){ settle(); return; }   /* もう家に居る */
 
     if (frame){ cancelAnimationFrame(frame); frame = 0; }
-    document.body.style.transition = 'transform .24s cubic-bezier(.2,.72,.2,1)';
-    paintNow(window.innerWidth * 1.04);
+    document.body.style.transition = 'transform .24s cubic-bezier(.2,.72,.2,1), opacity .22s ease-out';
+    document.body.style.transform = 'translate3d(12vw,0,0)';
+    document.body.style.opacity = '0';
     setTimeout(() => window.BCLeave('index.html', 0), 220);
   }
 
@@ -124,8 +132,9 @@
       say('bo qua: o nhap lieu'); live = false; return;
     }
     sx = t.clientX; sy = t.clientY; dx = 0; live = true; locked = false;
-    document.body.style.transition = '';
-    document.body.style.willChange = 'transform';
+    document.body.style.transition = 'none';
+    document.body.style.willChange = 'transform,opacity';
+    document.documentElement.style.background = '#141c25';
     say('start x=' + Math.round(t.clientX));
   }, { passive: true, capture: true });
 
@@ -147,7 +156,12 @@
   document.addEventListener('touchend', () => {
     if (!live) return;
     live = false;
-    if (!locked){ document.body.style.willChange = ''; return; }
+    if (!locked){
+      document.body.style.transition = '';
+      document.body.style.willChange = '';
+      document.documentElement.style.background = '';
+      return;
+    }
     if (dx >= HALF()) leave();
     else { settle(); say('tha tay ' + Math.round(dx) + ' -> ve cho cu'); }
   }, { passive: true, capture: true });
