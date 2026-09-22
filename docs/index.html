@@ -228,10 +228,11 @@
     ticking = false;
     const raw = window.scrollY / introEnd;   /* clamp する前の生の値 */
     const p = clamp(raw);
-    /* 先に濃さを保ったまま上端近くまで流し、着いてから薄くする。 */
-    const wy = -window.innerHeight * 0.42 * ease((p - 0.02) / 0.24);
-    /* 到着後のフェードには十分な距離を取り、段差なく消す。 */
-    const wm = 1 - ease((p - 0.26) / 0.24);
+    /* 上へ流れる距離と薄れる時間を同じ進行にする。
+       上端近くへ着くころには、止まることなく完全に消えている。 */
+    const wordmarkFlow = ease((p - 0.02) / 0.30);
+    const wy = -window.innerHeight * 0.42 * wordmarkFlow;
+    const wm = 1 - wordmarkFlow;
     /* 見出しは導入部で立ち上がり、そのあともページの後ろで流れ続ける。
        ただし本文の下敷きになるので、読める濃さまで落ち着かせる。 */
     const after = Math.max(0, (window.scrollY - introEnd) / 420);
