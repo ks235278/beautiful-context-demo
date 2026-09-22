@@ -1,0 +1,13 @@
+/* 画面はひとつ、という約束。
+   内容が入れ替わるときは、消えるものが薄れてから現れるものが濃くなる。
+   別ページへ渡すときも同じ。
+
+   body だけを対象にするのは、どのページにも必ずあり、
+   既存の class 名と衝突しないため。 */
+body{transition:opacity .3s ease}
+html.entering body,
+html.leaving  body{opacity:0}
+@media (prefers-reduced-motion:reduce){
+  body{transition:none}
+  html.entering body,html.leaving body{opacity:1}
+}

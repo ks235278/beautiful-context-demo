@@ -54,6 +54,29 @@
       </div>`;
   }
 
+  /* 駅（作品）の中身。同じ画面の中で差し替えるので、index.html と
+     page.html の両方から同じものを使う。 */
+  function workMarkup(hit){
+    const w = hit.work;
+    const links = hit.contexts.map(({ entry, side }) => {
+      const other = entry[side === 'a' ? 'b' : 'a'];
+      return `<button class="tease" data-ctx="${esc(entry.context.slug)}">
+        ${esc(other.title)} とのコンテクストを読む
+        <small style="display:block;margin-top:4px;color:#6b6a65;font-weight:400">【${esc(entry.context.routeName)}】</small>
+        <span>›</span></button>`;
+    }).join('');
+    return `
+      <div class="hero">${art(w)}</div>
+      <div class="content">
+        <p class="meta">${esc(w.type || '作品')}・${esc(w.year || '----')}年　CURRENT STATION</p>
+        <h2>${esc(w.title)}</h2>
+        ${w.creator ? `<p>${esc(w.creator)}</p>` : ''}
+        ${w.summary ? `<p>${esc(w.summary)}</p>` : ''}
+        <p class="meta" style="margin-top:22px">この駅から延びる区間　${hit.contexts.length}本</p>
+        ${links}
+      </div>`;
+  }
+
   function mapMarkup(o){
     return `
       <span class="line-name">${esc(o.lineName || '')}</span>
@@ -161,5 +184,5 @@
     });
   }
 
-  window.BCRender = { esc, clean, art, contextSection, mapMarkup, cloudPool, buildCloud };
+  window.BCRender = { esc, clean, art, contextSection, workMarkup, mapMarkup, cloudPool, buildCloud };
 })();

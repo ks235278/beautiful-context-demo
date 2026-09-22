@@ -5,7 +5,8 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="description" content="Beautiful Context — 表紙から路線図へ、そしてコンテクストのストリームへ、縦のスクロール一本で続きます。">
 <title>Beautiful Context</title>
-<link rel="stylesheet" href="app.css?v=10">
+<link rel="stylesheet" href="app.css?v=12">
+<link rel="stylesheet" href="fade.css?v=12">
 <style>
   /* 路線。角度の違う線と縦書きの線が交差する。
      箱は画面より大きいので、当たり判定は見出しだけに持たせる。 */
@@ -37,6 +38,12 @@
   .uv-none{position:absolute;left:24px;right:24px;top:48%;z-index:3;text-align:center;color:#aab6c6;
     font-size:12px;line-height:2}
 </style>
+<script>
+document.documentElement.classList.add('entering');
+addEventListener('DOMContentLoaded', () => requestAnimationFrame(() =>
+  document.documentElement.classList.remove('entering')));
+setTimeout(() => document.documentElement.classList.remove('entering'), 1200);
+</script>
 </head>
 <body>
 
@@ -81,11 +88,16 @@
   </div>
 </div>
 
+<div class="view" id="workView" role="dialog" aria-label="作品ページ">
+  <div class="view-in" id="workBody"></div>
+</div>
+
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
-<script src="js/seed.js?v=10"></script>
-<script src="js/store.js?v=10"></script>
-<script src="js/render.js?v=10"></script>
+<script src="js/seed.js?v=12"></script>
+<script src="js/store.js?v=12"></script>
+<script src="js/render.js?v=12"></script>
+<script src="js/transition.js?v=12"></script>
 <script>
 (() => {
   const S = window.BCStore, R = window.BCRender;
@@ -267,7 +279,7 @@
   cloud.addEventListener('click', ev => {
     const t = ev.target.closest('.tag');
     if (!t) return;
-    if (t.dataset.work){ location.href = 'page.html?work=' + encodeURIComponent(t.dataset.work); return; }
+    if (t.dataset.work){ openWork(t.dataset.work); return; }
     open();
     const el = document.getElementById(t.dataset.ctx);
     if (!el) return;
@@ -280,13 +292,53 @@
   cloud.addEventListener('pointerenter', () => hold(true));
   cloud.addEventListener('pointerleave', () => hold(false));
 
-  /* ---------- 駅へ ---------- */
-  document.addEventListener('click', ev => {
-    const w = ev.target.closest('[data-work]');
-    if (w && w.dataset.work && !w.closest('.cloud')){
-      location.href = 'page.html?work=' + encodeURIComponent(w.dataset.work);
+  /* ---------- 駅（作品） ----------
+     別ページへは渡さない。同じ画面の中で、薄れて、濃くなる。 */
+  const workView = document.getElementById('workView');
+  const workBody = document.getElementById('workBody');
+
+  function openWork(slug){
+    const hit = S.workBySlug(slug);
+    if (!hit) return;
+    workBody.innerHTML = R.workMarkup(hit) +
+      `<button class="back" type="button" id="workBack">← 戻る</button>`;
+    workView.scrollTop = 0;
+    workView.classList.add('on');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeWork(){
+    workView.classList.remove('on');
+    document.body.style.overflow = '';
+  }
+
+  workView.addEventListener('click', ev => {
+    if (ev.target.closest('#workBack')){ closeWork(); return; }
+    const c = ev.target.closest('[data-ctx]');
+    if (c){
+      closeWork();
+      open();
+      const el = document.getElementById(c.dataset.ctx);
+      if (!el) return;
+      /* 薄れ終わってから送る。二つが同時に動くと継ぎ目が見える */
+      setTimeout(() => {
+        glideTo(el.getBoundingClientRect().top + window.scrollY, 700);
+        const e = S.byContextSlug(c.dataset.ctx);
+        if (e){ current = c.dataset.ctx; setDock(e); }
+        history.replaceState(null, '', '#' + c.dataset.ctx);
+      }, 340);
+      return;
     }
+    const w = ev.target.closest('[data-work]');
+    if (w && w.dataset.work) openWork(w.dataset.work);
   });
+
+  document.addEventListener('click', ev => {
+    if (ev.target.closest('.view')) return;
+    const w = ev.target.closest('[data-work]');
+    if (w && w.dataset.work) openWork(w.dataset.work);
+  });
+
+  /* 別ページへ渡すときの暗転は js/transition.js が受け持つ */
 
   /* ---------- 起動 ---------- */
   build();

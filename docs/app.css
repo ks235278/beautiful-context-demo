@@ -132,6 +132,20 @@ a{color:inherit}
 .dock.dark .actions button,.dock.dark .actions a{border-color:#46525f;background:none;color:#e8edf4}
 .dock.dark .actions .primary{background:var(--orange);border-color:var(--orange);color:#fff}
 
+/* ---------- 画面はひとつ ----------
+   内容が入れ替わるときは必ず、消えるものが薄れてから現れるものが濃くなる。
+   別ページへ移るときも同じで、暗転してから渡す。 */
+.view{position:fixed;inset:0;z-index:35;overflow-y:auto;overscroll-behavior:contain;
+  background:var(--paper);opacity:0;visibility:hidden;
+  transition:opacity .32s ease,visibility 0s linear .32s;
+  padding-bottom:calc(var(--dock) + env(safe-area-inset-bottom))}
+.view.on{opacity:1;visibility:visible;transition:opacity .34s ease}
+.view-in{width:100%;max-width:none;margin:0 auto}
+@media (min-width:761px) and (pointer:fine){ .view-in{max-width:var(--w)} }
+
+/* ページそのものの出入りは fade.css が受け持つ。
+   .app のような名前に頼ると、前田先生のエディターと衝突する。 */
+
 /* ---------- 共通 ---------- */
 .toast{position:fixed;z-index:50;left:50%;bottom:calc(var(--dock) + 20px);transform:translateX(-50%);
   padding:8px 13px;border-radius:16px;background:#111e;color:#fff;font-size:10.5px;white-space:nowrap;
