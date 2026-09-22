@@ -34,6 +34,17 @@
   .note{margin:26px auto 0;max-width:460px;font-size:12px;line-height:1.9;color:#6b6a65}
   .note b{color:var(--ink);font-weight:600}
   @media (prefers-reduced-motion:reduce){.tap{animation:none;opacity:.8}}
+  @media (max-width:760px){
+    body{background:var(--charcoal);display:block}
+    .stage{padding:0;max-width:none}
+    .lead,.sub,.note{display:none}
+    .phone{width:100vw;height:100vh;height:100dvh;margin:0;padding:0;border-radius:0;
+           background:none;box-shadow:none}
+    .screen{border-radius:0}
+    .island{display:none}
+    .status{padding-top:env(safe-area-inset-top)}
+    .home{display:none}
+  }
 </style>
 </head>
 <body>
