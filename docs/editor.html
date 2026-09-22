@@ -192,12 +192,12 @@
   <div class="app">
     <header class="topbar">
       <div class="brand"><span class="brand-mark"><i></i></span><span>Beautiful Context</span></div>
-      <a class="btn ghost small" href="demo-1.html" style="margin-left:14px;text-decoration:none;display:inline-flex;align-items:center">&larr;　公開ページへ</a>
+      <a class="btn ghost small" href="universe.html" style="margin-left:14px;text-decoration:none;display:inline-flex;align-items:center">&larr;　UniverseIt! へ</a>
       <div class="top-title">コンテンツ／コンテクスト エディター</div>
       <div class="top-actions">
         <span class="save-state" id="saveState">未保存</span>
         <button class="btn ghost small" id="resetBtn" type="button">サンプルに戻す</button>
-        <button class="btn primary" id="saveBtn" type="button">下書き保存</button>
+        <button class="btn primary" id="saveBtn" type="button">公開する</button>
       </div>
     </header>
 
@@ -349,6 +349,10 @@
   </div>
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
+  <script src="js/seed.js"></script>
+
+  <script src="js/store.js"></script>
+
   <script>
   (() => {
     const SAMPLE = {
@@ -356,6 +360,12 @@
       b: { title:'黒澤明『天国と地獄』', type:'映画', year:'1963', creator:'黒澤明監督', slug:'high-and-low', image:'', summary:'エド・マクベインの小説『King’s Ransom』を原作に、誘拐事件を通じて企業家の倫理と社会の格差を描いた作品。' },
       context: { routeName:'原作から再解釈へ', label:'CONTEXT', headline:'誘拐劇は、60年後に\nアメリカへ戻った。', slug:'highest-2-lowest--high-and-low', relation:'黒澤明『天国と地獄』── 原作『King’s Ransom』── スパイク・リー『HIGHEST 2 LOWEST』', body:'<p><strong>同じ物語が、別の社会を走る。</strong></p><p>1963年に日本で映画化された誘拐劇が、時代と場所を越えて、現代のニューヨークへ戻ってきた。</p><p>二作品をつないでいるのは名前だけではない。原作の構造を受け継ぎながら、富を持つ者の責任、都市の格差、家族を守る選択をそれぞれの社会に問い直している。</p>', leftStation:'HIGHEST 2 LOWEST', rightStation:'天国と地獄' }
     };
+    const BLANK = {
+      a:{title:'',type:'映画',year:'',creator:'',slug:'',image:'',summary:''},
+      b:{title:'',type:'映画',year:'',creator:'',slug:'',image:'',summary:''},
+      context:{routeName:'',label:'CONTEXT',headline:'',slug:'',relation:'',leftStation:'',rightStation:'',body:'<p></p>'}
+    };
+    let currentId = null;
     let state = loadState();
     let active = 'a';
     const $ = (id) => document.getElementById(id);
@@ -365,8 +375,14 @@
     const contextMap = {routeName:'routeName',contextLabel:'label',contextHeadline:'headline',contextSlug:'slug',relationSummary:'relation',leftStation:'leftStation',rightStation:'rightStation'};
 
     function loadState(){
-      try { return JSON.parse(localStorage.getItem('beautiful-context-editor-v1')) || structuredClone(SAMPLE); }
-      catch(e){ return JSON.parse(JSON.stringify(SAMPLE)); }
+      const q = new URLSearchParams(location.search);
+      const slug = q.get('slug');
+      if (slug){
+        const e = window.BCStore.byContextSlug(slug);
+        if (e){ currentId = e.id; return JSON.parse(JSON.stringify({a:e.a,b:e.b,context:e.context})); }
+      }
+      if (q.get('new')) return JSON.parse(JSON.stringify(BLANK));
+      return JSON.parse(JSON.stringify(SAMPLE));
     }
     function safeText(value){ const d=document.createElement('div'); d.textContent=value || ''; return d.innerHTML; }
     function pageWork(){ return active === 'b' ? state.b : state.a; }
@@ -450,8 +466,14 @@
       }
     }
     function save(){
-      try { localStorage.setItem('beautiful-context-editor-v1',JSON.stringify(state)); $('saveState').textContent='保存済み'; $('saveState').classList.add('saved'); showToast('このブラウザに下書きを保存しました'); }
-      catch(e){ showToast('画像が大きすぎるため保存できませんでした'); }
+      if (!state.context.routeName.trim()){ showToast('路線名を入力してください'); return; }
+      if (!state.a.title.trim() || !state.b.title.trim()){ showToast('作品Aと作品Bの作品名を入力してください'); return; }
+      const saved = window.BCStore.save({ id: currentId, a: state.a, b: state.b, context: state.context });
+      if (!saved){ showToast('画像が大きすぎるため保存できませんでした'); return; }
+      currentId = saved.id;
+      $('saveState').textContent='公開済み'; $('saveState').classList.add('saved');
+      showToast('公開しました。ページを開きます');
+      setTimeout(()=>{ location.href='page.html?context='+encodeURIComponent(saved.context.slug); }, 900);
     }
     bindInputs(); switchPage('a');
   })();
