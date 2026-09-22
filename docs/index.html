@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="description" content="Beautiful Context — 表紙から路線図へ、そしてコンテクストのストリームへ、縦のスクロール一本で続きます。">
 <meta name="theme-color" content="#141c25">
-<link rel="manifest" href="manifest.webmanifest?v=30">
+<link rel="manifest" href="manifest.webmanifest?v=31">
 <link rel="apple-touch-icon" href="icon-180.png">
 <!-- ホーム画面から開くと全画面になり、safe-area が 0 でなくなる。
      そのとき初めて Dynamic Island の裏までページが描ける。 -->
@@ -14,20 +14,14 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Beautiful Context">
 <title>Beautiful Context</title>
-<link rel="stylesheet" href="app.css?v=30">
-<link rel="stylesheet" href="fade.css?v=30">
+<link rel="stylesheet" href="app.css?v=31">
+<link rel="stylesheet" href="fade.css?v=31">
 <style>
   /* 路線。角度の違う線と縦書きの線が交差する。
      箱は画面より大きいので、当たり判定は見出しだけに持たせる。 */
   .cloud{position:absolute;inset:0;z-index:2;overflow:hidden;
     opacity:var(--cl,0);will-change:opacity}
-  /* 見出しも端では地色へ溶ける。溶かす距離は地の模様と揃える */
-  .cloud::before,.cloud::after{content:"";position:absolute;left:0;right:0;z-index:3;
-    pointer-events:none}
-  .cloud::before{top:0;height:44px;
-    background:linear-gradient(rgba(20,28,37,.85),rgba(20,28,37,0))}
-  .cloud::after{bottom:0;height:64px;
-    background:linear-gradient(rgba(20,28,37,0),rgba(20,28,37,.85))}
+
   .track{position:absolute;will-change:transform;pointer-events:none}
   .track .run{pointer-events:none}
   .track.d{left:50%;top:var(--y);width:280vmax;transform:translate(-50%,-50%) rotate(var(--a))}
@@ -106,10 +100,10 @@ setTimeout(() => document.documentElement.classList.remove('entering'), 1200);
 
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
-<script src="js/seed.js?v=30"></script>
-<script src="js/store.js?v=30"></script>
-<script src="js/render.js?v=30"></script>
-<script src="js/transition.js?v=30"></script>
+<script src="js/seed.js?v=31"></script>
+<script src="js/store.js?v=31"></script>
+<script src="js/render.js?v=31"></script>
+<script src="js/transition.js?v=31"></script>
 <script>
 (() => {
   const S = window.BCStore, R = window.BCRender;
@@ -411,6 +405,6 @@ setTimeout(() => document.documentElement.classList.remove('entering'), 1200);
   }
 })();
 </script>
-  <script src="js/debug.js?v=30"></script>
+  <script src="js/debug.js?v=31"></script>
 </body>
 </html>
