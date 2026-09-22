@@ -50,7 +50,7 @@ Safari のタブで開くと、画面上部の 38pt はブラウザのもので�
 | `docs/js/store.js` | データ層 |
 | `docs/js/render.js` | 描画の共通部分 |
 | `docs/js/seed.js` | 初期データ2件 |
-| `docs/js/transition.js` | ページ間の暗転 |
+| `docs/js/transition.js` | ページ間の暗転と、右へ払って戻る操作 |
 | `docs/js/debug.js` | `?debug=1` で端末の実測値を表示 |
 | `docs/reference/demo-1-original.html` | 前田先生の元モック（そのまま保存） |
 

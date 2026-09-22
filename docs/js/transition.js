@@ -18,16 +18,18 @@
     setTimeout(() => { location.href = href; }, wait || 300);
   };
 
-  /* ---------- 左から右へ払って戻る ----------
+  /* ---------- 右へ払って戻る ----------
      ホーム画面から開いた全画面モードにはブラウザの戻るが無い。
 
-     画面のいちばん端は iOS 自身のジェスチャに取られていて、こちらまで
-     指が届かないことがある。そこで受け付ける範囲を画面の左 35%（最低
-     96px）まで広げた。端から始めても、少し内側から始めても戻れる。 */
-  const zone = () => Math.max(96, Math.min(170, window.innerWidth * 0.35));
-  const DONE = 80;   /* これだけ引いたら戻る */
-  const SLOP = 70;   /* 縦にこれだけ動いたら、ただのスクロール */
-  const LOCK = 14;   /* ここを超えたら横の操作と決めて、縦スクロールを止める */
+     最初は画面の左端だけで受けていたが、そこは iOS 自身のジェスチャに
+     取られていて指が届かない。範囲を広げても駄目だった。
+
+     そこで端という条件を外した。このページは横スクロールしないので、
+     右へ払う動きはどこで始めても他と衝突しない。文字を選ぶ操作だけは
+     邪魔したくないので、入力欄の上から始めたときは手を引く。 */
+  const DONE = 90;   /* これだけ引いたら戻る */
+  const SLOP = 60;   /* 縦にこれだけ動いたら、ただのスクロール */
+  const LOCK = 16;   /* ここを超え、かつ縦より横が勝っていたら横の操作 */
 
   let sx = 0, sy = 0, dx = 0, live = false, locked = false;
   const dbg = new URLSearchParams(location.search).has('debug');
@@ -63,11 +65,15 @@
     else window.BCLeave('index.html', 180);
   }
 
+  const NOSWIPE = 'input,textarea,select,[contenteditable],[contenteditable] *';
+
   document.addEventListener('touchstart', e => {
     if (e.touches.length !== 1) return;
     const t = e.touches[0];
-    say('start x=' + Math.round(t.clientX) + '  vung=' + Math.round(zone()));
-    if (t.clientX > zone()) return;
+    if (t.target && t.target.closest && t.target.closest(NOSWIPE)){
+      say('bo qua: o nhap lieu'); return;
+    }
+    say('start x=' + Math.round(t.clientX));
     sx = t.clientX; sy = t.clientY; dx = 0; live = true; locked = false;
     document.body.style.transition = '';
   }, { passive: true, capture: true });
@@ -78,7 +84,7 @@
     dx = t.clientX - sx;
     const dy = Math.abs(t.clientY - sy);
     if (!locked && dy > SLOP){ live = false; settle(); say('huy: doc ' + Math.round(dy)); return; }
-    if (!locked && dx > LOCK && dx > dy) locked = true;
+    if (!locked && dx > LOCK && dx > dy * 1.6) locked = true;
     if (locked){
       if (e.cancelable) e.preventDefault();   /* giữ cho trang khỏi cuộn theo */
       paint(dx * 0.32, 1 - 0.22 * Math.min(1, dx / 170));
