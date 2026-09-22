@@ -1,6 +1,22 @@
 /* 画面はひとつ、という約束を別ページにも広げる。
    離れる前に薄れ、着いてから濃くなる。 */
 (() => {
+  /* 一時的な目印。端末が古い版を握ったままなのか、新しい版で
+     それでも駄目なのかを、見ただけで分かるようにする。用が済んだら外す。 */
+  const BUILD = 41;
+  addEventListener('DOMContentLoaded', () => {
+    const s = document.createElement('div');
+    s.textContent = 'build ' + BUILD;
+    s.style.cssText = 'position:fixed;z-index:2147483646;left:50%;transform:translateX(-50%);'
+      + 'bottom:calc(env(safe-area-inset-bottom) + 6px);padding:3px 9px;border-radius:99px;'
+      + 'background:rgba(0,0,0,.55);color:#9fb0c6;pointer-events:none;'
+      + 'font:10px/1 ui-monospace,Menlo,monospace;letter-spacing:.06em;'
+      + 'opacity:1;transition:opacity .6s ease 3.4s';
+    document.body.appendChild(s);
+    requestAnimationFrame(() => { s.style.opacity = '0'; });
+    setTimeout(() => s.remove(), 4600);
+  });
+
   /* 薄れさせる印は、必ずここだけで付ける。
      移動が起きなければこの画面に居続けるので、時間で自分から畳む。
      これを怠ると、本文が消えたまま地色だけの画面が残る。 */
@@ -12,7 +28,7 @@
   }
   function restore(){
     clearTimeout(undo);
-    document.documentElement.classList.remove('leaving', 'entering');
+    document.documentElement.classList.remove('leaving');
     document.body.style.transition = '';
     document.body.style.transform = '';
     document.body.style.opacity = '';

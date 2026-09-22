@@ -2,12 +2,28 @@
    内容が入れ替わるときは、消えるものが薄れてから現れるものが濃くなる。
    別ページへ渡すときも同じ。
 
-   body だけを対象にするのは、どのページにも必ずあり、
-   既存の class 名と衝突しないため。 */
+   入るときの薄れは、本文を透明にするのではなく、地色の幕を被せて
+   それを溶かす形にした。幕は CSS だけで勝手に消える。以前は class を
+   script が外すまで本文が透明で、script が走らなければ地色だけの画面が
+   残った。誰かが外してくれないと見えない、という作りをやめる。 */
+
+body::after{
+  content:'';
+  position:fixed; inset:0;
+  z-index:2147483647;
+  pointer-events:none;
+  background:var(--veil, #141c25);
+  animation:bc-veil .34s ease both;
+}
+@keyframes bc-veil{ from{opacity:1} to{opacity:0} }
+
+/* 出ていくときは本文ごと薄れる。こちらは移動で捨てられるが、
+   移動が起きなかったときのために transition.js が畳む。 */
 body{transition:opacity .3s ease}
-html.entering body,
-html.leaving  body{opacity:0}
+html.leaving body{opacity:0}
+
 @media (prefers-reduced-motion:reduce){
   body{transition:none}
-  html.entering body,html.leaving body{opacity:1}
+  body::after{animation:none;opacity:0}
+  html.leaving body{opacity:1}
 }

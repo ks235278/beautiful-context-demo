@@ -46,7 +46,7 @@ Safari のタブで開くと、画面上部の 38pt はブラウザのもので�
 | `docs/page.html` | 駅のページ単体（`?work=slug`）。直接開いたとき用 |
 | `docs/editor.html` | エディター（前田先生の設計）。保存先を共有ストアに変更 |
 | `docs/app.css` | 共通スタイル。`demo-1.html` の設計を継承 |
-| `docs/fade.css` | 画面の入れ替わり |
+| `docs/fade.css` | 画面の入れ替わり。入るときは地色の幕が勝手に溶ける |
 | `docs/js/store.js` | データ層 |
 | `docs/js/render.js` | 描画の共通部分 |
 | `docs/js/seed.js` | 初期データ2件 |
