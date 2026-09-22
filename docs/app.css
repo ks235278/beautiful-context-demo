@@ -38,6 +38,10 @@ a{color:inherit}
   padding-bottom:calc(var(--dock) + env(safe-area-inset-bottom))}
 /* 続きを開くまでは余白も要らない。ページが路線図でぴたりと終わる */
 .app.locked{padding-bottom:0}
+/* 面そのものは指を通す。載っているものだけが指を受ける。
+   そうしないと、後ろを流れている見出しへ指が届かない。 */
+.app{pointer-events:none}
+.app #stream{pointer-events:auto}
 /* 枠を付けるのはマウスのある画面だけ。webview が広い幅を返してきても
    タッチ端末なら必ず全幅で表示する。 */
 @media (min-width:761px) and (pointer:fine){
@@ -47,9 +51,13 @@ a{color:inherit}
 /* ---------- 起動画面 ---------- */
 /* 表紙から路線図へ、スクロールで移り変わる導入部。
    .intro は画面2つ分の高さを持ち、中身は貼り付いたまま中身だけが変わる。 */
-.intro{position:relative;height:220svh;min-height:900px}
+.intro{position:relative;height:220svh;min-height:900px;pointer-events:none}
 .intro-stick{position:sticky;top:0;height:100vh;height:100dvh;min-height:430px;
-  overflow:hidden;display:grid;place-items:center}
+  overflow:hidden;display:grid;place-items:center;
+  /* 起動画面の面は画面いっぱいに居座るが、触れるものは何も載っていない。
+     そのままだと後ろを流れている見出しへの指を全部せき止めてしまう。
+     この面には指を通す。 */
+  pointer-events:none}
 /* ホーム画面から開いた全画面モードでは、ビューポート自体が
    Dynamic Island の裏まで広がる。起動画面は top:0 から画面の高さぶん
    あるので、模様は inset:0 のままで島の裏まで回り込む。 */
