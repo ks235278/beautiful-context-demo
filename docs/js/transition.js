@@ -18,6 +18,18 @@
     setTimeout(() => { location.href = href; }, wait || 300);
   };
 
+  /* 戻ってきたとき、端末はページを丸ごと保存しておいたまま見せる。
+     出ていく前に付けた class が残ったままで、script も再び走らないので、
+     本文が薄れたまま固まってしまう。地色だけの画面はこれだった。
+     ここで畳んでおく。 */
+  window.addEventListener('pageshow', e => {
+    document.documentElement.classList.remove('leaving');
+    if (e.persisted) document.documentElement.classList.remove('entering');
+    document.body.style.transition = '';
+    document.body.style.transform = '';
+    document.body.style.opacity = '';
+  });
+
   /* ---------- 右へ払って戻る ----------
      ホーム画面から開いた全画面モードにはブラウザの戻るが無い。
 
