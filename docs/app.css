@@ -5,6 +5,9 @@
 :root{
   --paper:#f7f4ed; --ink:#121212; --gold:#a97717; --muted:#6b6a65;
   --charcoal:#10141a; --pcb:#2f6fb5; --orange:#d9761f; --navy:#1f3a68;
+  /* 回路の模様が乗った状態の平均色。canvas で実測した値。
+     無地の帯をこの色にすると、模様のある中央と同じ濃さに見える。 */
+  --ground:#121923;
   --line:#dedbd2; --dock:119px; --w:430px;
 }
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
@@ -32,14 +35,10 @@ a{color:inherit}
 .intro-stick{position:sticky;top:0;height:100vh;height:100svh;min-height:430px;
   background:var(--charcoal);overflow:hidden;display:grid;place-items:center}
 .intro-stick .pcb{position:absolute;inset:0;width:100%;height:100%;opacity:.5}
-/* 上下の端では回路の模様を地色へ溶かす。ブラウザが塗る帯は無地なので、
-   模様のまま突き当たると、そこで色が違って見えてしまう。
-   z-index 1 は、模様の上・文字の下。 */
-.intro-stick::before{content:"";position:absolute;left:0;right:0;top:0;z-index:1;pointer-events:none;
-  height:calc(132px + env(safe-area-inset-top));
-  background:linear-gradient(var(--charcoal),rgba(16,20,26,.72) 46%,rgba(16,20,26,0))}
-.intro-stick::after{content:"";position:absolute;left:0;right:0;bottom:0;height:230px;z-index:4;
-  pointer-events:none;background:linear-gradient(rgba(16,20,26,0),rgba(16,20,26,.9) 62%,var(--charcoal))}
+/* 模様は端まで届かせる。無地に溶かすと、そこだけ濃くなって帯に見える。
+   代わりにブラウザへ渡す色を --ground に合わせてある。 */
+.intro-stick::after{content:"";position:absolute;left:0;right:0;bottom:0;height:150px;z-index:4;
+  pointer-events:none;background:linear-gradient(rgba(18,25,35,0),rgba(18,25,35,.55))}
 /* 表題はスクロールに応じて消えていく。値は JS が --wm / --cl に入れる。 */
 .wordmark{position:relative;z-index:3;color:#fff;font:700 clamp(19px,5.4vw,23px)/1.3 inherit;
   letter-spacing:.28em;text-indent:.28em;text-align:center;text-shadow:0 2px 18px #0009;
@@ -115,7 +114,7 @@ a{color:inherit}
   pointer-events:none;
   background:linear-gradient(to bottom,rgba(247,244,237,0),rgba(247,244,237,.86) 34%,var(--paper) 58%)}
 .dock.dark::before{
-  background:linear-gradient(to bottom,rgba(16,20,26,0),rgba(16,20,26,.88) 34%,var(--charcoal) 58%)}
+  background:linear-gradient(to bottom,rgba(18,25,35,0),rgba(18,25,35,.9) 34%,var(--ground) 58%)}
 @media (min-width:761px) and (pointer:fine){ .dock{max-width:var(--w)} }
 /* 暗い側の地色は ::before の階調が受け持つ */
 .map{position:relative;height:64px;color:var(--gold)}
