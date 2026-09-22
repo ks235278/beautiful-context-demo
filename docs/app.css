@@ -5,17 +5,17 @@
 :root{
   --paper:#f7f4ed; --ink:#121212; --gold:#a97717; --muted:#6b6a65;
   --charcoal:#10141a; --pcb:#2f6fb5; --orange:#d9761f; --navy:#1f3a68;
-  /* 帯の色。Safari は body の背景色をここに使う。
-     画面に見えている色は 0.5×模様 + 0.5×地色。これが地色と等しくなる
-     条件は「地色 = 模様の色」なので、模様の色を実機の写真から逆算した。
+  /* 帯の色。Safari は body の背景色をこれに使う。実機の写真から
+     測り直すたびに解き直している。
 
-       見えている色 C = rgb(16.7, 29.1, 40.9)
-       そのときの地色 B = rgb(20, 29, 42)
-       模様の色 S = 2C − B = rgb(13, 29, 40)
+       2回目: 帯 rgb(10,28,43) / 中央 rgb(15,28,40)
+              緑は一致。赤が5足りず、青が3多い
+              模様の色 S = 2C − B = rgb(20,28,37)
+              C = B となる条件は 地色 = S
 
-     canvas で SVG を描き直して測ると rgb(19,29,42) になったが、
-     Safari の実描画とは合わなかった。実機の値を採る。 */
-  --ground:#0d1d28;
+     canvas で SVG を描き直した値は Safari の実描画と合わなかったので
+     使わない。実機で測った値だけを採る。 */
+  --ground:#141c25;
   --line:#dedbd2; --dock:119px; --w:430px;
 }
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
@@ -127,7 +127,7 @@ a{color:inherit}
   pointer-events:none;
   background:linear-gradient(to bottom,rgba(247,244,237,0),rgba(247,244,237,.86) 34%,var(--paper) 58%)}
 .dock.dark::before{
-  background:linear-gradient(to bottom,rgba(13,29,40,0),rgba(13,29,40,.86) 36%,var(--ground) 62%)}
+  background:linear-gradient(to bottom,rgba(20,28,37,0),rgba(20,28,37,.86) 36%,var(--ground) 62%)}
 @media (min-width:761px) and (pointer:fine){ .dock{max-width:var(--w)} }
 /* 暗い側の地色は ::before の階調が受け持つ */
 .map{position:relative;height:64px;color:var(--gold)}
