@@ -18,19 +18,11 @@
   .screen{position:relative;width:100%;height:100%;border-radius:34px;overflow:hidden;
           background:var(--charcoal);display:flex;align-items:center;justify-content:center;cursor:pointer}
   .pcb{position:absolute;inset:0;opacity:.5}
-  .status{position:absolute;top:0;left:0;right:0;height:46px;display:flex;align-items:center;
-          justify-content:space-between;padding:0 24px;color:#fff;font-size:13px;font-weight:600;z-index:3}
-  .island{position:absolute;top:11px;left:50%;transform:translateX(-50%);width:104px;height:28px;
-          border-radius:16px;background:#000;z-index:4}
-  .bars{display:flex;gap:3px;align-items:flex-end}
-  .bars i{display:block;width:3px;background:#fff;border-radius:1px}
   .wordmark{position:relative;z-index:2;color:#fff;font-size:21px;font-weight:700;
             letter-spacing:.3em;text-indent:.3em;text-shadow:0 2px 18px rgba(0,0,0,.6)}
   .tap{position:absolute;left:0;right:0;bottom:64px;z-index:2;color:#cfd6e0;font-size:12px;
        letter-spacing:.14em;animation:pulse 2.4s ease-in-out infinite}
   @keyframes pulse{0%,100%{opacity:.45}50%{opacity:1}}
-  .home{position:absolute;bottom:9px;left:50%;transform:translateX(-50%);width:120px;height:5px;
-        border-radius:3px;background:#fff;opacity:.85;z-index:3}
   .note{margin:26px auto 0;max-width:460px;font-size:12px;line-height:1.9;color:#6b6a65}
   .note b{color:var(--ink);font-weight:600}
   @media (prefers-reduced-motion:reduce){.tap{animation:none;opacity:.8}}
@@ -41,9 +33,6 @@
     .phone{width:100vw;height:100vh;height:100dvh;margin:0;padding:0;border-radius:0;
            background:none;box-shadow:none}
     .screen{border-radius:0}
-    .island{display:none}
-    .status{padding-top:env(safe-area-inset-top)}
-    .home{display:none}
   }
 </style>
 </head>
@@ -53,7 +42,6 @@
   <p class="sub">起動画面 ／ 画面をタップして進みます</p>
 
   <div class="phone">
-    <div class="island"></div>
     <a class="screen" href="universe.html" aria-label="UniverseIt! へ進む">
       <svg class="pcb" viewBox="0 0 300 620" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
         <defs>
@@ -77,14 +65,8 @@
         <rect width="300" height="620" fill="url(#trace)"/>
       </svg>
 
-      <div class="status">
-        <span>9:41</span>
-        <span class="bars"><i style="height:5px"></i><i style="height:8px"></i><i style="height:11px"></i><i style="height:14px"></i></span>
-      </div>
-
       <div class="wordmark">BEAUTIFUL CONTEXT</div>
       <div class="tap">TAP TO START</div>
-      <div class="home"></div>
     </a>
   </div>
 
