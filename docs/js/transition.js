@@ -18,14 +18,32 @@
     setTimeout(() => { location.href = href; }, wait || 300);
   };
 
-  /* ---------- 左端からのスワイプで戻る ----------
+  /* ---------- 左から右へ払って戻る ----------
      ホーム画面から開いた全画面モードにはブラウザの戻るが無い。
-     指の動きに画面がついてくるので、戻れることが触れば分かる。 */
-  const EDGE = 28;    /* ここから始めた指だけを戻る操作とみなす */
-  const DONE = 76;    /* これだけ引いたら戻る */
-  const SLOP = 64;    /* 縦にこれだけ動いたら、ただのスクロール */
 
-  let sx = 0, sy = 0, dx = 0, live = false;
+     画面のいちばん端は iOS 自身のジェスチャに取られていて、こちらまで
+     指が届かないことがある。そこで受け付ける範囲を画面の左 35%（最低
+     96px）まで広げた。端から始めても、少し内側から始めても戻れる。 */
+  const zone = () => Math.max(96, Math.min(170, window.innerWidth * 0.35));
+  const DONE = 80;   /* これだけ引いたら戻る */
+  const SLOP = 70;   /* 縦にこれだけ動いたら、ただのスクロール */
+  const LOCK = 14;   /* ここを超えたら横の操作と決めて、縦スクロールを止める */
+
+  let sx = 0, sy = 0, dx = 0, live = false, locked = false;
+  const dbg = new URLSearchParams(location.search).has('debug');
+  let note = null;
+
+  function say(t){
+    if (!dbg) return;
+    if (!note){
+      note = document.createElement('div');
+      note.style.cssText = 'position:fixed;z-index:99999;left:8px;bottom:8px;padding:8px 11px;'
+        + 'border-radius:8px;background:rgba(0,0,0,.9);color:#7CFF9B;pointer-events:none;'
+        + 'font:12px/1.5 ui-monospace,Menlo,monospace;white-space:pre';
+      document.body.appendChild(note);
+    }
+    note.textContent = t;
+  }
 
   const paint = (v, fade) => {
     document.body.style.transform = v ? 'translateX(' + v + 'px)' : '';
@@ -39,38 +57,46 @@
   };
 
   function goBack(){
-    /* 重ね表示を開いている画面は、そちらを閉じるほうが自然 */
+    say('goBack()');
     if (typeof window.BCSwipeBack === 'function' && window.BCSwipeBack()) return;
     if (history.length > 1) history.back();
     else window.BCLeave('index.html', 180);
   }
 
-  addEventListener('touchstart', e => {
+  document.addEventListener('touchstart', e => {
     if (e.touches.length !== 1) return;
     const t = e.touches[0];
-    if (t.clientX > EDGE) return;
-    sx = t.clientX; sy = t.clientY; dx = 0; live = true;
+    say('start x=' + Math.round(t.clientX) + '  vung=' + Math.round(zone()));
+    if (t.clientX > zone()) return;
+    sx = t.clientX; sy = t.clientY; dx = 0; live = true; locked = false;
     document.body.style.transition = '';
-  }, { passive: true });
+  }, { passive: true, capture: true });
 
-  addEventListener('touchmove', e => {
+  document.addEventListener('touchmove', e => {
     if (!live) return;
     const t = e.touches[0];
     dx = t.clientX - sx;
-    if (Math.abs(t.clientY - sy) > SLOP){ live = false; settle(); return; }
-    if (dx > 0) paint(dx * 0.32, 1 - 0.22 * Math.min(1, dx / 170));
-  }, { passive: true });
+    const dy = Math.abs(t.clientY - sy);
+    if (!locked && dy > SLOP){ live = false; settle(); say('huy: doc ' + Math.round(dy)); return; }
+    if (!locked && dx > LOCK && dx > dy) locked = true;
+    if (locked){
+      if (e.cancelable) e.preventDefault();   /* giữ cho trang khỏi cuộn theo */
+      paint(dx * 0.32, 1 - 0.22 * Math.min(1, dx / 170));
+      say('keo ' + Math.round(dx) + ' / can ' + DONE);
+    }
+  }, { passive: false, capture: true });
 
-  addEventListener('touchend', () => {
+  document.addEventListener('touchend', () => {
     if (!live) return;
     live = false;
-    const ok = dx > DONE;
+    const ok = locked && dx > DONE;
+    say('tha ' + Math.round(dx) + (ok ? ' -> QUAY LAI' : ' -> khong du'));
     settle();
     if (ok) setTimeout(goBack, 60);
-  }, { passive: true });
+  }, { passive: true, capture: true });
 
-  addEventListener('touchcancel', () => {
+  document.addEventListener('touchcancel', () => {
     if (!live) return;
-    live = false; settle();
-  }, { passive: true });
+    live = false; settle(); say('he thong lay mat cu chi');
+  }, { passive: true, capture: true });
 })();
