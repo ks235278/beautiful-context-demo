@@ -71,10 +71,10 @@ a{color:inherit}
 
 
 /* ---------- 作品の絵 ---------- */
-.art{position:relative;overflow:hidden;aspect-ratio:672/1000;color:#fff;background:#0b131c;
+.art{position:relative;overflow:hidden;aspect-ratio:672/1000;color:#fff;background:none;
   display:grid;place-items:center}
 .art>img{position:absolute;inset:0;width:100%;height:100%;display:block;object-fit:cover;
-  object-position:center 45%;background:#050505}
+  object-position:center 45%}
 .art .ph{position:relative;text-align:center;font:400 58px/1 "Yu Mincho","Hiragino Mincho ProN",serif;
   color:var(--gold);opacity:.85}
 .art .ph small{display:block;margin-top:10px;font:400 11px/1.5 sans-serif;color:#9aa3b0;letter-spacing:.14em}
@@ -109,8 +109,9 @@ a{color:inherit}
 
 /* ---------- 作品ページ（page.html） ---------- */
 .hero{padding:26px 18px 0}
-.duo-hero,.hero{background:none;
-  background-image:url("data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20width%3D%2775%27%20height%3D%2775%27%20viewBox%3D%270%200%2075%2075%27%3E%3Cg%20fill%3D%27none%27%20stroke%3D%27%23224569%27%20stroke-width%3D%271.4%27%20stroke-linecap%3D%27round%27%3E%3Cpath%20d%3D%27M0%2018%20H30%20L44%2032%20H75%27%2F%3E%3Cpath%20d%3D%27M0%2056%20H18%20L30%2044%20V8%27%2F%3E%3Cpath%20d%3D%27M56%200%20V26%20L68%2038%20V75%27%2F%3E%3Cpath%20d%3D%27M8%2075%20V60%20L22%2046%20H50%27%2F%3E%3Cpath%20d%3D%27M75%2062%20H60%20L50%2052%27%2F%3E%3C%2Fg%3E%3Cg%20fill%3D%27%23224569%27%3E%3Ccircle%20cx%3D%2730%27%20cy%3D%2730%27%20r%3D%272.6%27%2F%3E%3Ccircle%20cx%3D%2756%27%20cy%3D%2726%27%20r%3D%272.2%27%2F%3E%3Ccircle%20cx%3D%2718%27%20cy%3D%2756%27%20r%3D%272.2%27%2F%3E%3Ccircle%20cx%3D%2750%27%20cy%3D%2746%27%20r%3D%272.4%27%2F%3E%3Crect%20x%3D%2760%27%20y%3D%276%27%20width%3D%279%27%20height%3D%279%27%20rx%3D%271.6%27%2F%3E%3Crect%20x%3D%276%27%20y%3D%2734%27%20width%3D%277%27%20height%3D%277%27%20rx%3D%271.4%27%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E")}
+/* 作品の絵が載る面には、別の板を敷かない。ページの地がそのまま
+   絵の後ろまで続き、流れている文字も絵の脇を通り抜けてゆく。 */
+.duo-hero,.hero{background:none}
 
 .content{padding:24px 23px 40px;
   font-family:"Yu Mincho","Hiragino Mincho ProN",serif}
