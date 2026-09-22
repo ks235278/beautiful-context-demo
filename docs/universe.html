@@ -1,0 +1,230 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="UniverseIt! — 公開ページの見出しがタグクラウド状にゆっくりと流れ続ける回遊画面（チャコール）。">
+<title>Beautiful Context｜UniverseIt!</title>
+<style>
+  :root{--ink:#121212;--gold:#a97717;--pcb:#2f6fb5;--charcoal:#10141a;
+        --orange:#d9761f;--navy:#1f3a68;--dock:112px}
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+  body{margin:0;min-height:100vh;display:grid;place-items:center;background:#e9e6df;
+       font-family:"Hiragino Kaku Gothic ProN","Yu Gothic",system-ui,sans-serif}
+  .stage{width:100%;max-width:1100px;padding:32px 20px 48px;text-align:center}
+  .lead{margin:0 0 6px;font-size:13px;letter-spacing:.16em;color:var(--gold);font-weight:700}
+  .sub{margin:0 0 28px;font-size:12px;color:#6b6a65;letter-spacing:.06em}
+  .phone{position:relative;width:300px;height:620px;margin:0 auto;border-radius:44px;
+         background:#0b0d10;padding:11px;box-shadow:0 26px 70px rgba(16,20,26,.34)}
+  .screen{position:relative;width:100%;height:100%;border-radius:34px;overflow:hidden;background:var(--charcoal)}
+  .pcb{position:absolute;inset:0;opacity:.5}
+  .status{position:absolute;top:0;left:0;right:0;height:46px;display:flex;align-items:center;
+          justify-content:space-between;padding:0 24px;color:#fff;font-size:13px;font-weight:600;z-index:5}
+  .island{position:absolute;top:11px;left:50%;transform:translateX(-50%);width:104px;height:28px;
+          border-radius:16px;background:#000;z-index:6}
+  .bars{display:flex;gap:3px;align-items:flex-end}
+  .bars i{display:block;width:3px;background:#fff;border-radius:1px}
+  .menu{position:absolute;top:52px;right:18px;z-index:5;width:22px;height:16px;cursor:pointer;
+        background:none;border:0;padding:0}
+  .menu span{display:block;height:1.6px;background:#fff;border-radius:2px;margin-bottom:5px;opacity:.9}
+  .head{position:absolute;top:74px;left:0;right:0;z-index:4;text-align:center;pointer-events:none}
+  .head h1{margin:0;color:#fff;font-size:30px;font-weight:400;letter-spacing:.01em;
+           font-family:"Hiragino Mincho ProN","Yu Mincho",serif}
+  .head p{margin:5px 0 0;color:#aab6c6;font-size:10.5px;letter-spacing:.16em}
+  .cloud{position:absolute;top:146px;left:0;right:0;bottom:var(--dock);z-index:3;overflow:hidden;
+         display:flex;flex-direction:column;justify-content:space-evenly;
+         mask-image:linear-gradient(90deg,transparent,#000 9%,#000 91%,transparent),
+                    linear-gradient(180deg,transparent,#000 10%,#000 90%,transparent);
+         -webkit-mask-image:linear-gradient(90deg,transparent,#000 9%,#000 91%,transparent),
+                            linear-gradient(180deg,transparent,#000 10%,#000 90%,transparent);
+         mask-composite:intersect;-webkit-mask-composite:source-in}
+  .row{display:flex;width:max-content;align-items:baseline;will-change:transform}
+  .row.paused{animation-play-state:paused}
+  @keyframes driftL{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+  @keyframes driftR{from{transform:translateX(-50%)}to{transform:translateX(0)}}
+  .tag{flex:0 0 auto;margin:0 9px;padding:2px 0;color:#e8edf4;background:none;border:0;
+       font-family:inherit;cursor:pointer;white-space:nowrap;line-height:1.5;
+       transition:color .18s ease}
+  .tag .h{color:#6f8db4;margin-right:1px}
+  .tag:hover,.tag:focus-visible{color:#ffd489;outline:none}
+  .bottom{position:absolute;left:0;right:0;bottom:0;height:var(--dock);z-index:5;
+          padding:0 14px;display:flex;flex-direction:column;justify-content:flex-end}
+  .mark{text-align:center;color:#8fa0b6;font-size:8.5px;letter-spacing:.34em;margin-bottom:9px}
+  .actions{display:flex;gap:8px;margin-bottom:16px}
+  .btn{flex:1;display:flex;align-items:center;justify-content:center;gap:7px;height:44px;
+       border:0;border-radius:7px;color:#fff;font-family:inherit;cursor:pointer;text-decoration:none}
+  .btn b{display:block;font-size:10.5px;font-weight:600;line-height:1.25}
+  .btn small{display:block;font-size:8.5px;opacity:.82;letter-spacing:.06em}
+  .btn.remix{background:var(--orange)}
+  .btn.uni{background:var(--navy)}
+  .btn svg{flex:0 0 auto}
+  .home{position:absolute;bottom:9px;left:50%;transform:translateX(-50%);width:120px;height:5px;
+        border-radius:3px;background:#fff;opacity:.85;z-index:6}
+  .note{margin:26px auto 0;max-width:520px;font-size:12px;line-height:1.9;color:#6b6a65}
+  .note b{color:var(--ink);font-weight:600}
+  .toast{position:absolute;left:50%;bottom:calc(var(--dock) + 14px);transform:translate(-50%,8px);
+         z-index:7;padding:9px 15px;border-radius:7px;background:rgba(10,13,18,.93);color:#fff;
+         font-size:11px;opacity:0;pointer-events:none;transition:opacity .2s ease,transform .2s ease;
+         border:1px solid rgba(255,255,255,.14)}
+  .toast.show{opacity:1;transform:translate(-50%,0)}
+  @media (prefers-reduced-motion:reduce){.row{animation:none !important}}
+</style>
+</head>
+<body>
+<main class="stage">
+  <p class="lead">BEAUTIFUL CONTEXT</p>
+  <p class="sub">UniverseIt! ／ 見出しをタップすると、そのコンテクストへ移動します</p>
+
+  <div class="phone">
+    <div class="island"></div>
+    <div class="screen">
+      <svg class="pcb" viewBox="0 0 300 620" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+        <defs>
+          <pattern id="trace" width="75" height="75" patternUnits="userSpaceOnUse">
+            <g fill="none" stroke="#2f6fb5" stroke-width="1.4" stroke-linecap="round">
+              <path d="M0 18 H30 L44 32 H75"/>
+              <path d="M0 56 H18 L30 44 V8"/>
+              <path d="M56 0 V26 L68 38 V75"/>
+              <path d="M8 75 V60 L22 46 H50"/>
+              <path d="M75 62 H60 L50 52"/>
+            </g>
+            <g fill="#2f6fb5">
+              <circle cx="30" cy="30" r="2.6"/><circle cx="56" cy="26" r="2.2"/>
+              <circle cx="18" cy="56" r="2.2"/><circle cx="50" cy="46" r="2.4"/>
+              <rect x="60" y="6" width="9" height="9" rx="1.6"/>
+              <rect x="6" y="34" width="7" height="7" rx="1.4"/>
+            </g>
+          </pattern>
+        </defs>
+        <rect width="300" height="620" fill="#10141a"/>
+        <rect width="300" height="620" fill="url(#trace)"/>
+      </svg>
+
+      <div class="status">
+        <span>9:41</span>
+        <span class="bars"><i style="height:5px"></i><i style="height:8px"></i><i style="height:11px"></i><i style="height:14px"></i></span>
+      </div>
+      <button class="menu" type="button" aria-label="メニュー"><span></span><span></span><span></span></button>
+
+      <div class="head">
+        <h1>UniverseIt!</h1>
+        <p>言葉から、つながりを辿る</p>
+      </div>
+
+      <div class="cloud" id="cloud"></div>
+
+      <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+      <div class="bottom">
+        <div class="mark">BEAUTIFUL CONTEXT</div>
+        <div class="actions">
+          <a class="btn remix" href="editor.html">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.7" aria-hidden="true">
+              <circle cx="9" cy="12" r="5.4"/><circle cx="15" cy="12" r="5.4"/>
+            </svg>
+            <span><b>つながりを創る</b><small>ReMixIt!</small></span>
+          </a>
+          <button class="btn uni" type="button" id="reshuffle">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.7" aria-hidden="true">
+              <circle cx="12" cy="12" r="8.4"/><path d="M3.6 12h16.8M12 3.6a15 15 0 0 1 0 16.8M12 3.6a15 15 0 0 0 0 16.8"/>
+            </svg>
+            <span><b>つながりを辿る</b><small>UniverseIt!</small></span>
+          </button>
+        </div>
+      </div>
+      <div class="home"></div>
+    </div>
+  </div>
+
+  <p class="note">
+    <b>2 / 4</b>　起動画面 → <b>UniverseIt!</b> → 作品・コンテクストページ → エディター<br>
+    見出しは約100点。ゆっくり流れ続け、指を置くと止まります。
+  </p>
+</main>
+
+<script>
+const WORDS = [
+  "黒澤明","スパイク・リー","天国と地獄","HIGHEST 2 LOWEST","誘拐","階級","ニューヨーク","横浜",
+  "身代金","エド・マクベイン","デンゼル・ワシントン","三船敏郎","グレン・グールド","夏目漱石",
+  "草枕","バッハ","非人情","ゴルトベルク変奏曲","演奏","翻案","リメイク","再解釈","原作","倫理",
+  "格差","都市","高低差","音楽プロデューサー","製靴","職人","美学","犠牲","選択","未来社会",
+  "Architecture","環境","Community","つながり","Learning","建築","Technology","プロトタイプ",
+  "参加","Art","デジタル文化","ブランド","Platform","人間","Future","生成AI","社会","知識",
+  "Innovation","コンテクスト","記憶","Design","文化","Media","関係性","発見","意外性","共感",
+  "世界観","接続","回遊","区間","駅","編集","出典","検証","事実","架橋","ハブ","ノード","系譜",
+  "往復","翻訳","文脈","適合性","情報","広告","企画","物語","時代","場所","距離","対立","上下",
+  "記号","意味","偶然","必然","余白","静けさ","速度","密度","質感","視点","反復","継承","断絶"
+];
+
+const SIZES = [11,12,13,14,15,16,18,20];
+const ROWS = 10;
+
+function buildRow(words, index){
+  const row = document.createElement('div');
+  row.className = 'row';
+  const dir = index % 2 === 0 ? 'driftL' : 'driftR';
+  const dur = 78 + (index % 5) * 17;
+  row.style.animation = `${dir} ${dur}s linear infinite`;
+
+  const make = () => words.forEach((w, i) => {
+    const b = document.createElement('button');
+    b.type = 'button';
+    b.className = 'tag';
+    b.style.fontSize = SIZES[(i + index) % SIZES.length] + 'px';
+    if ((i + index) % 3 === 0){
+      const h = document.createElement('span');
+      h.className = 'h';
+      h.textContent = '#';
+      b.appendChild(h);
+    }
+    b.appendChild(document.createTextNode(w));
+    b.dataset.word = w;
+    row.appendChild(b);
+  });
+
+  make(); make();
+  return row;
+}
+
+function render(){
+  const cloud = document.getElementById('cloud');
+  cloud.textContent = '';
+  const pool = WORDS.slice().sort(() => Math.random() - 0.5);
+  const per = Math.ceil(pool.length / ROWS);
+  for (let r = 0; r < ROWS; r++){
+    const slice = pool.slice(r * per, (r + 1) * per);
+    if (!slice.length) continue;
+    cloud.appendChild(buildRow(slice, r));
+  }
+}
+
+const toast = document.getElementById('toast');
+let toastTimer;
+function say(msg){
+  toast.textContent = msg;
+  toast.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => toast.classList.remove('show'), 1600);
+}
+
+document.getElementById('cloud').addEventListener('click', e => {
+  const tag = e.target.closest('.tag');
+  if (!tag) return;
+  say(tag.dataset.word + ' のコンテクストへ');
+  setTimeout(() => { location.href = 'demo-1.html'; }, 520);
+});
+
+const cloud = document.getElementById('cloud');
+const hold = on => cloud.querySelectorAll('.row').forEach(r => r.classList.toggle('paused', on));
+cloud.addEventListener('pointerenter', () => hold(true));
+cloud.addEventListener('pointerleave', () => hold(false));
+
+document.getElementById('reshuffle').addEventListener('click', () => {
+  render();
+  say('見出しを入れ替えました');
+});
+
+render();
+</script>
+</body>
+</html>

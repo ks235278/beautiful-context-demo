@@ -1,0 +1,462 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="作品A・作品B・二作品間のコンテクストを分離して入力できるBeautiful Context編集デモ">
+  <title>Beautiful Context — カード型エディター</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23161616'/%3E%3Ccircle cx='17' cy='32' r='7' fill='white' stroke='%23b67a18' stroke-width='4'/%3E%3Ccircle cx='47' cy='32' r='7' fill='white' stroke='%23b67a18' stroke-width='4'/%3E%3Cpath d='M24 32h16' stroke='%23b67a18' stroke-width='4'/%3E%3C/svg%3E">
+  <style>
+    :root {
+      --ink:#181817;
+      --muted:#6b6a65;
+      --line:#dedbd2;
+      --paper:#fbfaf7;
+      --surface:#fff;
+      --canvas:#efeee9;
+      --gold:#ad7414;
+      --gold-soft:#f5ead4;
+      --nav:#171716;
+      --success:#266344;
+      --shadow:0 18px 55px rgba(29,26,20,.1);
+      --radius:16px;
+    }
+    *{box-sizing:border-box}
+    html{font-size:16px;background:var(--canvas)}
+    body{margin:0;color:var(--ink);background:var(--canvas);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans JP",sans-serif;line-height:1.55}
+    button,input,textarea,select{font:inherit;color:inherit}
+    button{cursor:pointer}
+    :focus-visible{outline:3px solid rgba(173,116,20,.28);outline-offset:2px}
+    .app{min-height:100vh}
+    .topbar{height:68px;background:var(--nav);color:#fff;display:flex;align-items:center;gap:22px;padding:0 30px;position:sticky;top:0;z-index:40;box-shadow:0 2px 18px rgba(0,0,0,.16)}
+    .brand{display:flex;align-items:center;gap:11px;min-width:max-content;font-family:Georgia,"Yu Mincho",serif;font-weight:700;letter-spacing:.03em}
+    .brand-mark{width:32px;height:32px;border:1px solid #a6a196;border-radius:9px;display:grid;place-items:center;position:relative}
+    .brand-mark:before,.brand-mark:after{content:"";width:7px;height:7px;border:2px solid #dfa832;background:#fff;border-radius:50%;position:absolute;top:11px}
+    .brand-mark:before{left:5px}.brand-mark:after{right:5px}
+    .brand-mark i{display:block;width:11px;height:2px;background:#dfa832}
+    .top-title{font-size:.875rem;color:#bbb8b0;white-space:nowrap}
+    .top-actions{margin-left:auto;display:flex;align-items:center;gap:9px}
+    .save-state{font-size:.75rem;color:#aaa79f;margin-right:8px;white-space:nowrap}
+    .save-state.saved{color:#b9dec8}
+    .btn{border:1px solid transparent;border-radius:999px;padding:9px 16px;font-size:.84rem;font-weight:700;background:#fff;transition:.18s ease}
+    .btn:hover{transform:translateY(-1px)}
+    .btn.ghost{background:transparent;color:#e4e1d9;border-color:#5a5852}
+    .btn.primary{background:#d19a34;color:#171410}
+    .btn.small{padding:7px 12px;font-size:.76rem}
+
+    .layout{max-width:1560px;margin:0 auto;display:grid;grid-template-columns:minmax(660px,1fr) 520px;gap:24px;padding:24px}
+    .editor-column{min-width:0}
+    .workflow{display:grid;grid-template-columns:1fr 1fr 1.08fr;gap:12px;margin-bottom:18px;align-items:stretch}
+    .step-card{position:relative;text-align:left;border:1px solid #d7d4cc;border-radius:14px;background:#fff;padding:15px 16px 14px;min-height:112px;box-shadow:0 5px 18px rgba(34,30,22,.04);transition:.2s ease;overflow:hidden}
+    .step-card.context{margin-left:12px}
+    .step-card:before{content:"";position:absolute;top:0;left:0;right:0;height:4px;background:transparent}
+    .step-card[aria-selected="true"]{border-color:#b9882f;box-shadow:0 8px 26px rgba(173,116,20,.13)}
+    .step-card[aria-selected="true"]:before{background:var(--gold)}
+    .step-head{display:flex;justify-content:space-between;gap:8px;align-items:center;margin-bottom:10px}
+    .step-no{display:inline-flex;align-items:center;gap:7px;font-size:.72rem;font-weight:800;letter-spacing:.08em;color:#6a675f}
+    .step-no b{display:grid;place-items:center;width:22px;height:22px;border-radius:50%;background:#242321;color:#fff;font-size:.72rem}
+    .status{font-size:.67rem;border-radius:999px;padding:3px 8px;background:#f0efeb;color:#76736b;white-space:nowrap}
+    .status.complete{background:#e4f1e8;color:#286345}
+    .step-card h2{font-size:.96rem;margin:0 0 3px;line-height:1.35}
+    .step-card p{font-size:.72rem;color:var(--muted);margin:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+    .context-link{position:absolute;left:-17px;top:50%;width:22px;height:1px;background:#b9b6ae}
+    .context-link:after{content:"";position:absolute;right:-1px;top:-3px;border-left:6px solid #b9b6ae;border-top:3.5px solid transparent;border-bottom:3.5px solid transparent}
+
+    .panel{background:var(--surface);border:1px solid #d7d4cc;border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden}
+    .panel-head{display:flex;align-items:center;gap:14px;padding:20px 22px;border-bottom:1px solid #e5e2da;background:#fff}
+    .panel-head .eyebrow{font-size:.68rem;letter-spacing:.14em;color:var(--gold);font-weight:800;margin:0 0 2px}
+    .panel-head h1{font-family:Georgia,"Yu Mincho",serif;font-size:1.24rem;margin:0}
+    .panel-head .head-note{margin-left:auto;color:var(--muted);font-size:.73rem;text-align:right}
+    .form-section{padding:22px;border-bottom:1px solid #e5e2da}
+    .form-section:last-child{border-bottom:0}
+    .section-title{display:flex;align-items:center;justify-content:space-between;gap:14px;margin-bottom:16px}
+    .section-title h3{font-size:.91rem;margin:0;display:flex;align-items:center;gap:8px}
+    .section-index{color:var(--gold);font-size:.69rem;font-weight:800;border:1px solid #d8bd8a;border-radius:50%;width:24px;height:24px;display:grid;place-items:center}
+    .required-note{color:#858178;font-size:.69rem}
+    .grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:15px}
+    .grid.three{grid-template-columns:1.5fr .7fr .8fr}
+    .field{display:flex;flex-direction:column;gap:6px;min-width:0}
+    .field.full{grid-column:1/-1}
+    label,.label{font-size:.73rem;font-weight:750;color:#4f4c45}
+    .req:after{content:" 必須";color:#a04b34;font-weight:600;font-size:.61rem;margin-left:4px}
+    input[type="text"],input[type="number"],select,textarea{width:100%;border:1px solid #ccc8bf;border-radius:9px;background:#fff;padding:10px 11px;min-height:43px;transition:border .16s,box-shadow .16s}
+    input:focus,select:focus,textarea:focus{border-color:#b17c22;box-shadow:0 0 0 3px rgba(177,124,34,.11);outline:none}
+    textarea{resize:vertical;min-height:104px;line-height:1.7}
+    .help{font-size:.68rem;color:#858178}
+    .route-slug{display:flex;align-items:center;border:1px solid #ccc8bf;border-radius:9px;overflow:hidden;background:#fff}
+    .route-slug span{padding:10px;background:#f2f0eb;color:#77736b;font-size:.75rem;border-right:1px solid #d9d6ce}
+    .route-slug input{border:0;border-radius:0;box-shadow:none;min-width:0}
+
+    .upload-grid{display:grid;grid-template-columns:160px 1fr;gap:16px;align-items:stretch}
+    .image-preview{min-height:188px;border-radius:11px;background:#222;overflow:hidden;position:relative;display:grid;place-items:center;color:#fff}
+    .image-preview img{width:100%;height:100%;object-fit:cover;position:absolute;inset:0}
+    .image-preview .placeholder{font-family:Georgia,serif;font-size:2.4rem;color:#dfc58f;border:1px solid #6c614d;width:62px;height:82px;display:grid;place-items:center}
+    .dropzone{border:1px dashed #b9b4a9;border-radius:11px;background:#faf9f6;padding:18px;display:flex;flex-direction:column;justify-content:center;align-items:flex-start;gap:8px;min-height:188px}
+    .dropzone.drag{border-color:var(--gold);background:#fff8ea}
+    .dropzone strong{font-size:.82rem}
+    .dropzone p{font-size:.71rem;color:var(--muted);margin:0}
+    .file-btn{display:inline-flex;align-items:center;border:1px solid #aaa69d;border-radius:999px;padding:7px 12px;background:#fff;font-size:.73rem;font-weight:700}
+    .file-btn input{position:absolute;opacity:0;pointer-events:none}
+    .image-actions{display:flex;gap:8px;align-items:center}
+    .text-button{border:0;background:none;color:#8b5b09;padding:4px 0;font-size:.7rem;text-decoration:underline}
+
+    .wysiwyg{border:1px solid #ccc8bf;border-radius:10px;overflow:hidden;background:#fff}
+    .toolbar{display:flex;flex-wrap:wrap;gap:4px;padding:7px;background:#f4f2ed;border-bottom:1px solid #d9d6ce}
+    .tool{border:1px solid transparent;border-radius:5px;background:transparent;min-width:31px;height:30px;padding:0 8px;font-family:Georgia,serif;font-weight:700}
+    .tool:hover{background:#fff;border-color:#d2cec4}
+    .rich-text{min-height:170px;padding:14px 15px;line-height:1.9;font-family:Georgia,"Yu Mincho",serif;font-size:.94rem;outline:none}
+    .rich-text:empty:before{content:attr(data-placeholder);color:#aaa69c}
+    .rich-text blockquote{border-left:3px solid var(--gold);padding-left:12px;margin-left:0;color:#5f594e}
+    .counter{text-align:right;color:#8a867e;font-size:.67rem;margin-top:5px}
+
+    .relation-pair{display:grid;grid-template-columns:1fr auto 1fr;gap:12px;align-items:center;background:#f8f6f1;border:1px solid #dedad0;border-radius:12px;padding:13px}
+    .mini-work{background:#fff;border:1px solid #d9d5cb;border-radius:9px;padding:10px;min-width:0}
+    .mini-work small{display:block;color:var(--gold);font-weight:800;font-size:.63rem;letter-spacing:.1em}
+    .mini-work strong{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-size:.79rem;margin-top:2px}
+    .pair-line{display:flex;align-items:center;color:#9a6915;font-size:1.2rem}
+    .pair-line:before,.pair-line:after{content:"";width:12px;height:1px;background:#b17a1b}
+    .context-only[hidden],.work-only[hidden]{display:none!important}
+
+    .preview-column{position:relative}
+    .preview-sticky{position:sticky;top:92px}
+    .preview-head{display:flex;align-items:end;justify-content:space-between;margin-bottom:12px;padding:0 3px}
+    .preview-head h2{font-size:.83rem;margin:0}
+    .preview-head p{font-size:.68rem;color:var(--muted);margin:2px 0 0}
+    .preview-tabs{display:flex;background:#ddd9d0;border-radius:999px;padding:3px}
+    .preview-tab{border:0;background:transparent;border-radius:999px;padding:6px 10px;font-size:.67rem;font-weight:800;color:#6f6b63}
+    .preview-tab.active{background:#fff;color:#181817;box-shadow:0 1px 4px rgba(0,0,0,.1)}
+    .phone-stage{background:radial-gradient(circle at 50% 30%,#fff 0,#e2dfd7 74%);border:1px solid #d3d0c8;border-radius:20px;min-height:740px;padding:20px;display:grid;place-items:center;box-shadow:var(--shadow)}
+    .phone{width:386px;height:728px;border:8px solid #151515;border-radius:46px;background:#050505;padding:10px;box-shadow:0 24px 45px rgba(0,0,0,.25),inset 0 0 0 2px #575757;position:relative}
+    .phone:after{content:"";position:absolute;left:50%;bottom:8px;transform:translateX(-50%);width:116px;height:4px;background:#111;border-radius:9px;z-index:9}
+    .dynamic-island{position:absolute;z-index:10;top:15px;left:50%;transform:translateX(-50%);width:126px;height:34px;background:#050505;border-radius:22px}
+    .screen{height:100%;background:var(--paper);border-radius:31px;overflow:auto;scrollbar-width:none;position:relative;padding-bottom:143px}
+    .screen::-webkit-scrollbar{display:none}
+    .statusbar{height:46px;background:#050505;color:#fff;display:flex;align-items:center;justify-content:space-between;padding:0 20px;font-size:.77rem;font-weight:800;position:sticky;top:0;z-index:8}
+    .status-icons{letter-spacing:.14em;font-size:.64rem}
+    .hero-image{height:330px;background:#292722;position:relative;overflow:hidden;color:#e6d1a5;display:grid;place-items:center}
+    .hero-image img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+    .poster-placeholder{border:1px solid #776a52;width:126px;height:190px;display:grid;place-items:center;font-family:Georgia,serif;font-size:4.2rem;background:linear-gradient(145deg,#36322a,#161514);box-shadow:0 13px 24px rgba(0,0,0,.35)}
+    .dual-hero{height:270px;display:grid;grid-template-columns:1fr 1fr;gap:2px;background:#fff}
+    .dual-photo{position:relative;overflow:hidden;background:#26231e;display:grid;place-items:center;color:#dfc58f;font-family:Georgia,serif;font-size:3rem}
+    .dual-photo img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+    .page-copy{padding:22px 22px 34px;font-family:Georgia,"Yu Mincho",serif}
+    .meta{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans JP",sans-serif;font-size:.65rem;font-weight:800;letter-spacing:.12em;color:var(--gold);text-transform:uppercase;margin:0 0 12px}
+    .page-copy h3{font-size:1.47rem;line-height:1.45;margin:0 0 15px}
+    .page-copy .body{font-size:.91rem;line-height:1.9;margin:0;color:#37342f}
+    .context-copy{text-align:center;padding-top:20px}
+    .context-copy h3{font-size:1.65rem;line-height:1.5;margin-bottom:13px}
+    .relation-summary{border-top:1px solid #d4d0c6;border-bottom:1px solid #d4d0c6;padding:12px 0;margin:13px 0 22px;font-size:.77rem;line-height:1.8}
+    .story{text-align:left;border-top:1px solid #dfdacf;padding-top:20px}
+    .story-label{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;font-size:.67rem;letter-spacing:.15em;color:var(--gold);font-weight:800}
+    .story-content{font-size:.9rem;line-height:1.95;margin-top:10px}
+    .story-content p{margin:0 0 1em}
+    .fixed-nav{position:absolute;left:10px;right:10px;bottom:10px;z-index:11;background:rgba(251,250,247,.98);border-top:1px solid #d7d2c7;border-radius:0 0 29px 29px;box-shadow:0 -7px 18px rgba(25,22,17,.08)}
+    .route{padding:8px 15px 6px}
+    .route-name{font-size:.59rem;color:#96630d;font-weight:800;margin-bottom:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+    .line-map{height:28px;position:relative}
+    .line{height:3px;background:#ad7414;position:absolute;left:4px;right:4px;top:12px;border-radius:5px}
+    .station{position:absolute;top:6px;width:15px;height:15px;border:3px solid #ad7414;background:#fff;border-radius:50%;z-index:2;transform:translateX(-50%)}
+    .station.left{left:9%}.station.right{left:91%}
+    .station.current{width:19px;height:19px;top:4px;border-width:4px}
+    .segment-highlight{position:absolute;height:7px;left:9%;right:9%;top:10px;background:#ad7414;border-radius:5px}
+    .station-labels{display:flex;justify-content:space-between;font-family:Georgia,"Yu Mincho",serif;font-size:.54rem;margin-top:-2px;gap:10px}
+    .station-labels span:last-child{text-align:right}
+    .action-row{display:grid;grid-template-columns:1fr 1fr;gap:7px;padding:7px 9px 11px;border-top:1px solid #dfdbd2}
+    .phone-action{height:38px;border-radius:999px;border:1px solid #54514b;background:#fff;font-size:.7rem;font-weight:800}
+    .phone-action.dark{background:#181817;color:#fff;border-color:#181817}
+
+    .empty-note{display:flex;gap:10px;align-items:flex-start;background:#fff7e7;border:1px solid #ead3a5;border-radius:10px;padding:12px;font-size:.73rem;color:#5f4b27;margin-top:14px}
+    .checklist{display:grid;gap:9px}
+    .check{display:flex;gap:9px;align-items:center;font-size:.77rem;color:#5f5b53}
+    .check:before{content:"✓";width:21px;height:21px;border-radius:50%;display:grid;place-items:center;background:#e6f1e9;color:#286345;font-size:.7rem;font-weight:900}
+    .toast{position:fixed;left:50%;bottom:28px;transform:translate(-50%,20px);background:#1c1c1b;color:#fff;padding:10px 16px;border-radius:999px;font-size:.76rem;opacity:0;pointer-events:none;z-index:99;transition:.22s ease;box-shadow:0 9px 28px rgba(0,0,0,.23)}
+    .toast.show{opacity:1;transform:translate(-50%,0)}
+
+    @media (max-width:1120px){
+      .layout{grid-template-columns:1fr 430px;padding:18px;gap:18px}
+      .phone-stage{padding:12px}.phone{transform:scale(.92)}
+    }
+    @media (max-width:900px){
+      .layout{display:block}.preview-column{margin-top:20px}.preview-sticky{position:static}
+      .preview-column{max-width:520px;margin-left:auto;margin-right:auto}
+      .top-title{display:none}
+    }
+    @media (max-width:640px){
+      .topbar{height:62px;padding:0 14px}.brand span:last-child{display:none}.save-state,.btn.ghost{display:none}.btn{padding:8px 12px}
+      .layout{padding:12px}.workflow{grid-template-columns:1fr;gap:8px}.step-card{min-height:82px}.step-card.context{margin-left:0}.context-link{display:none}
+      .panel-head,.form-section{padding:17px}.panel-head .head-note{display:none}.grid,.grid.three{grid-template-columns:1fr}.upload-grid{grid-template-columns:120px 1fr}.image-preview,.dropzone{min-height:155px}
+      .phone-stage{min-height:auto;padding:13px 4px;overflow:hidden}.phone{transform:scale(.86);margin:-48px 0}
+    }
+    @media (prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;transition:none!important}}
+  </style>
+</head>
+<body>
+  <div class="app">
+    <header class="topbar">
+      <div class="brand"><span class="brand-mark"><i></i></span><span>Beautiful Context</span></div>
+      <a class="btn ghost small" href="demo-1.html" style="margin-left:14px;text-decoration:none;display:inline-flex;align-items:center">&larr;　公開ページへ</a>
+      <div class="top-title">コンテンツ／コンテクスト エディター</div>
+      <div class="top-actions">
+        <span class="save-state" id="saveState">未保存</span>
+        <button class="btn ghost small" id="resetBtn" type="button">サンプルに戻す</button>
+        <button class="btn primary" id="saveBtn" type="button">下書き保存</button>
+      </div>
+    </header>
+
+    <main class="layout">
+      <section class="editor-column" aria-label="入力エディター">
+        <nav class="workflow" role="tablist" aria-label="編集するページ">
+          <button class="step-card" role="tab" aria-selected="true" data-page="a" type="button">
+            <span class="step-head"><span class="step-no"><b>1</b> CONTENT A</span><span class="status complete">入力済み</span></span>
+            <h2 id="cardTitleA">『HIGHEST 2 LOWEST』</h2><p>作品固有の画像・基本情報・解説</p>
+          </button>
+          <button class="step-card" role="tab" aria-selected="false" data-page="b" type="button">
+            <span class="step-head"><span class="step-no"><b>2</b> CONTENT B</span><span class="status complete">入力済み</span></span>
+            <h2 id="cardTitleB">黒澤明『天国と地獄』</h2><p>作品固有の画像・基本情報・解説</p>
+          </button>
+          <button class="step-card context" role="tab" aria-selected="false" data-page="context" type="button">
+            <i class="context-link" aria-hidden="true"></i>
+            <span class="step-head"><span class="step-no"><b>3</b> CONTEXT A–B</span><span class="status complete">入力済み</span></span>
+            <h2 id="cardTitleContext">原作から再解釈へ</h2><p>二作品の間にある独立した区間解説</p>
+          </button>
+        </nav>
+
+        <form class="panel" id="editorForm" autocomplete="off">
+          <header class="panel-head">
+            <div><p class="eyebrow" id="panelEyebrow">CONTENT A</p><h1 id="panelTitle">作品ページを編集</h1></div>
+            <p class="head-note">入力内容は右のスマホへ<br>リアルタイムに反映されます</p>
+          </header>
+
+          <div class="work-only" data-work-section>
+            <section class="form-section">
+              <div class="section-title"><h3><span class="section-index">1</span>作品情報</h3><span class="required-note">作品単体の情報だけを入力</span></div>
+              <div class="grid three">
+                <div class="field"><label class="req" for="workTitle">作品名</label><input id="workTitle" type="text"></div>
+                <div class="field"><label for="workType">種別</label><select id="workType"><option>映画</option><option>書籍</option><option>音楽</option><option>舞台</option><option>その他</option></select></div>
+                <div class="field"><label for="workYear">公開年</label><input id="workYear" type="number" min="1000" max="2200"></div>
+                <div class="field full"><label for="workCreator">作者・監督など</label><input id="workCreator" type="text" placeholder="例：スパイク・リー監督"></div>
+                <div class="field full"><label for="workSlug">ページURL</label><div class="route-slug"><span>/content/</span><input id="workSlug" type="text"></div></div>
+              </div>
+            </section>
+
+            <section class="form-section">
+              <div class="section-title"><h3><span class="section-index">2</span>作品画像</h3><span class="required-note">JPG / PNG / WebP</span></div>
+              <div class="upload-grid">
+                <div class="image-preview"><span class="placeholder" id="editorPlaceholder">A</span><img id="editorImage" alt="" hidden></div>
+                <div class="dropzone" id="dropzone">
+                  <strong>画像をドロップ、または選択</strong>
+                  <p>スマホでは中央を基準に縦長へトリミングします。</p>
+                  <div class="image-actions"><label class="file-btn">画像を選択<input id="imageInput" type="file" accept="image/png,image/jpeg,image/webp"></label><button class="text-button" id="removeImage" type="button">画像を外す</button></div>
+                </div>
+              </div>
+            </section>
+
+            <section class="form-section">
+              <div class="section-title"><h3><span class="section-index">3</span>作品解説</h3><span class="required-note">他作品との関係はここに書かない</span></div>
+              <div class="field"><label class="req" for="workSummary">短い解説</label><textarea id="workSummary" maxlength="280"></textarea><div class="counter"><span id="workSummaryCount">0</span> / 280</div></div>
+              <div class="empty-note">このカードは一作品だけで成立します。AとBの関係、比較、原作との対応は「CONTEXT A–B」へ入力します。</div>
+            </section>
+          </div>
+
+          <div class="context-only" data-context-section hidden>
+            <section class="form-section">
+              <div class="section-title"><h3><span class="section-index">1</span>接続する二作品</h3><span class="required-note">登録済みの作品を参照</span></div>
+              <div class="relation-pair">
+                <div class="mini-work"><small>CONTENT A</small><strong id="pairA">『HIGHEST 2 LOWEST』</strong></div>
+                <span class="pair-line" aria-label="と"></span>
+                <div class="mini-work"><small>CONTENT B</small><strong id="pairB">黒澤明『天国と地獄』</strong></div>
+              </div>
+            </section>
+
+            <section class="form-section">
+              <div class="section-title"><h3><span class="section-index">2</span>コンテクストの見出し</h3><span class="required-note">AにもBにも属さない独立ページ</span></div>
+              <div class="grid">
+                <div class="field"><label class="req" for="routeName">路線名</label><input id="routeName" type="text"></div>
+                <div class="field"><label for="contextLabel">分類ラベル</label><input id="contextLabel" type="text"></div>
+                <div class="field full"><label class="req" for="contextHeadline">キャッチコピー</label><textarea id="contextHeadline" maxlength="80"></textarea><div class="counter"><span id="headlineCount">0</span> / 80</div></div>
+                <div class="field full"><label for="contextSlug">ページURL</label><div class="route-slug"><span>/context/</span><input id="contextSlug" type="text"></div></div>
+              </div>
+            </section>
+
+            <section class="form-section">
+              <div class="section-title"><h3><span class="section-index">3</span>関係の要約</h3><span class="required-note">二作品を結ぶ根拠を短く表示</span></div>
+              <div class="field"><label class="req" for="relationSummary">要約</label><textarea id="relationSummary" maxlength="220"></textarea><div class="counter"><span id="relationCount">0</span> / 220</div></div>
+            </section>
+
+            <section class="form-section">
+              <div class="section-title"><h3><span class="section-index">4</span>長文コンテクスト</h3><span class="required-note"><span id="readingTime">約1分</span>・同じページ内に表示</span></div>
+              <div class="wysiwyg">
+                <div class="toolbar" role="toolbar" aria-label="文字装飾">
+                  <button class="tool" type="button" data-command="bold" aria-label="太字">B</button>
+                  <button class="tool" type="button" data-command="italic" aria-label="斜体"><i>I</i></button>
+                  <button class="tool" type="button" data-command="formatBlock" data-value="h3" aria-label="見出し">H</button>
+                  <button class="tool" type="button" data-command="formatBlock" data-value="blockquote" aria-label="引用">“ ”</button>
+                  <button class="tool" type="button" data-command="insertUnorderedList" aria-label="箇条書き">• List</button>
+                  <button class="tool" type="button" data-command="removeFormat" aria-label="書式を解除">Clear</button>
+                </div>
+                <div id="contextBody" class="rich-text" contenteditable="true" role="textbox" aria-multiline="true" data-placeholder="二作品がどのようにつながり、何が変化したのかを入力します。"></div>
+              </div>
+              <div class="counter"><span id="bodyCount">0</span>文字</div>
+            </section>
+
+            <section class="form-section">
+              <div class="section-title"><h3><span class="section-index">5</span>路線図</h3><span class="required-note">公開時にA・B両ページへも表示</span></div>
+              <div class="grid">
+                <div class="field"><label for="leftStation">左の駅名</label><input id="leftStation" type="text"></div>
+                <div class="field"><label for="rightStation">右の駅名</label><input id="rightStation" type="text"></div>
+              </div>
+              <div class="checklist" style="margin-top:16px">
+                <div class="check">駅の白丸は路線の中央に配置</div>
+                <div class="check">コンテクストページではA–B区間を強調</div>
+                <div class="check">RemixIt! / UNIverseIt! は常時表示</div>
+              </div>
+            </section>
+          </div>
+        </form>
+      </section>
+
+      <aside class="preview-column" aria-label="公開ページプレビュー">
+        <div class="preview-sticky">
+          <div class="preview-head">
+            <div><h2>公開ページ プレビュー</h2><p>カード切替で3ページを確認</p></div>
+            <div class="preview-tabs" role="tablist" aria-label="プレビューページ">
+              <button class="preview-tab active" data-preview="a" type="button">A</button>
+              <button class="preview-tab" data-preview="b" type="button">B</button>
+              <button class="preview-tab" data-preview="context" type="button">A–B</button>
+            </div>
+          </div>
+          <div class="phone-stage">
+            <div class="phone">
+              <div class="dynamic-island" aria-hidden="true"></div>
+              <div class="screen" id="phoneScreen">
+                <div class="statusbar"><span>9:41</span><span class="status-icons">▮▮▮⌁▭</span></div>
+                <div id="workPreview">
+                  <div class="hero-image"><div class="poster-placeholder" id="phonePlaceholder">A</div><img id="phoneImage" alt="" hidden></div>
+                  <article class="page-copy"><p class="meta" id="previewMeta">映画・2025年　CURRENT STATION</p><h3 id="previewTitle">『HIGHEST 2 LOWEST』</h3><p class="body" id="previewSummary"></p></article>
+                </div>
+                <div id="contextPreview" hidden>
+                  <div class="dual-hero"><div class="dual-photo"><span>A</span><img id="contextImageA" alt="" hidden></div><div class="dual-photo"><span>B</span><img id="contextImageB" alt="" hidden></div></div>
+                  <article class="page-copy context-copy"><p class="meta"><span id="previewContextLabel">CONTEXT</span>　［<span id="previewRouteInline">原作から再解釈へ</span>］　<span id="previewReadingTime">約1分</span></p><h3 id="previewHeadline"></h3><div class="relation-summary" id="previewRelation"></div><div class="story"><span class="story-label">CONTEXT STORY</span><div class="story-content" id="previewBody"></div></div></article>
+                </div>
+              </div>
+              <div class="fixed-nav">
+                <div class="route"><div class="route-name">［<span id="previewRouteName">原作から再解釈へ</span>］</div><div class="line-map"><i class="line"></i><i class="segment-highlight" id="segmentHighlight" hidden></i><i class="station left current" id="stationA"></i><i class="station right" id="stationB"></i></div><div class="station-labels"><span id="previewStationA">HIGHEST 2 LOWEST</span><span id="previewStationB">天国と地獄</span></div></div>
+                <div class="action-row"><button class="phone-action" type="button">RemixIt!</button><button class="phone-action dark" type="button">UNIverseIt!</button></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </aside>
+    </main>
+  </div>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script>
+  (() => {
+    const SAMPLE = {
+      a: { title:'『HIGHEST 2 LOWEST』', type:'映画', year:'2025', creator:'スパイク・リー監督', slug:'highest-2-lowest', image:'', summary:'スパイク・リーが、黒澤明『天国と地獄』の構造を現代のニューヨークへ移し替えた作品。富、家族、選択の価値が問われる。' },
+      b: { title:'黒澤明『天国と地獄』', type:'映画', year:'1963', creator:'黒澤明監督', slug:'high-and-low', image:'', summary:'エド・マクベインの小説『King’s Ransom』を原作に、誘拐事件を通じて企業家の倫理と社会の格差を描いた作品。' },
+      context: { routeName:'原作から再解釈へ', label:'CONTEXT', headline:'誘拐劇は、60年後に\nアメリカへ戻った。', slug:'highest-2-lowest--high-and-low', relation:'黒澤明『天国と地獄』── 原作『King’s Ransom』── スパイク・リー『HIGHEST 2 LOWEST』', body:'<p><strong>同じ物語が、別の社会を走る。</strong></p><p>1963年に日本で映画化された誘拐劇が、時代と場所を越えて、現代のニューヨークへ戻ってきた。</p><p>二作品をつないでいるのは名前だけではない。原作の構造を受け継ぎながら、富を持つ者の責任、都市の格差、家族を守る選択をそれぞれの社会に問い直している。</p>', leftStation:'HIGHEST 2 LOWEST', rightStation:'天国と地獄' }
+    };
+    let state = loadState();
+    let active = 'a';
+    const $ = (id) => document.getElementById(id);
+    const workFields = ['workTitle','workType','workYear','workCreator','workSlug','workSummary'];
+    const fieldMap = {workTitle:'title',workType:'type',workYear:'year',workCreator:'creator',workSlug:'slug',workSummary:'summary'};
+    const contextFields = ['routeName','contextLabel','contextHeadline','contextSlug','relationSummary','leftStation','rightStation'];
+    const contextMap = {routeName:'routeName',contextLabel:'label',contextHeadline:'headline',contextSlug:'slug',relationSummary:'relation',leftStation:'leftStation',rightStation:'rightStation'};
+
+    function loadState(){
+      try { return JSON.parse(localStorage.getItem('beautiful-context-editor-v1')) || structuredClone(SAMPLE); }
+      catch(e){ return JSON.parse(JSON.stringify(SAMPLE)); }
+    }
+    function safeText(value){ const d=document.createElement('div'); d.textContent=value || ''; return d.innerHTML; }
+    function pageWork(){ return active === 'b' ? state.b : state.a; }
+    function showToast(message){ const t=$('toast'); t.textContent=message; t.classList.add('show'); clearTimeout(showToast.timer); showToast.timer=setTimeout(()=>t.classList.remove('show'),1800); }
+    function markDirty(){ $('saveState').textContent='編集中'; $('saveState').classList.remove('saved'); }
+    function updateCounters(){
+      $('workSummaryCount').textContent=(pageWork().summary || '').length;
+      $('headlineCount').textContent=(state.context.headline || '').length;
+      $('relationCount').textContent=(state.context.relation || '').length;
+      const plain=$('contextBody').innerText.trim(); $('bodyCount').textContent=plain.length;
+      const minutes=Math.max(1,Math.ceil(plain.length/500));
+      $('readingTime').textContent=`約${minutes}分`; $('previewReadingTime').textContent=`約${minutes}分`;
+    }
+    function bindInputs(){
+      workFields.forEach(id => $(id).addEventListener('input',e=>{ pageWork()[fieldMap[id]]=e.target.value; markDirty(); renderCards(); renderPreview(); updateCounters(); }));
+      contextFields.forEach(id => $(id).addEventListener('input',e=>{ state.context[contextMap[id]]=e.target.value; markDirty(); renderCards(); renderPreview(); updateCounters(); }));
+      $('contextBody').addEventListener('input',()=>{ state.context.body=$('contextBody').innerHTML; markDirty(); renderPreview(); updateCounters(); });
+      document.querySelectorAll('.tool').forEach(btn=>btn.addEventListener('click',()=>{ $('contextBody').focus(); document.execCommand(btn.dataset.command,false,btn.dataset.value || null); state.context.body=$('contextBody').innerHTML; renderPreview(); updateCounters(); markDirty(); }));
+      document.querySelectorAll('.step-card').forEach(btn=>btn.addEventListener('click',()=>switchPage(btn.dataset.page)));
+      document.querySelectorAll('.preview-tab').forEach(btn=>btn.addEventListener('click',()=>switchPage(btn.dataset.preview)));
+      $('saveBtn').addEventListener('click',save);
+      $('resetBtn').addEventListener('click',()=>{ if(!confirm('入力内容をサンプルへ戻しますか？')) return; state=JSON.parse(JSON.stringify(SAMPLE)); localStorage.removeItem('beautiful-context-editor-v1'); switchPage('a'); showToast('サンプルへ戻しました'); });
+      $('imageInput').addEventListener('change',e=>{ if(e.target.files[0]) useImage(e.target.files[0]); });
+      $('removeImage').addEventListener('click',()=>{ pageWork().image=''; $('imageInput').value=''; markDirty(); renderEditorImage(); renderPreview(); });
+      ['dragenter','dragover'].forEach(ev=>$('dropzone').addEventListener(ev,e=>{e.preventDefault();$('dropzone').classList.add('drag')}));
+      ['dragleave','drop'].forEach(ev=>$('dropzone').addEventListener(ev,e=>{e.preventDefault();$('dropzone').classList.remove('drag')}));
+      $('dropzone').addEventListener('drop',e=>{ const f=e.dataTransfer.files[0]; if(f) useImage(f); });
+    }
+    function useImage(file){
+      if(!/^image\/(png|jpeg|webp)$/.test(file.type)){ showToast('JPG・PNG・WebPを選択してください'); return; }
+      if(file.size > 8*1024*1024){ showToast('画像は8MB以下にしてください'); return; }
+      const reader=new FileReader();
+      reader.onload=()=>{
+        const source=reader.result; const probe=new Image();
+        probe.onload=()=>{
+          const max=1600; const scale=Math.min(1,max/Math.max(probe.width,probe.height));
+          const canvas=document.createElement('canvas'); canvas.width=Math.round(probe.width*scale); canvas.height=Math.round(probe.height*scale);
+          canvas.getContext('2d').drawImage(probe,0,0,canvas.width,canvas.height);
+          pageWork().image=canvas.toDataURL('image/webp',.84) || source;
+          markDirty(); renderEditorImage(); renderPreview();
+        };
+        probe.onerror=()=>{ pageWork().image=source; markDirty(); renderEditorImage(); renderPreview(); };
+        probe.src=source;
+      };
+      reader.readAsDataURL(file);
+    }
+    function switchPage(page){
+      active=page;
+      document.querySelectorAll('.step-card').forEach(b=>b.setAttribute('aria-selected',String(b.dataset.page===page)));
+      document.querySelectorAll('.preview-tab').forEach(b=>b.classList.toggle('active',b.dataset.preview===page));
+      const isContext=page==='context';
+      document.querySelector('[data-work-section]').hidden=isContext;
+      document.querySelector('[data-context-section]').hidden=!isContext;
+      $('panelEyebrow').textContent=isContext?'CONTEXT A–B':`CONTENT ${page.toUpperCase()}`;
+      $('panelTitle').textContent=isContext?'コンテクストページを編集':'作品ページを編集';
+      if(isContext){
+        $('routeName').value=state.context.routeName; $('contextLabel').value=state.context.label; $('contextHeadline').value=state.context.headline; $('contextSlug').value=state.context.slug; $('relationSummary').value=state.context.relation; $('leftStation').value=state.context.leftStation; $('rightStation').value=state.context.rightStation; $('contextBody').innerHTML=state.context.body;
+      } else {
+        const w=pageWork(); workFields.forEach(id=>$(id).value=w[fieldMap[id]] || ''); renderEditorImage();
+      }
+      renderCards(); renderPreview(); updateCounters();
+      $('phoneScreen').scrollTop=0;
+    }
+    function renderEditorImage(){
+      if(active==='context') return; const w=pageWork(); const img=$('editorImage'); $('editorPlaceholder').textContent=active.toUpperCase();
+      if(w.image){ img.src=w.image; img.hidden=false; } else { img.removeAttribute('src'); img.hidden=true; }
+    }
+    function renderCards(){
+      $('cardTitleA').textContent=state.a.title || '作品Aを入力'; $('cardTitleB').textContent=state.b.title || '作品Bを入力'; $('cardTitleContext').textContent=state.context.routeName || 'コンテクストを入力'; $('pairA').textContent=state.a.title || '未入力'; $('pairB').textContent=state.b.title || '未入力';
+    }
+    function setImg(id,src){ const img=$(id); if(src){img.src=src;img.hidden=false}else{img.removeAttribute('src');img.hidden=true} }
+    function renderPreview(){
+      const isContext=active==='context'; $('workPreview').hidden=isContext; $('contextPreview').hidden=!isContext;
+      $('previewRouteName').textContent=state.context.routeName || '路線名未入力'; $('previewRouteInline').textContent=state.context.routeName || '路線名未入力'; $('previewStationA').textContent=state.context.leftStation || state.a.title; $('previewStationB').textContent=state.context.rightStation || state.b.title;
+      $('segmentHighlight').hidden=!isContext;
+      $('stationA').classList.toggle('current',active==='a'); $('stationB').classList.toggle('current',active==='b');
+      if(!isContext){
+        const w=pageWork(); $('phonePlaceholder').textContent=active.toUpperCase(); setImg('phoneImage',w.image); $('previewMeta').textContent=`${w.type || '作品'}・${w.year || '----'}年　CURRENT STATION`; $('previewTitle').textContent=w.title || '作品名'; $('previewSummary').textContent=w.summary || '作品解説を入力してください。';
+      } else {
+        setImg('contextImageA',state.a.image); setImg('contextImageB',state.b.image); $('previewContextLabel').textContent=state.context.label || 'CONTEXT'; $('previewHeadline').innerHTML=safeText(state.context.headline || 'キャッチコピーを入力').replace(/\n/g,'<br>'); $('previewRelation').textContent=state.context.relation || '二作品の関係を短く入力してください。'; $('previewBody').innerHTML=state.context.body || '<p>長文コンテクストを入力してください。</p>';
+      }
+    }
+    function save(){
+      try { localStorage.setItem('beautiful-context-editor-v1',JSON.stringify(state)); $('saveState').textContent='保存済み'; $('saveState').classList.add('saved'); showToast('このブラウザに下書きを保存しました'); }
+      catch(e){ showToast('画像が大きすぎるため保存できませんでした'); }
+    }
+    bindInputs(); switchPage('a');
+  })();
+  </script>
+</body>
+</html>
