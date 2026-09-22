@@ -1,6 +1,23 @@
 /* 画面はひとつ、という約束を別ページにも広げる。
    離れる前に薄れ、着いてから濃くなる。 */
 (() => {
+  /* 薄れさせる印は、必ずここだけで付ける。
+     移動が起きなければこの画面に居続けるので、時間で自分から畳む。
+     これを怠ると、本文が消えたまま地色だけの画面が残る。 */
+  let undo = 0;
+  function fadeOut(){
+    document.documentElement.classList.add('leaving');
+    clearTimeout(undo);
+    undo = setTimeout(restore, 2500);
+  }
+  function restore(){
+    clearTimeout(undo);
+    document.documentElement.classList.remove('leaving', 'entering');
+    document.body.style.transition = '';
+    document.body.style.transform = '';
+    document.body.style.opacity = '';
+  }
+
   document.addEventListener('click', ev => {
     const a = ev.target.closest('a[href]');
     if (!a) return;
@@ -8,13 +25,13 @@
     if (!href || href.startsWith('#') || /^[a-z]+:/i.test(href)) return;
     if (a.target === '_blank') return;
     ev.preventDefault();
-    document.documentElement.classList.add('leaving');
+    fadeOut();
     setTimeout(() => { location.href = href; }, 300);
   });
 
   /* エディターの「公開する」など、JS から移るときにも使えるように */
   window.BCLeave = (href, wait) => {
-    document.documentElement.classList.add('leaving');
+    fadeOut();
     setTimeout(() => { location.href = href; }, wait || 300);
   };
 
@@ -22,12 +39,9 @@
      出ていく前に付けた class が残ったままで、script も再び走らないので、
      本文が薄れたまま固まってしまう。地色だけの画面はこれだった。
      ここで畳んでおく。 */
-  window.addEventListener('pageshow', e => {
-    document.documentElement.classList.remove('leaving');
-    if (e.persisted) document.documentElement.classList.remove('entering');
-    document.body.style.transition = '';
-    document.body.style.transform = '';
-    document.body.style.opacity = '';
+  window.addEventListener('pageshow', e => { if (e.persisted) restore(); });
+  document.addEventListener('visibilitychange', () => {
+    if (!document.hidden && document.documentElement.classList.contains('leaving')) restore();
   });
 
   /* ---------- 右へ払って戻る ----------
@@ -70,11 +84,14 @@
     setTimeout(() => { document.body.style.transition = ''; }, 200);
   };
 
+  /* 端末の「戻る」には頼らない。保存しておいた画面をそのまま見せる仕組みと
+     噛み合わず、薄れたまま復帰することがある。行き先を自分で決める。 */
   function goBack(){
-    say('goBack()');
+    const here = (location.pathname.split('/').pop() || 'index.html');
+    say('goBack() tu ' + here);
     if (typeof window.BCSwipeBack === 'function' && window.BCSwipeBack()) return;
-    if (history.length > 1) history.back();
-    else window.BCLeave('index.html', 180);
+    if (here === 'index.html' || here === '') return;   /* もう家に居る */
+    window.BCLeave('index.html', 180);
   }
 
   const NOSWIPE = 'input,textarea,select,[contenteditable],[contenteditable] *';
