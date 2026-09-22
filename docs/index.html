@@ -6,8 +6,8 @@
 <meta name="description" content="Beautiful Context — 表紙から路線図へ、そしてコンテクストのストリームへ、縦のスクロール一本で続きます。">
 <meta name="theme-color" content="#141c25">
 <title>Beautiful Context</title>
-<link rel="stylesheet" href="app.css?v=27">
-<link rel="stylesheet" href="fade.css?v=27">
+<link rel="stylesheet" href="app.css?v=28">
+<link rel="stylesheet" href="fade.css?v=28">
 <style>
   /* 路線。角度の違う線と縦書きの線が交差する。
      箱は画面より大きいので、当たり判定は見出しだけに持たせる。 */
@@ -98,10 +98,10 @@ setTimeout(() => document.documentElement.classList.remove('entering'), 1200);
 
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
-<script src="js/seed.js?v=27"></script>
-<script src="js/store.js?v=27"></script>
-<script src="js/render.js?v=27"></script>
-<script src="js/transition.js?v=27"></script>
+<script src="js/seed.js?v=28"></script>
+<script src="js/store.js?v=28"></script>
+<script src="js/render.js?v=28"></script>
+<script src="js/transition.js?v=28"></script>
 <script>
 (() => {
   const S = window.BCStore, R = window.BCRender;
@@ -403,5 +403,6 @@ setTimeout(() => document.documentElement.classList.remove('entering'), 1200);
   }
 })();
 </script>
+  <script src="js/debug.js?v=28"></script>
 </body>
 </html>
