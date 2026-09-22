@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="description" content="Beautiful Context — 表紙から路線図へ、そしてコンテクストのストリームへ、縦のスクロール一本で続きます。">
 <title>Beautiful Context</title>
-<link rel="stylesheet" href="app.css?v=9">
+<link rel="stylesheet" href="app.css?v=10">
 <style>
   /* 路線。角度の違う線と縦書きの線が交差する。
      箱は画面より大きいので、当たり判定は見出しだけに持たせる。 */
@@ -36,9 +36,6 @@
   .tag:hover,.tag:focus-visible,.tag:active{color:#ffd489;outline:none}
   .uv-none{position:absolute;left:24px;right:24px;top:48%;z-index:3;text-align:center;color:#aab6c6;
     font-size:12px;line-height:2}
-  .net-count{position:absolute;left:0;right:0;z-index:3;text-align:center;pointer-events:none;
-    bottom:calc(var(--dock) + env(safe-area-inset-bottom) + 18px);
-    color:#8fa0b6;font-size:9.5px;letter-spacing:.18em;opacity:var(--cl,0)}
 </style>
 </head>
 <body>
@@ -68,10 +65,8 @@
       <div class="net-label" id="netLabel">
         <b>UniverseIt!</b><small>言葉から、つながりを辿る</small>
       </div>
-      <div class="net-count" id="netCount"></div>
 
       <h1 class="wordmark" id="wordmark">BEAUTIFUL CONTEXT</h1>
-      <span class="cue" aria-hidden="true"></span>
     </div>
   </section>
 
@@ -88,9 +83,9 @@
 
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
-<script src="js/seed.js?v=9"></script>
-<script src="js/store.js?v=9"></script>
-<script src="js/render.js?v=9"></script>
+<script src="js/seed.js?v=10"></script>
+<script src="js/store.js?v=10"></script>
+<script src="js/render.js?v=10"></script>
 <script>
 (() => {
   const S = window.BCStore, R = window.BCRender;
@@ -212,6 +207,30 @@
     window.scrollTo(0, y);
     requestAnimationFrame(() => { de.style.scrollBehavior = keep; });
   }
+
+  /* 継ぎ目を見せないための移動。ブラウザの smooth は当てにならないので
+     自前で送る。指で送ったときと同じ速さに見えることだけを狙う。 */
+  let gliding = 0;
+  function glideTo(y, ms){
+    const de = document.documentElement;
+    const keep = de.style.scrollBehavior;
+    de.style.scrollBehavior = 'auto';
+    const from = window.scrollY, dist = y - from, t0 = performance.now();
+    const id = ++gliding;
+    const easeInOut = t => t < .5 ? 4*t*t*t : 1 - Math.pow(-2*t + 2, 3) / 2;
+    (function step(now){
+      if (id !== gliding) return;
+      const t = Math.min(1, (now - t0) / ms);
+      window.scrollTo(0, from + dist * easeInOut(t));
+      paint();
+      if (t < 1) requestAnimationFrame(step);
+      else de.style.scrollBehavior = keep;
+    })(t0);
+    /* 指で触ったら即座に譲る */
+    const yield_ = () => { gliding++; de.style.scrollBehavior = keep; };
+    window.addEventListener('touchstart', yield_, { once: true, passive: true });
+    window.addEventListener('wheel', yield_, { once: true, passive: true });
+  }
   function goTo(slug){
     const el = document.getElementById(slug);
     if (!el) return;
@@ -237,11 +256,11 @@
 
   document.getElementById('uniBtn').addEventListener('click', () => {
     if (open()){
-      const first = document.querySelector('.ctx');
-      if (first) goTo(first.dataset.slug);
+      /* 初めて開くときは送り込む。跳ぶのではなく、続きが流れてくるように */
+      const first = stream.querySelector('.ctx');
+      if (first) glideTo(first.getBoundingClientRect().top + window.scrollY, 900);
     } else {
-      scrollToY(introEnd);   /* すでに開いていれば路線図へ戻る */
-      paint();
+      glideTo(introEnd, 700);   /* すでに開いていれば路線図へ戻る */
     }
   });
 
@@ -250,7 +269,12 @@
     if (!t) return;
     if (t.dataset.work){ location.href = 'page.html?work=' + encodeURIComponent(t.dataset.work); return; }
     open();
-    goTo(t.dataset.ctx);
+    const el = document.getElementById(t.dataset.ctx);
+    if (!el) return;
+    glideTo(el.getBoundingClientRect().top + window.scrollY, 900);
+    const e = S.byContextSlug(t.dataset.ctx);
+    if (e){ current = t.dataset.ctx; setDock(e); }
+    history.replaceState(null, '', '#' + t.dataset.ctx);
   });
   const hold = on => cloud.querySelectorAll('.run').forEach(r => r.classList.toggle('paused', on));
   cloud.addEventListener('pointerenter', () => hold(true));
@@ -266,7 +290,7 @@
 
   /* ---------- 起動 ---------- */
   build();
-  R.buildCloud(cloud, document.getElementById('netCount'));
+  R.buildCloud(cloud);
   measure();
   setDock(null);
   paint();
