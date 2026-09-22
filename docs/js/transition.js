@@ -1,22 +1,6 @@
 /* 画面はひとつ、という約束を別ページにも広げる。
    離れる前に薄れ、着いてから濃くなる。 */
 (() => {
-  /* 一時的な目印。端末が古い版を握ったままなのか、新しい版で
-     それでも駄目なのかを、見ただけで分かるようにする。用が済んだら外す。 */
-  const BUILD = 41;
-  addEventListener('DOMContentLoaded', () => {
-    const s = document.createElement('div');
-    s.textContent = 'build ' + BUILD;
-    s.style.cssText = 'position:fixed;z-index:2147483646;left:50%;transform:translateX(-50%);'
-      + 'bottom:calc(env(safe-area-inset-bottom) + 6px);padding:3px 9px;border-radius:99px;'
-      + 'background:rgba(0,0,0,.55);color:#9fb0c6;pointer-events:none;'
-      + 'font:10px/1 ui-monospace,Menlo,monospace;letter-spacing:.06em;'
-      + 'opacity:1;transition:opacity .6s ease 3.4s';
-    document.body.appendChild(s);
-    requestAnimationFrame(() => { s.style.opacity = '0'; });
-    setTimeout(() => s.remove(), 4600);
-  });
-
   /* 薄れさせる印は、必ずここだけで付ける。
      移動が起きなければこの画面に居続けるので、時間で自分から畳む。
      これを怠ると、本文が消えたまま地色だけの画面が残る。 */
@@ -61,15 +45,15 @@
   });
 
   /* ---------- 右へ払って戻る ----------
-     ホーム画面から開いた全画面モードにはブラウザの戻るが無い。
+     端という条件は外してある。そこは iOS 自身のジェスチャに取られていて
+     指が届かない。このページは横スクロールしないので、右へ払う動きは
+     どこで始めても他と衝突しない。
 
-     最初は画面の左端だけで受けていたが、そこは iOS 自身のジェスチャに
-     取られていて指が届かない。範囲を広げても駄目だった。
-
-     そこで端という条件を外した。このページは横スクロールしないので、
-     右へ払う動きはどこで始めても他と衝突しない。文字を選ぶ操作だけは
-     邪魔したくないので、入力欄の上から始めたときは手を引く。 */
-  const DONE = 90;   /* これだけ引いたら戻る */
+     指を離した瞬間に決めるのはやめた。押しやったのは自分ではなく
+     機械だった、という感じになる。紙を横へ押しやるように、指の動きに
+     1対1で付いてゆき、充分に押しやった時点でその場で決まる。
+     途中で離せば戻ってくる。何も起きない。 */
+  const NEED = () => Math.max(150, window.innerWidth * 0.45);  /* ここまで押せば決まる */
   const SLOP = 60;   /* 縦にこれだけ動いたら、ただのスクロール */
   const LOCK = 16;   /* ここを超え、かつ縦より横が勝っていたら横の操作 */
 
@@ -90,24 +74,32 @@
   }
 
   const paint = (v, fade) => {
-    document.body.style.transform = v ? 'translateX(' + v + 'px)' : '';
+    document.body.style.transform = v ? 'translateX(' + Math.round(v) + 'px)' : '';
     document.body.style.opacity = fade == null ? '' : String(fade);
   };
 
   const settle = () => {
-    document.body.style.transition = 'transform .18s ease, opacity .18s ease';
+    document.body.style.transition = 'transform .2s ease, opacity .2s ease';
     paint(0, null);
-    setTimeout(() => { document.body.style.transition = ''; }, 200);
+    setTimeout(() => { document.body.style.transition = ''; }, 220);
   };
 
-  /* 端末の「戻る」には頼らない。保存しておいた画面をそのまま見せる仕組みと
-     噛み合わず、薄れたまま復帰することがある。行き先を自分で決める。 */
-  function goBack(){
+  /* 押し切ったとき。そのまま送り出して、着いた先を出す。
+     端末の「戻る」には頼らない。保存しておいた画面をそのまま見せる
+     仕組みと噛み合わず、薄れたまま復帰することがある。 */
+  function commit(){
+    live = false; locked = false;
+    say('day du xa -> quay lai');
+
+    /* この画面の中で片づくなら、本文は元の位置へ返す */
+    if (typeof window.BCSwipeBack === 'function' && window.BCSwipeBack()){ settle(); return; }
+
     const here = (location.pathname.split('/').pop() || 'index.html');
-    say('goBack() tu ' + here);
-    if (typeof window.BCSwipeBack === 'function' && window.BCSwipeBack()) return;
-    if (here === 'index.html' || here === '') return;   /* もう家に居る */
-    window.BCLeave('index.html', 180);
+    if (here === 'index.html' || here === ''){ settle(); return; }   /* もう家に居る */
+
+    document.body.style.transition = 'transform .2s ease-out, opacity .2s ease-out';
+    paint(window.innerWidth * 0.55, 0);
+    setTimeout(() => window.BCLeave('index.html', 0), 170);
   }
 
   const NOSWIPE = 'input,textarea,select,[contenteditable],[contenteditable] *';
@@ -130,20 +122,22 @@
     const dy = Math.abs(t.clientY - sy);
     if (!locked && dy > SLOP){ live = false; settle(); say('huy: doc ' + Math.round(dy)); return; }
     if (!locked && dx > LOCK && dx > dy * 1.6) locked = true;
-    if (locked){
-      if (e.cancelable) e.preventDefault();   /* giữ cho trang khỏi cuộn theo */
-      paint(dx * 0.32, 1 - 0.22 * Math.min(1, dx / 170));
-      say('keo ' + Math.round(dx) + ' / can ' + DONE);
-    }
+    if (!locked) return;
+
+    if (e.cancelable) e.preventDefault();   /* giữ cho trang khỏi cuộn theo */
+    const need = NEED();
+    const shown = Math.max(0, dx);
+    paint(shown, 1 - 0.25 * Math.min(1, shown / need));
+    say('day ' + Math.round(shown) + ' / can ' + Math.round(need));
+    if (shown >= need) commit();
   }, { passive: false, capture: true });
 
+  /* 離しただけでは何も起きない。押し切っていなければ、戻ってくる。 */
   document.addEventListener('touchend', () => {
     if (!live) return;
     live = false;
-    const ok = locked && dx > DONE;
-    say('tha ' + Math.round(dx) + (ok ? ' -> QUAY LAI' : ' -> khong du'));
+    say('tha tay ' + Math.round(dx) + ' -> ve cho cu');
     settle();
-    if (ok) setTimeout(goBack, 60);
   }, { passive: true, capture: true });
 
   document.addEventListener('touchcancel', () => {
