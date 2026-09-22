@@ -6,8 +6,8 @@
 <meta name="description" content="Beautiful Context — 表紙から路線図へ、そしてコンテクストのストリームへ、縦のスクロール一本で続きます。">
 <meta name="theme-color" content="#121923">
 <title>Beautiful Context</title>
-<link rel="stylesheet" href="app.css?v=17">
-<link rel="stylesheet" href="fade.css?v=17">
+<link rel="stylesheet" href="app.css?v=18">
+<link rel="stylesheet" href="fade.css?v=18">
 <style>
   /* 路線。角度の違う線と縦書きの線が交差する。
      箱は画面より大きいので、当たり判定は見出しだけに持たせる。 */
@@ -43,6 +43,13 @@
     font-size:12px;line-height:2}
 </style>
 <script>
+(() => {
+  const tc = (new URLSearchParams(location.search).get('tc') || '').replace(/[^0-9a-f]/gi,'');
+  if (tc.length === 6){
+    const m = document.querySelector('meta[name="theme-color"]');
+    if (m) m.content = '#' + tc;
+  }
+})();
 document.documentElement.classList.add('entering');
 addEventListener('DOMContentLoaded', () => requestAnimationFrame(() =>
   document.documentElement.classList.remove('entering')));
@@ -98,10 +105,10 @@ setTimeout(() => document.documentElement.classList.remove('entering'), 1200);
 
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
-<script src="js/seed.js?v=17"></script>
-<script src="js/store.js?v=17"></script>
-<script src="js/render.js?v=17"></script>
-<script src="js/transition.js?v=17"></script>
+<script src="js/seed.js?v=18"></script>
+<script src="js/store.js?v=18"></script>
+<script src="js/render.js?v=18"></script>
+<script src="js/transition.js?v=18"></script>
 <script>
 (() => {
   const S = window.BCStore, R = window.BCRender;
@@ -164,10 +171,15 @@ setTimeout(() => document.documentElement.classList.remove('entering'), 1200);
     return null;
   }
 
+  /* ?tc=ff0000 のように渡すと、帯の色をそれに固定する。
+     ブラウザが theme-color を見ているかどうかを確かめるための口。 */
+  const tcTest = (new URLSearchParams(location.search).get('tc') || '').replace(/[^0-9a-f]/gi, '');
+
   /* 色を決める場所はここ一箇所。二箇所から書くと、
      スクロールの監視と重ね表示が互いに上書きし合う。 */
   function applyTheme(){
     if (!themeMeta) return;
+    if (tcTest.length === 6){ themeMeta.content = '#' + tcTest; return; }
     const hex = document.getElementById('workView').classList.contains('on') ? BLACK
               : dock.classList.contains('dark') ? GROUND
               : (topColor() || PAPER);
