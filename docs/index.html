@@ -99,7 +99,7 @@
 <script src="js/seed.js?v=49"></script>
 <script src="js/store.js?v=49"></script>
 <script src="js/render.js?v=49"></script>
-<script src="js/transition.js?v=57"></script>
+<script src="js/transition.js?v=56"></script>
 <script>
 (() => {
   const S = window.BCStore, R = window.BCRender;
@@ -230,7 +230,7 @@
     const p = clamp(raw);
     /* 先に濃さを保ったまま上端近くまで流し、着いてから薄くする。 */
     const wy = -window.innerHeight * 0.42 * ease((p - 0.02) / 0.24);
-    const wm = 1 - ease((p - 0.26) / 0.24);
+    const wm = 1 - ease((p - 0.26) / 0.17);
     /* 見出しは導入部で立ち上がり、そのあともページの後ろで流れ続ける。
        ただし本文の下敷きになるので、読める濃さまで落ち着かせる。 */
     const after = Math.max(0, (window.scrollY - introEnd) / 420);
