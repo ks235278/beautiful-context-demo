@@ -28,9 +28,9 @@ html.leaving body{opacity:0}
   html.leaving body{opacity:1}
 }
 
-/* 端末自身の横払いも「戻る」になっていて、同じ動きに二通りの
-   決まり方があった。片方を止めて、こちらに一本化する。 */
-html,body{overscroll-behavior-x:none}
+/* 横方向は Safari 本来の履歴スワイプへ渡す。前画面の実スナップショットを
+   ブラウザが保持するため、現在画面との二層だけで滑らかに戻れる。 */
+html,body{overscroll-behavior-x:auto}
 
 /* 送りの跡は見せない。画面はひとつ、という約束の続きで、
    紙の横に定規が立っているように見えるものを外す。

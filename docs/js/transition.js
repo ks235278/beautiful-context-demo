@@ -12,7 +12,6 @@
   }
   function restore(){
     clearTimeout(undo);
-    if (frame){ cancelAnimationFrame(frame); frame = 0; }
     document.documentElement.classList.remove('leaving');
     document.body.style.transition = '';
     document.body.style.transform = '';
@@ -46,114 +45,6 @@
     if (!document.hidden && document.documentElement.classList.contains('leaving')) restore();
   });
 
-  /* ---------- 右へ払って戻る ----------
-     端という条件は付けない。画面のどこで始めてもよい。このページは
-     横スクロールしないので、他と衝突しない。
-
-     軽く払っただけで行ってしまい、手を戻す先が無い、というのを直す。
-     紙を横へ押しやるのと同じにした。指について前にも後ろにも動く。
-     半分より向こうまで押してから手を離せば、送り出される。
-     そこまで押していなければ、手を離すと元の位置へ返ってくる。
-     途中で気が変わったら、押し戻せばよい。 */
-  const HALF = () => window.innerWidth * 0.5;  /* ここを越えていれば送り出す */
-  const SLOP = 60;   /* 縦にこれだけ動いたら、ただのスクロール */
-  const LOCK = 16;   /* ここを超え、かつ縦より横が勝っていたら横の操作 */
-
-  let sx = 0, sy = 0, dx = 0, live = false, locked = false;
-  let frame = 0, paintedX = 0;
-  const dbg = new URLSearchParams(location.search).has('debug');
-  let note = null;
-
-  function say(t){
-    if (!dbg) return;
-    if (!note){
-      note = document.createElement('div');
-      note.style.cssText = 'position:fixed;z-index:99999;left:8px;bottom:8px;padding:8px 11px;'
-        + 'border-radius:8px;background:rgba(0,0,0,.9);color:#7CFF9B;pointer-events:none;'
-        + 'font:12px/1.5 ui-monospace,Menlo,monospace;white-space:pre';
-      document.body.appendChild(note);
-    }
-    note.textContent = t;
-  }
-
-  /* touchmove は一フレームに何度も届く。最後の位置だけを rAF で描き、
-     長いエディター全体を毎イベント再合成しない。 */
-  const paintNow = v => {
-    paintedX = v;
-    document.body.style.transform = v ? 'translate3d(' + Math.round(v) + 'px,0,0)' : '';
-  };
-  const paint = v => {
-    paintedX = v;
-    if (frame) return;
-    frame = requestAnimationFrame(() => { frame = 0; paintNow(paintedX); });
-  };
-
-  /* 押し足りなかったとき。元の位置へ返す。 */
-  const settle = () => {
-    if (frame){ cancelAnimationFrame(frame); frame = 0; }
-    document.body.style.transition = 'transform .28s cubic-bezier(.22,.72,.24,1)';
-    paintNow(0);
-    setTimeout(() => {
-      document.body.style.transition = '';
-      document.body.style.willChange = '';
-    }, 300);
-  };
-
-  /* 押し切ったとき。そのまま送り出す。 */
-  function leave(){
-    say('da day qua nua -> quay lai');
-
-    /* この画面の中で片づくなら、本文は元の位置へ返す */
-    if (typeof window.BCSwipeBack === 'function' && window.BCSwipeBack()){ settle(); return; }
-
-    const here = (location.pathname.split('/').pop() || 'index.html');
-    if (here === 'index.html' || here === ''){ settle(); return; }   /* もう家に居る */
-
-    if (frame){ cancelAnimationFrame(frame); frame = 0; }
-    document.body.style.transition = 'transform .24s cubic-bezier(.2,.72,.2,1)';
-    paintNow(window.innerWidth * 1.04);
-    setTimeout(() => window.BCLeave('index.html', 0), 220);
-  }
-
-  const NOSWIPE = 'input,textarea,select,[contenteditable],[contenteditable] *';
-
-  document.addEventListener('touchstart', e => {
-    if (e.touches.length !== 1) return;
-    const t = e.touches[0];
-    if (t.target && t.target.closest && t.target.closest(NOSWIPE)){
-      say('bo qua: o nhap lieu'); live = false; return;
-    }
-    sx = t.clientX; sy = t.clientY; dx = 0; live = true; locked = false;
-    document.body.style.transition = '';
-    document.body.style.willChange = 'transform';
-    say('start x=' + Math.round(t.clientX));
-  }, { passive: true, capture: true });
-
-  document.addEventListener('touchmove', e => {
-    if (!live) return;
-    const t = e.touches[0];
-    dx = Math.max(0, t.clientX - sx);            /* 左へは動かさない */
-    const dy = Math.abs(t.clientY - sy);
-    if (!locked && dy > SLOP){ live = false; settle(); say('huy: doc ' + Math.round(dy)); return; }
-    if (!locked && dx > LOCK && dx > dy * 1.6) locked = true;
-    if (!locked) return;
-
-    if (e.cancelable) e.preventDefault();        /* giữ cho trang khỏi cuộn theo */
-    paint(dx);
-    say('day ' + Math.round(dx) + ' / nua man ' + Math.round(HALF()));
-  }, { passive: false, capture: true });
-
-  /* 手を離したときに決める。押し戻してあれば、何も起きない。 */
-  document.addEventListener('touchend', () => {
-    if (!live) return;
-    live = false;
-    if (!locked){ document.body.style.willChange = ''; return; }
-    if (dx >= HALF()) leave();
-    else { settle(); say('tha tay ' + Math.round(dx) + ' -> ve cho cu'); }
-  }, { passive: true, capture: true });
-
-  document.addEventListener('touchcancel', () => {
-    if (!live) return;
-    live = false; settle(); say('he thong lay mat cu chi');
-  }, { passive: true, capture: true });
+  /* 戻るスワイプは Safari に任せる。ブラウザだけが履歴上の前画面を
+     本物の二層として保持し、指の位置と完全に同期して描ける。 */
 })();
