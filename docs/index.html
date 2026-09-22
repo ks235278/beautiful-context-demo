@@ -14,8 +14,8 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Beautiful Context">
 <title>Beautiful Context</title>
-<link rel="stylesheet" href="app.css?v=50">
-<link rel="stylesheet" href="fade.css?v=50">
+<link rel="stylesheet" href="app.css?v=51">
+<link rel="stylesheet" href="fade.css?v=51">
 <style>
   /* 路線。角度の違う線と縦書きの線が交差する。
      箱は画面より大きいので、当たり判定は見出しだけに持たせる。 */
@@ -35,12 +35,23 @@
   .run.paused{animation-play-state:paused}
   @keyframes runX{from{transform:translateX(0)}to{transform:translateX(-50%)}}
   @keyframes runY{from{transform:translateY(0)}to{transform:translateY(-50%)}}
+  /* 形を足さず、文字そのものの呼吸で「触れられる」ことを匂わせる。 */
   .tag{flex:0 0 auto;margin:0 22px;padding:9px 7px;background:none;border:0;font-family:inherit;
-    cursor:pointer;white-space:nowrap;line-height:1.5;transition:color .18s;pointer-events:auto}
+    cursor:pointer;white-space:nowrap;line-height:1.5;pointer-events:auto;touch-action:manipulation;
+    transition:color .18s,filter .18s,text-shadow .18s,transform .18s}
   .tag.k-ctx{color:#eef2f8}
   .tag.k-work{color:#9fb0c6}
   .tag .h{color:#6f8db4;margin-right:1px}
-  .tag:hover,.tag:focus-visible,.tag:active{color:#ffd489;outline:none}
+  .tag:hover,.tag:focus-visible,.tag:active{animation:none;color:#ffd489;filter:brightness(1.18);
+    text-shadow:0 0 16px rgba(255,212,137,.42);transform:scale(1.055);outline:none}
+  .tag:nth-child(4n+1){animation:textBreath 7.2s ease-in-out infinite}
+  .tag:nth-child(4n+2){animation:textBreath 7.2s 2.4s ease-in-out infinite}
+  .tag:nth-child(4n+3){animation:textBreath 7.2s 4.8s ease-in-out infinite}
+  @keyframes textBreath{
+    0%,84%,100%{filter:brightness(1);text-shadow:0 0 0 transparent}
+    90%{filter:brightness(1.65);text-shadow:0 0 18px rgba(159,190,230,.46)}
+  }
+  @media (prefers-reduced-motion:reduce){.tag{animation:none!important}}
   .uv-none{position:absolute;left:24px;right:24px;top:48%;z-index:3;text-align:center;color:#aab6c6;
     font-size:12px;line-height:2}
 </style>
