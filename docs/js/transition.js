@@ -45,19 +45,16 @@
   });
 
   /* ---------- 右へ払って戻る ----------
-     端という条件は外してある。そこは iOS 自身のジェスチャに取られていて
-     指が届かない。このページは横スクロールしないので、右へ払う動きは
-     どこで始めても他と衝突しない。
+     端という条件は付けない。画面のどこで始めても、右へ払えば戻る。
+     このページは横スクロールしないので、他と衝突しない。
 
-     指を離した瞬間に決めるのはやめた。押しやったのは自分ではなく
-     機械だった、という感じになる。紙を横へ押しやるように、指の動きに
-     1対1で付いてゆき、充分に押しやった時点でその場で決まる。
-     途中で離せば戻ってくる。何も起きない。 */
-  const NEED = () => Math.max(150, window.innerWidth * 0.45);  /* ここまで押せば決まる */
+     どこまで引いたか、離したかどうか、は問わない。右へ払った、と
+     分かった時点で戻る。二通りの決まり方があると、同じ動きなのに
+     結果が違って感じられる。 */
+  const GO   = 46;   /* これだけ横へ動けば、右へ払ったと分かる */
   const SLOP = 60;   /* 縦にこれだけ動いたら、ただのスクロール */
-  const LOCK = 16;   /* ここを超え、かつ縦より横が勝っていたら横の操作 */
 
-  let sx = 0, sy = 0, dx = 0, live = false, locked = false;
+  let sx = 0, sy = 0, live = false;
   const dbg = new URLSearchParams(location.search).has('debug');
   let note = null;
 
@@ -73,32 +70,19 @@
     note.textContent = t;
   }
 
-  const paint = (v, fade) => {
-    document.body.style.transform = v ? 'translateX(' + Math.round(v) + 'px)' : '';
-    document.body.style.opacity = fade == null ? '' : String(fade);
-  };
+  function back(){
+    live = false;
+    say('vuot phai -> quay lai');
 
-  const settle = () => {
-    document.body.style.transition = 'transform .2s ease, opacity .2s ease';
-    paint(0, null);
-    setTimeout(() => { document.body.style.transition = ''; }, 220);
-  };
-
-  /* 押し切ったとき。そのまま送り出して、着いた先を出す。
-     端末の「戻る」には頼らない。保存しておいた画面をそのまま見せる
-     仕組みと噛み合わず、薄れたまま復帰することがある。 */
-  function commit(){
-    live = false; locked = false;
-    say('day du xa -> quay lai');
-
-    /* この画面の中で片づくなら、本文は元の位置へ返す */
-    if (typeof window.BCSwipeBack === 'function' && window.BCSwipeBack()){ settle(); return; }
+    /* この画面の中で片づくなら、そちらに任せる */
+    if (typeof window.BCSwipeBack === 'function' && window.BCSwipeBack()) return;
 
     const here = (location.pathname.split('/').pop() || 'index.html');
-    if (here === 'index.html' || here === ''){ settle(); return; }   /* もう家に居る */
+    if (here === 'index.html' || here === '') return;   /* もう家に居る */
 
     document.body.style.transition = 'transform .2s ease-out, opacity .2s ease-out';
-    paint(window.innerWidth * 0.55, 0);
+    document.body.style.transform = 'translateX(' + Math.round(window.innerWidth * 0.5) + 'px)';
+    document.body.style.opacity = '0';
     setTimeout(() => window.BCLeave('index.html', 0), 170);
   }
 
@@ -108,40 +92,24 @@
     if (e.touches.length !== 1) return;
     const t = e.touches[0];
     if (t.target && t.target.closest && t.target.closest(NOSWIPE)){
-      say('bo qua: o nhap lieu'); return;
+      say('bo qua: o nhap lieu'); live = false; return;
     }
+    sx = t.clientX; sy = t.clientY; live = true;
     say('start x=' + Math.round(t.clientX));
-    sx = t.clientX; sy = t.clientY; dx = 0; live = true; locked = false;
-    document.body.style.transition = '';
   }, { passive: true, capture: true });
 
   document.addEventListener('touchmove', e => {
     if (!live) return;
     const t = e.touches[0];
-    dx = t.clientX - sx;
+    const dx = t.clientX - sx;
     const dy = Math.abs(t.clientY - sy);
-    if (!locked && dy > SLOP){ live = false; settle(); say('huy: doc ' + Math.round(dy)); return; }
-    if (!locked && dx > LOCK && dx > dy * 1.6) locked = true;
-    if (!locked) return;
-
-    if (e.cancelable) e.preventDefault();   /* giữ cho trang khỏi cuộn theo */
-    const need = NEED();
-    const shown = Math.max(0, dx);
-    paint(shown, 1 - 0.25 * Math.min(1, shown / need));
-    say('day ' + Math.round(shown) + ' / can ' + Math.round(need));
-    if (shown >= need) commit();
+    if (dy > SLOP){ live = false; say('huy: doc ' + Math.round(dy)); return; }
+    if (dx > GO && dx > dy * 1.6){
+      if (e.cancelable) e.preventDefault();
+      back();
+    }
   }, { passive: false, capture: true });
 
-  /* 離しただけでは何も起きない。押し切っていなければ、戻ってくる。 */
-  document.addEventListener('touchend', () => {
-    if (!live) return;
-    live = false;
-    say('tha tay ' + Math.round(dx) + ' -> ve cho cu');
-    settle();
-  }, { passive: true, capture: true });
-
-  document.addEventListener('touchcancel', () => {
-    if (!live) return;
-    live = false; settle(); say('he thong lay mat cu chi');
-  }, { passive: true, capture: true });
+  document.addEventListener('touchend',    () => { live = false; }, { passive: true, capture: true });
+  document.addEventListener('touchcancel', () => { live = false; }, { passive: true, capture: true });
 })();
