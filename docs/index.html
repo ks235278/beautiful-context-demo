@@ -6,17 +6,20 @@
 <meta name="description" content="Beautiful Context — 表紙から路線図へ、そしてコンテクストのストリームへ、縦のスクロール一本で続きます。">
 <meta name="theme-color" content="#10141a">
 <title>Beautiful Context</title>
-<link rel="stylesheet" href="app.css?v=14">
-<link rel="stylesheet" href="fade.css?v=14">
+<link rel="stylesheet" href="app.css?v=16">
+<link rel="stylesheet" href="fade.css?v=16">
 <style>
   /* 路線。角度の違う線と縦書きの線が交差する。
      箱は画面より大きいので、当たり判定は見出しだけに持たせる。 */
   .cloud{position:absolute;inset:0;z-index:2;overflow:hidden;
     opacity:var(--cl,0);will-change:opacity}
-  .cloud::before,.cloud::after{content:"";position:absolute;left:0;right:0;height:34px;z-index:3;
+  /* 見出しも端では地色へ溶ける。溶かす距離は地の模様と揃える */
+  .cloud::before,.cloud::after{content:"";position:absolute;left:0;right:0;z-index:3;
     pointer-events:none}
-  .cloud::before{top:0;background:linear-gradient(#10141a,rgba(16,20,26,0))}
-  .cloud::after{bottom:0;background:linear-gradient(rgba(16,20,26,0),#10141a)}
+  .cloud::before{top:0;height:calc(124px + env(safe-area-inset-top));
+    background:linear-gradient(var(--charcoal),rgba(16,20,26,.7) 44%,rgba(16,20,26,0))}
+  .cloud::after{bottom:0;height:150px;
+    background:linear-gradient(rgba(16,20,26,0),rgba(16,20,26,.8) 58%,var(--charcoal))}
   .track{position:absolute;will-change:transform;pointer-events:none}
   .track .run{pointer-events:none}
   .track.d{left:50%;top:var(--y);width:280vmax;transform:translate(-50%,-50%) rotate(var(--a))}
@@ -95,10 +98,10 @@ setTimeout(() => document.documentElement.classList.remove('entering'), 1200);
 
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
-<script src="js/seed.js?v=14"></script>
-<script src="js/store.js?v=14"></script>
-<script src="js/render.js?v=14"></script>
-<script src="js/transition.js?v=14"></script>
+<script src="js/seed.js?v=16"></script>
+<script src="js/store.js?v=16"></script>
+<script src="js/render.js?v=16"></script>
+<script src="js/transition.js?v=16"></script>
 <script>
 (() => {
   const S = window.BCStore, R = window.BCRender;
@@ -144,13 +147,29 @@ setTimeout(() => document.documentElement.classList.remove('entering'), 1200);
   const themeMeta = document.querySelector('meta[name="theme-color"]');
   const CHARCOAL = '#10141a', PAPER = '#f7f4ed', BLACK = '#070707';
 
+  /* 画面の一番上に実際に来ているものの色を読む。ストリームでは
+     作品の絵（黒）と本文（紙）が入れ替わり続けるので、決め打ちでは合わない。 */
+  function topColor(){
+    let n = document.elementFromPoint(Math.round(window.innerWidth / 2), 2);
+    while (n && n !== document.documentElement){
+      const bg = getComputedStyle(n).backgroundColor;
+      const m = bg && bg.match(/^rgba?\((\d+),\s*(\d+),\s*(\d+)(?:,\s*([\d.]+))?/);
+      if (m && (m[4] === undefined || +m[4] > .9)){
+        return '#' + [m[1], m[2], m[3]]
+          .map(v => (+v).toString(16).padStart(2, '0')).join('');
+      }
+      n = n.parentElement;
+    }
+    return null;
+  }
+
   /* 色を決める場所はここ一箇所。二箇所から書くと、
      スクロールの監視と重ね表示が互いに上書きし合う。 */
   function applyTheme(){
     if (!themeMeta) return;
     const hex = document.getElementById('workView').classList.contains('on') ? BLACK
               : dock.classList.contains('dark') ? CHARCOAL
-              : PAPER;
+              : (topColor() || PAPER);
     if (themeMeta.content !== hex) themeMeta.content = hex;
   }
 
@@ -217,6 +236,8 @@ setTimeout(() => document.documentElement.classList.remove('entering'), 1200);
       inIntro = nowIn;
       if (nowIn){ setDock(null); history.replaceState(null, '', location.pathname); }
     }
+    /* 上端に来ているものが変われば、帯の色もついてくる */
+    if (!nowIn) applyTheme();
   }
   function onScroll(){ if (!ticking){ ticking = true; requestAnimationFrame(paint); } }
 
