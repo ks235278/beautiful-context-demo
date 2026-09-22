@@ -4,10 +4,10 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="description" content="Beautiful Context — 表紙から路線図へ、そしてコンテクストのストリームへ、縦のスクロール一本で続きます。">
-<meta name="theme-color" content="#121923">
+<meta name="theme-color" content="#000000">
 <title>Beautiful Context</title>
-<link rel="stylesheet" href="app.css?v=18">
-<link rel="stylesheet" href="fade.css?v=18">
+<link rel="stylesheet" href="app.css?v=19">
+<link rel="stylesheet" href="fade.css?v=19">
 <style>
   /* 路線。角度の違う線と縦書きの線が交差する。
      箱は画面より大きいので、当たり判定は見出しだけに持たせる。 */
@@ -16,10 +16,10 @@
   /* 見出しも端では地色へ溶ける。溶かす距離は地の模様と揃える */
   .cloud::before,.cloud::after{content:"";position:absolute;left:0;right:0;z-index:3;
     pointer-events:none}
-  .cloud::before{top:0;height:calc(58px + env(safe-area-inset-top));
-    background:linear-gradient(rgba(18,25,35,.92),rgba(18,25,35,0))}
-  .cloud::after{bottom:0;height:80px;
-    background:linear-gradient(rgba(18,25,35,0),rgba(18,25,35,.92))}
+  .cloud::before{top:0;height:calc(70px + env(safe-area-inset-top));
+    background:linear-gradient(#000,rgba(0,0,0,0))}
+  .cloud::after{bottom:0;height:90px;
+    background:linear-gradient(rgba(0,0,0,0),#000)}
   .track{position:absolute;will-change:transform;pointer-events:none}
   .track .run{pointer-events:none}
   .track.d{left:50%;top:var(--y);width:280vmax;transform:translate(-50%,-50%) rotate(var(--a))}
@@ -105,10 +105,10 @@ setTimeout(() => document.documentElement.classList.remove('entering'), 1200);
 
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
-<script src="js/seed.js?v=18"></script>
-<script src="js/store.js?v=18"></script>
-<script src="js/render.js?v=18"></script>
-<script src="js/transition.js?v=18"></script>
+<script src="js/seed.js?v=19"></script>
+<script src="js/store.js?v=19"></script>
+<script src="js/render.js?v=19"></script>
+<script src="js/transition.js?v=19"></script>
 <script>
 (() => {
   const S = window.BCStore, R = window.BCRender;
@@ -153,7 +153,7 @@ setTimeout(() => document.documentElement.classList.remove('entering'), 1200);
      渡さないと、そこだけ地色から浮いて見える。 */
   const themeMeta = document.querySelector('meta[name="theme-color"]');
   /* GROUND は模様が乗った状態の平均色。app.css の --ground と同じ値。 */
-  const GROUND = '#121923', PAPER = '#f7f4ed', BLACK = '#070707';
+  const GROUND = '#000000', PAPER = '#f7f4ed', BLACK = '#070707';
 
   /* 画面の一番上に実際に来ているものの色を読む。ストリームでは
      作品の絵（黒）と本文（紙）が入れ替わり続けるので、決め打ちでは合わない。 */
