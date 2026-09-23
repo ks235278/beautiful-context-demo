@@ -358,8 +358,10 @@
       const head = (e.context.headline || '').split('\n')[0].replace(/[、。]$/, '');
       if (head) out.push({ text: head, kind: 'ctx', ctx: e.context.slug });
     });
+    /* 「黒澤明『天国と地獄』」は括弧の中だけを見出しにする。外すと語がつながって読めない */
     S.works().forEach(w => {
-      out.push({ text: w.work.title.replace(/[『』]/g, ''), kind: 'work', work: w.slug });
+      const inner = String(w.work.title || '').match(/『(.+?)』/);
+      out.push({ text: inner ? inner[1] : w.work.title, kind: 'work', work: w.slug });
     });
     return out;
   }

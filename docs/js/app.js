@@ -316,8 +316,12 @@
       const to = motion.toCenter ? around(c, 30, 30 * b.r.height / b.r.width)
         : dir ? shift(b.r, -dir * W * 0.55)
         : { left: b.r.left + b.r.width * 0.1, top: b.r.top + b.r.height * 0.1, width: b.r.width * 0.8, height: b.r.height * 0.8 };
-      const a = f.animate([{ ...box(b.r), opacity: 1 }, { ...box(to), opacity: 0 }],
-        { duration: motion.toCenter ? DUR + 120 : DUR - 120, easing: EASE, fill: 'forwards' });
+      /* 見出しへ戻るときは、ゆっくり縮みながら、最後に溶ける */
+      const a = f.animate(motion.toCenter
+        ? [{ ...box(b.r), opacity: 1 }, { opacity: 0.85, offset: 0.55 }, { ...box(to), opacity: 0 }]
+        : [{ ...box(b.r), opacity: 1 }, { ...box(to), opacity: 0 }],
+        { duration: motion.toCenter ? DUR + 300 : DUR - 120,
+          easing: motion.toCenter ? 'cubic-bezier(.5,.05,.3,1)' : EASE, fill: 'forwards' });
       const done = () => f.remove();
       a.onfinish = done;
       inflight.push(done);
