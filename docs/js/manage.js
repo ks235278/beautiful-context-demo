@@ -4,8 +4,7 @@
    「何を、誰が、どこまで変えられるか」。ここに運営の手を集める。
 
      コンテクスト … 公開 / 非公開 / 一時非表示、編集、削除
-     コメント     … 表示 / 非表示、削除
-     広告枠       … 画像・文言・リンク・表示の有無、挟む間隔
+     広告枠       … 画像・文言・リンク・表示の有無（コンテクストページの読み終わり）
      書き手       … 書き手ごとにまとめて止める
      カスタマイズ … サービス名・キャッチ・地の明暗・アクセント色
      データ       … 書き出し / 読み込み / 見本に戻す
@@ -31,13 +30,10 @@
     return s ? `<img src="${esc(s)}" alt="" loading="lazy">`
       : `<span>${esc((w.title || '?').replace(/[『』]/g, '').charAt(0))}</span>`;
   };
-  const allComments = () => S.all().flatMap((e) => e.comments.map((c) => ({ e, c })))
-    .sort((x, y) => (y.c.at || '').localeCompare(x.c.at || ''));
 
   /* ---------- 見出し（左の列） ---------- */
   const TABS = [
     { id: 'contexts', label: 'コンテクスト', count: () => S.all().length },
-    { id: 'comments', label: 'コメント', count: () => allComments().length },
     { id: 'ads', label: '広告枠', count: () => S.ads().length },
     { id: 'authors', label: '書き手', count: () => S.authors().length },
     null,
@@ -69,15 +65,13 @@
     const q = query.trim().toLowerCase();
     const list = all.filter((e) => (filter === 'all' || e.status === filter) &&
       (!q || [e.a.title, e.b.title, e.context.routeName, e.context.headline, e.context.author].join(' ').toLowerCase().includes(q)));
-    const likes = all.reduce((s, e) => s + S.reactionCount(e), 0);
     const rows = list.map((e) => `
       <div class="item${e.status !== 'public' ? ' dim' : ''}" data-id="${esc(e.id)}">
         <div class="thumbs">${thumb(e.a)}${thumb(e.b)}</div>
         <div class="info">
           <b>${esc(e.a.title)} ＋ ${esc(e.b.title)}</b>
           <span class="sub">【${esc(e.context.routeName)}】${esc(e.context.headline.replace(/\n/g, ''))}</span>
-          <span class="meta"><span>${esc(e.context.author)}</span><span>更新 ${esc(day(e.updatedAt))}</span>
-            <span>共感 ${S.reactionCount(e)}</span><span>コメント ${e.comments.length}</span></span>
+          <span class="meta"><span>${esc(e.context.author)}</span><span>更新 ${esc(day(e.updatedAt))}</span></span>
         </div>
         <div class="ops">
           <select class="status ${e.status}" data-status aria-label="公開の状態">
@@ -91,14 +85,13 @@
         ${e.status === 'hidden' ? `<div class="noteline"><input data-note maxlength="120" value="${esc(e.note)}" placeholder="一時非表示の理由（運営メモ・読者には見えません）"></div>` : ''}
       </div>`).join('');
     return `<section class="panel">${head('2. コンテクスト情報編集', 'コンテクスト',
-      '公開は読者のストリームに並ぶ状態。非公開は書き手の下書き、一時非表示は運営の判断で止めている状態です。どちらもデータは残り、いつでも戻せます。',
+      '公開は読者が UniverseIt! から辿れる状態。非公開は書き手の下書き、一時非表示は運営の判断で止めている状態です。どちらもデータは残り、いつでも戻せます。',
       `<a class="btn primary" href="editor.html?new=1">＋ 新しいコンテクスト</a>`)}
       <div class="body">
         <div class="stats">
           <div class="stat"><small>公開</small><b>${n('public')}</b></div>
           <div class="stat"><small>非公開</small><b>${n('private')}</b></div>
           <div class="stat"><small>一時非表示</small><b>${n('hidden')}</b></div>
-          <div class="stat"><small>共感の合計</small><b>${likes}</b></div>
         </div>
         <div class="row-tools">
           ${[['all', 'すべて', all.length], ['public', '公開', n('public')], ['private', '非公開', n('private')], ['hidden', '一時非表示', n('hidden')]]
@@ -107,25 +100,6 @@
         </div>
         <div class="list">${rows || '<p class="empty">該当するコンテクストはありません。</p>'}</div>
       </div></section>`;
-  }
-
-  /* ---------- コメント ---------- */
-  function comments(){
-    const list = allComments();
-    const rows = list.map(({ e, c }) => `
-      <div class="talk${c.hidden ? ' dim' : ''}" data-id="${esc(e.id)}" data-cid="${esc(c.id)}">
-        <header><b>${esc(c.name)}</b><span>${esc(day(c.at))}</span>
-          <a href="index.html#/c/${encodeURIComponent(e.context.slug)}">${esc(e.a.title)} ＋ ${esc(e.b.title)}</a>
-          ${c.hidden ? '<span class="tag prod">非表示中</span>' : ''}</header>
-        <p>${esc(c.text)}</p>
-        <div class="ops">
-          <button type="button" data-hide-comment>${c.hidden ? '表示に戻す' : '非表示にする'}</button>
-          <button type="button" class="warn" data-remove-comment>削除</button>
-        </div>
-      </div>`).join('');
-    return `<section class="panel">${head('2.5 コメント投稿（リアクション）', 'コメント',
-      'ブランドの場として運営するには、荒れたときに止められることが前提になります。非表示にしたコメントは読者から見えなくなり、ここにだけ残ります。')}
-      <div class="body"><div class="list">${rows || '<p class="empty">まだコメントはありません。ストリームのカードの裏面から書けます。</p>'}</div></div></section>`;
   }
 
   /* ---------- 広告枠 ---------- */
@@ -143,22 +117,17 @@
           </div>
           <div class="field"><label>リンク先</label><input data-ad-field="url" value="${esc(a.url)}" placeholder="https://… （空き枠の案内は #/ad）"></div>
           <div class="ops" style="justify-content:flex-start">
-            <label class="toggle"><input type="checkbox" data-ad-active${a.active ? ' checked' : ''}> ストリームに表示する</label>
+            <label class="toggle"><input type="checkbox" data-ad-active${a.active ? ' checked' : ''}> この枠を使う</label>
             <button type="button" class="warn" data-ad-remove style="margin-left:auto">この枠を削除</button>
           </div>
         </div>
       </div>`).join('');
     return `<section class="panel">${head('2.3 管理者ページ（広告枠編集機能）', '広告枠',
-      'ストリームの間に、映画・音楽・書籍・イベントなど、コンテンツを購入できる広告を挟みます。クレジットカードでの購入と、表示割合・タグ指定による価格設定は本番で実装します。',
+      'コンテクストページの読み終わりに、映画・音楽・書籍・イベントなど、その区間の世界観と重なる広告を一枠だけ置きます（記事単位の出稿枠）。クレジットカードでの購入と、表示割合・タグ指定による価格設定は本番で実装します。',
       `<button type="button" class="btn primary" data-ad-add>＋ 枠を追加</button>`)}
       <div class="body">
-        <div class="field" style="max-width:320px">
-          <label for="adEvery">挟む間隔</label>
-          <select id="adEvery" data-ad-every>
-            ${[[0, '挟まない'], [2, 'コンテクスト2件ごと'], [3, '3件ごと'], [4, '4件ごと'], [5, '5件ごと']]
-              .map(([v, t]) => `<option value="${v}"${v === every ? ' selected' : ''}>${t}</option>`).join('')}
-          </select>
-        </div>
+        <label class="toggle" style="margin-bottom:16px"><input type="checkbox" data-ad-every${every > 0 ? ' checked' : ''}>
+          コンテクストページの読み終わりに広告枠を表示する</label>
         ${rows || '<p class="empty">広告枠はありません。</p>'}
       </div></section>`;
   }
@@ -177,7 +146,7 @@
         </div>
       </div>`).join('');
     return `<section class="panel">${head('2.1 ユーザー一覧（表示・非表示・一時非表示）', '書き手',
-      '書き手を一時非表示にすると、その人のコンテクストがまとめてストリームから外れます。本番ではログインと結びつけ、ユーザー単位で管理します。')}
+      '書き手を一時非表示にすると、その人のコンテクストがまとめて読者の画面から外れます。本番ではログインと結びつけ、ユーザー単位で管理します。')}
       <div class="body"><div class="list">${rows || '<p class="empty">書き手はいません。</p>'}</div></div></section>`;
   }
 
@@ -186,7 +155,7 @@
   function custom(){
     const st = S.settings();
     return `<section class="panel">${head('ホワイトラベル', 'カスタマイズ',
-      'クライアントごとに、サービスの名前・ひとこと・地の明暗・アクセント色を変えられます。保存すると右のプレビューと、この端末のストリームにすぐ反映されます。')}
+      'クライアントごとに、サービスの名前・ひとこと・地の明暗・アクセント色を変えられます。保存すると右のプレビューと、この端末の画面にすぐ反映されます。')}
       <div class="body custom">
         <form data-custom>
           <div class="grid2">
@@ -219,7 +188,7 @@
           <div class="ops" style="justify-content:center">
             <button type="button" class="btn" data-pv="0">表紙</button>
             <button type="button" class="btn" data-pv="net">路線図</button>
-            <button type="button" class="btn" data-pv="stream">ストリーム</button>
+            <button type="button" class="btn" data-pv="stream">作品ページ</button>
           </div>
           <small>この端末のブラウザに保存された内容で表示しています</small>
         </div>
@@ -255,39 +224,40 @@
   const PART = '<span class="tag part">一部</span>';
   const PROD = '<span class="tag prod">本番で実装</span>';
   const FEATURES = [
-    ['グループ', '読者の画面'],
-    ['—', '起動画面風 TOP（表紙 → 路線図 → ストリーム）', OK, '縦スクロール一本。ボタンで続きが開く'],
-    ['—', 'コンテクスト・ストリーム（表：カード）', OK, 'A の画像に B を重ね、手書き風の線でつなぐ（4形×色）'],
-    ['—', '表から裏への移動（物理シミュレーション）', OK, 'イーズイン・イーズアウトで裏返る。裏は A の画像 20% の上を文章が流れる'],
-    ['—', '同じ A／B をルーツに共有するコンテクストへのリンク', OK, 'カードの直下に文字だけで表示'],
-    ['—', 'ランディングページとしての広告スペース', OK, '間隔は管理画面で変更。購入は本番'],
+    ['グループ', '読者の画面（flow0921-2）'],
+    ['—', '起動画面（BEAUTIFUL CONTEXT）→ UniverseIt!', OK, 'スクロールで移る。止まっていれば数秒で、触れればすぐ送る'],
+    ['—', 'UniverseIt!：流れる見出しから作品ページ・コンテクストページへ', OK, '見出しはすべて実在のページにつながる。触れた言葉の位置から絵が開く'],
+    ['—', '作品ページ A ⇄ コンテクストページ A―B ⇄ 作品ページ B', OK, '下の路線図・「コンテクストを見る」・左右の払い・← → キーで移る。同じ作品の絵はページをまたいで運ばれる'],
+    ['—', 'UNIverseIt! で UniverseIt! へ戻る', OK, 'どのページからでも一度で戻る'],
+    ['—', 'ReMixIt! でエディターへ', OK, 'いま立っている作品を A に入れた状態で開く'],
+    ['—', '美しいつながりを象徴する手書き風のライン', OK, 'コンテクストページの二作品を渡る線。4 形 × 6 色から選べる'],
+    ['—', '同じ A／B をルーツに共有するコンテクストへのリンク', OK, 'コンテクストページの末尾に文字だけで表示'],
+    ['—', 'ランディングページとしての広告スペース', OK, 'コンテクストページの読み終わりに一枠。購入は本番'],
     ['9.1', '検索結果', OK, '作品名・路線名・本文から'],
     ['9.2', 'Our Mission', OK, ''],
     ['9.3', '利用規約・プライバシーポリシー', PART, 'デモの取り扱いのみ掲示。正式な文面は公開時に'],
     ['9.4', '404 ページ', OK, ''],
     ['9.5', 'エラーページ', PART, '画面が描けないときも地色だけで止まらない作り。専用ページは本番'],
-    ['グループ', 'コンテクスト作成者の操作'],
-    ['1.0', 'コンテクスト作成（A・B・関係・生成AIの URL）', OK, 'エディター。画像は端末内で縮小して保存'],
+    ['グループ', '編集者の操作'],
+    ['1.0', 'コンテクスト作成（A・B・関係・生成AIの URL）', OK, 'エディター。プレビューは公開ページと同じ形'],
     ['2.4', 'コンテクスト編集', OK, '公開後も何度でも編集できる'],
-    ['2.5', 'コメント投稿（リアクション）', OK, '共感とコメント。運営が非表示にできる'],
-    ['2.6', '既存の A／B に B コンテンツを追加', OK, 'カードの「つなぐ」、作品ページ、ReMixIt! から'],
-    ['2.7', '友達招待', PROD, 'メール送信とアカウントが必要'],
-    ['2.8', '友達招待状況確認', PROD, ''],
+    ['2.6', '既存の A／B に B コンテンツを追加', OK, 'ReMixIt! と作品ページから'],
+    ['—', 'ReMixIt!：生成AIが接続の候補を示し、四軸で採点して下書きを作る', PROD, '事業計画書の中核。四軸評価の試作を組み込む'],
+    ['2.5', 'コメント投稿（リアクション）', PROD, '読者の参加は二年目以降（事業計画書）'],
+    ['2.7–2.8', '友達招待・招待状況確認', PROD, 'メール送信とアカウントが必要'],
     ['グループ', 'アカウント'],
-    ['1.1', 'サインアップ', PROD, 'Firebase Authentication などを想定'],
-    ['1.2', 'ログイン', PROD, ''],
-    ['1.3–1.4', 'パスワード再設定', PROD, ''],
-    ['1.5', 'ユーザー詳細・ユーザーのコンテンツ／コンテクスト一覧', PART, '書き手名での管理はデモで動作。ユーザーページは本番'],
+    ['1.1–1.4', 'サインアップ・ログイン・パスワード再設定', PROD, 'Firebase Authentication などを想定'],
+    ['1.5', 'ユーザー詳細・編集者プロフィール', PART, '書き手名での管理はデモで動作。プロフィールページは二年目以降'],
     ['グループ', 'マネジメント'],
     ['2', 'コンテクスト情報編集（表示・非表示・一時非表示）', OK, 'この画面'],
     ['2.1', 'ユーザー一覧（表示・非表示・一時非表示）', OK, '書き手単位でまとめて止める'],
-    ['2.3', '管理者ページ（広告枠編集機能）', OK, '画像・文言・リンク・表示の有無・間隔'],
+    ['2.3', '管理者ページ（広告枠編集機能）', OK, '画像・文言・リンク・表示の有無'],
     ['グループ', '販売のための仕組み'],
     ['—', 'カスタマイズ（サービス名・ひとこと・地の明暗・アクセント色）', OK, 'クライアントごとの見た目'],
-    ['—', '構造化データ（JSON-LD）による LLMO／GEO 対策', OK, 'コンテクストごとに Article と作品の種類を出力。本番はサーバー側で出力'],
-    ['—', 'ホーム画面に追加して全画面で使う（PWA）', OK, ''],
-    ['—', 'パソコン表示', OK, '中央の一列＋左右に流れる見出し。Esc・ブラウザの戻るで閉じる'],
+    ['—', '構造化データ（JSON-LD）による LLMO／GEO 対策', OK, 'コンテクストページごとに Article と作品の種類を出力。本番はサーバー側で出力'],
+    ['—', 'リンクを開くだけで動く（携帯・パソコン）', OK, 'ホーム画面に追加すると全画面になる'],
     ['—', '書き出し／読み込み', OK, 'サーバーの代わりの持ち運び'],
+    ['—', '検索ボリューム・広告単価の照会、ハブを主題とするページ', PROD, '事業計画書の第一・第二・第四工程'],
     ['—', 'サーバー・データベース・画像の保存先', PROD, 'いまは端末の localStorage のみ'],
     ['—', '広告のクレジットカード決済・表示割合／タグ指定の価格設定', PROD, '']
   ];
@@ -297,7 +267,7 @@
       : `<tr><td>${esc(f[0])}</td><td>${esc(f[1])}</td><td>${f[2]}</td><td>${esc(f[3])}</td></tr>`).join('');
     const ok = FEATURES.filter((f) => f[2] === OK).length;
     const all = FEATURES.filter((f) => f[0] !== 'グループ').length;
-    return `<section class="panel">${head('構成図 flowchart2 の番号順', '機能一覧',
+    return `<section class="panel">${head('構成図 flow0921-2 ／ flowchart2 ／ 事業計画書', '機能一覧',
       `構成図にある機能と、このデモで実際に動くものの対応です。全 ${all} 項目のうち ${ok} 項目がデモで動作します。`)}
       <div class="body">
         <div class="legend">${OK} そのまま触れる　${PART} 一部を先に実装　${PROD} サーバーやアカウントが要る</div>
@@ -308,7 +278,7 @@
   }
 
   /* ---------- 描く ---------- */
-  const PANELS = { contexts, comments, ads, authors, custom, data, features };
+  const PANELS = { contexts, ads, authors, custom, data, features };
   function draw(keepFocus){
     const f = keepFocus && document.activeElement && document.activeElement.matches('[data-query]');
     const pos = f ? document.activeElement.selectionStart : 0;
@@ -357,15 +327,15 @@
       toast(t.value === 'hidden' ? `${name} のコンテクストを一時非表示にしました` : `${name} を公開に戻しました`);
       draw();
     } else if (t.matches('[data-ad-every]')){
-      S.saveSettings({ adEvery: parseInt(t.value, 10) || 0 });
-      toast('広告を挟む間隔を変えました');
+      S.saveSettings({ adEvery: t.checked ? 1 : 0 });
+      toast(t.checked ? 'コンテクストページに広告枠を表示します' : '広告枠の表示を止めました');
     } else if (t.matches('[data-ad-field]')){
       const box = t.closest('[data-ad]');
       const ad = S.ads().find((a) => a.id === box.dataset.ad);
       if (ad){ ad[t.dataset.adField] = t.value.trim(); S.saveAd(ad); toast('広告枠を保存しました'); }
     } else if (t.matches('[data-ad-active]')){
       const ad = S.ads().find((a) => a.id === t.closest('[data-ad]').dataset.ad);
-      if (ad){ ad.active = t.checked; S.saveAd(ad); toast(t.checked ? 'ストリームに表示します' : '表示を止めました'); }
+      if (ad){ ad.active = t.checked; S.saveAd(ad); toast(t.checked ? 'この枠を使います' : 'この枠を止めました'); }
     } else if (t.matches('[data-ad-image]') && t.files[0]){
       try {
         const ad = S.ads().find((a) => a.id === t.closest('[data-ad]').dataset.ad);
@@ -397,17 +367,6 @@
       if (e && confirm(`「${e.a.title} ＋ ${e.b.title}」を削除します。元には戻せません。よろしいですか？`)){
         S.remove(e.id); toast('削除しました'); draw();
       }
-      return;
-    }
-    const talk = t.closest('[data-cid]');
-    if (t.matches('[data-hide-comment]') && talk){
-      const e = S.byId(talk.dataset.id);
-      const c = e && e.comments.find((x) => x.id === talk.dataset.cid);
-      if (c){ S.setCommentHidden(e.id, c.id, !c.hidden); toast(c.hidden ? '表示に戻しました' : '非表示にしました'); draw(); }
-      return;
-    }
-    if (t.matches('[data-remove-comment]') && talk){
-      if (confirm('このコメントを削除します。よろしいですか？')){ S.removeComment(talk.dataset.id, talk.dataset.cid); toast('削除しました'); draw(); }
       return;
     }
     if (t.matches('[data-ad-add]')){
@@ -458,7 +417,7 @@
       accent
     });
     $('brandName').textContent = S.settings().brand;
-    toast('保存しました。ストリームに反映されます');
+    toast('保存しました。画面に反映されます');
     previewAt(previewWhere);
   });
 

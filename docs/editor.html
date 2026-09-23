@@ -196,12 +196,9 @@
       .phone-stage{min-height:auto;padding:13px 4px;overflow:hidden}.phone{transform:scale(.86);margin:-48px 0}
     }
     @media (prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;transition:none!important}}
-    /* 公開ページのカード（構成図 flowchart2）。A の絵に B を重ね、手書き風の線でつなぐ */
-    .dual-hero{position:relative;height:auto;aspect-ratio:5/7;display:block;gap:0;background:#000}
-    .dual-photo:first-child{position:absolute;inset:0}
-    .dual-photo:last-child{position:absolute;right:5%;bottom:10%;width:36%;height:auto;aspect-ratio:2/3;z-index:2;
-      border:3px solid #fff;font-size:1.6rem;box-shadow:0 8px 20px rgba(0,0,0,.5)}
-    .dual-hero .squiggle{position:absolute;left:38%;top:33%;width:58%;height:57%;z-index:3;pointer-events:none;overflow:visible}
+    /* 公開ページのコンテクスト A―B と同じ形。二枚の絵を並べ、手書き風の線が渡る */
+    .dual-hero{position:relative}
+    .dual-hero .squiggle{position:absolute;left:24%;top:14%;width:52%;height:72%;z-index:3;pointer-events:none;overflow:visible}
     .dual-hero .squiggle path{fill:none;stroke-width:2.3;stroke-linecap:round;stroke-linejoin:round;filter:drop-shadow(0 1px 1.5px rgba(0,0,0,.45))}
     .from-note{margin:0 0 16px;padding:12px 14px;border:1px solid #ead3a5;border-radius:10px;background:#fff7e7;color:#5f4b27;font-size:.8rem;line-height:1.6}
     .status-pick{display:flex;gap:8px;flex-wrap:wrap}
@@ -217,7 +214,7 @@
     .shape-pick path{fill:none;stroke-width:3.2;stroke-linecap:round;stroke-linejoin:round}
   </style>
 <style>:root{--veil:var(--canvas)}</style>
-  <link rel="stylesheet" href="fade.css?v=70">
+  <link rel="stylesheet" href="fade.css?v=71">
 </head>
 <body>
   <div class="app">
@@ -358,7 +355,7 @@
             </section>
 
             <section class="form-section">
-              <div class="section-title"><h3><span class="section-index">7</span>つながりの線</h3><span class="required-note">カードの上に引く手書き風のライン</span></div>
+              <div class="section-title"><h3><span class="section-index">7</span>つながりの線</h3><span class="required-note">コンテクストページの二作品を渡る手書き風のライン</span></div>
               <div class="line-pick" id="linePick"></div>
               <div class="shape-pick" id="shapePick"></div>
             </section>
@@ -402,9 +399,9 @@
   </div>
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
-  <script src="js/seed.js?v=70"></script>
-  <script src="js/store.js?v=70"></script>
-  <script src="js/render.js?v=70"></script>
+  <script src="js/seed.js?v=71"></script>
+  <script src="js/store.js?v=71"></script>
+  <script src="js/render.js?v=71"></script>
 
   <script>
   (() => {
@@ -534,7 +531,7 @@
         setImg('contextImageA',state.a.image); setImg('contextImageB',state.b.image); drawPreviewLine(); $('previewContextLabel').textContent=state.context.label || 'CONTEXT'; $('previewHeadline').innerHTML=safeText(state.context.headline || 'キャッチコピーを入力').replace(/\n/g,'<br>'); $('previewRelation').textContent=state.context.relation || '二作品の関係を短く入力してください。'; $('previewBody').innerHTML=window.BCRender.clean(state.context.body) || '<p>長文コンテクストを入力してください。</p>';
       }
     }
-    /* つながりの線。ストリームと同じ描き方を render.js から借りる */
+    /* つながりの線。公開ページと同じ描き方を render.js から借りる */
     const R = window.BCRender;
     function lineOf(){
       const c = state.context, l = c.line || {};
@@ -577,6 +574,6 @@
     }
   })();
   </script>
-  <script src="js/transition.js?v=70"></script>
+  <script src="js/transition.js?v=71"></script>
 </body>
 </html>
