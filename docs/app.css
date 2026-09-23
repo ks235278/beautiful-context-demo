@@ -110,81 +110,6 @@ html[data-theme="white"] .wordmark{text-shadow:0 2px 18px #fff}
   color:var(--gold);opacity:.85}
 .art .ph small{display:block;margin-top:10px;font:400 11px/1.5 sans-serif;color:var(--dim);letter-spacing:.14em}
 
-/* ---------- ストリーム ---------- */
-#stream{padding-top:24px}
-.stream-in{width:100%;max-width:var(--col);margin:0 auto;padding:0 12px}
-
-/* 表のカード。A の絵が一枚の紙で、B の絵がその右下に重なる。
-   二つを結ぶ線は、作品ごとに色の違う手書き風のライン。 */
-.card{position:relative;margin:0 0 34px;scroll-margin-top:18px}
-.card-face{position:relative;display:block;width:100%;aspect-ratio:5/7;padding:0;border:0;
-  overflow:hidden;background:#000;cursor:pointer;text-align:left;color:#fff;
-  box-shadow:0 18px 40px -22px #000c;transition:transform .35s cubic-bezier(.2,.7,.2,1),box-shadow .35s}
-.card-a{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 40%;display:block}
-.card-ph{position:absolute;inset:0;display:grid;place-items:center;background:#0b1118;
-  color:var(--gold);font:400 88px/1 "Yu Mincho","Hiragino Mincho ProN",serif}
-.card-ph.small{font-size:40px}
-.card-b{position:absolute;right:5%;bottom:10.5%;width:36%;aspect-ratio:2/3;z-index:2;
-  border:3px solid #fff;background:#111;box-shadow:0 10px 26px #0009;overflow:hidden}
-.card-b img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
-.card-b-name{position:absolute;left:0;right:0;bottom:0;padding:5px 6px 4px;background:#000c;
-  color:#fff;font:700 9.5px/1.3 "Hiragino Sans",sans-serif;text-align:center;
-  white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.squiggle{position:absolute;left:38%;top:33%;width:58%;height:57%;z-index:3;overflow:visible;pointer-events:none}
-.squiggle path{fill:none;stroke:var(--lc);stroke-width:2.3;stroke-linecap:round;stroke-linejoin:round;
-  filter:drop-shadow(0 1px 1.5px #0007);stroke-dasharray:1;stroke-dashoffset:0}
-/* 画面に入ったときに一度だけ描かれる */
-.card.draw .squiggle path{stroke-dashoffset:1}
-.card.drawn .squiggle path{stroke-dashoffset:0;transition:stroke-dashoffset 1.3s cubic-bezier(.45,.05,.25,1) .15s}
-.avatar{position:absolute;left:12px;top:12px;z-index:4;width:36px;height:36px;border-radius:50%;
-  display:grid;place-items:center;background:#f4f1ea;color:#1a1a1a;
-  font:700 14px/1 "Hiragino Mincho ProN","Yu Mincho",serif;
-  box-shadow:0 0 0 3px var(--lc),0 4px 12px #0008}
-.card-name{position:absolute;left:0;right:0;bottom:0;z-index:4;padding:10px 12px 11px;background:#000000b8;
-  color:#fff;font:700 13px/1.35 "Hiragino Sans",sans-serif;letter-spacing:.04em;text-align:center;
-  white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-
-.card-acts{display:flex;align-items:center;gap:4px;margin:8px -8px 2px}
-.act{display:inline-flex;align-items:center;gap:6px;min-height:40px;padding:6px 8px;border:0;background:none;
-  color:var(--cream);font-size:11.5px;letter-spacing:.03em;cursor:pointer;text-decoration:none;border-radius:20px}
-.act svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
-.act .n{color:var(--dim)}
-.act.like.on svg{fill:var(--accent);stroke:var(--accent)}
-.act.like.on .n{color:var(--cream)}
-.act.like.pop svg{animation:pop .42s cubic-bezier(.3,1.6,.5,1)}
-@keyframes pop{40%{transform:scale(1.28)}}
-.act.share{margin-left:auto}
-.card-head{margin:4px 0 6px;font:500 17px/1.6 "Hiragino Mincho ProN","Yu Mincho",serif;color:var(--cream)}
-.card-route{margin:0;color:var(--gold);font:700 10px/1.5 sans-serif;letter-spacing:.06em}
-.card-route .by{margin-left:8px;color:var(--dim);font-weight:400}
-
-/* 同じ作品をルーツに持つコンテクストへ。色の線を一本引くだけで、板は敷かない */
-.roots{display:grid;gap:2px;margin:-14px 0 36px}
-.roots a{display:grid;grid-template-columns:1fr auto;align-items:center;column-gap:10px;
-  padding:9px 4px 9px 14px;border-left:3px solid var(--lc);text-decoration:none;color:var(--cream)}
-.roots small{grid-column:1;color:var(--dim);font-size:10px;letter-spacing:.06em}
-.roots span{grid-column:1;font:600 13px/1.45 "Hiragino Mincho ProN","Yu Mincho",serif}
-.roots i{grid-column:2;grid-row:1 / span 2;font-style:normal;color:var(--lc)}
-
-/* 広告の枠。カードと同じ大きさで、ストリームの流れを止めない */
-.ad-card .card-face{display:block;text-decoration:none}
-.ad-mark{position:absolute;right:12px;top:12px;z-index:4;padding:3px 7px;border:1px solid #fff9;border-radius:3px;
-  color:#fff;font:700 9px/1 sans-serif;letter-spacing:.14em}
-.ad-copy{position:absolute;left:0;right:0;bottom:0;z-index:4;padding:14px 16px 16px;text-align:center}
-.ad-copy b{display:block;font:500 17px/1.5 "Hiragino Mincho ProN","Yu Mincho",serif;color:#fff}
-.ad-copy small{display:block;margin-top:5px;color:#c9c2d6;font-size:10.5px;letter-spacing:.06em}
-
-.foot{padding:26px 8px 20px;text-align:center}
-.foot-call{margin:0 0 14px;font:500 15px/1.6 "Hiragino Mincho ProN","Yu Mincho",serif}
-.foot-remix{display:inline-grid;place-items:center;min-width:190px;padding:11px 20px;border:1px solid var(--accent);
-  border-radius:24px;color:var(--cream);text-decoration:none;font-weight:750;font-size:13px}
-.foot-remix small{font-weight:400;font-size:9.5px;color:var(--dim);margin-top:2px}
-.foot-links{display:flex;flex-wrap:wrap;justify-content:center;gap:4px 16px;margin:28px 0 10px}
-.foot-links a{color:var(--dim);font-size:11px;text-decoration:none}
-.foot-mark{margin:0;color:var(--dim);font-size:10px;letter-spacing:.1em}
-.empty{padding:70px 26px;text-align:center;color:var(--dim);font-size:13px;line-height:2}
-.empty b{display:block;margin-bottom:10px;color:var(--cream);font-size:15px}
-
 /* ---------- 下部ドック（固定） ---------- */
 /* 下の操作帯は、別の板として載せない。ボタンは背景の上に直接浮く。 */
 .dock{position:fixed;z-index:25;left:0;right:0;bottom:0;width:100%;max-width:var(--col);margin:0 auto;
@@ -218,20 +143,18 @@ html[data-theme="white"] .wordmark{text-shadow:0 2px 18px #fff}
      最後の段階に入ってから、二つのボタンだけを浮かび上がらせる。 */
   opacity:var(--dk,1);transform:translateY(calc((1 - var(--dk,1)) * 12px));
   will-change:opacity,transform}
-/* コンテクストのカードが画面へ入ったら、導入部の二つの操作は役目を終える。
-   路線図だけを画面下端へ送り、本文を覆うものを残さない。 */
-.dock.reading .map{transform:translateY(55px)}
-.dock.reading .actions{opacity:0;transform:translateY(18px)}
 .actions button,.actions a{display:grid;place-items:center;border:1px solid color-mix(in srgb,var(--dim) 60%,transparent);
   border-radius:20px;background:none;color:var(--cream);font-size:12px;font-weight:750;cursor:pointer;text-decoration:none}
 .actions .primary{background:var(--accent);border-color:var(--accent);color:#fff}
 
-/* ---------- 重ねて開く画面（裏・駅・検索・読み物） ----------
-   開いている間、ストリームとドックは退き、地と回路だけが残る。
+/* ---------- 重ねて開くページ ----------
+   作品ページ・コンテクストページ・検索・読み物。どれも同じ一枚の地の上に
+   重ねて開き、別の板を敷かない。開いている間、表紙の面は退き、
    流れる見出しは読む邪魔にならない濃さまで落とす。 */
-body.viewing .app,body.viewing .dock{opacity:0;visibility:hidden;
-  transition:opacity .3s ease,visibility 0s linear .3s}
-body.viewing #bg .cloud{opacity:.1 !important;pointer-events:none !important}
+body.viewing{overflow:hidden}
+body.viewing .app{opacity:0;visibility:hidden;transition:opacity .3s ease,visibility 0s linear .3s}
+body.viewing:not(.route) .dock{opacity:0;visibility:hidden;transition:opacity .3s ease,visibility 0s linear .3s}
+body.viewing #bg .cloud{opacity:.12 !important;pointer-events:none !important}
 
 .view{position:fixed;inset:0;z-index:35;overflow-y:auto;overscroll-behavior:contain;
   background:transparent;color:var(--cream);opacity:0;visibility:hidden;
@@ -240,7 +163,18 @@ body.viewing #bg .cloud{opacity:.1 !important;pointer-events:none !important}
 .view.instant{transition:none}
 .view-in{position:relative;width:100%;max-width:var(--read);min-height:100%;margin:0 auto}
 
+/* 新しいページの文字は、絵が着くのに少し遅れて浮かび上がる */
+.view.enter .rise,.view.enter .back-top{animation:rise .56s cubic-bezier(.2,.7,.2,1) .16s both}
+@keyframes rise{from{opacity:0;transform:translateY(16px)}}
+
+/* 運ばれている途中の絵と、消えていく前のページ */
+.flyer{position:fixed;z-index:45;margin:0;object-fit:cover;pointer-events:none;
+  box-shadow:0 22px 48px -20px #000d;will-change:left,top,width,height,opacity}
+.ghost{position:fixed;inset:0;z-index:36;overflow:hidden;pointer-events:none}
+.ghost>.view-in{min-height:0}
+
 .back-top{position:sticky;top:0;z-index:5;padding:calc(env(safe-area-inset-top) + 10px) 12px 8px;pointer-events:none}
+.wpage .back-top,.cpage .back-top{position:absolute;left:0;right:0}
 .back-close{pointer-events:auto;display:inline-flex;align-items:center;gap:6px;max-width:100%;padding:8px 14px 8px 8px;
   border:0;border-radius:22px;background:color-mix(in srgb,var(--ground) 62%,transparent);
   -webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);
@@ -248,102 +182,122 @@ body.viewing #bg .cloud{opacity:.1 !important;pointer-events:none !important}
 .back-close svg{flex:0 0 20px;width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
 .back-close b{overflow:hidden;white-space:nowrap;text-overflow:ellipsis;font-weight:700}
 
-/* 裏面。A の絵を 20% に透かし、その内側を文章が流れる。
-   絵は動かさず、文章だけが上へ送られていく。 */
-.back{position:relative;min-height:100vh;min-height:100dvh}
-.back-bg{position:fixed;top:0;bottom:0;left:50%;width:min(100vw,var(--read));transform:translateX(-50%);
-  background:var(--ground);pointer-events:none}
-.back-bg:after{content:"";position:absolute;inset:0;background-image:var(--bgimg,none);
-  background-size:cover;background-position:center 30%;opacity:.2}
-.back-in{position:relative;z-index:1;padding:14px 24px calc(64px + env(safe-area-inset-bottom))}
-.back-state{margin:0 0 18px;padding:9px 12px;border:1px dashed var(--gold);border-radius:4px;color:var(--gold);font-size:12px}
-.back-pair{margin:0 0 20px;color:var(--soft);font:700 12px/1.6 sans-serif;letter-spacing:.06em}
-.back-pair em{font-style:normal;color:var(--lc);margin:0 4px}
-.route-label{margin:0 0 10px;color:var(--gold);font:700 10px/1.5 sans-serif;letter-spacing:.08em}
-.back-head{margin:0 0 18px;font:600 clamp(24px,6.4vw,32px)/1.5 "Hiragino Mincho ProN","Yu Mincho",serif}
-.pair{display:grid;gap:3px;padding:12px 0 0;border-top:1px solid var(--rule);font-size:12px;line-height:1.5;color:var(--dim)}
-.back-body{margin-top:28px;font-family:"Hiragino Mincho ProN","Yu Mincho",serif}
-.back-body p{margin:0 0 17px;font-size:15px;line-height:2.05;text-align:justify}
-.back-body h3{margin:30px 0 10px;font-size:18px;line-height:1.5}
-.back-body ul,.back-body ol{margin:0 0 17px;padding-left:1.3em;font-size:15px;line-height:2}
-.back-body blockquote{margin:0 0 17px;padding-left:14px;border-left:2px solid var(--lc);color:var(--soft)}
-.source{margin:26px 0 0;padding-top:12px;border-top:1px solid var(--rule);color:var(--dim);font-size:11px;line-height:1.6}
-.source a{display:block;margin-top:3px;color:var(--soft);word-break:break-all}
-.stations{display:grid;gap:8px;margin:30px 0 8px}
-.st{display:grid;grid-template-columns:44px 1fr auto;align-items:center;gap:12px;width:100%;padding:6px 4px;
-  border:0;background:none;text-align:left;cursor:pointer}
-.st-img{width:44px;height:62px;object-fit:cover;display:block;box-shadow:0 4px 12px #0007}
-.st-ph{display:grid;place-items:center;background:#0b1118;color:var(--gold);font:400 20px/1 serif}
-.st-txt small{display:block;color:var(--dim);font-size:10px;letter-spacing:.06em}
-.st-txt b{display:block;margin-top:2px;font:600 14px/1.4 "Hiragino Mincho ProN","Yu Mincho",serif}
-.st i{font-style:normal;color:var(--dim);font-size:20px}
-.back-acts{display:flex;flex-wrap:wrap;align-items:center;gap:2px;margin:12px -8px 0}
-.more{margin-top:34px}
-.more h2,.talk-box h2{margin:0 0 12px;color:var(--gold);font:700 10px/1.5 sans-serif;letter-spacing:.1em}
-.more .roots{margin:0}
-.talk-box{margin-top:38px}
-.talk-box h2 span{color:var(--dim);margin-left:6px}
-.talk-list{list-style:none;margin:0 0 16px;padding:0}
-.talk-list li{padding:12px 0;border-top:1px solid var(--rule)}
-.talk-list b{font-size:12px}
-.talk-list time{margin-left:8px;color:var(--dim);font-size:10.5px}
-.talk-list p{margin:5px 0 0;font-size:13.5px;line-height:1.8;white-space:pre-wrap;overflow-wrap:anywhere}
-.talk-none{margin:0 0 14px;color:var(--dim);font-size:12.5px}
-.talk-form{display:grid;gap:8px}
-.talk-form input,.talk-form textarea{width:100%;padding:10px 2px;border:0;border-bottom:1px solid var(--rule);
-  background:none;color:var(--cream);font:inherit;font-size:14px;outline:none;border-radius:0}
-.talk-form textarea{resize:vertical;min-height:70px}
-.talk-form input:focus,.talk-form textarea:focus{border-bottom-color:var(--accent)}
-.talk-form ::placeholder{color:var(--dim)}
-.talk-form button{justify-self:end;padding:9px 18px;border:1px solid var(--accent);border-radius:20px;
-  background:none;color:var(--cream);font-weight:700;font-size:12px;cursor:pointer}
-.byline{margin:34px 0 0;color:var(--dim);font-size:10.5px;letter-spacing:.06em}
-
-/* 駅・検索・読み物。地の上に文字を直接置く */
-.page{min-height:100vh;min-height:100dvh}
+.page{position:relative;min-height:100vh;min-height:100dvh}
 .page-in{padding:10px 24px calc(64px + env(safe-area-inset-bottom))}
+.wpage .page-in,.cpage .page-in{padding-bottom:calc(var(--dock) + 36px + env(safe-area-inset-bottom))}
 .page h1{margin:0 0 12px;font:600 clamp(24px,6.4vw,32px)/1.45 "Hiragino Mincho ProN","Yu Mincho",serif}
 .page h2{margin:30px 0 8px;font:600 16px/1.5 "Hiragino Mincho ProN","Yu Mincho",serif}
 .page p,.page li{font-size:14px;line-height:1.95}
 .page .lead{font:500 17px/1.8 "Hiragino Mincho ProN","Yu Mincho",serif}
 .page .dim,.dim{color:var(--dim)}
 .meta{margin:0 0 8px;color:var(--gold);font:700 10px/1.4 sans-serif;letter-spacing:.12em}
-.st-hero{width:min(64%,300px);margin:6px auto 22px;box-shadow:0 18px 40px -18px #000c}
+
+/* 作品ページ（駅）。絵は画面の上から、ステータスバーの裏まで */
+.w-hero{position:relative;overflow:hidden;margin-bottom:22px}
+.w-hero .px{position:relative;width:100%;height:min(68vh,150vw);overflow:hidden;will-change:transform}
+.w-hero img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 40%;display:block}
+.w-hero .ph{position:absolute;inset:0;display:grid;place-items:center;text-align:center;color:var(--gold);
+  font:400 72px/1 "Yu Mincho","Hiragino Mincho ProN",serif}
+.w-hero .ph small{display:block;margin-top:10px;font:400 11px/1.5 sans-serif;color:var(--dim);letter-spacing:.14em}
+.wpage h1{font-size:clamp(24px,6.6vw,30px)}
+.lead-s{font:500 15px/1.95 "Hiragino Mincho ProN","Yu Mincho",serif}
+.note-s{color:var(--dim);font-size:12px !important;line-height:1.8 !important}
+.tease{display:flex;align-items:center;justify-content:space-between;gap:10px;width:100%;margin-top:22px;padding:14px 16px;
+  border:1px solid color-mix(in srgb,var(--lc) 70%,transparent);border-radius:6px;background:none;color:var(--cream);
+  text-align:left;font:600 13px/1.5 "Hiragino Mincho ProN","Yu Mincho",serif;cursor:pointer}
+.tease span{font-size:22px;color:var(--lc);transition:transform .2s}
+.tease:active span{transform:translateX(4px)}
+
+/* コンテクストページ A―B。二枚の絵を並べ、手書き風の線が渡る */
+.duo-hero{padding:calc(env(safe-area-inset-top) + 58px) 12px 0}
+.duo{position:relative;display:grid;grid-template-columns:1fr 1fr;gap:8px;will-change:transform}
+.duo .art{position:relative;overflow:hidden;aspect-ratio:3/4.1;box-shadow:0 18px 40px -22px #000c}
+.duo .art img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 40%;display:block}
+.duo .art .ph{position:absolute;inset:0;display:grid;place-items:center;text-align:center;color:var(--gold);
+  font:400 44px/1 "Yu Mincho","Hiragino Mincho ProN",serif;background:#0b1118}
+.duo .art .ph small{display:block;margin-top:8px;font:400 10px/1.5 sans-serif;color:var(--dim)}
+.squiggle{position:absolute;left:24%;top:14%;width:52%;height:72%;z-index:3;overflow:visible;pointer-events:none}
+.squiggle path{fill:none;stroke:var(--lc);stroke-width:2.3;stroke-linecap:round;stroke-linejoin:round;
+  filter:drop-shadow(0 1px 1.5px #0007);stroke-dasharray:1;stroke-dashoffset:0}
+.duo.draw .squiggle path{stroke-dashoffset:1}
+.duo.drawn .squiggle path{stroke-dashoffset:0;transition:stroke-dashoffset 1.2s cubic-bezier(.45,.05,.25,1)}
+.c-lead{padding:26px 0 8px;text-align:center}
+.route-label{margin:0 0 10px;color:var(--gold);font:700 10px/1.5 sans-serif;letter-spacing:.08em}
+.c-head{margin:0 auto 16px !important;max-width:13em;font:600 clamp(24px,6.6vw,30px)/1.5 "Hiragino Mincho ProN","Yu Mincho",serif !important}
+.pair{display:grid;gap:3px;padding:12px 0 0;border-top:1px solid var(--rule);font-size:12px;line-height:1.55;color:var(--dim)}
+.read{display:inline-flex;align-items:center;gap:8px;margin-top:22px;padding:10px 18px;border:1px solid var(--rule);
+  border-radius:22px;background:none;color:var(--cream);font-size:12.5px;cursor:pointer}
+.read span{color:var(--lc)}
+.c-body{margin-top:34px;padding-top:24px;border-top:1px solid var(--rule);font-family:"Hiragino Mincho ProN","Yu Mincho",serif;scroll-margin-top:20px}
+.c-body p{margin:0 0 17px;font-size:15px;line-height:2.05;text-align:justify}
+.c-body h3{margin:30px 0 10px;font-size:18px;line-height:1.5}
+.c-body ul,.c-body ol{margin:0 0 17px;padding-left:1.3em;font-size:15px;line-height:2}
+.c-body blockquote{margin:0 0 17px;padding-left:14px;border-left:2px solid var(--lc);color:var(--soft)}
+.back-state{margin:0 0 18px;padding:9px 12px;border:1px dashed var(--gold);border-radius:4px;color:var(--gold);font-size:12px}
+.source{margin:26px 0 0;padding-top:12px;border-top:1px solid var(--rule);color:var(--dim);font-size:11px !important;line-height:1.6 !important}
+.source a{display:block;margin-top:3px;color:var(--soft);word-break:break-all}
+.more{margin-top:34px}
+.more h2{margin:0 0 12px;color:var(--gold);font:700 10px/1.5 sans-serif !important;letter-spacing:.1em}
+.byline{margin:30px 0 0;color:var(--dim);font-size:10.5px !important;letter-spacing:.06em}
+
+/* 同じ作品をルーツに持つコンテクストへ。色の線を一本引くだけで、板は敷かない */
+.roots{display:grid;gap:2px}
+.roots a{display:grid;grid-template-columns:1fr auto;align-items:center;column-gap:10px;
+  padding:9px 4px 9px 14px;border-left:3px solid var(--lc);text-decoration:none;color:var(--cream)}
+.roots small{grid-column:1;color:var(--dim);font-size:10px;letter-spacing:.06em}
+.roots span{grid-column:1;font:600 13px/1.45 "Hiragino Mincho ProN","Yu Mincho",serif}
+.roots i{grid-column:2;grid-row:1 / span 2;font-style:normal;color:var(--lc)}
+
+/* 記事単位の広告枠。読み終わりに一枠だけ */
+.c-ad{margin:38px 0 0}
+.c-ad a{position:relative;display:block;aspect-ratio:4/3;overflow:hidden;text-decoration:none;background:#000;
+  box-shadow:0 18px 40px -22px #000c}
+.c-ad-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 42%}
+.ad-mark{position:absolute;right:12px;top:12px;z-index:2;padding:3px 7px;border:1px solid #fff9;border-radius:3px;
+  color:#fff;font:700 9px/1 sans-serif;letter-spacing:.14em}
+.ad-copy{position:absolute;left:0;right:0;bottom:0;z-index:2;padding:14px 16px 16px;text-align:center}
+.ad-copy b{display:block;font:500 16px/1.5 "Hiragino Mincho ProN","Yu Mincho",serif;color:#fff}
+.ad-copy small{display:block;margin-top:4px;color:#c9c2d6;font-size:10.5px;letter-spacing:.06em}
+
+.pfoot{margin-top:46px;padding-top:18px;border-top:1px solid var(--rule);text-align:center}
+.pfoot nav{display:flex;flex-wrap:wrap;justify-content:center;gap:4px 16px}
+.pfoot a{color:var(--dim);font-size:11px;text-decoration:none}
+.pfoot p{margin:10px 0 0;color:var(--dim);font-size:10px !important;letter-spacing:.1em}
+
+/* 検索・読み物 */
 .minis{display:grid;gap:4px;margin-top:6px}
 .mini{display:grid;grid-template-columns:52px 1fr;align-items:center;gap:14px;width:100%;padding:10px 4px 10px 12px;
-  border:0;border-left:3px solid var(--lc);background:none;text-align:left;cursor:pointer}
+  border:0;border-left:3px solid var(--lc);background:none;text-align:left;cursor:pointer;text-decoration:none;color:var(--cream)}
 .mini-img{width:52px;height:72px;object-fit:cover;display:block;box-shadow:0 4px 12px #0007}
+.st-ph{display:grid;place-items:center;background:#0b1118;color:var(--gold);font:400 20px/1 serif}
 .mini-txt small{display:block;color:var(--gold);font-size:10px;font-weight:700;letter-spacing:.04em}
 .mini-txt b{display:block;margin:2px 0;font:600 14px/1.4 "Hiragino Mincho ProN","Yu Mincho",serif}
 .mini-txt span{display:block;color:var(--dim);font-size:12px;line-height:1.5}
 .add-b{display:inline-flex;align-items:center;gap:8px;margin-top:26px;padding:10px 18px 10px 12px;
   border:1px solid var(--accent);border-radius:22px;color:var(--cream);text-decoration:none;font-size:13px;font-weight:700}
-.add-b svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round}
 .chips{display:flex;flex-wrap:wrap;gap:8px}
-.chip{padding:7px 12px;border:1px solid var(--rule);border-radius:16px;background:none;cursor:pointer;font-size:12.5px}
+.chip{padding:7px 12px;border:1px solid var(--rule);border-radius:16px;background:none;cursor:pointer;font-size:12.5px;
+  text-decoration:none;color:var(--cream)}
 .seek.big{width:100%;margin:6px 0 22px;padding:10px 2px}
 .seek.big input{font-size:17px}
+.search-page .page-in,.text-page .page-in{padding-top:4px}
 .steps{padding-left:1.4em}
-.steps b{display:inline-block;min-width:4.5em;color:var(--accent)}
+.steps b{display:inline-block;min-width:3.5em;color:var(--accent)}
 .motto{margin:30px 0 8px;color:var(--gold);font:700 12px/1.6 sans-serif;letter-spacing:.2em}
 
-/* ---------- 表から裏へ ----------
-   カードの位置から、裏面の大きさへ。回りながら広がり、
-   イーズイン・イーズアウトで着地する。 */
-.flip{position:fixed;inset:0;z-index:40;perspective:1800px;pointer-events:none}
-.flip-card{position:absolute;transform-style:preserve-3d;will-change:transform,left,top,width,height;
-  transition:left .74s cubic-bezier(.65,0,.35,1),top .74s cubic-bezier(.65,0,.35,1),
-    width .74s cubic-bezier(.65,0,.35,1),height .74s cubic-bezier(.65,0,.35,1),
-    transform .74s cubic-bezier(.65,0,.35,1)}
-.flip-face{position:absolute;inset:0;overflow:hidden;-webkit-backface-visibility:hidden;backface-visibility:hidden}
-.flip-front{background:#000}
-.flip-front>*{pointer-events:none}
-.flip-back{transform:rotateY(180deg);background:var(--ground)}
-.flip-back i{position:absolute;inset:0;background-image:var(--bgimg,none);background-size:cover;background-position:center 30%;opacity:.2}
-.card.away .card-face{visibility:hidden}
-.view.settle .back-in,.view.settle .back-top{animation:rise .42s cubic-bezier(.2,.7,.2,1) both}
-@keyframes rise{from{opacity:0;transform:translateY(10px)}}
-body.viewing{overflow:hidden}
+/* 路線のページでは、本文は下の路線図に触れる前に地へ溶ける。板は敷かない */
+body.route .view{
+  -webkit-mask-image:linear-gradient(to bottom,#000 calc(100% - var(--dock) - env(safe-area-inset-bottom) - 64px),transparent calc(100% - var(--dock) - env(safe-area-inset-bottom) + 8px));
+  mask-image:linear-gradient(to bottom,#000 calc(100% - var(--dock) - env(safe-area-inset-bottom) - 64px),transparent calc(100% - var(--dock) - env(safe-area-inset-bottom) + 8px))}
+
+/* 路線のページでは、下の路線図と二つの操作がいつも手元にある */
+body.route .dock{z-index:40;opacity:1;visibility:visible}
+body.route .dock .actions{opacity:1;transform:none}
+.segment{border:0;padding:0;cursor:pointer}
+.segment.on{opacity:.55}
+button.section-label{cursor:pointer;font-family:inherit}
+.section-label.on{border-color:var(--gold);color:var(--gold)}
+.station.current{color:var(--gold);font-weight:700}
 
 /* ---------- 共通 ---------- */
 .toast{position:fixed;z-index:60;left:50%;bottom:calc(var(--dock) + 20px + env(safe-area-inset-bottom));transform:translateX(-50%);
@@ -356,18 +310,20 @@ body.viewing{overflow:hidden}
    マウスで触れるものには、触れられることが分かる変化を付ける。 */
 @media (min-width:760px){
   :root{--col:540px;--read:720px;--ts:1.3}
-  #stream{padding-top:40px}
-  /* カードは画面の高さに収める。下の操作列まで一度に見えるように */
-  .card,.roots{width:min(100%,calc((100vh - 220px) * 5 / 7));margin-left:auto;margin-right:auto}
-  .card{margin-bottom:44px}
-  .back-in{padding:22px 48px 90px}
   .page-in{padding:16px 48px 90px}
+  .wpage .page-in,.cpage .page-in{padding-left:48px;padding-right:48px}
+  /* 絵は画面の半分ほどに収め、題名と最初の数行が路線図の上で読めるようにする */
+  .w-hero{padding-top:60px;margin-bottom:18px}
+  .w-hero .px{width:auto;height:min(50vh,560px);aspect-ratio:2/3;margin:0 auto}
+  .duo-hero{padding-top:62px}
+  .duo{max-width:min(520px,calc(46vh * 1.46));margin:0 auto}
+  .c-lead{padding-top:18px}
   .back-top{padding:18px 20px 8px}
 }
 @media (hover:hover) and (pointer:fine){
-  .card-face:hover{transform:translateY(-3px);box-shadow:0 26px 50px -22px #000e}
-  .act:hover{background:color-mix(in srgb,var(--cream) 8%,transparent)}
-  .roots a:hover span,.mini:hover b,.st:hover b{text-decoration:underline;text-underline-offset:3px}
+  .roots a:hover span,.mini:hover b{text-decoration:underline;text-underline-offset:3px}
+  .tease:hover,.read:hover{background:color-mix(in srgb,var(--cream) 7%,transparent)}
+  .station:hover,.section-label:hover{color:var(--gold)}
   .back-close:hover{background:color-mix(in srgb,var(--ground) 80%,transparent)}
   .foot-links a:hover{color:var(--cream)}
 }
@@ -375,6 +331,5 @@ body.viewing{overflow:hidden}
 @media (prefers-reduced-motion:reduce){
   html{scroll-behavior:auto}
   *{animation:none !important}
-  .card.draw .squiggle path{stroke-dashoffset:0}
-  .flip-card{transition:none}
+  .duo.draw .squiggle path{stroke-dashoffset:0}
 }

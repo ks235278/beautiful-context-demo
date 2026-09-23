@@ -4,14 +4,14 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Beautiful Context</title>
-<meta name="description" content="二つのコンテンツの意外なつながりを、縦にスクロールするストリームで。表にカード、裏にコンテクスト。">
+<meta name="description" content="作品は駅、コンテクストは二駅間の区間。流れる見出しから作品へ、作品から二つをつなぐコンテクストへ。">
 <meta name="theme-color" content="#141c25">
 <link rel="canonical" href="https://ks235278.github.io/beautiful-context-demo/">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Beautiful Context">
-<meta property="og:description" content="二つのコンテンツの意外なつながりを、縦にスクロールするストリームで。">
+<meta property="og:description" content="作品は駅、コンテクストは二駅間の区間。">
 <meta property="og:image" content="https://ks235278.github.io/beautiful-context-demo/icon-512.png">
-<link rel="manifest" href="manifest.webmanifest?v=70">
+<link rel="manifest" href="manifest.webmanifest?v=71">
 <link rel="apple-touch-icon" href="icon-180.png">
 <!-- ホーム画面から開くと全画面になり、safe-area が 0 でなくなる。
      そのとき初めて Dynamic Island の裏までページが描ける。 -->
@@ -22,14 +22,14 @@
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"WebSite","name":"Beautiful Context",
  "url":"https://ks235278.github.io/beautiful-context-demo/","inLanguage":"ja",
- "description":"二つのコンテンツの意外なつながりを、縦にスクロールするストリームで読むサービスのデモ。",
+ "description":"二つの作品の意外なつながりを、独立したコンテクストページとして読むサービスのデモ。",
  "potentialAction":{"@type":"SearchAction",
    "target":"https://ks235278.github.io/beautiful-context-demo/#/search?q={search_term_string}",
    "query-input":"required name=search_term_string"}}
 </script>
-<script src="js/theme.js?v=70"></script>
-<link rel="stylesheet" href="app.css?v=70">
-<link rel="stylesheet" href="fade.css?v=70">
+<script src="js/theme.js?v=71"></script>
+<link rel="stylesheet" href="app.css?v=71">
+<link rel="stylesheet" href="fade.css?v=71">
 <style>
   /* 路線。角度の違う線と縦書きの線が交差する。
      箱は画面より大きいので、当たり判定は見出しだけに持たせる。 */
@@ -100,7 +100,6 @@
     </div>
   </section>
 
-  <div id="stream" hidden><div class="stream-in" id="streamIn"></div></div>
 </div>
 
 <div class="dock" id="dock">
@@ -118,11 +117,11 @@
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 <script type="application/ld+json" id="ld"></script>
 
-<script src="js/seed.js?v=70"></script>
-<script src="js/store.js?v=70"></script>
-<script src="js/render.js?v=70"></script>
-<script src="js/transition.js?v=70"></script>
-<script src="js/app.js?v=70"></script>
-<script src="js/debug.js?v=70"></script>
+<script src="js/seed.js?v=71"></script>
+<script src="js/store.js?v=71"></script>
+<script src="js/render.js?v=71"></script>
+<script src="js/transition.js?v=71"></script>
+<script src="js/app.js?v=71"></script>
+<script src="js/debug.js?v=71"></script>
 </body>
 </html>

@@ -1,9 +1,8 @@
-/* 描画の共通部分。
+/* 描画の共通部分。前田先生の構成図 flow0921-2 と demo-1 のとおり。
 
-   表（カード）……… 構成図 flowchart2 のストリーム。A の絵を大きく、
-                     B の絵を右下に重ね、二つを手書き風の線がつなぐ。
-   裏（コンテクスト）… 基本要素.pdf。A の絵を 20% に透かし、その上を
-                     生成AIの文章が流れる。最後に出力元の URL を置く。 */
+   作品ページ ……… 駅。作品固有の絵と解説だけを置く。
+   コンテクストページ … 二駅間の区間。二枚の絵を並べ、手書き風の線が
+                     渡って二つを結ぶ。読み終わりに出典と広告枠。 */
 (() => {
   const S = window.BCStore;
 
@@ -99,175 +98,125 @@
   }
 
   const ICON = {
-    heart: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20.5s-7.5-4.6-9.2-9.3C1.6 7.8 3.9 4.5 7.3 4.5c2 0 3.5 1.1 4.7 2.7 1.2-1.6 2.7-2.7 4.7-2.7 3.4 0 5.7 3.3 4.5 6.7-1.7 4.7-9.2 9.3-9.2 9.3z"/></svg>',
-    talk:  '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5.5h16v10.5H9.5L5 20v-4H4z"/></svg>',
-    plus:  '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>',
-    share: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3.5v12M7.5 8 12 3.5 16.5 8M5 12.5v7h14v-7"/></svg>',
     back:  '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 4.5 7.5 12l7.5 7.5"/></svg>',
-    edit:  '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4.5 19.5h4l10-10-4-4-10 10z"/></svg>',
+    plus:  '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>',
     seek:  '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6"/><path d="m15 15 5 5"/></svg>'
   };
 
-  const count = (n, zero) => n > 0 ? String(n) : zero;
-
-  function acts(e, opts){
-    const liked = S.liked(e.id);
-    const n = S.reactionCount(e);
-    const talk = S.visibleComments(e).length;
-    return `
-      <button type="button" class="act like${liked ? ' on' : ''}" data-like="${attr(e.id)}" aria-pressed="${liked}">
-        ${ICON.heart}<span class="n">${esc(count(n, '共感'))}</span></button>
-      <button type="button" class="act talk" data-open="${attr(e.context.slug)}" data-to="comments">
-        ${ICON.talk}<span class="n">${esc(count(talk, 'コメント'))}</span></button>
-      <a class="act add" href="editor.html?from=${encodeURIComponent(e.a.slug)}" title="この作品に新しいつながりを足す">
-        ${ICON.plus}<span class="n">つなぐ</span></a>
-      <button type="button" class="act share" data-share="${attr(e.context.slug)}" aria-label="共有">${ICON.share}</button>
-      ${opts && opts.edit ? `<a class="act edit" href="editor.html?slug=${encodeURIComponent(e.context.slug)}">${ICON.edit}<span class="n">編集</span></a>` : ''}`;
-  }
-
-  /* ---------- 表：ストリームのカード ---------- */
-  function card(e){
-    const c = e.context;
-    const face = safeImg(e.a.image)
-      ? img(e.a.image, e.a.title, 'card-a')
-      : `<span class="card-ph">${esc(initial(e.a))}</span>`;
-    return `
-      <article class="card" id="card-${attr(c.slug)}" data-slug="${attr(c.slug)}" style="--lc:${lineColor(e)}">
-        <button type="button" class="card-face" data-open="${attr(c.slug)}"
-          aria-label="${attr(e.a.title)} と ${attr(e.b.title)} のコンテクストを開く">
-          ${face}
-          <span class="card-b">${safeImg(e.b.image) ? img(e.b.image, '', '') : `<span class="card-ph small">${esc(initial(e.b))}</span>`}
-            <span class="card-b-name">${esc(e.b.title)}</span></span>
-          ${squiggle(e)}
-          <span class="avatar" title="${attr(c.author)}">${esc((c.author || '編').charAt(0))}</span>
-          <span class="card-name">${esc(e.a.title)}</span>
-        </button>
-        <div class="card-acts">${acts(e)}</div>
-        <p class="card-head">${esc(c.headline).replace(/\n/g, '<br>')}</p>
-        <p class="card-route"><span>${esc(c.label || 'CONTEXT')}</span>【${esc(c.routeName)}】<span class="by">${esc(c.author)}</span></p>
-      </article>`;
-  }
+  const backTop = (label) => `<header class="back-top"><button type="button" class="back-close" data-close aria-label="戻る">${ICON.back}<b>${esc(label || '戻る')}</b></button></header>`;
 
   /* 同じ作品をルーツに共有するコンテクストへの、文字だけの導線 */
   function roots(e, list){
     if (!list.length) return '';
     return `<nav class="roots" aria-label="同じルーツを持つコンテクスト">` + list.map(x => {
       const shared = [x.a.slug, x.b.slug].includes(e.a.slug) ? e.a : e.b;
-      return `<a href="#/c/${encodeURIComponent(x.context.slug)}" data-go="${attr(x.context.slug)}" style="--lc:${lineColor(x)}">
+      return `<a href="#/c/${encodeURIComponent(x.context.slug)}" style="--lc:${lineColor(x)}">
         <small>${esc(shared.title)} から</small>
         <span>${esc(x.a.title)} ＋ ${esc(x.b.title)}</span><i aria-hidden="true">→</i></a>`;
     }).join('') + `</nav>`;
   }
 
+  /* 広告枠。コンテクストページの読み終わりに一枠だけ置く（記事単位の出稿枠） */
   function ad(a){
+    if (!a) return '';
     const url = a.url && a.url.startsWith('#/') ? a.url : safeUrl(a.url);
     const ext = url && !url.startsWith('#');
     return `
-      <aside class="card ad-card" aria-label="広告">
-        <a class="card-face" href="${attr(url || '#/ad')}"${ext ? ' target="_blank" rel="noopener sponsored"' : ''}>
-          ${img(a.image, '', 'card-a') || '<span class="card-ph">AD</span>'}
+      <aside class="c-ad" aria-label="広告">
+        <a href="${attr(url || '#/ad')}"${ext ? ' target="_blank" rel="noopener sponsored"' : ''}>
+          ${img(a.image, '', 'c-ad-img')}
           <span class="ad-mark">AD</span>
           <span class="ad-copy"><b>${esc(a.title)}</b>${a.sub ? `<small>${esc(a.sub)}</small>` : ''}</span>
         </a>
       </aside>`;
   }
 
-  function foot(brand){
+  function pageFoot(brand){
     return `
-      <footer class="foot">
-        <p class="foot-call">ここから先は、あなたのつながり。</p>
-        <a class="foot-remix" href="editor.html?new=1">ReMixIt!<small>つながりを創る</small></a>
-        <nav class="foot-links">
-          <a href="#/mission">Our Mission</a><a href="#/ad">広告枠のご案内</a>
-          <a href="#/terms">利用規約・プライバシー</a><a href="manage.html">運営者メニュー</a>
-        </nav>
-        <p class="foot-mark">© ${esc(brand)}</p>
+      <footer class="pfoot">
+        <nav><a href="#/mission">Our Mission</a><a href="#/ad">広告枠のご案内</a>
+          <a href="#/terms">利用規約・プライバシー</a><a href="manage.html">運営者メニュー</a></nav>
+        <p>© ${esc(brand)}</p>
       </footer>`;
   }
 
-  /* ---------- 裏：コンテクスト ---------- */
   function relationParts(c){
     return String(c.relation || '').split('──').map(s => s.trim()).filter(Boolean)
       .map(s => `<span>${esc(s)}</span>`).join('');
   }
 
-  function station(w, side){
-    return `<button type="button" class="st" data-work="${attr(w.slug)}">
-      ${safeImg(w.image) ? img(w.image, '', 'st-img') : `<span class="st-img st-ph">${esc(initial(w))}</span>`}
-      <span class="st-txt"><small>${side} · ${esc(w.type || '作品')}${w.year ? ' · ' + esc(w.year) : ''}</small>
-      <b>${esc(w.title)}</b></span><i aria-hidden="true">›</i></button>`;
+  /* 画像。data-k は作品の目印で、ページが替わるときに同じ作品の絵を
+     前のページの位置から次のページの位置へ運ぶために使う。 */
+  function frame(w, cls){
+    const s = safeImg(w.image);
+    return `<div class="${cls}">` + (s
+      ? `<img src="${attr(s)}" alt="${attr(w.title)}" data-k="${attr(w.slug)}" decoding="async">`
+      : `<span class="ph">${esc(initial(w))}<small>${esc(w.type || '作品')}</small></span>`) + `</div>`;
   }
 
-  function comments(e){
-    const list = S.visibleComments(e);
-    const when = (iso) => { try { return new Date(iso).toLocaleDateString('ja-JP'); } catch (x) { return ''; } };
+  /* ---------- 作品ページ（駅） ----------
+     demo-1 の作品ページ A／B。作品固有の解説だけを置き、
+     他作品との関係はコンテクストページで読む。 */
+  function workPage(hit, e, brand){
+    const w = hit.work;
+    const side = e && e.b.slug === w.slug ? 'b' : 'a';
+    const other = e ? e[side === 'a' ? 'b' : 'a'] : null;
+    const others = hit.contexts.filter(x => !e || x.entry.id !== e.id);
+    const list = others.map(({ entry, side: sd }) => {
+      const o = entry[sd === 'a' ? 'b' : 'a'];
+      return `<a class="mini" href="#/c/${encodeURIComponent(entry.context.slug)}" style="--lc:${lineColor(entry)}">
+        ${safeImg(o.image) ? img(o.image, '', 'mini-img') : `<span class="mini-img st-ph">${esc(initial(o))}</span>`}
+        <span class="mini-txt"><small>［${esc(entry.context.routeName)}］</small>
+        <b>${esc(o.title)}</b><span>${esc(entry.context.headline.replace(/\n/g, ''))}</span></span></a>`;
+    }).join('');
     return `
-      <section class="talk-box" id="comments" aria-label="コメント">
-        <h2>コメント <span>${list.length}</span></h2>
-        ${list.length ? `<ol class="talk-list">${list.map(m => `
-          <li><b>${esc(m.name)}</b><time>${esc(when(m.at))}</time><p>${esc(m.text)}</p></li>`).join('')}</ol>`
-          : `<p class="talk-none">まだコメントはありません。最初のひとことを。</p>`}
-        <form class="talk-form" data-comment="${attr(e.id)}">
-          <input name="name" maxlength="30" placeholder="名前（なくても可）" autocomplete="nickname">
-          <textarea name="text" maxlength="600" rows="3" required placeholder="このつながりについて"></textarea>
-          <button type="submit">コメントする</button>
-        </form>
-      </section>`;
-  }
-
-  function back(e, opts){
-    const c = e.context;
-    const mins = S.readingMinutes(c.body);
-    const ai = safeUrl(c.aiUrl);
-    const rel = S.related(e);
-    const bg = safeImg(e.a.image);
-    const state = e.status !== 'public' || !S.isVisible(e)
-      ? `<p class="back-state">${e.status === 'private' ? '非公開' : '一時非表示'}のコンテクストです。読者には表示されていません。</p>` : '';
-    return `
-      <article class="back" style="--lc:${lineColor(e)}">
-        <div class="back-bg"${bg ? ` style="--bgimg:url('${attr(bg)}')"` : ''}></div>
-        <header class="back-top">
-          <button type="button" class="back-close" data-close aria-label="表へ戻る">${ICON.back}<b>${esc(e.a.title)}</b></button>
-        </header>
-        <div class="back-in">
-          ${state}
-          <p class="back-pair">${esc(e.a.title)} <em>＋</em> ${esc(e.b.title)}</p>
-          <p class="route-label">${esc(c.label || 'CONTEXT')}　【${esc(c.routeName)}】　約${mins}分</p>
-          <h1 class="back-head">${esc(c.headline).replace(/\n/g, '<br>')}</h1>
-          ${relationParts(c) ? `<div class="pair">${relationParts(c)}</div>` : ''}
-          <div class="back-body">${clean(c.body)}</div>
-          ${ai ? `<p class="source">この解説は生成AIの出力をもとにしています<a href="${attr(ai)}" target="_blank" rel="noopener nofollow">${esc(ai)}</a></p>` : ''}
-          <div class="stations">${station(e.a, 'A')}${station(e.b, 'B')}</div>
-          <div class="back-acts">${acts(e, { edit: true })}</div>
-          ${rel.length ? `<section class="more"><h2>同じルーツのコンテクスト</h2>${roots(e, rel)}</section>` : ''}
-          ${comments(e)}
-          <p class="byline">${esc(c.author)}　·　${esc(new Date(e.updatedAt).toLocaleDateString('ja-JP'))}</p>
+      <article class="page wpage" data-pos="${side === 'a' ? 0 : 2}" style="--lc:${e ? lineColor(e) : 'var(--gold)'}">
+        ${backTop()}
+        <div class="w-hero">${frame(w, 'px')}</div>
+        <div class="page-in rise">
+          <p class="meta">${esc(w.type || '作品')}${w.year ? '・' + esc(w.year) + '年' : ''}　CURRENT STATION</p>
+          <h1>${esc(w.title)}</h1>
+          ${w.creator ? `<p class="dim">${esc(w.creator)}</p>` : ''}
+          ${w.summary ? `<p class="lead-s">${esc(w.summary)}</p>` : ''}
+          <p class="note-s">このページには作品固有の解説だけを載せています。他の作品との関係は、コンテクストページで読みます。</p>
+          ${e ? `<button type="button" class="tease" data-step="1">${esc(other.title)} とのコンテクストを見る <span aria-hidden="true">›</span></button>` : ''}
+          ${list ? `<p class="meta" style="margin-top:30px">この駅から延びるほかの区間　${others.length}本</p><div class="minis">${list}</div>` : ''}
+          ${pageFoot(brand)}
         </div>
       </article>`;
   }
 
-  /* ---------- 駅（作品） ---------- */
-  function work(hit){
-    const w = hit.work;
-    const items = hit.contexts.map(({ entry, side }) => {
-      const other = entry[side === 'a' ? 'b' : 'a'];
-      return `<button type="button" class="mini" data-open="${attr(entry.context.slug)}" style="--lc:${lineColor(entry)}">
-        ${safeImg(other.image) ? img(other.image, '', 'mini-img') : `<span class="mini-img st-ph">${esc(initial(other))}</span>`}
-        <span class="mini-txt"><small>【${esc(entry.context.routeName)}】</small>
-        <b>${esc(other.title)}</b><span>${esc(entry.context.headline.replace(/\n/g, ''))}</span></span></button>`;
-    }).join('');
+  /* ---------- コンテクストページ A―B ----------
+     二作品の間に置かれる独立したページ。絵を二枚並べ、
+     その上を手書き風の線が渡って二つを結ぶ。 */
+  function contextPage(e, adItem, brand){
+    const c = e.context;
+    const mins = S.readingMinutes(c.body);
+    const ai = safeUrl(c.aiUrl);
+    const rel = S.related(e);
+    const state = !S.isVisible(e)
+      ? `<p class="back-state">${e.status === 'private' ? '非公開' : '一時非表示'}のコンテクストです。読者には表示されていません。</p>` : '';
     return `
-      <article class="page station-page">
-        <header class="back-top"><button type="button" class="back-close" data-close aria-label="戻る">${ICON.back}<b>戻る</b></button></header>
-        <div class="st-hero">${art(w)}</div>
-        <div class="page-in">
-          <p class="meta">${esc(w.type || '作品')}${w.year ? '・' + esc(w.year) + '年' : ''}　STATION</p>
-          <h1>${esc(w.title)}</h1>
-          ${w.creator ? `<p class="dim">${esc(w.creator)}</p>` : ''}
-          ${w.summary ? `<p>${esc(w.summary)}</p>` : ''}
-          <p class="meta" style="margin-top:28px">この駅から延びる区間　${hit.contexts.length}本</p>
-          <div class="minis">${items}</div>
-          <a class="add-b" href="editor.html?from=${encodeURIComponent(w.slug)}">${ICON.plus}この作品に、新しいつながりを足す</a>
+      <article class="page cpage" data-pos="1" style="--lc:${lineColor(e)}">
+        ${backTop()}
+        <div class="duo-hero"><div class="duo">${frame(e.a, 'art')}${frame(e.b, 'art')}${squiggle(e)}</div></div>
+        <div class="page-in rise">
+          ${state}
+          <div class="c-lead">
+            <p class="route-label">${esc(c.label || 'CONTEXT')}　［${esc(c.routeName)}］　約${mins}分</p>
+            <h1 class="c-head">${esc(c.headline).replace(/\n/g, '<br>')}</h1>
+            ${relationParts(c) ? `<div class="pair">${relationParts(c)}</div>` : ''}
+            <button type="button" class="read" data-read>このつながりを読む　約${mins}分 <span aria-hidden="true">↓</span></button>
+          </div>
+          <section class="c-body" id="story">
+            <p class="meta">CONTEXT STORY</p>
+            ${clean(c.body)}
+          </section>
+          ${ai ? `<p class="source">この解説は生成AIの出力をもとにしています<a href="${attr(ai)}" target="_blank" rel="noopener nofollow">${esc(ai)}</a></p>` : ''}
+          ${rel.length ? `<section class="more"><h2>同じルーツのコンテクスト</h2>${roots(e, rel)}</section>` : ''}
+          ${ad(adItem)}
+          <p class="byline">${esc(c.author)}　·　${esc(new Date(e.updatedAt).toLocaleDateString('ja-JP'))}</p>
+          ${pageFoot(brand)}
         </div>
       </article>`;
   }
@@ -275,16 +224,16 @@
   /* ---------- 検索 ---------- */
   function search(q, res){
     const ctx = res.contexts.map(e => `
-      <button type="button" class="mini" data-open="${attr(e.context.slug)}" style="--lc:${lineColor(e)}">
+      <a class="mini" href="#/c/${encodeURIComponent(e.context.slug)}" style="--lc:${lineColor(e)}">
         ${safeImg(e.a.image) ? img(e.a.image, '', 'mini-img') : `<span class="mini-img st-ph">${esc(initial(e.a))}</span>`}
-        <span class="mini-txt"><small>【${esc(e.context.routeName)}】</small>
-        <b>${esc(e.a.title)} ＋ ${esc(e.b.title)}</b><span>${esc(e.context.headline.replace(/\n/g, ''))}</span></span></button>`).join('');
+        <span class="mini-txt"><small>［${esc(e.context.routeName)}］</small>
+        <b>${esc(e.a.title)} ＋ ${esc(e.b.title)}</b><span>${esc(e.context.headline.replace(/\n/g, ''))}</span></span></a>`).join('');
     const works = res.works.map(({ work: w }) =>
-      `<button type="button" class="chip" data-work="${attr(w.slug)}">${esc(w.title)}</button>`).join('');
+      `<a class="chip" href="#/w/${encodeURIComponent(w.slug)}">${esc(w.title)}</a>`).join('');
     const none = !res.contexts.length && !res.works.length;
     return `
       <article class="page search-page">
-        <header class="back-top"><button type="button" class="back-close" data-close aria-label="戻る">${ICON.back}<b>戻る</b></button></header>
+        ${backTop()}
         <div class="page-in">
           <form class="seek big" role="search" data-seek>
             ${ICON.seek}<input type="search" name="q" value="${attr(q)}" placeholder="言葉で辿る" enterkeyhint="search" aria-label="検索">
@@ -301,55 +250,57 @@
   function page(name, brand){
     const shell = (title, body) => `
       <article class="page text-page">
-        <header class="back-top"><button type="button" class="back-close" data-close aria-label="戻る">${ICON.back}<b>戻る</b></button></header>
-        <div class="page-in"><h1>${title}</h1>${body}</div>
+        ${backTop()}
+        <div class="page-in"><h1>${title}</h1>${body}${pageFoot(brand)}</div>
       </article>`;
     if (name === 'mission') return shell('Our Mission', `
-      <p class="lead">意外な関係を持つ二つの情報を、誰もが簡単な操作でつなぎ、縦にスクロールするストリームで読める場所をつくる。</p>
-      <p>たとえば、自分が見た海外の映画に原作があり、それが日本の著名な映画監督によってすでに撮られていたと気づいたとき。その発見を誰かと分かち合い、共感を得たい。</p>
-      <p>二つのコンテンツの名前と画像を選び、その関係の解説は生成AIに任せる。それだけで「素敵なコンテクスト」ができあがり、ストリームに現れる。</p>
-      <p>二つを組み合わせて投稿するだけで、音楽の DJ のように、つながりを活かした美しい空間が編み出されていく。</p>
+      <p class="lead">意外な関係を持つ二つの情報を、つなぎ、読める場所をつくる。</p>
+      <p>たとえば、自分が見た海外の映画に原作があり、それが日本の著名な映画監督によってすでに撮られていたと気づいたとき。その発見は、二つの作品のどちらにも属さない、独立した一つの読み物になる。</p>
+      <p>作品は駅、コンテクストは二駅間の区間。駅にあたる作品やブランドは他者のものであり、ここで生み出すのは区間のほうである。</p>
+      <p>関係の初稿は生成AIが書き、採否と最終稿は人が担う。二つを組み合わせるだけで、音楽の DJ のように、つながりを活かした美しい空間が編み出されていく。</p>
       <ol class="steps">
-        <li><b>選ぶ</b>二つのコンテンツ（作品・人物・場所・本）と、その画像</li>
-        <li><b>つなぐ</b>二つの関係を、生成AIの出力や自分の言葉で</li>
-        <li><b>現れる</b>表にカード、裏にコンテクスト。ストリームに並ぶ</li>
+        <li><b>辿る</b>UniverseIt! ── 流れる見出しから、既にある区間を辿る</li>
+        <li><b>読む</b>作品の駅から、二駅間の区間へ。区間を読んで、別の駅へ</li>
+        <li><b>創る</b>ReMixIt! ── 二つの作品の間に、新しい区間をつくる</li>
       </ol>
-      <p class="motto">YOUR CONTEXT WILL VISUALIZE BY US</p>
-      <p class="dim">ReMixIt! ── つながりを創る　／　UNIverseIt! ── つながりを辿る</p>`);
+      <p class="motto">YOUR CONTEXT WILL VISUALIZE BY US</p>`);
     if (name === 'terms') return shell('利用規約・プライバシー', `
       <p class="lead">これはデモ版です。正式な利用規約とプライバシーポリシーは、サービス公開時に用意します。</p>
       <h2>データの保存先</h2>
-      <p>投稿・コメント・共感・設定は、すべてお使いの端末のブラウザ（localStorage）にだけ保存されます。サーバーへ送信することはありません。別の端末や別の人には見えません。</p>
+      <p>作成したコンテクストや設定は、すべてお使いの端末のブラウザ（localStorage）にだけ保存されます。サーバーへ送信することはありません。別の端末や別の人には見えません。</p>
       <h2>計測</h2>
       <p>アクセス解析やトラッキングは行っていません。</p>
       <h2>画像と文章</h2>
       <p>見本の作品画像は、作品紹介を目的として引用しています。著作権は各権利者に帰属します。見本の解説文は、確かめられる事実に基づいて書いた見本です。</p>`);
     if (name === 'ad') return shell('広告枠のご案内', `
-      <p class="lead">ストリームの空いている場所は、映画・音楽・書籍・イベントなど、コンテンツを購入できる広告のための枠です。</p>
-      <p>コンテクストを読み終えた人の目の前に、その作品を買える・観られる・訪ねられる入口を置く。つながりを辿った先が、そのまま体験への入口になります。</p>
+      <p class="lead">コンテクストページの読み終わりに、その区間の世界観と重なる広告を一枠だけ置きます。</p>
+      <p>映画・音楽・書籍・イベントなど、読み終えた人がその作品を買える・観られる・訪ねられる入口を置く。つながりを辿った先が、そのまま体験への入口になります。</p>
       <h2>想定している仕組み</h2>
       <ul>
-        <li>クレジットカードで購入できる広告枠</li>
-        <li>表示の割合や、タグの指定によって価格が変わる</li>
+        <li>記事単位で販売する出稿枠。記事の主題と広告主の世界観が重なることを根拠にする</li>
+        <li>クレジットカードで購入できる枠、表示の割合やタグ指定による価格設定（本番で実装）</li>
         <li>管理画面から、枠の画像・文言・リンク先・表示の有無を編集できる（デモで動作）</li>
       </ul>
       <p><a class="add-b" href="manage.html#ads">管理画面で広告枠を見る</a></p>`);
     return shell('ページが見つかりません', `
       <p class="lead">お探しのページは移動したか、公開が終了した可能性があります。</p>
-      <p><a class="add-b" href="#/" data-close>ストリームへ戻る</a></p>`);
+      <p><a class="add-b" href="#/" data-home>UniverseIt! へ戻る</a></p>`);
   }
 
   /* ---------- 下のドックの路線図 ---------- */
+  /* 路線図。左の駅が A、右の駅が B、そのあいだの区間がコンテクスト。
+     駅や区間に触れると、その場所へ路線に沿って移る。 */
   function mapMarkup(o){
+    const cur = o.current;
     return `
-      <span class="line-name">${esc(o.lineName || '')}</span>
+      <span class="line-name">［${esc(o.lineName || '')}］</span>
       <span class="line"></span>
-      ${o.label !== null ? '<span class="segment"></span>' : ''}
-      ${o.label ? `<span class="section-label">${esc(o.label)}</span>` : ''}
-      <span class="dot left ${o.current === 'left' ? 'current' : ''}"></span>
-      <span class="dot right ${o.current === 'right' ? 'current' : ''}"></span>
-      <button class="station left ${o.current === 'left' ? 'current' : ''}" data-work="${attr(o.aSlug || '')}">${esc(o.left)}</button>
-      <button class="station right ${o.current === 'right' ? 'current' : ''}" data-work="${attr(o.bSlug || '')}">${esc(o.right)}</button>`;
+      <button type="button" class="segment${cur === 1 ? ' on' : ''}" data-step="1" aria-label="コンテクストページへ"></button>
+      <button type="button" class="section-label${cur === 1 ? ' on' : ''}" data-step="1">${cur === 1 ? '区間を読書中' : esc(o.label || 'CONTEXT')}</button>
+      <span class="dot left${cur === 0 ? ' current' : ''}"></span>
+      <span class="dot right${cur === 2 ? ' current' : ''}"></span>
+      <button type="button" class="station left${cur === 0 ? ' current' : ''}" data-step="0">${esc(o.left)}</button>
+      <button type="button" class="station right${cur === 2 ? ' current' : ''}" data-step="2">${esc(o.right)}</button>`;
   }
 
   /* ---------- 構造化データ（LLMO / GEO） ----------
@@ -389,7 +340,7 @@
     return {
       '@context': 'https://schema.org',
       '@type': 'ItemList',
-      name: brand + ' のストリーム',
+      name: brand + ' のコンテクスト',
       itemListElement: list.map((e, i) => ({
         '@type': 'ListItem', position: i + 1,
         name: `${e.a.title} ＋ ${e.b.title}`,
@@ -495,11 +446,11 @@
     });
   }
 
-  /* エディターのプレビューでも、ストリームと同じ線を引けるように */
+  /* エディターのプレビューでも、公開ページと同じ線を引けるように */
   const linePath = (n) => smooth(SHAPES[Math.abs(n | 0) % SHAPES.length]);
 
   window.BCRender = {
-    esc, clean, safeUrl, safeImg, art, card, roots, ad, foot, back, work, search, page,
+    esc, clean, safeUrl, safeImg, art, roots, ad, workPage, contextPage, search, page,
     mapMarkup, jsonLd, listLd, cloudPool, buildCloud, lineColor, linePath, ICON,
     PALETTE, SHAPE_COUNT: SHAPES.length
   };
