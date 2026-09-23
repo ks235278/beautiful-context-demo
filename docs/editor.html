@@ -196,15 +196,35 @@
       .phone-stage{min-height:auto;padding:13px 4px;overflow:hidden}.phone{transform:scale(.86);margin:-48px 0}
     }
     @media (prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;transition:none!important}}
+    /* 公開ページのカード（構成図 flowchart2）。A の絵に B を重ね、手書き風の線でつなぐ */
+    .dual-hero{position:relative;height:auto;aspect-ratio:5/7;display:block;gap:0;background:#000}
+    .dual-photo:first-child{position:absolute;inset:0}
+    .dual-photo:last-child{position:absolute;right:5%;bottom:10%;width:36%;height:auto;aspect-ratio:2/3;z-index:2;
+      border:3px solid #fff;font-size:1.6rem;box-shadow:0 8px 20px rgba(0,0,0,.5)}
+    .dual-hero .squiggle{position:absolute;left:38%;top:33%;width:58%;height:57%;z-index:3;pointer-events:none;overflow:visible}
+    .dual-hero .squiggle path{fill:none;stroke-width:2.3;stroke-linecap:round;stroke-linejoin:round;filter:drop-shadow(0 1px 1.5px rgba(0,0,0,.45))}
+    .from-note{margin:0 0 16px;padding:12px 14px;border:1px solid #ead3a5;border-radius:10px;background:#fff7e7;color:#5f4b27;font-size:.8rem;line-height:1.6}
+    .status-pick{display:flex;gap:8px;flex-wrap:wrap}
+    .status-pick label{display:flex;gap:7px;align-items:center;padding:8px 13px;border:1px solid var(--line);border-radius:18px;background:#fff;font-size:.8rem;cursor:pointer}
+    .status-pick label:has(input:checked){border-color:var(--ink);box-shadow:0 0 0 1px var(--ink)}
+    .line-pick{display:flex;flex-wrap:wrap;gap:9px;align-items:center}
+    .line-pick button{width:30px;height:30px;border-radius:50%;border:3px solid #fff;box-shadow:0 0 0 1px var(--line);cursor:pointer;padding:0}
+    .line-pick button.on{box-shadow:0 0 0 2px var(--ink)}
+    .shape-pick{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}
+    .shape-pick button{width:56px;height:70px;border:1px solid var(--line);border-radius:9px;background:#fff;cursor:pointer;padding:7px}
+    .shape-pick button.on{border-color:var(--ink);box-shadow:0 0 0 1px var(--ink)}
+    .shape-pick svg{width:100%;height:100%;display:block}
+    .shape-pick path{fill:none;stroke-width:3.2;stroke-linecap:round;stroke-linejoin:round}
   </style>
 <style>:root{--veil:var(--canvas)}</style>
-  <link rel="stylesheet" href="fade.css?v=59">
+  <link rel="stylesheet" href="fade.css?v=70">
 </head>
 <body>
   <div class="app">
     <header class="topbar">
       <div class="brand"><span class="brand-mark"><i></i></span><span>Beautiful Context</span></div>
       <a class="btn ghost small" href="index.html" style="margin-left:14px;text-decoration:none;display:inline-flex;align-items:center">&larr;　UniverseIt! へ</a>
+      <a class="btn ghost small" href="manage.html" style="text-decoration:none;display:inline-flex;align-items:center">運営</a>
       <div class="top-title">コンテンツ／コンテクスト エディター</div>
       <div class="top-actions">
         <span class="save-state" id="saveState">未保存</span>
@@ -232,6 +252,7 @@
         </nav>
 
         <form class="panel" id="editorForm" autocomplete="off">
+          <p class="from-note" id="fromNote" hidden></p>
           <header class="panel-head">
             <div><p class="eyebrow" id="panelEyebrow">CONTENT A</p><h1 id="panelTitle">作品ページを編集</h1></div>
             <p class="head-note">入力内容は右のスマホへ<br>リアルタイムに反映されます</p>
@@ -321,6 +342,26 @@
                 <div class="check">RemixIt! / UNIverseIt! は常時表示</div>
               </div>
             </section>
+
+            <section class="form-section">
+              <div class="section-title"><h3><span class="section-index">6</span>出典と公開</h3><span class="required-note">構成図の入力項目 6. 生成AI URL</span></div>
+              <div class="grid">
+                <div class="field full"><label for="aiUrl">生成AIの出力 URL</label><input id="aiUrl" type="url" inputmode="url" placeholder="https://chatgpt.com/share/…（任意）"></div>
+                <div class="field"><label for="author">書き手の名前</label><input id="author" type="text" maxlength="30" placeholder="編集部"></div>
+                <div class="field"><label>公開の状態</label>
+                  <div class="status-pick">
+                    <label><input type="radio" name="status" value="public"> 公開する</label>
+                    <label><input type="radio" name="status" value="private"> 非公開（下書き）</label>
+                  </div></div>
+              </div>
+              <div class="empty-note">共有リンクを貼ると、裏面の最後に出典として表示され、構造化データにも入ります。運営による「一時非表示」は管理画面で行います。</div>
+            </section>
+
+            <section class="form-section">
+              <div class="section-title"><h3><span class="section-index">7</span>つながりの線</h3><span class="required-note">カードの上に引く手書き風のライン</span></div>
+              <div class="line-pick" id="linePick"></div>
+              <div class="shape-pick" id="shapePick"></div>
+            </section>
           </div>
         </form>
       </section>
@@ -345,7 +386,7 @@
                   <article class="page-copy"><p class="meta" id="previewMeta">映画・2025年　CURRENT STATION</p><h3 id="previewTitle">『HIGHEST 2 LOWEST』</h3><p class="body" id="previewSummary"></p></article>
                 </div>
                 <div id="contextPreview" hidden>
-                  <div class="dual-hero"><div class="dual-photo"><span>A</span><img id="contextImageA" alt="" hidden></div><div class="dual-photo"><span>B</span><img id="contextImageB" alt="" hidden></div></div>
+                  <div class="dual-hero"><div class="dual-photo"><span>A</span><img id="contextImageA" alt="" hidden></div><div class="dual-photo"><span>B</span><img id="contextImageB" alt="" hidden></div><svg class="squiggle" id="previewLine" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"><path/></svg></div>
                   <article class="page-copy context-copy"><p class="meta"><span id="previewContextLabel">CONTEXT</span>　［<span id="previewRouteInline">原作から再解釈へ</span>］　<span id="previewReadingTime">約1分</span></p><h3 id="previewHeadline"></h3><div class="relation-summary" id="previewRelation"></div><div class="story"><span class="story-label">CONTEXT STORY</span><div class="story-content" id="previewBody"></div></div></article>
                 </div>
               </div>
@@ -361,37 +402,50 @@
   </div>
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
-  <script src="js/seed.js"></script>
-
-  <script src="js/store.js"></script>
+  <script src="js/seed.js?v=70"></script>
+  <script src="js/store.js?v=70"></script>
+  <script src="js/render.js?v=70"></script>
 
   <script>
   (() => {
     const SAMPLE = {
-      a: { title:'『HIGHEST 2 LOWEST』', type:'映画', year:'2025', creator:'スパイク・リー監督', slug:'highest-2-lowest', image:'', summary:'スパイク・リーが、黒澤明『天国と地獄』の構造を現代のニューヨークへ移し替えた作品。富、家族、選択の価値が問われる。' },
-      b: { title:'黒澤明『天国と地獄』', type:'映画', year:'1963', creator:'黒澤明監督', slug:'high-and-low', image:'', summary:'エド・マクベインの小説『King’s Ransom』を原作に、誘拐事件を通じて企業家の倫理と社会の格差を描いた作品。' },
-      context: { routeName:'原作から再解釈へ', label:'CONTEXT', headline:'誘拐劇は、60年後に\nアメリカへ戻った。', slug:'highest-2-lowest--high-and-low', relation:'黒澤明『天国と地獄』── 原作『King’s Ransom』── スパイク・リー『HIGHEST 2 LOWEST』', body:'<p><strong>同じ物語が、別の社会を走る。</strong></p><p>1963年に日本で映画化された誘拐劇が、時代と場所を越えて、現代のニューヨークへ戻ってきた。</p><p>二作品をつないでいるのは名前だけではない。原作の構造を受け継ぎながら、富を持つ者の責任、都市の格差、家族を守る選択をそれぞれの社会に問い直している。</p>', leftStation:'HIGHEST 2 LOWEST', rightStation:'天国と地獄' }
+      a: { title:'『HIGHEST 2 LOWEST』', type:'映画', year:'2025', creator:'スパイク・リー監督', slug:'highest-2-lowest', image:'img/highest.jpg', summary:'スパイク・リーが、黒澤明『天国と地獄』の構造を現代のニューヨークへ移し替えた作品。富、家族、選択の価値が問われる。' },
+      b: { title:'黒澤明『天国と地獄』', type:'映画', year:'1963', creator:'黒澤明監督', slug:'high-and-low', image:'img/highlow.jpg', summary:'エド・マクベインの小説『King’s Ransom』を原作に、誘拐事件を通じて企業家の倫理と社会の格差を描いた作品。' },
+      context: { routeName:'原作から再解釈へ', label:'CONTEXT', headline:'誘拐劇は、60年後に\nアメリカへ戻った。', slug:'highest-2-lowest--high-and-low', relation:'黒澤明『天国と地獄』── 原作『King’s Ransom』── スパイク・リー『HIGHEST 2 LOWEST』', body:'<p><strong>同じ物語が、別の社会を走る。</strong></p><p>1963年に日本で映画化された誘拐劇が、時代と場所を越えて、現代のニューヨークへ戻ってきた。</p><p>二作品をつないでいるのは名前だけではない。原作の構造を受け継ぎながら、富を持つ者の責任、都市の格差、家族を守る選択をそれぞれの社会に問い直している。</p>', leftStation:'HIGHEST 2 LOWEST', rightStation:'天国と地獄', aiUrl:'', author:'編集部', line:{ shape:0, color:'#f2cf12' } }
     };
     const BLANK = {
       a:{title:'',type:'映画',year:'',creator:'',slug:'',image:'',summary:''},
       b:{title:'',type:'映画',year:'',creator:'',slug:'',image:'',summary:''},
-      context:{routeName:'',label:'CONTEXT',headline:'',slug:'',relation:'',leftStation:'',rightStation:'',body:'<p></p>'}
+      context:{routeName:'',label:'CONTEXT',headline:'',slug:'',relation:'',leftStation:'',rightStation:'',body:'<p></p>',aiUrl:'',author:'',line:{}}
     };
     let currentId = null;
+    let status = 'public';      /* 公開 / 非公開。一時非表示は管理画面だけで扱う */
+    let fromTitle = null;       /* 既存の作品に B を足すときの、その作品名 */
     let state = loadState();
     let active = 'a';
     const $ = (id) => document.getElementById(id);
     const workFields = ['workTitle','workType','workYear','workCreator','workSlug','workSummary'];
     const fieldMap = {workTitle:'title',workType:'type',workYear:'year',workCreator:'creator',workSlug:'slug',workSummary:'summary'};
-    const contextFields = ['routeName','contextLabel','contextHeadline','contextSlug','relationSummary','leftStation','rightStation'];
-    const contextMap = {routeName:'routeName',contextLabel:'label',contextHeadline:'headline',contextSlug:'slug',relationSummary:'relation',leftStation:'leftStation',rightStation:'rightStation'};
+    const contextFields = ['routeName','contextLabel','contextHeadline','contextSlug','relationSummary','leftStation','rightStation','aiUrl','author'];
+    const contextMap = {routeName:'routeName',contextLabel:'label',contextHeadline:'headline',contextSlug:'slug',relationSummary:'relation',leftStation:'leftStation',rightStation:'rightStation',aiUrl:'aiUrl',author:'author'};
 
     function loadState(){
       const q = new URLSearchParams(location.search);
       const slug = q.get('slug');
       if (slug){
         const e = window.BCStore.byContextSlug(slug);
-        if (e){ currentId = e.id; return JSON.parse(JSON.stringify({a:e.a,b:e.b,context:e.context})); }
+        if (e){ currentId = e.id; status = e.status || 'public'; return JSON.parse(JSON.stringify({a:e.a,b:e.b,context:e.context})); }
+      }
+      /* 既存の A／B に B を足す（構成図 2.6）。A にその作品を入れ、B と関係は空から */
+      const from = q.get('from');
+      if (from){
+        const hit = window.BCStore.works(window.BCStore.all()).find(w => w.slug === from);
+        if (hit){
+          const s = JSON.parse(JSON.stringify(BLANK));
+          s.a = JSON.parse(JSON.stringify(hit.work));
+          fromTitle = hit.work.title;
+          return s;
+        }
       }
       if (q.get('new')) return JSON.parse(JSON.stringify(BLANK));
       return JSON.parse(JSON.stringify(SAMPLE));
@@ -416,6 +470,9 @@
       document.querySelectorAll('.step-card').forEach(btn=>btn.addEventListener('click',()=>switchPage(btn.dataset.page)));
       document.querySelectorAll('.preview-tab').forEach(btn=>btn.addEventListener('click',()=>switchPage(btn.dataset.preview)));
       $('saveBtn').addEventListener('click',save);
+      document.querySelectorAll('input[name="status"]').forEach(r=>r.addEventListener('change',()=>{ if(r.checked){ status=r.value; markDirty(); } }));
+      $('linePick').addEventListener('click',e=>{ const b=e.target.closest('[data-color]'); if(!b) return; state.context.line=Object.assign({},state.context.line,{color:b.dataset.color}); markDirty(); renderLinePick(); renderPreview(); });
+      $('shapePick').addEventListener('click',e=>{ const b=e.target.closest('[data-shape]'); if(!b) return; state.context.line=Object.assign({},state.context.line,{shape:+b.dataset.shape}); markDirty(); renderLinePick(); renderPreview(); });
       $('resetBtn').addEventListener('click',()=>{ if(!confirm('入力内容をサンプルへ戻しますか？')) return; state=JSON.parse(JSON.stringify(SAMPLE)); localStorage.removeItem('beautiful-context-editor-v1'); switchPage('a'); showToast('サンプルへ戻しました'); });
       $('imageInput').addEventListener('change',e=>{ if(e.target.files[0]) useImage(e.target.files[0]); });
       $('removeImage').addEventListener('click',()=>{ pageWork().image=''; $('imageInput').value=''; markDirty(); renderEditorImage(); renderPreview(); });
@@ -451,7 +508,7 @@
       $('panelEyebrow').textContent=isContext?'CONTEXT A–B':`CONTENT ${page.toUpperCase()}`;
       $('panelTitle').textContent=isContext?'コンテクストページを編集':'作品ページを編集';
       if(isContext){
-        $('routeName').value=state.context.routeName; $('contextLabel').value=state.context.label; $('contextHeadline').value=state.context.headline; $('contextSlug').value=state.context.slug; $('relationSummary').value=state.context.relation; $('leftStation').value=state.context.leftStation; $('rightStation').value=state.context.rightStation; $('contextBody').innerHTML=state.context.body;
+        $('routeName').value=state.context.routeName; $('contextLabel').value=state.context.label; $('contextHeadline').value=state.context.headline; $('contextSlug').value=state.context.slug; $('relationSummary').value=state.context.relation; $('leftStation').value=state.context.leftStation; $('rightStation').value=state.context.rightStation; $('contextBody').innerHTML=window.BCRender.clean(state.context.body); $('aiUrl').value=state.context.aiUrl || ''; $('author').value=state.context.author || ''; document.querySelectorAll('input[name="status"]').forEach(r=>r.checked=(r.value===(status==='private'?'private':'public'))); renderLinePick();
       } else {
         const w=pageWork(); workFields.forEach(id=>$(id).value=w[fieldMap[id]] || ''); renderEditorImage();
       }
@@ -474,22 +531,52 @@
       if(!isContext){
         const w=pageWork(); $('phonePlaceholder').textContent=active.toUpperCase(); setImg('phoneImage',w.image); $('previewMeta').textContent=`${w.type || '作品'}・${w.year || '----'}年　CURRENT STATION`; $('previewTitle').textContent=w.title || '作品名'; $('previewSummary').textContent=w.summary || '作品解説を入力してください。';
       } else {
-        setImg('contextImageA',state.a.image); setImg('contextImageB',state.b.image); $('previewContextLabel').textContent=state.context.label || 'CONTEXT'; $('previewHeadline').innerHTML=safeText(state.context.headline || 'キャッチコピーを入力').replace(/\n/g,'<br>'); $('previewRelation').textContent=state.context.relation || '二作品の関係を短く入力してください。'; $('previewBody').innerHTML=state.context.body || '<p>長文コンテクストを入力してください。</p>';
+        setImg('contextImageA',state.a.image); setImg('contextImageB',state.b.image); drawPreviewLine(); $('previewContextLabel').textContent=state.context.label || 'CONTEXT'; $('previewHeadline').innerHTML=safeText(state.context.headline || 'キャッチコピーを入力').replace(/\n/g,'<br>'); $('previewRelation').textContent=state.context.relation || '二作品の関係を短く入力してください。'; $('previewBody').innerHTML=window.BCRender.clean(state.context.body) || '<p>長文コンテクストを入力してください。</p>';
       }
+    }
+    /* つながりの線。ストリームと同じ描き方を render.js から借りる */
+    const R = window.BCRender;
+    function lineOf(){
+      const c = state.context, l = c.line || {};
+      const slug = c.slug || c.routeName || 'new';
+      const color = R.lineColor({ context: { slug, line: l } });
+      const shape = Number.isInteger(l.shape) ? l.shape : null;
+      return { color, shape };
+    }
+    function drawPreviewLine(){
+      const { color, shape } = lineOf();
+      const path = $('previewLine').querySelector('path');
+      const n = shape == null ? [...(state.context.slug || 'x')].reduce((h,ch)=>(h*31+ch.charCodeAt(0))|0,0) : shape;
+      path.setAttribute('d', R.linePath(Math.abs(n)));
+      path.style.stroke = color;
+    }
+    function renderLinePick(){
+      const { color, shape } = lineOf();
+      $('linePick').innerHTML = R.PALETTE.map(c => `<button type="button" data-color="${c}" class="${c===color?'on':''}" style="background:${c}" aria-label="線の色 ${c}"></button>`).join('');
+      $('shapePick').innerHTML = Array.from({length:R.SHAPE_COUNT},(_,i)=>`<button type="button" data-shape="${i}" class="${i===shape?'on':''}" aria-label="線の形 ${i+1}"><svg viewBox="0 0 100 100" preserveAspectRatio="none"><path d="${R.linePath(i)}" style="stroke:${color}"/></svg></button>`).join('');
     }
     function save(){
       if (!state.context.routeName.trim()){ showToast('路線名を入力してください'); return; }
       if (!state.a.title.trim() || !state.b.title.trim()){ showToast('作品Aと作品Bの作品名を入力してください'); return; }
-      const saved = window.BCStore.save({ id: currentId, a: state.a, b: state.b, context: state.context });
+      const ai = (state.context.aiUrl || '').trim();
+      if (ai && !/^https?:\/\/[^\s"'()<>]+$/i.test(ai)){ showToast('生成AIの URL は https:// から入力してください'); switchPage('context'); return; }
+      state.context.aiUrl = ai;
+      const saved = window.BCStore.save({ id: currentId, a: state.a, b: state.b, context: state.context, status });
       if (!saved){ showToast('画像が大きすぎるため保存できませんでした'); return; }
       currentId = saved.id;
-      $('saveState').textContent='公開済み'; $('saveState').classList.add('saved');
-      showToast('公開しました。ページを開きます');
-      setTimeout(()=>{ const u='index.html#'+encodeURIComponent(saved.context.slug); if(window.BCLeave){window.BCLeave(u);}else{location.href=u;} }, 900);
+      $('saveState').textContent=status==='private'?'非公開で保存':'公開済み'; $('saveState').classList.add('saved');
+      showToast(status==='private'?'非公開で保存しました。裏面を開きます':'公開しました。ページを開きます');
+      setTimeout(()=>{ const u='index.html#/c/'+encodeURIComponent(saved.context.slug); if(window.BCLeave){window.BCLeave(u);}else{location.href=u;} }, 900);
     }
     bindInputs(); switchPage('a');
+    if (fromTitle){
+      const note = $('fromNote');
+      note.textContent = `${fromTitle} に、新しいつながりを足します。B の作品と、二つの関係を入力してください。`;
+      note.hidden = false;
+      switchPage('b');
+    }
   })();
   </script>
-  <script src="js/transition.js?v=59"></script>
+  <script src="js/transition.js?v=70"></script>
 </body>
 </html>
