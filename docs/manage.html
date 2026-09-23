@@ -1,0 +1,190 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#171716">
+<title>運営者メニュー｜Beautiful Context</title>
+<link rel="manifest" href="manifest.webmanifest?v=70">
+<link rel="apple-touch-icon" href="icon-180.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<style>
+  /* 運営者の道具。読者の画面とは別の、明るく落ち着いた作業台。
+     見た目はエディター（前田先生の設計）と揃えている。 */
+  :root{
+    --canvas:#efeee9; --paper:#fbfaf7; --ink:#1d1c1a; --muted:#6f6c66; --line:#dcd8cf;
+    --nav:#171716; --gold:#a97717; --orange:#d9761f; --green:#2f7d4f; --red:#b23a2e; --blue:#315f9c;
+    --veil:var(--canvas);
+  }
+  *{box-sizing:border-box}
+  html{background:var(--canvas)}
+  body{margin:0;color:var(--ink);background:var(--canvas);
+    font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Yu Gothic","Noto Sans JP",sans-serif;line-height:1.55}
+  button,input,select,textarea{font:inherit;color:inherit}
+  a{color:inherit}
+
+  .top{position:sticky;top:0;z-index:20;display:flex;align-items:center;gap:14px;
+    padding:calc(env(safe-area-inset-top) + 12px) 20px 12px;background:var(--nav);color:#fff}
+  .top .mark{display:inline-grid;place-items:center;width:30px;height:30px;border:1px solid #fff5;border-radius:8px;
+    font:700 12px/1 serif;letter-spacing:-.04em;color:#f0c35a}
+  .top h1{margin:0;font-size:14px;font-weight:700;letter-spacing:.04em;white-space:nowrap}
+  .top h1 small{display:block;color:#aaa69c;font-weight:400;font-size:10.5px}
+  .top nav{margin-left:auto;display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end}
+  .top nav a{padding:7px 12px;border:1px solid #fff3;border-radius:18px;text-decoration:none;font-size:12px;white-space:nowrap}
+  .top nav a.primary{background:var(--orange);border-color:var(--orange)}
+
+  .shell{display:grid;grid-template-columns:210px 1fr;gap:24px;max-width:1240px;margin:0 auto;padding:24px 20px 80px}
+  .tabs{position:sticky;top:84px;align-self:start;display:grid;gap:3px}
+  .tabs a{display:flex;justify-content:space-between;align-items:center;padding:10px 12px;border-radius:8px;
+    text-decoration:none;color:var(--muted);font-size:13.5px}
+  .tabs a b{font-weight:600;color:var(--ink)}
+  .tabs a span{font-size:11px;color:var(--muted)}
+  .tabs a.on{background:var(--paper);box-shadow:0 1px 0 var(--line),0 0 0 1px var(--line)}
+  .tabs a.on b{color:var(--gold)}
+  .tabs .sep{height:1px;margin:8px 4px;background:var(--line)}
+
+  main{min-width:0}
+  .panel{background:var(--paper);border:1px solid var(--line);border-radius:14px;overflow:hidden}
+  .head{display:flex;align-items:flex-end;justify-content:space-between;gap:16px;padding:20px 22px;border-bottom:1px solid var(--line)}
+  .head .eyebrow{margin:0 0 4px;color:var(--gold);font:700 10px/1.4 sans-serif;letter-spacing:.14em}
+  .head h2{margin:0;font:600 21px/1.35 "Hiragino Mincho ProN","Yu Mincho",serif}
+  .head p.note{margin:6px 0 0;color:var(--muted);font-size:12px;max-width:52em}
+  .body{padding:18px 22px 24px}
+  .row-tools{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:14px}
+  .chip{padding:6px 12px;border:1px solid var(--line);border-radius:16px;background:#fff;cursor:pointer;font-size:12px}
+  .chip.on{background:var(--ink);border-color:var(--ink);color:#fff}
+  .chip b{font-weight:700;margin-left:4px}
+  .search{flex:1;min-width:180px;max-width:320px;margin-left:auto;padding:8px 12px;border:1px solid var(--line);border-radius:18px;background:#fff}
+
+  .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px;margin-bottom:16px}
+  .stat{padding:12px 14px;border:1px solid var(--line);border-radius:10px;background:#fff}
+  .stat small{display:block;color:var(--muted);font-size:11px}
+  .stat b{font:600 24px/1.2 "Hiragino Mincho ProN",serif}
+
+  .list{display:grid;gap:10px}
+  .item{display:grid;grid-template-columns:auto 1fr auto;gap:14px;align-items:center;padding:12px;border:1px solid var(--line);
+    border-radius:12px;background:#fff}
+  .item.dim{background:#f6f4ef}
+  .thumbs{display:flex;align-items:flex-end}
+  .thumbs img,.thumbs span{width:46px;height:64px;object-fit:cover;border-radius:4px;display:grid;place-items:center;
+    background:#ddd8cc;color:var(--gold);font:18px serif;box-shadow:0 2px 8px #0002}
+  .thumbs :nth-child(2){width:32px;height:44px;margin-left:-12px;border:2px solid #fff}
+  .info{min-width:0}
+  .info b{display:block;font:600 14.5px/1.45 "Hiragino Mincho ProN","Yu Mincho",serif}
+  .info .sub{display:block;color:var(--muted);font-size:11.5px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
+  .info .meta{display:flex;flex-wrap:wrap;gap:4px 12px;margin-top:4px;color:var(--muted);font-size:11px}
+  .ops{display:flex;flex-wrap:wrap;gap:6px;justify-content:flex-end;align-items:center}
+  .ops a,.ops button,.btn{padding:6px 11px;border:1px solid var(--line);border-radius:16px;background:#fff;cursor:pointer;
+    text-decoration:none;font-size:12px;white-space:nowrap}
+  .btn.primary{background:var(--ink);border-color:var(--ink);color:#fff}
+  .btn.warn,.ops .warn{color:var(--red);border-color:#e7c3bd}
+  select.status{padding:6px 28px 6px 10px;border:1px solid var(--line);border-radius:16px;font-size:12px;font-weight:700;background:#fff}
+  select.status.public{color:var(--green)}
+  select.status.private{color:var(--blue)}
+  select.status.hidden{color:var(--red)}
+  .noteline{grid-column:2 / -1;display:flex;gap:8px;align-items:center}
+  .noteline input{flex:1;padding:7px 10px;border:1px dashed #e0b4ad;border-radius:8px;background:#fffaf9;font-size:12px}
+
+  .field{display:grid;gap:5px;margin-bottom:14px}
+  .field label{font-size:12px;font-weight:700}
+  .field small{color:var(--muted);font-size:11px}
+  .field input,.field select,.field textarea{width:100%;padding:10px 12px;border:1px solid var(--line);border-radius:9px;background:#fff}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  .swatches{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+  .sw{width:34px;height:34px;border-radius:50%;border:3px solid #fff;box-shadow:0 0 0 1px var(--line);cursor:pointer}
+  .sw.on{box-shadow:0 0 0 2px var(--ink)}
+  .themes{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  .theme-opt{position:relative;display:grid;gap:8px;padding:10px;border:1px solid var(--line);border-radius:12px;cursor:pointer;background:#fff}
+  .theme-opt input{position:absolute;opacity:0}
+  .theme-opt.on{border-color:var(--ink);box-shadow:0 0 0 1px var(--ink)}
+  .theme-opt i{display:block;height:74px;border-radius:8px;background-size:40px 40px}
+  .theme-opt i.charcoal{background-color:#141c25;background-image:linear-gradient(#2f6fb566 1px,transparent 1px),linear-gradient(90deg,#2f6fb566 1px,transparent 1px)}
+  .theme-opt i.white{background-color:#eef2f7;background-image:linear-gradient(#2f6fb540 1px,transparent 1px),linear-gradient(90deg,#2f6fb540 1px,transparent 1px)}
+  .theme-opt b{font-size:12.5px}
+  .custom{display:grid;grid-template-columns:1fr 300px;gap:24px;align-items:start}
+  .preview{position:sticky;top:96px;display:grid;gap:8px;justify-items:center}
+  .phone{width:300px;height:600px;border:10px solid #111;border-radius:40px;overflow:hidden;background:#111;box-shadow:0 20px 50px #0004}
+  .phone iframe{width:390px;height:780px;border:0;transform:scale(.7179);transform-origin:0 0;display:block}
+  .preview small{color:var(--muted);font-size:11px}
+
+  .ad-edit{display:grid;grid-template-columns:120px 1fr;gap:16px;padding:14px;border:1px solid var(--line);border-radius:12px;background:#fff;margin-bottom:12px}
+  .ad-edit .pic{width:120px;aspect-ratio:5/7;border-radius:6px;background:#111 center/cover;display:grid;place-items:center;color:#fff8;font-size:11px}
+  .ad-edit .field{margin-bottom:10px}
+  .toggle{display:inline-flex;align-items:center;gap:8px;font-size:12px;cursor:pointer}
+  .toggle input{width:18px;height:18px;accent-color:var(--green)}
+
+  table.feat{width:100%;border-collapse:collapse;font-size:12.5px}
+  .feat th,.feat td{padding:9px 10px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
+  .feat th{font-size:11px;color:var(--muted);font-weight:700;background:#f7f5f0;position:sticky;top:0}
+  .feat td:first-child{white-space:nowrap;color:var(--muted);font-variant-numeric:tabular-nums}
+  .feat .grp td{background:#f4f1ea;font-weight:700;color:var(--gold);font-size:11px;letter-spacing:.08em}
+  .tag{display:inline-block;padding:2px 8px;border-radius:10px;font-size:10.5px;font-weight:700;white-space:nowrap}
+  .tag.ok{background:#e3f1e8;color:var(--green)}
+  .tag.part{background:#fbf0dc;color:#8a5c0c}
+  .tag.prod{background:#ecebe7;color:var(--muted)}
+  .legend{display:flex;flex-wrap:wrap;gap:12px;margin:0 0 14px;font-size:11.5px;color:var(--muted)}
+
+  .empty{padding:30px;text-align:center;color:var(--muted);font-size:13px}
+  .talk{display:grid;gap:4px;padding:12px;border:1px solid var(--line);border-radius:10px;background:#fff}
+  .talk.dim{background:#f6f4ef;color:var(--muted)}
+  .talk header{display:flex;flex-wrap:wrap;gap:4px 12px;align-items:center;font-size:11.5px;color:var(--muted)}
+  .talk header b{color:var(--ink)}
+  .talk p{margin:2px 0 6px;white-space:pre-wrap;overflow-wrap:anywhere;font-size:13.5px}
+  .talk .ops{justify-content:flex-start}
+  .danger{margin-top:22px;padding:14px;border:1px solid #efd0ca;border-radius:12px;background:#fdf6f4}
+  .danger h3{margin:0 0 6px;font-size:13px;color:var(--red)}
+  .toast{position:fixed;z-index:60;left:50%;bottom:calc(24px + env(safe-area-inset-bottom));transform:translateX(-50%);
+    padding:9px 16px;border-radius:18px;background:#111e;color:#fff;font-size:12px;opacity:0;pointer-events:none;transition:opacity .18s}
+  .toast.show{opacity:1}
+
+  @media (max-width:860px){
+    .shell{grid-template-columns:1fr;padding:12px 12px 70px;gap:12px}
+    .tabs{position:sticky;top:calc(env(safe-area-inset-top) + 58px);z-index:10;display:flex;overflow-x:auto;gap:6px;
+      margin:0 -12px;padding:8px 12px;background:var(--canvas);scrollbar-width:none}
+    .tabs::-webkit-scrollbar{display:none}
+    .tabs a{flex:0 0 auto;padding:7px 12px;border:1px solid var(--line);border-radius:18px;background:#fff}
+    .tabs a span,.tabs .sep{display:none}
+    .top{padding:calc(env(safe-area-inset-top) + 10px) 12px 10px;gap:10px}
+    .top h1 small{display:none}
+    .top nav a:not(.primary){display:none}
+    .head{flex-direction:column;align-items:flex-start;padding:16px}
+    .body{padding:14px 12px 18px}
+    .item{grid-template-columns:auto 1fr;gap:10px}
+    .ops{grid-column:1 / -1;justify-content:flex-start}
+    .custom{grid-template-columns:1fr}
+    .preview{position:static}
+    .grid2{grid-template-columns:1fr}
+    .ad-edit{grid-template-columns:84px 1fr}
+    .ad-edit .pic{width:84px}
+    .feat-wrap{overflow-x:auto}
+    table.feat{min-width:620px}
+  }
+</style>
+<link rel="stylesheet" href="fade.css?v=70">
+</head>
+<body>
+  <header class="top">
+    <span class="mark" aria-hidden="true">bc</span>
+    <h1>運営者メニュー<small id="brandName">Beautiful Context</small></h1>
+    <nav>
+      <a href="index.html">← ストリーム</a>
+      <a class="primary" href="editor.html?new=1">＋ 新しいコンテクスト</a>
+    </nav>
+  </header>
+
+  <div class="shell">
+    <nav class="tabs" id="tabs" aria-label="管理メニュー"></nav>
+    <main id="main"></main>
+  </div>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="js/seed.js?v=70"></script>
+  <script src="js/store.js?v=70"></script>
+  <script src="js/render.js?v=70"></script>
+  <script src="js/manage.js?v=70"></script>
+  <script src="js/transition.js?v=70"></script>
+</body>
+</html>
