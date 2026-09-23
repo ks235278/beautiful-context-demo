@@ -3,9 +3,15 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="description" content="Beautiful Context — 表紙から路線図へ、そしてコンテクストのストリームへ、縦のスクロール一本で続きます。">
+<title>Beautiful Context</title>
+<meta name="description" content="二つのコンテンツの意外なつながりを、縦にスクロールするストリームで。表にカード、裏にコンテクスト。">
 <meta name="theme-color" content="#141c25">
-<link rel="manifest" href="manifest.webmanifest?v=49">
+<link rel="canonical" href="https://ks235278.github.io/beautiful-context-demo/">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Beautiful Context">
+<meta property="og:description" content="二つのコンテンツの意外なつながりを、縦にスクロールするストリームで。">
+<meta property="og:image" content="https://ks235278.github.io/beautiful-context-demo/icon-512.png">
+<link rel="manifest" href="manifest.webmanifest?v=70">
 <link rel="apple-touch-icon" href="icon-180.png">
 <!-- ホーム画面から開くと全画面になり、safe-area が 0 でなくなる。
      そのとき初めて Dynamic Island の裏までページが描ける。 -->
@@ -13,9 +19,17 @@
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Beautiful Context">
-<title>Beautiful Context</title>
-<link rel="stylesheet" href="app.css?v=61">
-<link rel="stylesheet" href="fade.css?v=59">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebSite","name":"Beautiful Context",
+ "url":"https://ks235278.github.io/beautiful-context-demo/","inLanguage":"ja",
+ "description":"二つのコンテンツの意外なつながりを、縦にスクロールするストリームで読むサービスのデモ。",
+ "potentialAction":{"@type":"SearchAction",
+   "target":"https://ks235278.github.io/beautiful-context-demo/#/search?q={search_term_string}",
+   "query-input":"required name=search_term_string"}}
+</script>
+<script src="js/theme.js?v=70"></script>
+<link rel="stylesheet" href="app.css?v=70">
+<link rel="stylesheet" href="fade.css?v=70">
 <style>
   /* 路線。角度の違う線と縦書きの線が交差する。
      箱は画面より大きいので、当たり判定は見出しだけに持たせる。 */
@@ -36,35 +50,38 @@
   @keyframes runX{from{transform:translateX(0)}to{transform:translateX(-50%)}}
   @keyframes runY{from{transform:translateY(0)}to{transform:translateY(-50%)}}
   .tag{flex:0 0 auto;margin:0 22px;padding:9px 7px;background:none;border:0;font-family:inherit;
-    cursor:pointer;white-space:nowrap;line-height:1.5;transition:color .18s;pointer-events:auto}
-  .tag.k-ctx{color:#eef2f8}
-  .tag.k-work{color:#9fb0c6}
-  .tag .h{color:#6f8db4;margin-right:1px}
+    cursor:pointer;white-space:nowrap;line-height:1.5;transition:color .18s;pointer-events:auto;
+    zoom:var(--ts,1)}
+  .tag.k-ctx{color:var(--tag-ctx)}
+  .tag.k-work{color:var(--tag-work)}
+  .tag .h{color:var(--tag-hash);margin-right:1px}
   .tag:hover,.tag:focus-visible,.tag:active{color:#ffd489;outline:none}
-  .uv-none{position:absolute;left:24px;right:24px;top:48%;z-index:3;text-align:center;color:#aab6c6;
+  html[data-theme="white"] .tag:hover,html[data-theme="white"] .tag:focus-visible{color:var(--accent)}
+  .uv-none{position:absolute;left:24px;right:24px;top:48%;z-index:3;text-align:center;color:var(--dim);
     font-size:12px;line-height:2}
 </style>
-<style>:root{--veil:#141c25}</style>
 </head>
 <body>
 
 <div id="bg" aria-hidden="true">
-      <svg class="pcb" viewBox="0 0 430 900" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
-        <defs>
-          <pattern id="trace" width="75" height="75" patternUnits="userSpaceOnUse">
-            <g fill="none" stroke="#2f6fb5" stroke-width="1.4" stroke-linecap="round">
-              <path d="M0 18 H30 L44 32 H75"/><path d="M0 56 H18 L30 44 V8"/>
-              <path d="M56 0 V26 L68 38 V75"/><path d="M8 75 V60 L22 46 H50"/><path d="M75 62 H60 L50 52"/>
-            </g>
-            <g fill="#2f6fb5">
-              <circle cx="30" cy="30" r="2.6"/><circle cx="56" cy="26" r="2.2"/>
-              <circle cx="18" cy="56" r="2.2"/><circle cx="50" cy="46" r="2.4"/>
-              <rect x="60" y="6" width="9" height="9" rx="1.6"/><rect x="6" y="34" width="7" height="7" rx="1.4"/>
-            </g>
-          </pattern>
-        </defs>
-        <rect width="430" height="900" fill="#0f1319"/><rect width="430" height="900" fill="url(#trace)"/>
-      </svg>
+  <!-- 模様は画面の大きさに関わらず 75px 角のまま敷き詰める。
+       大きな画面で模様だけが引き伸ばされないように、viewBox は持たせない。 -->
+  <svg class="pcb" aria-hidden="true">
+    <defs>
+      <pattern id="trace" width="75" height="75" patternUnits="userSpaceOnUse">
+        <g fill="none" stroke="#2f6fb5" stroke-width="1.4" stroke-linecap="round">
+          <path d="M0 18 H30 L44 32 H75"/><path d="M0 56 H18 L30 44 V8"/>
+          <path d="M56 0 V26 L68 38 V75"/><path d="M8 75 V60 L22 46 H50"/><path d="M75 62 H60 L50 52"/>
+        </g>
+        <g fill="#2f6fb5">
+          <circle cx="30" cy="30" r="2.6"/><circle cx="56" cy="26" r="2.2"/>
+          <circle cx="18" cy="56" r="2.2"/><circle cx="50" cy="46" r="2.4"/>
+          <rect x="60" y="6" width="9" height="9" rx="1.6"/><rect x="6" y="34" width="7" height="7" rx="1.4"/>
+        </g>
+      </pattern>
+    </defs>
+    <rect class="base" width="100%" height="100%"/><rect width="100%" height="100%" fill="url(#trace)"/>
+  </svg>
   <div class="cloud" id="cloud"></div>
 </div>
 
@@ -72,394 +89,40 @@
   <section class="intro" id="intro">
     <div class="intro-stick">
       <div class="net-label" id="netLabel">
-        <b>UniverseIt!</b><small>言葉から、つながりを辿る</small>
+        <b>UniverseIt!</b><small id="tagline">言葉から、つながりを辿る</small>
+        <form class="seek" role="search" data-seek>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6"/><path d="m15 15 5 5"/></svg>
+          <input type="search" name="q" placeholder="言葉で辿る" enterkeyhint="search" aria-label="言葉で辿る">
+        </form>
       </div>
 
-      <h1 class="wordmark" id="wordmark">BEAUTIFUL CONTEXT</h1>
+      <h1 class="wordmark" id="wordmark">Beautiful Context</h1>
     </div>
   </section>
 
-  <div id="stream" hidden></div>
+  <div id="stream" hidden><div class="stream-in" id="streamIn"></div></div>
 </div>
 
-<div class="dock dark" id="dock">
+<div class="dock" id="dock">
   <div class="map" id="map"></div>
   <div class="actions">
-    <a href="editor.html" id="remix">ReMixIt!</a>
+    <a href="editor.html?new=1" id="remix">ReMixIt!</a>
     <button class="primary" type="button" id="uniBtn">UNIverseIt!</button>
   </div>
 </div>
 
-<div class="view" id="workView" role="dialog" aria-label="作品ページ">
-  <div class="view-in" id="workBody"></div>
+<div class="view" id="view" role="dialog" aria-modal="true">
+  <div class="view-in" id="viewIn"></div>
 </div>
 
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
+<script type="application/ld+json" id="ld"></script>
 
-<script src="js/seed.js?v=49"></script>
-<script src="js/store.js?v=49"></script>
-<script src="js/render.js?v=49"></script>
-<script src="js/transition.js?v=59"></script>
-<script>
-(() => {
-  const S = window.BCStore, R = window.BCRender;
-  const stream = document.getElementById('stream');
-  const dock   = document.getElementById('dock');
-  const actions = dock.querySelector('.actions');
-  const map    = document.getElementById('map');
-  const intro  = document.getElementById('intro');
-  const stick  = intro.querySelector('.intro-stick');
-  const bg     = document.getElementById('bg');
-  const cloud  = document.getElementById('cloud');
-
-  /* ---------- ストリーム ---------- */
-  function build(){
-    const all = S.all();
-    stream.textContent = '';
-    if (!all.length){
-      stream.innerHTML = `<div class="empty"><b>まだつながりがありません</b>
-        ReMixIt! から最初のコンテクストを作成してください。</div>`;
-      return;
-    }
-    all.forEach((e, i) => {
-      const sec = document.createElement('section');
-      sec.className = 'ctx';
-      sec.id = e.context.slug;
-      sec.dataset.slug = e.context.slug;
-      sec.innerHTML = R.contextSection(e) + `
-        <div class="ctx-foot">
-          <button type="button" data-work="${R.esc(e.a.slug)}">${R.esc(e.a.title)}<small>この駅を見る</small></button>
-          <button type="button" data-work="${R.esc(e.b.slug)}">${R.esc(e.b.title)}<small>この駅を見る</small></button>
-        </div>`;
-      stream.appendChild(sec);
-      if (i < all.length - 1){
-        const sep = document.createElement('div');
-        sep.className = 'ctx-sep';
-        stream.appendChild(sep);
-      }
-    });
-    observe();
-  }
-
-  /* ---------- 画面の外側も地色に合わせる ----------
-     ステータスバーの帯はブラウザが塗るので、こちらから色を渡す。
-     渡さないと、そこだけ地色から浮いて見える。 */
-  const themeMeta = document.querySelector('meta[name="theme-color"]');
-  /* GROUND は模様が乗った状態の平均色。app.css の --ground と同じ値。 */
-  const GROUND = '#141c25', PAPER = '#f7f4ed', BLACK = '#070707';
-
-  /* 画面の一番上に実際に来ているものの色を読む。ストリームでは
-     作品の絵（黒）と本文（紙）が入れ替わり続けるので、決め打ちでは合わない。 */
-  /* ある高さに実際に来ている要素の背景色を読む */
-  function colorAt(y){
-    let n = document.elementFromPoint(Math.round(window.innerWidth / 2), Math.max(1, Math.round(y)));
-    while (n && n !== document.documentElement){
-      const bg = getComputedStyle(n).backgroundColor;
-      const m = bg && bg.match(/^rgba?\((\d+),\s*(\d+),\s*(\d+)(?:,\s*([\d.]+))?/);
-      if (m && (m[4] === undefined || +m[4] > .9)){
-        return '#' + [m[1], m[2], m[3]]
-          .map(v => (+v).toString(16).padStart(2, '0')).join('');
-      }
-      n = n.parentElement;
-    }
-    return null;
-  }
-  const topColor = () => colorAt(2);
-
-  /* ドックの明暗は無くなった。地は一枚しかない。 */
-
-  /* 色を決める場所はここ一箇所。二箇所から書くと、
-     スクロールの監視と重ね表示が互いに上書きし合う。 */
-  function applyTheme(){
-    if (!themeMeta) return;
-    const hex = document.getElementById('workView').classList.contains('on') ? BLACK
-              : dock.classList.contains('dark') ? GROUND
-              : (topColor() || PAPER);
-    if (themeMeta.content !== hex) themeMeta.content = hex;
-  }
-
-  /* ---------- ドック ---------- */
-  let current = null;
-  let mapSwap = 0;
-  function setDock(e){
-    if (!e){
-      mapSwap++;
-      map.innerHTML = '';
-      document.getElementById('remix').href = 'editor.html';
-      current = null;
-      applyTheme();
-      return;
-    }
-    applyTheme();
-    const c = e.context;
-    const markup = R.mapMarkup({
-      lineName: c.routeName,
-      left: c.leftStation || e.a.title,
-      right: c.rightStation || e.b.title,
-      label: c.label || 'CONTEXT',
-      aSlug: e.a.slug, bSlug: e.b.slug
-    });
-    document.getElementById('remix').href = 'editor.html?slug=' + encodeURIComponent(c.slug);
-
-    /* 古い路線を消してから差し替えるのではなく、二枚を短く重ねて渡す。 */
-    const oldLayers = [...map.querySelectorAll('.map-layer')];
-    const old = oldLayers.pop() || null;
-    oldLayers.forEach(layer => layer.remove());
-    if (!old || matchMedia('(prefers-reduced-motion:reduce)').matches){
-      map.innerHTML = `<div class="map-layer">${markup}</div>`;
-      return;
-    }
-
-    const next = document.createElement('div');
-    next.className = 'map-layer entering';
-    next.innerHTML = markup;
-    map.appendChild(next);
-    const swap = ++mapSwap;
-    requestAnimationFrame(() => {
-      old.classList.add('leaving');
-      next.classList.remove('entering');
-    });
-    setTimeout(() => {
-      if (swap !== mapSwap) return;
-      [...map.querySelectorAll('.map-layer')].forEach(layer => {
-        if (layer !== next) layer.remove();
-      });
-    }, 340);
-  }
-
-  let io;
-  function observe(){
-    if (io) io.disconnect();
-    io = new IntersectionObserver(entries => {
-      entries.forEach(en => {
-        if (!en.isIntersecting) return;
-        const slug = en.target.dataset.slug;
-        if (slug === current) return;
-        current = slug;
-        setDock(S.byContextSlug(slug));
-        history.replaceState(null, '', '#' + slug);
-      });
-    }, { rootMargin: '-45% 0px -45% 0px', threshold: 0 });
-    document.querySelectorAll('.ctx').forEach(el => io.observe(el));
-  }
-
-  /* ---------- 導入部のスクロール連動 ----------
-     表紙が薄れるにつれて路線図が現れ、線はそのまま流れ続ける。 */
-  const clamp = v => v < 0 ? 0 : v > 1 ? 1 : v;
-  const ease  = v => { const t = clamp(v); return t * t * (3 - 2 * t); };
-
-  let introEnd = 0, ticking = false, inIntro = true;
-  function measure(){ introEnd = Math.max(1, intro.offsetHeight - window.innerHeight); }
-
-  function paint(){
-    ticking = false;
-    const raw = window.scrollY / introEnd;   /* clamp する前の生の値 */
-    const p = clamp(raw);
-    /* 上へ流れる距離と薄れる時間を同じ進行にする。
-       上端近くへ着くころには、止まることなく完全に消えている。 */
-    const wordmarkFlow = ease((p - 0.02) / 0.42);
-    const wy = -window.innerHeight * 0.42 * wordmarkFlow;
-    const wm = 1 - wordmarkFlow;
-    /* 見出しは導入部で立ち上がり、そのあともページの後ろで流れ続ける。
-       ただし本文の下敷きになるので、読める濃さまで落ち着かせる。 */
-    const after = Math.max(0, (window.scrollY - introEnd) / 420);
-    const cl = raw <= 1 ? ease((p - 0.25) / 0.36)
-                        : 1 - 0.66 * Math.min(1, after);
-    stick.style.setProperty('--wm', wm.toFixed(3));
-    stick.style.setProperty('--wy', wy.toFixed(1) + 'px');
-    bg.style.setProperty('--cl', cl.toFixed(3));
-    cloud.style.pointerEvents = cl > 0.55 ? 'auto' : 'none';
-
-    /* 第2段階では流れる見出しだけを見せる。第3段階に入ってから
-       ReMixIt! / UNIverseIt! を現し、十分に見えるまで触れない。 */
-    const dk = ease((p - 0.68) / 0.20);
-    dock.style.setProperty('--dk', dk.toFixed(3));
-    const firstContext = stream.querySelector('.ctx');
-    const reading = !!(opened && firstContext &&
-      firstContext.getBoundingClientRect().top <= window.innerHeight * 0.72);
-    dock.classList.toggle('reading', reading);
-    if (actions) actions.style.pointerEvents = !reading && dk > 0.5 ? 'auto' : 'none';
-
-    /* 導入部が画面の半分以上を占めている間はドックを暗いままにする */
-    const nowIn = window.scrollY + window.innerHeight * 0.5 < intro.offsetHeight;
-    if (nowIn !== inIntro){
-      inIntro = nowIn;
-      if (nowIn){ setDock(null); history.replaceState(null, '', location.pathname); }
-    }
-    /* 上端に来ているものが変われば、帯もついてくる */
-    applyTheme();
-  }
-  function onScroll(){ if (!ticking){ ticking = true; requestAnimationFrame(paint); } }
-
-  window.addEventListener('scroll', onScroll, { passive: true });
-  window.addEventListener('resize', () => { measure(); paint(); });
-  /* 裏に回っている間は rAF が止まるので、戻ってきたら測り直して描き直す */
-  document.addEventListener('visibilitychange', () => {
-    if (!document.hidden){ measure(); paint(); }
-  });
-
-  /* ---------- 区間へ跳ぶ ----------
-     scroll-behavior:smooth が効いていると scrollTo が打ち切られるため、
-     跳ぶ瞬間だけ auto に落とす。交差状態が変わらないと observer は
-     鳴らないので、ドックもここで直接合わせる。 */
-  function scrollToY(y){
-    const de = document.documentElement;
-    const keep = de.style.scrollBehavior;
-    de.style.scrollBehavior = 'auto';
-    window.scrollTo(0, y);
-    requestAnimationFrame(() => { de.style.scrollBehavior = keep; });
-  }
-
-  /* 継ぎ目を見せないための移動。ブラウザの smooth は当てにならないので
-     自前で送る。指で送ったときと同じ速さに見えることだけを狙う。 */
-  let gliding = 0;
-  function glideTo(y, ms){
-    const de = document.documentElement;
-    const keep = de.style.scrollBehavior;
-    de.style.scrollBehavior = 'auto';
-    const from = window.scrollY, dist = y - from, t0 = performance.now();
-    const id = ++gliding;
-    const easeInOut = t => t < .5 ? 4*t*t*t : 1 - Math.pow(-2*t + 2, 3) / 2;
-    (function step(now){
-      if (id !== gliding) return;
-      const t = Math.min(1, (now - t0) / ms);
-      window.scrollTo(0, from + dist * easeInOut(t));
-      paint();
-      if (t < 1) requestAnimationFrame(step);
-      else de.style.scrollBehavior = keep;
-    })(t0);
-    /* 指で触ったら即座に譲る */
-    const yield_ = () => { gliding++; de.style.scrollBehavior = keep; };
-    window.addEventListener('touchstart', yield_, { once: true, passive: true });
-    window.addEventListener('wheel', yield_, { once: true, passive: true });
-  }
-  function goTo(slug){
-    const el = document.getElementById(slug);
-    if (!el) return;
-    scrollToY(el.getBoundingClientRect().top + window.scrollY);
-    const e = S.byContextSlug(slug);
-    if (e){ current = slug; setDock(e); }
-    history.replaceState(null, '', '#' + slug);
-    paint();
-  }
-
-  /* ---------- 続きを開く ----------
-     開くまでストリームを組み立てないので、ページは路線図でちょうど終わる。
-     スクロールを塞ぐ小細工は要らない。 */
-  let opened = false;
-  function open(){
-    if (opened) return false;
-    opened = true;
-    stream.hidden = false;
-    document.getElementById('app').classList.remove('locked');
-    measure();
-    return true;
-  }
-
-  document.getElementById('uniBtn').addEventListener('click', () => {
-    if (open()){
-      /* 初めて開くときは送り込む。跳ぶのではなく、続きが流れてくるように */
-      const first = stream.querySelector('.ctx');
-      if (first) glideTo(first.getBoundingClientRect().top + window.scrollY, 900);
-    } else {
-      glideTo(introEnd, 700);   /* すでに開いていれば路線図へ戻る */
-    }
-  });
-
-  cloud.addEventListener('click', ev => {
-    const t = ev.target.closest('.tag');
-    if (!t) return;
-    if (t.dataset.work){ openWork(t.dataset.work); return; }
-    open();
-    const el = document.getElementById(t.dataset.ctx);
-    if (!el) return;
-    glideTo(el.getBoundingClientRect().top + window.scrollY, 900);
-    const e = S.byContextSlug(t.dataset.ctx);
-    if (e){ current = t.dataset.ctx; setDock(e); }
-    history.replaceState(null, '', '#' + t.dataset.ctx);
-  });
-  const hold = on => cloud.querySelectorAll('.run').forEach(r => r.classList.toggle('paused', on));
-  cloud.addEventListener('pointerenter', () => hold(true));
-  cloud.addEventListener('pointerleave', () => hold(false));
-
-  /* ---------- 駅（作品） ----------
-     別ページへは渡さない。同じ画面の中で、薄れて、濃くなる。 */
-  const workView = document.getElementById('workView');
-  const workBody = document.getElementById('workBody');
-
-  function openWork(slug){
-    const hit = S.workBySlug(slug);
-    if (!hit) return;
-    workBody.innerHTML = R.workMarkup(hit) +
-      `<button class="back" type="button" id="workBack">← 戻る</button>`;
-    workView.scrollTop = 0;
-    workView.classList.add('on');
-    document.body.style.overflow = 'hidden';
-    applyTheme();
-  }
-  function closeWork(){
-    workView.classList.remove('on');
-    document.body.style.overflow = '';
-    applyTheme();
-  }
-
-  workView.addEventListener('click', ev => {
-    if (ev.target.closest('#workBack')){ closeWork(); return; }
-    const c = ev.target.closest('[data-ctx]');
-    if (c){
-      closeWork();
-      open();
-      const el = document.getElementById(c.dataset.ctx);
-      if (!el) return;
-      /* 薄れ終わってから送る。二つが同時に動くと継ぎ目が見える */
-      setTimeout(() => {
-        glideTo(el.getBoundingClientRect().top + window.scrollY, 700);
-        const e = S.byContextSlug(c.dataset.ctx);
-        if (e){ current = c.dataset.ctx; setDock(e); }
-        history.replaceState(null, '', '#' + c.dataset.ctx);
-      }, 340);
-      return;
-    }
-    const w = ev.target.closest('[data-work]');
-    if (w && w.dataset.work) openWork(w.dataset.work);
-  });
-
-  document.addEventListener('click', ev => {
-    if (ev.target.closest('.view')) return;
-    const w = ev.target.closest('[data-work]');
-    if (w && w.dataset.work) openWork(w.dataset.work);
-  });
-
-  /* 別ページへ渡すときの暗転は js/transition.js が受け持つ */
-
-  /* 左端からのスワイプで戻るとき、この画面の中で戻れるならそうする。
-     いきなりアプリの外へ出てしまうのを防ぐ。 */
-  window.BCSwipeBack = () => {
-    if (workView.classList.contains('on')){ closeWork(); return true; }
-    if (window.scrollY > introEnd + 8){ glideTo(introEnd, 520); return true; }
-    return false;
-  };
-
-  /* ---------- 起動 ---------- */
-  build();
-  R.buildCloud(cloud);
-  measure();
-  setDock(null);
-  paint();
-
-  /* 区間を名指しで開かれたときは、最初から続きを開いた状態にする */
-  const hash = decodeURIComponent(location.hash.slice(1));
-  if (hash){
-    if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
-    open();
-    const jump = () => { measure(); goTo(hash); };
-    requestAnimationFrame(jump);
-    window.addEventListener('load', () => setTimeout(jump, 60), { once: true });
-  } else {
-    window.addEventListener('load', () => { measure(); paint(); }, { once: true });
-  }
-})();
-</script>
-  <script src="js/debug.js?v=49"></script>
+<script src="js/seed.js?v=70"></script>
+<script src="js/store.js?v=70"></script>
+<script src="js/render.js?v=70"></script>
+<script src="js/transition.js?v=70"></script>
+<script src="js/app.js?v=70"></script>
+<script src="js/debug.js?v=70"></script>
 </body>
 </html>

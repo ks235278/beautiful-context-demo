@@ -3,104 +3,24 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="description" content="Beautiful Context の作品ページ。その作品が関わるすべてのコンテクストへの導線が並びます。">
-<meta name="theme-color" content="#070707">
-<link rel="manifest" href="manifest.webmanifest?v=49">
-<link rel="apple-touch-icon" href="icon-180.png">
-<!-- ホーム画面から開くと全画面になり、safe-area が 0 でなくなる。
-     そのとき初めて Dynamic Island の裏までページが描ける。 -->
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="Beautiful Context">
+<meta name="theme-color" content="#141c25">
+<meta name="robots" content="noindex">
 <title>Beautiful Context</title>
-<link rel="stylesheet" href="app.css?v=49">
-<link rel="stylesheet" href="fade.css?v=59">
-<style>:root{--veil:#141c25}</style>
+<!-- 以前の作品ページ（page.html?work=…／?context=…）。
+     いまは index.html の中で、駅も裏面も同じ画面に重ねて開くので、そちらへ送る。
+     共有済みのリンクを切らさないために残している。 -->
+<script>
+  (() => {
+    const q = new URLSearchParams(location.search);
+    const w = q.get('work'), c = q.get('context');
+    const to = 'index.html' + (c ? '#/c/' + encodeURIComponent(c) : w ? '#/w/' + encodeURIComponent(w) : '');
+    location.replace(to);
+  })();
+</script>
+<style>html,body{margin:0;height:100%;background:#141c25;color:#e9e4d8;font:14px/1.8 sans-serif}
+a{color:inherit}p{padding:40px 24px;text-align:center}</style>
 </head>
 <body>
-
-<div class="app">
-  <div id="main"></div>
-</div>
-
-<div class="dock" id="dock">
-  <div class="map" id="map"></div>
-  <div class="actions">
-    <a href="editor.html" id="remix">ReMixIt!</a>
-    <a class="primary" href="index.html">UNIverseIt!</a>
-  </div>
-</div>
-
-<div class="toast" id="toast" role="status" aria-live="polite"></div>
-
-<script src="js/seed.js?v=49"></script>
-<script src="js/store.js?v=49"></script>
-<script src="js/render.js?v=49"></script>
-<script>
-(() => {
-  const S = window.BCStore, R = window.BCRender;
-  const main = document.getElementById('main');
-  const map  = document.getElementById('map');
-  const qs   = new URLSearchParams(location.search);
-
-  /* コンテクストはストリーム側にあるので、そちらへ送る */
-  const ctx = qs.get('context');
-  if (ctx){ location.replace('index.html#' + encodeURIComponent(ctx)); return; }
-
-  const slug = qs.get('work');
-  const hit  = slug ? S.workBySlug(slug) : null;
-
-  if (!hit){
-    main.innerHTML = `<div class="empty"><b>作品が見つかりません</b>
-      <button class="back" type="button" onclick="location.href='index.html'">← ストリームへ戻る</button></div>`;
-    document.getElementById('dock').classList.add('dark');
-    return;
-  }
-
-  const w = hit.work;
-  document.title = `${w.title}｜Beautiful Context`;
-
-  const links = hit.contexts.map(({ entry, side }) => {
-    const other = entry[side === 'a' ? 'b' : 'a'];
-    return `<button class="tease" data-ctx="${R.esc(entry.context.slug)}">
-      ${R.esc(other.title)} とのコンテクストを読む
-      <small style="display:block;margin-top:4px;color:#6b6a65;font-weight:400">【${R.esc(entry.context.routeName)}】</small>
-      <span>›</span></button>`;
-  }).join('');
-
-  main.innerHTML = `
-    <div class="hero">${R.art(w)}</div>
-    <div class="content">
-      <p class="meta">${R.esc(w.type || '作品')}・${R.esc(w.year || '----')}年　CURRENT STATION</p>
-      <h2>${R.esc(w.title)}</h2>
-      ${w.creator ? `<p>${R.esc(w.creator)}</p>` : ''}
-      ${w.summary ? `<p>${R.esc(w.summary)}</p>` : ''}
-      <p class="meta" style="margin-top:22px">この駅から延びる区間　${hit.contexts.length}本</p>
-      ${links}
-      <button class="back" type="button" onclick="location.href='index.html'">← ストリームへ戻る</button>
-    </div>`;
-
-  const first = hit.contexts[0];
-  const other = first ? first.entry[first.side === 'a' ? 'b' : 'a'] : null;
-  map.innerHTML = R.mapMarkup({
-    lineName: first ? first.entry.context.routeName : '',
-    left: w.title, right: other ? other.title : '—',
-    label: '', current: 'left',
-    aSlug: '', bSlug: other ? other.slug : ''
-  });
-  if (first){
-    document.getElementById('remix').href = 'editor.html?slug=' + encodeURIComponent(first.entry.context.slug);
-  }
-
-  document.addEventListener('click', ev => {
-    const t = ev.target.closest('[data-ctx]');
-    if (t) location.href = 'index.html#' + encodeURIComponent(t.dataset.ctx);
-    const s = ev.target.closest('[data-work]');
-    if (s && s.dataset.work) location.href = 'page.html?work=' + encodeURIComponent(s.dataset.work);
-  });
-})();
-</script>
-  <script src="js/transition.js?v=59"></script>
+<noscript><p><a href="index.html">Beautiful Context のストリームへ</a></p></noscript>
 </body>
 </html>
