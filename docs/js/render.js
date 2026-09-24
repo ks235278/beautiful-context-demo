@@ -135,7 +135,7 @@
     return `
       <footer class="pfoot">
         <nav><a href="#/mission">Our Mission</a><a href="#/ad">広告枠のご案内</a>
-          <a href="#/terms">利用規約・プライバシー</a><a href="manage.html">運営者メニュー</a></nav>
+          <a href="#/terms">利用規約・プライバシー</a><a href="#/credits">画像の出典</a><a href="manage.html">運営者メニュー</a></nav>
         <p>© ${esc(brand)}</p>
       </footer>`;
   }
@@ -152,6 +152,13 @@
     return `<div class="${cls}">` + (s
       ? `<img src="${attr(s)}" alt="${attr(w.title)}" data-k="${attr(w.slug)}" decoding="async">`
       : `<span class="ph">${esc(initial(w))}<small>${esc(w.type || '作品')}</small></span>`) + `</div>`;
+  }
+
+  /* 画像の出典を一行で。撮影者と条件（CC BY など）を、その絵のすぐそばに置く */
+  function credit(w){
+    if (!w || !w.credit) return '';
+    const u = safeUrl(w.creditUrl);
+    return `<p class="img-credit">画像：${esc(w.credit)}${u ? `　<a href="${attr(u)}" target="_blank" rel="noopener nofollow">出典</a>` : ''}</p>`;
   }
 
   /* ---------- 作品ページ（駅） ----------
@@ -178,6 +185,7 @@
           <h1>${esc(w.title)}</h1>
           ${w.creator ? `<p class="dim">${esc(w.creator)}</p>` : ''}
           ${w.summary ? `<p class="lead-s">${esc(w.summary)}</p>` : ''}
+          ${credit(w)}
           <p class="note-s">このページには作品固有の解説だけを載せています。他の作品との関係は、コンテクストページで読みます。</p>
           ${e ? `<button type="button" class="tease" data-step="1">${esc(other.title)} とのコンテクストを見る <span aria-hidden="true">›</span></button>` : ''}
           ${list ? `<p class="meta" style="margin-top:30px">この駅から延びるほかの区間　${others.length}本</p><div class="minis">${list}</div>` : ''}
@@ -234,6 +242,7 @@
           ${rel.length ? `<section class="more"><h2>同じルーツのコンテクスト</h2>${roots(e, rel)}</section>` : ''}
           ${ad(adItem)}
           <p class="byline">${esc(c.author)}　·　${esc(new Date(e.updatedAt).toLocaleDateString('ja-JP'))}</p>
+          ${credit(e.a)}${credit(e.b)}
           ${pageFoot(brand)}
         </div>
       </article>`;
@@ -289,7 +298,17 @@
       <h2>計測</h2>
       <p>アクセス解析やトラッキングは行っていません。</p>
       <h2>画像と文章</h2>
-      <p>見本の作品画像は、作品紹介を目的として引用しています。著作権は各権利者に帰属します。見本の解説文は、確かめられる事実に基づいて書いた見本です。</p>`);
+      <p>見本の作品画像は、作品紹介を目的として引用しています。著作権は各権利者に帰属します。出典は<a href="#/credits">画像の出典</a>にまとめています。見本の解説文は、確かめられる事実に基づいて書いた見本です。</p>`);
+    if (name === 'credits'){
+      /* 画像の出典。CC BY / BY-SA の表示義務もここで満たす */
+      const rows = S.works(S.all()).filter(h => h.work.credit).map(({ work: w, slug }) => `
+        <li><a href="#/w/${encodeURIComponent(slug)}">${esc(w.title)}</a>
+          <small>${esc(w.credit)}${safeUrl(w.creditUrl) ? `　<a href="${attr(safeUrl(w.creditUrl))}" target="_blank" rel="noopener nofollow">出典</a>` : ''}</small></li>`).join('');
+      return shell('画像の出典', `
+        <p class="lead">作品の画像は、作品紹介のための引用、または自由な利用が許された写真です。著作権は各権利者に帰属します。</p>
+        <p>クリエイティブ・コモンズ（CC BY／CC BY-SA）の写真は、撮影者と条件をここに記しています。ポスター・表紙・キービジュアルは、デモでの作品紹介のために掲載しています。公開の前に権利を確かめ、必要なものは差し替えます。</p>
+        <ul class="credits">${rows}</ul>`);
+    }
     if (name === 'ad') return shell('広告枠のご案内', `
       <p class="lead">コンテクストページの読み終わりに、その区間の世界観と重なる広告を一枠だけ置きます。</p>
       <p>映画・音楽・書籍・イベントなど、読み終えた人がその作品を買える・観られる・訪ねられる入口を置く。つながりを辿った先が、そのまま体験への入口になります。</p>

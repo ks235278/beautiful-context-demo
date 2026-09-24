@@ -213,9 +213,9 @@
     } else if (name === 'search'){
       const s = q.get('q') || '';
       return show({ key: 's:' + s, kind: 'page' }, R.search(s, S.search(s)), motion, s ? `「${s}」を辿る` : '言葉で辿る');
-    } else if (['mission', 'terms', 'ad'].includes(name)){
+    } else if (['mission', 'terms', 'ad', 'credits'].includes(name)){
       return show({ key: 'p:' + name, kind: 'page' }, R.page(name, brand), motion,
-        { mission: 'Our Mission', terms: '利用規約・プライバシー', ad: '広告枠のご案内' }[name]);
+        { mission: 'Our Mission', terms: '利用規約・プライバシー', ad: '広告枠のご案内', credits: '画像の出典' }[name]);
     }
     show({ key: '404', kind: 'page' }, R.page('404', brand), motion, 'ページが見つかりません');
   }

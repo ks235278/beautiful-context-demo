@@ -17,7 +17,7 @@
   const KEY = 'beautiful-context-store-v2';
   const OLD_KEY = 'beautiful-context-store-v1';
   /* 見本を足したら上げる。端末に残っているデータへ、新しい見本だけを足し込む */
-  const SEED_VERSION = 2;
+  const SEED_VERSION = 3;
 
   const DEFAULT_SETTINGS = {
     brand: 'Beautiful Context',
@@ -115,6 +115,16 @@
         });
       }
     });
+    /* 札の絵（前の版の見本）のままの作品には、見本の新しい絵と出典を入れる。
+       端末で作ったコンテクストが同じ作品を使っていても、絵が切れないように */
+    const latest = new Map();
+    seedEntries().forEach((s) => [s.a, s.b].forEach((w) => latest.set(w.slug, w)));
+    data.entries.forEach((e) => ['a', 'b'].forEach((side) => {
+      const w = e[side], n = w && latest.get(w.slug);
+      if (n && /^img\/cards\/|^img\/goldberg\.jpg$/.test(w.image || '') && n.image !== w.image) {
+        w.image = n.image; w.credit = n.credit; w.creditUrl = n.creditUrl;
+      }
+    }));
     data.seedIds = (window.BC_SEED || []).map((s) => s.id);
     data.seedVersion = SEED_VERSION;
   }

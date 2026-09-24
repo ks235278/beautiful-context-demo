@@ -248,6 +248,15 @@ body.viewing #bg .cloud{opacity:.12 !important;pointer-events:none !important}
 .ax dd{display:flex;gap:4px;margin:0}
 .ax i{width:7px;height:7px;border-radius:50%;border:1px solid var(--lc);opacity:.75}
 .ax i.on{background:var(--lc);opacity:1}
+.img-credit{margin:14px 0 0;color:var(--dim);font-size:10.5px !important;line-height:1.6 !important;word-break:break-word}
+.img-credit a{color:var(--soft)}
+.byline + .img-credit{margin-top:8px}
+.img-credit + .img-credit{margin-top:4px}
+.credits{margin:22px 0 0;padding:0;list-style:none}
+.credits li{padding:10px 0;border-top:1px solid var(--rule);font-size:13px;line-height:1.6}
+.credits li > a{color:var(--cream);font-weight:600}
+.credits small{display:block;margin-top:2px;color:var(--dim);font-size:11px;word-break:break-word}
+.credits small a{color:var(--soft)}
 .more{margin-top:34px}
 .more h2{margin:0 0 12px;color:var(--gold);font:700 10px/1.5 sans-serif !important;letter-spacing:.1em}
 .byline{margin:30px 0 0;color:var(--dim);font-size:10.5px !important;letter-spacing:.06em}

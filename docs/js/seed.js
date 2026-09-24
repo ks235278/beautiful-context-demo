@@ -61,42 +61,58 @@
     summary: '日本に留学していた周恩来が、1918年の東京で書いた日記。神保町、早稲田、浅草、上野、日本橋――19歳の青年が見た百年前の東京が記されている。'
   };
 
-  /* 前田先生の「50タイトル」の残り 42 作品。絵は作品の写真ではなく、
-     題名を組んだ札（img/cards）。本物の画像は権利を確かめてから差し替える。 */
+  /* 前田先生の「50タイトル」の残り 42 作品。
+     絵は img/works。ポスター・表紙は作品紹介のための引用、人物や土地の写真は
+     Wikimedia Commons の自由に使えるもの。credit に撮影者と条件を持ち、
+     作品ページと「画像の出典」ページに出す。鳥皮みそ煮・ムルンジだけは札のまま。 */
   const W = {
     goldberg: {
       title: 'バッハ『ゴールドベルク変奏曲』', type: '音楽', year: '1741', creator: 'ヨハン・ゼバスティアン・バッハ',
-      slug: 'goldberg-variations', image: 'img/goldberg.jpg',
+      slug: 'goldberg-variations', image: 'img/works/goldberg-variations.jpg',
+      credit: 'J・S・バッハ『クラヴィーア練習曲集 第4部』初版の表紙（1741）／Public domain／Wikimedia Commons',
+      creditUrl: 'https://commons.wikimedia.org/wiki/File:Goldberg-titlepage.png',
       summary: 'アリアと30の変奏からなる鍵盤作品。1741年ごろに出版された。グレン・グールドの1955年の録音によって、20世紀に広く聴かれる曲になった。'
     },
     soseki: {
       title: '夏目漱石', type: '人物', year: '1867', creator: '小説家（1867–1916）',
-      slug: 'natsume-soseki', image: 'img/cards/natsume-soseki.jpg',
+      slug: 'natsume-soseki', image: 'img/works/natsume-soseki.jpg',
+      credit: '撮影 小川一眞／Public domain／Wikimedia Commons',
+      creditUrl: 'https://commons.wikimedia.org/wiki/File:Natsume_Soseki_photo.jpg',
       summary: '『吾輩は猫である』『坊っちゃん』『草枕』『こころ』の作家。熊本の第五高等学校で教えたのち、1900年から英国に留学した。'
     },
     zhou: {
       title: '周恩来', type: '人物', year: '1898', creator: '中華人民共和国 初代国務院総理（1898–1976）',
-      slug: 'zhou-enlai', image: 'img/cards/zhou-enlai.jpg',
+      slug: 'zhou-enlai', image: 'img/works/zhou-enlai.jpg',
+      credit: 'White House Photo Office（1972）／Public domain／Wikimedia Commons',
+      creditUrl: 'https://commons.wikimedia.org/wiki/File:Zhou_Enlai_1972.jpg',
       summary: '1917年から1919年まで日本に留学し、帰国後は革命運動に加わった。1949年から亡くなるまで国務院総理を務めた。'
     },
     kotringo: {
       title: 'コトリンゴ', type: '音楽', year: '', creator: 'シンガーソングライター・作曲家',
-      slug: 'kotringo', image: 'img/cards/kotringo.jpg',
+      slug: 'kotringo', image: 'img/works/kotringo.jpg',
+      credit: '撮影 CCPE Rosario／CC BY-SA 4.0／Wikimedia Commons',
+      creditUrl: 'https://commons.wikimedia.org/wiki/File:Kotringo_2.jpg',
       summary: 'ピアノと歌のシンガーソングライター。アニメーション映画『この世界の片隅に』の音楽を手がけ、「悲しくてやりきれない」を歌った。'
     },
     kanashikute: {
       title: '「悲しくてやりきれない」', type: '音楽', year: '1968', creator: 'ザ・フォーク・クルセダーズ（作詞 サトウハチロー／作曲 加藤和彦）',
-      slug: 'kanashikute-yarikirenai', image: 'img/cards/kanashikute-yarikirenai.jpg',
+      slug: 'kanashikute-yarikirenai', image: 'img/works/kanashikute-yarikirenai.jpg',
+      credit: 'ザ・フォーク・クルセダーズ『紀元弐阡年』（1968）ジャケット／© 権利者／出典 Apple Music',
+      creditUrl: 'https://music.apple.com/jp/song/795007085',
       summary: '1968年に発表されたザ・フォーク・クルセダーズの歌。多くの歌い手にうたい継がれてきた。'
     },
     konosekai: {
       title: '『この世界の片隅に』', type: '映画', year: '2016', creator: '片渕須直監督（原作 こうの史代）',
-      slug: 'kono-sekai-no-katasumi-ni', image: 'img/cards/kono-sekai-no-katasumi-ni.jpg',
+      slug: 'kono-sekai-no-katasumi-ni', image: 'img/works/kono-sekai-no-katasumi-ni.jpg',
+      credit: '© こうの史代・双葉社／「この世界の片隅に」製作委員会／出典 映画.com',
+      creditUrl: 'https://eiga.com/movie/82278/',
       summary: '戦時中の広島と呉を舞台に、絵を描くことが好きな主人公すずの暮らしを描いたアニメーション映画。原作はこうの史代の漫画。'
     },
     kure: {
       title: '広島県呉市', type: '場所', year: '', creator: '広島県',
-      slug: 'kure', image: 'img/cards/kure.jpg',
+      slug: 'kure', image: 'img/works/kure.jpg',
+      credit: '呉港（撮影 Evelyn-rose）／CC0／Wikimedia Commons',
+      creditUrl: 'https://commons.wikimedia.org/wiki/File:Port-of-Kure-3.jpg',
       summary: '瀬戸内海に面した港町。明治期に海軍の鎮守府が置かれ、戦艦大和が建造された海軍工廠の町として知られる。'
     },
     torikawa: {
@@ -106,112 +122,156 @@
     },
     lookback: {
       title: '藤本タツキ『ルックバック』', type: '漫画', year: '2021', creator: '藤本タツキ',
-      slug: 'look-back', image: 'img/cards/look-back.jpg',
+      slug: 'look-back', image: 'img/works/look-back.jpg',
+      credit: '© 藤本タツキ／集英社（単行本の表紙）／出典 集英社',
+      creditUrl: 'https://www.shueisha.co.jp/books/items/contents.html?isbn=978-4-08-882782-7',
       summary: '漫画を描くことに打ち込む二人の少女を描いた読み切り。2021年に少年ジャンプ＋で公開され、2024年にアニメーション映画になった。'
     },
     fujimoto: {
       title: '藤本タツキ', type: '人物', year: '', creator: '漫画家',
-      slug: 'fujimoto-tatsuki', image: 'img/cards/fujimoto-tatsuki.jpg',
+      slug: 'fujimoto-tatsuki', image: 'img/works/fujimoto-tatsuki.jpg',
+      credit: '『藤本タツキ短編集 17-21』の表紙／© 藤本タツキ／集英社／出典 集英社',
+      creditUrl: 'https://www.shueisha.co.jp/books/items/contents.html?isbn=978-4-08-882803-9',
       summary: '『チェンソーマン』『ルックバック』『ファイアパンチ』の漫画家。'
     },
     csm: {
       title: '藤本タツキ『チェンソーマン』', type: '漫画', year: '2018', creator: '藤本タツキ',
-      slug: 'chainsaw-man', image: 'img/cards/chainsaw-man.jpg',
+      slug: 'chainsaw-man', image: 'img/works/chainsaw-man.jpg',
+      credit: '© 藤本タツキ／集英社（第1巻の表紙）／出典 集英社',
+      creditUrl: 'https://www.shueisha.co.jp/books/items/contents.html?isbn=978-4-08-881780-4',
       summary: '悪魔のポチタと一体になり、チェンソーの悪魔の力を得た少年デンジの物語。2018年に週刊少年ジャンプで連載が始まった。'
     },
     koreeda: {
       title: '是枝裕和', type: '人物', year: '1962', creator: '映画監督',
-      slug: 'koreeda-hirokazu', image: 'img/cards/koreeda-hirokazu.jpg',
+      slug: 'koreeda-hirokazu', image: 'img/works/koreeda-hirokazu.jpg',
+      credit: '撮影 Kevin Paul／CC BY 4.0／Wikimedia Commons',
+      creditUrl: 'https://commons.wikimedia.org/wiki/File:Hirokazu_Kore-eda_-_The_Egyptian_Theatre.jpg',
       summary: 'テレビのドキュメンタリー演出から映画監督になった。『誰も知らない』『万引き家族』『海街diary』などを撮っている。'
     },
     daremo: {
       title: '是枝裕和『誰も知らない』', type: '映画', year: '2004', creator: '是枝裕和監督',
-      slug: 'nobody-knows', image: 'img/cards/nobody-knows.jpg',
+      slug: 'nobody-knows', image: 'img/works/nobody-knows.jpg',
+      credit: '© 2004「誰も知らない」製作委員会／出典 映画.com',
+      creditUrl: 'https://eiga.com/movie/1568/',
       summary: '母親に置き去りにされた四人のきょうだいの暮らしを描いた映画。長男を演じた柳楽優弥がカンヌ国際映画祭で最優秀男優賞を受けた。'
     },
     manbiki: {
       title: '是枝裕和『万引き家族』', type: '映画', year: '2018', creator: '是枝裕和監督',
-      slug: 'shoplifters', image: 'img/cards/shoplifters.jpg',
+      slug: 'shoplifters', image: 'img/works/shoplifters.jpg',
+      credit: '© 2018 フジテレビジョン ギャガ AOI Pro.／出典 映画.com',
+      creditUrl: 'https://eiga.com/movie/88449/',
       summary: '万引きで暮らしを補う一家と、彼らに拾われた少女を描いた映画。2018年のカンヌ国際映画祭でパルム・ドールを受けた。'
     },
     daiyame: {
       title: '芋焼酎『だいやめ DAIYAME』', type: '酒', year: '', creator: '濵田酒造（鹿児島）',
-      slug: 'daiyame', image: 'img/cards/daiyame.jpg',
+      slug: 'daiyame', image: 'img/works/daiyame.jpg',
+      credit: '© 濵田酒造／出典 濵田酒造「だいやめ」特設サイト',
+      creditUrl: 'https://www.hamadasyuzou.co.jp/daiyame_brand/',
       summary: '鹿児島の芋焼酎。ライチを思わせる香りで知られる。名前は、一日の疲れを癒やす晩酌を表す鹿児島の言葉から。'
     },
     mehldau: {
       title: 'ブラッド・メルドー', type: '音楽', year: '1970', creator: 'ジャズ・ピアニスト',
-      slug: 'brad-mehldau', image: 'img/cards/brad-mehldau.jpg',
+      slug: 'brad-mehldau', image: 'img/works/brad-mehldau.jpg',
+      credit: '撮影 Harald Krichel／CC BY 3.0／Wikimedia Commons',
+      creditUrl: 'https://commons.wikimedia.org/wiki/File:Brad_Mehldau-9035.jpg',
       summary: 'アメリカのジャズ・ピアニスト。ピアノ・トリオでの演奏のほか、バッハやロックの曲を独自に解釈した録音でも知られる。'
     },
     gyoza: {
       title: '餃子酒場（勝どき店）', type: '店', year: '', creator: '東京・勝どき',
-      slug: 'gyoza-sakaba-kachidoki', image: 'img/cards/gyoza-sakaba-kachidoki.jpg',
+      slug: 'gyoza-sakaba-kachidoki', image: 'img/works/gyoza-sakaba-kachidoki.jpg',
+      credit: '羽根つき焼き餃子（撮影 Austin Keys）／CC BY-SA 2.0／Wikimedia Commons　※店舗の写真ではありません',
+      creditUrl: 'https://commons.wikimedia.org/wiki/File:Hane-tsuki_Yaki-gyoza_(%E6%AD%93%E8%BF%8E)_(2392524364).jpg',
       summary: '勝どき駅前の、焼き餃子と酒の店。'
     },
     tetta: {
       title: 'ドメーヌ・テッタ', type: 'ワイナリー', year: '', creator: '岡山県新見市',
-      slug: 'domaine-tetta', image: 'img/cards/domaine-tetta.jpg',
+      slug: 'domaine-tetta', image: 'img/works/domaine-tetta.jpg',
+      credit: '出典 にいみ公式観光ホームページ（新見市）',
+      creditUrl: 'https://www.city.niimi.okayama.jp/kanko/spot/spot_detail/index/201.html',
       summary: '岡山県新見市哲多町でぶどうを育て、ワインを造るワイナリー。名前は土地の名から。'
     },
     lumumba: {
       title: 'ラウル・ペック『ルムンバの叫び』', type: '映画', year: '2000', creator: 'ラウル・ペック監督',
-      slug: 'lumumba', image: 'img/cards/lumumba.jpg',
+      slug: 'lumumba', image: 'img/works/lumumba.jpg',
+      credit: '© 権利者／出典 映画.com',
+      creditUrl: 'https://eiga.com/movie/51466/',
       summary: 'コンゴ独立の指導者パトリス・ルムンバの、首相就任から殺害までを描いた映画。'
     },
     conrad: {
       title: 'ジョセフ・コンラッド', type: '人物', year: '1857', creator: '小説家（1857–1924）',
-      slug: 'joseph-conrad', image: 'img/cards/joseph-conrad.jpg',
+      slug: 'joseph-conrad', image: 'img/works/joseph-conrad.jpg',
+      credit: '撮影 George Charles Beresford／Public domain／Wikimedia Commons',
+      creditUrl: 'https://commons.wikimedia.org/wiki/File:Joseph_Conrad-remastered_to_black_and_white.png',
       summary: 'ポーランド生まれの英国の小説家。船乗りとして世界の海を渡ったのち、英語で『闇の奥』『ロード・ジム』などを書いた。'
     },
     hod: {
       title: 'ジョセフ・コンラッド『闇の奥』', type: '書籍', year: '1899', creator: 'ジョセフ・コンラッド',
-      slug: 'heart-of-darkness', image: 'img/cards/heart-of-darkness.jpg',
+      slug: 'heart-of-darkness', image: 'img/works/heart-of-darkness.jpg',
+      credit: '初出の「ブラックウッズ・マガジン」1899年2月号／Public domain／Wikimedia Commons',
+      creditUrl: 'https://commons.wikimedia.org/wiki/File:Blackwood%27s_Magazine_-_1899_cover.jpg',
       summary: '象牙交易の奥地へ向かう船乗りマーロウが、消息を絶った交易所の責任者クルツを探す物語。当時のコンゴ自由国が舞台とされる。'
     },
     apocalypse: {
       title: 'コッポラ『地獄の黙示録』', type: '映画', year: '1979', creator: 'フランシス・フォード・コッポラ監督',
-      slug: 'apocalypse-now', image: 'img/cards/apocalypse-now.jpg',
+      slug: 'apocalypse-now', image: 'img/works/apocalypse-now.jpg',
+      credit: '© 2019 ZOETROPE CORP. ALL RIGHTS RESERVED.／出典 映画.com（ファイナル・カット版）',
+      creditUrl: 'https://eiga.com/movie/92262/',
       summary: 'ベトナム戦争のさなか、軍を離れて奥地に王国を築いたカーツ大佐の暗殺を命じられた大尉の旅。1979年のカンヌ国際映画祭でパルム・ドールを受けた。'
     },
     coppola: {
       title: 'フランシス・フォード・コッポラ', type: '人物', year: '1939', creator: '映画監督',
-      slug: 'francis-ford-coppola', image: 'img/cards/francis-ford-coppola.jpg',
+      slug: 'francis-ford-coppola', image: 'img/works/francis-ford-coppola.jpg',
+      credit: '撮影 Colleen Sturtevant／CC BY-SA 4.0／Wikimedia Commons',
+      creditUrl: 'https://commons.wikimedia.org/wiki/File:Lena_Herzog_Francis_Ford_Coppola_Wernder_Herzog_Venice_Film_Festival_(cropped).jpg',
       summary: '『ゴッドファーザー』『地獄の黙示録』の映画監督。'
     },
     adan: {
       title: 'アダン', type: '植物', year: '', creator: '奄美・沖縄の海辺の木',
-      slug: 'adan', image: 'img/cards/adan.jpg',
+      slug: 'adan', image: 'img/works/adan.jpg',
+      credit: '撮影 Anonymous Powered／CC BY-SA 3.0／Wikimedia Commons',
+      creditUrl: 'https://commons.wikimedia.org/wiki/File:Pandanus_odoratissimus.jpg',
       summary: '奄美や沖縄の海辺に生えるタコノキ科の木。パイナップルに似た実をつける。田中一村が「アダンの海辺」に描いた。'
     },
     isson: {
       title: '田中一村', type: '人物', year: '1908', creator: '日本画家（1908–1977）',
-      slug: 'tanaka-isson', image: 'img/cards/tanaka-isson.jpg',
+      slug: 'tanaka-isson', image: 'img/works/tanaka-isson.jpg',
+      credit: '奄美市の田中一村終焉の家（撮影 Kireinakokoro）／CC BY-SA 4.0／Wikimedia Commons',
+      creditUrl: 'https://commons.wikimedia.org/wiki/File:%E5%A5%84%E7%BE%8E%E5%B8%82%E3%81%AE%E7%94%B0%E4%B8%AD%E4%B8%80%E6%9D%91%E3%81%AE%E4%BD%8F%E5%B1%85%E8%B7%A1.jpg',
       summary: '50歳で奄美大島に移り住み、亜熱帯の植物や鳥を描き続けた日本画家。中央の画壇から離れて暮らした。'
     },
     tsurunoyu: {
       title: '乳頭温泉郷「鶴の湯」', type: '宿', year: '', creator: '秋田県仙北市',
-      slug: 'tsurunoyu', image: 'img/cards/tsurunoyu.jpg',
+      slug: 'tsurunoyu', image: 'img/works/tsurunoyu.jpg',
+      credit: '撮影 Fumiaki Yoshimatsu／CC BY-SA 2.0／Wikimedia Commons',
+      creditUrl: 'https://commons.wikimedia.org/wiki/File:Tsurunoyu_Onsen_03.jpg',
       summary: '秋田県の乳頭温泉郷でもっとも古いとされる湯宿。茅葺き屋根の長屋と白濁の湯で知られる。'
     },
     tazawako: {
       title: '田沢湖', type: '場所', year: '', creator: '秋田県仙北市',
-      slug: 'tazawako', image: 'img/cards/tazawako.jpg',
+      slug: 'tazawako', image: 'img/works/tazawako.jpg',
+      credit: '田沢湖と漢槎宮（撮影 掬茶）／CC BY-SA 4.0／Wikimedia Commons',
+      creditUrl: 'https://commons.wikimedia.org/wiki/File:Lake_Tazawa_and_Kansa-g%C5%AB_20210213.jpg',
       summary: '秋田県仙北市の湖。水深は日本一で、湖畔には辰子の伝説が残る。'
     },
     iris: {
       title: '韓国ドラマ『アイリス』', type: 'ドラマ', year: '2009', creator: 'イ・ビョンホン主演',
-      slug: 'iris', image: 'img/cards/iris.jpg',
+      slug: 'iris', image: 'img/works/iris.jpg',
+      credit: '© 2009 TAEWON ENTERTAINMENT.（映画版『アイリス THE LAST』）／出典 映画.com',
+      creditUrl: 'https://eiga.com/movie/55869/',
       summary: '韓国の特殊工作員を主人公にしたアクション・ドラマ。秋田県でのロケが行われ、日本でも話題になった。'
     },
     pluribus: {
       title: 'ヴィンス・ギリガン『プルリブス』', type: 'ドラマ', year: '2025', creator: 'ヴィンス・ギリガン',
-      slug: 'pluribus', image: 'img/cards/pluribus.jpg',
+      slug: 'pluribus', image: 'img/works/pluribus.jpg',
+      credit: '© Apple／出典 Apple TV',
+      creditUrl: 'https://tv.apple.com/jp/show/umc.cmc.37axgovs2yozlyh3c2cmwzlza',
       summary: '『ブレイキング・バッド』のヴィンス・ギリガンが手がけた Apple TV+ のドラマ。人々の心がひとつに溶け合っていく世界で、それに加わらない一人の女性を描く。'
     },
     tanqueray: {
       title: 'タンカレー No.10', type: '酒', year: '', creator: 'ジン（英国）',
-      slug: 'tanqueray-no-ten', image: 'img/cards/tanqueray-no-ten.jpg',
+      slug: 'tanqueray-no-ten', image: 'img/works/tanqueray-no-ten.jpg',
+      credit: '右が No. TEN（撮影 Chris Corwin）／CC BY-SA 2.0／Wikimedia Commons',
+      creditUrl: 'https://commons.wikimedia.org/wiki/File:Tanqueraybottles.jpg',
       summary: '英国のジン、タンカレーの上位銘柄。生の柑橘を使って蒸留されることで知られる。'
     },
     mulungi: {
@@ -221,57 +281,79 @@
     },
     reacher: {
       title: '『リーチャー 正義のアウトロー』', type: 'ドラマ', year: '2022', creator: 'リー・チャイルド原作',
-      slug: 'reacher', image: 'img/cards/reacher.jpg',
+      slug: 'reacher', image: 'img/works/reacher.jpg',
+      credit: '© Amazon／出典 Prime Video',
+      creditUrl: 'https://www.primevideo.com/-/ja/detail/0RTZ57DQ6PBHH29UN5JS7U7CW4',
       summary: 'リー・チャイルドの小説シリーズを原作にしたドラマ。元軍人のジャック・リーチャーが、ひとりで各地の事件に立ち向かう。'
     },
     br: {
       title: 'リドリー・スコット『ブレードランナー』', type: '映画', year: '1982', creator: 'リドリー・スコット監督',
-      slug: 'blade-runner', image: 'img/cards/blade-runner.jpg',
+      slug: 'blade-runner', image: 'img/works/blade-runner.jpg',
+      credit: '写真：Album／アフロ／出典 映画.com',
+      creditUrl: 'https://eiga.com/movie/26947/',
       summary: 'フィリップ・K・ディックの小説『アンドロイドは電気羊の夢を見るか？』を原作に、2019年のロサンゼルスで人造人間を追う男を描いた映画。'
     },
     br2049: {
       title: 'ヴィルヌーヴ『ブレードランナー 2049』', type: '映画', year: '2017', creator: 'ドゥニ・ヴィルヌーヴ監督',
-      slug: 'blade-runner-2049', image: 'img/cards/blade-runner-2049.jpg',
+      slug: 'blade-runner-2049', image: 'img/works/blade-runner-2049.jpg',
+      credit: '© 権利者／出典 映画.com',
+      creditUrl: 'https://eiga.com/movie/85393/',
       summary: '前作から30年後の2049年を舞台にした続編。'
     },
     br2099: {
       title: '『ブレードランナー 2099』', type: 'ドラマ', year: '', creator: 'リドリー・スコット製作総指揮',
-      slug: 'blade-runner-2099', image: 'img/cards/blade-runner-2099.jpg',
-      summary: '2049年からさらに50年後を舞台にしたドラマ・シリーズ。Prime Video での配信が予定されている。'
+      slug: 'blade-runner-2099', image: 'img/works/blade-runner-2099.jpg',
+      credit: '© Amazon／出典 Prime Video',
+      creditUrl: 'https://www.primevideo.com/-/ja/detail/0LB7N1ZYZ2AFOEXO5IJ1YUWQVF',
+      summary: '2049年からさらに50年後を舞台にしたドラマ・シリーズ。ミシェル・ヨーとハンター・シェイファーが主演し、2026年11月25日から Prime Video で配信される。'
     },
     brazil: {
       title: 'テリー・ギリアム『未来世紀ブラジル』', type: '映画', year: '1985', creator: 'テリー・ギリアム監督',
-      slug: 'brazil', image: 'img/cards/brazil.jpg',
+      slug: 'brazil', image: 'img/works/brazil.jpg',
+      credit: '© 20th Century Studios／出典 Apple TV',
+      creditUrl: 'https://tv.apple.com/jp/movie/umc.cmc.25tn9231aa7mzrvk4y5ssijqj',
       summary: '書類と管理に覆われた近未来の社会で、夢に逃げ込む役人を描いた映画。'
     },
     depp: {
       title: 'ジョニー・デップ', type: '人物', year: '1963', creator: '俳優',
-      slug: 'johnny-depp', image: 'img/cards/johnny-depp.jpg',
+      slug: 'johnny-depp', image: 'img/works/johnny-depp.jpg',
+      credit: '撮影 Harald Krichel／CC BY-SA 3.0／Wikimedia Commons',
+      creditUrl: 'https://commons.wikimedia.org/wiki/File:Johnny_Depp_2020.jpg',
       summary: 'アメリカの俳優。ティム・バートンやテリー・ギリアムの作品に数多く出演し、『MINAMATA』では主演とともに製作にも加わった。'
     },
     minamata: {
       title: '『MINAMATA』', type: '映画', year: '2020', creator: 'アンドリュー・レヴィタス監督',
-      slug: 'minamata', image: 'img/cards/minamata.jpg',
+      slug: 'minamata', image: 'img/works/minamata.jpg',
+      credit: '© 2020 MINAMATA FILM, LLC © Larry Horricks／出典 映画.com',
+      creditUrl: 'https://eiga.com/movie/94900/',
       summary: '水俣病を世界に伝えた写真家W・ユージン・スミスと、アイリーン・美緒子・スミスの水俣での日々を描いた映画。音楽は坂本龍一。'
     },
     smith: {
       title: 'W・ユージン・スミス', type: '人物', year: '1918', creator: '写真家（1918–1978）',
-      slug: 'w-eugene-smith', image: 'img/cards/w-eugene-smith.jpg',
+      slug: 'w-eugene-smith', image: 'img/works/w-eugene-smith.jpg',
+      credit: 'ユージン・スミスとアイリーン（1974、撮影 Consuelo Kanaga）／ブルックリン美術館・No known restrictions／Wikimedia Commons',
+      creditUrl: 'https://commons.wikimedia.org/wiki/File:Consuelo_Kanaga_(American,_1894-1978)._W._Eugene_Smith_and_Aileen,_1974_(borderless).jpg',
       summary: 'アメリカの写真家。「ライフ」誌のフォトエッセイで知られ、1970年代には熊本県水俣に移り住んで水俣病を撮った。'
     },
     historie: {
       title: '岩明均『ヒストリエ』', type: '漫画', year: '2003', creator: '岩明均',
-      slug: 'historie', image: 'img/cards/historie.jpg',
+      slug: 'historie', image: 'img/works/historie.jpg',
+      credit: '© 岩明均／講談社（第1巻の表紙）／出典 講談社',
+      creditUrl: 'https://www.kodansha.co.jp/comic/products/0000030267',
       summary: 'アレクサンドロス大王の書記官エウメネスの生涯を描く歴史漫画。'
     },
     kiseiju: {
       title: '岩明均『寄生獣』', type: '漫画', year: '1988', creator: '岩明均',
-      slug: 'parasyte', image: 'img/cards/parasyte.jpg',
+      slug: 'parasyte', image: 'img/works/parasyte.jpg',
+      credit: '© 岩明均／講談社（第1巻の表紙）／出典 講談社',
+      creditUrl: 'https://www.kodansha.co.jp/comic/products/0000029944',
       summary: '人間に寄生する生物が現れた世界で、右手に寄生された高校生・泉新一と「ミギー」の共生を描いた漫画。'
     },
     iwaaki: {
       title: '岩明均', type: '人物', year: '1960', creator: '漫画家',
-      slug: 'iwaaki-hitoshi', image: 'img/cards/iwaaki-hitoshi.jpg',
+      slug: 'iwaaki-hitoshi', image: 'img/works/iwaaki-hitoshi.jpg',
+      credit: '岩明均の短編集『新装版 骨の音』の表紙／© 岩明均／講談社／出典 講談社',
+      creditUrl: 'https://www.kodansha.co.jp/comic/products/0000032031',
       summary: '『寄生獣』『ヒストリエ』の漫画家。'
     }
   };
@@ -816,7 +898,7 @@
         kind: '似ている',
         hub: '共生',
         score: [4, 4, 5, 4],
-        headline: '心臓に悪魔、右手に寄生生物。\n少年は一人ではなくなった。',
+        headline: '悪魔の心臓と、\n右手の寄生生物。',
         slug: 'chainsaw-man--parasyte',
         relation: 'デンジとポチタ ── 泉新一とミギー',
         leftStation: 'チェンソーマン',
@@ -1398,7 +1480,7 @@
         aiUrl: '',
         line: { shape: 0, color: '#f2cf12' },
         body:
-          '<p><strong>映画から配信のシリーズへ、時代は半世紀ずつ進む。</strong></p><p>『ブレードランナー 2099』は、『2049』からさらに50年後を舞台にしたドラマ・シリーズとして、Prime Video での配信が予定されている。リドリー・スコットが製作総指揮に名を連ね、主演にはミシェル・ヨーが発表されている。</p><p>1982年、2017年、そして次の作品へ。同じ世界が、作られる時代ごとの技術と不安を映しながら、少しずつ未来へ引き延ばされていく。</p>'
+          '<p><strong>映画から配信のシリーズへ、時代は半世紀ずつ進む。</strong></p><p>『ブレードランナー 2099』は、『2049』からさらに50年後を舞台にしたドラマ・シリーズとして、2026年11月25日から Prime Video で配信される。リドリー・スコットが製作総指揮に名を連ね、ミシェル・ヨーとハンター・シェイファーが主演する。</p><p>1982年、2017年、そして次の作品へ。同じ世界が、作られる時代ごとの技術と不安を映しながら、少しずつ未来へ引き延ばされていく。</p>'
       }
     },
 
