@@ -104,7 +104,7 @@
     konosekai: {
       title: '『この世界の片隅に』', type: '映画', year: '2016', creator: '片渕須直監督（原作 こうの史代）',
       slug: 'kono-sekai-no-katasumi-ni', image: 'img/works/kono-sekai-no-katasumi-ni.jpg',
-      credit: '© こうの史代・双葉社／「この世界の片隅に」製作委員会／出典 映画.com',
+      credit: '© 2019 こうの史代・コアミックス／「この世界の片隅に」製作委員会／出典 映画.com',
       creditUrl: 'https://eiga.com/movie/82278/',
       summary: '戦時中の広島と呉を舞台に、絵を描くことが好きな主人公すずの暮らしを描いたアニメーション映画。原作はこうの史代の漫画。'
     },
