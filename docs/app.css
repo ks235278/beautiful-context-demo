@@ -236,6 +236,18 @@ body.viewing #bg .cloud{opacity:.12 !important;pointer-events:none !important}
 .back-state{margin:0 0 18px;padding:9px 12px;border:1px dashed var(--gold);border-radius:4px;color:var(--gold);font-size:12px}
 .source{margin:26px 0 0;padding-top:12px;border-top:1px solid var(--rule);color:var(--dim);font-size:11px !important;line-height:1.6 !important}
 .source a{display:block;margin-top:3px;color:var(--soft);word-break:break-all}
+.axes{margin-top:30px;padding-top:14px;border-top:1px solid var(--rule)}
+.axes .meta{display:flex;flex-wrap:wrap;align-items:center;gap:6px 10px}
+.agm{padding:2px 8px;border:1px dashed var(--gold);border-radius:10px;font-size:.82em;font-weight:600;letter-spacing:.04em}
+.agm.ok{border-style:solid}
+.ax-kind{display:flex;flex-wrap:wrap;gap:4px 18px;margin:0 0 10px;color:var(--dim);font-size:11px !important;line-height:1.7 !important}
+.ax-kind b{margin-left:7px;color:var(--cream);font-weight:600}
+.ax{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px 22px;margin:0}
+.ax div{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.ax dt{color:var(--dim);font-size:11px}
+.ax dd{display:flex;gap:4px;margin:0}
+.ax i{width:7px;height:7px;border-radius:50%;border:1px solid var(--lc);opacity:.75}
+.ax i.on{background:var(--lc);opacity:1}
 .more{margin-top:34px}
 .more h2{margin:0 0 12px;color:var(--gold);font:700 10px/1.5 sans-serif !important;letter-spacing:.1em}
 .byline{margin:30px 0 0;color:var(--dim);font-size:10.5px !important;letter-spacing:.06em}

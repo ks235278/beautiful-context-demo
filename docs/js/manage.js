@@ -59,21 +59,32 @@
 
   /* ---------- コンテクスト ---------- */
   let filter = 'all', query = '';
+  const isDraft = (e) => e.context.review === 'ai';
+  /* 四軸 [意外性, 共感度, コンテンツ性, 世界観近似性] */
+  const scoreOf = (c) => Array.isArray(c.score) && c.score.length === 4 ? c.score.map((v) => +v || 0) : null;
+  const total = (c) => { const s = scoreOf(c); return s ? s.reduce((x, y) => x + y, 0) : 0; };
   function contexts(){
     const all = S.all();
     const n = (st) => all.filter((e) => e.status === st).length;
+    const drafts = all.filter(isDraft).length;
     const q = query.trim().toLowerCase();
-    const list = all.filter((e) => (filter === 'all' || e.status === filter) &&
-      (!q || [e.a.title, e.b.title, e.context.routeName, e.context.headline, e.context.author].join(' ').toLowerCase().includes(q)));
-    const rows = list.map((e) => `
+    const list = all.filter((e) => (filter === 'all' || (filter === 'ai' ? isDraft(e) : e.status === filter)) &&
+      (!q || [e.a.title, e.b.title, e.context.routeName, e.context.headline, e.context.author, e.context.hub, e.context.kind].join(' ').toLowerCase().includes(q)));
+    const rows = list.map((e) => {
+      const c = e.context, sc = scoreOf(c);
+      return `
       <div class="item${e.status !== 'public' ? ' dim' : ''}" data-id="${esc(e.id)}">
         <div class="thumbs">${thumb(e.a)}${thumb(e.b)}</div>
         <div class="info">
-          <b>${esc(e.a.title)} ＋ ${esc(e.b.title)}</b>
-          <span class="sub">【${esc(e.context.routeName)}】${esc(e.context.headline.replace(/\n/g, ''))}</span>
-          <span class="meta"><span>${esc(e.context.author)}</span><span>更新 ${esc(day(e.updatedAt))}</span></span>
+          <b>${esc(e.a.title)} ＋ ${esc(e.b.title)}${isDraft(e) ? ' <span class="tag part">AI初稿</span>' : c.review === 'approved' ? ' <span class="tag ok">承認済み</span>' : ''}</b>
+          <span class="sub">【${esc(c.routeName)}】${esc(c.headline.replace(/\n/g, ''))}</span>
+          <span class="meta">${c.kind ? `<span>型 ${esc(c.kind)}</span>` : ''}${c.hub ? `<span>ハブ ${esc(c.hub)}</span>` : ''}${sc
+            ? `<span title="意外性・共感度・コンテンツ性・世界観近似性">意外${sc[0]} 共感${sc[1]} 内容${sc[2]} 世界観${sc[3]}（計${total(c)}）</span>` : ''}</span>
+          <span class="meta"><span>${esc(c.author)}</span><span>更新 ${esc(day(e.updatedAt))}</span></span>
+          ${e.status === 'private' && e.note ? `<span class="meta"><span>メモ：${esc(e.note)}</span></span>` : ''}
         </div>
         <div class="ops">
+          ${isDraft(e) ? '<button type="button" data-approve title="生成AIの初稿を、編集者として確かめて通す">承認</button>' : ''}
           <select class="status ${e.status}" data-status aria-label="公開の状態">
             ${Object.entries(STATUS).map(([k, v]) => `<option value="${k}"${k === e.status ? ' selected' : ''}>${v}</option>`).join('')}
           </select>
@@ -83,18 +94,20 @@
           <button type="button" class="warn" data-remove>削除</button>
         </div>
         ${e.status === 'hidden' ? `<div class="noteline"><input data-note maxlength="120" value="${esc(e.note)}" placeholder="一時非表示の理由（運営メモ・読者には見えません）"></div>` : ''}
-      </div>`).join('');
+      </div>`;
+    }).join('');
     return `<section class="panel">${head('2. コンテクスト情報編集', 'コンテクスト',
-      '公開は読者が UniverseIt! から辿れる状態。非公開は書き手の下書き、一時非表示は運営の判断で止めている状態です。どちらもデータは残り、いつでも戻せます。',
+      '公開は読者が UniverseIt! から辿れる状態。非公開は書き手の下書き、一時非表示は運営の判断で止めている状態です。どちらもデータは残り、いつでも戻せます。「AI初稿」は生成AIが書いた区間で、編集者が確かめて「承認」すると、ページの表示が「確認済み」に変わります。',
       `<a class="btn primary" href="editor.html?new=1">＋ 新しいコンテクスト</a>`)}
       <div class="body">
         <div class="stats">
           <div class="stat"><small>公開</small><b>${n('public')}</b></div>
           <div class="stat"><small>非公開</small><b>${n('private')}</b></div>
           <div class="stat"><small>一時非表示</small><b>${n('hidden')}</b></div>
+          <div class="stat"><small>AI初稿（確認前）</small><b>${drafts}</b></div>
         </div>
         <div class="row-tools">
-          ${[['all', 'すべて', all.length], ['public', '公開', n('public')], ['private', '非公開', n('private')], ['hidden', '一時非表示', n('hidden')]]
+          ${[['all', 'すべて', all.length], ['public', '公開', n('public')], ['private', '非公開', n('private')], ['hidden', '一時非表示', n('hidden')], ['ai', 'AI初稿', drafts]]
             .map(([k, v, c]) => `<button type="button" class="chip${filter === k ? ' on' : ''}" data-filter="${k}">${v}<b>${c}</b></button>`).join('')}
           <input class="search" type="search" data-query value="${esc(query)}" placeholder="作品名・路線名・書き手で探す" aria-label="絞り込み">
         </div>
@@ -209,6 +222,7 @@
         <div class="ops" style="justify-content:flex-start">
           <button type="button" class="btn primary" data-export>書き出す（.json）</button>
           <label class="btn" style="cursor:pointer">読み込む<input type="file" accept="application/json,.json" data-import hidden></label>
+          <button type="button" class="btn" data-csv>つながり一覧（.csv・Excel 用）</button>
         </div>
         <div class="danger">
           <h3>見本に戻す</h3>
@@ -242,7 +256,10 @@
     ['1.0', 'コンテクスト作成（A・B・関係・生成AIの URL）', OK, 'エディター。プレビューは公開ページと同じ形'],
     ['2.4', 'コンテクスト編集', OK, '公開後も何度でも編集できる'],
     ['2.6', '既存の A／B に B コンテンツを追加', OK, 'ReMixIt! と作品ページから'],
-    ['—', 'ReMixIt!：生成AIが接続の候補を示し、四軸で採点して下書きを作る', PROD, '事業計画書の中核。四軸評価の試作を組み込む'],
+    ['—', '50タイトルのつながり（事実・ハブ・似ている・作者と作品）', OK, '先生の 50 タイトルのうち 49 作品を 49 区間でつないだ。44 区間は生成AIの初稿で、1 区間は根拠待ちのため非公開'],
+    ['—', 'AGM：生成AIが初稿を書き、編集者が確かめて通す', OK, '運営者メニューの「承認」。ページには「確認前／確認済み」と出る'],
+    ['—', '四軸評価（意外性・共感度・コンテンツ性・世界観近似性）', PART, '区間ごとに採点を表示。採点そのものの自動化は本番'],
+    ['—', 'ReMixIt!：生成AIが接続の候補を示し、四軸で採点して下書きを作る', PROD, '事業計画書の中核。いまは初稿をまとめて作って載せている'],
     ['2.5', 'コメント投稿（リアクション）', PROD, '読者の参加は二年目以降（事業計画書）'],
     ['2.7–2.8', '友達招待・招待状況確認', PROD, 'メール送信とアカウントが必要'],
     ['グループ', 'アカウント'],
@@ -256,7 +273,7 @@
     ['—', 'カスタマイズ（サービス名・ひとこと・地の明暗・アクセント色）', OK, 'クライアントごとの見た目'],
     ['—', '構造化データ（JSON-LD）による LLMO／GEO 対策', OK, 'コンテクストページごとに Article と作品の種類を出力。本番はサーバー側で出力'],
     ['—', 'リンクを開くだけで動く（携帯・パソコン）', OK, 'ホーム画面に追加すると全画面になる'],
-    ['—', '書き出し／読み込み', OK, 'サーバーの代わりの持ち運び'],
+    ['—', '書き出し／読み込み', OK, 'サーバーの代わりの持ち運び。つながり一覧は Excel 用の CSV でも出せる'],
     ['—', '検索ボリューム・広告単価の照会、ハブを主題とするページ', PROD, '事業計画書の第一・第二・第四工程'],
     ['—', 'サーバー・データベース・画像の保存先', PROD, 'いまは端末の localStorage のみ'],
     ['—', '広告のクレジットカード決済・表示割合／タグ指定の価格設定', PROD, '']
@@ -289,6 +306,31 @@
   }
   window.addEventListener('hashchange', () => { draw(); window.scrollTo(0, 0); });
   window.addEventListener('storage', (ev) => { if (ev.key === S.KEY) draw(); });
+
+  /* ---------- つながり一覧（Excel で開ける CSV） ----------
+     先生や編集者が表計算で確かめ、書き直せるように。BOM を付けて文字化けを防ぐ。 */
+  function downloadCSV(){
+    const cell = (v) => {
+      const s = String(v == null ? '' : v);
+      return /[",\n\r]/.test(s) ? '"' + s.replace(/"/g, '""') + '"' : s;
+    };
+    const head = ['作品A', '作品B', '路線名', '見出し', '型', 'ハブ', '意外性', '共感度', 'コンテンツ性', '世界観近似性', '合計',
+      '状態', 'AGM', '書き手', '関係', '本文', 'ページ'];
+    const base = location.href.replace(/manage\.html.*$/, 'index.html');
+    const rows = S.all().map((e) => {
+      const c = e.context, sc = scoreOf(c) || ['', '', '', ''];
+      return [e.a.title, e.b.title, c.routeName, c.headline.replace(/\n/g, ''), c.kind || '', c.hub || '',
+        sc[0], sc[1], sc[2], sc[3], scoreOf(c) ? total(c) : '', STATUS[e.status] || e.status,
+        c.review === 'ai' ? 'AI初稿' : c.review === 'approved' ? '承認済み' : '', c.author, c.relation || '',
+        S.plain(c.body), base + '#/c/' + encodeURIComponent(c.slug)];
+    });
+    const text = '﻿' + [head].concat(rows).map((r) => r.map(cell).join(',')).join('\r\n');
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(new Blob([text], { type: 'text/csv;charset=utf-8' }));
+    a.download = `beautiful-context-connections-${new Date().toISOString().slice(0, 10)}.csv`;
+    document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+  }
 
   /* ---------- 画像は端末の中で縮めてから持つ ---------- */
   function readImage(file, max){
@@ -362,6 +404,10 @@
     const t = ev.target;
     const row = t.closest('[data-id]');
     if (t.closest('[data-filter]')){ filter = t.closest('[data-filter]').dataset.filter; draw(); return; }
+    if (t.matches('[data-approve]') && row){
+      S.approve(row.dataset.id); toast('承認しました。ページの表示が「確認済み」になります'); draw(); return;
+    }
+    if (t.matches('[data-csv]')){ downloadCSV(); toast('つながり一覧を書き出しました'); return; }
     if (t.matches('[data-remove]') && row){
       const e = S.byId(row.dataset.id);
       if (e && confirm(`「${e.a.title} ＋ ${e.b.title}」を削除します。元には戻せません。よろしいですか？`)){

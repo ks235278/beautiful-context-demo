@@ -16,6 +16,8 @@
 (() => {
   const KEY = 'beautiful-context-store-v2';
   const OLD_KEY = 'beautiful-context-store-v1';
+  /* 見本を足したら上げる。端末に残っているデータへ、新しい見本だけを足し込む */
+  const SEED_VERSION = 2;
 
   const DEFAULT_SETTINGS = {
     brand: 'Beautiful Context',
@@ -87,8 +89,34 @@
       settings: clone(DEFAULT_SETTINGS),
       authors: {},
       liked: {},
-      seedIds: (window.BC_SEED || []).map((s) => s.id)
+      seedIds: (window.BC_SEED || []).map((s) => s.id),
+      seedVersion: SEED_VERSION,
+      removedSeeds: []
     };
+  }
+
+  /* 見本が増えたとき。端末で作ったもの・手を入れた見本・消した見本はそのまま、
+     まだ無い見本を足し、手を付けていない見本は新しい版に差し替える。 */
+  function mergeSeeds(data) {
+    const gone = new Set(data.removedSeeds || []);
+    const at = new Map(data.entries.map((e, i) => [e.id, i]));
+    seedEntries().forEach((s) => {
+      if (gone.has(s.id)) return;
+      if (!at.has(s.id)) { data.entries.push(s); return; }
+      const cur = data.entries[at.get(s.id)];
+      if (cur.updatedAt === cur.createdAt) {
+        s.reactions = cur.reactions;
+        s.comments = cur.comments;
+        data.entries[at.get(s.id)] = s;
+      } else {
+        /* 手を入れた見本は本文を残し、型・ハブ・四軸だけを補う */
+        ['kind', 'hub', 'score'].forEach((k) => {
+          if (cur.context[k] == null && s.context[k] != null) cur.context[k] = s.context[k];
+        });
+      }
+    });
+    data.seedIds = (window.BC_SEED || []).map((s) => s.id);
+    data.seedVersion = SEED_VERSION;
   }
 
   /* 第1版からの引っ越し。先生や学生が端末で作ったものは残す。
@@ -117,6 +145,11 @@
       writeRaw(data);
     }
     data.entries = data.entries.map(normalise);
+    data.removedSeeds = Array.isArray(data.removedSeeds) ? data.removedSeeds : [];
+    if ((data.seedVersion || 1) < SEED_VERSION) {
+      mergeSeeds(data);
+      writeRaw(data);
+    }
     data.ads = Array.isArray(data.ads) ? data.ads : [];
     data.settings = Object.assign(clone(DEFAULT_SETTINGS), data.settings || {});
     data.authors = data.authors || {};
@@ -201,7 +234,20 @@
     remove(id) {
       const data = ensure();
       data.entries = data.entries.filter((e) => e.id !== id);
+      /* 消した見本は、見本が増えたときにも戻さない */
+      if ((data.seedIds || []).includes(id) && !data.removedSeeds.includes(id)) data.removedSeeds.push(id);
       commit();
+    },
+
+    /* 生成AIの初稿を、編集者が確かめて通す（AGM） */
+    approve(id) {
+      const e = this.byId(id);
+      if (!e) return null;
+      e.context.review = 'approved';
+      e.context.approvedAt = new Date().toISOString();
+      e.updatedAt = e.context.approvedAt;
+      commit();
+      return e;
     },
 
     setStatus(id, status, note) {
@@ -318,7 +364,7 @@
       const words = (q || '').toLowerCase().split(/[\s　#＃]+/).filter(Boolean);
       if (!words.length) return { contexts: [], works: [] };
       const hay = (e) =>
-        [e.context.routeName, e.context.headline, e.context.relation, plain(e.context.body),
+        [e.context.routeName, e.context.headline, e.context.relation, e.context.hub, e.context.kind, plain(e.context.body),
          e.a.title, e.a.type, e.a.creator, e.a.summary, e.b.title, e.b.type, e.b.creator, e.b.summary]
           .join(' ').toLowerCase();
       const contexts = this.visible().filter((e) => { const h = hay(e); return words.every((w) => h.includes(w)); });

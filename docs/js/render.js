@@ -186,6 +186,23 @@
       </article>`;
   }
 
+  /* つながりの型と四軸。先生の資料の採点軸をそのまま並べる。
+     生成AIの初稿（review: 'ai'）は、編集者が確かめるまでそう書いておく。 */
+  const AXES = ['意外性', '共感度', 'コンテンツ性', '世界観近似性'];
+  function axes(c){
+    const sc = Array.isArray(c.score) && c.score.length === 4 ? c.score.map(v => Math.max(0, Math.min(5, +v || 0))) : null;
+    const agm = c.review === 'ai' ? '<span class="agm">生成AIの初稿・編集者の確認前</span>'
+      : c.review === 'approved' ? '<span class="agm ok">生成AIの初稿・編集者が確認済み</span>' : '';
+    if (!c.kind && !sc && !agm) return '';
+    return `
+      <section class="axes" aria-label="このつながりの型と評価">
+        <p class="meta">このつながり${agm}</p>
+        <p class="ax-kind">${c.kind ? `<span>型<b>${esc(c.kind)}</b></span>` : ''}${c.hub ? `<span>ハブ<b>${esc(c.hub)}</b></span>` : ''}</p>
+        ${sc ? `<dl class="ax">${AXES.map((n, i) => `<div><dt>${n}</dt><dd aria-label="${sc[i]} / 5">${
+          [1, 2, 3, 4, 5].map(k => `<i${k <= sc[i] ? ' class="on"' : ''}></i>`).join('')}</dd></div>`).join('')}</dl>` : ''}
+      </section>`;
+  }
+
   /* ---------- コンテクストページ A―B ----------
      二作品の間に置かれる独立したページ。絵を二枚並べ、
      その上を手書き風の線が渡って二つを結ぶ。 */
@@ -212,6 +229,7 @@
             <p class="meta">CONTEXT STORY</p>
             ${clean(c.body)}
           </section>
+          ${axes(c)}
           ${ai ? `<p class="source">この解説は生成AIの出力をもとにしています<a href="${attr(ai)}" target="_blank" rel="noopener nofollow">${esc(ai)}</a></p>` : ''}
           ${rel.length ? `<section class="more"><h2>同じルーツのコンテクスト</h2>${roots(e, rel)}</section>` : ''}
           ${ad(adItem)}

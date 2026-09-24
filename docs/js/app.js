@@ -553,10 +553,17 @@
   window.addEventListener('storage', ev => { if (ev.key === S.KEY) rebuild(); });
   window.addEventListener('pageshow', ev => { if (ev.persisted) rebuild(); });
 
-  /* 絵を先に読んでおく。運ぶ途中で白くならないように */
-  const preload = () => S.visible().forEach(e => [e.a.image, e.b.image].forEach(src => {
-    const s = R.safeImg(src); if (s) { const i = new Image(); i.decoding = 'async'; i.src = s; }
-  }));
+  /* 絵を先に読んでおく。運ぶ途中で白くならないように。
+     50 近い駅があるので、一度に投げずに二本の列で順に読む */
+  const preload = () => {
+    const q = [...new Set(S.visible().flatMap(e => [e.a.image, e.b.image]).map(R.safeImg).filter(Boolean))];
+    const next = () => {
+      const s = q.shift(); if (!s) return;
+      const i = new Image(); i.decoding = 'async'; i.fetchPriority = 'low';
+      i.onload = i.onerror = next; i.src = s;
+    };
+    next(); next();
+  };
 
   /* ---------- 起動 ---------- */
   R.buildCloud(cloud);
