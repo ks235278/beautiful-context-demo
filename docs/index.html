@@ -11,7 +11,7 @@
 <meta property="og:title" content="Beautiful Context">
 <meta property="og:description" content="作品は駅、コンテクストは二駅間の区間。">
 <meta property="og:image" content="https://ks235278.github.io/beautiful-context-demo/icon-512.png">
-<link rel="manifest" href="manifest.webmanifest?v=78">
+<link rel="manifest" href="manifest.webmanifest?v=79">
 <link rel="apple-touch-icon" href="icon-180.png">
 <!-- ホーム画面から開くと全画面になり、safe-area が 0 でなくなる。
      そのとき初めて Dynamic Island の裏までページが描ける。 -->
@@ -31,9 +31,9 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Lato:wght@300;400;700&display=swap">
-<script src="js/theme.js?v=78"></script>
-<link rel="stylesheet" href="app.css?v=78">
-<link rel="stylesheet" href="fade.css?v=78">
+<script src="js/theme.js?v=79"></script>
+<link rel="stylesheet" href="app.css?v=79">
+<link rel="stylesheet" href="fade.css?v=79">
 </head>
 <body class="stage-intro">
 
@@ -48,7 +48,8 @@
 </section>
 
 <main class="uni" id="uni" aria-label="UniverseIt!">
-  <header class="uni-head">
+  <div class="uni-frame" aria-hidden="true"></div>
+  <header class="uni-head" id="uniHead">
     <h1 class="uni-title">UniverseIt!</h1>
     <p class="uni-sub" id="tagline">言葉から、つながりを辿る。</p>
   </header>
@@ -94,10 +95,10 @@
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 <script type="application/ld+json" id="ld"></script>
 
-<script src="js/seed.js?v=78"></script>
-<script src="js/store.js?v=78"></script>
-<script src="js/render.js?v=78"></script>
-<script src="js/transition.js?v=78"></script>
-<script src="js/app.js?v=78"></script>
+<script src="js/seed.js?v=79"></script>
+<script src="js/store.js?v=79"></script>
+<script src="js/render.js?v=79"></script>
+<script src="js/transition.js?v=79"></script>
+<script src="js/app.js?v=79"></script>
 </body>
 </html>

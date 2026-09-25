@@ -44,9 +44,13 @@
   const listLd = () => JSON.stringify(R.listLd(S.visible(), brand));
   ld.textContent = listLd();
 
-  /* 下の帯の高さを、UniverseIt! の一覧とページの余白に渡す */
+  /* 下の帯と上の見出しの高さを、UniverseIt! の一覧とページの余白に渡す */
+  const uniHead = $('uniHead');
   function measureDock(){
-    document.documentElement.style.setProperty('--dockh', Math.ceil(dock.getBoundingClientRect().height) + 'px');
+    const root = document.documentElement.style;
+    root.setProperty('--dockh', Math.ceil(dock.getBoundingClientRect().height) + 'px');
+    /* 見出しは上に留めてあり、言葉の一覧はその下から始まる */
+    root.setProperty('--headh', Math.ceil(uniHead.offsetHeight + 4) + 'px');
   }
   window.addEventListener('resize', measureDock);
 
