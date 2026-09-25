@@ -31,19 +31,26 @@ html[data-theme="white"]{
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html,body{height:100%}
 body{margin:0;overflow:hidden;background:var(--ground);color:var(--uni-ink);font-family:"Lato",var(--gothic)}
-/* ページを開いているときは、表示域の下の帯を下の紙の帯と同じ色に */
+/* 画面の下の帯（ホーム画面から開いた iOS 26）。
+   ステータスバーを透かす設定（black-translucent）だと、iOS はページを画面の高さより
+   ステータスバーぶん短く置く（実機の写真で 66pt。WebKit bug 301108）。その下はページの外で
+   CSS は届かず、iOS が body の背景色で塗る。
+   以前の版と同じく、帯の色と画面の色をそろえてつなぐ：
+     ・UniverseIt! と表紙 … 回路の絵を画面の下端で地色へ溶かし、帯（＝地色）と切れ目なくつなぐ
+     ・作品・コンテクストのページ … 帯を下の紙の帯と同じ色に */
 body.viewing{background:#fbfaf6}
 button{font:inherit;color:inherit}
 a{color:inherit}
 
 /* ---------- 背景 ---------- */
-/* ホーム画面から開いた iPhone では、画面の高さより表示域が短く報告される
-   （実測：画面の下 66pt が表示域の外。ステータスバーの高さぶん）。
-   inset:0 の背景はそこで途切れ、下に地色だけの帯が出る。
-   背景は表示域より下まで伸ばしておく。 */
-#bg{position:fixed;top:0;left:0;right:0;bottom:-25vh;z-index:0;background:var(--ground)}
+#bg{position:fixed;inset:0;z-index:0;background:var(--ground)}
 #bg .pcb{position:absolute;inset:0;background:var(--ground) var(--pcb) center/cover no-repeat}
 #bg .veil{position:absolute;inset:0;background:var(--ground);opacity:0;transition:opacity .9s ease}
+@media (display-mode:standalone){
+  #bg::after{content:"";position:absolute;left:0;right:0;bottom:0;pointer-events:none;
+    height:calc(var(--dockh) + env(safe-area-inset-bottom) + 28px);
+    background:linear-gradient(to bottom,transparent,var(--ground) 92%)}
+}
 body:not(.stage-intro) #bg .veil{opacity:.14}   /* 構成図の UniverseIt! は表紙とほぼ同じ明るさ。文字が読める分だけ落とす */
 
 /* ---------- 右上のメニュー（≡） ---------- */
@@ -56,8 +63,8 @@ body:not(.stage-intro) #bg .veil{opacity:.14}   /* 構成図の UniverseIt! は�
 .menu-btn[aria-expanded="true"] i:nth-child(3){transform:translateY(-8px) rotate(-45deg)}
 body.viewing .menu-btn{opacity:0;visibility:hidden;transition:opacity .3s ease,visibility 0s linear .3s}
 
-.menu{position:fixed;z-index:45;top:0;right:0;bottom:-25vh;width:min(330px,86vw);overflow-y:auto;
-  padding:calc(env(safe-area-inset-top) + 78px) 26px calc(30px + env(safe-area-inset-bottom) + 25vh);
+.menu{position:fixed;z-index:45;top:0;right:0;bottom:0;width:min(330px,86vw);overflow-y:auto;
+  padding:calc(env(safe-area-inset-top) + 78px) 26px calc(30px + env(safe-area-inset-bottom));
   background:color-mix(in srgb,var(--ground) 93%,transparent);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);
   color:var(--uni-ink);transform:translateX(100%);transition:transform .38s cubic-bezier(.2,.7,.2,1);
   box-shadow:-20px 0 40px -20px #0008}
