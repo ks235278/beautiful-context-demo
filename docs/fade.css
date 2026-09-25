@@ -12,7 +12,7 @@ body::after{
   position:fixed; inset:0;
   z-index:2147483647;
   pointer-events:none;
-  background:var(--veil, #141c25);
+  background:var(--veil, #061629);
   animation:bc-veil .34s ease both;
 }
 @keyframes bc-veil{ from{opacity:1} to{opacity:0} }

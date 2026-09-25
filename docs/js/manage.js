@@ -164,7 +164,7 @@
   }
 
   /* ---------- カスタマイズ ---------- */
-  const ACCENTS = ['#d9761f', '#1f3a68', '#b23a2e', '#2f7d4f', '#7a4bb3', '#c9a227', '#111111'];
+  const ACCENTS = ['#ee8232', '#1f3a68', '#b23a2e', '#2f7d4f', '#7a4bb3', '#c9a227', '#111111'];
   function custom(){
     const st = S.settings();
     return `<section class="panel">${head('ホワイトラベル', 'カスタマイズ',
@@ -175,7 +175,7 @@
             <div class="field"><label for="cBrand">サービス名</label><input id="cBrand" name="brand" maxlength="40" value="${esc(st.brand)}" required>
               <small>表紙の題名とブラウザのタイトルになります</small></div>
             <div class="field"><label for="cTag">ひとこと</label><input id="cTag" name="tagline" maxlength="60" value="${esc(st.tagline)}">
-              <small>路線図の見出しの下に出ます</small></div>
+              <small>UniverseIt! の見出しの下に出ます</small></div>
           </div>
           <div class="field"><label>地の明暗</label>
             <div class="themes">
@@ -189,7 +189,7 @@
               ${ACCENTS.map((c) => `<button type="button" class="sw${c === st.accent ? ' on' : ''}" data-sw="${c}" style="background:${c}" aria-label="${c}"></button>`).join('')}
               <input type="color" name="accent" value="${esc(st.accent)}" aria-label="色を選ぶ" style="width:44px;height:36px;padding:2px;border:1px solid var(--line);border-radius:8px">
             </div>
-            <small>UNIverseIt! のボタン、共感、リンクの線に使われます</small>
+            <small>「つながりを創る（ReMixIt!）」のボタンの色です</small>
           </div>
           <div class="ops" style="justify-content:flex-start;margin-top:8px">
             <button type="submit" class="btn primary">保存して反映</button>
@@ -200,7 +200,7 @@
           <div class="phone"><iframe id="pv" src="index.html" title="プレビュー" loading="lazy"></iframe></div>
           <div class="ops" style="justify-content:center">
             <button type="button" class="btn" data-pv="0">表紙</button>
-            <button type="button" class="btn" data-pv="net">路線図</button>
+            <button type="button" class="btn" data-pv="net">UniverseIt!</button>
             <button type="button" class="btn" data-pv="stream">作品ページ</button>
           </div>
           <small>この端末のブラウザに保存された内容で表示しています</small>
@@ -239,12 +239,13 @@
   const PROD = '<span class="tag prod">本番で実装</span>';
   const FEATURES = [
     ['グループ', '読者の画面（flow0921-2）'],
-    ['—', '起動画面（BEAUTIFUL CONTEXT）→ UniverseIt!', OK, 'スクロールで移る。止まっていれば数秒で、触れればすぐ送る'],
-    ['—', 'UniverseIt!：流れる見出しから作品ページ・コンテクストページへ', OK, '見出しはすべて実在のページにつながる。触れた言葉の位置から絵が開く'],
+    ['—', '起動画面（BEAUTIFUL CONTEXT）→ UniverseIt!', OK, '数秒で、または触れると UniverseIt! へ（構成図の「一定時間もしくはクリックで次へ」）'],
+    ['—', '背景：構成図の回路の絵（A / WHITE・B / CHARCOAL）', OK, '先生の構成図の画像をそのまま使用。≡ のメニューで二つの地を切り替えられる'],
+    ['—', 'UniverseIt!：「# 言葉」から作品ページへ', OK, 'ハッシュタグはすべて実在の作品ページにつながる。触れた言葉の位置から絵が開く'],
     ['—', '作品ページ A ⇄ コンテクストページ A―B ⇄ 作品ページ B', OK, '下の路線図・「コンテクストを見る」・左右の払い・← → キーで移る。同じ作品の絵はページをまたいで運ばれる'],
     ['—', 'UNIverseIt! で UniverseIt! へ戻る', OK, 'どのページからでも一度で戻る'],
     ['—', 'ReMixIt! でエディターへ', OK, 'いま立っている作品を A に入れた状態で開く'],
-    ['—', '美しいつながりを象徴する手書き風のライン', OK, 'コンテクストページの二作品を渡る線。4 形 × 6 色から選べる'],
+    ['—', '美しいつながりを象徴する手書き風のライン（基本要素.pdf）', PART, '公開ページは flow0921-2／demo-1 のとおり ↔ でつなぐ。線はエディターの見本に残す'],
     ['—', '同じ A／B をルーツに共有するコンテクストへのリンク', OK, 'コンテクストページの末尾に文字だけで表示'],
     ['—', 'ランディングページとしての広告スペース', OK, 'コンテクストページの読み終わりに一枠。購入は本番'],
     ['9.1', '検索結果', OK, '作品名・路線名・本文から'],
@@ -455,7 +456,7 @@
     if (!ev.target.matches('[data-custom]')) return;
     ev.preventDefault();
     const f = ev.target;
-    const accent = /^#[0-9a-f]{6}$/i.test(f.elements.accent.value) ? f.elements.accent.value : '#d9761f';
+    const accent = /^#[0-9a-f]{6}$/i.test(f.elements.accent.value) ? f.elements.accent.value : '#ee8232';
     S.saveSettings({
       brand: f.elements.brand.value.trim() || 'Beautiful Context',
       tagline: f.elements.tagline.value.trim(),
@@ -474,15 +475,10 @@
     const pv = $('pv');
     if (!pv) return;
     const go = () => {
-      const w = pv.contentWindow, d = w.document;
-      const intro = d.getElementById('intro');
-      if (!intro) return;
-      d.documentElement.style.scrollBehavior = 'auto';
-      if (where === 'net') w.scrollTo(0, intro.offsetHeight - w.innerHeight);
-      else if (where === 'stream'){
-        w.scrollTo(0, intro.offsetHeight - w.innerHeight);
-        const b = d.getElementById('uniBtn'); if (b) b.click();
-      } else w.scrollTo(0, 0);
+      const w = pv.contentWindow;
+      if (!w || !w.BCApp) return;
+      if (where === 'net') w.BCApp.toUni();
+      else if (where === 'stream') w.BCApp.openFirst();
     };
     pv.addEventListener('load', () => setTimeout(go, 250), { once: true });
     pv.src = 'index.html?pv=' + Date.now();

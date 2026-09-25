@@ -17,13 +17,13 @@
   const KEY = 'beautiful-context-store-v2';
   const OLD_KEY = 'beautiful-context-store-v1';
   /* 見本を足したら上げる。端末に残っているデータへ、新しい見本だけを足し込む */
-  const SEED_VERSION = 3;
+  const SEED_VERSION = 4;
 
   const DEFAULT_SETTINGS = {
     brand: 'Beautiful Context',
     tagline: '言葉から、つながりを辿る',
     theme: 'charcoal',          /* 'charcoal' | 'white' */
-    accent: '#d9761f',
+    accent: '#ee8232',          /* 先生の構成図の橙 */
     adEvery: 2                  /* 何件ごとに広告枠を挟むか。0 で挟まない */
   };
 
@@ -157,6 +157,8 @@
     data.entries = data.entries.map(normalise);
     data.removedSeeds = Array.isArray(data.removedSeeds) ? data.removedSeeds : [];
     if ((data.seedVersion || 1) < SEED_VERSION) {
+      /* 橙の既定値を、先生の構成図の色に合わせ直す（第4版） */
+      if (data.settings && data.settings.accent === '#d9761f') data.settings.accent = '#ee8232';
       mergeSeeds(data);
       writeRaw(data);
     }

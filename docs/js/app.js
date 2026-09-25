@@ -1,13 +1,13 @@
-/* index.html の動き。前田先生の構成図 flow0921-2 のとおり。
+/* index.html の動き。前田先生の構成図 flow0921-2 と demo-1 のとおり。
 
-     表紙 → UniverseIt!（流れる見出し）
-        見出しに触れる → 作品ページ／コンテクストページ
-     作品ページ A ⇄ コンテクストページ A―B ⇄ 作品ページ B   … 路線に沿って移る
-        UNIverseIt! → UniverseIt! へ戻る　／　ReMixIt! → エディター
+     表紙（BEAUTIFUL CONTEXT）── 一定時間、もしくは触れると ──→ UniverseIt!
+     UniverseIt! の「# 言葉」に触れる → 作品ページ
+     作品ページ A ⇄ コンテクストページ A―B ⇄ 作品ページ B   … 下の路線図・「コンテクストを見る」
+     つながりを辿る（UniverseIt!）→ UniverseIt! へ戻る　／　つながりを創る（ReMixIt!）→ エディター
 
-   ページが替わるときは、絵が動いてつなぐ。同じ作品の絵は前の位置から
-   次の位置へそのまま運ばれ、新しく現れる絵は路線の向きから入ってくる。
-   見出しから開くときは、触れた言葉の位置から絵が開く。
+   先生の指示は「適当にスマホらしい切り替えを」。ページが替わるときは絵が動いてつなぎ、
+   同じ作品の絵は前の位置から次の位置へそのまま運ばれる。
+   スクロールは普通のスクロールのまま。画面を勝手に動かさない。
 
    重ねて開いたページは # に道筋を残す（#/w/…, #/c/…）。
    携帯では右へ払うと戻り、左へ払うと路線の先へ進む。
@@ -15,17 +15,19 @@
 (() => {
   const S = window.BCStore, R = window.BCRender;
   const $ = (id) => document.getElementById(id);
+  const body = document.body;
 
-  const dock = $('dock'), actions = dock.querySelector('.actions'), map = $('map');
-  const intro = $('intro'), stick = intro.querySelector('.intro-stick');
-  const bg = $('bg'), cloud = $('cloud'), netLabel = $('netLabel');
+  const dock = $('dock'), map = $('map');
+  const intro = $('intro'), tags = $('tags');
   const view = $('view'), viewIn = $('viewIn'), ld = $('ld');
   const uniBtn = $('uniBtn'), remix = $('remix');
+  const menu = $('menu'), menuBtn = $('menuBtn');
 
   const settings = S.settings();
   const brand = settings.brand || 'Beautiful Context';
   $('wordmark').textContent = brand;
-  $('tagline').textContent = settings.tagline || '';
+  $('dockBrand').textContent = brand;
+  if (settings.tagline) $('tagline').textContent = settings.tagline;
   document.title = brand;
 
   const reduced = matchMedia('(prefers-reduced-motion:reduce)');
@@ -42,83 +44,74 @@
   const listLd = () => JSON.stringify(R.listLd(S.visible(), brand));
   ld.textContent = listLd();
 
-  /* ---------- 導入部のスクロール連動 ----------
-     表紙が薄れるにつれて路線図が現れ、線はそのまま流れ続ける。 */
-  const clamp = v => v < 0 ? 0 : v > 1 ? 1 : v;
-  const ease  = v => { const t = clamp(v); return t * t * (3 - 2 * t); };
-
-  let introEnd = 0, ticking = false;
-  function measure(){ introEnd = Math.max(1, intro.offsetHeight - window.innerHeight); }
-
-  function paint(){
-    ticking = false;
-    const p = clamp(window.scrollY / introEnd);
-    /* 上へ流れる距離と薄れる時間を同じ進行にする */
-    const wordmarkFlow = ease((p - 0.02) / 0.42);
-    stick.style.setProperty('--wm', (1 - wordmarkFlow).toFixed(3));
-    stick.style.setProperty('--wy', (-window.innerHeight * 0.42 * wordmarkFlow).toFixed(1) + 'px');
-    const cl = ease((p - 0.25) / 0.36);
-    bg.style.setProperty('--cl', cl.toFixed(3));
-    stick.style.setProperty('--cl', cl.toFixed(3));
-    cloud.style.pointerEvents = cl > 0.55 ? 'auto' : 'none';
-    netLabel.classList.toggle('live', cl > 0.55);
-    /* 流れる見出しに少し遅れて、手で触れる二つが現れる */
-    const dk = ease((p - 0.68) / 0.20);
-    dock.style.setProperty('--dk', dk.toFixed(3));
-    if (actions) actions.style.pointerEvents = document.body.classList.contains('route') || dk > 0.5 ? 'auto' : 'none';
+  /* 下の帯の高さを、UniverseIt! の一覧とページの余白に渡す */
+  function measureDock(){
+    document.documentElement.style.setProperty('--dockh', Math.ceil(dock.getBoundingClientRect().height) + 'px');
   }
-  function onScroll(){ if (!ticking){ ticking = true; requestAnimationFrame(paint); } }
-  window.addEventListener('scroll', onScroll, { passive: true });
-  window.addEventListener('resize', () => { measure(); paint(); });
-  document.addEventListener('visibilitychange', () => { if (!document.hidden){ measure(); paint(); } });
+  window.addEventListener('resize', measureDock);
 
-  /* scroll-behavior:smooth が効いていると scrollTo が打ち切られるため、
-     跳ぶ瞬間だけ auto に落とす。 */
-  function scrollToY(y){
-    const de = document.documentElement;
-    const keep = de.style.scrollBehavior;
-    de.style.scrollBehavior = 'auto';
-    window.scrollTo(0, y);
-    requestAnimationFrame(() => { de.style.scrollBehavior = keep; });
-  }
-  /* 自前で送る。指で触ったら即座に譲る。 */
-  let gliding = 0;
-  function glideTo(y, ms){
-    const de = document.documentElement;
-    const keep = de.style.scrollBehavior;
-    de.style.scrollBehavior = 'auto';
-    const from = window.scrollY, dist = y - from, t0 = performance.now();
-    const id = ++gliding;
-    const easeInOut = t => t < .5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
-    (function step(now){
-      if (id !== gliding) return;
-      const t = Math.min(1, (now - t0) / ms);
-      window.scrollTo(0, from + dist * easeInOut(t));
-      paint();
-      if (t < 1) requestAnimationFrame(step);
-      else de.style.scrollBehavior = keep;
-    })(t0);
-    const yield_ = () => { gliding++; de.style.scrollBehavior = keep; };
-    window.addEventListener('touchstart', yield_, { once: true, passive: true });
-    window.addEventListener('wheel', yield_, { once: true, passive: true });
-  }
-
-  /* 表紙で止まったままの人のために、しばらく待って路線図まで送る。
-     構成図の「一定時間もしくはクリックで次へ」。触れれば待たずに送る。 */
-  let idle = 0, touched = false;
-  const armIdle = () => {
+  /* ---------- 表紙 → UniverseIt! ----------
+     構成図 flowchart2 の「一定時間もしくはクリックで次へ」。 */
+  let stage = 'intro', idle = 0;
+  function toUni(animate){
+    if (stage === 'uni') return;
+    stage = 'uni';
     clearTimeout(idle);
-    if (touched) return;
+    body.classList.remove('stage-intro');
+    body.classList.add('stage-uni');
+    if (animate && motionOK()){
+      body.classList.add('uni-enter');
+      setTimeout(() => body.classList.remove('uni-enter'), 2600);
+    }
+    measureDock();
+  }
+  function armIdle(){
+    clearTimeout(idle);
     idle = setTimeout(() => {
-      if (touched || view.classList.contains('on') || window.scrollY >= 30) return;
+      if (stage !== 'intro') return;
       /* 裏に回っている間は送らない。表に出てきたら、もう一度待ち直す */
       if (document.hidden) return;
-      glideTo(introEnd, motionOK() ? 2600 : 10);
-    }, 3800);
-  };
-  const stopIdle = () => { touched = true; clearTimeout(idle); };
-  ['touchstart', 'wheel', 'keydown'].forEach(ev => window.addEventListener(ev, stopIdle, { once: true, passive: true }));
-  document.addEventListener('visibilitychange', () => { if (!document.hidden && window.scrollY < 30) armIdle(); });
+      toUni(true);
+    }, 2800);
+  }
+  document.addEventListener('visibilitychange', () => { if (!document.hidden && stage === 'intro') armIdle(); });
+  intro.addEventListener('click', () => toUni(true));
+  window.addEventListener('keydown', (ev) => {
+    if (stage === 'intro' && (ev.key === 'Enter' || ev.key === ' ')){ ev.preventDefault(); toUni(true); }
+  });
+
+  /* ---------- メニュー（≡） ---------- */
+  function openMenu(on){
+    if (on){
+      menu.hidden = false;
+      requestAnimationFrame(() => menu.classList.add('open'));
+      menuBtn.setAttribute('aria-expanded', 'true');
+      if (stage === 'intro') toUni(false);
+    } else {
+      menu.classList.remove('open');
+      menuBtn.setAttribute('aria-expanded', 'false');
+      setTimeout(() => { if (!menu.classList.contains('open')) menu.hidden = true; }, 400);
+    }
+  }
+  menuBtn.addEventListener('click', (ev) => { ev.stopPropagation(); openMenu(menu.hidden || !menu.classList.contains('open')); });
+
+  /* A / WHITE と B / CHARCOAL。構成図の比較のとおり、どちらでも見せられる */
+  function markTheme(){
+    const cur = document.documentElement.dataset.theme || 'charcoal';
+    menu.querySelectorAll('[data-theme-set]').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.themeSet === cur)));
+  }
+  menu.addEventListener('click', (ev) => {
+    const b = ev.target.closest('[data-theme-set]');
+    if (!b) return;
+    const theme = b.dataset.themeSet === 'white' ? 'white' : 'charcoal';
+    S.saveSettings({ theme });
+    document.documentElement.dataset.theme = theme;
+    const meta = document.querySelector('meta[name="theme-color"]');
+    if (meta) meta.content = theme === 'white' ? '#ffffff' : '#061629';
+    document.documentElement.style.setProperty('--veil', theme === 'white' ? '#ffffff' : '#061629');
+    markTheme();
+  });
+  markTheme();
 
   /* ---------- 路線 ---------- */
   let here = null;   /* いま開いているページ { key, kind, entry, step } */
@@ -160,7 +153,7 @@
       hideView({ toCenter: true });
     }
   }
-  /* UNIverseIt!：どこまで進んでいても、流れる見出しへ一度で戻る */
+  /* つながりを辿る（UniverseIt!）：どこまで進んでいても、一度で戻る */
   function toNetwork(){
     const d = depth();
     stack.length = 0;
@@ -199,7 +192,7 @@
     if (name === 'c' && arg){
       const e = S.byContextSlug(arg);
       if (e) return show({ key: 'c:' + e.id, kind: 'route', entry: e, step: 1 },
-        R.contextPage(e, pickAd(e), brand), motion, `${e.a.title} ＋ ${e.b.title}`);
+        R.contextPage(e, pickAd(e)), motion, `${e.a.title} ＋ ${e.b.title}`);
     } else if (name === 'w' && arg){
       const hit = S.workBySlug(arg) || S.works(S.all()).find(w => w.slug === arg);
       if (hit){
@@ -208,16 +201,16 @@
           : (hit.contexts[0] && hit.contexts[0].entry) || null;
         const step = e && e.b.slug === arg ? 2 : 0;
         return show({ key: 'w:' + arg + ':' + (e ? e.id : ''), kind: e ? 'route' : 'page', entry: e, step },
-          R.workPage(hit, e, brand), motion, hit.work.title);
+          R.workPage(hit, e), motion, hit.work.title);
       }
     } else if (name === 'search'){
       const s = q.get('q') || '';
       return show({ key: 's:' + s, kind: 'page' }, R.search(s, S.search(s)), motion, s ? `「${s}」を辿る` : '言葉で辿る');
     } else if (['mission', 'terms', 'ad', 'credits'].includes(name)){
-      return show({ key: 'p:' + name, kind: 'page' }, R.page(name, brand), motion,
+      return show({ key: 'p:' + name, kind: 'page' }, R.page(name), motion,
         { mission: 'Our Mission', terms: '利用規約・プライバシー', ad: '広告枠のご案内', credits: '画像の出典' }[name]);
     }
-    show({ key: '404', kind: 'page' }, R.page('404', brand), motion, 'ページが見つかりません');
+    show({ key: '404', kind: 'page' }, R.page('404'), motion, 'ページが見つかりません');
   }
 
   /* 記事単位の広告枠。区間ごとに決まった枠が出る */
@@ -273,7 +266,7 @@
     im.className = 'flyer';
     im.alt = '';
     im.src = src;
-    Object.assign(im.style, { left: r.left + 'px', top: r.top + 'px', width: r.width + 'px', height: r.height + 'px', objectPosition: pos || 'center 40%' });
+    Object.assign(im.style, { left: r.left + 'px', top: r.top + 'px', width: r.width + 'px', height: r.height + 'px', objectPosition: pos || 'center 45%' });
     document.body.appendChild(im);
     return im;
   }
@@ -316,7 +309,7 @@
       const to = motion.toCenter ? around(c, 30, 30 * b.r.height / b.r.width)
         : dir ? shift(b.r, -dir * W * 0.55)
         : { left: b.r.left + b.r.width * 0.1, top: b.r.top + b.r.height * 0.1, width: b.r.width * 0.8, height: b.r.height * 0.8 };
-      /* 見出しへ戻るときは、ゆっくり縮みながら、最後に溶ける */
+      /* UniverseIt! へ戻るときは、ゆっくり縮みながら、最後に溶ける */
       const a = f.animate(motion.toCenter
         ? [{ ...box(b.r), opacity: 1 }, { opacity: 0.85, offset: 0.55 }, { ...box(to), opacity: 0 }]
         : [{ ...box(b.r), opacity: 1 }, { ...box(to), opacity: 0 }],
@@ -332,6 +325,8 @@
   function show(page, html, motion, title){
     if (here && here.key === page.key && view.classList.contains('on')) return;
     settleAll();
+    toUni(false);
+    openMenu(false);
     motion = motion || {};
     if (!motion.dir && here && here.entry && page.entry && here.entry.id === page.entry.id){
       motion.dir = Math.sign(page.step - here.step);
@@ -349,20 +344,17 @@
     ld.textContent = page.kind === 'route' && page.entry && page.step === 1
       ? JSON.stringify(R.jsonLd(page.entry, location.href)) : listLd();
 
-    document.body.classList.add('viewing');
-    document.body.classList.toggle('route', page.kind === 'route');
+    body.classList.add('viewing');
+    body.classList.toggle('route', page.kind === 'route');
     if (page.kind === 'route') setDock(page.entry, page.step);
     else setDock(null);
-    paint();
 
-    const duo = viewIn.querySelector('.duo');
     if (!moving){
       view.classList.remove('enter');
       view.classList.add('on');
       focusPage();
       return;
     }
-    if (duo) duo.classList.add('draw');
     view.classList.add('on', 'instant');
     view.classList.remove('enter'); void view.offsetWidth; view.classList.add('enter');
     fly(before, motion);
@@ -370,7 +362,6 @@
     setTimeout(() => {
       view.style.pointerEvents = '';
       view.classList.remove('instant');
-      if (duo) duo.classList.add('drawn');
       focusPage();
     }, DUR + 60);
   }
@@ -394,38 +385,20 @@
     ld.textContent = listLd();
     view.classList.add('instant');
     view.classList.remove('on', 'enter');
-    document.body.classList.remove('viewing', 'route');
+    body.classList.remove('viewing', 'route');
     setDock(null);
-    /* 戻る先は流れる見出し。直接ページを開いて来た人も、ここへ着く */
-    measure();
-    if (window.scrollY < introEnd * 0.9) scrollToY(introEnd);
-    paint();
     if (moving && before.length) fly(before, motion || { toCenter: true });
     setTimeout(() => { view.classList.remove('instant'); }, DUR + 140);
   }
 
-  /* ページを送ると、大きな絵は文字より遅れてついてくる */
-  let pxTick = false;
-  view.addEventListener('scroll', () => {
-    if (pxTick || !motionOK()) return;
-    pxTick = true;
-    requestAnimationFrame(() => {
-      pxTick = false;
-      const y = view.scrollTop;
-      const px = viewIn.querySelector('.w-hero .px');
-      if (px) px.style.transform = `translate3d(0,${(y * 0.38).toFixed(1)}px,0) scale(${(1 + Math.min(y, 400) / 4000).toFixed(4)})`;
-      const duo = viewIn.querySelector('.duo');
-      if (duo) duo.style.transform = `translate3d(0,${(y * 0.2).toFixed(1)}px,0)`;
-    });
-  }, { passive: true });
-
-  /* ---------- ドック ---------- */
+  /* ---------- 下の帯 ---------- */
   let mapSwap = 0;
   function setDock(e, step){
     if (!e){
       mapSwap++;
       map.innerHTML = '';
       remix.href = 'editor.html?new=1';
+      measureDock();
       return;
     }
     const c = e.context;
@@ -433,7 +406,6 @@
       lineName: c.routeName,
       left: c.leftStation || e.a.title,
       right: c.rightStation || e.b.title,
-      label: c.label || 'CONTEXT',
       current: step
     });
     /* ReMixIt! は、いま立っている作品に新しいつながりを足す入口 */
@@ -443,6 +415,7 @@
     oldLayers.forEach(layer => layer.remove());
     if (!old || !motionOK()){
       map.innerHTML = `<div class="map-layer">${markup}</div>`;
+      measureDock();
       return;
     }
     const next = document.createElement('div');
@@ -455,34 +428,30 @@
       if (swap !== mapSwap) return;
       [...map.querySelectorAll('.map-layer')].forEach(layer => { if (layer !== next) layer.remove(); });
     }, 340);
+    measureDock();
   }
 
   /* ---------- 触れたもの ---------- */
   const rectOf = (el) => centerOf(el.getBoundingClientRect());
 
   uniBtn.addEventListener('click', () => {
-    if (document.body.classList.contains('route') || view.classList.contains('on')){ toNetwork(); return; }
-    /* 流れる見出しの画面では、いちばん新しい区間の最初の駅から辿り始める */
+    if (view.classList.contains('on')){ toNetwork(); return; }
+    if (stage === 'intro'){ toUni(true); return; }
+    /* UniverseIt! の画面では、いちばん新しい区間の最初の駅から辿り始める */
     const first = S.visible()[0];
     if (!first){ toast('まだ公開されたコンテクストがありません'); return; }
     go(stepHash(first, 0), { origin: rectOf(uniBtn) });
   });
 
-  $('wordmark').addEventListener('click', () => glideTo(introEnd, 1600));
-
-  cloud.addEventListener('click', ev => {
+  tags.addEventListener('click', ev => {
     const t = ev.target.closest('.tag');
     if (!t) return;
-    const origin = rectOf(t);
-    if (t.dataset.work) go('#/w/' + encodeURIComponent(t.dataset.work), { origin });
-    else if (t.dataset.ctx) go('#/c/' + encodeURIComponent(t.dataset.ctx), { origin });
+    go('#/w/' + encodeURIComponent(t.dataset.work), { origin: rectOf(t) });
   });
-  const hold = on => cloud.querySelectorAll('.run').forEach(r => r.classList.toggle('paused', on));
-  cloud.addEventListener('pointerenter', ev => { if (ev.pointerType === 'mouse') hold(true); });
-  cloud.addEventListener('pointerleave', () => hold(false));
 
   document.addEventListener('click', ev => {
     const t = ev.target;
+    if (!menu.hidden && menu.classList.contains('open') && !t.closest('#menu,#menuBtn')){ openMenu(false); return; }
     if (t.closest('[data-close]')){ ev.preventDefault(); closeView(); return; }
     const home = t.closest('[data-home]');
     if (home){ ev.preventDefault(); toNetwork(); return; }
@@ -492,20 +461,13 @@
 
     if (t.closest('[data-read]')){
       const story = viewIn.querySelector('#story');
-      if (story) view.scrollTo({ top: story.getBoundingClientRect().top + view.scrollTop - 24, behavior: motionOK() ? 'smooth' : 'auto' });
+      if (story) view.scrollTo({ top: story.getBoundingClientRect().top + view.scrollTop - 10, behavior: motionOK() ? 'smooth' : 'auto' });
       return;
     }
 
     /* ページの中の # 道筋は、履歴に積んでから開く */
     const a = t.closest('a[href^="#/"]');
-    if (a){ ev.preventDefault(); go(a.getAttribute('href'), { origin: a.closest('.view') ? null : rectOf(a) }); return; }
-
-    /* 表紙のどこに触れても、路線図まで送る */
-    if (!view.classList.contains('on') && window.scrollY < introEnd * 0.3 &&
-        !t.closest('a,button,input,form,.tag')){
-      stopIdle();
-      glideTo(introEnd, motionOK() ? 1800 : 10);
-    }
+    if (a){ ev.preventDefault(); go(a.getAttribute('href'), { origin: a.closest('.view') ? null : rectOf(a) }); }
   });
 
   document.addEventListener('submit', ev => {
@@ -515,11 +477,12 @@
     const q = (f.elements.q.value || '').trim();
     const inView = !!f.closest('.view');
     go('#/search?q=' + encodeURIComponent(q), null, inView);
-    if (!inView) f.elements.q.blur();
+    if (!inView){ f.elements.q.blur(); f.elements.q.value = ''; }
   });
 
   document.addEventListener('keydown', ev => {
     const tgt = ev.target;
+    if (ev.key === 'Escape' && !menu.hidden){ openMenu(false); return; }
     if (!view.classList.contains('on') || (tgt && tgt.closest && tgt.closest('input,textarea'))) return;
     if (ev.key === 'Escape'){ ev.preventDefault(); closeView(); }
     else if (ev.key === 'ArrowRight' && here && here.entry){ ev.preventDefault(); goStep(here.step + 1); }
@@ -529,7 +492,7 @@
   /* 右へ払えば戻る（transition.js）。左へ払えば路線の先へ進む */
   let sx = 0, sy = 0, swiping = false;
   document.addEventListener('touchstart', e => {
-    if (e.touches.length !== 1 || !document.body.classList.contains('route')) { swiping = false; return; }
+    if (e.touches.length !== 1 || !body.classList.contains('route')) { swiping = false; return; }
     const t = e.touches[0];
     if (t.target.closest && t.target.closest('input,textarea,select')) { swiping = false; return; }
     sx = t.clientX; sy = t.clientY; swiping = true;
@@ -544,12 +507,13 @@
   }, { passive: true });
 
   window.BCSwipeBack = () => {
+    if (!menu.hidden){ openMenu(false); return true; }
     if (view.classList.contains('on')){ closeView(); return true; }
     return false;
   };
 
   /* エディターや管理画面で書き換えられたら、組み直す */
-  const rebuild = () => { R.buildCloud(cloud); paint(); };
+  const rebuild = () => { R.buildTags(tags); };
   window.addEventListener('storage', ev => { if (ev.key === S.KEY) rebuild(); });
   window.addEventListener('pageshow', ev => { if (ev.persisted) rebuild(); });
 
@@ -565,23 +529,26 @@
     next(); next();
   };
 
+  /* 運営者メニューのプレビューから段階を指定できるように */
+  window.BCApp = {
+    toUni: () => toUni(false),
+    openFirst: () => { toUni(false); const t = tags.querySelector('.tag'); if (t) t.click(); }
+  };
+
   /* ---------- 起動 ---------- */
-  R.buildCloud(cloud);
-  measure();
+  R.buildTags(tags);
   setDock(null);
-  paint();
   if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
 
   if (location.hash.length > 2){
-    /* ページを名指しで開かれたときは、後ろを路線図にしておく。
-       閉じたときに、流れる見出しの前へ出られるように。 */
-    scrollToY(introEnd);
+    /* ページを名指しで開かれたときは、表紙を飛ばして UniverseIt! を後ろに置く */
+    toUni(false);
     stack.push(location.hash);
     routeTo(location.hash, null);
-    window.addEventListener('load', () => { measure(); if (!view.classList.contains('on')) scrollToY(introEnd); paint(); }, { once: true });
   } else {
     armIdle();
-    window.addEventListener('load', () => { measure(); paint(); }, { once: true });
   }
+  window.addEventListener('load', measureDock, { once: true });
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(measureDock);
   (window.requestIdleCallback || ((f) => setTimeout(f, 800)))(preload);
 })();

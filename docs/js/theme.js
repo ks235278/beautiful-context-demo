@@ -5,12 +5,13 @@
    store.js を待たずに head の中で同期的に走らせるので、ここだけで完結させる。 */
 (() => {
   const KEY = 'beautiful-context-store-v2';
-  const GROUND = { charcoal: '#141c25', white: '#eef2f7' };
+  const GROUND = { charcoal: '#061629', white: '#ffffff' };
   let s = {};
   try { s = (JSON.parse(localStorage.getItem(KEY)) || {}).settings || {}; } catch (e) {}
 
   const theme = s.theme === 'white' ? 'white' : 'charcoal';
-  const accent = /^#[0-9a-f]{6}$/i.test(s.accent || '') ? s.accent : '#d9761f';
+  /* 橙は先生の構成図の色。以前の既定値（#d9761f）のままの端末もこの色にする */
+  const accent = /^#[0-9a-f]{6}$/i.test(s.accent || '') && s.accent !== '#d9761f' ? s.accent : '#ee8232';
   const root = document.documentElement;
   root.dataset.theme = theme;
   root.style.setProperty('--accent', accent);
