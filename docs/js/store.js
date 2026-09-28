@@ -17,7 +17,7 @@
   const KEY = 'beautiful-context-store-v2';
   const OLD_KEY = 'beautiful-context-store-v1';
   /* 見本を足したら上げる。端末に残っているデータへ、新しい見本だけを足し込む */
-  const SEED_VERSION = 5;
+  const SEED_VERSION = 6;
 
   const DEFAULT_SETTINGS = {
     brand: 'Beautiful Context',

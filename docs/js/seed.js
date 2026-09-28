@@ -64,7 +64,7 @@
   /* 前田先生の「50タイトル」の残り 42 作品。
      絵は img/works。ポスター・表紙は作品紹介のための引用、人物や土地の写真は
      Wikimedia Commons の自由に使えるもの。credit に撮影者と条件を持ち、
-     作品ページと「画像の出典」ページに出す。鳥皮みそ煮・ムルンジだけは札のまま。 */
+     作品ページと「画像の出典」ページに出す。 */
   const W = {
     goldberg: {
       title: 'バッハ『ゴールドベルク変奏曲』', type: '音楽', year: '1741', creator: 'ヨハン・ゼバスティアン・バッハ',
@@ -116,9 +116,11 @@
       summary: '瀬戸内海に面した港町。明治期に海軍の鎮守府が置かれ、戦艦大和が建造された海軍工廠の町として知られる。'
     },
     torikawa: {
-      title: '鳥皮みそ煮', type: '料理', year: '', creator: '',
-      slug: 'torikawa-misoni', order: 17, image: 'img/cards/torikawa-misoni.jpg',
-      summary: '（解説は前田先生のテキストを待っています）'
+      title: '鳥皮みそ煮', type: '料理', year: '', creator: '広島県呉市の名物',
+      slug: 'torikawa-misoni', order: 17, image: 'img/works/torikawa-misoni.jpg',
+      credit: '缶詰を器に盛ったもの／© よしの味噌／出典 よしの味噌',
+      creditUrl: 'https://www.yoshinomiso.com/products.php?product_number=R-30',
+      summary: '広島県呉市の名物料理。鶏の皮をこんにゃくと一緒に味噌で煮込んだ一皿で、呉の居酒屋では「みそだき」とも呼ばれる。'
     },
     lookback: {
       title: '藤本タツキ『ルックバック』', type: '漫画', year: '2021', creator: '藤本タツキ',
@@ -274,10 +276,12 @@
       creditUrl: 'https://commons.wikimedia.org/wiki/File:Tanqueraybottles.jpg',
       summary: '英国のジン、タンカレーの上位銘柄。生の柑橘を使って蒸留されることで知られる。'
     },
-    mulungi: {
-      title: 'ムルンジ', type: 'その他', year: '', creator: '',
-      slug: 'mulungi', order: 40, image: 'img/cards/mulungi.jpg',
-      summary: '（解説は前田先生のテキストを待っています）'
+    nurungji: {
+      title: 'ヌルンジ（赤坂）', type: '店', year: '', creator: '東京・赤坂の韓国料理店',
+      slug: 'nurungji', order: 40, image: 'img/works/nurungji.jpg',
+      credit: '店名の由来の「ヌルンジ」（おこげ）（撮影 Hyeon-Jeong Suk）／CC BY 2.0／Wikimedia Commons',
+      creditUrl: 'https://commons.wikimedia.org/wiki/File:Nurungji.jpg',
+      summary: '東京・赤坂の韓国料理店。店名の「ヌルンジ」は韓国語で、釜の底にできるおこげのこと。'
     },
     reacher: {
       title: '『リーチャー 正義のアウトロー』', type: 'ドラマ', year: '2022', creator: 'リー・チャイルド原作',
@@ -1131,25 +1135,25 @@
       id: 'seed-kure--torikawa-misoni',
       createdAt: '2026-09-15T07:20:00.000Z',
       updatedAt: '2026-09-15T07:20:00.000Z',
-      status: 'private',
-      note: 'つながりの根拠を確認中（前田先生のテキスト待ち）',
       a: W.kure,
       b: W.torikawa,
       context: {
         routeName: '呉の一皿',
         label: 'CONTEXT',
-        kind: '要確認',
-        headline: '港町と、\n一皿の料理。',
+        kind: '事実',
+        hub: '呉の名物',
+        score: [4, 4, 4, 4],
+        headline: '港町の居酒屋の味が、\n缶ひとつで旅をする。',
         slug: 'kure--torikawa-misoni',
-        relation: '広島県呉市 ── 鳥皮みそ煮',
+        relation: '広島県呉市 ── 名物 ── 鳥皮みそ煮',
         leftStation: '呉',
         rightStation: '鳥皮みそ煮',
         author: AI,
         review: 'ai',
         aiUrl: '',
-        line: { shape: 2, color: '#b8792c' },
+        line: { shape: 2, color: '#f2cf12' },
         body:
-          '<p><strong>下書き。まだ公開していない区間。</strong></p><p>前田先生のリストで呉市と並べて置かれている一品。二つを結ぶ根拠をまだ確かめられていないため、先生のテキストを受けてから書く。</p>'
+          '<p><strong>町の名物は、たいてい居酒屋のカウンターから始まる。</strong></p><p>鳥皮みそ煮は、広島県呉市の名物として知られる料理。鶏の皮をこんにゃくと一緒に味噌で煮込んだもので、呉の居酒屋では「みそだき」とも呼ばれて親しまれている。</p><p>いまは缶詰にもなり、呉の土産として広島駅などでも手に入る。バーコードに戦艦大和を描いた缶もあり、海軍の町としての呉の顔が、小さな缶の上にも重なっている。</p><p>『この世界の片隅に』で、すずが配給の食材をやりくりした町。その町の台所で愛されてきた味を、いまは缶ひとつで遠くへ持ち帰ることができる。</p>'
       }
     },
 
@@ -3372,6 +3376,59 @@
         line: { shape: 3, color: '#3447c9' },
         body:
           '<p><strong>ハブはそばの実。</strong></p><p>日本でそばといえば麺だが、徳島県の山深い祖谷地方では、そばの実を塩ゆでして乾かした「そば米」を、鶏肉や野菜と煮込んだ汁にして食べてきた。</p><p>ロシアや東欧では、そばの実は「グレーチカ」と呼ばれ、粥や付け合わせとして毎日の食卓にのぼる。</p><p>寒く、米の育ちにくい土地で、そばの実はそのまま粒で食べられてきた。遠く離れた二つの土地の料理が、同じ一粒でつながっている。</p>'
+      }
+    },
+
+    /* ---- 前田先生の確認を受けて足した区間（ヌルンジ＝赤坂の韓国料理店） ---- */
+    {
+      id: 'seed-iris--nurungji',
+      createdAt: '2026-09-28T09:00:00.000Z',
+      updatedAt: '2026-09-28T09:00:00.000Z',
+      a: W.iris,
+      b: W.nurungji,
+      context: {
+        routeName: 'ドラマから食卓へ',
+        label: 'CONTEXT',
+        kind: 'ハブ',
+        hub: '韓国',
+        score: [4, 4, 3, 3],
+        headline: '画面で見た国の味を、\n赤坂の一皿で。',
+        slug: 'iris--nurungji',
+        relation: '韓国ドラマ『アイリス』── 韓国 ── 赤坂の「ヌルンジ」',
+        leftStation: 'アイリス',
+        rightStation: 'ヌルンジ',
+        author: AI,
+        review: 'ai',
+        aiUrl: '',
+        line: { shape: 3, color: '#3447c9' },
+        body:
+          '<p><strong>画面の向こうの国は、東京の街角にもある。</strong></p><p>『アイリス』は、韓国の特殊工作員を主人公にしたアクション・ドラマ。日本でも放送され、秋田でのロケも話題になった。</p><p>赤坂には韓国料理の店が集まる一角があり、「ヌルンジ」もそのひとつ。店名は韓国語で、釜の底にできるおこげのこと。韓国では、おこげに湯を注いだ「スンニュン」を食後に飲む習慣がある。</p><p>ドラマで知った国へのいちばん近い入口は、案外、一皿の料理なのかもしれない。</p>'
+      }
+    },
+
+    {
+      id: 'seed-kanyoro--nurungji',
+      createdAt: '2026-09-28T08:50:00.000Z',
+      updatedAt: '2026-09-28T08:50:00.000Z',
+      a: KANYO,
+      b: W.nurungji,
+      context: {
+        routeName: '東京の中の隣国',
+        label: 'CONTEXT',
+        kind: '似ている',
+        hub: '東京にある隣国の食卓',
+        score: [4, 3, 3, 4],
+        headline: '神田の中国料理と、\n赤坂の韓国料理。',
+        slug: 'kanyoro--nurungji',
+        relation: '中国名菜『漢陽楼』（神田）── 隣国の食卓 ── 「ヌルンジ」（赤坂）',
+        leftStation: '漢陽楼',
+        rightStation: 'ヌルンジ',
+        author: AI,
+        review: 'ai',
+        aiUrl: '',
+        line: { shape: 0, color: '#c43f9a' },
+        body:
+          '<p><strong>東京には、隣の国の台所がいくつもある。</strong></p><p>神田の「漢陽楼」は、明治四十四年創業を掲げる中国料理店。中国からの留学生が集い、若き周恩来も通ったと伝えられている。</p><p>赤坂の「ヌルンジ」は、韓国料理の店が集まる一角にある韓国料理店。店名は、釜の底にできるおこげを表す韓国語から来ている。</p><p>百年以上前の留学生にとっても、いまの東京で暮らす人にとっても、故郷の味を出す店は、遠い国とこの街をつなぐ小さな駅のような場所になっている。</p>'
       }
     }
   ];
