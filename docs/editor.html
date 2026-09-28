@@ -40,10 +40,7 @@
     /* 全画面モードでは上端が Dynamic Island の裏に入る。 safe-area のぶん下げないと、戻るボタンが島に隠れて押せなくなる。 */
 .topbar{height:calc(68px + env(safe-area-inset-top) + 10px);padding-top:calc(env(safe-area-inset-top) + 10px);background:var(--nav);color:#fff;display:flex;align-items:center;gap:22px;padding-left:30px;padding-right:30px;position:sticky;top:0;z-index:40;box-shadow:0 2px 18px rgba(0,0,0,.16)}
     .brand{display:flex;align-items:center;gap:11px;min-width:max-content;font-family:Georgia,"Yu Mincho",serif;font-weight:700;letter-spacing:.03em}
-    .brand-mark{width:32px;height:32px;border:1px solid #a6a196;border-radius:9px;display:grid;place-items:center;position:relative}
-    .brand-mark:before,.brand-mark:after{content:"";width:7px;height:7px;border:2px solid #dfa832;background:#fff;border-radius:50%;position:absolute;top:11px}
-    .brand-mark:before{left:5px}.brand-mark:after{right:5px}
-    .brand-mark i{display:block;width:11px;height:2px;background:#dfa832}
+    .to-uni{margin-left:14px}
     .top-title{font-size:.875rem;color:#bbb8b0;white-space:nowrap}
     .top-actions{margin-left:auto;display:flex;align-items:center;gap:9px}
     .save-state{font-size:.75rem;color:#aaa79f;margin-right:8px;white-space:nowrap}
@@ -190,7 +187,7 @@
       .top-title{display:none}
     }
     @media (max-width:640px){
-      .topbar{height:calc(62px + env(safe-area-inset-top) + 10px);padding-top:calc(env(safe-area-inset-top) + 10px);padding-left:14px;padding-right:14px}.brand span:last-child{display:none}.save-state,.btn.ghost{display:none}.btn{padding:8px 12px}
+      .topbar{height:calc(62px + env(safe-area-inset-top) + 10px);padding-top:calc(env(safe-area-inset-top) + 10px);padding-left:14px;padding-right:14px}.brand{display:none}.to-uni{margin-left:0}.save-state,.btn.ghost{display:none}.btn{padding:8px 12px}
       .layout{padding:12px}.workflow{grid-template-columns:1fr;gap:8px}.step-card{min-height:82px}.step-card.context{margin-left:0}.context-link{display:none}
       .panel-head,.form-section{padding:17px}.panel-head .head-note{display:none}.grid,.grid.three{grid-template-columns:1fr}.upload-grid{grid-template-columns:120px 1fr}.image-preview,.dropzone{min-height:155px}
       .phone-stage{min-height:auto;padding:13px 4px;overflow:hidden}.phone{transform:scale(.86);margin:-48px 0}
@@ -214,13 +211,13 @@
     .shape-pick path{fill:none;stroke-width:3.2;stroke-linecap:round;stroke-linejoin:round}
   </style>
 <style>:root{--veil:var(--canvas)}</style>
-  <link rel="stylesheet" href="fade.css?v=82">
+  <link rel="stylesheet" href="fade.css?v=83">
 </head>
 <body>
   <div class="app">
     <header class="topbar">
-      <div class="brand"><span class="brand-mark"><i></i></span><span>Beautiful Context</span></div>
-      <a class="btn ghost small" href="index.html" style="margin-left:14px;text-decoration:none;display:inline-flex;align-items:center">&larr;　UniverseIt! へ</a>
+      <div class="brand"><span>Beautiful Context</span></div>
+      <a class="btn ghost small to-uni" href="index.html" style="text-decoration:none;display:inline-flex;align-items:center">&larr;　UniverseIt! へ</a>
       <a class="btn ghost small" href="manage.html" style="text-decoration:none;display:inline-flex;align-items:center">運営</a>
       <div class="top-title">コンテンツ／コンテクスト エディター</div>
       <div class="top-actions">
@@ -399,9 +396,9 @@
   </div>
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
-  <script src="js/seed.js?v=82"></script>
-  <script src="js/store.js?v=82"></script>
-  <script src="js/render.js?v=82"></script>
+  <script src="js/seed.js?v=83"></script>
+  <script src="js/store.js?v=83"></script>
+  <script src="js/render.js?v=83"></script>
 
   <script>
   (() => {
@@ -574,6 +571,6 @@
     }
   })();
   </script>
-  <script src="js/transition.js?v=82"></script>
+  <script src="js/transition.js?v=83"></script>
 </body>
 </html>
