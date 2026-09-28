@@ -31,6 +31,10 @@ html.leaving body{opacity:0}
 /* standalone Safari の履歴スナップショットは fixed 背景を欠くことがある。
    OS の横払いは止め、transition.js は面を動かさずジェスチャーだけを読む。 */
 html,body{overscroll-behavior-x:none}
+/* 引っぱり過ぎたときの跳ね返りも止める。iPhone では跳ね返りのあいだ、留めてある背景や帯まで
+   一緒に動き、下に地色だけの面や、帯の後ろを通っていた言葉がのぞいていた。
+   横にずれる余地も残さない（clip はスクロールの箱を作らない）。 */
+html{overscroll-behavior:none;overflow-x:clip}
 
 /* 送りの跡は見せない。画面はひとつ、という約束の続きで、
    紙の横に定規が立っているように見えるものを外す。

@@ -2,7 +2,7 @@
 <html lang="ja">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,viewport-fit=cover">
   <meta name="description" content="作品A・作品B・二作品間のコンテクストを分離して入力できるBeautiful Context編集デモ">
   <meta name="theme-color" content="#171716">
 <link rel="manifest" href="manifest.webmanifest?v=49">
@@ -114,7 +114,7 @@
     .toolbar{display:flex;flex-wrap:wrap;gap:4px;padding:7px;background:#f4f2ed;border-bottom:1px solid #d9d6ce}
     .tool{border:1px solid transparent;border-radius:5px;background:transparent;min-width:31px;height:30px;padding:0 8px;font-family:Georgia,serif;font-weight:700}
     .tool:hover{background:#fff;border-color:#d2cec4}
-    .rich-text{min-height:170px;padding:14px 15px;line-height:1.9;font-family:Georgia,"Yu Mincho",serif;font-size:.94rem;outline:none}
+    .rich-text{min-height:170px;padding:14px 15px;line-height:1.9;font-family:Georgia,"Yu Mincho",serif;font-size:16px;outline:none}
     .rich-text:empty:before{content:attr(data-placeholder);color:#aaa69c}
     .rich-text blockquote{border-left:3px solid var(--gold);padding-left:12px;margin-left:0;color:#5f594e}
     .counter{text-align:right;color:#8a867e;font-size:.67rem;margin-top:5px}
@@ -214,7 +214,7 @@
     .shape-pick path{fill:none;stroke-width:3.2;stroke-linecap:round;stroke-linejoin:round}
   </style>
 <style>:root{--veil:var(--canvas)}</style>
-  <link rel="stylesheet" href="fade.css?v=79">
+  <link rel="stylesheet" href="fade.css?v=81">
 </head>
 <body>
   <div class="app">
@@ -399,9 +399,9 @@
   </div>
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
-  <script src="js/seed.js?v=79"></script>
-  <script src="js/store.js?v=79"></script>
-  <script src="js/render.js?v=79"></script>
+  <script src="js/seed.js?v=81"></script>
+  <script src="js/store.js?v=81"></script>
+  <script src="js/render.js?v=81"></script>
 
   <script>
   (() => {
@@ -574,6 +574,6 @@
     }
   })();
   </script>
-  <script src="js/transition.js?v=79"></script>
+  <script src="js/transition.js?v=81"></script>
 </body>
 </html>

@@ -2,11 +2,11 @@
 <html lang="ja">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,viewport-fit=cover">
 <meta name="robots" content="noindex">
 <meta name="theme-color" content="#171716">
 <title>運営者メニュー｜Beautiful Context</title>
-<link rel="manifest" href="manifest.webmanifest?v=79">
+<link rel="manifest" href="manifest.webmanifest?v=81">
 <link rel="apple-touch-icon" href="icon-180.png">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -81,6 +81,8 @@
   .btn.primary{background:var(--ink);border-color:var(--ink);color:#fff}
   .btn.warn,.ops .warn{color:var(--red);border-color:#e7c3bd}
   select.status{padding:6px 28px 6px 10px;border:1px solid var(--line);border-radius:16px;font-size:12px;font-weight:700;background:#fff}
+  /* 携帯の Safari は 16px 未満の入力欄に触れると画面を拡大し、横にずれたまま戻らない */
+  @media (hover:none){select,input,textarea{font-size:16px !important}}
   select.status.public{color:var(--green)}
   select.status.private{color:var(--blue)}
   select.status.hidden{color:var(--red)}
@@ -162,7 +164,7 @@
     table.feat{min-width:620px}
   }
 </style>
-<link rel="stylesheet" href="fade.css?v=79">
+<link rel="stylesheet" href="fade.css?v=81">
 </head>
 <body>
   <header class="top">
@@ -181,10 +183,10 @@
 
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
-  <script src="js/seed.js?v=79"></script>
-  <script src="js/store.js?v=79"></script>
-  <script src="js/render.js?v=79"></script>
-  <script src="js/manage.js?v=79"></script>
-  <script src="js/transition.js?v=79"></script>
+  <script src="js/seed.js?v=81"></script>
+  <script src="js/store.js?v=81"></script>
+  <script src="js/render.js?v=81"></script>
+  <script src="js/manage.js?v=81"></script>
+  <script src="js/transition.js?v=81"></script>
 </body>
 </html>

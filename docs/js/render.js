@@ -193,7 +193,7 @@
     return `
       <section class="axes" aria-label="このつながりの型と評価">
         <p class="meta">このつながり${agm}</p>
-        <p class="ax-kind">${c.kind ? `<span>型<b>${esc(c.kind)}</b></span>` : ''}${c.hub ? `<span>ハブ<b>${esc(c.hub)}</b></span>` : ''}</p>
+        <p class="ax-kind">${c.kind ? `<span>型<b>${esc(c.kind)}</b></span>` : ''}${c.hub ? `<span>ハブ<b>${esc(c.hub)}</b></span>` : ''}${c.basis ? `<span>下敷き<b>${esc(c.basis)}</b></span>` : ''}</p>
         ${sc ? `<dl class="ax">${AXES.map((n, i) => `<div><dt>${n}</dt><dd aria-label="${sc[i]} / 5">${
           [1, 2, 3, 4, 5].map(k => `<i${k <= sc[i] ? ' class="on"' : ''}></i>`).join('')}</dd></div>`).join('')}</dl>` : ''}
       </section>`;
@@ -232,6 +232,47 @@
           <p class="byline">${esc(c.author)}　·　${esc(new Date(e.updatedAt).toLocaleDateString('ja-JP'))}</p>
           ${credit(e.a)}${credit(e.b)}
         </article>
+      </article>`;
+  }
+
+  /* ---------- つながりの路線（フィード） ----------
+     選んだ作品から、区間でつながる作品を枝分かれの順に並べる。
+     左に一本の路線を引き、作品は駅、そのあいだに区間（コンテクスト）を置く。
+     前の駅から続かない区間（枝分かれ）は「〜から分岐」と書く。 */
+  function feedStops(items, from, to){
+    return items.slice(from, to).map((it, i) => {
+      const n = from + i, w = it.work, c = it.entry && it.entry.context;
+      const parent = it.parent && items.find(x => x.slug === it.parent);
+      const s = safeImg(w.image);
+      const href = '#/w/' + encodeURIComponent(it.slug) + (c ? '?c=' + encodeURIComponent(c.slug) : '');
+      return `
+        <li class="stop${n === 0 ? ' first' : ''}${it.branch ? ' branch' : ''}${!c && n > 0 ? ' newline' : ''}">
+          ${!c && n > 0 ? `<p class="transfer"><span>別の路線へ</span></p>` : ''}
+          ${c ? `<a class="seg" href="#/c/${encodeURIComponent(c.slug)}">
+            ${it.branch && parent ? `<span class="seg-from">${esc(tagText(parent.work))} から分岐</span>` : ''}
+            <small>［${esc(c.routeName)}］${c.kind ? `　${esc(c.kind)}` : ''}</small>
+            <b>${esc(c.headline).replace(/\n/g, '')}</b></a>` : ''}
+          <a class="fstop" href="${attr(href)}">
+            <span class="st-img">${s ? `<img src="${attr(s)}" alt="${attr(w.title)}" data-k="${attr(w.slug)}" loading="${n < 4 ? 'eager' : 'lazy'}" decoding="async">`
+              : `<span class="ph">${esc(initial(w))}</span>`}</span>
+            <span class="st-txt"><small>${esc(w.type || '作品')}${w.year ? '・' + esc(w.year) + '年' : ''}</small>
+              <b>${esc(w.title)}</b>${w.summary ? `<span>${esc(w.summary)}</span>` : ''}</span>
+          </a>
+        </li>`;
+    }).join('');
+  }
+  function feedPage(items, batch){
+    const first = items[0];
+    return `
+      <article class="page text-page feed-page">
+        ${backTop()}
+        <div class="content">
+          <p class="meta">つながりの路線</p>
+          <h2>${esc(tagText(first.work))}から辿る</h2>
+          <p class="by">区間でつながる作品を、枝分かれの順に辿ります。駅に触れると作品ページ、区間に触れるとコンテクストページが開きます。</p>
+          <ol class="rail" id="rail">${feedStops(items, 0, batch)}</ol>
+          <div class="rail-more" id="railMore" aria-hidden="true"></div>
+        </div>
       </article>`;
   }
 
@@ -381,7 +422,7 @@
     return inner ? inner[1] : w.title;
   }
   function buildTags(box){
-    const works = S.works();
+    const works = S.works().sort((x, y) => S.byOrder(x, y));
     box.textContent = '';
     if (!works.length){
       const p = document.createElement('p');
@@ -416,7 +457,7 @@
 
   window.BCRender = {
     esc, clean, safeUrl, safeImg, art, roots, ad, workPage, contextPage, search, page,
-    mapMarkup, jsonLd, listLd, buildTags, tagText, readLabel, lineColor, linePath, ICON,
+    mapMarkup, jsonLd, listLd, buildTags, tagText, readLabel, feedPage, feedStops, lineColor, linePath, ICON,
     PALETTE, SHAPE_COUNT: SHAPES.length
   };
 })();

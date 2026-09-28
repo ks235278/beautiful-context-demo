@@ -17,7 +17,7 @@
   const KEY = 'beautiful-context-store-v2';
   const OLD_KEY = 'beautiful-context-store-v1';
   /* 見本を足したら上げる。端末に残っているデータへ、新しい見本だけを足し込む */
-  const SEED_VERSION = 4;
+  const SEED_VERSION = 5;
 
   const DEFAULT_SETTINGS = {
     brand: 'Beautiful Context',
@@ -124,6 +124,8 @@
       if (n && /^img\/cards\/|^img\/goldberg\.jpg$/.test(w.image || '') && n.image !== w.image) {
         w.image = n.image; w.credit = n.credit; w.creditUrl = n.creditUrl;
       }
+      /* 先生のタイトル一覧の並び（UniverseIt! の並びと、つながりの路線の順） */
+      if (n && w.order == null && n.order != null) w.order = n.order;
     }));
     data.seedIds = (window.BC_SEED || []).map((s) => s.id);
     data.seedVersion = SEED_VERSION;
@@ -298,6 +300,68 @@
 
     workBySlug(slug) {
       return this.works().find((w) => w.slug === slug) || null;
+    },
+
+    /* 先生のタイトル一覧（Excel）の並び。order を持たない作品は後ろへ */
+    byOrder(a, b) {
+      const oa = +a.work.order || 9999, ob = +b.work.order || 9999;
+      return oa - ob || String(a.work.title).localeCompare(String(b.work.title), 'ja');
+    },
+
+    /* ---------- つながりの網 ----------
+       作品を駅、公開中のコンテクストを区間とする網。 */
+    neighbors(slug) {
+      const out = [];
+      this.visible().forEach((e) => {
+        if (e.a.slug === slug) out.push({ slug: e.b.slug, work: e.b, entry: e });
+        else if (e.b.slug === slug) out.push({ slug: e.a.slug, work: e.a, entry: e });
+      });
+      return out;
+    },
+
+    /* つながりの路線（フィード）。選んだ作品から、区間でつながる作品を
+       枝分かれの順に辿る（深さ優先。同じ枝の中は先生の一覧の順）。
+         A ─ B
+         ├ C ─ D
+         │ ├ E
+         │ └ F
+         └ G ─ H …
+       路線が尽きたら、先生の一覧の順で次の、まだ通っていない作品から
+       別の路線として続ける。すべての駅を一度ずつ通る。 */
+    feed(startSlug) {
+      const all = this.works().sort((a, b) => this.byOrder(a, b));
+      const bySlug = new Map(all.map((h) => [h.slug, h]));
+      const orderOf = (s) => all.findIndex((h) => h.slug === s);
+      const adj = new Map(all.map((h) => [h.slug, []]));
+      this.visible().forEach((e) => {
+        if (!adj.has(e.a.slug) || !adj.has(e.b.slug) || e.a.slug === e.b.slug) return;
+        adj.get(e.a.slug).push({ slug: e.b.slug, entry: e });
+        adj.get(e.b.slug).push({ slug: e.a.slug, entry: e });
+      });
+      adj.forEach((list) => list.sort((x, y) => orderOf(x.slug) - orderOf(y.slug)));
+      const seen = new Set(), out = [];
+      const walk = (root, line) => {
+        const stack = [{ slug: root, parent: null, entry: null, depth: 0 }];
+        while (stack.length) {
+          const n = stack.pop();
+          if (seen.has(n.slug)) continue;
+          seen.add(n.slug);
+          const prev = out[out.length - 1];
+          out.push({ slug: n.slug, work: bySlug.get(n.slug).work, parent: n.parent, entry: n.entry, depth: n.depth,
+                     line, branch: !!(n.parent && prev && prev.slug !== n.parent) });
+          const kids = adj.get(n.slug).filter((k) => !seen.has(k.slug));
+          for (let i = kids.length - 1; i >= 0; i--) stack.push({ slug: kids[i].slug, parent: n.slug, entry: kids[i].entry, depth: n.depth + 1 });
+        }
+      };
+      if (!bySlug.has(startSlug)) return out;
+      let line = 0;
+      walk(startSlug, line);
+      const start = orderOf(startSlug);
+      for (let k = 1; k <= all.length; k++) {
+        const h = all[(start + k) % all.length];
+        if (!seen.has(h.slug)) walk(h.slug, ++line);
+      }
+      return out;
     },
 
     /* ---------- 共感・コメント ---------- */

@@ -207,6 +207,10 @@
         return show({ key: 'w:' + arg + ':' + (e ? e.id : ''), kind: e ? 'route' : 'page', entry: e, step },
           R.workPage(hit, e), motion, hit.work.title);
       }
+    } else if (name === 'f' && arg){
+      const items = S.feed(arg);
+      if (items.length) return show({ key: 'f:' + arg, kind: 'page', feed: items },
+        R.feedPage(items, FEED_BATCH), motion, `${R.tagText(items[0].work)}から辿る`);
     } else if (name === 'search'){
       const s = q.get('q') || '';
       return show({ key: 's:' + s, kind: 'page' }, R.search(s, S.search(s)), motion, s ? `「${s}」を辿る` : '言葉で辿る');
@@ -348,8 +352,11 @@
     ld.textContent = page.kind === 'route' && page.entry && page.step === 1
       ? JSON.stringify(R.jsonLd(page.entry, location.href)) : listLd();
 
+    if (page.feed) mountFeed(page.feed);
+    else if (feedIO){ feedIO.disconnect(); feedIO = null; }
     body.classList.add('viewing');
     body.classList.toggle('route', page.kind === 'route');
+    $('uniLabel').textContent = 'UniverseIt!';   /* ページの上では、UniverseIt! へ戻る印 */
     if (page.kind === 'route') setDock(page.entry, page.step);
     else setDock(null);
 
@@ -384,6 +391,7 @@
     /* 前のページはここで片づける。残しておくと、運ぶ先の絵として
        自分自身と組になり、絵がその場から動かない */
     viewIn.innerHTML = '';
+    if (feedIO){ feedIO.disconnect(); feedIO = null; }
     here = null;
     document.title = brand;
     ld.textContent = listLd();
@@ -391,8 +399,27 @@
     view.classList.remove('on', 'enter');
     body.classList.remove('viewing', 'route');
     setDock(null);
+    paintSelection();
     if (moving && before.length) fly(before, motion || { toCenter: true });
     setTimeout(() => { view.classList.remove('instant'); }, DUR + 140);
+  }
+
+  /* ---------- つながりの路線（フィード） ----------
+     100 近い駅を一度に描かず、終わりに近づいたら続きを足す */
+  const FEED_BATCH = 12;
+  let feedIO = null;
+  function mountFeed(items){
+    if (feedIO) feedIO.disconnect();
+    let shown = FEED_BATCH;
+    const more = viewIn.querySelector('#railMore'), rail = viewIn.querySelector('#rail');
+    if (!more || !rail || shown >= items.length) return;
+    feedIO = new IntersectionObserver((ents) => {
+      if (!ents.some(e => e.isIntersecting)) return;
+      rail.insertAdjacentHTML('beforeend', R.feedStops(items, shown, shown + FEED_BATCH));
+      shown += FEED_BATCH;
+      if (shown >= items.length){ feedIO.disconnect(); feedIO = null; }
+    }, { root: view, rootMargin: '0px 0px 900px 0px' });
+    feedIO.observe(more);
   }
 
   /* ---------- 下の帯 ---------- */
@@ -441,16 +468,49 @@
   uniBtn.addEventListener('click', () => {
     if (view.classList.contains('on')){ toNetwork(); return; }
     if (stage === 'intro'){ toUni(true); return; }
-    /* UniverseIt! の画面では、いちばん新しい区間の最初の駅から辿り始める */
-    const first = S.visible()[0];
-    if (!first){ toast('まだ公開されたコンテクストがありません'); return; }
-    go(stepHash(first, 0), { origin: rectOf(uniBtn) });
+    /* 言葉を選んでいればその作品から、選んでいなければ一覧の中から偶然の一つを選び、
+       つながりの路線（フィード）として開く */
+    let start = sel;
+    if (!start){
+      const all = S.works();
+      if (!all.length){ toast('まだ公開されたコンテクストがありません'); return; }
+      start = all[Math.floor(Math.random() * all.length)].slug;
+    }
+    const from = (sel && tags.querySelector(`.tag[data-work="${CSS.escape(sel)}"]`)) || uniBtn;
+    go('#/f/' + encodeURIComponent(start), { origin: rectOf(from) });
   });
 
+  /* 言葉に触れても、すぐには開かない。その言葉と、区間でつながる言葉を光らせる。
+     光っている言葉の中から選び直すこともできる。開くのは「つながりを辿る」。
+     選んでいる言葉にもう一度触れると、選ぶのをやめる。 */
+  let sel = null, lit = new Set();
+  function paintSelection(){
+    body.classList.toggle('has-sel', !!sel);
+    tags.querySelectorAll('.tag').forEach(el => {
+      const k = el.dataset.work;
+      el.classList.toggle('lit', lit.has(k));
+      el.classList.toggle('sel', k === sel);
+      el.setAttribute('aria-pressed', String(k === sel));
+    });
+    const hint = $('selHint'), label = $('uniLabel');
+    if (!sel){ hint.textContent = ''; label.textContent = 'UniverseIt!'; return; }
+    const w = S.works().find(h => h.slug === sel);
+    const name = w ? R.tagText(w.work) : '';
+    label.textContent = name + ' へ';
+    hint.textContent = `${name}とつながる ${lit.size - 1} 作品が光っています`;
+  }
+  function select(slug, keepGroup){
+    if (!slug || (slug === sel && !keepGroup)){ sel = null; lit = new Set(); paintSelection(); return; }
+    sel = slug;
+    if (!keepGroup) lit = new Set([slug, ...S.neighbors(slug).map(n => n.slug)]);
+    paintSelection();
+  }
   tags.addEventListener('click', ev => {
     const t = ev.target.closest('.tag');
-    if (!t) return;
-    go('#/w/' + encodeURIComponent(t.dataset.work), { origin: rectOf(t) });
+    if (!t){ if (sel) select(null); return; }
+    const k = t.dataset.work;
+    if (k === sel) select(null);
+    else select(k, lit.has(k));
   });
 
   document.addEventListener('click', ev => {
@@ -487,6 +547,7 @@
   document.addEventListener('keydown', ev => {
     const tgt = ev.target;
     if (ev.key === 'Escape' && !menu.hidden){ openMenu(false); return; }
+    if (ev.key === 'Escape' && sel && !view.classList.contains('on')){ select(null); return; }
     if (!view.classList.contains('on') || (tgt && tgt.closest && tgt.closest('input,textarea'))) return;
     if (ev.key === 'Escape'){ ev.preventDefault(); closeView(); }
     else if (ev.key === 'ArrowRight' && here && here.entry){ ev.preventDefault(); goStep(here.step + 1); }
@@ -517,7 +578,7 @@
   };
 
   /* エディターや管理画面で書き換えられたら、組み直す */
-  const rebuild = () => { R.buildTags(tags); };
+  const rebuild = () => { R.buildTags(tags); paintSelection(); };
   window.addEventListener('storage', ev => { if (ev.key === S.KEY) rebuild(); });
   window.addEventListener('pageshow', ev => { if (ev.persisted) rebuild(); });
 
@@ -536,7 +597,7 @@
   /* 運営者メニューのプレビューから段階を指定できるように */
   window.BCApp = {
     toUni: () => toUni(false),
-    openFirst: () => { toUni(false); const t = tags.querySelector('.tag'); if (t) t.click(); }
+    openFirst: () => { toUni(false); const t = tags.querySelector('.tag'); if (t) go('#/w/' + encodeURIComponent(t.dataset.work), null); }
   };
 
   /* ---------- 起動 ---------- */

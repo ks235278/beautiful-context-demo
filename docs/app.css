@@ -108,6 +108,21 @@ body.stage-uni .uni{opacity:1;visibility:visible;transition:opacity .6s ease .1s
 .tag:hover .t,.tag:focus-visible .t,.tag:active .t{text-decoration-color:currentColor}
 .tag:focus-visible{outline:none}
 .uv-none{color:var(--uni-dim);font-size:13px;line-height:2}
+/* 言葉を選ぶと、その言葉と、区間でつながる言葉だけが光り、ほかは退く */
+.tag{transition:opacity .35s ease,color .35s ease,text-shadow .35s ease}
+body.has-sel .tag{opacity:.26}
+body.has-sel .tag.lit{opacity:1;text-shadow:0 0 14px rgba(255,196,120,.55),0 1px 10px rgba(0,0,0,.5);animation:glow .9s ease-out}
+body.has-sel .tag.lit .h{color:var(--accent)}
+body.has-sel .tag.sel{color:#ffd29a}
+body.has-sel .tag.sel .t{text-decoration-color:var(--accent)}
+html[data-theme="white"] body.has-sel .tag.lit{text-shadow:0 0 12px rgba(238,130,50,.35)}
+html[data-theme="white"] body.has-sel .tag.sel{color:#b4530f}
+@keyframes glow{0%{text-shadow:0 0 0 rgba(255,196,120,0)}40%{text-shadow:0 0 22px rgba(255,196,120,.9)}}
+.sel-hint{margin:0 2px 6px;min-height:0;color:#ffd29a;text-align:center;font:12px/1.5 var(--gothic);letter-spacing:.04em;
+  text-shadow:0 1px 8px rgba(0,0,0,.6)}
+.sel-hint:empty{display:none}
+html[data-theme="white"] .sel-hint{color:#b4530f;text-shadow:none}
+body.viewing .sel-hint{display:none}
 /* 表紙から移ったとき、見出しと言葉が順に浮かび上がる */
 body.uni-enter .uni-head{animation:rise .7s cubic-bezier(.2,.7,.2,1) .15s both}
 body.uni-enter .tag{animation:rise .6s cubic-bezier(.2,.7,.2,1) both;animation-delay:calc(.3s + var(--i,0) * 30ms)}
@@ -253,6 +268,41 @@ body.viewing .uni{pointer-events:none}
 .ad-copy{position:absolute;left:0;right:0;bottom:0;z-index:2;padding:14px 16px 16px;text-align:center}
 .ad-copy b{display:block;font:500 16px/1.5 var(--mincho);color:#fff}
 .ad-copy small{display:block;margin-top:4px;color:#d9d3c7;font-size:10.5px;letter-spacing:.06em}
+
+/* つながりの路線（フィード）。左に一本の路線、作品は駅、そのあいだに区間 */
+.rail{list-style:none;margin:22px 0 0;padding:0 0 0 26px;position:relative}
+.rail::before{content:"";position:absolute;left:7px;top:10px;bottom:0;width:3px;border-radius:3px;background:var(--gold);opacity:.85}
+.stop{position:relative;margin:0 0 6px}
+.stop .fstop{position:relative;display:grid;grid-template-columns:92px 1fr;gap:14px;align-items:start;padding:10px 0 14px;
+  color:var(--ink);text-decoration:none}
+.stop .fstop::before{content:"";position:absolute;left:-26px;top:22px;width:10px;height:10px;border:3px solid var(--gold);
+  border-radius:50%;background:#fff;box-sizing:content-box;transform:translateX(0)}
+.st-img{position:relative;display:block;aspect-ratio:2/3;overflow:hidden;background:#101010;box-shadow:0 10px 22px -12px rgba(0,0,0,.55)}
+.st-img img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 45%}
+.st-img .ph{position:absolute;inset:0;display:grid;place-items:center;color:var(--gold);font:28px/1 var(--mincho)}
+.st-txt{display:grid;gap:3px;min-width:0}
+.st-txt small{color:var(--gold);font:700 10px/1.4 var(--gothic);letter-spacing:.1em}
+.st-txt b{font:700 16px/1.45 var(--mincho)}
+.st-txt span{color:#3b3a37;font:13px/1.75 var(--mincho);display:-webkit-box;-webkit-line-clamp:4;-webkit-box-orient:vertical;overflow:hidden}
+.stop.first .fstop{grid-template-columns:1fr;gap:12px}
+.stop.first .st-img{width:min(64%,300px)}
+.stop.first .st-txt b{font-size:20px}
+.stop.first .st-txt span{-webkit-line-clamp:6}
+.seg{display:block;margin:2px 0 0;padding:10px 12px;border-left:3px solid transparent;background:#fff9;border-radius:0 8px 8px 0;
+  color:var(--ink);text-decoration:none;box-shadow:0 1px 0 rgba(0,0,0,.04)}
+.seg small{display:block;color:var(--gold);font:700 10px/1.5 var(--gothic);letter-spacing:.06em}
+.seg b{display:block;margin-top:2px;font:600 14px/1.6 var(--mincho)}
+.seg-from{display:inline-block;margin-bottom:4px;padding:1px 8px;border:1px solid var(--gold);border-radius:10px;color:var(--gold);
+  font:700 10px/1.5 var(--gothic);letter-spacing:.04em}
+.stop.branch .seg{position:relative}
+.stop.branch .seg::before{content:"";position:absolute;left:-22px;top:16px;width:15px;height:3px;background:var(--gold)}
+.transfer{position:relative;margin:18px 0 10px;text-align:center}
+.transfer span{position:relative;z-index:1;padding:3px 12px;border:1px solid #bbb;border-radius:12px;background:var(--paper);color:var(--muted);
+  font:700 10.5px/1.5 var(--gothic);letter-spacing:.1em}
+.rail-more{height:1px}
+@media (hover:hover) and (pointer:fine){
+  .stop .fstop:hover b,.seg:hover b{text-decoration:underline;text-underline-offset:3px}
+}
 
 /* 検索・読み物 */
 .text-page .content{min-height:100%;padding-top:calc(env(safe-area-inset-top) + 64px)}
