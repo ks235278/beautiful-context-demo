@@ -247,9 +247,12 @@ body.viewing .uni{display:none}
 .duo-go:active .art{opacity:.85}
 /* 二枚の絵は指に付いてくる帯。縦はスクロール、横は指で運ぶ */
 .cpage .duo-hero{overflow:hidden}
-.cpage .duo{touch-action:pan-y;will-change:transform}
+.cpage .duo,.wpage .hero .art{touch-action:pan-y;will-change:transform}
+.wpage .hero{overflow:hidden}
+/* 絵を持ち上げているあいだ、後ろに UniverseIt! を透かす（閉じる前と同じ位置に留めて置く） */
+body.viewing.peek .uni{display:block;position:fixed;left:0;right:0;z-index:1;pointer-events:none}
+body.viewing.peek #bg{visibility:visible}
 .duo img{-webkit-user-drag:none;user-select:none;-webkit-user-select:none;-webkit-touch-callout:none}
-.duo.dragging .duo-go:active .art{opacity:1}
 .swap{position:absolute;z-index:8;left:50%;top:50%;transform:translate(-50%,-50%);display:grid;place-items:center;
   width:30px;height:30px;border-radius:50%;background:#fff;color:#111;font:700 14px/1 var(--gothic);font-style:normal;
   box-shadow:0 3px 12px #0008}
