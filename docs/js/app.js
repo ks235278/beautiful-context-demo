@@ -205,7 +205,7 @@
         const e = want && (want.a.slug === arg || want.b.slug === arg) ? want
           : (hit.contexts[0] && hit.contexts[0].entry) || null;
         const step = e && e.b.slug === arg ? 2 : 0;
-        return show({ key: 'w:' + arg + ':' + (e ? e.id : ''), kind: e ? 'route' : 'page', entry: e, step, work: true },
+        return show({ key: 'w:' + arg + ':' + (e ? e.id : ''), kind: e ? 'route' : 'page', entry: e, step, work: true, slug: arg },
           R.workPage(hit, e), motion, hit.work.title);
       }
     } else if (name === 'f' && arg){
@@ -365,6 +365,8 @@
   /* ---------- ページを置く ---------- */
   let uniScroll = 0;   /* ページを開く前の UniverseIt! のスクロール位置 */
   let lifted = null;   /* 持ち上げて離した絵：その位置から運ぶ（下の「絵を指でつかむ」） */
+  let armStrips = () => {};   /* ページを置いたとき、絵に指の仕掛けを付ける（下で定める） */
+  const readCtx = new Set();  /* このセッションで読んだコンテクスト */
   const memo = new Map();   /* ページごとのスクロール位置 */
   let backNav = false;      /* 戻る向きの移動か */
   let dry = null;           /* 描かずに組み立てるときの受け皿 */
@@ -429,8 +431,10 @@
     dropUnderlay();
     body.classList.toggle('route', page.kind === 'route');
     body.classList.toggle('on-work', !!page.work);
-    /* ページの上では、つながりを辿る＝次の路線へ進む印 */
-    $('uniLabel').textContent = '次の路線へ';
+    if (page.kind === 'route' && page.step === 1 && page.entry) readCtx.add(page.entry.id);
+    /* ページの上では、つながりを辿るの行き先を示す（コンテクストへ／次の区間へ／次の路線へ） */
+    $('uniLabel').textContent = nextPlan().label;
+    armStrips();
     if (page.kind === 'route') setDock(page.entry, page.step);
     else setDock(null);
 
@@ -577,6 +581,57 @@
   /* つながりを辿るの飛び先（前田先生のルール）：
      画面に見えている作品とも、それと区間でつながっている作品とも、つながっていない作品から
      次の路線を始める。最近の出発点も避ける。該当がなければ条件をゆるめる */
+  /* ---------- つながりを辿るの行き先（前田先生のルール） ----------
+     コンテクスト詳細 ＞ 他の区間 ＞ ランダム。スクロールして探して押す手間を、ボタン一つにする。
+     ・作品ページ：その作品を含む、まだ読んでいないコンテクストへ
+     ・コンテクストページ：B から（なければ A から）延びる、まだ読んでいない他の区間へ
+     ・路線：画面に見えている区間のうち、まだ読んでいないものへ
+     ・近くに読んでいないものがなければ、一駅先の作品の区間へ。それもなければ
+       見えている作品とつながっていない作品から、偶然に次の路線へ（ランダムに迷い込まない） */
+  const byOrderOf = (a, b) => (+a.work.order || 9999) - (+b.work.order || 9999);
+  const unreadFrom = (slug) => S.neighbors(slug).sort(byOrderOf).map(n => n.entry).find(e => !readCtx.has(e.id));
+  function nextOver(slugs){
+    for (const s of slugs){
+      for (const n of S.neighbors(s).sort(byOrderOf)){
+        const e = unreadFrom(n.slug);
+        if (e) return e;
+      }
+    }
+    return null;
+  }
+  function nextPlan(){
+    const toCtx = (e, label) => ({ label, run: () => {
+      if (here && here.entry && here.entry.id === e.id) goStep(1, null);   /* 同じ区間なら、帯の上を進む */
+      else go('#/c/' + encodeURIComponent(e.context.slug), { dir: 1 });
+    }});
+    if (here && here.work && here.slug){
+      const e = unreadFrom(here.slug);
+      if (e) return toCtx(e, 'コンテクストへ');
+      const e2 = nextOver([here.slug]);
+      if (e2) return toCtx(e2, '次の区間へ');
+    } else if (here && here.entry && here.step === 1){
+      const e = unreadFrom(here.entry.b.slug) || unreadFrom(here.entry.a.slug);
+      if (e) return toCtx(e, '次の区間へ');
+      const e2 = nextOver([here.entry.b.slug, here.entry.a.slug]);
+      if (e2) return toCtx(e2, '次の区間へ');
+    } else if (here && here.feed){
+      const bottom = document.getElementById('dock').getBoundingClientRect().top;
+      for (const a of viewIn.querySelectorAll('.seg')){
+        const r = a.getBoundingClientRect();
+        if (r.bottom < 0 || r.top > bottom) continue;
+        const e = S.byContextSlug(decodeURIComponent((a.getAttribute('href') || '').replace('#/c/', '')));
+        if (e && !readCtx.has(e.id)) return toCtx(e, 'コンテクストへ');
+      }
+    }
+    return { label: '次の路線へ', run: nextFeed };
+  }
+  /* 路線をスクロールすると見えている区間が変わるので、行き先の表示も合わせる */
+  let labelTick = 0;
+  window.addEventListener('scroll', () => {
+    if (!here || !here.feed || labelTick) return;
+    labelTick = requestAnimationFrame(() => { labelTick = 0; if (here && here.feed) $('uniLabel').textContent = nextPlan().label; });
+  }, { passive: true });
+
   function nextFeed(){
     const all = S.works();
     if (!all.length) return;
@@ -592,10 +647,7 @@
   }
 
   uniBtn.addEventListener('click', () => {
-    if (view.classList.contains('on')){
-      /* どのページの上でも、偶然の別の作品から次の路線へ。UniverseIt! へは ‹ で戻る */
-      nextFeed(); return;
-    }
+    if (view.classList.contains('on')){ nextPlan().run(); return; }   /* UniverseIt! へは ‹ で戻る */
     if (stage === 'intro'){ toUni(true); return; }
     /* 言葉を選んでいればその作品から、選んでいなければ一覧の中から偶然の一つを選び、
        つながりの路線（フィード）として開く */
@@ -723,12 +775,21 @@
 
     /* 指の動きは、絵に触れたときだけ、その絵の上で読む。ページ全体に張ると、
        スクロールのたびに端末が script を待つことになり、スクロールが重くなる */
-    view.addEventListener('touchstart', e => {
+    /* 指の仕掛けは、ページを置いたときに絵そのものへ付ける。触れてから付けると、
+       iPhone はすでにスクロールと決めていて、下へ持ち上げられないことがある */
+    armStrips = () => {
+      viewIn.querySelectorAll('.cpage .duo, .wpage .hero .art').forEach(el => {
+        el.addEventListener('touchstart', onStart, { passive: true });
+        el.addEventListener('touchmove', onMove, { passive: false });
+        el.addEventListener('touchend', onEnd, { passive: true });
+        el.addEventListener('touchcancel', onCancel, { passive: true });
+      });
+    };
+    function onStart(e){
       if (g) finish(true);
-      if (e.touches.length !== 1 || !here || !here.entry) return;
+      if (e.touches.length !== 1 || !here) return;
       const t = e.touches[0];
-      const strip = t.target.closest && (t.target.closest('.cpage .duo') || t.target.closest('.wpage .hero .art'));
-      if (!strip) return;
+      const strip = e.currentTarget;
       clearTimeout(heldTimer); held = true; dragged = false;
       /* ばねで戻る途中をつかみ直したら、その位置から続ける */
       const cur = new DOMMatrixReadOnly(getComputedStyle(strip).transform).m41;
@@ -736,14 +797,11 @@
       setX(strip, cur);
       const art = t.target.closest('.art');
       g = { mode: null, strip, img: art && art.querySelector('img[data-k]'), x0: t.clientX - cur, y0: t.clientY, x: cur,
-            t0: e.timeStamp, top: window.scrollY <= 1, s: [[e.timeStamp, t.clientX, t.clientY]] };
-      strip.addEventListener('touchmove', onMove, { passive: false });
-      strip.addEventListener('touchend', onEnd, { passive: true });
-      strip.addEventListener('touchcancel', onCancel, { passive: true });
-    }, { passive: true });
+            t0: e.timeStamp, top: window.scrollY <= 4, s: [[e.timeStamp, t.clientX, t.clientY]] };
+    }
 
     function onMove(e){
-      if (!g) return;
+      if (!g || g.strip !== e.currentTarget) return;
       const t = e.touches[0];
       const dx = t.clientX - g.x0, dy = t.clientY - g.y0;
       g.s.push([e.timeStamp, t.clientX, t.clientY]); if (g.s.length > 5) g.s.shift();
@@ -754,7 +812,7 @@
         const couldScroll = dy < 0 || !g.top;
         if (mx < 6 && my < 6){ if (!couldScroll || long) e.preventDefault(); return; }
         if (long){ g.mode = 'lift'; startLift(t); }
-        else if (mx > my) g.mode = 'strip';
+        else if (mx > my * 1.4) g.mode = 'strip';
         else if (dy > 0 && g.top && g.img && motionOK()){ g.mode = 'lift'; startLift(t); }
         else { finish(true, true); return; }            /* スクロールに任せる */
         dragged = true;
@@ -792,9 +850,6 @@
     function finish(cancelled, toScroll){
       if (!g) return;
       const G = g; g = null;
-      G.strip.removeEventListener('touchmove', onMove, { passive: false });
-      G.strip.removeEventListener('touchend', onEnd, { passive: true });
-      G.strip.removeEventListener('touchcancel', onCancel, { passive: true });
       heldTimer = setTimeout(() => { held = false; dragged = false; }, toScroll ? 0 : 450);
       if (!G.mode) return;                      /* 触れて離しただけ：絵のボタンがそのまま働く */
       if (G.mode === 'strip'){
