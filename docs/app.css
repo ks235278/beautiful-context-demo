@@ -183,8 +183,12 @@ body.viewing .dock-brand{margin:0 0 6px;padding-top:2px;border-top:0;color:#8d89
 
 /* ---------- 重ねて開くページ（demo-1） ---------- */
 body.viewing .uni{pointer-events:none}
-.view{position:fixed;inset:0;z-index:35;overflow-y:auto;overscroll-behavior:contain;background:var(--paper);color:var(--ink);
+.view{position:fixed;inset:0;z-index:35;overflow-y:auto;overscroll-behavior:none;background:var(--paper);color:var(--ink);
   opacity:0;visibility:hidden;transition:opacity .32s ease,visibility 0s linear .32s}
+/* 引っ張りすぎても地が見えないように：跳ねを止め、それでも出る隙間は、上はページの上端（絵の黒）、
+   下はページの下端（紙）と同じ色にしておく */
+.view:has(.wpage,.cpage){background:linear-gradient(#080808 0 50%,var(--paper) 50% 100%)}
+.menu{overscroll-behavior:none}
 .view.on{opacity:1;visibility:visible;transition:opacity .34s ease}
 .view.instant{transition:none}
 .view-in{position:relative;width:100%;max-width:var(--col);min-height:100%;margin:0 auto;background:var(--paper);
