@@ -386,8 +386,8 @@
     body.classList.add('viewing');
     body.classList.toggle('route', page.kind === 'route');
     body.classList.toggle('on-work', !!page.work);
-    /* ページの上では UniverseIt! へ戻る印。路線の上では、次の路線へ進む印 */
-    $('uniLabel').textContent = page.feed ? '次の路線へ' : 'UniverseIt!';
+    /* ページの上では、つながりを辿る＝次の路線へ進む印 */
+    $('uniLabel').textContent = '次の路線へ';
     if (page.kind === 'route') setDock(page.entry, page.step);
     else setDock(null);
 
@@ -504,8 +504,10 @@
   function nextFeed(){
     const all = S.works();
     if (!all.length) return;
-    const cur = here && here.feed && here.feed[0] ? here.feed[0].slug : null;
-    if (cur && !recentStarts.includes(cur)) recentStarts.push(cur);
+    /* いま見ている作品（路線の出発点、または作品・コンテクストの A と B）からは出発しない */
+    const cur = here && here.feed && here.feed[0] ? [here.feed[0].slug]
+      : here && here.entry ? [here.entry.a.slug, here.entry.b.slug] : [];
+    cur.forEach(k => { if (!recentStarts.includes(k)) recentStarts.push(k); });
     while (recentStarts.length > Math.min(20, all.length - 1)) recentStarts.shift();
     const pool = all.filter(w => !recentStarts.includes(w.slug));
     const pick = (pool.length ? pool : all)[Math.floor(Math.random() * (pool.length || all.length))];
@@ -515,8 +517,8 @@
 
   uniBtn.addEventListener('click', () => {
     if (view.classList.contains('on')){
-      if (here && here.feed){ nextFeed(); return; }
-      toNetwork(); return;
+      /* どのページの上でも、偶然の別の作品から次の路線へ。UniverseIt! へは ‹ で戻る */
+      nextFeed(); return;
     }
     if (stage === 'intro'){ toUni(true); return; }
     /* 言葉を選んでいればその作品から、選んでいなければ一覧の中から偶然の一つを選び、
@@ -574,7 +576,8 @@
   document.addEventListener('click', ev => {
     const t = ev.target;
     if (!menu.hidden && menu.classList.contains('open') && !t.closest('#menu,#menuBtn')){ openMenu(false); return; }
-    if (t.closest('[data-close]')){ ev.preventDefault(); closeView(); return; }
+    /* 路線の ‹ は、何本辿ってきても一度で UniverseIt! へ */
+    if (t.closest('[data-close]')){ ev.preventDefault(); if (here && here.feed) toNetwork(); else closeView(); return; }
     const home = t.closest('[data-home]');
     if (home){ ev.preventDefault(); toNetwork(); return; }
 
