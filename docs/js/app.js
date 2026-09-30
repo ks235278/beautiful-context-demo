@@ -501,16 +501,30 @@
   /* 路線（フィード）の上で「つながりを辿る」：偶然の別の作品から、次の路線へ。
      履歴は置き換えるので、‹ で一度に UniverseIt! へ戻れる。最近の出発点は避ける */
   const recentStarts = [];
+  /* いま画面に見えている作品（下の帯の裏は除く） */
+  function visibleWorks(){
+    const bottom = document.getElementById('dock').getBoundingClientRect().top;
+    const seen = new Set();
+    viewIn.querySelectorAll('img[data-k]').forEach(im => {
+      const r = im.getBoundingClientRect();
+      if (r.bottom > 0 && r.top < bottom && r.width > 4) seen.add(im.dataset.k);
+    });
+    if (here && here.entry && !seen.size){ seen.add(here.entry.a.slug); seen.add(here.entry.b.slug); }
+    return seen;
+  }
+  /* つながりを辿るの飛び先（前田先生のルール）：
+     画面に見えている作品とも、それと区間でつながっている作品とも、つながっていない作品から
+     次の路線を始める。最近の出発点も避ける。該当がなければ条件をゆるめる */
   function nextFeed(){
     const all = S.works();
     if (!all.length) return;
-    /* いま見ている作品（路線の出発点、または作品・コンテクストの A と B）からは出発しない */
-    const cur = here && here.feed && here.feed[0] ? [here.feed[0].slug]
-      : here && here.entry ? [here.entry.a.slug, here.entry.b.slug] : [];
-    cur.forEach(k => { if (!recentStarts.includes(k)) recentStarts.push(k); });
+    const near = new Set();
+    visibleWorks().forEach(k => { near.add(k); S.neighbors(k).forEach(n => near.add(n.slug)); });
     while (recentStarts.length > Math.min(20, all.length - 1)) recentStarts.shift();
-    const pool = all.filter(w => !recentStarts.includes(w.slug));
-    const pick = (pool.length ? pool : all)[Math.floor(Math.random() * (pool.length || all.length))];
+    const choose = (list) => list[Math.floor(Math.random() * list.length)];
+    const far = all.filter(w => !near.has(w.slug));
+    const fresh = far.filter(w => !recentStarts.includes(w.slug));
+    const pick = choose(fresh.length ? fresh : far.length ? far : all);
     recentStarts.push(pick.slug);
     go('#/f/' + encodeURIComponent(pick.slug), { dir: 1 }, true);
   }
