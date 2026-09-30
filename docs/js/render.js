@@ -174,7 +174,6 @@
           <h2>${esc(w.title)}</h2>
           ${w.creator ? `<p class="by">${esc(w.creator)}</p>` : ''}
           ${w.summary ? `<p>${esc(w.summary)}</p>` : ''}
-          <p>このページには作品固有の解説だけを掲載します。他作品との関係は、独立したコンテクストページで読みます。</p>
           ${e ? tease(null, `${other.title}とのコンテクストを見る`, 1) : ''}
           ${more ? `<p class="meta more-label">この駅から延びるほかの区間　${others.length}本</p>${more}` : ''}
           ${credit(w)}
@@ -212,7 +211,9 @@
     const c = e.context;
     const t = readLabel(c.body);
     const ai = safeUrl(c.aiUrl);
-    const rel = S.related(e);
+    /* 同じルーツは三本まで。「続けて辿る」に出す区間とは重ねない */
+    const nextId = (S.neighbors(e.b.slug).find(n => n.entry.id !== e.id) || {}).entry;
+    const rel = S.related(e).filter(x => !nextId || x.id !== nextId.id).slice(0, 3);
     const state = !S.isVisible(e)
       ? `<p class="back-state">${e.status === 'private' ? '非公開' : '一時非表示'}のコンテクストです。読者には表示されていません。</p>` : '';
     /* 本文の最初の太字の一文は、demo-1 の「同じ物語が、別の社会を走る。」の位置に */
@@ -276,7 +277,6 @@
         <div class="content">
           <p class="meta">つながりの路線</p>
           <h2>${esc(tagText(first.work))}から辿る</h2>
-          <p class="by">区間でつながる作品を、枝分かれの順に辿ります。駅に触れると作品ページ、区間に触れるとコンテクストページが開きます。</p>
           <ol class="rail" id="rail">${feedStops(items, 0, batch)}</ol>
           <div class="rail-more" id="railMore" aria-hidden="true"></div>
         </div>
