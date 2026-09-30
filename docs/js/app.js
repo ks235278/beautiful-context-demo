@@ -357,7 +357,8 @@
     body.classList.add('viewing');
     body.classList.toggle('route', page.kind === 'route');
     body.classList.toggle('on-work', !!page.work);
-    $('uniLabel').textContent = 'UniverseIt!';   /* ページの上では、UniverseIt! へ戻る印 */
+    /* ページの上では UniverseIt! へ戻る印。路線の上では、次の路線へ進む印 */
+    $('uniLabel').textContent = page.feed ? '次の路線へ' : 'UniverseIt!';
     if (page.kind === 'route') setDock(page.entry, page.step);
     else setDock(null);
 
@@ -466,8 +467,26 @@
   /* ---------- 触れたもの ---------- */
   const rectOf = (el) => centerOf(el.getBoundingClientRect());
 
+  /* 路線（フィード）の上で「つながりを辿る」：偶然の別の作品から、次の路線へ。
+     履歴は置き換えるので、‹ で一度に UniverseIt! へ戻れる。最近の出発点は避ける */
+  const recentStarts = [];
+  function nextFeed(){
+    const all = S.works();
+    if (!all.length) return;
+    const cur = here && here.feed && here.feed[0] ? here.feed[0].slug : null;
+    if (cur && !recentStarts.includes(cur)) recentStarts.push(cur);
+    while (recentStarts.length > Math.min(20, all.length - 1)) recentStarts.shift();
+    const pool = all.filter(w => !recentStarts.includes(w.slug));
+    const pick = (pool.length ? pool : all)[Math.floor(Math.random() * (pool.length || all.length))];
+    recentStarts.push(pick.slug);
+    go('#/f/' + encodeURIComponent(pick.slug), { dir: 1 }, true);
+  }
+
   uniBtn.addEventListener('click', () => {
-    if (view.classList.contains('on')){ toNetwork(); return; }
+    if (view.classList.contains('on')){
+      if (here && here.feed){ nextFeed(); return; }
+      toNetwork(); return;
+    }
     if (stage === 'intro'){ toUni(true); return; }
     /* 言葉を選んでいればその作品から、選んでいなければ一覧の中から偶然の一つを選び、
        つながりの路線（フィード）として開く */
