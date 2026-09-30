@@ -35,8 +35,9 @@ html[data-theme="white"]{
    以前の版はページ全体がスクロールする作りで、回路が画面の下端まで届いていた。
    同じく、ページ全体をスクロールさせる（UniverseIt! の言葉の一覧がそのまま流れる）。 */
 body{margin:0;background:var(--ground);color:var(--uni-ink);font-family:"Lato",var(--gothic)}
-/* ページを開いているときは、後ろを動かさない。帯が出ても下の紙の帯と同じ色 */
-body.viewing{overflow:hidden;background:#fbfaf6}
+/* ページを開いているときも、スクロールするのは文書そのもの（一本のスクロール）。
+   跳ねは html の overscroll-behavior: none で、どの画面でも同じように止まる */
+body.viewing{background:var(--paper)}
 button{font:inherit;color:inherit}
 a{color:inherit}
 
@@ -181,17 +182,16 @@ body.viewing .dock-brand{margin:0 0 6px;padding-top:2px;border-top:0;color:#8d89
 .section-label{position:absolute;z-index:5;left:50%;top:22px;transform:translateX(-50%);padding:2px 6px;border:1px solid #111;
   border-radius:3px;background:#fff;color:#111;font:700 8px/1.4 var(--gothic);white-space:nowrap;pointer-events:none}
 
-/* ---------- 重ねて開くページ（demo-1） ---------- */
-body.viewing .uni{pointer-events:none}
-.view{position:fixed;inset:0;z-index:35;overflow-y:auto;overscroll-behavior:none;background:var(--paper);color:var(--ink);
-  opacity:0;visibility:hidden;transition:opacity .32s ease,visibility 0s linear .32s}
-/* 引っ張りすぎても地が見えないように：跳ねを止め、それでも出る隙間は、上はページの上端（絵の黒）、
-   下はページの下端（紙）と同じ色にしておく */
-.view:has(.wpage,.cpage){background:linear-gradient(#080808 0 50%,var(--paper) 50% 100%)}
+/* ---------- ページ（demo-1） ----------
+   ページは UniverseIt! の上に重ねる別の枠ではなく、文書の中に置く。開いているあいだ UniverseIt! は
+   しまっておき（スクロールの位置は覚えておく）、閉じたら元の位置に戻す */
+body.viewing .uni{display:none}
+.view{display:none;position:relative;z-index:35;min-height:100vh;background:var(--paper);color:var(--ink)}
+.view.on{display:block}
+.view:not(.instant).on{animation:viewIn .34s ease both}
+@keyframes viewIn{from{opacity:0}}
 .menu{overscroll-behavior:none}
-.view.on{opacity:1;visibility:visible;transition:opacity .34s ease}
-.view.instant{transition:none}
-.view-in{position:relative;width:100%;max-width:var(--col);min-height:100%;margin:0 auto;background:var(--paper);
+.view-in{position:relative;width:100%;max-width:var(--col);min-height:100vh;margin:0 auto;background:var(--paper);
   padding-bottom:calc(var(--dockh) + env(safe-area-inset-bottom))}
 .view.enter .content,.view.enter .context-lead{animation:rise .56s cubic-bezier(.2,.7,.2,1) .14s both}
 @keyframes fromR{from{opacity:0;transform:translateX(48px)}}

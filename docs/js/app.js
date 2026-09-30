@@ -257,7 +257,7 @@
     inner.removeAttribute('id');
     inner.querySelectorAll('[id]').forEach(n => n.removeAttribute('id'));
     inner.querySelectorAll('img[data-k]').forEach(n => { n.style.visibility = 'hidden'; });
-    inner.style.transform = `translateY(${-view.scrollTop}px)`;
+    inner.style.transform = `translateY(${-window.scrollY}px)`;
     g.appendChild(inner);
     document.body.appendChild(g);
     const a = g.animate([
@@ -359,6 +359,7 @@
   }
 
   /* ---------- ページを置く ---------- */
+  let uniScroll = 0;   /* ページを開く前の UniverseIt! のスクロール位置 */
   function show(page, html, motion, title){
     if (here && here.key === page.key && view.classList.contains('on')) return;
     settleAll();
@@ -373,9 +374,9 @@
     const before = moving ? capture() : [];
     if (moving && was) ghostOf(motion.dir);
 
+    if (!was) uniScroll = window.scrollY;
     here = page;
     viewIn.innerHTML = html;
-    view.scrollTop = 0;
     view.setAttribute('aria-label', title || '');
     document.title = (title ? title + '｜' : '') + brand;
     ld.textContent = page.kind === 'route' && page.entry && page.step === 1
@@ -384,6 +385,8 @@
     if (page.feed) mountFeed(page.feed);
     else if (feedIO){ feedIO.disconnect(); feedIO = null; }
     body.classList.add('viewing');
+    view.classList.add('on');
+    window.scrollTo({ top: 0, behavior: 'instant' });
     body.classList.toggle('route', page.kind === 'route');
     body.classList.toggle('on-work', !!page.work);
     /* ページの上では、つながりを辿る＝次の路線へ進む印 */
@@ -431,6 +434,7 @@
     view.classList.add('instant');
     view.classList.remove('on', 'enter');
     body.classList.remove('viewing', 'route', 'on-work');
+    window.scrollTo({ top: uniScroll, behavior: 'instant' });
     setDock(null);
     paintSelection();
     if (moving && before.length) fly(before, motion || { toCenter: true });
@@ -451,7 +455,7 @@
       rail.insertAdjacentHTML('beforeend', R.feedStops(items, shown, shown + FEED_BATCH));
       shown += FEED_BATCH;
       if (shown >= items.length){ feedIO.disconnect(); feedIO = null; }
-    }, { root: view, rootMargin: '0px 0px 900px 0px' });
+    }, { rootMargin: '0px 0px 900px 0px' });
     feedIO.observe(more);
   }
 
@@ -600,7 +604,7 @@
 
     if (t.closest('[data-read]')){
       const story = viewIn.querySelector('#story');
-      if (story) view.scrollTo({ top: story.getBoundingClientRect().top + view.scrollTop - 10, behavior: motionOK() ? 'smooth' : 'auto' });
+      if (story) window.scrollTo({ top: story.getBoundingClientRect().top + window.scrollY - 10, behavior: motionOK() ? 'smooth' : 'auto' });
       return;
     }
 
