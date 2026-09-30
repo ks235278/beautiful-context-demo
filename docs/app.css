@@ -192,7 +192,7 @@ body.viewing .uni{pointer-events:none}
 .view.enter .content,.view.enter .context-lead{animation:rise .56s cubic-bezier(.2,.7,.2,1) .14s both}
 
 /* 運ばれている途中の絵と、消えていく前のページ */
-.flyer{position:fixed;z-index:45;margin:0;object-fit:cover;pointer-events:none;box-shadow:0 22px 48px -20px #000d;
+.flyer{position:fixed;z-index:38;margin:0;object-fit:cover;pointer-events:none;box-shadow:0 22px 48px -20px #000d;
   will-change:left,top,width,height,opacity}
 .ghost{position:fixed;inset:0;z-index:36;overflow:hidden;pointer-events:none}
 .ghost>.view-in{min-height:0}
@@ -286,6 +286,7 @@ body.viewing .uni{pointer-events:none}
 .stop .fstop::before{content:"";position:absolute;left:-26px;top:22px;width:10px;height:10px;border:3px solid var(--gold);
   border-radius:50%;background:#fff;box-sizing:content-box;transform:translateX(0)}
 .st-img{position:relative;display:block;aspect-ratio:2/3;overflow:hidden;background:#101010;box-shadow:0 10px 22px -12px rgba(0,0,0,.55)}
+.landing{background:transparent !important;box-shadow:none !important}
 .st-img img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 45%}
 .st-img .ph{position:absolute;inset:0;display:grid;place-items:center;color:var(--gold);font:28px/1 var(--mincho)}
 .st-txt{display:grid;gap:3px;min-width:0}

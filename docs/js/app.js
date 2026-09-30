@@ -241,11 +241,17 @@
     inflight = [];
   }
 
+  /* 絵が見えている範囲の下端。ページの上では、下の帯（ボタン）の上端まで */
+  function visibleBottom(){
+    const d = document.getElementById('dock');
+    return body.classList.contains('viewing') && d ? d.getBoundingClientRect().top : window.innerHeight;
+  }
   function capture(){
     if (!view.classList.contains('on')) return [];
+    const bottom = visibleBottom();
     return [...viewIn.querySelectorAll('img[data-k]')].map(im => {
       const r = im.getBoundingClientRect();
-      if (r.bottom < 0 || r.top > window.innerHeight || r.width < 4 || !im.complete) return null;
+      if (r.bottom < 0 || r.top > bottom - 8 || r.width < 4 || !im.complete) return null;
       return { k: im.dataset.k, src: im.currentSrc || im.src, r, pos: getComputedStyle(im).objectPosition };
     }).filter(Boolean);
   }
@@ -288,11 +294,19 @@
     const W = window.innerWidth;
     const pool = before.slice();
     const targets = [...viewIn.querySelectorAll('img[data-k]')];
+    const bottom = visibleBottom();
     targets.forEach((el, i) => {
-      const frame = el.parentElement.getBoundingClientRect();
-      if (frame.top > window.innerHeight || frame.bottom < 0) return;
+      /* 着地点は、浮かび上がる途中ではなく、浮かび上がり終えた位置で測る */
+      const fr = el.parentElement.getBoundingClientRect();
+      const riser = el.closest('.content, .context-lead');
+      const dy = riser ? new DOMMatrixReadOnly(getComputedStyle(riser).transform).m42 : 0;
+      const frame = { left: fr.left, top: fr.top - dy, width: fr.width, height: fr.height, bottom: fr.bottom - dy };
+      /* 帯（ボタン）の裏に隠れる絵は飛ばさない */
+      if (frame.top > bottom - 8 || frame.bottom < 0) return;
       const j = pool.findIndex(b => b.k === el.dataset.k);
       const match = j >= 0 ? pool.splice(j, 1)[0] : null;
+      /* 路線から路線へ：同じ作品の絵だけが移り、ほかの絵はページと一緒に静かに現れる */
+      if (motion.calm && !match) return;
       let from, o0 = 1;
       if (match) from = match.r;
       else if (motion.origin){
@@ -301,12 +315,15 @@
       else { from = { left: frame.left + frame.width * 0.04, top: frame.top + frame.height * 0.04, width: frame.width * 0.92, height: frame.height * 0.92 }; o0 = 0; }
       const f = flyer(match ? match.src : (el.currentSrc || el.src), from, getComputedStyle(el).objectPosition);
       el.style.visibility = 'hidden';
+      /* 飛んでいるあいだ、着地点の黒い枠を見せない */
+      const holder = el.parentElement;
+      holder.classList.add('landing');
       const opened = !match && motion.origin;
       const a = f.animate([{ ...box(from), opacity: o0 }, { ...box(frame), opacity: 1 }],
         { duration: opened ? DUR + 260 : DUR + (match ? 0 : 80),
           delay: match ? 0 : i * (opened ? 110 : 70),
           easing: opened ? 'cubic-bezier(.34,.62,.2,1)' : EASE, fill: 'both' });
-      const done = () => { el.style.visibility = ''; f.remove(); };
+      const done = () => { el.style.visibility = ''; holder.classList.remove('landing'); f.remove(); };
       a.onfinish = done;
       inflight.push(done);
     });
@@ -315,14 +332,15 @@
       const f = flyer(b.src, b.r, b.pos);
       const c = { x: W / 2, y: window.innerHeight * 0.5 };
       const to = motion.toCenter ? around(c, 30, 30 * b.r.height / b.r.width)
+        : motion.calm ? shift(b.r, -dir * 48)   /* 前のページの文字と同じだけ動いて、同じ速さで消える */
         : dir ? shift(b.r, -dir * W * 0.55)
         : { left: b.r.left + b.r.width * 0.1, top: b.r.top + b.r.height * 0.1, width: b.r.width * 0.8, height: b.r.height * 0.8 };
       /* UniverseIt! へ戻るときは、ゆっくり縮みながら、最後に溶ける */
       const a = f.animate(motion.toCenter
         ? [{ ...box(b.r), opacity: 1 }, { opacity: 0.85, offset: 0.55 }, { ...box(to), opacity: 0 }]
         : [{ ...box(b.r), opacity: 1 }, { ...box(to), opacity: 0 }],
-        { duration: motion.toCenter ? DUR + 300 : DUR - 120,
-          easing: motion.toCenter ? 'cubic-bezier(.5,.05,.3,1)' : EASE, fill: 'forwards' });
+        { duration: motion.toCenter ? DUR + 300 : motion.calm ? 300 : DUR - 120,
+          easing: motion.toCenter ? 'cubic-bezier(.5,.05,.3,1)' : motion.calm ? 'ease-out' : EASE, fill: 'forwards' });
       const done = () => f.remove();
       a.onfinish = done;
       inflight.push(done);
@@ -479,7 +497,7 @@
     const pool = all.filter(w => !recentStarts.includes(w.slug));
     const pick = (pool.length ? pool : all)[Math.floor(Math.random() * (pool.length || all.length))];
     recentStarts.push(pick.slug);
-    go('#/f/' + encodeURIComponent(pick.slug), { dir: 1 }, true);
+    go('#/f/' + encodeURIComponent(pick.slug), { dir: 1, calm: true }, true);
   }
 
   uniBtn.addEventListener('click', () => {
