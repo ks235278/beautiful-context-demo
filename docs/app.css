@@ -186,6 +186,9 @@ body.viewing .dock-brand{margin:0 0 6px;padding-top:2px;border-top:0;color:#8d89
    ページは UniverseIt! の上に重ねる別の枠ではなく、文書の中に置く。開いているあいだ UniverseIt! は
    しまっておき（スクロールの位置は覚えておく）、閉じたら元の位置に戻す */
 body.viewing .uni{display:none}
+/* 携帯では、ページの後ろに回路の絵を残さない。iPhone は触れている間やスクロール中に
+   描き終わっていない所から、後ろの固定した層を一瞬見せることがあるため、見せる物自体を置かない */
+@media (max-width:759px){body.viewing #bg{visibility:hidden}}
 .view{display:none;position:relative;z-index:35;min-height:100vh;background:var(--paper);color:var(--ink)}
 .view.on{display:block}
 /* 絵を運ばずに開くときだけ、ページを静かに浮かべる（一度きり。あとで外す） */
