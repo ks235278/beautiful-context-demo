@@ -190,6 +190,11 @@ body.viewing .uni{pointer-events:none}
 .view-in{position:relative;width:100%;max-width:var(--col);min-height:100%;margin:0 auto;background:var(--paper);
   padding-bottom:calc(var(--dockh) + env(safe-area-inset-bottom))}
 .view.enter .content,.view.enter .context-lead{animation:rise .56s cubic-bezier(.2,.7,.2,1) .14s both}
+@keyframes fromR{from{opacity:0;transform:translateX(48px)}}
+@keyframes fromL{from{opacity:0;transform:translateX(-48px)}}
+.view.enter.from-r .content,.view.enter.from-r .context-lead,.view.enter.from-l .content,.view.enter.from-l .context-lead{animation:none}
+.view.enter.from-r .page{animation:fromR .42s cubic-bezier(.22,.8,.22,1) both}
+.view.enter.from-l .page{animation:fromL .42s cubic-bezier(.22,.8,.22,1) both}
 
 /* 運ばれている途中の絵と、消えていく前のページ */
 .flyer{position:fixed;z-index:38;margin:0;object-fit:cover;pointer-events:none;box-shadow:0 22px 48px -20px #000d;

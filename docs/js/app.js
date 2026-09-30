@@ -241,17 +241,11 @@
     inflight = [];
   }
 
-  /* 絵が見えている範囲の下端。ページの上では、下の帯（ボタン）の上端まで */
-  function visibleBottom(){
-    const d = document.getElementById('dock');
-    return body.classList.contains('viewing') && d ? d.getBoundingClientRect().top : window.innerHeight;
-  }
   function capture(){
     if (!view.classList.contains('on')) return [];
-    const bottom = visibleBottom();
     return [...viewIn.querySelectorAll('img[data-k]')].map(im => {
       const r = im.getBoundingClientRect();
-      if (r.bottom < 0 || r.top > bottom - 8 || r.width < 4 || !im.complete) return null;
+      if (r.bottom < 0 || r.top > window.innerHeight || r.width < 4 || !im.complete) return null;
       return { k: im.dataset.k, src: im.currentSrc || im.src, r, pos: getComputedStyle(im).objectPosition };
     }).filter(Boolean);
   }
@@ -289,58 +283,75 @@
   const around = (pt, w, h) => ({ left: pt.x - w / 2, top: pt.y - h / 2, width: w, height: h });
   const centerOf = (r) => ({ x: r.left + r.width / 2, y: r.top + r.height / 2 });
 
+  /* ---------- 絵の動きは物理のとおりに ----------
+     1. 瞬間移動しない：両方のページにある作品の絵は、前の位置から新しい位置まで連続して動く。
+        遠いほど長くかかる（距離の平方根に比例）。
+     2. 絵はページに載っている：片方のページにしかない絵は、自分のページと同じ向き・同じ速さで
+        入ってくる／出ていく。ページとちがう向きに勝手に飛ばない。
+     3. 触れたところから出て、元の場所へ帰る：言葉から開いた作品の絵はその言葉から現れ、
+        UniverseIt! へ戻るときは、見えている自分の言葉へ吸い込まれる。
+     飛ぶ層は下の帯（ボタン）より下。帯の裏にかかる絵も、帯の下を通って動く。 */
+  const SIDE = 48;   /* ページが横へずれる量。ghostOf と CSS の from-r / from-l と同じ */
+  /* 祖先の移動（浮かび上がり・横すべり）を差し引いた、落ち着いたあとの位置 */
+  function settled(el){
+    const r = el.getBoundingClientRect();
+    let dx = 0, dy = 0;
+    for (let n = el.parentElement; n && n !== viewIn; n = n.parentElement){
+      const t = getComputedStyle(n).transform;
+      if (t && t !== 'none'){ const m = new DOMMatrixReadOnly(t); dx += m.m41; dy += m.m42; }
+    }
+    return { left: r.left - dx, top: r.top - dy, width: r.width, height: r.height, bottom: r.bottom - dy };
+  }
+  const travel = (a, b) => {
+    const d = Math.hypot(a.left + a.width / 2 - b.left - b.width / 2, a.top + a.height / 2 - b.top - b.height / 2);
+    return Math.round(Math.min(860, Math.max(460, 360 + Math.sqrt(d) * 15)));
+  };
   function fly(before, motion){
     const dir = motion.dir || 0;
-    const W = window.innerWidth;
+    const H = window.innerHeight;
     const pool = before.slice();
     const targets = [...viewIn.querySelectorAll('img[data-k]')];
-    const bottom = visibleBottom();
-    targets.forEach((el, i) => {
-      /* 着地点は、浮かび上がる途中ではなく、浮かび上がり終えた位置で測る */
-      const fr = el.parentElement.getBoundingClientRect();
-      const riser = el.closest('.content, .context-lead');
-      const dy = riser ? new DOMMatrixReadOnly(getComputedStyle(riser).transform).m42 : 0;
-      const frame = { left: fr.left, top: fr.top - dy, width: fr.width, height: fr.height, bottom: fr.bottom - dy };
-      /* 帯（ボタン）の裏に隠れる絵は飛ばさない */
-      if (frame.top > bottom - 8 || frame.bottom < 0) return;
+    let emerged = false;
+    targets.forEach((el) => {
+      const holder = el.parentElement;
+      const frame = settled(holder);
+      if (frame.top > H || frame.bottom < 0) return;
       const j = pool.findIndex(b => b.k === el.dataset.k);
       const match = j >= 0 ? pool.splice(j, 1)[0] : null;
-      /* 路線から路線へ：同じ作品の絵だけが移り、ほかの絵はページと一緒に静かに現れる */
-      if (motion.calm && !match) return;
-      let from, o0 = 1;
-      if (match) from = match.r;
-      else if (motion.origin){
-        const w = 46; from = around(motion.origin, w, w * frame.height / frame.width); o0 = 0.15;
-      } else if (dir) { from = shift(frame, dir * W * 0.9); }
-      else { from = { left: frame.left + frame.width * 0.04, top: frame.top + frame.height * 0.04, width: frame.width * 0.92, height: frame.height * 0.92 }; o0 = 0; }
+      /* 触れた言葉から出てくるのは、最初の一枚（選んだ作品）だけ */
+      const emerge = !match && motion.origin && !emerged;
+      if (!match && !emerge) return;            /* ページに載ったまま入ってくる */
+      if (emerge) emerged = true;
+      const from = match ? match.r : around(motion.origin, 46, 46 * frame.height / frame.width);
       const f = flyer(match ? match.src : (el.currentSrc || el.src), from, getComputedStyle(el).objectPosition);
       el.style.visibility = 'hidden';
-      /* 飛んでいるあいだ、着地点の黒い枠を見せない */
-      const holder = el.parentElement;
       holder.classList.add('landing');
-      const opened = !match && motion.origin;
-      const a = f.animate([{ ...box(from), opacity: o0 }, { ...box(frame), opacity: 1 }],
-        { duration: opened ? DUR + 260 : DUR + (match ? 0 : 80),
-          delay: match ? 0 : i * (opened ? 110 : 70),
-          easing: opened ? 'cubic-bezier(.34,.62,.2,1)' : EASE, fill: 'both' });
+      const a = f.animate([{ ...box(from), opacity: match ? 1 : 0.2 }, { ...box(frame), opacity: 1 }],
+        { duration: travel(from, frame) + (emerge ? 180 : 0),
+          easing: emerge ? 'cubic-bezier(.34,.62,.2,1)' : EASE, fill: 'both' });
       const done = () => { el.style.visibility = ''; holder.classList.remove('landing'); f.remove(); };
       a.onfinish = done;
       inflight.push(done);
     });
-    /* 前のページにしかない絵は、路線の反対側へ抜けていくか、中央へ溶ける */
+    /* 前のページにしかない絵 */
     pool.forEach(b => {
       const f = flyer(b.src, b.r, b.pos);
-      const c = { x: W / 2, y: window.innerHeight * 0.5 };
-      const to = motion.toCenter ? around(c, 30, 30 * b.r.height / b.r.width)
-        : motion.calm ? shift(b.r, -dir * 48)   /* 前のページの文字と同じだけ動いて、同じ速さで消える */
-        : dir ? shift(b.r, -dir * W * 0.55)
-        : { left: b.r.left + b.r.width * 0.1, top: b.r.top + b.r.height * 0.1, width: b.r.width * 0.8, height: b.r.height * 0.8 };
-      /* UniverseIt! へ戻るときは、ゆっくり縮みながら、最後に溶ける */
-      const a = f.animate(motion.toCenter
-        ? [{ ...box(b.r), opacity: 1 }, { opacity: 0.85, offset: 0.55 }, { ...box(to), opacity: 0 }]
-        : [{ ...box(b.r), opacity: 1 }, { ...box(to), opacity: 0 }],
-        { duration: motion.toCenter ? DUR + 300 : motion.calm ? 300 : DUR - 120,
-          easing: motion.toCenter ? 'cubic-bezier(.5,.05,.3,1)' : motion.calm ? 'ease-out' : EASE, fill: 'forwards' });
+      let to, frames, opt;
+      const tag = motion.toCenter && tags.querySelector(`.tag[data-work="${CSS.escape(b.k)}"]`);
+      const tr = tag && tag.getBoundingClientRect();
+      if (motion.toCenter){
+        /* 自分の言葉が見えていればそこへ、見えなければ画面の中心（宇宙）へ帰る */
+        const home = tr && tr.bottom > 0 && tr.top < H ? centerOf(tr) : { x: window.innerWidth / 2, y: H * 0.5 };
+        to = around(home, 24, 24 * b.r.height / b.r.width);
+        frames = [{ ...box(b.r), opacity: 1 }, { opacity: 0.9, offset: 0.6 }, { ...box(to), opacity: 0 }];
+        opt = { duration: travel(b.r, to) + 160, easing: 'cubic-bezier(.5,.05,.3,1)' };
+      } else {
+        /* 前のページの文字と同じ向きに、同じだけ動いて、同じ速さで消える */
+        to = dir ? shift(b.r, -dir * SIDE) : b.r;
+        frames = [{ ...box(b.r), opacity: 1 }, { ...box(to), opacity: 0 }];
+        opt = { duration: 300, easing: 'ease-out' };
+      }
+      const a = f.animate(frames, { ...opt, fill: 'forwards' });
       const done = () => f.remove();
       a.onfinish = done;
       inflight.push(done);
@@ -387,7 +398,9 @@
       return;
     }
     view.classList.add('on', 'instant');
-    view.classList.remove('enter'); void view.offsetWidth; view.classList.add('enter');
+    /* 新しいページは、進む向きから入ってくる（前のページは反対へ抜ける）。向きがなければ下から浮かぶ */
+    view.classList.remove('enter', 'from-r', 'from-l'); void view.offsetWidth;
+    view.classList.add('enter'); if (motion.dir) view.classList.add(motion.dir > 0 ? 'from-r' : 'from-l');
     fly(before, motion);
     view.style.pointerEvents = 'none';
     setTimeout(() => {
@@ -497,7 +510,7 @@
     const pool = all.filter(w => !recentStarts.includes(w.slug));
     const pick = (pool.length ? pool : all)[Math.floor(Math.random() * (pool.length || all.length))];
     recentStarts.push(pick.slug);
-    go('#/f/' + encodeURIComponent(pick.slug), { dir: 1, calm: true }, true);
+    go('#/f/' + encodeURIComponent(pick.slug), { dir: 1 }, true);
   }
 
   uniBtn.addEventListener('click', () => {
