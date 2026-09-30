@@ -252,7 +252,10 @@ body.viewing .uni{display:none}
 /* 絵を持ち上げているあいだ、後ろに UniverseIt! を透かす（閉じる前と同じ位置に留めて置く） */
 body.viewing.peek .uni{display:block;position:fixed;left:0;right:0;z-index:1;pointer-events:none}
 body.viewing.peek #bg{visibility:visible}
-.duo img{-webkit-user-drag:none;user-select:none;-webkit-user-select:none;-webkit-touch-callout:none}
+/* 絵を持ち上げているあいだ、後ろに置く来た画面の写し */
+.underlay{position:fixed;inset:0;z-index:1;overflow:hidden;pointer-events:none;background:var(--paper)}
+.underlay>.view-in{min-height:100vh}
+.duo img,.hero img{-webkit-user-drag:none;user-select:none;-webkit-user-select:none;-webkit-touch-callout:none}
 .swap{position:absolute;z-index:8;left:50%;top:50%;transform:translate(-50%,-50%);display:grid;place-items:center;
   width:30px;height:30px;border-radius:50%;background:#fff;color:#111;font:700 14px/1 var(--gothic);font-style:normal;
   box-shadow:0 3px 12px #0008}

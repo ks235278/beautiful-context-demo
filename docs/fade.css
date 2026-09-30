@@ -16,6 +16,8 @@ body::after{
   animation:bc-veil .34s ease both;
 }
 @keyframes bc-veil{ from{opacity:1} to{opacity:0} }
+/* ホーム画面などから直接開いたときは幕なし（theme.js が cold を付ける） */
+html.cold body::after{animation:none;opacity:0}
 
 /* 出ていくときは本文ごと薄れる。こちらは移動で捨てられるが、
    移動が起きなかったときのために transition.js が畳む。 */

@@ -143,18 +143,19 @@
     if (!here || !here.entry || step < 0 || step > 2 || step === here.step) return;
     go(stepHash(here.entry, step), { dir: Math.sign(step - here.step), origin: from || null });
   }
-  function closeView(){
+  function closeView(motion){
     if (!view.classList.contains('on')) return;
     const d = depth();
+    backNav = true;
     if (d > 0){
       stack.pop();
-      if (d === 1) hideView({ toCenter: true });
-      else if (stack.length) routeTo(stack[stack.length - 1], null);
+      if (d === 1) hideView(motion || { toCenter: true });
+      else if (stack.length) routeTo(stack[stack.length - 1], motion || null);
       history.back();
     } else {
       stack.length = 0;
       history.replaceState(null, '', base());
-      hideView({ toCenter: true });
+      hideView(motion || { toCenter: true });
     }
   }
   /* つながりを辿る（UniverseIt!）：どこまで進んでいても、一度で戻る */
@@ -170,7 +171,7 @@
     const h = location.hash;
     if (!h || h === '#' || h === '#/') stack.length = 0;
     else if (stack[stack.length - 1] !== h){
-      if (stack[stack.length - 2] === h) stack.pop();
+      if (stack[stack.length - 2] === h){ stack.pop(); backNav = true; }
       else { stack.length = 0; stack.push(h); }
     }
     routeTo(h, null);
@@ -364,7 +365,34 @@
   /* ---------- ページを置く ---------- */
   let uniScroll = 0;   /* ページを開く前の UniverseIt! のスクロール位置 */
   let lifted = null;   /* 持ち上げて離した絵：その位置から運ぶ（下の「絵を指でつかむ」） */
+  const memo = new Map();   /* ページごとのスクロール位置 */
+  let backNav = false;      /* 戻る向きの移動か */
+  let dry = null;           /* 描かずに組み立てるときの受け皿 */
+  /* 来た画面の写しを、持ち上げた絵の後ろに置く（離したときの位置のまま） */
+  function underlay(){
+    if (stack.length < 2) return false;
+    dry = {};
+    try { routeTo(stack[stack.length - 2], null); } finally { var got = dry; dry = null; }
+    if (!got || !got.html) return false;
+    const m = memo.get(got.page.key) || { y: 0, n: 0 };
+    const u = document.createElement('div');
+    u.className = 'underlay';
+    const inner = document.createElement('div');
+    inner.className = 'view-in';
+    inner.innerHTML = got.html;
+    if (got.page.feed && m.n > FEED_BATCH){
+      const rail = inner.querySelector('#rail');
+      if (rail) rail.insertAdjacentHTML('beforeend', R.feedStops(got.page.feed, FEED_BATCH, m.n));
+    }
+    inner.querySelectorAll('[id]').forEach(n => n.removeAttribute('id'));
+    inner.style.transform = `translateY(${-m.y}px)`;
+    u.appendChild(inner);
+    document.body.appendChild(u);
+    return true;
+  }
+  function dropUnderlay(){ document.querySelectorAll('.underlay').forEach(n => n.remove()); }
   function show(page, html, motion, title){
+    if (dry){ dry.page = page; dry.html = html; return; }
     if (here && here.key === page.key && view.classList.contains('on')) return;
     settleAll();
     toUni(false);
@@ -375,8 +403,10 @@
     }
     const moving = motionOK();
     const was = view.classList.contains('on');
+    /* 離れるページのスクロール位置（路線なら読み足した駅の数も）を覚えておく */
+    if (was && here) memo.set(here.key, { y: window.scrollY, n: viewIn.querySelectorAll('.stop').length });
     const before = moving ? capture() : [];
-    if (moving && was) ghostOf(motion.dir);
+    if (moving && was) ghostOf(motion.dismiss ? 0 : motion.dir, lifted ? lifted.o : 1);
 
     if (!was) uniScroll = window.scrollY;
     here = page;
@@ -390,7 +420,13 @@
     else if (feedIO){ feedIO.disconnect(); feedIO = null; }
     body.classList.add('viewing');
     view.classList.add('on');
-    window.scrollTo({ top: 0, behavior: 'instant' });
+    view.style.opacity = '';
+    /* 戻ってきたページは、離れたときの位置へ。進んだページは頭から */
+    const m = backNav ? memo.get(page.key) : null;
+    backNav = false;
+    if (m && page.feed) extendFeed(m.n);
+    window.scrollTo({ top: m ? m.y : 0, behavior: 'instant' });
+    dropUnderlay();
     body.classList.toggle('route', page.kind === 'route');
     body.classList.toggle('on-work', !!page.work);
     /* ページの上では、つながりを辿る＝次の路線へ進む印 */
@@ -410,8 +446,10 @@
     view.classList.add('on', 'instant');
     /* 新しいページは、進む向きから入ってくる（前のページは反対へ抜ける）。向きがなければ下から浮かぶ */
     view.classList.remove('enter', 'from-r', 'from-l'); void view.offsetWidth;
-    view.classList.add('enter'); if (motion.dir) view.classList.add(motion.dir > 0 ? 'from-r' : 'from-l');
+    /* 持ち上げて離したときは、後ろの画面がもう見えているので、ページは動かさない */
+    if (!motion.dismiss){ view.classList.add('enter'); if (motion.dir) view.classList.add(motion.dir > 0 ? 'from-r' : 'from-l'); }
     fly(before, motion);
+    lifted = null;
     view.style.pointerEvents = 'none';
     setTimeout(() => {
       view.style.pointerEvents = '';
@@ -442,6 +480,8 @@
     view.classList.remove('on', 'enter', 'fade-in');
     body.classList.remove('viewing', 'route', 'on-work');
     peek(false);
+    dropUnderlay();
+    backNav = false;
     view.style.opacity = '';
     lifted = null;
     window.scrollTo({ top: uniScroll, behavior: 'instant' });
@@ -455,18 +495,26 @@
      100 近い駅を一度に描かず、終わりに近づいたら続きを足す */
   const FEED_BATCH = 12;
   let feedIO = null;
+  let feedAt = null;   /* いまの路線：{ items, shown, rail } */
   function mountFeed(items){
     if (feedIO) feedIO.disconnect();
-    let shown = FEED_BATCH;
     const more = viewIn.querySelector('#railMore'), rail = viewIn.querySelector('#rail');
-    if (!more || !rail || shown >= items.length) return;
+    feedAt = { items, shown: FEED_BATCH, rail };
+    if (!more || !rail || feedAt.shown >= items.length) return;
     feedIO = new IntersectionObserver((ents) => {
       if (!ents.some(e => e.isIntersecting)) return;
-      rail.insertAdjacentHTML('beforeend', R.feedStops(items, shown, shown + FEED_BATCH));
-      shown += FEED_BATCH;
-      if (shown >= items.length){ feedIO.disconnect(); feedIO = null; }
+      extendFeed(feedAt.shown + FEED_BATCH);
     }, { rootMargin: '0px 0px 900px 0px' });
     feedIO.observe(more);
+  }
+  /* n 駅目まで読み足す */
+  function extendFeed(n){
+    const f = feedAt;
+    if (!f || !f.rail || f.shown >= n) return;
+    const to = Math.min(n, f.items.length);
+    f.rail.insertAdjacentHTML('beforeend', R.feedStops(f.items, f.shown, to));
+    f.shown = to;
+    if (f.shown >= f.items.length && feedIO){ feedIO.disconnect(); feedIO = null; }
   }
 
   /* ---------- 下の帯 ---------- */
@@ -659,6 +707,7 @@
   (() => {
     let g = null;
     const vw = () => window.innerWidth, vh = () => window.innerHeight;
+    const HOLD = 220;   /* これだけ指を止めてから動かすと、どの向きにも自由につかめる */
     const setX = (el, x) => { el.style.transform = x ? `translate3d(${x}px,0,0)` : ''; };
     const vel = (s, i) => {
       if (s.length < 2) return 0;
@@ -672,8 +721,10 @@
       return a <= lim ? x : Math.sign(x) * (lim + (a - lim) * 0.3);
     };
 
+    /* 指の動きは、絵に触れたときだけ、その絵の上で読む。ページ全体に張ると、
+       スクロールのたびに端末が script を待つことになり、スクロールが重くなる */
     view.addEventListener('touchstart', e => {
-      g = null;
+      if (g) finish(true);
       if (e.touches.length !== 1 || !here || !here.entry) return;
       const t = e.touches[0];
       const strip = t.target.closest && (t.target.closest('.cpage .duo') || t.target.closest('.wpage .hero .art'));
@@ -685,20 +736,27 @@
       setX(strip, cur);
       const art = t.target.closest('.art');
       g = { mode: null, strip, img: art && art.querySelector('img[data-k]'), x0: t.clientX - cur, y0: t.clientY, x: cur,
-            s: [[e.timeStamp, t.clientX, t.clientY]] };
+            t0: e.timeStamp, top: window.scrollY <= 1, s: [[e.timeStamp, t.clientX, t.clientY]] };
+      strip.addEventListener('touchmove', onMove, { passive: false });
+      strip.addEventListener('touchend', onEnd, { passive: true });
+      strip.addEventListener('touchcancel', onCancel, { passive: true });
     }, { passive: true });
 
-    view.addEventListener('touchmove', e => {
+    function onMove(e){
       if (!g) return;
       const t = e.touches[0];
       const dx = t.clientX - g.x0, dy = t.clientY - g.y0;
       g.s.push([e.timeStamp, t.clientX, t.clientY]); if (g.s.length > 5) g.s.shift();
       if (!g.mode){
         const mx = Math.abs(dx - g.x), my = Math.abs(dy);
-        if (mx < 7 && my < 7) return;
-        if (mx > my) g.mode = 'strip';
-        else if (dy > 0 && window.scrollY <= 1 && g.img && motionOK()) { g.mode = 'lift'; startLift(t); }
-        else { g = null; return; }            /* スクロールに任せる */
+        const long = e.timeStamp - g.t0 >= HOLD && g.img && motionOK();
+        /* 決まる前から、スクロールになりえない動きは端末に渡さない（あとで止められなくなるため） */
+        const couldScroll = dy < 0 || !g.top;
+        if (mx < 6 && my < 6){ if (!couldScroll || long) e.preventDefault(); return; }
+        if (long){ g.mode = 'lift'; startLift(t); }
+        else if (mx > my) g.mode = 'strip';
+        else if (dy > 0 && g.top && g.img && motionOK()){ g.mode = 'lift'; startLift(t); }
+        else { finish(true, true); return; }            /* スクロールに任せる */
         dragged = true;
       }
       e.preventDefault();
@@ -706,7 +764,7 @@
         g.x = resist(dx, hasStep(dx < 0 ? 1 : -1));
         setX(g.strip, g.x);
       } else moveLift(t.clientX - g.lx0, t.clientY - g.ly0);
-    }, { passive: false });
+    }
 
     function startLift(t){
       setX(g.strip, 0);
@@ -716,21 +774,28 @@
       g.f.style.transformOrigin = `${t.clientX - r.left}px ${t.clientY - r.top}px`;   /* つかんだ点を中心に */
       g.img.style.visibility = 'hidden';
       g.o = 1;
-      peek(true);
+      /* 後ろには、来た画面（なければ UniverseIt!）を置く */
+      g.back = underlay();
+      if (!g.back) peek(true);
     }
     function moveLift(dx, dy){
-      const H = vh();
-      const s = dy > 0 ? Math.max(0.42, 1 - dy / (H * 1.05)) : 1;
+      const H = vh(), W = vw();
+      const s = Math.max(0.42, 1 - Math.max(0, dy) / (H * 1.05) - Math.abs(dx) / (W * 8));
       g.f.style.transform = `translate3d(${dx}px,${dy}px,0) scale(${s})`;
       g.o = Math.max(0, Math.min(1, 1 - Math.max(0, dy) / (H * 0.38)));
       view.style.opacity = g.o;
       g.ly = dy;
     }
 
-    const end = (cancelled) => {
+    const onEnd = () => finish(false);
+    const onCancel = () => finish(true);
+    function finish(cancelled, toScroll){
       if (!g) return;
       const G = g; g = null;
-      heldTimer = setTimeout(() => { held = false; dragged = false; }, 450);
+      G.strip.removeEventListener('touchmove', onMove, { passive: false });
+      G.strip.removeEventListener('touchend', onEnd, { passive: true });
+      G.strip.removeEventListener('touchcancel', onCancel, { passive: true });
+      heldTimer = setTimeout(() => { held = false; dragged = false; }, toScroll ? 0 : 450);
       if (!G.mode) return;                      /* 触れて離しただけ：絵のボタンがそのまま働く */
       if (G.mode === 'strip'){
         const v = vel(G.s, 1);
@@ -749,17 +814,15 @@
                    pos: getComputedStyle(G.img).objectPosition, o: G.o };
         G.f.remove();
         G.img.style.visibility = '';
-        toNetwork();                            /* hideView が lifted の位置から運ぶ */
+        closeView({ dismiss: true, toCenter: true });   /* 来た画面へ。絵は離した位置から自分の場所へ */
         return;
       }
       const a = G.f.animate([{ transform: G.f.style.transform }, { transform: 'translate3d(0,0,0) scale(1)' }],
         { duration: 420, easing: 'cubic-bezier(.2,1.12,.3,1)', fill: 'forwards' });
       view.style.opacity = '';
       view.animate([{ opacity: G.o }, { opacity: 1 }], { duration: 320, easing: 'ease-out' });
-      a.onfinish = () => { G.img.style.visibility = ''; G.f.remove(); peek(false); };
-    };
-    view.addEventListener('touchend', () => end(false));
-    view.addEventListener('touchcancel', () => end(true));
+      a.onfinish = () => { G.img.style.visibility = ''; G.f.remove(); peek(false); dropUnderlay(); };
+    }
     /* 引いたあとの「クリック」は、絵のボタンに届かせない */
     view.addEventListener('click', e => { if (dragged && e.target.closest('.duo, .hero')){ e.stopPropagation(); e.preventDefault(); } }, true);
     view.addEventListener('dragstart', e => { if (e.target.closest('.duo, .hero')) e.preventDefault(); });

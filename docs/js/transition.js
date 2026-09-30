@@ -6,6 +6,7 @@
      これを怠ると、本文が消えたまま地色だけの画面が残る。 */
   let undo = 0;
   function fadeOut(){
+    try { sessionStorage.setItem('bc-nav', '1'); } catch (e) {}
     document.documentElement.classList.add('leaving');
     clearTimeout(undo);
     undo = setTimeout(restore, 2500);
