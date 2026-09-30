@@ -188,7 +188,8 @@ body.viewing .dock-brand{margin:0 0 6px;padding-top:2px;border-top:0;color:#8d89
 body.viewing .uni{display:none}
 .view{display:none;position:relative;z-index:35;min-height:100vh;background:var(--paper);color:var(--ink)}
 .view.on{display:block}
-.view:not(.instant).on{animation:viewIn .34s ease both}
+/* 絵を運ばずに開くときだけ、ページを静かに浮かべる（一度きり。あとで外す） */
+.view.fade-in{animation:viewIn .34s ease both}
 @keyframes viewIn{from{opacity:0}}
 .menu{overscroll-behavior:none}
 .view-in{position:relative;width:100%;max-width:var(--col);min-height:100vh;margin:0 auto;background:var(--paper);

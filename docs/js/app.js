@@ -396,7 +396,10 @@
 
     if (!moving){
       view.classList.remove('enter');
-      view.classList.add('on');
+      if (!was){
+        view.classList.add('fade-in');
+        view.addEventListener('animationend', () => view.classList.remove('fade-in'), { once: true });
+      }
       focusPage();
       return;
     }
@@ -432,7 +435,7 @@
     document.title = brand;
     ld.textContent = listLd();
     view.classList.add('instant');
-    view.classList.remove('on', 'enter');
+    view.classList.remove('on', 'enter', 'fade-in');
     body.classList.remove('viewing', 'route', 'on-work');
     window.scrollTo({ top: uniScroll, behavior: 'instant' });
     setDock(null);
