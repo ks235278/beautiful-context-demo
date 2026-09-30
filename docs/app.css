@@ -245,6 +245,11 @@ body.viewing .uni{display:none}
 .duo .art{aspect-ratio:3/4.08}
 .duo-go{display:block;padding:0;border:0;background:none;cursor:pointer;-webkit-tap-highlight-color:transparent;touch-action:manipulation}
 .duo-go:active .art{opacity:.85}
+/* 二枚の絵は指に付いてくる帯。縦はスクロール、横は指で運ぶ */
+.cpage .duo-hero{overflow:hidden}
+.cpage .duo{touch-action:pan-y;will-change:transform}
+.duo img{-webkit-user-drag:none;user-select:none;-webkit-user-select:none;-webkit-touch-callout:none}
+.duo.dragging .duo-go:active .art{opacity:1}
 .swap{position:absolute;z-index:8;left:50%;top:50%;transform:translate(-50%,-50%);display:grid;place-items:center;
   width:30px;height:30px;border-radius:50%;background:#fff;color:#111;font:700 14px/1 var(--gothic);font-style:normal;
   box-shadow:0 3px 12px #0008}

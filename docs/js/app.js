@@ -636,6 +636,68 @@
     else if (ev.key === 'ArrowLeft' && here && here.entry){ ev.preventDefault(); goStep(here.step - 1); }
   });
 
+  /* ---------- 二枚の絵を指でつかむ（コンテクストページ） ----------
+     A と B は一枚の帯として指に付いてくる（1:1、帯の半分を越えると抵抗）。
+     離したとき、十分に引いたか勢いよく払っていれば、中へ引き寄せた側の作品ページへ進む
+     （左へ引けば B、右へ引けば A）。絵は離した位置から、次のページの位置へそのまま運ばれる。
+     足りなければ、ばねのように元の位置へ戻る。縦の動きはページのスクロールに任せる。 */
+  let duoGesture = false, duoDragged = false, duoTimer = 0;
+  (() => {
+    let g = null;
+    const vw = () => window.innerWidth;
+    const place = (el, x) => { el.style.transform = x ? `translate3d(${x}px,0,0)` : ''; };
+    const velocity = (s) => {
+      if (s.length < 2) return 0;
+      const a = s[0], b = s[s.length - 1];
+      return b[0] > a[0] ? (b[1] - a[1]) / (b[0] - a[0]) : 0;   /* px/ms */
+    };
+    view.addEventListener('pointerdown', e => {
+      const duo = e.target.closest && e.target.closest('.cpage .duo');
+      if (!duo || !here || !here.entry || here.step !== 1 || e.button > 0) return;
+      clearTimeout(duoTimer); duoGesture = true; duoDragged = false;
+      /* 戻る途中の帯をつかみ直したら、その位置から続ける */
+      const cur = new DOMMatrixReadOnly(getComputedStyle(duo).transform).m41;
+      duo.getAnimations().forEach(a => a.cancel());
+      place(duo, cur);
+      g = { id: e.pointerId, x0: e.clientX - cur, y0: e.clientY, el: duo, x: cur, locked: false,
+            s: [[e.timeStamp, e.clientX]] };
+    });
+    view.addEventListener('pointermove', e => {
+      if (!g || e.pointerId !== g.id) return;
+      const dx = e.clientX - g.x0, dy = e.clientY - g.y0;
+      if (!g.locked){
+        if (Math.abs(dx - g.x) < 6 && Math.abs(dy) < 6) return;
+        if (Math.abs(dy) > Math.abs(dx - g.x)){ place(g.el, 0); g = null; return; }   /* 縦はスクロール */
+        g.locked = true; duoDragged = true;
+        g.el.classList.add('dragging');
+        try { g.el.setPointerCapture(e.pointerId); } catch (err) {}
+      }
+      const lim = vw() * 0.5, a = Math.abs(dx);
+      g.x = a <= lim ? dx : Math.sign(dx) * (lim + (a - lim) * 0.3);
+      place(g.el, g.x);
+      g.s.push([e.timeStamp, e.clientX]); if (g.s.length > 5) g.s.shift();
+    });
+    const release = (e, cancelled) => {
+      if (!g || e.pointerId !== g.id) return;
+      const { el, x, locked } = g, v = velocity(g.s);
+      g = null;
+      duoTimer = setTimeout(() => { duoGesture = false; duoDragged = false; }, 450);
+      if (!locked) return;                       /* 触れて離しただけ：絵のボタンが作品ページを開く */
+      el.classList.remove('dragging');
+      const fling = Math.abs(v) > 0.45 ? -Math.sign(v) : 0;
+      const dir = cancelled ? 0 : fling || (Math.abs(x) > vw() * 0.24 ? -Math.sign(x) : 0);
+      if (dir){ goStep(dir > 0 ? 2 : 0); return; }   /* 絵は今の位置から運ばれる */
+      place(el, 0);
+      el.animate([{ transform: `translate3d(${x}px,0,0)` }, { transform: 'translate3d(0,0,0)' }],
+        { duration: 460, easing: 'cubic-bezier(.18,1.3,.35,1)' });
+    };
+    view.addEventListener('pointerup', e => release(e, false));
+    view.addEventListener('pointercancel', e => release(e, true));
+    /* 引いたあとの「クリック」は、絵のボタンに届かせない */
+    view.addEventListener('click', e => { if (duoDragged && e.target.closest('.duo')){ e.stopPropagation(); e.preventDefault(); } }, true);
+    view.addEventListener('dragstart', e => { if (e.target.closest('.duo')) e.preventDefault(); });
+  })();
+
   /* 右へ払えば戻る（transition.js）。左へ払えば路線の先へ進む */
   let sx = 0, sy = 0, swiping = false;
   document.addEventListener('touchstart', e => {
@@ -647,6 +709,7 @@
   document.addEventListener('touchend', e => {
     if (!swiping) return;
     swiping = false;
+    if (duoGesture) return;   /* 二枚の絵をつかんでいた指は、そちらで扱う */
     const t = e.changedTouches && e.changedTouches[0];
     if (!t) return;
     const dx = t.clientX - sx, dy = Math.abs(t.clientY - sy);
@@ -654,6 +717,7 @@
   }, { passive: true });
 
   window.BCSwipeBack = () => {
+    if (duoGesture) return true;
     if (!menu.hidden){ openMenu(false); return true; }
     if (view.classList.contains('on')){ closeView(); return true; }
     return false;
