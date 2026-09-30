@@ -204,7 +204,7 @@
         const e = want && (want.a.slug === arg || want.b.slug === arg) ? want
           : (hit.contexts[0] && hit.contexts[0].entry) || null;
         const step = e && e.b.slug === arg ? 2 : 0;
-        return show({ key: 'w:' + arg + ':' + (e ? e.id : ''), kind: e ? 'route' : 'page', entry: e, step },
+        return show({ key: 'w:' + arg + ':' + (e ? e.id : ''), kind: e ? 'route' : 'page', entry: e, step, work: true },
           R.workPage(hit, e), motion, hit.work.title);
       }
     } else if (name === 'f' && arg){
@@ -356,6 +356,7 @@
     else if (feedIO){ feedIO.disconnect(); feedIO = null; }
     body.classList.add('viewing');
     body.classList.toggle('route', page.kind === 'route');
+    body.classList.toggle('on-work', !!page.work);
     $('uniLabel').textContent = 'UniverseIt!';   /* ページの上では、UniverseIt! へ戻る印 */
     if (page.kind === 'route') setDock(page.entry, page.step);
     else setDock(null);
@@ -397,7 +398,7 @@
     ld.textContent = listLd();
     view.classList.add('instant');
     view.classList.remove('on', 'enter');
-    body.classList.remove('viewing', 'route');
+    body.classList.remove('viewing', 'route', 'on-work');
     setDock(null);
     paintSelection();
     if (moving && before.length) fly(before, motion || { toCenter: true });
@@ -497,7 +498,7 @@
     const w = S.works().find(h => h.slug === sel);
     const name = w ? R.tagText(w.work) : '';
     label.textContent = name + ' へ';
-    hint.textContent = `${name}とつながる ${lit.size - 1} 作品が光っています`;
+    hint.innerHTML = `${R.esc(name)}とつながる ${lit.size - 1} 作品が光っています<button type="button" class="sel-clear" data-clear-sel>すべての言葉に戻る</button>`;
   }
   function select(slug, keepGroup){
     if (!slug || (slug === sel && !keepGroup)){ sel = null; lit = new Set(); paintSelection(); return; }
@@ -505,6 +506,13 @@
     if (!keepGroup) lit = new Set([slug, ...S.neighbors(slug).map(n => n.slug)]);
     paintSelection();
   }
+  /* すべての言葉（起動直後の画面）へ戻る：ヒントのボタン、または UniverseIt! の見出し */
+  function showAll(){
+    select(null);
+    window.scrollTo({ top: 0, behavior: motionOK() ? 'smooth' : 'auto' });
+  }
+  $('selHint').addEventListener('click', ev => { if (ev.target.closest('[data-clear-sel]')) showAll(); });
+  document.querySelector('.uni-title').addEventListener('click', showAll);
   tags.addEventListener('click', ev => {
     const t = ev.target.closest('.tag');
     if (!t){ if (sel) select(null); return; }

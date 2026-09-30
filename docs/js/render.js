@@ -202,6 +202,12 @@
   /* ---------- コンテクストページ A―B ----------
      demo-1 のとおり。黒地に二枚の絵を並べ、真ん中に ↔。
      紙の地に路線名・見出し・二作品の関係、その下に CONTEXT STORY。 */
+  /* 読み終えたところに、次の一歩を二つだけ置く：B の作品ページと、B から延びる次の区間 */
+  function nextSteps(e){
+    const on = S.neighbors(e.b.slug).find(n => n.entry.id !== e.id);
+    return `<p class="meta more-label">続けて辿る</p>${tease(null, `${e.b.title}のページへ`, 2)}` +
+      (on ? tease('#/c/' + encodeURIComponent(on.entry.context.slug), `次の区間：${on.work.title}へ`) : '');
+  }
   function contextPage(e, adItem){
     const c = e.context;
     const t = readLabel(c.body);
@@ -214,7 +220,7 @@
     return `
       <article class="page cpage">
         ${backTop()}
-        <div class="duo-hero"><div class="duo">${frame(e.a, 'art')}${frame(e.b, 'art')}<i class="swap" aria-hidden="true">↔</i></div></div>
+        <div class="duo-hero"><div class="duo"><button type="button" class="duo-go" data-step="0" aria-label="${attr(e.a.title)}の作品ページへ">${frame(e.a, 'art')}</button><button type="button" class="duo-go" data-step="2" aria-label="${attr(e.b.title)}の作品ページへ">${frame(e.b, 'art')}</button><i class="swap" aria-hidden="true">↔</i></div></div>
         <section class="context-lead">
           ${state}
           <p class="route-label">${esc(c.label || 'CONTEXT')}　［${esc(c.routeName)}］　${t}</p>
@@ -226,6 +232,7 @@
           <p class="meta">CONTEXT STORY</p>
           ${story}
           ${axes(c)}
+          ${nextSteps(e)}
           ${ai ? `<p class="source">この解説は生成AIの出力をもとにしています<a href="${attr(ai)}" target="_blank" rel="noopener nofollow">${esc(ai)}</a></p>` : ''}
           ${rel.length ? `<p class="meta more-label">同じルーツのコンテクスト</p>${roots(e, rel)}` : ''}
           ${ad(adItem)}
@@ -251,7 +258,7 @@
           ${c ? `<a class="seg" href="#/c/${encodeURIComponent(c.slug)}">
             ${it.branch && parent ? `<span class="seg-from">${esc(tagText(parent.work))} から分岐</span>` : ''}
             <small>［${esc(c.routeName)}］${c.kind ? `　${esc(c.kind)}` : ''}</small>
-            <b>${esc(c.headline).replace(/\n/g, '')}</b></a>` : ''}
+            <b><span class="seg-copy">${esc(c.headline).replace(/\n/g, '')}</span><span class="seg-go" aria-hidden="true">››</span></b></a>` : ''}
           <a class="fstop" href="${attr(href)}">
             <span class="st-img">${s ? `<img src="${attr(s)}" alt="${attr(w.title)}" data-k="${attr(w.slug)}" loading="${n < 4 ? 'eager' : 'lazy'}" decoding="async">`
               : `<span class="ph">${esc(initial(w))}</span>`}</span>

@@ -704,6 +704,183 @@
       credit: '© 大島渚プロダクション／出典 映画.com',
       creditUrl: 'https://eiga.com/movie/17648/',
       summary: '1942年、ジャワの日本軍捕虜収容所。デヴィッド・ボウイ、坂本龍一、ビートたけし、トム・コンティが演じた。音楽は坂本龍一。'
+    },
+
+    /* ---- 125 タイトル版で増えた 25 作品（先生の一覧の 101〜125） ---- */
+    uniqlock: {
+      title: 'UNIQLOCK', type: 'CM', year: '2007', creator: 'ユニクロ',
+      slug: 'uniqlock', order: 101, image: 'img/works/uniqlock.jpg',
+      credit: '映像の一場面（season 6）／© ユニクロ／出典 YouTube',
+      creditUrl: 'https://www.youtube.com/watch?v=f_TY3z4TsSc',
+      summary: 'ユニクロのウェブ広告。音楽とダンスと時計を組み合わせ、時刻を刻み続けるブログパーツとして世界に広まった。'
+    },
+    downfall: {
+      title: '映画『ヒトラー〜最期の12日間〜』', type: '映画・ドラマ', year: '2004', creator: 'オリヴァー・ヒルシュビーゲル監督',
+      slug: 'downfall', order: 102, image: 'img/works/downfall.jpg',
+      credit: '© 権利者／出典 映画.com',
+      creditUrl: 'https://eiga.com/movie/52585/',
+      summary: 'ベルリン陥落直前、総統地下壕で過ごしたヒトラーの最期の日々を、秘書の証言などをもとに描いたドイツ映画。'
+    },
+    ganz: {
+      title: 'ブルーノ・ガンツ', type: '人物', year: '', creator: '俳優（1941–2019）',
+      slug: 'bruno-ganz', order: 103, image: 'img/works/bruno-ganz.jpg',
+      credit: '東京ドイツ映画祭（2005）（撮影 Yasu）／CC BY-SA 3.0／Wikimedia Commons',
+      creditUrl: 'https://commons.wikimedia.org/wiki/File:Bruno_Ganz_DFF_Tokyo_2005.jpg',
+      summary: 'スイス出身の俳優。『ベルリン・天使の詩』の天使ダミエル、『ヒトラー〜最期の12日間〜』のヒトラーを演じた。'
+    },
+    lambs: {
+      title: '映画『羊たちの沈黙』', type: '映画・ドラマ', year: '1991', creator: 'ジョナサン・デミ監督',
+      slug: 'the-silence-of-the-lambs', order: 104, image: 'img/works/the-silence-of-the-lambs.jpg',
+      credit: '© 1991 Orion Pictures Corporation. All Rights Reserved.／出典 映画.com',
+      creditUrl: 'https://eiga.com/movie/25151/',
+      summary: 'FBI訓練生クラリスが、収監中の精神科医ハンニバル・レクターの助言を得て連続殺人犯を追うサスペンス。アカデミー賞の主要5部門を受賞した。'
+    },
+    demme: {
+      title: 'ジョナサン・デミ', type: '人物', year: '', creator: '映画監督（1944–2017）',
+      slug: 'jonathan-demme', order: 105, image: 'img/works/jonathan-demme.jpg',
+      credit: '撮影 Dan D\'Errico / Montclair Film Festival／CC BY 2.0／Wikimedia Commons',
+      creditUrl: 'https://commons.wikimedia.org/wiki/File:Jonathan_Demme_(May_2015)_(cropped2).JPG',
+      summary: 'アメリカの映画監督。『羊たちの沈黙』でアカデミー監督賞。『フィラデルフィア』や、トーキング・ヘッズのライブ映画『ストップ・メイキング・センス』も手がけた。'
+    },
+    hopkins: {
+      title: 'アンソニー・ホプキンス', type: '人物', year: '', creator: '俳優（1937–）',
+      slug: 'anthony-hopkins', order: 106, image: 'img/works/anthony-hopkins.jpg',
+      credit: '撮影 Elena Torre／CC BY-SA 2.0／Wikimedia Commons',
+      creditUrl: 'https://commons.wikimedia.org/wiki/File:Anthony_Hopkins_cropped_2009.jpg',
+      summary: '英国ウェールズ出身の俳優。『羊たちの沈黙』のハンニバル・レクター役でアカデミー主演男優賞を受賞した。'
+    },
+    foster: {
+      title: 'ジョディ・フォスター', type: '人物', year: '', creator: '俳優・映画監督（1962–）',
+      slug: 'jodie-foster', order: 107, image: 'img/works/jodie-foster.jpg',
+      credit: '撮影 Franz Richter／CC BY-SA 2.5／Wikimedia Commons',
+      creditUrl: 'https://commons.wikimedia.org/wiki/File:Jodie_Foster.4785.jpg',
+      summary: 'アメリカの俳優・映画監督。子役から活躍し、『羊たちの沈黙』のクラリス役で二度目のアカデミー主演女優賞を受賞した。'
+    },
+    wings: {
+      title: '映画『ベルリン・天使の詩』', type: '映画・ドラマ', year: '1987', creator: 'ヴィム・ヴェンダース監督',
+      slug: 'wings-of-desire', order: 108, image: 'img/works/wings-of-desire.jpg',
+      credit: '場面写真／(C)Wim Wenders Stiftung – Argos Films／出典 映画.com',
+      creditUrl: 'https://eiga.com/movie/27461/',
+      summary: '壁のあった時代のベルリンで、人々の心の声を聞き続けてきた天使が、人間になることを選ぶ物語。'
+    },
+    wenders: {
+      title: 'ヴィム・ヴェンダース', type: '人物', year: '', creator: '映画監督（1945–）',
+      slug: 'wim-wenders', order: 109, image: 'img/works/wim-wenders.jpg',
+      credit: '撮影 Queryzo／CC BY-SA 4.0／Wikimedia Commons',
+      creditUrl: 'https://commons.wikimedia.org/wiki/File:Wim_Wenders_Berlinale_2015.jpg',
+      summary: 'ドイツの映画監督。『パリ、テキサス』『ベルリン・天使の詩』のほか、東京を舞台にした『PERFECT DAYS』も撮った。'
+    },
+    falk: {
+      title: 'ピーター・フォーク', type: '人物', year: '', creator: '俳優（1927–2011）',
+      slug: 'peter-falk', order: 110, image: 'img/works/peter-falk.jpg',
+      credit: '『刑事コロンボ』の宣材写真（1973）／Public domain／Wikimedia Commons',
+      creditUrl: 'https://commons.wikimedia.org/wiki/File:Peter_Falk_Colombo_1973.jpg',
+      summary: 'アメリカの俳優。『刑事コロンボ』のコロンボ役で知られる。『ベルリン・天使の詩』には本人役で出演した。'
+    },
+    handke: {
+      title: 'ペーター・ハントケ', type: '人物', year: '', creator: '作家（1942–）',
+      slug: 'peter-handke', order: 111, image: 'img/works/peter-handke.jpg',
+      credit: '撮影 Wild + Team Agentur／CC BY-SA 3.0／Wikimedia Commons',
+      creditUrl: 'https://commons.wikimedia.org/wiki/File:Peter-handke_(cropped).jpg',
+      summary: 'オーストリアの作家・劇作家。『ベルリン・天使の詩』の脚本に加わり、2019年にノーベル文学賞を受賞した。'
+    },
+    nobel: {
+      title: 'ノーベル文学賞受賞者', type: '人物', year: '1901–', creator: 'スウェーデン・アカデミーが選ぶ',
+      slug: 'nobel-literature-laureates', order: 112, image: 'img/works/nobel-literature-laureates.jpg',
+      credit: 'ガルシア＝マルケスのノーベル文学賞のメダルと賞状（コロンビア国立図書館）（撮影 Peter Angritt）／CC BY-SA 4.0／Wikimedia Commons',
+      creditUrl: 'https://commons.wikimedia.org/wiki/File:Biblioteca_Nacional_-_Nobel_Prize_for_Literature_-_Gabriel_Garcia_Marquez.jpg',
+      summary: '1901年から続くノーベル文学賞を受けた作家たち。'
+    },
+    cats: {
+      title: 'ミュージカル『キャッツ』', type: 'ミュージカル', year: '1981', creator: 'アンドリュー・ロイド・ウェバー作曲',
+      slug: 'cats', order: 113, image: 'img/works/cats.jpg',
+      credit: 'オリジナル・ロンドン・キャスト盤（1981）のジャケット／© 権利者／出典 Apple Music',
+      creditUrl: 'https://music.apple.com/jp/album/cats-original-1981-london-cast/1843487732',
+      summary: 'T・S・エリオットの詩集『Old Possum’s Book of Practical Cats』（1939）をもとにしたミュージカル。1981年にロンドンで初演された。'
+    },
+    eliot: {
+      title: 'T・S・エリオット', type: '人物', year: '', creator: '詩人・批評家（1888–1965）',
+      slug: 't-s-eliot', order: 114, image: 'img/works/t-s-eliot.jpg',
+      credit: '1923年（撮影 Lady Ottoline Morrell）／Public domain／Wikimedia Commons',
+      creditUrl: 'https://commons.wikimedia.org/wiki/File:T.S._Eliot,_1923.JPG',
+      summary: 'アメリカに生まれ、英国で活躍した詩人・批評家。『荒地』『うつろな人々』を書き、1948年にノーベル文学賞を受賞した。'
+    },
+    pound: {
+      title: 'エズラ・パウンド', type: '人物', year: '', creator: '詩人（1885–1972）',
+      slug: 'ezra-pound', order: 115, image: 'img/works/ezra-pound.jpg',
+      credit: '1913年（撮影 Alvin Langdon Coburn）／CC0／Wikimedia Commons',
+      creditUrl: 'https://commons.wikimedia.org/wiki/File:Ezra_Pound_by_Alvin_Langdon_Coburn,_1913,_collotype_photograph,_from_the_National_Portrait_Gallery_-_NPG-NPG_78_14Pound-000001.jpg',
+      summary: 'アメリカの詩人。モダニズムの詩を牽引し、エリオットの『荒地』の草稿に大胆に手を入れて仕上げを助けた。'
+    },
+    wasteland: {
+      title: '長編詩『荒地』The Waste Land', type: '詩', year: '1922', creator: 'T・S・エリオット',
+      slug: 'the-waste-land', order: 116, image: 'img/works/the-waste-land.jpg',
+      credit: '『荒地』が初めて載った季刊誌「The Criterion」創刊号（1922年10月）／CC BY-SA 4.0／Wikimedia Commons',
+      creditUrl: 'https://commons.wikimedia.org/wiki/File:THE_CRITERION_PORTADA.jpg',
+      summary: '「四月はいちばん残酷な月」で始まる長編詩。第一次世界大戦後のヨーロッパの荒廃を描いた、モダニズム詩の代表作。'
+    },
+    hollow: {
+      title: '『うつろな人々』The Hollow Men', type: '詩', year: '1925', creator: 'T・S・エリオット',
+      slug: 'the-hollow-men', order: 117, image: 'img/works/the-hollow-men.jpg',
+      credit: '題辞「A penny for the Old Guy」のガイ・フォークス人形（撮影 paddy patterson）／CC BY 2.0／Wikimedia Commons',
+      creditUrl: 'https://commons.wikimedia.org/wiki/File:PennyForTheGuy.jpg',
+      summary: '「世界の終わりはこうだ、爆発ではなく、すすり泣きで」と結ばれる詩。題辞にコンラッド『闇の奥』の一行を掲げる。'
+    },
+    lorenzo: {
+      title: '映画「ロレンツォのオイル」', type: '映画・ドラマ', year: '1992', creator: 'ジョージ・ミラー監督',
+      slug: 'lorenzos-oil', order: 118, image: 'img/works/lorenzos-oil.jpg',
+      credit: '© 権利者／出典 映画.com',
+      creditUrl: 'https://eiga.com/movie/64836/',
+      summary: '難病ALDと診断された息子を救うため、医学の素人である両親が治療法を探し続けた実話の映画化。'
+    },
+    ald: {
+      title: '副腎白質ジストロフィー（ALD）', type: '病気', year: '', creator: '遺伝性の病気',
+      slug: 'adrenoleukodystrophy', order: 119, image: 'img/works/adrenoleukodystrophy.jpg',
+      credit: 'ALD の脳の MRI 画像（撮影 Frank Gaillard）／CC BY-SA 3.0／Wikimedia Commons',
+      creditUrl: 'https://commons.wikimedia.org/wiki/File:Adrenoleukodystrophy.jpg',
+      summary: '脳の白質と副腎が侵される遺伝性の病気。主に男の子に発症する。'
+    },
+    elmer: {
+      title: '映画「エルマー・ガントリー」', type: '映画・ドラマ', year: '1960', creator: 'リチャード・ブルックス監督',
+      slug: 'elmer-gantry', order: 120, image: 'img/works/elmer-gantry.jpg',
+      credit: '主演バート・ランカスター（本作でアカデミー主演男優賞）の肖像（Nicholas Volpe 画）／CC BY-SA 4.0／Wikimedia Commons',
+      creditUrl: 'https://commons.wikimedia.org/wiki/File:Burt_Lancaster_1960.jpg',
+      summary: 'シンクレア・ルイスの小説をもとに、口のうまい男が信仰復興運動の伝道者として成り上がっていく姿を描いた映画。'
+    },
+    antiintel: {
+      title: '反知性主義', type: '言葉', year: '', creator: '言葉',
+      slug: 'anti-intellectualism', order: 121, image: 'img/works/anti-intellectualism.jpg',
+      credit: 'ホーフスタッターが反知性主義の源流の一つとした信仰復興運動の集会（1852）／Public domain／Wikimedia Commons',
+      creditUrl: 'https://commons.wikimedia.org/wiki/File:Religious_revival_meeting_at_Eastham,_Mass.,_1852-_Prayer_meeting_in_a_tent_LCCN2003654804.jpg',
+      summary: '知性や知識人への反発・不信を表す言葉。ホーフスタッター『アメリカの反知性主義』で広く知られるようになった。'
+    },
+    aibook: {
+      title: 'アメリカの反知性主義', type: '書籍', year: '1963', creator: 'リチャード・ホーフスタッター（田村哲夫 訳）',
+      slug: 'anti-intellectualism-in-american-life', order: 122, image: 'img/works/anti-intellectualism-in-american-life.jpg',
+      credit: 'みすず書房版の表紙／© みすず書房／出典 みすず書房',
+      creditUrl: 'https://www.msz.co.jp/book/detail/07066/',
+      summary: 'アメリカ社会に根づく知性への反発を、宗教・政治・ビジネス・教育の歴史からたどった本。ピュリッツァー賞を受賞した。'
+    },
+    hofstadter: {
+      title: 'リチャード・ホーフスタッター', type: '人物', year: '', creator: '歴史家（1916–1970）',
+      slug: 'richard-hofstadter', order: 123, image: 'img/works/richard-hofstadter.jpg',
+      credit: 'ホーフスタッターが教えたコロンビア大学の「アルマ・マーテル」像／Public domain／Wikimedia Commons',
+      creditUrl: 'https://commons.wikimedia.org/wiki/File:Almamater.jpg',
+      summary: 'アメリカの歴史家。コロンビア大学で教え、『アメリカの反知性主義』などで二度ピュリッツァー賞を受けた。'
+    },
+    crime: {
+      title: '罪と罰', type: '書籍', year: '1866', creator: 'ドストエフスキー',
+      slug: 'crime-and-punishment', order: 124, image: 'img/works/crime-and-punishment.jpg',
+      credit: '初版本（1867）の表紙／Public domain／Wikimedia Commons',
+      creditUrl: 'https://commons.wikimedia.org/wiki/File:Cover_of_the_first_edition_of_Crime_and_Punishment.jpg',
+      summary: '貧しい元学生ラスコーリニコフが、自分の理屈で老婆を殺し、罪の意識に追いつめられていく長編小説。'
+    },
+    dost: {
+      title: 'ドストエフスキー', type: '人物', year: '', creator: '作家（1821–1881）',
+      slug: 'fyodor-dostoevsky', order: 125, image: 'img/works/fyodor-dostoevsky.jpg',
+      credit: 'ヴァシーリー・ペローフ画（1872）／Public domain／Wikimedia Commons',
+      creditUrl: 'https://commons.wikimedia.org/wiki/File:Vasily_Perov_-_%D0%9F%D0%BE%D1%80%D1%82%D1%80%D0%B5%D1%82_%D0%A4.%D0%9C.%D0%94%D0%BE%D1%81%D1%82%D0%BE%D0%B5%D0%B2%D1%81%D0%BA%D0%BE%D0%B3%D0%BE_-_Google_Art_Project.jpg',
+      summary: 'ロシアの作家。『罪と罰』『カラマーゾフの兄弟』などで、人間の内面と信仰を深く描いた。'
     }
   };
 
@@ -3429,6 +3606,683 @@
         line: { shape: 0, color: '#c43f9a' },
         body:
           '<p><strong>東京には、隣の国の台所がいくつもある。</strong></p><p>神田の「漢陽楼」は、明治四十四年創業を掲げる中国料理店。中国からの留学生が集い、若き周恩来も通ったと伝えられている。</p><p>赤坂の「ヌルンジ」は、韓国料理の店が集まる一角にある韓国料理店。店名は、釜の底にできるおこげを表す韓国語から来ている。</p><p>百年以上前の留学生にとっても、いまの東京で暮らす人にとっても、故郷の味を出す店は、遠い国とこの街をつなぐ小さな駅のような場所になっている。</p>'
+      }
+    },
+
+    /* ---- 125 タイトル版の区間（生成AIの初稿） ---- */
+    {
+      id: 'seed-think-different--uniqlock',
+      createdAt: '2026-09-30T09:00:00.000Z',
+      updatedAt: '2026-09-30T09:00:00.000Z',
+      a: W.think,
+      b: W.uniqlock,
+      context: {
+        routeName: '時代を刻んだ広告',
+        label: 'CONTEXT',
+        kind: '似ている',
+        hub: 'ブランドの映像広告',
+        score: [4, 4, 4, 4],
+        headline: '商品を映さずに、\nブランドを語った。',
+        slug: 'think-different--uniqlock',
+        relation: 'アップル「Think Different」── 商品を映さない広告 ── ユニクロ「UNIQLOCK」',
+        leftStation: 'Think Different',
+        rightStation: 'UNIQLOCK',
+        author: AI,
+        review: 'ai',
+        aiUrl: '',
+        line: { shape: 0, color: '#c43f9a' },
+        body:
+          '<p><strong>商品を見せずに、世界観だけで記憶に残る。</strong></p><p>1997年のアップル「Think Different」は、コンピューターを一台も映さず、アインシュタインやガンディーら「世界を変えた人々」の姿を並べた。</p><p>2007年のユニクロ「UNIQLOCK」は、服の説明をせず、音楽とダンスと時計だけで時刻を刻み続けた。ブログに貼れる時計として世界中に広まり、カンヌ国際広告祭でグランプリを受けた。</p><p>二つの広告に共通するのは、商品を語る代わりに、ブランドが大切にしている態度そのものを見せたことだ。</p>'
+      }
+    },
+
+    {
+      id: 'seed-downfall--bruno-ganz',
+      createdAt: '2026-09-30T08:50:00.000Z',
+      updatedAt: '2026-09-30T08:50:00.000Z',
+      a: W.downfall,
+      b: W.ganz,
+      context: {
+        routeName: 'ヒトラーを演じた人',
+        label: 'CONTEXT',
+        kind: '作者と作品',
+        hub: '主演',
+        score: [4, 4, 5, 4],
+        headline: '天使を演じた俳優が、\n独裁者を演じた。',
+        slug: 'downfall--bruno-ganz',
+        relation: 'ブルーノ・ガンツ ── 主演 ── 『ヒトラー〜最期の12日間〜』',
+        leftStation: 'ヒトラー 最期の12日間',
+        rightStation: 'ブルーノ・ガンツ',
+        author: AI,
+        review: 'ai',
+        aiUrl: '',
+        line: { shape: 1, color: '#2f8f5b' },
+        body:
+          '<p><strong>同じ俳優が、天使と独裁者を演じた。</strong></p><p>『ヒトラー〜最期の12日間〜』でヒトラーを演じたのは、スイス出身のブルーノ・ガンツ。怒鳴り、震え、ときに穏やかな老人にも見える姿は、それまでの「悪の記号」としてのヒトラー像を揺さぶった。</p><p>その17年前、ガンツは『ベルリン・天使の詩』で、人間を見守る天使ダミエルを演じていた。同じベルリンを舞台に、同じ俳優が、人を見つめる側と、人を滅ぼした側の両方を生きたことになる。</p>'
+      }
+    },
+
+    {
+      id: 'seed-bruno-ganz--wings-of-desire',
+      createdAt: '2026-09-30T08:40:00.000Z',
+      updatedAt: '2026-09-30T08:40:00.000Z',
+      a: W.ganz,
+      b: W.wings,
+      context: {
+        routeName: '天使ダミエル',
+        label: 'CONTEXT',
+        kind: '作者と作品',
+        hub: '出演',
+        score: [4, 5, 5, 5],
+        headline: '人の心の声を聞く天使は、\nやがて人間になった。',
+        slug: 'bruno-ganz--wings-of-desire',
+        relation: 'ブルーノ・ガンツ ── 天使ダミエル ── 『ベルリン・天使の詩』',
+        leftStation: 'ブルーノ・ガンツ',
+        rightStation: 'ベルリン・天使の詩',
+        author: AI,
+        review: 'ai',
+        aiUrl: '',
+        line: { shape: 2, color: '#2f8f5b' },
+        body:
+          '<p><strong>永遠よりも、一杯のコーヒーの温かさを選ぶ。</strong></p><p>『ベルリン・天使の詩』で、ブルーノ・ガンツは天使ダミエルを演じた。図書館や地下鉄で人々の心の声に耳を澄ませ、見守ることしかできない存在だ。</p><p>サーカスの空中ブランコ乗りに恋したダミエルは、永遠の命を捨てて人間になる。ガンツの静かなまなざしが、その選択に説得力を与えている。</p>'
+      }
+    },
+
+    {
+      id: 'seed-downfall--anthony-hopkins',
+      createdAt: '2026-09-30T08:30:00.000Z',
+      updatedAt: '2026-09-30T08:30:00.000Z',
+      a: W.downfall,
+      b: W.hopkins,
+      context: {
+        routeName: '二人のヒトラー',
+        label: 'CONTEXT',
+        kind: 'ハブ',
+        hub: '総統地下壕',
+        score: [5, 3, 4, 4],
+        headline: 'レクター博士も、\nヒトラーを演じていた。',
+        slug: 'downfall--anthony-hopkins',
+        relation: 'アンソニー・ホプキンス（『ザ・バンカー』1981）── 総統地下壕 ── 『ヒトラー〜最期の12日間〜』',
+        leftStation: 'ヒトラー 最期の12日間',
+        rightStation: 'アンソニー・ホプキンス',
+        author: AI,
+        review: 'ai',
+        aiUrl: '',
+        line: { shape: 3, color: '#3447c9' },
+        body:
+          '<p><strong>同じ地下壕を、二人の名優が演じている。</strong></p><p>『ヒトラー〜最期の12日間〜』は、ベルリンの総統地下壕で過ごした最期の日々を描く。</p><p>その20年以上前、アンソニー・ホプキンスはアメリカのテレビ映画『ザ・バンカー』（1981）で、同じ地下壕のヒトラーを演じ、エミー賞を受けている。のちに『羊たちの沈黙』のレクター博士となる俳優だ。</p><p>ブルーノ・ガンツとホプキンス。二人の俳優が、同じ地下の閉ざされた空間で、同じ人物の最期を演じている。</p>'
+      }
+    },
+
+    {
+      id: 'seed-the-silence-of-the-lambs--jonathan-demme',
+      createdAt: '2026-09-30T08:20:00.000Z',
+      updatedAt: '2026-09-30T08:20:00.000Z',
+      a: W.lambs,
+      b: W.demme,
+      context: {
+        routeName: '監督と作品',
+        label: 'CONTEXT',
+        kind: '作者と作品',
+        hub: '監督',
+        score: [3, 4, 5, 4],
+        headline: 'ライブ映画の監督が、\n戦慄のサスペンスを撮った。',
+        slug: 'the-silence-of-the-lambs--jonathan-demme',
+        relation: 'ジョナサン・デミ ── 監督 ── 『羊たちの沈黙』',
+        leftStation: '羊たちの沈黙',
+        rightStation: 'ジョナサン・デミ',
+        author: AI,
+        review: 'ai',
+        aiUrl: '',
+        line: { shape: 0, color: '#2f8f5b' },
+        body:
+          '<p><strong>音楽を愛した監督が、沈黙を撮った。</strong></p><p>ジョナサン・デミは、トーキング・ヘッズのライブ映画『ストップ・メイキング・センス』で知られた監督だった。</p><p>その彼が撮った『羊たちの沈黙』は、アカデミー賞の作品・監督・主演男優・主演女優・脚色の主要5部門を独占した。俳優の顔を正面から捉えるカメラが、観客を登場人物と一対一で向き合わせる。</p>'
+      }
+    },
+
+    {
+      id: 'seed-the-silence-of-the-lambs--anthony-hopkins',
+      createdAt: '2026-09-30T08:10:00.000Z',
+      updatedAt: '2026-09-30T08:10:00.000Z',
+      a: W.lambs,
+      b: W.hopkins,
+      context: {
+        routeName: 'レクター博士',
+        label: 'CONTEXT',
+        kind: '作者と作品',
+        hub: 'ハンニバル・レクター',
+        score: [3, 4, 5, 5],
+        headline: '16分ほどの出演で、\n主演男優賞をとった。',
+        slug: 'the-silence-of-the-lambs--anthony-hopkins',
+        relation: 'アンソニー・ホプキンス ── ハンニバル・レクター ── 『羊たちの沈黙』',
+        leftStation: '羊たちの沈黙',
+        rightStation: 'アンソニー・ホプキンス',
+        author: AI,
+        review: 'ai',
+        aiUrl: '',
+        line: { shape: 1, color: '#2f8f5b' },
+        body:
+          '<p><strong>短い出演時間が、映画全体を支配した。</strong></p><p>アンソニー・ホプキンスが演じたハンニバル・レクターは、画面に登場する時間が長くない。それでも彼はアカデミー主演男優賞を受けた。</p><p>まばたきの少ない視線、ガラス越しの穏やかな声。檻の中にいるはずの男が、会話の主導権を握り続ける。その不気味さが、映画を観終えたあとも残り続ける。</p>'
+      }
+    },
+
+    {
+      id: 'seed-the-silence-of-the-lambs--jodie-foster',
+      createdAt: '2026-09-30T08:00:00.000Z',
+      updatedAt: '2026-09-30T08:00:00.000Z',
+      a: W.lambs,
+      b: W.foster,
+      context: {
+        routeName: 'クラリス・スターリング',
+        label: 'CONTEXT',
+        kind: '作者と作品',
+        hub: '主演',
+        score: [3, 4, 5, 5],
+        headline: '怪物と向き合ったのは、\n一人の訓練生だった。',
+        slug: 'the-silence-of-the-lambs--jodie-foster',
+        relation: 'ジョディ・フォスター ── クラリス・スターリング ── 『羊たちの沈黙』',
+        leftStation: '羊たちの沈黙',
+        rightStation: 'ジョディ・フォスター',
+        author: AI,
+        review: 'ai',
+        aiUrl: '',
+        line: { shape: 2, color: '#2f8f5b' },
+        body:
+          '<p><strong>恐怖の物語の中心にいるのは、若い女性の勇気だ。</strong></p><p>ジョディ・フォスターは、FBI訓練生クラリス・スターリングを演じ、二度目のアカデミー主演女優賞を受けた。</p><p>男たちの視線に囲まれながら、クラリスはレクターと取引し、自分の過去を差し出して手がかりを得る。フォスターの抑えた演技が、この物語をホラーではなく、一人の人間の成長の物語にしている。</p>'
+      }
+    },
+
+    {
+      id: 'seed-wings-of-desire--wim-wenders',
+      createdAt: '2026-09-30T07:50:00.000Z',
+      updatedAt: '2026-09-30T07:50:00.000Z',
+      a: W.wings,
+      b: W.wenders,
+      context: {
+        routeName: '監督と作品',
+        label: 'CONTEXT',
+        kind: '作者と作品',
+        hub: '監督',
+        score: [3, 4, 5, 5],
+        headline: '壁のあった街を、\n天使の目で撮った。',
+        slug: 'wings-of-desire--wim-wenders',
+        relation: 'ヴィム・ヴェンダース ── 監督 ── 『ベルリン・天使の詩』',
+        leftStation: 'ベルリン・天使の詩',
+        rightStation: 'ヴィム・ヴェンダース',
+        author: AI,
+        review: 'ai',
+        aiUrl: '',
+        line: { shape: 3, color: '#2f8f5b' },
+        body:
+          '<p><strong>街を見下ろす天使のまなざしは、監督のまなざしでもある。</strong></p><p>ヴィム・ヴェンダースは、アメリカで『パリ、テキサス』を撮ったあと、故国ドイツに戻って『ベルリン・天使の詩』を撮った。東西に分かれていた時代のベルリンが舞台だ。</p><p>天使の見る世界はモノクロで、人間の世界はカラーで描かれる。のちに東京で『PERFECT DAYS』を撮るヴェンダースは、ここでもすでに、ありふれた日常の輝きを見つめている。</p>'
+      }
+    },
+
+    {
+      id: 'seed-wings-of-desire--peter-falk',
+      createdAt: '2026-09-30T07:40:00.000Z',
+      updatedAt: '2026-09-30T07:40:00.000Z',
+      a: W.wings,
+      b: W.falk,
+      context: {
+        routeName: '元天使',
+        label: 'CONTEXT',
+        kind: '事実',
+        hub: '本人役',
+        score: [5, 5, 4, 5],
+        headline: 'コロンボ刑事は、\nかつて天使だった。',
+        slug: 'wings-of-desire--peter-falk',
+        relation: 'ピーター・フォーク（本人役）── 元天使 ── 『ベルリン・天使の詩』',
+        leftStation: 'ベルリン・天使の詩',
+        rightStation: 'ピーター・フォーク',
+        author: AI,
+        review: 'ai',
+        aiUrl: '',
+        line: { shape: 0, color: '#f2cf12' },
+        body:
+          '<p><strong>映画の中のピーター・フォークは、ピーター・フォーク本人だ。</strong></p><p>『ベルリン・天使の詩』に、『刑事コロンボ』で知られるピーター・フォークが本人役で登場する。映画の撮影でベルリンを訪れている俳優という設定だ。</p><p>ところが物語が進むと、彼もかつては天使で、人間になることを選んだ一人だったことがわかる。姿の見えない天使に「そこにいるんだろう」と語りかける場面は、映画のなかでもとりわけ温かい。</p>'
+      }
+    },
+
+    {
+      id: 'seed-wings-of-desire--peter-handke',
+      createdAt: '2026-09-30T07:30:00.000Z',
+      updatedAt: '2026-09-30T07:30:00.000Z',
+      a: W.wings,
+      b: W.handke,
+      context: {
+        routeName: '天使の言葉',
+        label: 'CONTEXT',
+        kind: '事実',
+        hub: '脚本',
+        score: [4, 4, 5, 5],
+        headline: '天使の言葉を書いたのは、\nのちのノーベル賞作家。',
+        slug: 'wings-of-desire--peter-handke',
+        relation: 'ペーター・ハントケ ── 脚本 ── 『ベルリン・天使の詩』',
+        leftStation: 'ベルリン・天使の詩',
+        rightStation: 'ペーター・ハントケ',
+        author: AI,
+        review: 'ai',
+        aiUrl: '',
+        line: { shape: 1, color: '#f2cf12' },
+        body:
+          '<p><strong>映画の詩は、作家の手で書かれた。</strong></p><p>『ベルリン・天使の詩』の脚本には、オーストリアの作家ペーター・ハントケが加わった。映画のなかで繰り返される「子どもが子どもだったころ」という詩も、ハントケの言葉だ。</p><p>ハントケは2019年にノーベル文学賞を受ける。映画の天使たちが語る言葉は、文学の言葉でもあった。</p>'
+      }
+    },
+
+    {
+      id: 'seed-peter-handke--nobel-literature-laureates',
+      createdAt: '2026-09-30T07:20:00.000Z',
+      updatedAt: '2026-09-30T07:20:00.000Z',
+      a: W.handke,
+      b: W.nobel,
+      context: {
+        routeName: '2019年の受賞',
+        label: 'CONTEXT',
+        kind: '事実',
+        hub: '2019年',
+        score: [3, 3, 4, 4],
+        headline: '天使の詩を書いた作家は、\nノーベル文学賞を受けた。',
+        slug: 'peter-handke--nobel-literature-laureates',
+        relation: 'ペーター・ハントケ ── 2019年 ── ノーベル文学賞',
+        leftStation: 'ペーター・ハントケ',
+        rightStation: 'ノーベル文学賞',
+        author: AI,
+        review: 'ai',
+        aiUrl: '',
+        line: { shape: 2, color: '#f2cf12' },
+        body:
+          '<p><strong>映画の脚本家は、小説家であり劇作家だった。</strong></p><p>ペーター・ハントケは2019年、ノーベル文学賞を受けた。劇作『観客罵倒』や小説で、言葉と知覚そのものを問い直してきた作家だ。</p><p>受賞には政治的な発言をめぐる批判もあった。文学賞が作品だけでなく、作家という人間をも問われる賞であることを示した年でもある。</p>'
+      }
+    },
+
+    {
+      id: 'seed-t-s-eliot--nobel-literature-laureates',
+      createdAt: '2026-09-30T07:10:00.000Z',
+      updatedAt: '2026-09-30T07:10:00.000Z',
+      a: W.eliot,
+      b: W.nobel,
+      context: {
+        routeName: '1948年の受賞',
+        label: 'CONTEXT',
+        kind: '事実',
+        hub: '1948年',
+        score: [3, 3, 4, 4],
+        headline: '『荒地』の詩人は、\n1948年に受賞した。',
+        slug: 't-s-eliot--nobel-literature-laureates',
+        relation: 'T・S・エリオット ── 1948年 ── ノーベル文学賞',
+        leftStation: 'T・S・エリオット',
+        rightStation: 'ノーベル文学賞',
+        author: AI,
+        review: 'ai',
+        aiUrl: '',
+        line: { shape: 3, color: '#f2cf12' },
+        body:
+          '<p><strong>現代の詩の形を変えた詩人が、世界に認められた。</strong></p><p>T・S・エリオットは1948年にノーベル文学賞を受けた。アメリカに生まれ、英国に帰化した詩人である。</p><p>『荒地』や『うつろな人々』で、第一次世界大戦後の空虚さを断片的な言葉のコラージュで描いた。その手法は、詩だけでなく、映画や音楽にも影響を与えていく。</p>'
+      }
+    },
+
+    {
+      id: 'seed-the-grapes-of-wrath--nobel-literature-laureates',
+      createdAt: '2026-09-30T07:00:00.000Z',
+      updatedAt: '2026-09-30T07:00:00.000Z',
+      a: W.grapes,
+      b: W.nobel,
+      context: {
+        routeName: '1962年の受賞',
+        label: 'CONTEXT',
+        kind: 'ハブ',
+        hub: 'ジョン・スタインベック',
+        score: [3, 3, 4, 4],
+        headline: '砂嵐の時代を描いて、\nノーベル賞へ。',
+        slug: 'the-grapes-of-wrath--nobel-literature-laureates',
+        relation: 'ジョン・スタインベック『怒りの葡萄』── 作者 ── ノーベル文学賞（1962）',
+        leftStation: '怒りの葡萄',
+        rightStation: 'ノーベル文学賞',
+        author: AI,
+        review: 'ai',
+        aiUrl: '',
+        line: { shape: 0, color: '#3447c9' },
+        body:
+          '<p><strong>土地を追われた人々の物語は、世界の文学になった。</strong></p><p>『怒りの葡萄』は、ダストボウルで土地を失いカリフォルニアへ向かう一家を描いた。</p><p>作者ジョン・スタインベックは1962年にノーベル文学賞を受けた。社会の底辺で生きる人々へのまなざしが、国境を越えて読まれ続けている。</p>'
+      }
+    },
+
+    {
+      id: 'seed-elmer-gantry--nobel-literature-laureates',
+      createdAt: '2026-09-30T06:50:00.000Z',
+      updatedAt: '2026-09-30T06:50:00.000Z',
+      a: W.elmer,
+      b: W.nobel,
+      context: {
+        routeName: '1930年の受賞',
+        label: 'CONTEXT',
+        kind: 'ハブ',
+        hub: 'シンクレア・ルイス',
+        score: [4, 3, 4, 4],
+        headline: '伝道者を皮肉った作家は、\nアメリカ初の受賞者。',
+        slug: 'elmer-gantry--nobel-literature-laureates',
+        relation: 'シンクレア・ルイス（原作）── 1930年 ── ノーベル文学賞',
+        leftStation: 'エルマー・ガントリー',
+        rightStation: 'ノーベル文学賞',
+        author: AI,
+        review: 'ai',
+        aiUrl: '',
+        line: { shape: 1, color: '#3447c9' },
+        body:
+          '<p><strong>原作の小説家は、アメリカで最初のノーベル文学賞作家だった。</strong></p><p>映画「エルマー・ガントリー」の原作は、シンクレア・ルイスの同名小説（1927）。宗教を商売にする伝道者の姿を皮肉に描いた。</p><p>ルイスは1930年、アメリカの作家として初めてノーベル文学賞を受けた。アメリカ社会の俗物根性を鋭く描いた作家である。</p>'
+      }
+    },
+
+    {
+      id: 'seed-cats--t-s-eliot',
+      createdAt: '2026-09-30T06:40:00.000Z',
+      updatedAt: '2026-09-30T06:40:00.000Z',
+      a: W.cats,
+      b: W.eliot,
+      context: {
+        routeName: '猫の詩集',
+        label: 'CONTEXT',
+        kind: '事実',
+        hub: '原作の詩集',
+        score: [5, 5, 4, 4],
+        headline: '『荒地』の詩人が、\n猫の詩も書いていた。',
+        slug: 'cats--t-s-eliot',
+        relation: 'T・S・エリオットの詩集 ── 原作 ── ミュージカル『キャッツ』',
+        leftStation: 'キャッツ',
+        rightStation: 'T・S・エリオット',
+        author: AI,
+        review: 'ai',
+        aiUrl: '',
+        line: { shape: 2, color: '#f2cf12' },
+        body:
+          '<p><strong>難解な詩人が、子どもたちのために猫の詩を書いた。</strong></p><p>ミュージカル『キャッツ』の原作は、T・S・エリオットの詩集『Old Possum’s Book of Practical Cats』（1939）。名付け親の子どもたちのために書いた、ユーモラスな猫の詩の本だ。</p><p>アンドリュー・ロイド・ウェバーはその詩に曲をつけ、1981年にロンドンで舞台にした。代表曲「メモリー」の歌詞にも、エリオットの詩の言葉が使われている。</p><p>『荒地』の詩人と、世界でもっとも長く上演されたミュージカルの一つ。意外な二つは、同じ一人の手でつながっている。</p>'
+      }
+    },
+
+    {
+      id: 'seed-t-s-eliot--the-waste-land',
+      createdAt: '2026-09-30T06:30:00.000Z',
+      updatedAt: '2026-09-30T06:30:00.000Z',
+      a: W.eliot,
+      b: W.wasteland,
+      context: {
+        routeName: '詩人と作品',
+        label: 'CONTEXT',
+        kind: '作者と作品',
+        hub: '代表作',
+        score: [3, 4, 5, 5],
+        headline: '四月は、\nいちばん残酷な月。',
+        slug: 't-s-eliot--the-waste-land',
+        relation: 'T・S・エリオット ── 代表作 ── 『荒地』',
+        leftStation: 'T・S・エリオット',
+        rightStation: '荒地',
+        author: AI,
+        review: 'ai',
+        aiUrl: '',
+        line: { shape: 3, color: '#2f8f5b' },
+        body:
+          '<p><strong>戦争のあとの世界を、言葉の断片で描いた。</strong></p><p>『荒地』は1922年に発表された。さまざまな言語、古典の引用、酒場の会話が、つなぎ目なく並べられる。</p><p>読者は筋を追うのではなく、崩れた文明の破片を拾い集めるように読むことになる。その手法は20世紀の文学のあり方を大きく変えた。</p>'
+      }
+    },
+
+    {
+      id: 'seed-ezra-pound--the-waste-land',
+      createdAt: '2026-09-30T06:20:00.000Z',
+      updatedAt: '2026-09-30T06:20:00.000Z',
+      a: W.pound,
+      b: W.wasteland,
+      context: {
+        routeName: '削った友人',
+        label: 'CONTEXT',
+        kind: '事実',
+        hub: '草稿の編集',
+        score: [5, 4, 4, 5],
+        headline: '名作は、\n友人の赤ペンで生まれた。',
+        slug: 'ezra-pound--the-waste-land',
+        relation: 'エズラ・パウンド ── 草稿を削る ── 『荒地』',
+        leftStation: 'エズラ・パウンド',
+        rightStation: '荒地',
+        author: AI,
+        review: 'ai',
+        aiUrl: '',
+        line: { shape: 0, color: '#f2cf12' },
+        body:
+          '<p><strong>『荒地』は、もっと長い詩だった。</strong></p><p>エリオットは『荒地』の草稿を、友人の詩人エズラ・パウンドに見せた。パウンドは大胆に削り、詩は大きく引き締まった。</p><p>エリオットは完成した詩をパウンドに捧げ、「より優れた言葉の匠へ」という献辞を添えた。一篇の詩の後ろには、もう一人の詩人の手がある。</p>'
+      }
+    },
+
+    {
+      id: 'seed-t-s-eliot--the-hollow-men',
+      createdAt: '2026-09-30T06:10:00.000Z',
+      updatedAt: '2026-09-30T06:10:00.000Z',
+      a: W.eliot,
+      b: W.hollow,
+      context: {
+        routeName: '詩人と作品',
+        label: 'CONTEXT',
+        kind: '作者と作品',
+        hub: '詩',
+        score: [3, 4, 4, 5],
+        headline: '爆発ではなく、\nすすり泣きで。',
+        slug: 't-s-eliot--the-hollow-men',
+        relation: 'T・S・エリオット ── 詩 ── 『うつろな人々』',
+        leftStation: 'T・S・エリオット',
+        rightStation: 'うつろな人々',
+        author: AI,
+        review: 'ai',
+        aiUrl: '',
+        line: { shape: 1, color: '#2f8f5b' },
+        body:
+          '<p><strong>世界は派手には終わらない。</strong></p><p>『うつろな人々』（1925）は、「わたしたちはうつろな人間」と始まり、「世界の終わりはこうだ、爆発ではなく、すすり泣きで」と結ばれる。</p><p>中身を失った人々の姿を描いたこの詩は、のちに多くの映画や小説に引用されていく。</p>'
+      }
+    },
+
+    {
+      id: 'seed-the-hollow-men--apocalypse-now',
+      createdAt: '2026-09-30T06:00:00.000Z',
+      updatedAt: '2026-09-30T06:00:00.000Z',
+      a: W.hollow,
+      b: W.apocalypse,
+      context: {
+        routeName: 'カーツ大佐の朗読',
+        label: 'CONTEXT',
+        kind: '事実',
+        hub: '引用',
+        score: [5, 4, 5, 5],
+        headline: 'ジャングルの奥で、\nカーツ大佐が詩を読む。',
+        slug: 'the-hollow-men--apocalypse-now',
+        relation: '『うつろな人々』── カーツ大佐の朗読 ── 『地獄の黙示録』',
+        leftStation: 'うつろな人々',
+        rightStation: '地獄の黙示録',
+        author: AI,
+        review: 'ai',
+        aiUrl: '',
+        line: { shape: 2, color: '#f2cf12' },
+        body:
+          '<p><strong>映画の終盤、狂気の王国で詩が読まれる。</strong></p><p>『地獄の黙示録』のカーツ大佐（マーロン・ブランド）は、ジャングルの奥の王国で、エリオットの『うつろな人々』を朗読する。</p><p>部屋にはエリオットの詩が影響を受けた人類学の本も置かれている。戦争の果てにたどり着いた空虚を、コッポラは一篇の詩で語らせた。</p>'
+      }
+    },
+
+    {
+      id: 'seed-the-hollow-men--heart-of-darkness',
+      createdAt: '2026-09-30T05:50:00.000Z',
+      updatedAt: '2026-09-30T05:50:00.000Z',
+      a: W.hollow,
+      b: W.hod,
+      context: {
+        routeName: '題辞',
+        label: 'CONTEXT',
+        kind: '事実',
+        hub: '「カーツ氏—死んだ」',
+        score: [5, 4, 4, 5],
+        headline: '詩の冒頭に、\n小説の一行がある。',
+        slug: 'the-hollow-men--heart-of-darkness',
+        relation: 'コンラッド『闇の奥』── 題辞 ── 『うつろな人々』',
+        leftStation: 'うつろな人々',
+        rightStation: '闇の奥',
+        author: AI,
+        review: 'ai',
+        aiUrl: '',
+        line: { shape: 3, color: '#f2cf12' },
+        body:
+          '<p><strong>同じ「カーツ」が、小説から詩へ、そして映画へ渡っていく。</strong></p><p>エリオットは『うつろな人々』の冒頭に、「Mistah Kurtz—he dead（カーツの旦那—死んだよ）」という一行を掲げた。コンラッド『闇の奥』で、カーツの死を告げる言葉だ。</p><p>『闇の奥』は『地獄の黙示録』の下敷きになった小説でもある。小説、詩、映画が、カーツという一人の人物でつながっている。</p>'
+      }
+    },
+
+    {
+      id: 'seed-lorenzos-oil--adrenoleukodystrophy',
+      createdAt: '2026-09-30T05:40:00.000Z',
+      updatedAt: '2026-09-30T05:40:00.000Z',
+      a: W.lorenzo,
+      b: W.ald,
+      context: {
+        routeName: '実話の病',
+        label: 'CONTEXT',
+        kind: '事実',
+        hub: '実話',
+        score: [3, 5, 4, 4],
+        headline: '息子の病に、\n両親は図書館で挑んだ。',
+        slug: 'lorenzos-oil--adrenoleukodystrophy',
+        relation: '副腎白質ジストロフィー（ALD）── 実話 ── 映画「ロレンツォのオイル」',
+        leftStation: 'ロレンツォのオイル',
+        rightStation: 'ALD',
+        author: AI,
+        review: 'ai',
+        aiUrl: '',
+        line: { shape: 0, color: '#f2cf12' },
+        body:
+          '<p><strong>医師ではない両親が、治療法を探しはじめた。</strong></p><p>映画「ロレンツォのオイル」は、息子ロレンツォが副腎白質ジストロフィー（ALD）と診断された、オドーネ夫妻の実話をもとにしている。</p><p>当時、有効な治療法はほとんどなかった。夫妻は医学文献を読み込み、専門家に働きかけ、食事療法に使うオイルの開発にたどり着く。</p><p>映画は、病気そのものだけでなく、知ろうとし続けることの力を描いている。</p>'
+      }
+    },
+
+    {
+      id: 'seed-elmer-gantry--anti-intellectualism-in-american-life',
+      createdAt: '2026-09-30T05:30:00.000Z',
+      updatedAt: '2026-09-30T05:30:00.000Z',
+      a: W.elmer,
+      b: W.aibook,
+      context: {
+        routeName: '信仰復興運動',
+        label: 'CONTEXT',
+        kind: '似ている',
+        hub: '伝道者と大衆',
+        score: [4, 3, 4, 5],
+        headline: '熱狂させる伝道者を、\n歴史家は分析した。',
+        slug: 'elmer-gantry--anti-intellectualism-in-american-life',
+        relation: '映画「エルマー・ガントリー」── 信仰復興運動 ── 『アメリカの反知性主義』',
+        leftStation: 'エルマー・ガントリー',
+        rightStation: 'アメリカの反知性主義',
+        author: AI,
+        review: 'ai',
+        aiUrl: '',
+        line: { shape: 1, color: '#c43f9a' },
+        body:
+          '<p><strong>同じアメリカの風景を、物語と歴史書が描いている。</strong></p><p>「エルマー・ガントリー」の主人公は、巧みな弁舌で人々を熱狂させる信仰復興運動の伝道者だ。</p><p>ホーフスタッター『アメリカの反知性主義』は、こうした信仰復興運動を、アメリカで知性への不信が育った源流の一つとして取り上げている。</p><p>映画が一人の男の物語として描いたものを、歴史書は社会全体の流れとして描いた。</p>'
+      }
+    },
+
+    {
+      id: 'seed-anti-intellectualism--anti-intellectualism-in-american-life',
+      createdAt: '2026-09-30T05:20:00.000Z',
+      updatedAt: '2026-09-30T05:20:00.000Z',
+      a: W.antiintel,
+      b: W.aibook,
+      context: {
+        routeName: '言葉と本',
+        label: 'CONTEXT',
+        kind: '事実',
+        hub: '言葉を広めた本',
+        score: [3, 4, 4, 5],
+        headline: 'ひとつの言葉を、\n一冊の本が広めた。',
+        slug: 'anti-intellectualism--anti-intellectualism-in-american-life',
+        relation: '「反知性主義」── 言葉を広めた本 ── 『アメリカの反知性主義』',
+        leftStation: '反知性主義',
+        rightStation: 'アメリカの反知性主義',
+        author: AI,
+        review: 'ai',
+        aiUrl: '',
+        line: { shape: 2, color: '#f2cf12' },
+        body:
+          '<p><strong>言葉は、それを使いこなした本とともに広まる。</strong></p><p>「反知性主義」は、知性や知識人に対する反発や不信を表す言葉だ。</p><p>この言葉を、アメリカ社会を読み解く言葉として定着させたのが、リチャード・ホーフスタッター『アメリカの反知性主義』（1963）である。日本でも近年、政治や社会を語る場面でしばしば使われるようになった。</p>'
+      }
+    },
+
+    {
+      id: 'seed-anti-intellectualism-in-american-life--richard-hofstadter',
+      createdAt: '2026-09-30T05:10:00.000Z',
+      updatedAt: '2026-09-30T05:10:00.000Z',
+      a: W.aibook,
+      b: W.hofstadter,
+      context: {
+        routeName: '著者と作品',
+        label: 'CONTEXT',
+        kind: '作者と作品',
+        hub: '著者',
+        score: [3, 3, 4, 5],
+        headline: 'ピュリッツァー賞を\n二度受けた歴史家。',
+        slug: 'anti-intellectualism-in-american-life--richard-hofstadter',
+        relation: 'リチャード・ホーフスタッター ── 著者 ── 『アメリカの反知性主義』',
+        leftStation: 'アメリカの反知性主義',
+        rightStation: 'ホーフスタッター',
+        author: AI,
+        review: 'ai',
+        aiUrl: '',
+        line: { shape: 3, color: '#2f8f5b' },
+        body:
+          '<p><strong>歴史家は、自分の国の弱点を正面から書いた。</strong></p><p>リチャード・ホーフスタッターはコロンビア大学の歴史家。『改革の時代』と『アメリカの反知性主義』で、二度ピュリッツァー賞を受けた。</p><p>1950年代のマッカーシズムの時代を見つめた経験が、この本の背景にある。</p>'
+      }
+    },
+
+    {
+      id: 'seed-crime-and-punishment--fyodor-dostoevsky',
+      createdAt: '2026-09-30T05:00:00.000Z',
+      updatedAt: '2026-09-30T05:00:00.000Z',
+      a: W.crime,
+      b: W.dost,
+      context: {
+        routeName: '作家と作品',
+        label: 'CONTEXT',
+        kind: '作者と作品',
+        hub: '代表作',
+        score: [3, 4, 5, 5],
+        headline: '理屈で殺した青年は、\n良心に追いつめられる。',
+        slug: 'crime-and-punishment--fyodor-dostoevsky',
+        relation: 'ドストエフスキー ── 代表作 ── 『罪と罰』',
+        leftStation: '罪と罰',
+        rightStation: 'ドストエフスキー',
+        author: AI,
+        review: 'ai',
+        aiUrl: '',
+        line: { shape: 0, color: '#2f8f5b' },
+        body:
+          '<p><strong>罪は、法よりも先に心を裁く。</strong></p><p>『罪と罰』は1866年に発表された。主人公ラスコーリニコフは、「非凡な人間は踏み越えてよい」という自分の理屈で老婆を殺す。</p><p>しかし罪の意識は、捜査官よりも早く彼を追いつめていく。ドストエフスキーは、人間の内面の揺れを、推理小説のような緊張感で描いた。</p>'
+      }
+    },
+
+    {
+      id: 'seed-the-outsider--fyodor-dostoevsky',
+      createdAt: '2026-09-30T04:50:00.000Z',
+      updatedAt: '2026-09-30T04:50:00.000Z',
+      a: W.outsider,
+      b: W.dost,
+      context: {
+        routeName: 'アウトサイダーの系譜',
+        label: 'CONTEXT',
+        kind: '事実',
+        hub: 'アウトサイダー',
+        score: [4, 3, 4, 5],
+        headline: '社会の外に立つ人間の\n原型が、ここにいる。',
+        slug: 'the-outsider--fyodor-dostoevsky',
+        relation: 'コリン・ウィルソン『アウトサイダー』── 論じた作家 ── ドストエフスキー',
+        leftStation: 'アウトサイダー',
+        rightStation: 'ドストエフスキー',
+        author: AI,
+        review: 'ai',
+        aiUrl: '',
+        line: { shape: 1, color: '#f2cf12' },
+        body:
+          '<p><strong>社会になじめない人間を、文学はずっと描いてきた。</strong></p><p>コリン・ウィルソンの『アウトサイダー』は、社会の外側に立つ人間を描いた作家たちを論じた本だ。そのなかで、ドストエフスキーの登場人物たちが大きく取り上げられている。</p><p>『罪と罰』のラスコーリニコフもまた、自分を特別な存在だと信じ、社会の外へ踏み出してしまった人間である。</p>'
       }
     }
   ];

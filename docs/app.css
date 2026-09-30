@@ -123,6 +123,9 @@ html[data-theme="white"] body.has-sel .tag.sel{color:#b4530f}
 .sel-hint:empty{display:none}
 html[data-theme="white"] .sel-hint{color:#b4530f;text-shadow:none}
 body.viewing .sel-hint{display:none}
+.sel-clear{display:inline-block;margin-left:10px;padding:2px 10px;border:1px solid currentColor;border-radius:12px;background:none;
+  color:inherit;font:700 11px/1.5 var(--gothic);letter-spacing:.04em;cursor:pointer}
+.uni-title{cursor:pointer}
 /* 表紙から移ったとき、見出しと言葉が順に浮かび上がる */
 body.uni-enter .uni-head{animation:rise .7s cubic-bezier(.2,.7,.2,1) .15s both}
 body.uni-enter .tag{animation:rise .6s cubic-bezier(.2,.7,.2,1) both;animation-delay:calc(.3s + var(--i,0) * 30ms)}
@@ -145,7 +148,10 @@ body:not(.stage-intro) .dock{opacity:1;transform:none;pointer-events:auto}
 .act span{display:grid;text-align:center;line-height:1.3}
 .act b{font-size:13px;font-weight:700;letter-spacing:.02em}
 .act small{font:700 11px/1.3 "Lato",sans-serif;letter-spacing:.04em}
-.act.remix{background:var(--accent);color:#1d130a}
+.act.remix{background:var(--accent);color:#1d130a;opacity:.5;transition:opacity .25s}
+/* 前田先生のご指示：作品ページ（コンテンツ詳細）以外では半透明に */
+body.on-work .act.remix,.act.remix:focus-visible{opacity:1}
+@media (hover:hover) and (pointer:fine){.act.remix:hover{opacity:1}}
 .act.uni-btn{background:var(--navy);color:#fff}
 .act:active{transform:translateY(1px)}
 
@@ -224,6 +230,8 @@ body.viewing .uni{pointer-events:none}
 .duo-hero{padding:calc(env(safe-area-inset-top) + 54px) 14px 0;background:#080808}
 .duo{position:relative;display:grid;grid-template-columns:1fr 1fr;gap:7px}
 .duo .art{aspect-ratio:3/4.08}
+.duo-go{display:block;padding:0;border:0;background:none;cursor:pointer;-webkit-tap-highlight-color:transparent;touch-action:manipulation}
+.duo-go:active .art{opacity:.85}
 .swap{position:absolute;z-index:8;left:50%;top:50%;transform:translate(-50%,-50%);display:grid;place-items:center;
   width:30px;height:30px;border-radius:50%;background:#fff;color:#111;font:700 14px/1 var(--gothic);font-style:normal;
   box-shadow:0 3px 12px #0008}
@@ -292,6 +300,10 @@ body.viewing .uni{pointer-events:none}
   color:var(--ink);text-decoration:none;box-shadow:0 1px 0 rgba(0,0,0,.04)}
 .seg small{display:block;color:var(--gold);font:700 10px/1.5 var(--gothic);letter-spacing:.06em}
 .seg b{display:block;margin-top:2px;font:600 14px/1.6 var(--mincho)}
+/* 見出しから、そのままコンテクストへ：下線と「››」で先があることを示す */
+.seg-copy{text-decoration:underline;text-decoration-color:rgba(176,122,28,.45);text-decoration-thickness:1px;text-underline-offset:4px}
+.seg-go{display:inline-block;margin-left:6px;color:var(--gold);font:700 14px/1 "Lato",sans-serif;transition:transform .2s}
+.seg:active .seg-go{transform:translateX(3px)}
 .seg-from{display:inline-block;margin-bottom:4px;padding:1px 8px;border:1px solid var(--gold);border-radius:10px;color:var(--gold);
   font:700 10px/1.5 var(--gothic);letter-spacing:.04em}
 .stop.branch .seg{position:relative}
