@@ -481,9 +481,8 @@
     if (!was && !motion.dismiss) view.classList.add('enter', 'from-uni');
     fly(before, motion);
     lifted = null;
-    view.style.pointerEvents = 'none';
+    /* 運んでいるあいだも触れられる（待たせない）。触れて次へ移れば、運んでいる絵はその場で着地させる（settleAll） */
     setTimeout(() => {
-      view.style.pointerEvents = '';
       view.classList.remove('instant');
       focusPage();
     }, DUR + 60);

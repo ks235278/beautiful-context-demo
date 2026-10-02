@@ -210,7 +210,15 @@ body.has-pick .tag.pick-a,body.has-pick .tag.pick-b{opacity:1}
 body.on-work .act.remix,.act.remix:focus-visible{opacity:1}
 @media (hover:hover) and (pointer:fine){.act.remix:hover{opacity:1}}
 .act.uni-btn{background:var(--navy);color:#fff}
-.act:active{transform:translateY(1px)}
+/* 触れたものが、触れた瞬間に応える（押すと少し沈み、離すと戻る） */
+.act,.fstop,.seg,.tease,.duo-go,.back-close,.c-logo,.sel-clear{transition:transform .22s cubic-bezier(.2,.9,.3,1.2),opacity .22s ease}
+.act:active,.fstop:active,.seg:active,.tease:active,.sel-clear:active{transform:scale(.97);transition-duration:.06s}
+.back-close:active{transform:scale(.94);transition-duration:.06s}
+.tag:active{opacity:.7}
+/* 見た目はそのまま、指の届く範囲を 44pt 以上に */
+.back-close::after,.dot::after{content:"";position:absolute;inset:-8px}
+.sel-clear{position:relative}
+.sel-clear::after{content:"";position:absolute;inset:-10px -4px}
 
 body.viewing .dock{background:#fbfaf6f2;-webkit-backdrop-filter:blur(16px);backdrop-filter:blur(16px);
   border-top:1px solid #cac5bc;box-shadow:0 -7px 20px #0001}
