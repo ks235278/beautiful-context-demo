@@ -2,10 +2,6 @@
 <html lang="ja">
 <head>
 <meta charset="utf-8">
-<!-- 開くときの流れ（一続き）：黒地に丸いマークのアイコン → 同じ黒地にマークの起動画面（マークは表紙と同じ位置）
-     → この最初の一コマ（黒）→ マークはそのまま、回路と文字がまわりに灯る。外のファイルを待たずに黒を先に塗る -->
-<meta name="color-scheme" content="dark">
-<style>html,body{background:#000}</style>
 <!-- 表紙のロゴは「画面」の真ん中に置く（ページの枠ではなく）。iOS 26 のホーム画面から開くと、ページの枠が
      画面より下で短くなり、枠の真ん中では起動画面のマークより上にずれる。画面の高さを最初の一コマより前に渡す -->
 <script>
@@ -22,8 +18,8 @@ try { if (sessionStorage.getItem('bc-resume')) document.documentElement.classLis
 <meta property="og:title" content="Beautiful Context">
 <meta property="og:description" content="作品は駅、コンテクストは二駅間の区間。">
 <meta property="og:image" content="https://ks235278.github.io/beautiful-context-demo/icon-512.png">
-<!-- ホーム画面から開くとき、読み込みのあいだに出る起動画面：黒地に丸いマーク。マークは表紙のロゴの丸と
-     同じ位置・同じ大きさ（端末ごと。iOS は PNG を求める） -->
+<!-- ホーム画面から開くとき、読み込みのあいだに出る起動画面。表紙の最初の一コマ（回路とロゴ）と同じ絵
+     （端末ごとの大きさ。iOS は PNG を求める） -->
 <link rel="apple-touch-startup-image" media="(device-width: 440px) and (device-height: 956px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="img/launch/440x956@3.png">
 <link rel="apple-touch-startup-image" media="(device-width: 402px) and (device-height: 874px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="img/launch/402x874@3.png">
 <link rel="apple-touch-startup-image" media="(device-width: 430px) and (device-height: 932px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="img/launch/430x932@3.png">
@@ -39,7 +35,7 @@ try { if (sessionStorage.getItem('bc-resume')) document.documentElement.classLis
 <link rel="preload" as="image" href="img/pcb-charcoal.jpg">
 <link rel="preload" as="image" href="img/logo-layer-mark.png">
 <link rel="preload" as="image" href="img/logo-layer-words.png">
-<link rel="manifest" href="manifest.webmanifest?v=113">
+<link rel="manifest" href="manifest.webmanifest?v=114">
 <link rel="apple-touch-icon" href="icon-180.png">
 <!-- ホーム画面から開くと全画面になり、safe-area が 0 でなくなる。
      そのとき初めて Dynamic Island の裏までページが描ける。 -->
@@ -61,9 +57,9 @@ try { if (sessionStorage.getItem('bc-resume')) document.documentElement.classLis
 <!-- フォントは最初の一コマを待たせない（表紙のロゴは絵。Lato は UniverseIt! が出るまでに届く） -->
 <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Lato:wght@300;400;700&display=swap" onload="this.onload=null;this.rel='stylesheet'">
 <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Lato:wght@300;400;700&display=swap"></noscript>
-<script src="js/theme.js?v=113"></script>
-<link rel="stylesheet" href="app.css?v=113">
-<link rel="stylesheet" href="fade.css?v=113">
+<script src="js/theme.js?v=114"></script>
+<link rel="stylesheet" href="app.css?v=114">
+<link rel="stylesheet" href="fade.css?v=114">
 </head>
 <body class="stage-intro">
 
@@ -127,10 +123,10 @@ try { if (sessionStorage.getItem('bc-resume')) document.documentElement.classLis
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 <script type="application/ld+json" id="ld"></script>
 
-<script src="js/seed.js?v=113"></script>
-<script src="js/store.js?v=113"></script>
-<script src="js/render.js?v=113"></script>
-<script src="js/transition.js?v=113"></script>
-<script src="js/app.js?v=113"></script>
+<script src="js/seed.js?v=114"></script>
+<script src="js/store.js?v=114"></script>
+<script src="js/render.js?v=114"></script>
+<script src="js/transition.js?v=114"></script>
+<script src="js/app.js?v=114"></script>
 </body>
 </html>
