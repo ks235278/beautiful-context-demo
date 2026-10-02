@@ -377,7 +377,8 @@
   let backNav = false;      /* 戻る向きの移動か */
   let dry = null;           /* 描かずに組み立てるときの受け皿 */
   /* 来た画面の写しを、持ち上げた絵の後ろに置く（離したときの位置のまま） */
-  function underlay(){
+  /* held：いま指で持っている作品。その作品の絵は、来た画面の中でも空けておく（同じ絵は一枚しかない） */
+  function underlay(held){
     if (stack.length < 2) return false;
     dry = {};
     try { routeTo(stack[stack.length - 2], null); } finally { var got = dry; dry = null; }
@@ -393,6 +394,11 @@
       if (rail) rail.insertAdjacentHTML('beforeend', R.feedStops(got.page.feed, FEED_BATCH, m.n));
     }
     inner.querySelectorAll('[id]').forEach(n => n.removeAttribute('id'));
+    inner.querySelectorAll('img[data-k]').forEach(im => {
+      if (im.dataset.k !== held) return;
+      im.style.visibility = 'hidden';
+      im.parentElement.classList.add('landing');   /* 黒い枠も見せず、絵が帰る場所として空けておく */
+    });
     inner.style.transform = `translateY(${-m.y}px)`;
     u.appendChild(inner);
     document.body.appendChild(u);
@@ -838,9 +844,10 @@
       g.f = flyer(g.img.currentSrc || g.img.src, r, getComputedStyle(g.img).objectPosition);
       g.f.style.transformOrigin = `${t.clientX - r.left}px ${t.clientY - r.top}px`;   /* つかんだ点を中心に */
       g.img.style.visibility = 'hidden';
+      g.img.parentElement.classList.add('landing');   /* 元の場所は空になる */
       g.o = 1;
       /* 後ろには、来た画面（なければ UniverseIt!）を置く */
-      g.back = underlay();
+      g.back = underlay(g.img.dataset.k);
       if (!g.back) peek(true);
     }
     function moveLift(dx, dy){
@@ -876,6 +883,7 @@
                    pos: getComputedStyle(G.img).objectPosition, o: G.o };
         G.f.remove();
         G.img.style.visibility = '';
+        G.img.parentElement.classList.remove('landing');
         closeView({ dismiss: true, toCenter: true });   /* 来た画面へ。絵は離した位置から自分の場所へ */
         return;
       }
@@ -883,7 +891,7 @@
         { duration: 420, easing: 'cubic-bezier(.2,1.12,.3,1)', fill: 'forwards' });
       view.style.opacity = '';
       view.animate([{ opacity: G.o }, { opacity: 1 }], { duration: 320, easing: 'ease-out' });
-      a.onfinish = () => { G.img.style.visibility = ''; G.f.remove(); peek(false); dropUnderlay(); };
+      a.onfinish = () => { G.img.style.visibility = ''; G.img.parentElement.classList.remove('landing'); G.f.remove(); peek(false); dropUnderlay(); };
     }
     /* 引いたあとの「クリック」は、絵のボタンに届かせない */
     view.addEventListener('click', e => { if (dragged && e.target.closest('.duo, .hero')){ e.stopPropagation(); e.preventDefault(); } }, true);
