@@ -86,7 +86,7 @@
       /* 裏に回っている間は送らない。表に出てきたら、もう一度待ち直す */
       if (document.hidden) return;
       toUni(true);
-    }, 2800);
+    }, 1600);
   }
   document.addEventListener('visibilitychange', () => { if (!document.hidden && stage === 'intro') armIdle(); });
   intro.addEventListener('click', () => toUni(true));
@@ -784,14 +784,15 @@
       });
       titles().forEach(el => { el.style.opacity = el.classList.contains('tt-r') ? mix : 1 - mix; });
       const m = Math.max(0, Math.min(1, mix));
-      remix.style.opacity = .5 + .5 * m;
-      uniBtn.style.opacity = 1 - .5 * m;
+      remix.style.setProperty('--a', .45 + .55 * m);
+      uniBtn.style.setProperty('--b', 1 - .65 * m);
       /* 半分を越えたら、地の明暗（言葉の色）も入れ替える */
       const want = mix > .5 ? 'white' : 'charcoal';
       if (document.documentElement.dataset.theme !== want) setTheme(want);
     }
     function clear(){
       [...layers(), ...titles(), remix, uniBtn].forEach(el => { el.style.transform = ''; el.style.opacity = ''; el.style.transition = ''; });
+      remix.style.removeProperty('--a'); uniBtn.style.removeProperty('--b');
     }
     uniEl.addEventListener('pointerdown', e => {
       if (stage !== 'uni' || body.classList.contains('viewing') || e.button > 0 || !e.isPrimary) return;
@@ -823,7 +824,7 @@
       let target = cancelled ? S0.base : Math.abs(v) > 0.4 ? (v > 0 ? 1 : 0) : (S0.mix > .5 ? 1 : 0);
       const ease = 'cubic-bezier(.22,.8,.22,1)';
       body.classList.add('settling');   /* 戻り切るまで、両方の回路を描いておく */
-      [...layers(), ...titles(), remix, uniBtn].forEach(el => { el.style.transition = `transform .38s ${ease}, opacity .38s ${ease}`; });
+      [...layers(), ...titles(), remix, uniBtn].forEach(el => { el.style.transition = `transform .38s ${ease}, opacity .38s ${ease}, background-color .38s ${ease}`; });
       paint(target);
       setTimeout(() => { setTheme(target ? 'white' : 'charcoal'); clear(); body.classList.remove('settling'); }, 400);
     };
@@ -845,7 +846,8 @@
     const t = ev.target;
     if (!menu.hidden && menu.classList.contains('open') && !t.closest('#menu,#menuBtn')){ openMenu(false); return; }
     /* 路線の ‹ は、何本辿ってきても一度で UniverseIt! へ */
-    if (t.closest('[data-close]')){ ev.preventDefault(); if (here && here.feed) toNetwork(); else closeView(); return; }
+    /* ‹ はどのページでも一つ戻る（同じ形のものは同じに働く）。TOP へはロゴから */
+    if (t.closest('[data-close]')){ ev.preventDefault(); closeView(); return; }
     const home = t.closest('[data-home]');
     if (home){ ev.preventDefault(); toNetwork(); return; }
     /* ロゴは TOP へ：UniverseIt! のすべての言葉を、一番上から */

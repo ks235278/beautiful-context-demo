@@ -99,6 +99,8 @@
 
   /* demo-1 には戻る印が無い。ページを重ねて開くので、絵の上に小さな丸だけ置く */
   const backTop = () => `<button type="button" class="back-close" data-close aria-label="戻る">${ICON.back}</button>`;
+  /* TOP へ戻るロゴ（作品・コンテクストは絵の上、ほかのページは紙の上） */
+  const topLogo = (cls) => `<a class="c-logo${cls ? ' ' + cls : ''}" href="#/" data-top aria-label="BEAUTIFUL CONTEXT（TOP へ戻る）"><img src="img/logo.png" alt=""></a>`;
 
   /* ほかの区間への導線。demo-1 の「〜とのコンテクストを見る ›」と同じ形 */
   function tease(href, text, step){
@@ -273,7 +275,7 @@
     const first = items[0];
     return `
       <article class="page text-page feed-page">
-        ${backTop()}
+        ${backTop()}${topLogo('on-paper')}
         <div class="content">
           <p class="meta">つながりの路線</p>
           <h2>${esc(tagText(first.work))}から辿る</h2>
@@ -292,7 +294,7 @@
     const none = !res.contexts.length && !res.works.length;
     return `
       <article class="page text-page search-page">
-        ${backTop()}
+        ${backTop()}${topLogo('on-paper')}
         <div class="content">
           <p class="meta">SEARCH</p>
           <form class="seek big" role="search" data-seek>
@@ -310,7 +312,7 @@
   function page(name){
     const shell = (title, body) => `
       <article class="page text-page">
-        ${backTop()}
+        ${backTop()}${topLogo('on-paper')}
         <div class="content"><h2>${title}</h2>${body}</div>
       </article>`;
     if (name === 'mission') return shell('Our Mission', `

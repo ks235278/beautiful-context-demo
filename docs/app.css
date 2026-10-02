@@ -193,11 +193,18 @@ body:not(.stage-intro) .dock{opacity:1;transform:none;pointer-events:auto}
 .act span{display:grid;text-align:center;line-height:1.3}
 .act b{font-size:13px;font-weight:700;letter-spacing:.02em}
 .act small{font:700 11px/1.3 "Lato",sans-serif;letter-spacing:.04em}
-.act.remix{background:var(--accent);color:#1d130a;opacity:.5;transition:opacity .25s}
-.act.uni-btn{transition:opacity .25s}
-/* ReMixIt! の画面（白）では、創るが前に出て、辿るが半透明になる（flow1002） */
-html[data-theme="white"] body:not(.viewing) .act.remix{opacity:1}
-html[data-theme="white"] body:not(.viewing) .act.uni-btn{opacity:.5}
+/* 半透明（前田先生のご指示）は、ボタンの地だけを透かす。文字とマークはいつもくっきり読めるように。
+   --a / --b が地の濃さ（1 で不透明） */
+.act.remix{--a:.45;background:color-mix(in srgb,var(--accent) calc(var(--a) * 100%),transparent);color:#fff;
+  box-shadow:inset 0 0 0 1px color-mix(in srgb,var(--accent) 85%,transparent);transition:background-color .25s,color .25s}
+.act.uni-btn{--b:1;background:color-mix(in srgb,var(--navy) calc(var(--b) * 100%),transparent);color:#fff;
+  box-shadow:inset 0 0 0 1px color-mix(in srgb,var(--navy) 85%,transparent);transition:background-color .25s,color .25s}
+/* 紙のページでは、透けた橙の上の文字は濃く */
+body.viewing .act.remix{color:#3a1f08}
+/* 作品ページ（コンテンツ詳細）と ReMixIt! の画面では、創るが前に出る */
+body.on-work .act.remix,html[data-theme="white"] body:not(.viewing) .act.remix,.act.remix:focus-visible{--a:1;color:#1d130a}
+/* ReMixIt! の画面（白）では、辿るが半透明。白い地の上なので文字は紺 */
+html[data-theme="white"] body:not(.viewing) .act.uni-btn{--b:.3;color:var(--navy)}
 /* ReMixIt! では、つなぐ二つの言葉を選ぶ（A と B） */
 body.has-pick .tag{opacity:.4}
 body.has-pick .tag.pick-a,body.has-pick .tag.pick-b{opacity:1}
@@ -206,10 +213,7 @@ body.has-pick .tag.pick-a,body.has-pick .tag.pick-b{opacity:1}
   font:700 .48em/1.5 "Lato",sans-serif;vertical-align:.9em}
 .tag.pick-a::after{content:"A"}
 .tag.pick-b::after{content:"B"}
-/* 前田先生のご指示：作品ページ（コンテンツ詳細）以外では半透明に */
-body.on-work .act.remix,.act.remix:focus-visible{opacity:1}
-@media (hover:hover) and (pointer:fine){.act.remix:hover{opacity:1}}
-.act.uni-btn{background:var(--navy);color:#fff}
+@media (hover:hover) and (pointer:fine){.act.remix:hover{--a:1;color:#1d130a}}
 /* 触れたものが、触れた瞬間に応える（押すと少し沈み、離すと戻る） */
 .act,.fstop,.seg,.tease,.duo-go,.back-close,.c-logo,.sel-clear{transition:transform .22s cubic-bezier(.2,.9,.3,1.2),opacity .22s ease}
 .act:active,.fstop:active,.seg:active,.tease:active,.sel-clear:active{transform:scale(.97);transition-duration:.06s}
@@ -222,7 +226,8 @@ body.on-work .act.remix,.act.remix:focus-visible{opacity:1}
 
 body.viewing .dock{background:#fbfaf6f2;-webkit-backdrop-filter:blur(16px);backdrop-filter:blur(16px);
   border-top:1px solid #cac5bc;box-shadow:0 -7px 20px #0001}
-body.viewing .dock-brand{margin:0 0 6px;padding-top:2px;border-top:0;color:#8d8983}
+/* ページの上ではロゴが名前を示すので、下の帯の名前は出さない（UniverseIt! だけに残す） */
+body.viewing .dock-brand{display:none}
 
 /* 路線図（demo-1 の .map をそのまま） */
 .map{position:relative;height:64px;color:var(--gold)}
@@ -313,6 +318,8 @@ body.viewing .uni{display:none}
   height:26px;color:#fff;text-decoration:none;font:400 22px/1 "Bebas Neue","Oswald","Arial Narrow",sans-serif;letter-spacing:.02em;white-space:nowrap}
 .c-logo img{display:block;height:24px;width:auto}
 .c-logo:active{opacity:.7}
+.c-logo.on-paper{top:calc(env(safe-area-inset-top) + 16px)}
+.c-logo.on-paper img{filter:invert(1) hue-rotate(180deg)}
 .duo{position:relative;display:grid;grid-template-columns:1fr 1fr;gap:7px}
 .duo .art{aspect-ratio:3/4.08}
 .duo-go{display:block;padding:0;border:0;background:none;cursor:pointer;-webkit-tap-highlight-color:transparent;touch-action:manipulation}
