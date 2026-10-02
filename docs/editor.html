@@ -49,6 +49,7 @@
     .btn:hover{transform:translateY(-1px)}
     .btn.ghost{background:transparent;color:#e4e1d9;border-color:#5a5852}
     .btn.primary{background:#d19a34;color:#171410}
+    .next-step-row{display:flex;justify-content:flex-end;padding:0 22px 22px}
     .btn.small{padding:7px 12px;font-size:.76rem}
 
     .layout{max-width:1560px;margin:0 auto;display:grid;grid-template-columns:minmax(660px,1fr) 520px;gap:24px;padding:24px}
@@ -211,7 +212,7 @@
     .shape-pick path{fill:none;stroke-width:3.2;stroke-linecap:round;stroke-linejoin:round}
   </style>
 <style>:root{--veil:var(--canvas)}</style>
-  <link rel="stylesheet" href="fade.css?v=103">
+  <link rel="stylesheet" href="fade.css?v=105">
 </head>
 <body>
   <div class="app">
@@ -281,6 +282,8 @@
               <div class="field"><label class="req" for="workSummary">短い解説</label><textarea id="workSummary" maxlength="280"></textarea><div class="counter"><span id="workSummaryCount">0</span> / 280</div></div>
               <div class="empty-note">このカードは一作品だけで成立します。AとBの関係、比較、原作との対応は「CONTEXT A–B」へ入力します。</div>
             </section>
+            <!-- 順路：CONTENT A → CONTENT B → CONTEXT A–B（flow1002） -->
+            <div class="next-step-row"><button type="button" class="btn primary next-step" id="nextStep">CONTENT B へ進む →</button></div>
           </div>
 
           <div class="context-only" data-context-section hidden>
@@ -396,9 +399,9 @@
   </div>
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
-  <script src="js/seed.js?v=103"></script>
-  <script src="js/store.js?v=103"></script>
-  <script src="js/render.js?v=103"></script>
+  <script src="js/seed.js?v=105"></script>
+  <script src="js/store.js?v=105"></script>
+  <script src="js/render.js?v=105"></script>
 
   <script>
   (() => {
@@ -438,6 +441,10 @@
           const s = JSON.parse(JSON.stringify(BLANK));
           s.a = JSON.parse(JSON.stringify(hit.work));
           fromTitle = hit.work.title;
+          /* ReMixIt! で二つの言葉を選んできたときは、B にも入れる */
+          const to = q.get('to');
+          const hitB = to && window.BCStore.works(window.BCStore.all()).find(w => w.slug === to);
+          if (hitB) s.b = JSON.parse(JSON.stringify(hitB.work));
           return s;
         }
       }
@@ -464,6 +471,7 @@
       document.querySelectorAll('.step-card').forEach(btn=>btn.addEventListener('click',()=>switchPage(btn.dataset.page)));
       document.querySelectorAll('.preview-tab').forEach(btn=>btn.addEventListener('click',()=>switchPage(btn.dataset.preview)));
       $('saveBtn').addEventListener('click',save);
+      $('nextStep').addEventListener('click',()=>{ switchPage(active==='a'?'b':'context'); document.querySelector('.panel').scrollIntoView({behavior:'smooth',block:'start'}); });
       document.querySelectorAll('input[name="status"]').forEach(r=>r.addEventListener('change',()=>{ if(r.checked){ status=r.value; markDirty(); } }));
       $('linePick').addEventListener('click',e=>{ const b=e.target.closest('[data-color]'); if(!b) return; state.context.line=Object.assign({},state.context.line,{color:b.dataset.color}); markDirty(); renderLinePick(); renderPreview(); });
       $('shapePick').addEventListener('click',e=>{ const b=e.target.closest('[data-shape]'); if(!b) return; state.context.line=Object.assign({},state.context.line,{shape:+b.dataset.shape}); markDirty(); renderLinePick(); renderPreview(); });
@@ -501,6 +509,7 @@
       document.querySelector('[data-context-section]').hidden=!isContext;
       $('panelEyebrow').textContent=isContext?'CONTEXT A–B':`CONTENT ${page.toUpperCase()}`;
       $('panelTitle').textContent=isContext?'コンテクストページを編集':'作品ページを編集';
+      $('nextStep').textContent=page==='a'?'CONTENT B へ進む →':'CONTEXT A–B へ進む →';
       if(isContext){
         $('routeName').value=state.context.routeName; $('contextLabel').value=state.context.label; $('contextHeadline').value=state.context.headline; $('contextSlug').value=state.context.slug; $('relationSummary').value=state.context.relation; $('leftStation').value=state.context.leftStation; $('rightStation').value=state.context.rightStation; $('contextBody').innerHTML=window.BCRender.clean(state.context.body); $('aiUrl').value=state.context.aiUrl || ''; $('author').value=state.context.author || ''; document.querySelectorAll('input[name="status"]').forEach(r=>r.checked=(r.value===(status==='private'?'private':'public'))); renderLinePick();
       } else {
@@ -565,12 +574,14 @@
     bindInputs(); switchPage('a');
     if (fromTitle){
       const note = $('fromNote');
-      note.textContent = `${fromTitle} に、新しいつながりを足します。B の作品と、二つの関係を入力してください。`;
+      const both = !!(state.b && state.b.slug);
+      note.textContent = both ? `${fromTitle} と ${state.b.title} のあいだに、新しいつながりを創ります。二つの関係を入力してください。`
+        : `${fromTitle} に、新しいつながりを足します。B の作品と、二つの関係を入力してください。`;
       note.hidden = false;
-      switchPage('b');
+      switchPage(both ? 'context' : 'b');   /* A と B が決まっていれば、コンテクストから */
     }
   })();
   </script>
-  <script src="js/transition.js?v=103"></script>
+  <script src="js/transition.js?v=105"></script>
 </body>
 </html>

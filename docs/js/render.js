@@ -221,7 +221,7 @@
     return `
       <article class="page cpage">
         ${backTop()}
-        <div class="duo-hero"><div class="duo"><button type="button" class="duo-go" data-step="0" aria-label="${attr(e.a.title)}の作品ページへ">${frame(e.a, 'art')}</button><button type="button" class="duo-go" data-step="2" aria-label="${attr(e.b.title)}の作品ページへ">${frame(e.b, 'art')}</button><i class="swap" aria-hidden="true">↔</i></div></div>
+        <div class="duo-hero"><a class="c-logo" href="#/" data-top aria-label="BEAUTIFUL CONTEXT（TOP へ戻る）"><img src="img/logo.png" alt=""></a><div class="duo"><button type="button" class="duo-go" data-step="0" aria-label="${attr(e.a.title)}の作品ページへ">${frame(e.a, 'art')}</button><button type="button" class="duo-go" data-step="2" aria-label="${attr(e.b.title)}の作品ページへ">${frame(e.b, 'art')}</button><i class="swap" aria-hidden="true">↔</i></div></div>
         <section class="context-lead">
           ${state}
           <p class="route-label">${esc(c.label || 'CONTEXT')}　［${esc(c.routeName)}］　${t}</p>

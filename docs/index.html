@@ -11,7 +11,23 @@
 <meta property="og:title" content="Beautiful Context">
 <meta property="og:description" content="作品は駅、コンテクストは二駅間の区間。">
 <meta property="og:image" content="https://ks235278.github.io/beautiful-context-demo/icon-512.png">
-<link rel="manifest" href="manifest.webmanifest?v=103">
+<!-- ホーム画面から開くとき、読み込みのあいだに出る絵。表紙の最初の一コマと同じにしておき、
+     黒い画面を挟まずに表紙へつなぐ（端末ごとの大きさ） -->
+<link rel="apple-touch-startup-image" media="(device-width: 440px) and (device-height: 956px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="img/launch/440x956@3.jpg">
+<link rel="apple-touch-startup-image" media="(device-width: 402px) and (device-height: 874px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="img/launch/402x874@3.jpg">
+<link rel="apple-touch-startup-image" media="(device-width: 430px) and (device-height: 932px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="img/launch/430x932@3.jpg">
+<link rel="apple-touch-startup-image" media="(device-width: 393px) and (device-height: 852px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="img/launch/393x852@3.jpg">
+<link rel="apple-touch-startup-image" media="(device-width: 420px) and (device-height: 912px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="img/launch/420x912@3.jpg">
+<link rel="apple-touch-startup-image" media="(device-width: 428px) and (device-height: 926px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="img/launch/428x926@3.jpg">
+<link rel="apple-touch-startup-image" media="(device-width: 390px) and (device-height: 844px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="img/launch/390x844@3.jpg">
+<link rel="apple-touch-startup-image" media="(device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="img/launch/375x812@3.jpg">
+<link rel="apple-touch-startup-image" media="(device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="img/launch/414x896@3.jpg">
+<link rel="apple-touch-startup-image" media="(device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" href="img/launch/414x896@2.jpg">
+<link rel="apple-touch-startup-image" media="(device-width: 375px) and (device-height: 667px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" href="img/launch/375x667@2.jpg">
+<!-- 表紙に最初から出すもの（回路とロゴ）は先に読む。描くときに待たせない -->
+<link rel="preload" as="image" href="img/pcb-charcoal.jpg">
+<link rel="preload" as="image" href="img/logo.png">
+<link rel="manifest" href="manifest.webmanifest?v=105">
 <link rel="apple-touch-icon" href="icon-180.png">
 <!-- ホーム画面から開くと全画面になり、safe-area が 0 でなくなる。
      そのとき初めて Dynamic Island の裏までページが描ける。 -->
@@ -31,27 +47,28 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Lato:wght@300;400;700&display=swap">
-<script src="js/theme.js?v=103"></script>
-<link rel="stylesheet" href="app.css?v=103">
-<link rel="stylesheet" href="fade.css?v=103">
+<script src="js/theme.js?v=105"></script>
+<link rel="stylesheet" href="app.css?v=105">
+<link rel="stylesheet" href="fade.css?v=105">
 </head>
 <body class="stage-intro">
 
 <!-- 背景は先生の構成図（flow0921-2）の回路の絵そのもの。
      表紙では原寸の濃さ、UniverseIt! からは 50% に落とす（構成図のプロンプトどおり）。 -->
-<div id="bg" aria-hidden="true"><div class="pcb"></div><div class="veil"></div></div>
+<!-- 二つの画面が左右に並ぶ：左 ReMixIt!（A / WHITE）、右 UniverseIt!（B / CHARCOAL）。左右にスライドして入れ替わる -->
+<div id="bg" aria-hidden="true"><div class="pcb pcb-c"></div><div class="pcb pcb-w"></div><div class="veil"></div></div>
 
 <button class="menu-btn" id="menuBtn" type="button" aria-label="メニュー" aria-expanded="false" aria-controls="menu"><i></i><i></i><i></i></button>
 
 <section class="intro" id="intro" aria-label="表紙">
-  <h1 class="wordmark" id="wordmark">BEAUTIFUL CONTEXT</h1>
+  <h1 class="wordmark" id="wordmark"><img class="logo" src="img/logo.png" alt="BEAUTIFUL CONTEXT" decoding="sync"></h1>
 </section>
 
 <main class="uni" id="uni" aria-label="UniverseIt!">
-  <div class="uni-frame" aria-hidden="true"></div>
+  <div class="uni-frame" aria-hidden="true"><i class="fr fr-c"></i><i class="fr fr-w"></i></div>
   <header class="uni-head" id="uniHead">
-    <h1 class="uni-title">UniverseIt!</h1>
-    <p class="uni-sub" id="tagline">言葉から、つながりを辿る。</p>
+    <h1 class="uni-title"><span class="tt tt-u">UniverseIt!</span><span class="tt tt-r" aria-hidden="true">ReMixIt!</span></h1>
+    <p class="uni-sub"><span class="tt tt-u" id="tagline">言葉から、つながりを辿る。</span><span class="tt tt-r" aria-hidden="true">言葉から、つながりを創る。</span></p>
   </header>
   <div class="uni-list" id="tags" aria-label="言葉"></div>
 </main>
@@ -84,8 +101,8 @@
   <a href="#/terms">利用規約・プライバシー</a>
   <a href="manage.html">運営者メニュー</a>
   <div class="theme-pick" role="group" aria-label="地">
-    <button type="button" data-theme-set="white">A / WHITE</button>
-    <button type="button" data-theme-set="charcoal">B / CHARCOAL</button>
+    <button type="button" data-theme-set="white">ReMixIt!<small>A / WHITE</small></button>
+    <button type="button" data-theme-set="charcoal">UniverseIt!<small>B / CHARCOAL</small></button>
   </div>
 </nav>
 
@@ -96,10 +113,10 @@
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 <script type="application/ld+json" id="ld"></script>
 
-<script src="js/seed.js?v=103"></script>
-<script src="js/store.js?v=103"></script>
-<script src="js/render.js?v=103"></script>
-<script src="js/transition.js?v=103"></script>
-<script src="js/app.js?v=103"></script>
+<script src="js/seed.js?v=105"></script>
+<script src="js/store.js?v=105"></script>
+<script src="js/render.js?v=105"></script>
+<script src="js/transition.js?v=105"></script>
+<script src="js/app.js?v=105"></script>
 </body>
 </html>

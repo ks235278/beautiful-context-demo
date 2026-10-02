@@ -43,11 +43,22 @@ a{color:inherit}
 
 /* ---------- 背景 ---------- */
 #bg{position:fixed;inset:0;z-index:0;background:var(--ground)}
-#bg .pcb{position:absolute;inset:0;background:var(--ground) var(--pcb) center/cover no-repeat}
+/* 左右に並ぶ二枚の回路：左が A / WHITE（ReMixIt!）、右が B / CHARCOAL（UniverseIt!）。
+   いま見ている方が画面にあり、もう一方は隣（画面の外）に控えている */
+#bg .pcb,.uni-frame .fr{position:absolute;inset:0;background-position:center;background-size:cover;background-repeat:no-repeat;will-change:transform}
+#bg .pcb-c,.uni-frame .fr-c{background-color:#061629;background-image:url(img/pcb-charcoal.jpg)}
+#bg .pcb-w,.uni-frame .fr-w{background-color:#fff;background-image:url(img/pcb-white.jpg);transform:translate3d(-100%,0,0)}
+html[data-theme="white"] #bg .pcb-c,html[data-theme="white"] .uni-frame .fr-c{transform:translate3d(100%,0,0)}
+html[data-theme="white"] #bg .pcb-w,html[data-theme="white"] .uni-frame .fr-w{transform:none}
+.uni-frame .fr-c{background-image:linear-gradient(rgba(6,22,41,.14),rgba(6,22,41,.14)),url(img/pcb-charcoal.jpg)}
+.uni-frame .fr-w{background-image:linear-gradient(rgba(255,255,255,.14),rgba(255,255,255,.14)),url(img/pcb-white.jpg)}
 #bg .veil{position:absolute;inset:0;background:var(--ground);opacity:0;transition:opacity .9s ease}
 body:not(.stage-intro) #bg .veil{opacity:.14}   /* 構成図の UniverseIt! は表紙とほぼ同じ明るさ。文字が読める分だけ落とす */
 
 /* ---------- 右上のメニュー（≡） ---------- */
+/* 起動の絵（apple-touch-startup-image）にはメニューの印がないので、開いてから静かに出す */
+.menu-btn{animation:menuIn .5s ease .5s backwards}
+@keyframes menuIn{from{opacity:0}}
 .menu-btn{position:fixed;z-index:50;top:calc(env(safe-area-inset-top) + 14px);right:14px;width:46px;height:46px;
   display:grid;place-content:center;gap:6px;border:0;background:none;cursor:pointer;
   transition:opacity .3s ease,visibility 0s linear 0s}
@@ -77,6 +88,12 @@ body.viewing .menu-btn{opacity:0;visibility:hidden;transition:opacity .3s ease,v
 /* ---------- 表紙 ---------- */
 .intro{position:fixed;inset:0;z-index:5;display:grid;place-items:center;padding:0 16px;cursor:pointer;
   transition:opacity .7s ease,visibility 0s linear 0s}
+/* 表紙のロゴ：BEAUTIFUL ◉ CONTEXT（flow1002） */
+.wordmark{display:flex;align-items:center;gap:.2em;white-space:nowrap}
+.wordmark .mark{display:block;height:1.02em;width:auto;margin-top:-.04em}
+.wordmark .logo{display:block;width:min(84vw,640px);height:auto}
+/* 白い地（ReMixIt!）の表紙では、ロゴを反転して読めるようにする */
+html[data-theme="white"] .wordmark .logo{filter:invert(1) hue-rotate(180deg)}
 .wordmark{margin:0 0 4vh;color:var(--uni-ink);font:400 clamp(42px,11.3vw,88px)/1 "Bebas Neue","Oswald","Arial Narrow",sans-serif;
   letter-spacing:.01em;text-align:center;transition:transform .8s cubic-bezier(.2,.7,.2,1)}
 body:not(.stage-intro) .intro{opacity:0;visibility:hidden;pointer-events:none;transition:opacity .6s ease,visibility 0s linear .6s}
@@ -91,13 +108,19 @@ body.stage-uni .uni{opacity:1;visibility:visible;transition:opacity .6s ease .1s
 .uni-head{position:fixed;z-index:4;top:0;left:0;right:0;margin:0 auto;padding:calc(env(safe-area-inset-top) + 76px) 26px 6px}
 /* 見出しの下と、下の帯の後ろだけ、背景とぴったり重なる回路の写しで覆う。
    以前の「一覧の枠の中だけが流れる」見え方を、ページ全体のスクロールのまま保つ */
-.uni-frame{position:fixed;z-index:3;inset:0;pointer-events:none;
-  background:linear-gradient(color-mix(in srgb,var(--ground) 14%,transparent),color-mix(in srgb,var(--ground) 14%,transparent)),
-    var(--pcb) center/cover no-repeat var(--ground);
+.uni-frame{position:fixed;z-index:3;inset:0;pointer-events:none;overflow:hidden;
   -webkit-mask-image:linear-gradient(to bottom,#000 0,#000 calc(var(--headh,190px) - 20px),transparent var(--headh,190px),
     transparent calc(100% - var(--dockh) - 14px),#000 calc(100% - var(--dockh) + 4px));
   mask-image:linear-gradient(to bottom,#000 0,#000 calc(var(--headh,190px) - 20px),transparent var(--headh,190px),
     transparent calc(100% - var(--dockh) - 14px),#000 calc(100% - var(--dockh) + 4px))}
+/* 見出しは二枚：UniverseIt!（辿る）と ReMixIt!（創る）。スライドに合わせて入れ替わる */
+.uni-title,.uni-sub{position:relative}
+.uni-title .tt,.uni-sub .tt{display:block;transition:opacity .3s ease}
+.uni-title .tt-r,.uni-sub .tt-r{position:absolute;left:0;top:0;opacity:0;white-space:nowrap}
+html[data-theme="white"] .tt-u{opacity:0}
+html[data-theme="white"] .tt-r{opacity:1}
+.uni{touch-action:pan-y}
+body.swiping .uni{user-select:none;-webkit-user-select:none}
 .uni-title{margin:0;color:var(--uni-ink);font:400 clamp(48px,13.8vw,88px)/1.02 "Lato",sans-serif;letter-spacing:-.012em;text-shadow:0 2px 14px rgba(0,0,0,.35)}
 .uni-sub{margin:8px 0 0 3px;color:var(--uni-dim);font-size:12px;letter-spacing:.32em;font-family:var(--gothic)}
 .uni-list{padding:10px 26px 0}
@@ -150,6 +173,18 @@ body:not(.stage-intro) .dock{opacity:1;transform:none;pointer-events:auto}
 .act b{font-size:13px;font-weight:700;letter-spacing:.02em}
 .act small{font:700 11px/1.3 "Lato",sans-serif;letter-spacing:.04em}
 .act.remix{background:var(--accent);color:#1d130a;opacity:.5;transition:opacity .25s}
+.act.uni-btn{transition:opacity .25s}
+/* ReMixIt! の画面（白）では、創るが前に出て、辿るが半透明になる（flow1002） */
+html[data-theme="white"] body:not(.viewing) .act.remix{opacity:1}
+html[data-theme="white"] body:not(.viewing) .act.uni-btn{opacity:.5}
+/* ReMixIt! では、つなぐ二つの言葉を選ぶ（A と B） */
+body.has-pick .tag{opacity:.4}
+body.has-pick .tag.pick-a,body.has-pick .tag.pick-b{opacity:1}
+.tag.pick-a .t,.tag.pick-b .t{text-decoration-color:var(--accent)}
+.tag.pick-a::after,.tag.pick-b::after{display:inline-block;margin-left:.2em;padding:0 .32em;border-radius:.3em;background:var(--accent);color:#fff;
+  font:700 .48em/1.5 "Lato",sans-serif;vertical-align:.9em}
+.tag.pick-a::after{content:"A"}
+.tag.pick-b::after{content:"B"}
 /* 前田先生のご指示：作品ページ（コンテンツ詳細）以外では半透明に */
 body.on-work .act.remix,.act.remix:focus-visible{opacity:1}
 @media (hover:hover) and (pointer:fine){.act.remix:hover{opacity:1}}
@@ -243,6 +278,12 @@ body.viewing .uni{display:none}
 
 /* コンテクストページ */
 .duo-hero{padding:calc(env(safe-area-inset-top) + 54px) 14px 0;background:#080808}
+/* コンテクスト詳細の上のロゴ。触れると TOP（UniverseIt! のすべての言葉）へ戻る（flow1002） */
+.duo-hero{position:relative}
+.c-logo{position:absolute;z-index:7;left:50%;top:calc(env(safe-area-inset-top) + 15px);transform:translateX(-50%);display:flex;align-items:center;gap:.22em;
+  height:26px;color:#fff;text-decoration:none;font:400 22px/1 "Bebas Neue","Oswald","Arial Narrow",sans-serif;letter-spacing:.02em;white-space:nowrap}
+.c-logo img{display:block;height:24px;width:auto}
+.c-logo:active{opacity:.7}
 .duo{position:relative;display:grid;grid-template-columns:1fr 1fr;gap:7px}
 .duo .art{aspect-ratio:3/4.08}
 .duo-go{display:block;padding:0;border:0;background:none;cursor:pointer;-webkit-tap-highlight-color:transparent;touch-action:manipulation}

@@ -25,7 +25,17 @@
 
   const settings = S.settings();
   const brand = settings.brand || 'Beautiful Context';
-  $('wordmark').textContent = brand;
+  /* 表紙のロゴ：名前を二つに分け、あいだに丸いマークを置く（BEAUTIFUL ◉ CONTEXT） */
+  {
+    const wm = $('wordmark'), parts = brand.trim().split(/\s+/);
+    const head = parts.length > 1 ? parts.slice(0, Math.ceil(parts.length / 2)).join(' ') : brand;
+    const tail = parts.length > 1 ? parts.slice(Math.ceil(parts.length / 2)).join(' ') : '';
+    /* 名前が既定のままなら、先生の構成図のロゴそのもの（画像）。フォントの読み込みを待たず、形も変わらない */
+    if (!/^beautiful context$/i.test(brand.trim())){
+      wm.setAttribute('aria-label', brand);
+      wm.innerHTML = `<span>${R.esc(head)}</span><img class="mark" src="img/logo-mark.png" alt="">` + (tail ? `<span>${R.esc(tail)}</span>` : '');
+    }
+  }
   $('dockBrand').textContent = brand;
   if (settings.tagline) $('tagline').textContent = settings.tagline;
   document.title = brand;
@@ -99,7 +109,15 @@
   }
   menuBtn.addEventListener('click', (ev) => { ev.stopPropagation(); openMenu(menu.hidden || !menu.classList.contains('open')); });
 
-  /* A / WHITE と B / CHARCOAL。構成図の比較のとおり、どちらでも見せられる */
+  /* A / WHITE（ReMixIt!）と B / CHARCOAL（UniverseIt!）。左右に並ぶ二つの画面 */
+  function setTheme(theme){
+    document.documentElement.dataset.theme = theme;
+    const meta = document.querySelector('meta[name="theme-color"]');
+    if (meta) meta.content = theme === 'white' ? '#ffffff' : '#061629';
+    document.documentElement.style.setProperty('--veil', theme === 'white' ? '#ffffff' : '#061629');
+    markTheme();
+    if (typeof paintSelection === 'function') paintSelection();
+  }
   function markTheme(){
     const cur = document.documentElement.dataset.theme || 'charcoal';
     menu.querySelectorAll('[data-theme-set]').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.themeSet === cur)));
@@ -109,11 +127,7 @@
     if (!b) return;
     const theme = b.dataset.themeSet === 'white' ? 'white' : 'charcoal';
     S.saveSettings({ theme });
-    document.documentElement.dataset.theme = theme;
-    const meta = document.querySelector('meta[name="theme-color"]');
-    if (meta) meta.content = theme === 'white' ? '#ffffff' : '#061629';
-    document.documentElement.style.setProperty('--veil', theme === 'white' ? '#ffffff' : '#061629');
-    markTheme();
+    setTheme(theme);
   });
   markTheme();
 
@@ -544,6 +558,7 @@
       measureDock();
       return;
     }
+    remix.querySelector('small').textContent = 'ReMixIt!';
     const c = e.context;
     const markup = R.mapMarkup({
       lineName: c.routeName,
@@ -664,7 +679,7 @@
     if (stage === 'intro'){ toUni(true); return; }
     /* 言葉を選んでいればその作品から、選んでいなければ一覧の中から偶然の一つを選び、
        つながりの路線（フィード）として開く */
-    let start = sel;
+    let start = isRemix() ? pick[0] : sel;
     if (!start){
       const all = S.works();
       if (!all.length){ toast('まだ公開されたコンテクストがありません'); return; }
@@ -679,6 +694,10 @@
      選んでいる言葉にもう一度触れると、選ぶのをやめる。 */
   let sel = null, lit = new Set();
   function paintSelection(){
+    if (isRemix()){ paintPick(); return; }
+    body.classList.remove('has-pick');
+    remix.querySelector('small').textContent = 'ReMixIt!';
+    tags.querySelectorAll('.pick-a,.pick-b').forEach(el => el.classList.remove('pick-a', 'pick-b'));
     body.classList.toggle('has-sel', !!sel);
     tags.querySelectorAll('.tag').forEach(el => {
       const k = el.dataset.work;
@@ -693,6 +712,38 @@
     label.textContent = name + ' へ';
     hint.innerHTML = `${R.esc(name)}とつながる ${lit.size - 1} 作品が光っています<button type="button" class="sel-clear" data-clear-sel>すべての言葉に戻る</button>`;
   }
+  /* ---------- ReMixIt!（左の白い画面）：つなぐ二つの言葉を選び、つながりを創る ---------- */
+  const isRemix = () => document.documentElement.dataset.theme === 'white';
+  let pick = [];
+  const nameOf = (k) => { const w = S.works().find(h => h.slug === k); return w ? R.tagText(w.work) : ''; };
+  function paintPick(){
+    body.classList.remove('has-sel');
+    body.classList.toggle('has-pick', pick.length > 0);
+    tags.querySelectorAll('.tag').forEach(el => {
+      const k = el.dataset.work;
+      el.classList.remove('lit', 'sel');
+      el.classList.toggle('pick-a', pick[0] === k);
+      el.classList.toggle('pick-b', pick[1] === k);
+      el.setAttribute('aria-pressed', String(pick.includes(k)));
+    });
+    const hint = $('selHint'), small = remix.querySelector('small');
+    $('uniLabel').textContent = 'UniverseIt!';
+    if (body.classList.contains('viewing')) return;
+    remix.href = pick.length ? 'editor.html?from=' + encodeURIComponent(pick[0]) + (pick[1] ? '&to=' + encodeURIComponent(pick[1]) : '') : 'editor.html?new=1';
+    if (!pick.length){ hint.textContent = 'つなぎたい二つの言葉を選んでください'; small.textContent = 'ReMixIt!'; return; }
+    const a = nameOf(pick[0]), b = pick[1] ? nameOf(pick[1]) : '';
+    small.textContent = b ? `${a} × ${b}` : `${a} から`;
+    hint.innerHTML = (b ? `A：${R.esc(a)}　B：${R.esc(b)}　をつなぐ` : `A：${R.esc(a)}　もう一つ選ぶと B になります`) +
+      '<button type="button" class="sel-clear" data-clear-sel>選び直す</button>';
+  }
+  function togglePick(k){
+    const i = pick.indexOf(k);
+    if (i >= 0) pick.splice(i, 1);
+    else if (pick.length >= 2) pick[1] = k;
+    else pick.push(k);
+    paintPick();
+  }
+
   function select(slug, keepGroup){
     if (!slug || (slug === sel && !keepGroup)){ sel = null; lit = new Set(); paintSelection(); return; }
     sel = slug;
@@ -701,13 +752,89 @@
   }
   /* すべての言葉（起動直後の画面）へ戻る：ヒントのボタン、または UniverseIt! の見出し */
   function showAll(){
+    if (isRemix()){ pick = []; paintPick(); }
     select(null);
     window.scrollTo({ top: 0, behavior: motionOK() ? 'smooth' : 'auto' });
   }
   $('selHint').addEventListener('click', ev => { if (ev.target.closest('[data-clear-sel]')) showAll(); });
+
+  /* TOP へ：コンテクスト詳細のロゴから。開いているページを閉じ、UniverseIt! のすべての言葉を一番上から */
+  function goTop(){
+    uniScroll = 0;
+    sel = null; lit = new Set(); pick = [];
+    toNetwork();
+  }
+
+  /* ---------- UniverseIt! ⇄ ReMixIt!：左右にスライドして画面を入れ替える（flow1002） ----------
+     二つの画面は左右に並んでいる（左 ReMixIt! の白、右 UniverseIt! の回路）。指で横に引くと、
+     背景の二枚が指に付いて動き、見出しとボタンの濃さが引いた分だけ入れ替わる。
+     離して半分を越えていれば（または勢いよく払えば）その画面へ、足りなければ元へ戻る。
+     縦の動きはページのスクロールに任せる（touch-action: pan-y。スクロールを待たせない） */
+  let swiped = false;
+  (() => {
+    const uniEl = $('uni');
+    const layers = () => [...document.querySelectorAll('#bg .pcb-c, #bg .pcb-w, .uni-frame .fr-c, .uni-frame .fr-w')];
+    const titles = () => [...document.querySelectorAll('.uni-head .tt-u, .uni-head .tt-r')];
+    let s = null;
+    const W = () => window.innerWidth;
+    function paint(mix){
+      const w = W();
+      layers().forEach(el => {
+        const white = el.classList.contains('pcb-w') || el.classList.contains('fr-w');
+        el.style.transform = `translate3d(${(white ? mix - 1 : mix) * w}px,0,0)`;
+      });
+      titles().forEach(el => { el.style.opacity = el.classList.contains('tt-r') ? mix : 1 - mix; });
+      const m = Math.max(0, Math.min(1, mix));
+      remix.style.opacity = .5 + .5 * m;
+      uniBtn.style.opacity = 1 - .5 * m;
+      /* 半分を越えたら、地の明暗（言葉の色）も入れ替える */
+      const want = mix > .5 ? 'white' : 'charcoal';
+      if (document.documentElement.dataset.theme !== want) setTheme(want);
+    }
+    function clear(){
+      [...layers(), ...titles(), remix, uniBtn].forEach(el => { el.style.transform = ''; el.style.opacity = ''; el.style.transition = ''; });
+    }
+    uniEl.addEventListener('pointerdown', e => {
+      if (stage !== 'uni' || body.classList.contains('viewing') || e.button > 0 || !e.isPrimary) return;
+      s = { id: e.pointerId, x0: e.clientX, y0: e.clientY, base: isRemix() ? 1 : 0, on: false, pts: [[e.timeStamp, e.clientX]] };
+    });
+    uniEl.addEventListener('pointermove', e => {
+      if (!s || e.pointerId !== s.id) return;
+      const dx = e.clientX - s.x0, dy = e.clientY - s.y0;
+      if (!s.on){
+        if (Math.abs(dx) < 10 && Math.abs(dy) < 10) return;
+        if (Math.abs(dx) < Math.abs(dy) * 1.3){ s = null; return; }   /* 縦はスクロール */
+        s.on = true; swiped = true; body.classList.add('swiping');
+        try { uniEl.setPointerCapture(e.pointerId); } catch (err) {}
+      }
+      s.pts.push([e.timeStamp, e.clientX]); if (s.pts.length > 5) s.pts.shift();
+      let mix = s.base + dx / W();
+      if (mix < 0) mix *= 0.25; else if (mix > 1) mix = 1 + (mix - 1) * 0.25;   /* 端の先は抵抗 */
+      s.mix = mix;
+      paint(mix);
+    });
+    const end = (e, cancelled) => {
+      if (!s || e.pointerId !== s.id) return;
+      const S0 = s; s = null;
+      if (!S0.on) return;
+      body.classList.remove('swiping');
+      setTimeout(() => { swiped = false; }, 0);
+      const a = S0.pts[0], b = S0.pts[S0.pts.length - 1];
+      const v = b[0] > a[0] ? (b[1] - a[1]) / (b[0] - a[0]) : 0;
+      let target = cancelled ? S0.base : Math.abs(v) > 0.4 ? (v > 0 ? 1 : 0) : (S0.mix > .5 ? 1 : 0);
+      const ease = 'cubic-bezier(.22,.8,.22,1)';
+      [...layers(), ...titles(), remix, uniBtn].forEach(el => { el.style.transition = `transform .38s ${ease}, opacity .38s ${ease}`; });
+      paint(target);
+      setTimeout(() => { setTheme(target ? 'white' : 'charcoal'); clear(); }, 400);
+    };
+    uniEl.addEventListener('pointerup', e => end(e, false));
+    uniEl.addEventListener('pointercancel', e => end(e, true));
+  })();
   document.querySelector('.uni-title').addEventListener('click', showAll);
   tags.addEventListener('click', ev => {
+    if (swiped) return;
     const t = ev.target.closest('.tag');
+    if (isRemix()){ if (t) togglePick(t.dataset.work); else if (pick.length){ pick = []; paintPick(); } return; }
     if (!t){ if (sel) select(null); return; }
     const k = t.dataset.work;
     if (k === sel) select(null);
@@ -721,6 +848,8 @@
     if (t.closest('[data-close]')){ ev.preventDefault(); if (here && here.feed) toNetwork(); else closeView(); return; }
     const home = t.closest('[data-home]');
     if (home){ ev.preventDefault(); toNetwork(); return; }
+    /* ロゴは TOP へ：UniverseIt! のすべての言葉を、一番上から */
+    if (t.closest('[data-top]')){ ev.preventDefault(); goTop(); return; }
 
     const step = t.closest('[data-step]');
     if (step && here && here.entry){ goStep(+step.dataset.step, rectOf(step)); return; }
