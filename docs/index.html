@@ -27,7 +27,7 @@
 <!-- 表紙に最初から出すもの（回路とロゴ）は先に読む。描くときに待たせない -->
 <link rel="preload" as="image" href="img/pcb-charcoal.jpg">
 <link rel="preload" as="image" href="img/logo.png">
-<link rel="manifest" href="manifest.webmanifest?v=105">
+<link rel="manifest" href="manifest.webmanifest?v=106">
 <link rel="apple-touch-icon" href="icon-180.png">
 <!-- ホーム画面から開くと全画面になり、safe-area が 0 でなくなる。
      そのとき初めて Dynamic Island の裏までページが描ける。 -->
@@ -46,10 +46,12 @@
 <!-- 表紙の BEAUTIFUL CONTEXT は、先生の構成図と同じ Bebas Neue -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Lato:wght@300;400;700&display=swap">
-<script src="js/theme.js?v=105"></script>
-<link rel="stylesheet" href="app.css?v=105">
-<link rel="stylesheet" href="fade.css?v=105">
+<!-- フォントは最初の一コマを待たせない（表紙のロゴは絵。Lato は UniverseIt! が出るまでに届く） -->
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Lato:wght@300;400;700&display=swap" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Lato:wght@300;400;700&display=swap"></noscript>
+<script src="js/theme.js?v=106"></script>
+<link rel="stylesheet" href="app.css?v=106">
+<link rel="stylesheet" href="fade.css?v=106">
 </head>
 <body class="stage-intro">
 
@@ -113,10 +115,10 @@
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 <script type="application/ld+json" id="ld"></script>
 
-<script src="js/seed.js?v=105"></script>
-<script src="js/store.js?v=105"></script>
-<script src="js/render.js?v=105"></script>
-<script src="js/transition.js?v=105"></script>
-<script src="js/app.js?v=105"></script>
+<script src="js/seed.js?v=106"></script>
+<script src="js/store.js?v=106"></script>
+<script src="js/render.js?v=106"></script>
+<script src="js/transition.js?v=106"></script>
+<script src="js/app.js?v=106"></script>
 </body>
 </html>

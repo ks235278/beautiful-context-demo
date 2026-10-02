@@ -1079,6 +1079,10 @@
   R.buildTags(tags);
   setDock(null);
   if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+  /* 次に開くとき、ネットを待たずに表紙を描けるよう、手元に控えを置く（sw.js） */
+  if ('serviceWorker' in navigator && location.protocol === 'https:'){
+    window.addEventListener('load', () => { navigator.serviceWorker.register('sw.js').catch(() => {}); });
+  }
 
   if (location.hash.length > 2){
     /* ページを名指しで開かれたときは、表紙を飛ばして UniverseIt! を後ろに置く */
