@@ -1079,12 +1079,58 @@
   R.buildTags(tags);
   setDock(null);
   if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
-  /* 次に開くとき、ネットを待たずに表紙を描けるよう、手元に控えを置く（sw.js） */
+  /* ---------- アプリの殻（sw.js）と、見えないところでの入れ替え ----------
+     開くときは手元の控えからすぐ描く（ネットを待たない）。新しい版は sw.js が裏で揃える。
+     揃ったら、利用者が画面を離れたとき（裏に回ったとき）に読み直し、いまの画面・地・選んだ言葉・
+     スクロール位置のまま戻す。目の前では何も切り替わらない */
+  const RESUME = 'bc-resume';
+  function saveResume(){
+    try {
+      sessionStorage.setItem(RESUME, JSON.stringify({
+        at: Date.now(), stage, theme: document.documentElement.dataset.theme, sel, pick, read: [...readCtx],
+        uniY: body.classList.contains('viewing') ? uniScroll : window.scrollY,
+        y: window.scrollY, key: here && here.key, n: viewIn.querySelectorAll('.stop').length, stack: stack.slice()
+      }));
+    } catch (e) {}
+  }
+  function takeResume(){
+    try {
+      const r = JSON.parse(sessionStorage.getItem(RESUME) || 'null');
+      sessionStorage.removeItem(RESUME);
+      return r && Date.now() - r.at < 30 * 60 * 1000 ? r : null;
+    } catch (e) { return null; }
+  }
   if ('serviceWorker' in navigator && location.protocol === 'https:'){
+    let updateReady = false;
+    navigator.serviceWorker.addEventListener('message', (ev) => { if (ev.data && ev.data.type === 'bc-updated') updateReady = true; });
     window.addEventListener('load', () => { navigator.serviceWorker.register('sw.js').catch(() => {}); });
+    document.addEventListener('visibilitychange', () => {
+      if (document.hidden){ if (updateReady){ saveResume(); location.reload(); } }
+      else if (navigator.serviceWorker.controller) navigator.serviceWorker.controller.postMessage('bc-check');
+    });
   }
 
-  if (location.hash.length > 2){
+  const resume = takeResume();
+  if (resume){
+    /* 見えないところで読み直したあと：離れたときの画面のまま */
+    if (resume.theme) setTheme(resume.theme);
+    sel = resume.sel || null;
+    lit = sel ? new Set([sel, ...S.neighbors(sel).map(n => n.slug)]) : new Set();
+    pick = resume.pick || [];
+    (resume.read || []).forEach(id => readCtx.add(id));
+    uniScroll = resume.uniY || 0;
+    if (resume.stage === 'uni' || location.hash.length > 2) toUni(false); else armIdle();
+    if (location.hash.length > 2){
+      stack.length = 0;
+      (resume.stack && resume.stack.length ? resume.stack : [location.hash]).forEach(h => stack.push(h));
+      if (resume.key){ memo.set(resume.key, { y: resume.y || 0, n: resume.n || 0 }); backNav = true; }
+      routeTo(location.hash, { dismiss: true });
+      uniScroll = resume.uniY || 0;   /* ページを置くと上書きされるので、置いたあとに戻す */
+    } else {
+      paintSelection();
+      window.scrollTo({ top: uniScroll, behavior: 'instant' });
+    }
+  } else if (location.hash.length > 2){
     /* ページを名指しで開かれたときは、表紙を飛ばして UniverseIt! を後ろに置く */
     toUni(false);
     stack.push(location.hash);
