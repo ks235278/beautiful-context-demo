@@ -102,8 +102,11 @@ html[data-theme="white"] .wordmark .lockup{filter:invert(1) hue-rotate(180deg)}
 /* 起動：黒地 → 回路が灯り、文字が現れる（マークは動かない） */
 @keyframes lightUp{from{opacity:0}}
 body.stage-intro{background:#000}
-body.stage-intro #bg{animation:lightUp 1.1s ease .12s both}
-body.stage-intro .wordmark .lockup .words{animation:lightUp 1s ease .35s both}
+/* 灯る演出は「ページを開いたとき」に一度だけ、最後まで走らせる（表紙の状態には結びつけない）。
+   途中で外すと、iPhone（WebKit）は回路の層を透明のまま残すことがあり、UniverseIt! の地が黒く抜けた */
+#bg{animation:lightUp 1.1s ease .12s both}
+.wordmark .lockup .words{animation:lightUp 1s ease .35s both}
+html.resume #bg,html.resume .wordmark .lockup .words{animation:none}
 .wordmark{margin:0 0 calc(var(--sh,100vh) * .04);color:var(--uni-ink);font:400 clamp(42px,11.3vw,88px)/1 "Bebas Neue","Oswald","Arial Narrow",sans-serif;
   letter-spacing:.01em;text-align:center;transition:transform .8s cubic-bezier(.2,.7,.2,1)}
 body:not(.stage-intro) .intro{opacity:0;visibility:hidden;pointer-events:none;transition:opacity .6s ease,visibility 0s linear .6s}

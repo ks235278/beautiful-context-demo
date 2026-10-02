@@ -8,7 +8,11 @@
 <style>html,body{background:#000}</style>
 <!-- 表紙のロゴは「画面」の真ん中に置く（ページの枠ではなく）。iOS 26 のホーム画面から開くと、ページの枠が
      画面より下で短くなり、枠の真ん中では起動画面のマークより上にずれる。画面の高さを最初の一コマより前に渡す -->
-<script>document.documentElement.style.setProperty('--sh', (screen.height || innerHeight) + 'px');</script>
+<script>
+document.documentElement.style.setProperty('--sh', (screen.height || innerHeight) + 'px');
+/* 見えないところで読み直したあと（新しい版への入れ替え）は、離れたときの画面のまま。灯る演出はしない */
+try { if (sessionStorage.getItem('bc-resume')) document.documentElement.classList.add('resume'); } catch (e) {}
+</script>
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,viewport-fit=cover">
 <title>Beautiful Context</title>
 <meta name="description" content="作品は駅、コンテクストは二駅間の区間。言葉から作品へ、作品から二つをつなぐコンテクストへ。">
@@ -57,9 +61,9 @@
 <!-- フォントは最初の一コマを待たせない（表紙のロゴは絵。Lato は UniverseIt! が出るまでに届く） -->
 <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Lato:wght@300;400;700&display=swap" onload="this.onload=null;this.rel='stylesheet'">
 <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Lato:wght@300;400;700&display=swap"></noscript>
-<script src="js/theme.js?v=109"></script>
-<link rel="stylesheet" href="app.css?v=109">
-<link rel="stylesheet" href="fade.css?v=109">
+<script src="js/theme.js?v=110"></script>
+<link rel="stylesheet" href="app.css?v=110">
+<link rel="stylesheet" href="fade.css?v=110">
 </head>
 <body class="stage-intro">
 
@@ -123,10 +127,10 @@
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 <script type="application/ld+json" id="ld"></script>
 
-<script src="js/seed.js?v=109"></script>
-<script src="js/store.js?v=109"></script>
-<script src="js/render.js?v=109"></script>
-<script src="js/transition.js?v=109"></script>
-<script src="js/app.js?v=109"></script>
+<script src="js/seed.js?v=110"></script>
+<script src="js/store.js?v=110"></script>
+<script src="js/render.js?v=110"></script>
+<script src="js/transition.js?v=110"></script>
+<script src="js/app.js?v=110"></script>
 </body>
 </html>
