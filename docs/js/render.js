@@ -168,7 +168,7 @@
     return `
       <article class="page wpage">
         ${backTop()}
-        <div class="hero">${frame(w, 'art')}</div>
+        <div class="hero"><a class="c-logo" href="#/" data-top aria-label="BEAUTIFUL CONTEXT（TOP へ戻る）"><img src="img/logo.png" alt=""></a>${frame(w, 'art')}</div>
         <div class="content">
           <p class="meta">${esc(w.type || '作品')}${w.year ? '・' + esc(w.year) + '年' : ''}　CURRENT STATION</p>
           <h2>${esc(w.title)}</h2>

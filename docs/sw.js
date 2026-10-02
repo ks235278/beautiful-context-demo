@@ -9,7 +9,7 @@
      見えないところで読み直し、いまの画面とスクロール位置のまま戻す（app.js）。 */
 const CACHE = 'bc-shell';
 const PAGES = ['./index.html', './editor.html', './manage.html'];
-const STATIC = ['./img/pcb-charcoal.jpg', './img/pcb-white.jpg', './img/logo.png', './img/logo-mark.png',
+const STATIC = ['./img/pcb-charcoal.jpg', './img/pcb-white.jpg', './img/logo.png', './img/logo-mark.png', './img/logo-layer-mark.png', './img/logo-layer-words.png', './icon-512.png',
   './icon-180.png', './icon-192.png', './manifest.webmanifest'];
 
 /* ページが使う同じサイトの CSS・JS（?v= 付き）と、表紙の絵 */
