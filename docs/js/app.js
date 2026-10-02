@@ -823,9 +823,10 @@
       const v = b[0] > a[0] ? (b[1] - a[1]) / (b[0] - a[0]) : 0;
       let target = cancelled ? S0.base : Math.abs(v) > 0.4 ? (v > 0 ? 1 : 0) : (S0.mix > .5 ? 1 : 0);
       const ease = 'cubic-bezier(.22,.8,.22,1)';
+      body.classList.add('settling');   /* 戻り切るまで、両方の回路を描いておく */
       [...layers(), ...titles(), remix, uniBtn].forEach(el => { el.style.transition = `transform .38s ${ease}, opacity .38s ${ease}`; });
       paint(target);
-      setTimeout(() => { setTheme(target ? 'white' : 'charcoal'); clear(); }, 400);
+      setTimeout(() => { setTheme(target ? 'white' : 'charcoal'); clear(); body.classList.remove('settling'); }, 400);
     };
     uniEl.addEventListener('pointerup', e => end(e, false));
     uniEl.addEventListener('pointercancel', e => end(e, true));

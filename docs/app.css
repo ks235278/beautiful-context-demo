@@ -45,7 +45,14 @@ a{color:inherit}
 #bg{position:fixed;inset:0;z-index:0;background:var(--ground)}
 /* 左右に並ぶ二枚の回路：左が A / WHITE（ReMixIt!）、右が B / CHARCOAL（UniverseIt!）。
    いま見ている方が画面にあり、もう一方は隣（画面の外）に控えている */
-#bg .pcb,.uni-frame .fr{position:absolute;inset:0;background-position:center;background-size:cover;background-repeat:no-repeat;will-change:transform}
+#bg .pcb,.uni-frame .fr{position:absolute;inset:0;background-position:center;background-size:cover;background-repeat:no-repeat}
+/* 画面いっぱいの絵を、いつも GPU に持たせない。iPhone（3 倍の解像度）では一枚で約 15MB になり、
+   持ちすぎると iOS が層を捨て、UniverseIt! の地が黒く抜けていた。
+   ・隣（画面の外）に控えている方の回路は描かない（スライドしているあいだだけ描く）
+   ・GPU に乗せるのも、指で動かしているあいだだけ */
+html:not([data-theme="white"]) body:not(.swiping):not(.settling) :is(#bg .pcb-w,.uni-frame .fr-w),
+html[data-theme="white"] body:not(.swiping):not(.settling) :is(#bg .pcb-c,.uni-frame .fr-c){visibility:hidden}
+body.swiping :is(#bg .pcb,.uni-frame .fr),body.settling :is(#bg .pcb,.uni-frame .fr){will-change:transform}
 #bg .pcb-c,.uni-frame .fr-c{background-color:#061629;background-image:url(img/pcb-charcoal.jpg)}
 #bg .pcb-w,.uni-frame .fr-w{background-color:#fff;background-image:url(img/pcb-white.jpg);transform:translate3d(-100%,0,0)}
 html[data-theme="white"] #bg .pcb-c,html[data-theme="white"] .uni-frame .fr-c{transform:translate3d(100%,0,0)}
@@ -104,8 +111,9 @@ html[data-theme="white"] .wordmark .lockup{filter:invert(1) hue-rotate(180deg)}
 body.stage-intro{background:#000}
 /* 灯る演出は「ページを開いたとき」に一度だけ、最後まで走らせる（表紙の状態には結びつけない）。
    途中で外すと、iPhone（WebKit）は回路の層を透明のまま残すことがあり、UniverseIt! の地が黒く抜けた */
-#bg{animation:lightUp 1.1s ease .12s both}
-.wordmark .lockup .words{animation:lightUp 1s ease .35s both}
+/* fill は backwards：終わったら演出を残さず、層を手放す */
+#bg{animation:lightUp 1.1s ease .12s backwards}
+.wordmark .lockup .words{animation:lightUp 1s ease .35s backwards}
 html.resume #bg,html.resume .wordmark .lockup .words{animation:none}
 .wordmark{margin:0 0 calc(var(--sh,100vh) * .04);color:var(--uni-ink);font:400 clamp(42px,11.3vw,88px)/1 "Bebas Neue","Oswald","Arial Narrow",sans-serif;
   letter-spacing:.01em;text-align:center;transition:transform .8s cubic-bezier(.2,.7,.2,1)}
