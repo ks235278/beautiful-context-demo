@@ -163,8 +163,11 @@
     backNav = true;
     if (d > 0){
       stack.pop();
-      if (d === 1) hideView(motion || { toCenter: true });
-      else if (stack.length) routeTo(stack[stack.length - 1], motion || null);
+      /* 戻り先は、覚えている道筋の一つ前。リンクから直接ページを開いた人は、その一つ前も
+         ページ（UniverseIt! ではない）。そこへ UniverseIt! を一瞬はさむと、絵が点滅して見えた */
+      const to = stack[stack.length - 1];
+      if (to && to !== '#' && to !== '#/') routeTo(to, motion || null);
+      else hideView(motion || { toCenter: true });
       history.back();
     } else {
       stack.length = 0;
@@ -902,6 +905,10 @@
   }
   (() => {
     let g = null;
+    /* ばねで元へ戻っている途中の絵。戻り切る前に触れたら、その絵をその場でつかみ直す（写真アプリと同じ）。
+       戻り切ったときの片づけ（絵を元へ・後ろの画面を外す）が、次につかんだ指の下で走らないように、
+       ここで一つだけ持っておく */
+    let ret = null;
     const vw = () => window.innerWidth, vh = () => window.innerHeight;
     const HOLD = 220;   /* これだけ指を止めてから動かすと、どの向きにも自由につかめる */
     const setX = (el, x) => { el.style.transform = x ? `translate3d(${x}px,0,0)` : ''; };
@@ -935,20 +942,40 @@
       const t = e.touches[0];
       const strip = e.currentTarget;
       clearTimeout(heldTimer); held = true; dragged = false;
-      /* ばねで戻る途中をつかみ直したら、その位置から続ける */
+      const art = t.target.closest('.art');
+      const img = art && art.querySelector('img[data-k]');
+      /* 持ち上げた絵がばねで戻る途中なら、その絵をいまの位置・大きさのままつかむ */
+      if (ret && ret.G.img === img){ catchBack(t, e.timeStamp); return; }
+      landNow();
+      /* 横の帯がばねで戻る途中をつかみ直したら、その位置から続ける */
       const cur = new DOMMatrixReadOnly(getComputedStyle(strip).transform).m41;
       strip.getAnimations().forEach(a => a.cancel());
       setX(strip, cur);
-      const art = t.target.closest('.art');
-      g = { mode: null, strip, img: art && art.querySelector('img[data-k]'), x0: t.clientX - cur, y0: t.clientY, x: cur,
+      g = { mode: null, strip, img, x0: t.clientX - cur, y0: t.clientY, x: cur,
             t0: e.timeStamp, top: window.scrollY <= 4, s: [[e.timeStamp, t.clientX, t.clientY]] };
     }
+    /* 戻る途中の絵を、止めた位置から指に付け直す。後ろの画面も、元の場所の空きも、そのまま引き継ぐ */
+    function catchBack(t, ts){
+      const R = ret; ret = null;
+      const m = new DOMMatrixReadOnly(getComputedStyle(R.G.f).transform);
+      const o = +getComputedStyle(view).opacity;
+      R.a.onfinish = null; R.a.cancel(); R.va.cancel();
+      R.G.f.style.transform = `translate3d(${m.m41}px,${m.m42}px,0) scale(${m.a})`;
+      view.style.opacity = o;
+      dragged = true;
+      g = { ...R.G, mode: 'lift', caught: true, o, ly: m.m42, lx0: t.clientX - m.m41, ly0: t.clientY - m.m42,
+            d0: [m.m41, m.m42], ds: m.a - liftScale(m.m41, m.m42), dop: o - liftFade(m.m42),
+            cx: t.clientX, cy: t.clientY, t0: ts, s: [[ts, t.clientX, t.clientY]] };
+    }
+    /* 戻る途中の絵を、その場で元の場所に収める（別のものに触れたとき・ページが替わるとき） */
+    function landNow(){ if (ret) ret.done(); }
 
     function onMove(e){
       if (!g || g.strip !== e.currentTarget) return;
       const t = e.touches[0];
       const dx = t.clientX - g.x0, dy = t.clientY - g.y0;
       g.s.push([e.timeStamp, t.clientX, t.clientY]); if (g.s.length > 5) g.s.shift();
+      if (g.caught && !g.moved && Math.hypot(t.clientX - g.cx, t.clientY - g.cy) > 6) g.moved = true;
       if (!g.mode){
         const mx = Math.abs(dx - g.x), my = Math.abs(dy);
         const long = e.timeStamp - g.t0 >= HOLD && g.img && motionOK();
@@ -981,11 +1008,17 @@
       g.back = underlay(g.img.dataset.k);
       if (!g.back) peek(true);
     }
+    const liftScale = (dx, dy) => Math.max(0.42, 1 - Math.max(0, dy) / (vh() * 1.05) - Math.abs(dx) / (vw() * 8));
+    const liftFade = (dy) => Math.max(0, Math.min(1, 1 - Math.max(0, dy) / (vh() * 0.38)));
     function moveLift(dx, dy){
-      const H = vh(), W = vw();
-      const s = Math.max(0.42, 1 - Math.max(0, dy) / (H * 1.05) - Math.abs(dx) / (W * 8));
+      let s = liftScale(dx, dy), o = liftFade(dy);
+      /* つかみ直した絵は、つかんだときの大きさ・薄さから始めて、指が動くうちに本来の値へ寄せる（跳ばない） */
+      if (g.caught){
+        const k = Math.max(0, 1 - Math.hypot(dx - g.d0[0], dy - g.d0[1]) / 120);
+        s += g.ds * k; o = Math.max(0, Math.min(1, o + g.dop * k));
+      }
       g.f.style.transform = `translate3d(${dx}px,${dy}px,0) scale(${s})`;
-      g.o = Math.max(0, Math.min(1, 1 - Math.max(0, dy) / (H * 0.38)));
+      g.o = o;
       view.style.opacity = g.o;
       g.ly = dy;
     }
@@ -1008,7 +1041,8 @@
         return;
       }
       const vy = vel(G.s, 2);
-      const home = !cancelled && vy > -0.2 && ((G.ly || 0) > vh() * 0.14 || vy > 0.5);
+      /* 戻る途中をつかんで、動かさずに離しただけなら、もう一度元へ戻す（触れただけでページは閉じない） */
+      const home = !cancelled && (!G.caught || G.moved) && vy > -0.2 && ((G.ly || 0) > vh() * 0.14 || vy > 0.5);
       if (home){
         lifted = { k: G.img.dataset.k, r: G.f.getBoundingClientRect(), src: G.f.src,
                    pos: getComputedStyle(G.img).objectPosition, o: G.o };
@@ -1021,8 +1055,16 @@
       const a = G.f.animate([{ transform: G.f.style.transform }, { transform: 'translate3d(0,0,0) scale(1)' }],
         { duration: 420, easing: 'cubic-bezier(.2,1.12,.3,1)', fill: 'forwards' });
       view.style.opacity = '';
-      view.animate([{ opacity: G.o }, { opacity: 1 }], { duration: 320, easing: 'ease-out' });
-      a.onfinish = () => { G.img.style.visibility = ''; G.img.parentElement.classList.remove('landing'); G.f.remove(); peek(false); dropUnderlay(); };
+      const va = view.animate([{ opacity: G.o }, { opacity: 1 }], { duration: 320, easing: 'ease-out' });
+      const R = { G, a, va, done: null };
+      R.done = () => {
+        if (ret === R) ret = null;
+        a.onfinish = null; a.cancel(); va.cancel();
+        G.img.style.visibility = ''; G.img.parentElement.classList.remove('landing'); G.f.remove(); peek(false); dropUnderlay();
+      };
+      a.onfinish = R.done;
+      ret = R;
+      inflight.push(landNow);   /* ページが替わるときは、その場で収める */
     }
     /* 引いたあとの「クリック」は、絵のボタンに届かせない */
     view.addEventListener('click', e => { if (dragged && e.target.closest('.duo, .hero')){ e.stopPropagation(); e.preventDefault(); } }, true);
