@@ -197,12 +197,14 @@ body.viewing .uni{display:none}
 .menu{overscroll-behavior:none}
 .view-in{position:relative;width:100%;max-width:var(--col);min-height:100vh;margin:0 auto;background:var(--paper);
   padding-bottom:calc(var(--dockh) + env(safe-area-inset-bottom))}
-.view.enter .content,.view.enter .context-lead{animation:rise .56s cubic-bezier(.2,.7,.2,1) .14s both}
-@keyframes fromR{from{opacity:0;transform:translateX(48px)}}
-@keyframes fromL{from{opacity:0;transform:translateX(-48px)}}
-.view.enter.from-r .content,.view.enter.from-r .context-lead,.view.enter.from-l .content,.view.enter.from-l .context-lead{animation:none}
-.view.enter.from-r .page{animation:fromR .42s cubic-bezier(.22,.8,.22,1) both}
-.view.enter.from-l .page{animation:fromL .42s cubic-bezier(.22,.8,.22,1) both}
+/* 入ってくるページは、はじめから不透明で動かない。前のページ（見えている一画面ぶんの写し）が
+   進む向きへ抜けながら薄れて、下の新しいページが現れる（重ねた紙の一番上を引き抜くように）。
+   ページ全体を動かすと、iPhone は何万 px もある面を描き直しきれず、白や黒が稲妻のように点滅する。
+   UniverseIt! から開くときだけ、最初の一画面に見える部分を浮かべる */
+.view.enter.from-uni .wpage .content,.view.enter.from-uni .context-lead,
+.view.enter.from-uni .feed-page .content>.meta,.view.enter.from-uni .feed-page .content>h2,
+.view.enter.from-uni .feed-page .stop:nth-child(-n+3),
+.view.enter.from-uni .text-page:not(.feed-page) .content>:nth-child(-n+4){animation:rise .56s cubic-bezier(.2,.7,.2,1) .14s both}
 
 /* 運ばれている途中の絵と、消えていく前のページ */
 .flyer{position:fixed;z-index:38;margin:0;object-fit:cover;pointer-events:none;box-shadow:0 22px 48px -20px #000d;

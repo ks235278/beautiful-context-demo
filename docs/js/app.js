@@ -261,6 +261,12 @@
     inner.removeAttribute('id');
     inner.querySelectorAll('[id]').forEach(n => n.removeAttribute('id'));
     inner.querySelectorAll('img[data-k]').forEach(n => { n.style.visibility = 'hidden'; });
+    /* 写しは見えている一画面ぶんだけ描く（路線の遠い駅まで描くと重い） */
+    const H = window.innerHeight, copies = inner.querySelectorAll('.stop');
+    viewIn.querySelectorAll('.stop').forEach((s, i) => {
+      const r = s.getBoundingClientRect();
+      if ((r.bottom < -40 || r.top > H + 40) && copies[i]) copies[i].style.visibility = 'hidden';
+    });
     inner.style.transform = `translateY(${-window.scrollY}px)`;
     g.appendChild(inner);
     document.body.appendChild(g);
@@ -295,7 +301,7 @@
      3. 触れたところから出て、元の場所へ帰る：言葉から開いた作品の絵はその言葉から現れ、
         UniverseIt! へ戻るときは、見えている自分の言葉へ吸い込まれる。
      飛ぶ層は下の帯（ボタン）より下。帯の裏にかかる絵も、帯の下を通って動く。 */
-  const SIDE = 48;   /* ページが横へずれる量。ghostOf と CSS の from-r / from-l と同じ */
+  const SIDE = 48;   /* 前のページの写しが横へ抜ける量（ghostOf と同じ） */
   /* 祖先の移動（浮かび上がり・横すべり）を差し引いた、落ち着いたあとの位置 */
   function settled(el){
     const r = el.getBoundingClientRect();
@@ -449,9 +455,10 @@
     }
     view.classList.add('on', 'instant');
     /* 新しいページは、進む向きから入ってくる（前のページは反対へ抜ける）。向きがなければ下から浮かぶ */
-    view.classList.remove('enter', 'from-r', 'from-l'); void view.offsetWidth;
-    /* 持ち上げて離したときは、後ろの画面がもう見えているので、ページは動かさない */
-    if (!motion.dismiss){ view.classList.add('enter'); if (motion.dir) view.classList.add(motion.dir > 0 ? 'from-r' : 'from-l'); }
+    view.classList.remove('enter', 'from-uni'); void view.offsetWidth;
+    /* ページからページへは、前のページの写しが抜けていくだけで、新しいページは動かさない。
+       UniverseIt! から開くときだけ、最初の一画面ぶんを浮かべる */
+    if (!was && !motion.dismiss) view.classList.add('enter', 'from-uni');
     fly(before, motion);
     lifted = null;
     view.style.pointerEvents = 'none';
