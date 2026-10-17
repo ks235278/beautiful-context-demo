@@ -328,12 +328,14 @@
          └ G ─ H …
        路線が尽きたら、先生の一覧の順で次の、まだ通っていない作品から
        別の路線として続ける。すべての駅を一度ずつ通る。 */
-    feed(startSlug) {
+    /* skipId：いま読んでいる区間。その先の路線を出すとき、来た道（同じ区間）は通らない */
+    feed(startSlug, skipId) {
       const all = this.works().sort((a, b) => this.byOrder(a, b));
       const bySlug = new Map(all.map((h) => [h.slug, h]));
       const orderOf = (s) => all.findIndex((h) => h.slug === s);
       const adj = new Map(all.map((h) => [h.slug, []]));
       this.visible().forEach((e) => {
+        if (e.id === skipId) return;
         if (!adj.has(e.a.slug) || !adj.has(e.b.slug) || e.a.slug === e.b.slug) return;
         adj.get(e.a.slug).push({ slug: e.b.slug, entry: e });
         adj.get(e.b.slug).push({ slug: e.a.slug, entry: e });

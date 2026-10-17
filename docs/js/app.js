@@ -21,7 +21,7 @@
   const dock = $('dock'), map = $('map');
   const intro = $('intro'), tags = $('tags');
   const view = $('view'), viewIn = $('viewIn'), ld = $('ld');
-  const uniBtn = $('uniBtn'), remix = $('remix'), backBtn = $('backBtn');
+  const uniBtn = $('uniBtn'), remix = $('remix');
   const menu = $('menu'), menuBtn = $('menuBtn');
 
   const settings = S.settings();
@@ -255,8 +255,11 @@
         R.editorPage(ed, S.byEditor(ed.id), Social.isFollowing(ed.id)), motion, ed.name);
     } else if (name === 'c' && arg){
       const e = S.byContextSlug(arg);
-      if (e) return show({ key: 'c:' + e.id, kind: 'route', entry: e, step: 1 },
-        R.contextPage(e, pickAd(e), ctxOpts(e)), motion, `${e.a.title} ＋ ${e.b.title}`);
+      if (e){
+        const opts = ctxOpts(e);
+        return show({ key: 'c:' + e.id, kind: 'route', entry: e, step: 1, feed: opts.rail },
+          R.contextPage(e, pickAd(e), opts), motion, `${e.a.title} ＋ ${e.b.title}`);
+      }
     } else if (name === 'w' && arg){
       const hit = S.workBySlug(arg) || S.works(S.all()).find(w => w.slug === arg);
       if (hit){
@@ -293,19 +296,21 @@
     return (mine.length ? mine : eds).map(ed => ({ ed, e: S.todayPick(ed.id, dayKey()) }))
       .filter(x => x.e && !seen.has(x.e.id) && seen.add(x.e.id));
   }
-  /* コンテクストページに渡すもの：編集者・フォロー・ログイン・コメント */
+  /* コンテクストページに渡すもの：編集者・フォロー・ログイン・コメント、
+     そして読み終わりの下に続く「この先のつながり」の路線（B から先へ。来た区間は通らない） */
   function ctxOpts(e, today){
     const me = Social.me(), ed = S.editorOf(e);
     return { editor: ed, following: Social.isFollowing(ed.id), me, comments: S.visibleComments(e),
-      mine: me ? S.myPendingComments(e, me.uid) : [], today };
+      mine: me ? S.myPendingComments(e, me.uid) : [], today, rail: S.feed(e.b.slug, e.id), railBatch: FEED_BATCH };
   }
   function showToday(i, motion){
     const list = todayList();
     if (!list.length){ hideView(motion); return; }
     i = Math.max(0, Math.min(list.length - 1, i));
     const x = list[i], today = { i, n: list.length };
-    return show({ key: 'today:' + i + ':' + x.e.id, kind: 'route', entry: x.e, step: 1, today },
-      R.contextPage(x.e, pickAd(x.e), ctxOpts(x.e, Object.assign({ day: dayLabel() }, today))), motion, "Today's Editor's Choice");
+    const opts = ctxOpts(x.e, Object.assign({ day: dayLabel() }, today));
+    return show({ key: 'today:' + i + ':' + x.e.id, kind: 'route', entry: x.e, step: 1, today, feed: opts.rail },
+      R.contextPage(x.e, pickAd(x.e), opts), motion, "Today's Editor's Choice");
   }
   const hasCard = (d) => !!(here && here.today && here.today.i + d >= 0 && here.today.i + d < here.today.n);
   /* 今日のほかの Choice へ。履歴は積まない（BACK は Choice を一枚ずつ戻らない） */
@@ -347,13 +352,14 @@
     return list;
   }
 
-  function ghostOf(dir, from){
+  /* いまのページの、見えている一画面ぶんの写し。keyed：運ぶ絵（data-k）を写しから抜いておく */
+  function snapshot(keyed){
     const g = document.createElement('div');
     g.className = 'ghost';
     const inner = viewIn.cloneNode(true);
     inner.removeAttribute('id');
     inner.querySelectorAll('[id]').forEach(n => n.removeAttribute('id'));
-    inner.querySelectorAll('img[data-k]').forEach(n => { n.style.visibility = 'hidden'; });
+    if (keyed) inner.querySelectorAll('img[data-k]').forEach(n => { n.style.visibility = 'hidden'; });
     /* 写しは見えている一画面ぶんだけ描く（路線の遠い駅まで描くと重い） */
     const H = window.innerHeight, copies = inner.querySelectorAll('.stop');
     viewIn.querySelectorAll('.stop').forEach((s, i) => {
@@ -363,6 +369,10 @@
     inner.style.transform = `translateY(${-window.scrollY}px)`;
     g.appendChild(inner);
     document.body.appendChild(g);
+    return g;
+  }
+  function ghostOf(dir, from){
+    const g = snapshot(true);
     const a = g.animate([
       { opacity: from == null ? 1 : from, transform: 'translateX(0)' },
       { opacity: 0, transform: `translateX(${-(dir || 0) * 48}px)` }
@@ -471,10 +481,12 @@
   let dry = null;           /* 描かずに組み立てるときの受け皿 */
   /* 来た画面の写しを、持ち上げた絵の後ろに置く（離したときの位置のまま） */
   /* held：いま指で持っている作品。その作品の絵は、来た画面の中でも空けておく（同じ絵は一枚しかない） */
-  function underlay(held){
-    if (stack.length < 2) return false;
+  /* hash：置く画面（省けば道筋の一つ前） */
+  function underlay(held, hash){
+    const to = hash || (stack.length >= 2 ? stack[stack.length - 2] : null);
+    if (!to || to === '#' || to === '#/') return false;
     dry = {};
-    try { routeTo(stack[stack.length - 2], null); } finally { var got = dry; dry = null; }
+    try { routeTo(to, null); } finally { var got = dry; dry = null; }
     if (!got || !got.html) return false;
     const m = memo.get(got.page.key) || { y: 0, n: 0 };
     const u = document.createElement('div');
@@ -508,8 +520,9 @@
     if (!motion.dir && here && here.entry && page.entry && here.entry.id === page.entry.id){
       motion.dir = Math.sign(page.step - here.step);
     }
-    /* fade：表紙から Today へは、絵を運ばずに静かに浮かべる */
-    const moving = motionOK() && !motion.fade;
+    /* fade：表紙から Today へは、絵を運ばずに静かに浮かべる。
+       swipe：左の端から払って戻ったとき。戻り先はもう指の下に見えているので、何も動かさずに置き換える */
+    const moving = motionOK() && !motion.fade && !motion.swipe;
     const was = view.classList.contains('on');
     /* 離れるページのスクロール位置（路線なら読み足した駅の数も）を覚えておく */
     if (was && here) memo.set(here.key, { y: window.scrollY, n: viewIn.querySelectorAll('.stop').length });
@@ -534,7 +547,8 @@
     backNav = false;
     if (m && page.feed) extendFeed(m.n);
     window.scrollTo({ top: m ? m.y : 0, behavior: 'instant' });
-    dropUnderlay();
+    /* 払って戻ったときは、後ろの写しを本物の絵が描けるまで残す（払う側で外す） */
+    if (!motion.swipe) dropUnderlay();
     body.classList.toggle('route', page.kind === 'route');
     body.classList.toggle('on-work', !!page.work);
     body.classList.toggle('on-today', !!page.today);
@@ -578,7 +592,7 @@
   function hideView(motion){
     if (!view.classList.contains('on')){ here = null; return; }
     settleAll();
-    const moving = motionOK();
+    const moving = motionOK() && !(motion && motion.swipe);
     const before = moving ? capture() : [];
     if (moving) ghostOf(0, lifted ? lifted.o : 1);
     /* 前のページはここで片づける。残しておくと、運ぶ先の絵として
@@ -755,8 +769,7 @@
     go('#/f/' + encodeURIComponent(pick.slug), { dir: 1 }, true);
   }
 
-  /* BACK：いつも一つ戻る。NEXT UNIVERSE：次のつながりへ（行き先はアプリが決める） */
-  backBtn.addEventListener('click', () => closeView());
+  /* NEXT UNIVERSE：次のつながりへ（行き先はアプリが決める）。戻るのは左の端から払う */
   uniBtn.addEventListener('click', () => {
     if (view.classList.contains('on')){ nextPlan().run(); return; }
     if (stage === 'intro'){ toHome(); return; }
@@ -1304,11 +1317,91 @@
     if (dx <= -88 && -dx > dy * 1.6 && here && here.entry && !here.today && here.step < 2) goStep(here.step + 1);
   }, { passive: true });
 
+  /* ---------- 左の端から右へ払って戻る（iPhone と同じ） ----------
+     画面の左端の細い帯（#edgeBack）から始まった指だけを読む。ページ全体の指には触れないので、スクロールは重くならない。
+     いまのページの一画面ぶんの写しが指に付いて右へ動き、後ろには戻り先の画面が少し遅れて付いてくる。
+     離して半分近く（または勢いよく）なら戻り先へ。写しはそのまま右へ抜け、本物の絵が描けてから後ろの写しを外す。
+     足りなければ、ばねで元へ。 */
+  (() => {
+    const edge = $('edgeBack');
+    const W = () => window.innerWidth;
+    const PAR = 0.28;   /* 後ろの画面は、指の 3 割ほど遅れて付いてくる */
+    let s = null;
+    /* 戻り先：closeView と同じ決め方（null は奥の UniverseIt!） */
+    const target = () => depth() === 0 ? '#/today' : (stack.length >= 2 ? stack[stack.length - 2] : null);
+    function begin(){
+      settleAll();
+      const to = target();
+      const under = to ? underlay(null, to) : false;
+      if (!under && !to) peek(true);
+      s.under = document.querySelector('.underlay');
+      s.shot = snapshot(false);
+      s.shot.classList.add('edge-shot');
+      view.style.visibility = 'hidden';
+      body.classList.add('edging');
+    }
+    function place(x){
+      s.shot.style.transform = `translate3d(${x}px,0,0)`;
+      if (s.under) s.under.style.transform = `translate3d(${(x / W() - 1) * W() * PAR}px,0,0)`;
+    }
+    function end(cancelled){
+      const S0 = s; s = null;
+      heldTimer = setTimeout(() => { held = false; }, 0);
+      if (!S0 || !S0.on) return;
+      const a = S0.pts[0], b = S0.pts[S0.pts.length - 1];
+      const v = b[0] > a[0] ? (b[1] - a[1]) / (b[0] - a[0]) : 0;   /* px/ms */
+      const go = !cancelled && v > -0.2 && (S0.x > W() * 0.4 || v > 0.5);
+      const to = go ? W() : 0;
+      const ms = Math.round(Math.max(160, Math.min(340, Math.abs(to - S0.x) / Math.max(Math.abs(v), 1.4))));
+      const ease = 'cubic-bezier(.2,.8,.25,1)';
+      const sa = S0.shot.animate([{ transform: S0.shot.style.transform }, { transform: `translate3d(${to}px,0,0)` }], { duration: ms, easing: ease, fill: 'forwards' });
+      if (S0.under) S0.under.animate([{ transform: S0.under.style.transform || 'none' }, { transform: go ? 'translate3d(0,0,0)' : `translate3d(${-W() * PAR}px,0,0)` }],
+        { duration: ms, easing: ease, fill: 'forwards' });
+      sa.onfinish = () => {
+        body.classList.remove('edging');
+        if (!go){
+          view.style.visibility = '';
+          S0.shot.remove(); dropUnderlay(); peek(false);
+          return;
+        }
+        closeView({ swipe: true });
+        view.style.visibility = 'hidden';
+        S0.shot.remove();
+        /* 本物の絵が描けてから、後ろの写しを外して本物を見せる（一コマでも空いた枠を見せない） */
+        const H = window.innerHeight;
+        const imgs = [...viewIn.querySelectorAll('img')].filter(im => { const r = im.getBoundingClientRect(); return r.bottom > 0 && r.top < H; });
+        const show = () => { view.style.visibility = ''; requestAnimationFrame(() => { dropUnderlay(); peek(false); }); };
+        Promise.race([Promise.all(imgs.map(im => im.decode().catch(() => {}))), new Promise(r => setTimeout(r, 400))]).then(show);
+      };
+    }
+    edge.addEventListener('touchstart', e => {
+      if (e.touches.length !== 1 || !view.classList.contains('on') || atRoot() || s) return;
+      const t = e.touches[0];
+      clearTimeout(heldTimer); held = true;
+      s = { x0: t.clientX, y0: t.clientY, x: 0, on: false, pts: [[e.timeStamp, t.clientX]] };
+    }, { passive: true });
+    edge.addEventListener('touchmove', e => {
+      if (!s) return;
+      e.preventDefault();
+      const t = e.touches[0], dx = t.clientX - s.x0, dy = t.clientY - s.y0;
+      if (!s.on){
+        if (Math.abs(dx) < 6 && Math.abs(dy) < 6) return;
+        if (dx < Math.abs(dy)){ s = null; held = false; return; }   /* 縦や左への動きは払いにしない */
+        s.on = true; begin();
+      }
+      s.pts.push([e.timeStamp, t.clientX]); if (s.pts.length > 5) s.pts.shift();
+      s.x = Math.max(0, dx);
+      place(s.x);
+    }, { passive: false });
+    edge.addEventListener('touchend', () => end(false), { passive: true });
+    edge.addEventListener('touchcancel', () => end(true), { passive: true });
+  })();
+
+  /* transition.js の「右へ払う」：このページでは左の端からの払い（上）が戻る役。ここではメニューを閉じるだけ */
   window.BCSwipeBack = () => {
     if (held) return true;
     if (!menu.hidden){ openMenu(false); return true; }
-    if (view.classList.contains('on') && !atRoot()){ closeView(); return true; }
-    return false;
+    return view.classList.contains('on');
   };
 
   /* エディターや管理画面で書き換えられたら、組み直す */

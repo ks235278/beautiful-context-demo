@@ -433,19 +433,30 @@ body.viewing.peek #bg{visibility:visible}
   opacity:0;pointer-events:none;transition:opacity .18s}
 .toast.show{opacity:1}
 
-/* ---------- 下の帯：BACK と NEXT UNIVERSE（10/17） ----------
-   読む画面では二つだけ。一つのボタンは一つのことだけをする。
+/* ---------- 下の帯：NEXT UNIVERSE（10/17） ----------
+   読む画面ではボタンは一つだけ。戻るのは左の端から右へ払う（iPhone と同じ）か、上の ‹。
    ReMixIt!（つながりを創る）は編集の側の道具なので、UniverseIt! の画面にだけ置く */
-.act.back-btn{display:none}
 body.viewing .act.remix{display:none}
-body.viewing .act.back-btn{display:flex;gap:6px;background:#fff;color:var(--ink);box-shadow:inset 0 0 0 1px #c9c4ba}
-.act.back-btn svg{flex:0 0 20px;width:20px;height:20px;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
-body.viewing .actions{grid-template-columns:minmax(0,.4fr) minmax(0,1fr)}
-/* 最初の画面（Today）には戻る先がない */
-body.viewing.at-root .act.back-btn{display:none}
-body.viewing.at-root .actions{grid-template-columns:1fr}
+body.viewing .actions{grid-template-columns:1fr}
 .act b{white-space:nowrap}
-.act.back-btn b,.act.uni-btn b{font:700 12.5px/1.3 "Lato",var(--gothic);letter-spacing:.14em}
+.act.uni-btn b{font:700 12.5px/1.3 "Lato",var(--gothic);letter-spacing:.14em}
+/* 左の端の帯：ここから右へ払うと戻る。見えない。指で触れる端末で、戻る先があるときだけ */
+.edge-back{display:none;position:fixed;z-index:39;left:0;top:calc(env(safe-area-inset-top) + 60px);bottom:calc(var(--dockh) + env(safe-area-inset-bottom));
+  width:18px;touch-action:none}
+@media (pointer:coarse){body.viewing:not(.at-root) .edge-back{display:block}}
+/* 払っているあいだ、指に付いて動くページの写し（左の縁に影） */
+.edge-shot{box-shadow:-14px 0 34px rgba(0,0,0,.16)}
+body.edging .underlay{will-change:transform}
+
+/* 読み終わりの下に続く「この先のつながり」の路線。最初の駅は、いま読んだ B（ここから先へ） */
+.ctx-rail{margin-top:8px}
+.ctx-rail .rail{margin-top:10px}
+.ctx-rail .stop.first .fstop{grid-template-columns:92px 1fr;gap:14px}
+.ctx-rail .stop.first .st-img{width:auto}
+.ctx-rail .stop.first .st-txt b{font-size:inherit}
+.ctx-rail .stop.first .st-txt span{-webkit-line-clamp:3}
+.ctx-rail .stop.first .fstop::after{content:"いまここ";position:absolute;left:-2px;top:-9px;padding:1px 7px;border-radius:9px;background:var(--gold);color:#fff;
+  font:700 9px/1.6 var(--gothic);letter-spacing:.08em}
 
 /* ---------- Today's Editor's Choice ---------- */
 /* 最初の画面だけ、左上にメニュー（ほかのページでは ‹ が来る場所） */
@@ -469,12 +480,14 @@ body.viewing.at-root .menu-btn[aria-expanded="true"] i:nth-child(3){transform:tr
 .today-nav.prev{left:4px}.today-nav.next{right:4px}
 .today-nav:active{transform:translateY(-50%) scale(.92)}
 .today-nav:disabled{opacity:0;pointer-events:none}
-.today-label{display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:4px 10px;margin:0 0 14px;color:var(--gold);
-  font:700 10px/1.4 "Lato",var(--gothic);letter-spacing:.16em}
-.today-label time{color:var(--muted);letter-spacing:.08em}
+/* 上の帯：題名（Today's Editor's Choice）と日付・何本目か。左にメニュー、右に Login */
+.today-bar{position:absolute;z-index:7;left:56px;right:84px;top:calc(env(safe-area-inset-top) + 8px);display:grid;justify-items:center;gap:3px;
+  color:#fff;text-align:center;pointer-events:none}
+.today-bar b{font:700 12px/1.3 "Lato",sans-serif;letter-spacing:.16em;white-space:nowrap}
+.today-bar span{display:flex;align-items:center;gap:8px;color:rgba(255,255,255,.62);font:700 10px/1.3 "Lato",sans-serif;letter-spacing:.1em}
 .today-dots{display:flex;gap:5px}
-.today-dots i{width:5px;height:5px;border-radius:50%;background:#cfc8bb}
-.today-dots i.on{background:var(--gold)}
+.today-dots i{width:5px;height:5px;border-radius:50%;background:rgba(255,255,255,.35)}
+.today-dots i.on{background:var(--accent)}
 
 /* 編集者（頭文字の丸・名前・フォロー） */
 .ava{display:inline-grid;place-items:center;flex:0 0 auto;width:34px;height:34px;border-radius:50%;background:#1d1b18;color:#f3e7cf;

@@ -240,8 +240,10 @@
       </section>`;
   }
 
-  /* o：{ editor, following, me, comments, mine, today: { i, n, day } }
-     today があれば「Today's Editor's Choice」：‹ › で今日のほかの Choice へ。戻る印は出さない（ここが最初の画面） */
+  /* o：{ editor, following, me, comments, mine, today: { i, n, day }, rail, railBatch }
+     today があれば「Today's Editor's Choice」：上の帯に題名と Login、‹ › で今日のほかの Choice へ。
+     戻る印は出さない（ここが最初の画面）。
+     rail があれば、読み終わりの下に「この先のつながり」の路線を続ける（下へ読み進めるほど、駅が足されていく） */
   function contextPage(e, adItem, o){
     o = o || {};
     const c = e.context, td = o.today;
@@ -260,10 +262,11 @@
     return `
       <article class="page cpage${td ? ' today' : ''}">
         ${td ? '' : backTop()}
-        <div class="duo-hero"><a class="c-logo" href="#/" data-top aria-label="BEAUTIFUL CONTEXT（TOP へ戻る）"><img src="img/logo.png" alt=""></a>${td ? loginChip(o.me) : ''}<div class="duo"><button type="button" class="duo-go" data-step="0" aria-label="${attr(e.a.title)}の作品ページへ">${frame(e.a, 'art')}</button><button type="button" class="duo-go" data-step="2" aria-label="${attr(e.b.title)}の作品ページへ">${frame(e.b, 'art')}</button><i class="swap" aria-hidden="true">↔</i></div>${nav}</div>
+        <div class="duo-hero">${td
+          ? `<div class="today-bar"><b>TODAY'S EDITOR'S CHOICE</b><span><time>${esc(td.day)}</time>${dots}</span></div>${loginChip(o.me)}`
+          : `<a class="c-logo" href="#/" data-top aria-label="BEAUTIFUL CONTEXT（TOP へ戻る）"><img src="img/logo.png" alt=""></a>`}<div class="duo"><button type="button" class="duo-go" data-step="0" aria-label="${attr(e.a.title)}の作品ページへ">${frame(e.a, 'art')}</button><button type="button" class="duo-go" data-step="2" aria-label="${attr(e.b.title)}の作品ページへ">${frame(e.b, 'art')}</button><i class="swap" aria-hidden="true">↔</i></div>${nav}</div>
         <section class="context-lead">
           ${state}
-          ${td ? `<p class="today-label"><span>TODAY'S EDITOR'S CHOICE</span><time>${esc(td.day)}</time>${dots}</p>` : ''}
           ${editorRow(o.editor, o.following)}
           <p class="route-label">${esc(c.label || 'CONTEXT')}　［${esc(c.routeName)}］　${t}</p>
           <h2>${esc(c.headline).replace(/\n/g, '<br>')}</h2>
@@ -280,6 +283,12 @@
           ${rel.length ? `<p class="meta more-label">同じルーツのコンテクスト</p>${roots(e, rel)}` : ''}
           ${ad(adItem)}
           ${credit(e.a)}${credit(e.b)}
+          ${o.rail && o.rail.length ? `
+          <section class="ctx-rail" aria-label="この先のつながり">
+            <p class="meta more-label">この先のつながり</p>
+            <ol class="rail" id="rail">${feedStops(o.rail, 0, o.railBatch || 12, true)}</ol>
+            <div class="rail-more" id="railMore" aria-hidden="true"></div>
+          </section>` : ''}
         </article>
       </article>`;
   }
@@ -314,7 +323,8 @@
      選んだ作品から、区間でつながる作品を枝分かれの順に並べる。
      左に一本の路線を引き、作品は駅、そのあいだに区間（コンテクスト）を置く。
      前の駅から続かない区間（枝分かれ）は「〜から分岐」と書く。 */
-  function feedStops(items, from, to){
+  /* lazy：ページの下のほうに置くとき（コンテクストの読み終わりの先）は、絵をすべて後から読む */
+  function feedStops(items, from, to, lazy){
     return items.slice(from, to).map((it, i) => {
       const n = from + i, w = it.work, c = it.entry && it.entry.context;
       const parent = it.parent && items.find(x => x.slug === it.parent);
@@ -328,7 +338,7 @@
             <small>［${esc(c.routeName)}］${c.kind ? `　${esc(c.kind)}` : ''}</small>
             <b><span class="seg-copy">${esc(c.headline).replace(/\n/g, '')}</span><span class="seg-go" aria-hidden="true">››</span></b></a>` : ''}
           <a class="fstop" href="${attr(href)}">
-            <span class="st-img">${s ? `<img src="${attr(s)}" alt="${attr(w.title)}" data-k="${attr(w.slug)}" loading="${n < 4 ? 'eager' : 'lazy'}" decoding="async">`
+            <span class="st-img">${s ? `<img src="${attr(s)}" alt="${attr(w.title)}" data-k="${attr(w.slug)}" loading="${n < 4 && !lazy ? 'eager' : 'lazy'}" decoding="async">`
               : `<span class="ph">${esc(initial(w))}</span>`}</span>
             <span class="st-txt"><small>${esc(w.type || '作品')}${w.year ? '・' + esc(w.year) + '年' : ''}</small>
               <b>${esc(w.title)}</b>${w.summary ? `<span>${esc(w.summary)}</span>` : ''}</span>
