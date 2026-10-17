@@ -117,6 +117,17 @@
     }
   }
   menuBtn.addEventListener('click', (ev) => { ev.stopPropagation(); openMenu(menu.hidden || !menu.classList.contains('open')); });
+  /* メニューは左から出てくるので、左へ払えばしまわれる（出てきた向きへ帰る） */
+  {
+    let mx = 0, my = 0;
+    menu.addEventListener('touchstart', e => { const t = e.touches[0]; mx = t.clientX; my = t.clientY; }, { passive: true });
+    menu.addEventListener('touchend', e => {
+      const t = e.changedTouches && e.changedTouches[0];
+      if (!t) return;
+      const dx = t.clientX - mx, dy = Math.abs(t.clientY - my);
+      if (dx <= -60 && -dx > dy * 1.4) openMenu(false);
+    }, { passive: true });
+  }
 
   /* A / WHITE（ReMixIt!）と B / CHARCOAL（UniverseIt!）。左右に並ぶ二つの画面 */
   function setTheme(theme){
@@ -1397,12 +1408,9 @@
     edge.addEventListener('touchcancel', () => end(true), { passive: true });
   })();
 
-  /* transition.js の「右へ払う」：このページでは左の端からの払い（上）が戻る役。ここではメニューを閉じるだけ */
-  window.BCSwipeBack = () => {
-    if (held) return true;
-    if (!menu.hidden){ openMenu(false); return true; }
-    return view.classList.contains('on');
-  };
+  /* transition.js の「右へ払う」：このページでは左の端からの払い（上）が戻る役、メニューは左へ払ってしまう。
+     ここでは何もしない（右へ払ってページを離れることもしない） */
+  window.BCSwipeBack = () => held || !menu.hidden || view.classList.contains('on');
 
   /* エディターや管理画面で書き換えられたら、組み直す */
   const rebuild = () => { R.buildTags(tags); paintSelection(); };

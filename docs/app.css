@@ -66,7 +66,8 @@ body:not(.stage-intro) #bg .veil{opacity:.14}   /* 構成図の UniverseIt! は�
 /* 起動の絵（apple-touch-startup-image）にはメニューの印がないので、開いてから静かに出す */
 .menu-btn{animation:menuIn .5s ease .5s backwards}
 @keyframes menuIn{from{opacity:0}}
-.menu-btn{position:fixed;z-index:50;top:calc(env(safe-area-inset-top) + 14px);right:14px;width:46px;height:46px;
+/* ≡ はどの画面でも左上。メニューも同じ左から出る（押した所から開き、同じ所で閉じる） */
+.menu-btn{position:fixed;z-index:50;top:calc(env(safe-area-inset-top) + 14px);left:14px;width:46px;height:46px;
   display:grid;place-content:center;gap:6px;border:0;background:none;cursor:pointer;
   transition:opacity .3s ease,visibility 0s linear 0s}
 .menu-btn i{display:block;width:26px;height:2px;border-radius:1px;background:var(--uni-ink);transition:transform .3s ease,opacity .2s}
@@ -75,11 +76,11 @@ body:not(.stage-intro) #bg .veil{opacity:.14}   /* 構成図の UniverseIt! は�
 .menu-btn[aria-expanded="true"] i:nth-child(3){transform:translateY(-8px) rotate(-45deg)}
 body.viewing .menu-btn{opacity:0;visibility:hidden;transition:opacity .3s ease,visibility 0s linear .3s}
 
-.menu{position:fixed;z-index:45;top:0;right:0;bottom:0;width:min(330px,86vw);overflow-y:auto;
+.menu{position:fixed;z-index:45;top:0;left:0;bottom:0;width:min(330px,86vw);overflow-y:auto;
   padding:calc(env(safe-area-inset-top) + 78px) 26px calc(30px + env(safe-area-inset-bottom));
   background:color-mix(in srgb,var(--ground) 93%,transparent);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);
-  color:var(--uni-ink);transform:translateX(100%);transition:transform .38s cubic-bezier(.2,.7,.2,1);
-  box-shadow:-20px 0 40px -20px #0008}
+  color:var(--uni-ink);transform:translateX(-100%);transition:transform .38s cubic-bezier(.2,.7,.2,1);
+  box-shadow:20px 0 40px -20px #0008}
 .menu.open{transform:none}
 .menu a{display:block;padding:13px 0;border-bottom:1px solid var(--uni-rule);text-decoration:none;font-size:16px;letter-spacing:.02em}
 .menu a small{display:block;margin-top:2px;color:var(--uni-dim);font-size:11px;letter-spacing:.08em}
@@ -460,7 +461,7 @@ body.edging .underlay{will-change:transform}
 
 /* ---------- Today's Editor's Choice ---------- */
 /* 最初の画面だけ、左上にメニュー（ほかのページでは ‹ が来る場所） */
-body.viewing.at-root .menu-btn{opacity:1;visibility:visible;left:10px;right:auto;top:calc(env(safe-area-inset-top) + 10px);
+body.viewing.at-root .menu-btn{opacity:1;visibility:visible;left:10px;top:calc(env(safe-area-inset-top) + 10px);
   width:38px;height:38px;gap:4px;border-radius:50%;background:rgba(0,0,0,.42);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px)}
 body.viewing.at-root .menu-btn i{width:17px;background:#fff}
 body.viewing.at-root .menu-btn[aria-expanded="true"] i:nth-child(1){transform:translateY(6px) rotate(45deg)}
@@ -589,7 +590,7 @@ body.viewing.at-root .menu-btn[aria-expanded="true"] i:nth-child(3){transform:tr
   .view{background:color-mix(in srgb,var(--ground) 62%,transparent);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px)}
   .view-in{box-shadow:0 0 60px #0006}
   .hero .art{width:auto;height:min(60vh,620px);margin:0 auto}
-  .menu-btn{top:22px;right:24px}
+  .menu-btn{top:22px;left:24px}
   /* Today のメニューは、紙の列の左上に（窓の端ではなく） */
   body.viewing.at-root .menu-btn{left:calc(50% - var(--col) / 2 + 10px)}
 }
