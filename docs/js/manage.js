@@ -34,6 +34,7 @@
   /* ---------- 見出し（左の列） ---------- */
   const TABS = [
     { id: 'contexts', label: 'コンテクスト', count: () => S.all().length },
+    { id: 'comments', label: 'コメントの確認', count: () => S.pendingComments().length },
     { id: 'ads', label: '広告枠', count: () => S.ads().length },
     { id: 'authors', label: '書き手', count: () => S.authors().length },
     null,
@@ -113,6 +114,29 @@
         </div>
         <div class="list">${rows || '<p class="empty">該当するコンテクストはありません。</p>'}</div>
       </div></section>`;
+  }
+
+  /* ---------- コメントの確認 ----------
+     読者のコメントは、編集者が確かめてから表示する（真善美を約束する場なので、先に確認する）。
+     本番では、生成AIが先に明らかな迷惑・攻撃を除き、各コンテクストの編集者が通す。最後の判断は編集長 */
+  function commentsPanel(){
+    const rows = S.pendingComments().map(({ entry: e, comment: c }) => `
+      <div class="item" data-cm="${esc(c.id)}" data-cm-ctx="${esc(e.id)}">
+        <div class="thumbs"><span style="border-radius:50%;width:44px;height:44px">${esc((c.name || '?').charAt(0))}</span></div>
+        <div class="info">
+          <b>${esc(c.name)}</b>
+          <span class="sub" style="white-space:pre-wrap">${esc(c.text)}</span>
+          <span class="meta"><span>${esc(e.a.title)} ＋ ${esc(e.b.title)}</span><span>${esc(day(c.at))}</span></span>
+        </div>
+        <div class="ops">
+          <button type="button" data-cm-ok title="読者に表示する">表示する</button>
+          <a href="index.html#/c/${encodeURIComponent(e.context.slug)}">ページ</a>
+          <button type="button" class="warn" data-cm-hide title="表示しない（データは残る）">表示しない</button>
+        </div>
+      </div>`).join('');
+    return `<section class="panel">${head('2.4 コメントの確認', 'コメントの確認',
+      '読者のコメントは、ここで確かめてから表示します。書いた本人には「確認中」として見えています。本番では、生成AIが明らかな迷惑・攻撃を先に除き、各コンテクストの編集者が通します。')}
+      <div class="body"><div class="list">${rows || '<p class="empty">確認待ちのコメントはありません。</p>'}</div></div></section>`;
   }
 
   /* ---------- 広告枠 ---------- */
@@ -273,11 +297,11 @@
     ['—', 'AGM：生成AIが初稿を書き、編集者が確かめて通す', OK, '運営者メニューの「承認」。ページには「確認前／確認済み」と出る'],
     ['—', '四軸評価（意外性・共感度・コンテンツ性・世界観近似性）', PART, '区間ごとに採点を表示。採点そのものの自動化は本番'],
     ['—', 'ReMixIt!：生成AIが接続の候補を示し、四軸で採点して下書きを作る', PROD, '事業計画書の中核。いまは初稿をまとめて作って載せている'],
-    ['2.5', 'コメント投稿（リアクション）', PROD, '読者の参加は二年目以降（事業計画書）'],
+    ['2.5', 'コメント投稿（リアクション）', PART, 'つながりの下のコメント欄。編集者の確認を通ったものだけ表示（運営者メニュー「コメントの確認」）。いまは見本でこの端末の中だけ'],
     ['2.7–2.8', '友達招待・招待状況確認', PROD, 'メール送信とアカウントが必要'],
     ['グループ', 'アカウント'],
-    ['1.1–1.4', 'サインアップ・ログイン・パスワード再設定', PROD, 'Firebase Authentication などを想定'],
-    ['1.5', 'ユーザー詳細・編集者プロフィール', PART, '書き手名での管理はデモで動作。プロフィールページは二年目以降'],
+    ['1.1–1.4', 'サインアップ・ログイン・パスワード再設定', PART, '中身を見せてから、フォロー・コメントのときに名前を作る流れはデモで動作。本番は Google ログイン（Firebase Authentication）'],
+    ['1.5', 'ユーザー詳細・編集者プロフィール', PART, '編集者のページ・フォロー・フォローした編集者の Today\'s Editor\'s Choice はデモで動作（見本の編集者二人）'],
     ['グループ', 'マネジメント'],
     ['2', 'コンテクスト情報編集（表示・非表示・一時非表示）', OK, 'この画面'],
     ['2.1', 'ユーザー一覧（表示・非表示・一時非表示）', OK, '書き手単位でまとめて止める'],
@@ -308,7 +332,7 @@
   }
 
   /* ---------- 描く ---------- */
-  const PANELS = { contexts, ads, authors, custom, data, features };
+  const PANELS = { contexts, comments: commentsPanel, ads, authors, custom, data, features };
   function draw(keepFocus){
     const f = keepFocus && document.activeElement && document.activeElement.matches('[data-query]');
     const pos = f ? document.activeElement.selectionStart : 0;
@@ -421,6 +445,9 @@
       S.approve(row.dataset.id); toast('承認しました。ページの表示が「確認済み」になります'); draw(); return;
     }
     if (t.matches('[data-csv]')){ downloadCSV(); toast('つながり一覧を書き出しました'); return; }
+    const cm = t.closest('[data-cm]');
+    if (cm && t.matches('[data-cm-ok]')){ S.approveComment(cm.dataset.cmCtx, cm.dataset.cm); toast('コメントを表示しました'); draw(); return; }
+    if (cm && t.matches('[data-cm-hide]')){ S.setCommentHidden(cm.dataset.cmCtx, cm.dataset.cm, true); toast('表示しないことにしました'); draw(); return; }
     if (t.matches('[data-remove]') && row){
       const e = S.byId(row.dataset.id);
       if (e && confirm(`「${e.a.title} ＋ ${e.b.title}」を削除します。元には戻せません。よろしいですか？`)){

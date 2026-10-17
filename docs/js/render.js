@@ -203,29 +203,68 @@
   /* ---------- コンテクストページ A―B ----------
      demo-1 のとおり。黒地に二枚の絵を並べ、真ん中に ↔。
      紙の地に路線名・見出し・二作品の関係、その下に CONTEXT STORY。 */
-  /* 読み終えたところに、次の一歩を二つだけ置く：B の作品ページと、B から延びる次の区間 */
-  function nextSteps(e){
-    const on = S.neighbors(e.b.slug).find(n => n.entry.id !== e.id);
-    return `<p class="meta more-label">続けて辿る</p>${tease(null, `${e.b.title}のページへ`, 2)}` +
-      (on ? tease('#/c/' + encodeURIComponent(on.entry.context.slug), `次の区間：${on.work.title}へ`) : '');
+  /* ---------- 編集者・アカウント ---------- */
+  /* 名前の頭文字の丸（顔写真の代わり）。「BC 」は省いて読む */
+  const avatar = (name, cls) => `<span class="ava${cls ? ' ' + cls : ''}" aria-hidden="true">${esc(String(name || '?').replace(/^BC\s*/, '').charAt(0) || '?')}</span>`;
+  const followBtn = (ed, on) =>
+    `<button type="button" class="follow${on ? ' on' : ''}" data-follow="${attr(ed.id)}" aria-pressed="${on ? 'true' : 'false'}">${on ? 'フォロー中' : 'フォロー'}</button>`;
+  function editorRow(ed, on){
+    if (!ed) return '';
+    return `<div class="ed-row">
+      <a class="ed-link" href="#/e/${encodeURIComponent(ed.id)}">${avatar(ed.mark || ed.name)}<span><b>${esc(ed.name)}</b><small>${esc(ed.role || 'EDITOR')}</small></span></a>
+      ${followBtn(ed, on)}</div>`;
   }
-  function contextPage(e, adItem){
-    const c = e.context;
+  /* 右上の Login。ログインしていれば、名前の頭文字の丸 */
+  const loginChip = (me) => me
+    ? `<button type="button" class="login-chip me" data-account aria-label="アカウント：${attr(me.name)}">${avatar(me.name)}</button>`
+    : `<button type="button" class="login-chip" data-login>Login</button>`;
+
+  /* コメント欄。つながりの下に、読んだ人が思ったことを置く。編集者が確かめたものだけが並び、
+     書いた本人には確認待ちのものも見える */
+  function comments(e, list, mine, me){
+    const day = (iso) => { try { return new Date(iso).toLocaleDateString('ja-JP'); } catch (x) { return ''; } };
+    const li = (c, wait) => `
+      <li class="cm${wait ? ' pending' : ''}">${avatar(c.name)}<div>
+        <p class="cm-h"><b>${esc(c.name)}</b><time>${esc(day(c.at))}</time>${wait ? '<span class="cm-wait">確認中・あなたにだけ表示</span>' : ''}</p>
+        <p class="cm-t">${esc(c.text)}</p></div></li>`;
+    const items = list.map(c => li(c)).join('') + (mine || []).map(c => li(c, true)).join('');
+    return `
+      <section class="comments" id="comments" data-ctx="${attr(e.id)}">
+        <p class="meta">COMMENTS<span class="cm-n">${list.length}</span></p>
+        ${items ? `<ul class="cm-list">${items}</ul>` : '<p class="cm-empty">まだコメントはありません。このつながりについて、最初のひとことを。</p>'}
+        <form class="cm-form" data-comment="${attr(e.id)}">
+          <textarea name="text" rows="2" maxlength="600" placeholder="このつながりについて、思ったことを" aria-label="コメント"></textarea>
+          <button type="submit">送る</button>
+        </form>
+        <p class="cm-note">${me ? `${esc(me.name)} として書きます。` : '送るときに、名前を一つ作ります。'}コメントは編集者が確かめてから表示されます。</p>
+      </section>`;
+  }
+
+  /* o：{ editor, following, me, comments, mine, today: { i, n, day } }
+     today があれば「Today's Editor's Choice」：‹ › で今日のほかの Choice へ。戻る印は出さない（ここが最初の画面） */
+  function contextPage(e, adItem, o){
+    o = o || {};
+    const c = e.context, td = o.today;
     const t = readLabel(c.body);
     const ai = safeUrl(c.aiUrl);
-    /* 同じルーツは三本まで。「続けて辿る」に出す区間とは重ねない */
-    const nextId = (S.neighbors(e.b.slug).find(n => n.entry.id !== e.id) || {}).entry;
-    const rel = S.related(e).filter(x => !nextId || x.id !== nextId.id).slice(0, 3);
+    const rel = S.related(e).slice(0, 3);
     const state = !S.isVisible(e)
       ? `<p class="back-state">${e.status === 'private' ? '非公開' : '一時非表示'}のコンテクストです。読者には表示されていません。</p>` : '';
     /* 本文の最初の太字の一文は、demo-1 の「同じ物語が、別の社会を走る。」の位置に */
     const story = clean(c.body).replace(/^\s*<p><strong>([\s\S]*?)<\/strong><\/p>/, '<h2>$1</h2>');
+    const nav = td && td.n > 1
+      ? `<button type="button" class="today-nav prev" data-today-go="-1" aria-label="前の Choice"${td.i <= 0 ? ' disabled' : ''}>‹</button>` +
+        `<button type="button" class="today-nav next" data-today-go="1" aria-label="次の Choice"${td.i >= td.n - 1 ? ' disabled' : ''}>›</button>` : '';
+    const dots = td && td.n > 1
+      ? `<span class="today-dots" aria-label="${td.n} 本のうち ${td.i + 1} 本目">${Array.from({ length: td.n }, (_, k) => `<i${k === td.i ? ' class="on"' : ''}></i>`).join('')}</span>` : '';
     return `
-      <article class="page cpage">
-        ${backTop()}
-        <div class="duo-hero"><a class="c-logo" href="#/" data-top aria-label="BEAUTIFUL CONTEXT（TOP へ戻る）"><img src="img/logo.png" alt=""></a><div class="duo"><button type="button" class="duo-go" data-step="0" aria-label="${attr(e.a.title)}の作品ページへ">${frame(e.a, 'art')}</button><button type="button" class="duo-go" data-step="2" aria-label="${attr(e.b.title)}の作品ページへ">${frame(e.b, 'art')}</button><i class="swap" aria-hidden="true">↔</i></div></div>
+      <article class="page cpage${td ? ' today' : ''}">
+        ${td ? '' : backTop()}
+        <div class="duo-hero"><a class="c-logo" href="#/" data-top aria-label="BEAUTIFUL CONTEXT（TOP へ戻る）"><img src="img/logo.png" alt=""></a>${td ? loginChip(o.me) : ''}<div class="duo"><button type="button" class="duo-go" data-step="0" aria-label="${attr(e.a.title)}の作品ページへ">${frame(e.a, 'art')}</button><button type="button" class="duo-go" data-step="2" aria-label="${attr(e.b.title)}の作品ページへ">${frame(e.b, 'art')}</button><i class="swap" aria-hidden="true">↔</i></div>${nav}</div>
         <section class="context-lead">
           ${state}
+          ${td ? `<p class="today-label"><span>TODAY'S EDITOR'S CHOICE</span><time>${esc(td.day)}</time>${dots}</p>` : ''}
+          ${editorRow(o.editor, o.following)}
           <p class="route-label">${esc(c.label || 'CONTEXT')}　［${esc(c.routeName)}］　${t}</p>
           <h2>${esc(c.headline).replace(/\n/g, '<br>')}</h2>
           ${relationParts(c) ? `<div class="pair">${relationParts(c)}</div>` : ''}
@@ -235,13 +274,39 @@
           <p class="meta">CONTEXT STORY</p>
           ${story}
           ${axes(c)}
-          ${nextSteps(e)}
           ${ai ? `<p class="source">この解説は生成AIの出力をもとにしています<a href="${attr(ai)}" target="_blank" rel="noopener nofollow">${esc(ai)}</a></p>` : ''}
+          <p class="byline">${esc(o.editor ? o.editor.name : c.author)}　·　${esc(new Date(e.updatedAt).toLocaleDateString('ja-JP'))}</p>
+          ${comments(e, o.comments || S.visibleComments(e), o.mine, o.me)}
           ${rel.length ? `<p class="meta more-label">同じルーツのコンテクスト</p>${roots(e, rel)}` : ''}
           ${ad(adItem)}
-          <p class="byline">${esc(c.author)}　·　${esc(new Date(e.updatedAt).toLocaleDateString('ja-JP'))}</p>
           ${credit(e.a)}${credit(e.b)}
         </article>
+      </article>`;
+  }
+
+  /* ---------- 編集者のページ ----------
+     名前・ひとこと・フォロー。その人が選んだコンテクストの一覧 */
+  function editorPage(ed, list, on){
+    const mini = (w) => { const s = safeImg(w.image); return s ? `<img src="${attr(s)}" alt="" loading="lazy" decoding="async">` : `<span class="ph">${esc(initial(w))}</span>`; };
+    const items = list.map(e => `
+      <a class="ed-item" href="#/c/${encodeURIComponent(e.context.slug)}">
+        <span class="ed-thumbs">${mini(e.a)}${mini(e.b)}</span>
+        <span class="ed-txt"><small>［${esc(e.context.routeName)}］</small><b>${esc(e.context.headline).replace(/\n/g, '')}</b>
+          <span>${esc(e.a.title)} ＋ ${esc(e.b.title)}</span></span></a>`).join('');
+    return `
+      <article class="page text-page editor-page">
+        ${backTop()}${topLogo('on-paper')}
+        <div class="content">
+          <div class="ed-head">${avatar(ed.mark || ed.name, 'big')}
+            <p class="meta">${esc(ed.role || 'EDITOR')}</p>
+            <h2>${esc(ed.name)}</h2>
+            ${ed.bio ? `<p class="ed-bio">${esc(ed.bio)}</p>` : ''}
+            <p class="ed-stats">コンテクスト <b>${list.length}</b></p>
+            ${followBtn(ed, on)}
+          </div>
+          <p class="meta more-label">この編集者が選んだつながり</p>
+          <div class="ed-list">${items || '<p>まだありません。</p>'}</div>
+        </div>
       </article>`;
   }
 
@@ -356,7 +421,7 @@
       ${tease('manage.html#ads', '管理画面で広告枠を見る')}`);
     return shell('ページが見つかりません', `
       <p class="lead">お探しのページは移動したか、公開が終了した可能性があります。</p>
-      <a class="tease" href="#/" data-home>UniverseIt! へ戻る <span aria-hidden="true">›</span></a>`);
+      <a class="tease" href="#/today" data-home>Today's Editor's Choice へ戻る <span aria-hidden="true">›</span></a>`);
   }
 
   /* ---------- 下の路線図 ----------
@@ -465,7 +530,7 @@
   const linePath = (n) => smooth(SHAPES[Math.abs(n | 0) % SHAPES.length]);
 
   window.BCRender = {
-    esc, clean, safeUrl, safeImg, art, roots, ad, workPage, contextPage, search, page,
+    esc, clean, safeUrl, safeImg, art, roots, ad, workPage, contextPage, editorPage, comments, loginChip, search, page,
     mapMarkup, jsonLd, listLd, buildTags, tagText, readLabel, feedPage, feedStops, lineColor, linePath, ICON,
     PALETTE, SHAPE_COUNT: SHAPES.length
   };

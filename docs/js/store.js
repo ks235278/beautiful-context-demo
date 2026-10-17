@@ -381,24 +381,48 @@
       return { liked: !!data.liked[id], count: this.reactionCount(this.byId(id)) };
     },
 
+    /* 読者に見えるコメント：確認を通ったもの（pending でない）で、隠されていないもの */
     visibleComments(e) {
-      return (e && e.comments ? e.comments : []).filter((c) => !c.hidden);
+      return (e && e.comments ? e.comments : []).filter((c) => !c.hidden && !c.pending);
     },
 
+    /* 書いた本人にだけ見せる、確認待ちのコメント */
+    myPendingComments(e, uid) {
+      return uid ? (e && e.comments ? e.comments : []).filter((c) => c.pending && !c.hidden && c.uid === uid) : [];
+    },
+
+    /* 確認待ちのコメント（運営者メニュー） */
+    pendingComments() {
+      const out = [];
+      ensure().entries.forEach((e) => e.comments.forEach((c) => { if (c.pending && !c.hidden) out.push({ entry: e, comment: c }); }));
+      return out.sort((x, y) => (x.comment.at < y.comment.at ? 1 : -1));
+    },
+
+    /* コメントは、編集者が確かめてから表示する（真善美を約束する場なので、先に確認する） */
     addComment(id, c) {
       const e = this.byId(id);
       const text = (c.text || '').trim();
       if (!e || !text) return null;
       const item = {
         id: uid('m'),
+        uid: c.uid || '',
         name: (c.name || '').trim().slice(0, 30) || '匿名',
         text: text.slice(0, 600),
         at: new Date().toISOString(),
-        hidden: false
+        hidden: false,
+        pending: true
       };
       e.comments.push(item);
       commit();
       return item;
+    },
+
+    approveComment(id, cid) {
+      const e = this.byId(id);
+      const c = e && e.comments.find((x) => x.id === cid);
+      if (!c) return;
+      c.pending = false;
+      commit();
     },
 
     setCommentHidden(id, cid, hidden) {
@@ -414,6 +438,43 @@
       if (!e) return;
       e.comments = e.comments.filter((x) => x.id !== cid);
       commit();
+    },
+
+    /* ---------- 編集者 ----------
+       コンテクストの書き手（context.author）を、名前とプロフィールを持つ編集者に結びつける */
+    editorOf(e) {
+      const name = e && e.context ? e.context.author : '';
+      const known = (window.BC_EDITORS || []).find((ed) => ed.authors.includes(name));
+      if (known) return known;
+      let h = 0; for (const ch of String(name)) h = (h * 31 + ch.charCodeAt(0)) | 0;
+      return { id: 'w' + Math.abs(h).toString(36), authors: [name], name: name || '編集部', role: 'EDITOR', bio: '' };
+    },
+
+    /* 公開中のコンテクストを持つ編集者。持っている本数の多い順 */
+    editors() {
+      const map = new Map();
+      this.visible().forEach((e) => {
+        const ed = this.editorOf(e);
+        if (!map.has(ed.id)) map.set(ed.id, Object.assign({}, ed, { count: 0 }));
+        map.get(ed.id).count++;
+      });
+      return [...map.values()].sort((a, b) => b.count - a.count);
+    },
+
+    editorById(id) {
+      return this.editors().find((ed) => ed.id === id) || null;
+    },
+
+    byEditor(id) {
+      return this.visible().filter((e) => this.editorOf(e).id === id);
+    },
+
+    /* 編集者の「今日の一本」。日付で決まり、同じ日はどの端末でも同じものになる */
+    todayPick(id, day) {
+      const list = this.byEditor(id).sort((a, b) => (a.id < b.id ? -1 : 1));
+      if (!list.length) return null;
+      let h = 0; for (const ch of id + '|' + day) h = (h * 31 + ch.charCodeAt(0)) | 0;
+      return list[Math.abs(h) % list.length];
     },
 
     /* ---------- 書き手 ---------- */

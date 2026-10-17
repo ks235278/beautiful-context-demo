@@ -4287,6 +4287,16 @@
     }
   ];
 
+  /* 編集者（コンテクストを選び、最終稿に名前を出す人）。読者はフォローした編集者の
+     「Today's Editor's Choice」を毎日受け取る。名前は書き手（context.author）と結びつける。
+     いまは見本の二人。本番は編集者のアカウントから作る */
+  window.BC_EDITORS = [
+    { id: 'chief', authors: [AUTHOR, '編集部'], name: 'BC 編集長', mark: '長', role: 'EDITOR IN CHIEF',
+      bio: '思いがけない二つのあいだに、確かめられる一本の線を引く。その線を一日に一本ずつ選んでいます。' },
+    { id: 'desk', authors: [AI], name: 'BC 編集部', mark: '部', role: 'EDITORIAL DESK',
+      bio: '生成AIが書いた初稿を、編集部が事実と出典まで確かめて公開します。確かめ終えたものには「確認済み」と記します。' }
+  ];
+
   /* 広告枠の見本。空いている枠には、枠そのものの案内を出す。 */
   window.BC_SEED_ADS = [
     {
