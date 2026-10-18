@@ -1,0 +1,336 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<base href="../../">
+<!-- 表紙のロゴは「画面」の真ん中に置く（ページの枠ではなく）。iOS 26 のホーム画面から開くと、ページの枠が
+     画面より下で短くなり、枠の真ん中では起動画面のマークより上にずれる。画面の高さを最初の一コマより前に渡す -->
+<script>
+document.documentElement.style.setProperty('--sh', (screen.height || innerHeight) + 'px');
+/* 見えないところで読み直したあと（新しい版への入れ替え）は、離れたときの画面のまま。灯る演出はしない */
+try { if (sessionStorage.getItem('bc-resume')) document.documentElement.classList.add('resume'); } catch (e) {}
+</script>
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,viewport-fit=cover">
+<title>ジョージ・オーウェル『1984年』 ＋ アップル「Think Different」｜Beautiful Context</title>
+<meta name="description" content="ビッグ・ブラザーを、ハンマーが打ち砕いた。 ジョージ・オーウェル『1984年』 と アップル「Think Different」。ハブは、1984年のアップルの広告。1984年1月、アップルは最初の Macintosh を、オーウェルの『1984年』を下敷きにしたテレビ広告で発表した。画面の独裁者に…">
+<meta name="theme-color" content="#061629">
+<link rel="canonical" href="https://ks235278.github.io/beautiful-context-demo/c/nineteen-eighty-four--think-different/">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://ks235278.github.io/beautiful-context-demo/c/nineteen-eighty-four--think-different/">
+<meta property="og:title" content="ジョージ・オーウェル『1984年』 ＋ アップル「Think Different」｜Beautiful Context">
+<meta property="og:description" content="ビッグ・ブラザーを、ハンマーが打ち砕いた。 ジョージ・オーウェル『1984年』 と アップル「Think Different」。ハブは、1984年のアップルの広告。1984年1月、アップルは最初の Macintosh を、オーウェルの『1984年』を下敷きにしたテレビ広告で発表した。画面の独裁者に…">
+<meta property="og:image" content="https://ks235278.github.io/beautiful-context-demo/img/works/nineteen-eighty-four.jpg">
+<!-- ホーム画面から開くとき、読み込みのあいだに出る起動画面。表紙の最初の一コマ（回路とロゴ）と同じ絵
+     （端末ごとの大きさ。iOS は PNG を求める） -->
+<link rel="apple-touch-startup-image" media="(device-width: 440px) and (device-height: 956px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="img/launch/440x956@3.png">
+<link rel="apple-touch-startup-image" media="(device-width: 402px) and (device-height: 874px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="img/launch/402x874@3.png">
+<link rel="apple-touch-startup-image" media="(device-width: 430px) and (device-height: 932px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="img/launch/430x932@3.png">
+<link rel="apple-touch-startup-image" media="(device-width: 393px) and (device-height: 852px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="img/launch/393x852@3.png">
+<link rel="apple-touch-startup-image" media="(device-width: 420px) and (device-height: 912px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="img/launch/420x912@3.png">
+<link rel="apple-touch-startup-image" media="(device-width: 428px) and (device-height: 926px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="img/launch/428x926@3.png">
+<link rel="apple-touch-startup-image" media="(device-width: 390px) and (device-height: 844px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="img/launch/390x844@3.png">
+<link rel="apple-touch-startup-image" media="(device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="img/launch/375x812@3.png">
+<link rel="apple-touch-startup-image" media="(device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="img/launch/414x896@3.png">
+<link rel="apple-touch-startup-image" media="(device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" href="img/launch/414x896@2.png">
+<link rel="apple-touch-startup-image" media="(device-width: 375px) and (device-height: 667px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" href="img/launch/375x667@2.png">
+<!-- 表紙に最初から出すもの（回路とロゴ）は先に読む。描くときに待たせない -->
+<link rel="preload" as="image" href="img/pcb-charcoal.jpg">
+<link rel="preload" as="image" href="img/logo-layer-mark.png">
+<link rel="preload" as="image" href="img/logo-layer-words.png">
+<link rel="manifest" href="manifest.webmanifest?v=119">
+<link rel="apple-touch-icon" href="icon-180.png">
+<!-- ホーム画面から開くと全画面になり、safe-area が 0 でなくなる。
+     そのとき初めて Dynamic Island の裏までページが描ける。 -->
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Beautiful Context">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebSite","name":"Beautiful Context",
+ "url":"https://ks235278.github.io/beautiful-context-demo/","inLanguage":"ja",
+ "description":"二つの作品の意外なつながりを、独立したコンテクストページとして読むサービスのデモ。",
+ "potentialAction":{"@type":"SearchAction",
+   "target":"https://ks235278.github.io/beautiful-context-demo/#/search?q={search_term_string}",
+   "query-input":"required name=search_term_string"}}
+</script>
+<!-- 表紙の BEAUTIFUL CONTEXT は、先生の構成図と同じ Bebas Neue -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<!-- フォントは最初の一コマを待たせない（表紙のロゴは絵。Lato は UniverseIt! が出るまでに届く） -->
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Lato:wght@300;400;700&display=swap" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Lato:wght@300;400;700&display=swap"></noscript>
+<script src="js/theme.js?v=119"></script>
+<link rel="stylesheet" href="app.css?v=119">
+<link rel="stylesheet" href="fade.css?v=119">
+</head>
+<body class="stage-uni viewing route" data-route="#/c/nineteen-eighty-four--think-different">
+
+<!-- 背景は先生の構成図（flow0921-2）の回路の絵そのもの。
+     表紙では原寸の濃さ、UniverseIt! からは 50% に落とす（構成図のプロンプトどおり）。 -->
+<!-- 二つの画面が左右に並ぶ：左 ReMixIt!（A / WHITE）、右 UniverseIt!（B / CHARCOAL）。左右にスライドして入れ替わる -->
+<div id="bg" aria-hidden="true"><div class="pcb pcb-c"></div><div class="pcb pcb-w"></div><div class="veil"></div></div>
+
+<button class="menu-btn" id="menuBtn" type="button" aria-label="メニュー" aria-expanded="false" aria-controls="menu"><i></i><i></i><i></i></button>
+
+<section class="intro" id="intro" aria-label="表紙">
+  <h1 class="wordmark" id="wordmark" aria-label="BEAUTIFUL CONTEXT"><span class="lockup"><img class="words" src="img/logo-layer-words.png" alt="" decoding="sync"><img class="markl" src="img/logo-layer-mark.png" alt="" decoding="sync"></span></h1>
+</section>
+
+<main class="uni" id="uni" aria-label="UniverseIt!">
+  <div class="uni-frame" aria-hidden="true"><i class="fr fr-c"></i><i class="fr fr-w"></i></div>
+  <header class="uni-head" id="uniHead">
+    <h1 class="uni-title"><span class="tt tt-u">UniverseIt!</span><span class="tt tt-r" aria-hidden="true">ReMixIt!</span></h1>
+    <p class="uni-sub"><span class="tt tt-u" id="tagline">言葉から、つながりを辿る。</span><span class="tt tt-r" aria-hidden="true">言葉から、つながりを創る。</span></p>
+    <a class="to-today" href="#/today" data-home>TODAY'S EDITOR'S CHOICE ›</a>
+  </header>
+  <div class="uni-list" id="tags" aria-label="言葉"></div>
+</main>
+
+<div class="dock" id="dock">
+  <div class="map" id="map"></div>
+  <p class="sel-hint" id="selHint" aria-live="polite"></p>
+  <p class="dock-brand" id="dockBrand">BEAUTIFUL CONTEXT</p>
+  <!-- 読む画面（Today・コンテクスト・作品）では NEXT UNIVERSE だけ。戻るのは左の端から右へ払う（iPhone と同じ）か、上の ‹。
+       ReMixIt!（つながりを創る）は編集の側の道具なので、UniverseIt! の画面とメニューに置く -->
+  <div class="actions">
+    <a class="act remix" id="remix" href="editor.html?new=1">
+      <svg viewBox="0 0 32 32" aria-hidden="true"><circle cx="12" cy="16" r="8.5"/><circle cx="20" cy="16" r="8.5"/></svg>
+      <span><b>つながりを創る</b><small>ReMixIt!</small></span>
+    </a>
+    <button class="act uni-btn" id="uniBtn" type="button">
+      <svg viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="16" r="11"/><ellipse cx="16" cy="16" rx="4.8" ry="11"/><path d="M5 16h22M7 10.5h18M7 21.5h18M16 5v22"/></svg>
+      <span><b>NEXT UNIVERSE</b><small id="uniLabel">UniverseIt!</small></span>
+    </button>
+  </div>
+</div>
+
+<nav class="menu" id="menu" aria-label="メニュー" hidden>
+  <form class="seek" role="search" data-seek>
+    <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6"/><path d="m15 15 5 5"/></svg>
+    <input type="search" name="q" placeholder="言葉で辿る" enterkeyhint="search" aria-label="言葉で辿る">
+  </form>
+  <a href="#/today" data-home>Today's Editor's Choice<small>今日のつながり</small></a>
+  <a href="#/" data-uni>UniverseIt!<small>すべての言葉から辿る</small></a>
+  <a href="editor.html?new=1">ReMixIt!<small>つながりを創る</small></a>
+  <button type="button" class="menu-account" id="menuAccount" data-login>ログイン<small>アカウントを作る</small></button>
+  <a href="#/mission">Our Mission</a>
+  <a href="#/ad">広告枠のご案内</a>
+  <a href="#/credits">画像の出典</a>
+  <a href="#/terms">利用規約・プライバシー</a>
+  <a href="manage.html">運営者メニュー</a>
+  <div class="theme-pick" role="group" aria-label="地">
+    <button type="button" data-theme-set="white">ReMixIt!<small>A / WHITE</small></button>
+    <button type="button" data-theme-set="charcoal">UniverseIt!<small>B / CHARCOAL</small></button>
+  </div>
+</nav>
+
+<div class="view on" id="view" role="dialog" aria-modal="true" aria-label="ジョージ・オーウェル『1984年』 ＋ アップル「Think Different」">
+  <div class="view-in" id="viewIn">
+      <article class="page cpage">
+        <button type="button" class="back-close" data-close="" aria-label="戻る"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 4.5 7.5 12l7.5 7.5"></path></svg></button>
+        <div class="duo-hero"><a class="c-logo" href="#/" data-top="" aria-label="BEAUTIFUL CONTEXT（TOP へ戻る）"><img src="img/logo.png" alt=""></a><div class="duo"><button type="button" class="duo-go" data-step="0" aria-label="ジョージ・オーウェル『1984年』の作品ページへ"><div class="art"><img src="img/works/nineteen-eighty-four.jpg" alt="ジョージ・オーウェル『1984年』" data-k="nineteen-eighty-four" decoding="async"></div></button><button type="button" class="duo-go" data-step="2" aria-label="アップル「Think Different」の作品ページへ"><div class="art"><img src="img/works/think-different.jpg" alt="アップル「Think Different」" data-k="think-different" decoding="async"></div></button><i class="swap" aria-hidden="true">↔</i></div></div>
+        <section class="context-lead">
+          
+          <div class="ed-row">
+      <a class="ed-link" href="e/desk/"><span class="ava" aria-hidden="true">部</span><span><b>BC 編集部</b><small>EDITORIAL DESK</small></span></a>
+      <button type="button" class="follow" data-follow="desk" aria-pressed="false">フォロー</button></div>
+          <p class="route-label">CONTEXT　［1984年は『1984年』のようにはならない］　約30秒</p>
+          <h2>ビッグ・ブラザーを、<br>ハンマーが打ち砕いた。</h2>
+          <div class="pair"><span>ジョージ・オーウェル『1984年』</span><span>アップルの広告「1984」</span><span>アップル「Think Different」</span></div>
+          <button type="button" class="read" data-read="">このつながりを読む　約30秒 <span aria-hidden="true">↓</span></button>
+        </section>
+        <article class="context-body" id="story">
+          <p class="meta">CONTEXT STORY</p>
+          <h2>ハブは、1984年のアップルの広告。</h2><p>1984年1月、アップルは最初の Macintosh を、オーウェルの『1984年』を下敷きにしたテレビ広告で発表した。画面の独裁者に向かって女性がハンマーを投げつけるこの広告は、リドリー・スコットが監督した。</p><p>13年後の1997年、アップルは「Think Different」で、世界を変えた「クレイジーな人たち」を讃えた。体制に従わない個人を主役にするという姿勢は、「1984」の広告からまっすぐ続いている。</p>
+          
+      <section class="axes" aria-label="このつながりの型と評価">
+        <p class="meta">このつながり<span class="agm">生成AIの初稿・編集者の確認前</span></p>
+        <p class="ax-kind"><span>型<b>ハブ</b></span><span>ハブ<b>アップルの広告「1984」</b></span></p>
+        <dl class="ax"><div><dt>意外性</dt><dd aria-label="4 / 5"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i></dd></div><div><dt>共感度</dt><dd aria-label="4 / 5"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i></dd></div><div><dt>コンテンツ性</dt><dd aria-label="4 / 5"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i></dd></div><div><dt>世界観近似性</dt><dd aria-label="4 / 5"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i></dd></div></dl>
+      </section>
+          
+          <p class="byline">BC 編集部　·　2026/9/14</p>
+          
+      <section class="comments" id="comments" data-ctx="seed-nineteen-eighty-four--think-different">
+        <p class="meta">COMMENTS<span class="cm-n">0</span></p>
+        <p class="cm-empty">まだコメントはありません。このつながりについて、最初のひとことを。</p>
+        <form class="cm-form" data-comment="seed-nineteen-eighty-four--think-different">
+          <textarea name="text" rows="2" maxlength="600" placeholder="このつながりについて、思ったことを" aria-label="コメント"></textarea>
+          <button type="submit">送る</button>
+        </form>
+        <p class="cm-note">送るときに、名前を一つ作ります。コメントは編集者が確かめてから表示されます。</p>
+      </section>
+          <p class="meta more-label">同じルーツのコンテクスト</p><a class="tease" href="c/think-different--uniqlock/">アップル「Think Different」 ＋ UNIQLOCK <span aria-hidden="true">›</span></a><a class="tease" href="c/shooting-an-elephant--nineteen-eighty-four/">ジョージ・オーウェル『象を撃つ』 ＋ ジョージ・オーウェル『1984年』 <span aria-hidden="true">›</span></a><a class="tease" href="c/nineteen-eighty-four--blade-runner/">ジョージ・オーウェル『1984年』 ＋ リドリー・スコット『ブレードランナー』 <span aria-hidden="true">›</span></a>
+          
+      <aside class="c-ad" aria-label="広告">
+        <a href="#/ad">
+          <img class="c-ad-img" src="img/ad-hands.jpg" alt="" loading="lazy" decoding="async">
+          <span class="ad-mark">AD</span>
+          <span class="ad-copy"><b>この場所に、作品の広告を。</b><small>映画・音楽・書籍・イベント ── 広告枠のご案内</small></span>
+        </a>
+      </aside>
+          <p class="img-credit">画像：ハヤカワepi文庫［新訳版］の表紙／© 早川書房／出典 早川書房　<a href="https://www.hayakawa-online.co.jp/shop/g/g0000310053/" target="_blank" rel="noopener nofollow">出典</a></p><p class="img-credit">画像：アップルの広告ポスター／Public domain／Wikimedia Commons　<a href="https://commons.wikimedia.org/wiki/File:Apple_%27Think_Different%27_Poster_-_Theodore_Roosevelt.jpg" target="_blank" rel="noopener nofollow">出典</a></p>
+          
+          <section class="ctx-rail" aria-label="この先のつながり">
+            <p class="meta more-label">この先のつながり</p>
+            <ol class="rail" id="rail">
+        <li class="stop first">
+          
+          
+          <a class="fstop" href="w/think-different/">
+            <span class="st-img"><img src="img/works/think-different.jpg" alt="アップル「Think Different」" data-k="think-different" loading="lazy" decoding="async"></span>
+            <span class="st-txt"><small>広告・1997年</small>
+              <b>アップル「Think Different」</b><span>1997年にアップルが始めた広告キャンペーン。アインシュタイン、ガンディー、ピカソら、世界を変えた「クレイジーな人たち」への賛辞を掲げた。</span></span>
+          </a>
+        </li>
+        <li class="stop">
+          
+          <a class="seg" href="c/buckminster-fuller--think-different/">
+            
+            <small>［クレイジーな人たち］　事実</small>
+            <b><span class="seg-copy">世界を変えられると本気で信じた人。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
+          <a class="fstop" href="w/buckminster-fuller/?c=buckminster-fuller--think-different">
+            <span class="st-img"><img src="img/works/buckminster-fuller.jpg" alt="バックミンスター・フラー" data-k="buckminster-fuller" loading="lazy" decoding="async"></span>
+            <span class="st-txt"><small>人物・1895年</small>
+              <b>バックミンスター・フラー</b><span>ジオデシック・ドームを考案したアメリカの思想家・建築家。「宇宙船地球号」という言葉を広めた。</span></span>
+          </a>
+        </li>
+        <li class="stop">
+          
+          <a class="seg" href="c/buckminster-fuller--spaceship-earth/">
+            
+            <small>［作者と作品］　作者と作品</small>
+            <b><span class="seg-copy">地球には、操縦マニュアルがない。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
+          <a class="fstop" href="w/spaceship-earth/?c=buckminster-fuller--spaceship-earth">
+            <span class="st-img"><img src="img/works/spaceship-earth.jpg" alt="バックミンスター・フラー『宇宙船地球号 操縦マニュアル』" data-k="spaceship-earth" loading="lazy" decoding="async"></span>
+            <span class="st-txt"><small>書籍・1969年</small>
+              <b>バックミンスター・フラー『宇宙船地球号 操縦マニュアル』</b><span>地球を、限られた資源で航行する一隻の宇宙船にたとえ、人類はその操縦のしかたを学ばねばならないと説いた。</span></span>
+          </a>
+        </li>
+        <li class="stop">
+          
+          <a class="seg" href="c/interstellar--spaceship-earth/">
+            
+            <small>［地球という船］　似ている</small>
+            <b><span class="seg-copy">人類は、船を乗り換えられるのか。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
+          <a class="fstop" href="w/interstellar/?c=interstellar--spaceship-earth">
+            <span class="st-img"><img src="img/works/interstellar.jpg" alt="クリストファー・ノーラン『インターステラー』" data-k="interstellar" loading="lazy" decoding="async"></span>
+            <span class="st-txt"><small>映画・2014年</small>
+              <b>クリストファー・ノーラン『インターステラー』</b><span>砂嵐と作物の枯死に追い詰められた近未来の地球から、人類の移住先を探して宇宙へ向かう元宇宙飛行士と、地球に残された娘の物語。</span></span>
+          </a>
+        </li>
+        <li class="stop">
+          
+          <a class="seg" href="c/interstellar--christopher-nolan/">
+            
+            <small>［監督と作品］　作者と作品</small>
+            <b><span class="seg-copy">父は、本棚の向こうから娘を呼んだ。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
+          <a class="fstop" href="w/christopher-nolan/?c=interstellar--christopher-nolan">
+            <span class="st-img"><img src="img/works/christopher-nolan.jpg" alt="クリストファー・ノーラン" data-k="christopher-nolan" loading="lazy" decoding="async"></span>
+            <span class="st-txt"><small>人物・1970年</small>
+              <b>クリストファー・ノーラン</b><span>ロンドン生まれの映画監督。『ダークナイト』『インセプション』『インターステラー』『ダンケルク』『オッペンハイマー』。</span></span>
+          </a>
+        </li>
+        <li class="stop branch">
+          
+          <a class="seg" href="c/interstellar--the-grapes-of-wrath/">
+            <span class="seg-from">インターステラー から分岐</span>
+            <small>［ダストボウル］　事実</small>
+            <b><span class="seg-copy">砂嵐の農場から、星の海へ。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
+          <a class="fstop" href="w/the-grapes-of-wrath/?c=interstellar--the-grapes-of-wrath">
+            <span class="st-img"><img src="img/works/the-grapes-of-wrath.jpg" alt="ジョン・スタインベック『怒りの葡萄』" data-k="the-grapes-of-wrath" loading="lazy" decoding="async"></span>
+            <span class="st-txt"><small>書籍・1939年</small>
+              <b>ジョン・スタインベック『怒りの葡萄』</b><span>砂嵐に土地を奪われたオクラホマの農民ジョード一家が、仕事を求めてカリフォルニアへ向かう。ピューリッツァー賞を受けた。</span></span>
+          </a>
+        </li>
+        <li class="stop">
+          
+          <a class="seg" href="c/the-grapes-of-wrath--nobel-literature-laureates/">
+            
+            <small>［1962年の受賞］　ハブ</small>
+            <b><span class="seg-copy">砂嵐の時代を描いて、ノーベル賞へ。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
+          <a class="fstop" href="w/nobel-literature-laureates/?c=the-grapes-of-wrath--nobel-literature-laureates">
+            <span class="st-img"><img src="img/works/nobel-literature-laureates.jpg" alt="ノーベル文学賞受賞者" data-k="nobel-literature-laureates" loading="lazy" decoding="async"></span>
+            <span class="st-txt"><small>人物・1901–年</small>
+              <b>ノーベル文学賞受賞者</b><span>1901年から続くノーベル文学賞を受けた作家たち。</span></span>
+          </a>
+        </li>
+        <li class="stop">
+          
+          <a class="seg" href="c/peter-handke--nobel-literature-laureates/">
+            
+            <small>［2019年の受賞］　事実</small>
+            <b><span class="seg-copy">天使の詩を書いた作家は、ノーベル文学賞を受けた。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
+          <a class="fstop" href="w/peter-handke/?c=peter-handke--nobel-literature-laureates">
+            <span class="st-img"><img src="img/works/peter-handke.jpg" alt="ペーター・ハントケ" data-k="peter-handke" loading="lazy" decoding="async"></span>
+            <span class="st-txt"><small>人物</small>
+              <b>ペーター・ハントケ</b><span>オーストリアの作家・劇作家。『ベルリン・天使の詩』の脚本に加わり、2019年にノーベル文学賞を受賞した。</span></span>
+          </a>
+        </li>
+        <li class="stop">
+          
+          <a class="seg" href="c/wings-of-desire--peter-handke/">
+            
+            <small>［天使の言葉］　事実</small>
+            <b><span class="seg-copy">天使の言葉を書いたのは、のちのノーベル賞作家。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
+          <a class="fstop" href="w/wings-of-desire/?c=wings-of-desire--peter-handke">
+            <span class="st-img"><img src="img/works/wings-of-desire.jpg" alt="映画『ベルリン・天使の詩』" data-k="wings-of-desire" loading="lazy" decoding="async"></span>
+            <span class="st-txt"><small>映画・ドラマ・1987年</small>
+              <b>映画『ベルリン・天使の詩』</b><span>壁のあった時代のベルリンで、人々の心の声を聞き続けてきた天使が、人間になることを選ぶ物語。</span></span>
+          </a>
+        </li>
+        <li class="stop">
+          
+          <a class="seg" href="c/bruno-ganz--wings-of-desire/">
+            
+            <small>［天使ダミエル］　作者と作品</small>
+            <b><span class="seg-copy">人の心の声を聞く天使は、やがて人間になった。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
+          <a class="fstop" href="w/bruno-ganz/?c=bruno-ganz--wings-of-desire">
+            <span class="st-img"><img src="img/works/bruno-ganz.jpg" alt="ブルーノ・ガンツ" data-k="bruno-ganz" loading="lazy" decoding="async"></span>
+            <span class="st-txt"><small>人物</small>
+              <b>ブルーノ・ガンツ</b><span>スイス出身の俳優。『ベルリン・天使の詩』の天使ダミエル、『ヒトラー〜最期の12日間〜』のヒトラーを演じた。</span></span>
+          </a>
+        </li>
+        <li class="stop">
+          
+          <a class="seg" href="c/downfall--bruno-ganz/">
+            
+            <small>［ヒトラーを演じた人］　作者と作品</small>
+            <b><span class="seg-copy">天使を演じた俳優が、独裁者を演じた。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
+          <a class="fstop" href="w/downfall/?c=downfall--bruno-ganz">
+            <span class="st-img"><img src="img/works/downfall.jpg" alt="映画『ヒトラー〜最期の12日間〜』" data-k="downfall" loading="lazy" decoding="async"></span>
+            <span class="st-txt"><small>映画・ドラマ・2004年</small>
+              <b>映画『ヒトラー〜最期の12日間〜』</b><span>ベルリン陥落直前、総統地下壕で過ごしたヒトラーの最期の日々を、秘書の証言などをもとに描いたドイツ映画。</span></span>
+          </a>
+        </li>
+        <li class="stop">
+          
+          <a class="seg" href="c/downfall--anthony-hopkins/">
+            
+            <small>［二人のヒトラー］　ハブ</small>
+            <b><span class="seg-copy">レクター博士も、ヒトラーを演じていた。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
+          <a class="fstop" href="w/anthony-hopkins/?c=downfall--anthony-hopkins">
+            <span class="st-img"><img src="img/works/anthony-hopkins.jpg" alt="アンソニー・ホプキンス" data-k="anthony-hopkins" loading="lazy" decoding="async"></span>
+            <span class="st-txt"><small>人物</small>
+              <b>アンソニー・ホプキンス</b><span>英国ウェールズ出身の俳優。『羊たちの沈黙』のハンニバル・レクター役でアカデミー主演男優賞を受賞した。</span></span>
+          </a>
+        </li></ol>
+            <div class="rail-more" id="railMore" aria-hidden="true"></div>
+          </section>
+        </article>
+      </article></div>
+</div>
+<!-- 左の端：ここから右へ払うと、ひとつ前の画面へ戻る（指に付いてページが動く） -->
+<div class="edge-back" id="edgeBack" aria-hidden="true"></div>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+<script type="application/ld+json" id="ld">{"@context":"https://schema.org","@type":"Article","headline":"ビッグ・ブラザーを、ハンマーが打ち砕いた。","alternativeHeadline":"1984年は『1984年』のようにはならない","about":[{"@type":"Book","name":"1984年","description":"「ビッグ・ブラザー」がすべてを監視する全体主義国家オセアニアで、真理省に勤めるウィンストンが体制に疑いを抱く。","creator":{"@type":"Person","name":"ジョージ・オーウェル"}},{"@type":"CreativeWork","name":"アップル「Think Different」","description":"1997年にアップルが始めた広告キャンペーン。アインシュタイン、ガンディー、ピカソら、世界を変えた「クレイジーな人たち」への賛辞を掲げた。","creator":{"@type":"Person","name":"アップル"}}],"author":{"@type":"Person","name":"生成AI（初稿）"},"datePublished":"2026-09-14T07:40:00.000Z","dateModified":"2026-09-14T07:40:00.000Z","inLanguage":"ja","articleBody":"ハブは、1984年のアップルの広告。1984年1月、アップルは最初の Macintosh を、オーウェルの『1984年』を下敷きにしたテレビ広告で発表した。画面の独裁者に向かって女性がハンマーを投げつけるこの広告は、リドリー・スコットが監督した。13年後の1997年、アップルは「Think Different」で、世界を変えた「クレイジーな人たち」を讃えた。体制に従わない個人を主役にするという姿勢は、「1984」の広告からまっすぐ続いている。","url":"https://ks235278.github.io/beautiful-context-demo/c/nineteen-eighty-four--think-different/","image":"https://ks235278.github.io/beautiful-context-demo/img/works/nineteen-eighty-four.jpg"}</script>
+
+<script src="js/seed.js?v=119"></script>
+<script src="js/store.js?v=119"></script>
+<script src="js/social.js?v=119"></script>
+<script src="js/render.js?v=119"></script>
+<script src="js/transition.js?v=119"></script>
+<script src="js/app.js?v=119"></script>
+</body>
+</html>

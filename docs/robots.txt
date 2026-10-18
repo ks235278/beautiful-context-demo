@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://ks235278.github.io/beautiful-context-demo/sitemap.xml

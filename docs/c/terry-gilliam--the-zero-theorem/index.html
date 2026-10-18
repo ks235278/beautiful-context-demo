@@ -1,0 +1,336 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<base href="../../">
+<!-- 表紙のロゴは「画面」の真ん中に置く（ページの枠ではなく）。iOS 26 のホーム画面から開くと、ページの枠が
+     画面より下で短くなり、枠の真ん中では起動画面のマークより上にずれる。画面の高さを最初の一コマより前に渡す -->
+<script>
+document.documentElement.style.setProperty('--sh', (screen.height || innerHeight) + 'px');
+/* 見えないところで読み直したあと（新しい版への入れ替え）は、離れたときの画面のまま。灯る演出はしない */
+try { if (sessionStorage.getItem('bc-resume')) document.documentElement.classList.add('resume'); } catch (e) {}
+</script>
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,viewport-fit=cover">
+<title>テリー・ギリアム ＋ テリー・ギリアム『ゼロの未来』｜Beautiful Context</title>
+<meta name="description" content="管理社会の三作目。 テリー・ギリアム と テリー・ギリアム『ゼロの未来』。『未来世紀ブラジル』『12モンキーズ』に続くディストピア。『ゼロの未来』は、巨大企業の管理のもとで「ゼロの定理」の証明を命じられた孤独なプログラマーの物語で、『未来世紀ブラジル』『12モンキーズ』と並べて、ギリアムのディスト…">
+<meta name="theme-color" content="#061629">
+<link rel="canonical" href="https://ks235278.github.io/beautiful-context-demo/c/terry-gilliam--the-zero-theorem/">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://ks235278.github.io/beautiful-context-demo/c/terry-gilliam--the-zero-theorem/">
+<meta property="og:title" content="テリー・ギリアム ＋ テリー・ギリアム『ゼロの未来』｜Beautiful Context">
+<meta property="og:description" content="管理社会の三作目。 テリー・ギリアム と テリー・ギリアム『ゼロの未来』。『未来世紀ブラジル』『12モンキーズ』に続くディストピア。『ゼロの未来』は、巨大企業の管理のもとで「ゼロの定理」の証明を命じられた孤独なプログラマーの物語で、『未来世紀ブラジル』『12モンキーズ』と並べて、ギリアムのディスト…">
+<meta property="og:image" content="https://ks235278.github.io/beautiful-context-demo/img/works/terry-gilliam.jpg">
+<!-- ホーム画面から開くとき、読み込みのあいだに出る起動画面。表紙の最初の一コマ（回路とロゴ）と同じ絵
+     （端末ごとの大きさ。iOS は PNG を求める） -->
+<link rel="apple-touch-startup-image" media="(device-width: 440px) and (device-height: 956px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="img/launch/440x956@3.png">
+<link rel="apple-touch-startup-image" media="(device-width: 402px) and (device-height: 874px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="img/launch/402x874@3.png">
+<link rel="apple-touch-startup-image" media="(device-width: 430px) and (device-height: 932px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="img/launch/430x932@3.png">
+<link rel="apple-touch-startup-image" media="(device-width: 393px) and (device-height: 852px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="img/launch/393x852@3.png">
+<link rel="apple-touch-startup-image" media="(device-width: 420px) and (device-height: 912px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="img/launch/420x912@3.png">
+<link rel="apple-touch-startup-image" media="(device-width: 428px) and (device-height: 926px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="img/launch/428x926@3.png">
+<link rel="apple-touch-startup-image" media="(device-width: 390px) and (device-height: 844px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="img/launch/390x844@3.png">
+<link rel="apple-touch-startup-image" media="(device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="img/launch/375x812@3.png">
+<link rel="apple-touch-startup-image" media="(device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="img/launch/414x896@3.png">
+<link rel="apple-touch-startup-image" media="(device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" href="img/launch/414x896@2.png">
+<link rel="apple-touch-startup-image" media="(device-width: 375px) and (device-height: 667px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" href="img/launch/375x667@2.png">
+<!-- 表紙に最初から出すもの（回路とロゴ）は先に読む。描くときに待たせない -->
+<link rel="preload" as="image" href="img/pcb-charcoal.jpg">
+<link rel="preload" as="image" href="img/logo-layer-mark.png">
+<link rel="preload" as="image" href="img/logo-layer-words.png">
+<link rel="manifest" href="manifest.webmanifest?v=119">
+<link rel="apple-touch-icon" href="icon-180.png">
+<!-- ホーム画面から開くと全画面になり、safe-area が 0 でなくなる。
+     そのとき初めて Dynamic Island の裏までページが描ける。 -->
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Beautiful Context">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebSite","name":"Beautiful Context",
+ "url":"https://ks235278.github.io/beautiful-context-demo/","inLanguage":"ja",
+ "description":"二つの作品の意外なつながりを、独立したコンテクストページとして読むサービスのデモ。",
+ "potentialAction":{"@type":"SearchAction",
+   "target":"https://ks235278.github.io/beautiful-context-demo/#/search?q={search_term_string}",
+   "query-input":"required name=search_term_string"}}
+</script>
+<!-- 表紙の BEAUTIFUL CONTEXT は、先生の構成図と同じ Bebas Neue -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<!-- フォントは最初の一コマを待たせない（表紙のロゴは絵。Lato は UniverseIt! が出るまでに届く） -->
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Lato:wght@300;400;700&display=swap" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Lato:wght@300;400;700&display=swap"></noscript>
+<script src="js/theme.js?v=119"></script>
+<link rel="stylesheet" href="app.css?v=119">
+<link rel="stylesheet" href="fade.css?v=119">
+</head>
+<body class="stage-uni viewing route" data-route="#/c/terry-gilliam--the-zero-theorem">
+
+<!-- 背景は先生の構成図（flow0921-2）の回路の絵そのもの。
+     表紙では原寸の濃さ、UniverseIt! からは 50% に落とす（構成図のプロンプトどおり）。 -->
+<!-- 二つの画面が左右に並ぶ：左 ReMixIt!（A / WHITE）、右 UniverseIt!（B / CHARCOAL）。左右にスライドして入れ替わる -->
+<div id="bg" aria-hidden="true"><div class="pcb pcb-c"></div><div class="pcb pcb-w"></div><div class="veil"></div></div>
+
+<button class="menu-btn" id="menuBtn" type="button" aria-label="メニュー" aria-expanded="false" aria-controls="menu"><i></i><i></i><i></i></button>
+
+<section class="intro" id="intro" aria-label="表紙">
+  <h1 class="wordmark" id="wordmark" aria-label="BEAUTIFUL CONTEXT"><span class="lockup"><img class="words" src="img/logo-layer-words.png" alt="" decoding="sync"><img class="markl" src="img/logo-layer-mark.png" alt="" decoding="sync"></span></h1>
+</section>
+
+<main class="uni" id="uni" aria-label="UniverseIt!">
+  <div class="uni-frame" aria-hidden="true"><i class="fr fr-c"></i><i class="fr fr-w"></i></div>
+  <header class="uni-head" id="uniHead">
+    <h1 class="uni-title"><span class="tt tt-u">UniverseIt!</span><span class="tt tt-r" aria-hidden="true">ReMixIt!</span></h1>
+    <p class="uni-sub"><span class="tt tt-u" id="tagline">言葉から、つながりを辿る。</span><span class="tt tt-r" aria-hidden="true">言葉から、つながりを創る。</span></p>
+    <a class="to-today" href="#/today" data-home>TODAY'S EDITOR'S CHOICE ›</a>
+  </header>
+  <div class="uni-list" id="tags" aria-label="言葉"></div>
+</main>
+
+<div class="dock" id="dock">
+  <div class="map" id="map"></div>
+  <p class="sel-hint" id="selHint" aria-live="polite"></p>
+  <p class="dock-brand" id="dockBrand">BEAUTIFUL CONTEXT</p>
+  <!-- 読む画面（Today・コンテクスト・作品）では NEXT UNIVERSE だけ。戻るのは左の端から右へ払う（iPhone と同じ）か、上の ‹。
+       ReMixIt!（つながりを創る）は編集の側の道具なので、UniverseIt! の画面とメニューに置く -->
+  <div class="actions">
+    <a class="act remix" id="remix" href="editor.html?new=1">
+      <svg viewBox="0 0 32 32" aria-hidden="true"><circle cx="12" cy="16" r="8.5"/><circle cx="20" cy="16" r="8.5"/></svg>
+      <span><b>つながりを創る</b><small>ReMixIt!</small></span>
+    </a>
+    <button class="act uni-btn" id="uniBtn" type="button">
+      <svg viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="16" r="11"/><ellipse cx="16" cy="16" rx="4.8" ry="11"/><path d="M5 16h22M7 10.5h18M7 21.5h18M16 5v22"/></svg>
+      <span><b>NEXT UNIVERSE</b><small id="uniLabel">UniverseIt!</small></span>
+    </button>
+  </div>
+</div>
+
+<nav class="menu" id="menu" aria-label="メニュー" hidden>
+  <form class="seek" role="search" data-seek>
+    <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6"/><path d="m15 15 5 5"/></svg>
+    <input type="search" name="q" placeholder="言葉で辿る" enterkeyhint="search" aria-label="言葉で辿る">
+  </form>
+  <a href="#/today" data-home>Today's Editor's Choice<small>今日のつながり</small></a>
+  <a href="#/" data-uni>UniverseIt!<small>すべての言葉から辿る</small></a>
+  <a href="editor.html?new=1">ReMixIt!<small>つながりを創る</small></a>
+  <button type="button" class="menu-account" id="menuAccount" data-login>ログイン<small>アカウントを作る</small></button>
+  <a href="#/mission">Our Mission</a>
+  <a href="#/ad">広告枠のご案内</a>
+  <a href="#/credits">画像の出典</a>
+  <a href="#/terms">利用規約・プライバシー</a>
+  <a href="manage.html">運営者メニュー</a>
+  <div class="theme-pick" role="group" aria-label="地">
+    <button type="button" data-theme-set="white">ReMixIt!<small>A / WHITE</small></button>
+    <button type="button" data-theme-set="charcoal">UniverseIt!<small>B / CHARCOAL</small></button>
+  </div>
+</nav>
+
+<div class="view on" id="view" role="dialog" aria-modal="true" aria-label="テリー・ギリアム ＋ テリー・ギリアム『ゼロの未来』">
+  <div class="view-in" id="viewIn">
+      <article class="page cpage">
+        <button type="button" class="back-close" data-close="" aria-label="戻る"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 4.5 7.5 12l7.5 7.5"></path></svg></button>
+        <div class="duo-hero"><a class="c-logo" href="#/" data-top="" aria-label="BEAUTIFUL CONTEXT（TOP へ戻る）"><img src="img/logo.png" alt=""></a><div class="duo"><button type="button" class="duo-go" data-step="0" aria-label="テリー・ギリアムの作品ページへ"><div class="art"><img src="img/works/terry-gilliam.jpg" alt="テリー・ギリアム" data-k="terry-gilliam" decoding="async"></div></button><button type="button" class="duo-go" data-step="2" aria-label="テリー・ギリアム『ゼロの未来』の作品ページへ"><div class="art"><img src="img/works/the-zero-theorem.jpg" alt="テリー・ギリアム『ゼロの未来』" data-k="the-zero-theorem" decoding="async"></div></button><i class="swap" aria-hidden="true">↔</i></div></div>
+        <section class="context-lead">
+          
+          <div class="ed-row">
+      <a class="ed-link" href="e/desk/"><span class="ava" aria-hidden="true">部</span><span><b>BC 編集部</b><small>EDITORIAL DESK</small></span></a>
+      <button type="button" class="follow" data-follow="desk" aria-pressed="false">フォロー</button></div>
+          <p class="route-label">CONTEXT　［監督と作品］　約25秒</p>
+          <h2>管理社会の三作目。</h2>
+          <div class="pair"><span>テリー・ギリアム</span><span>監督</span><span>『ゼロの未来』</span></div>
+          <button type="button" class="read" data-read="">このつながりを読む　約25秒 <span aria-hidden="true">↓</span></button>
+        </section>
+        <article class="context-body" id="story">
+          <p class="meta">CONTEXT STORY</p>
+          <h2>『未来世紀ブラジル』『12モンキーズ』に続くディストピア。</h2><p>『ゼロの未来』は、巨大企業の管理のもとで「ゼロの定理」の証明を命じられた孤独なプログラマーの物語で、『未来世紀ブラジル』『12モンキーズ』と並べて、ギリアムのディストピア三部作と呼ばれることがある。</p><p>書類の社会から、画面とネットワークの社会へ。30年を隔てて、ギリアムは同じ悪夢を、時代の道具に合わせて描き直した。</p>
+          
+      <section class="axes" aria-label="このつながりの型と評価">
+        <p class="meta">このつながり<span class="agm">生成AIの初稿・編集者の確認前</span></p>
+        <p class="ax-kind"><span>型<b>作者と作品</b></span><span>ハブ<b>監督</b></span></p>
+        <dl class="ax"><div><dt>意外性</dt><dd aria-label="2 / 5"><i class="on"></i><i class="on"></i><i></i><i></i><i></i></dd></div><div><dt>共感度</dt><dd aria-label="4 / 5"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i></dd></div><div><dt>コンテンツ性</dt><dd aria-label="4 / 5"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i></dd></div><div><dt>世界観近似性</dt><dd aria-label="5 / 5"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i></dd></div></dl>
+      </section>
+          
+          <p class="byline">BC 編集部　·　2026/9/14</p>
+          
+      <section class="comments" id="comments" data-ctx="seed-terry-gilliam--the-zero-theorem">
+        <p class="meta">COMMENTS<span class="cm-n">0</span></p>
+        <p class="cm-empty">まだコメントはありません。このつながりについて、最初のひとことを。</p>
+        <form class="cm-form" data-comment="seed-terry-gilliam--the-zero-theorem">
+          <textarea name="text" rows="2" maxlength="600" placeholder="このつながりについて、思ったことを" aria-label="コメント"></textarea>
+          <button type="submit">送る</button>
+        </form>
+        <p class="cm-note">送るときに、名前を一つ作ります。コメントは編集者が確かめてから表示されます。</p>
+      </section>
+          <p class="meta more-label">同じルーツのコンテクスト</p><a class="tease" href="c/terry-gilliam--brazil/">テリー・ギリアム ＋ テリー・ギリアム『未来世紀ブラジル』 <span aria-hidden="true">›</span></a><a class="tease" href="c/the-zero-theorem--brazil/">テリー・ギリアム『ゼロの未来』 ＋ テリー・ギリアム『未来世紀ブラジル』 <span aria-hidden="true">›</span></a>
+          
+      <aside class="c-ad" aria-label="広告">
+        <a href="#/ad">
+          <img class="c-ad-img" src="img/ad-hands.jpg" alt="" loading="lazy" decoding="async">
+          <span class="ad-mark">AD</span>
+          <span class="ad-copy"><b>この場所に、作品の広告を。</b><small>映画・音楽・書籍・イベント ── 広告枠のご案内</small></span>
+        </a>
+      </aside>
+          <p class="img-credit">画像：撮影 Towpilot／CC BY-SA 3.0／Wikimedia Commons　<a href="https://commons.wikimedia.org/wiki/File:Terry_Gilliam_01.jpg" target="_blank" rel="noopener nofollow">出典</a></p><p class="img-credit">画像：場面写真／© 権利者／出典 映画.com　<a href="https://eiga.com/movie/81428/" target="_blank" rel="noopener nofollow">出典</a></p>
+          
+          <section class="ctx-rail" aria-label="この先のつながり">
+            <p class="meta more-label">この先のつながり</p>
+            <ol class="rail" id="rail">
+        <li class="stop first">
+          
+          
+          <a class="fstop" href="w/the-zero-theorem/">
+            <span class="st-img"><img src="img/works/the-zero-theorem.jpg" alt="テリー・ギリアム『ゼロの未来』" data-k="the-zero-theorem" loading="lazy" decoding="async"></span>
+            <span class="st-txt"><small>映画・2013年</small>
+              <b>テリー・ギリアム『ゼロの未来』</b><span>巨大企業の管理のもとで、「ゼロの定理」の証明に取り組まされる孤独なプログラマーを描いた映画。主演はクリストフ・ヴァルツ。</span></span>
+          </a>
+        </li>
+        <li class="stop">
+          
+          <a class="seg" href="c/the-zero-theorem--brazil/">
+            
+            <small>［30年後の管理社会］　似ている</small>
+            <b><span class="seg-copy">書類の迷宮から、画面の迷宮へ。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
+          <a class="fstop" href="w/brazil/?c=the-zero-theorem--brazil">
+            <span class="st-img"><img src="img/works/brazil.jpg" alt="テリー・ギリアム『未来世紀ブラジル』" data-k="brazil" loading="lazy" decoding="async"></span>
+            <span class="st-txt"><small>映画・1985年</small>
+              <b>テリー・ギリアム『未来世紀ブラジル』</b><span>書類と管理に覆われた近未来の社会で、夢に逃げ込む役人を描いた映画。</span></span>
+          </a>
+        </li>
+        <li class="stop">
+          
+          <a class="seg" href="c/blade-runner--brazil/">
+            
+            <small>［八〇年代が描いた未来］　似ている</small>
+            <b><span class="seg-copy">雨とネオンの未来と、書類に埋もれた未来。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
+          <a class="fstop" href="w/blade-runner/?c=blade-runner--brazil">
+            <span class="st-img"><img src="img/works/blade-runner.jpg" alt="リドリー・スコット『ブレードランナー』" data-k="blade-runner" loading="lazy" decoding="async"></span>
+            <span class="st-txt"><small>映画・1982年</small>
+              <b>リドリー・スコット『ブレードランナー』</b><span>フィリップ・K・ディックの小説『アンドロイドは電気羊の夢を見るか？』を原作に、2019年のロサンゼルスで人造人間を追う男を描いた映画。</span></span>
+          </a>
+        </li>
+        <li class="stop">
+          
+          <a class="seg" href="c/blade-runner--blade-runner-2049/">
+            
+            <small>［三十年後のロサンゼルス］　事実</small>
+            <b><span class="seg-copy">2019年の雨の街から、2049年の荒野へ。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
+          <a class="fstop" href="w/blade-runner-2049/?c=blade-runner--blade-runner-2049">
+            <span class="st-img"><img src="img/works/blade-runner-2049.jpg" alt="ヴィルヌーヴ『ブレードランナー 2049』" data-k="blade-runner-2049" loading="lazy" decoding="async"></span>
+            <span class="st-txt"><small>映画・2017年</small>
+              <b>ヴィルヌーヴ『ブレードランナー 2049』</b><span>前作から30年後の2049年を舞台にした続編。</span></span>
+          </a>
+        </li>
+        <li class="stop">
+          
+          <a class="seg" href="c/blade-runner-2049--blade-runner-2099/">
+            
+            <small>［さらに五十年後］　事実</small>
+            <b><span class="seg-copy">2049年の先に、2099年が続く。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
+          <a class="fstop" href="w/blade-runner-2099/?c=blade-runner-2049--blade-runner-2099">
+            <span class="st-img"><img src="img/works/blade-runner-2099.jpg" alt="『ブレードランナー 2099』" data-k="blade-runner-2099" loading="lazy" decoding="async"></span>
+            <span class="st-txt"><small>ドラマ</small>
+              <b>『ブレードランナー 2099』</b><span>2049年からさらに50年後を舞台にしたドラマ・シリーズ。ミシェル・ヨーとハンター・シェイファーが主演し、2026年11月25日から Prime Video で配信される。</span></span>
+          </a>
+        </li>
+        <li class="stop branch">
+          
+          <a class="seg" href="c/greg-egan--blade-runner-2049/">
+            <span class="seg-from">ブレードランナー 2049 から分岐</span>
+            <small>［記憶は誰のものか］　似ている</small>
+            <b><span class="seg-copy">植えつけられた記憶でも、それは自分なのか。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
+          <a class="fstop" href="w/greg-egan/?c=greg-egan--blade-runner-2049">
+            <span class="st-img"><img src="img/works/greg-egan.jpg" alt="グレッグ・イーガン" data-k="greg-egan" loading="lazy" decoding="async"></span>
+            <span class="st-txt"><small>人物・1961年</small>
+              <b>グレッグ・イーガン</b><span>オーストラリアのSF作家。『順列都市』『ディアスポラ』など、意識や自己を数学と物理から問い直すハードSFで知られる。</span></span>
+          </a>
+        </li>
+        <li class="stop branch">
+          
+          <a class="seg" href="c/do-androids-dream--blade-runner/">
+            <span class="seg-from">ブレードランナー から分岐</span>
+            <small>［小説から映画へ］　事実</small>
+            <b><span class="seg-copy">電気羊の夢は、酸性雨の街になった。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
+          <a class="fstop" href="w/do-androids-dream/?c=do-androids-dream--blade-runner">
+            <span class="st-img"><img src="img/works/do-androids-dream.jpg" alt="フィリップ・K・ディック『アンドロイドは電気羊の夢を見るか？』" data-k="do-androids-dream" loading="lazy" decoding="async"></span>
+            <span class="st-txt"><small>書籍・1968年</small>
+              <b>フィリップ・K・ディック『アンドロイドは電気羊の夢を見るか？』</b><span>核戦争のあとの地球で、火星から逃げてきたアンドロイドを追う賞金稼ぎリック・デッカードの物語。映画『ブレードランナー』の原作。</span></span>
+          </a>
+        </li>
+        <li class="stop">
+          
+          <a class="seg" href="c/isaac-asimov--do-androids-dream/">
+            
+            <small>［人に似せて作られたもの］　似ている</small>
+            <b><span class="seg-copy">ロボットは三原則を守り、アンドロイドは嘘をつく。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
+          <a class="fstop" href="w/isaac-asimov/?c=isaac-asimov--do-androids-dream">
+            <span class="st-img"><img src="img/works/isaac-asimov.jpg" alt="アイザック・アシモフ" data-k="isaac-asimov" loading="lazy" decoding="async"></span>
+            <span class="st-txt"><small>人物・1920年</small>
+              <b>アイザック・アシモフ</b><span>『われはロボット』『ファウンデーション』のSF作家。ロボットが守るべき「ロボット工学三原則」を考えた。</span></span>
+          </a>
+        </li>
+        <li class="stop">
+          
+          <a class="seg" href="c/foundation--isaac-asimov/">
+            
+            <small>［作者と作品］　作者と作品</small>
+            <b><span class="seg-copy">帝国の崩壊を、数学が予言した。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
+          <a class="fstop" href="w/foundation/?c=foundation--isaac-asimov">
+            <span class="st-img"><img src="img/works/foundation.jpg" alt="アイザック・アシモフ『ファウンデーション』" data-k="foundation" loading="lazy" decoding="async"></span>
+            <span class="st-txt"><small>書籍・1951年</small>
+              <b>アイザック・アシモフ『ファウンデーション』</b><span>銀河帝国の崩壊を「心理歴史学」で予見した数学者ハリ・セルダンが、来るべき暗黒時代を短くするための計画を立てる。2021年から Apple TV+ でドラマになった。</span></span>
+          </a>
+        </li>
+        <li class="stop">
+          
+          <a class="seg" href="c/foundation--pluribus/">
+            
+            <small>［同じ配信の窓］　ハブ</small>
+            <b><span class="seg-copy">銀河の帝国と、ひとつになった人類。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
+          <a class="fstop" href="w/pluribus/?c=foundation--pluribus">
+            <span class="st-img"><img src="img/works/pluribus.jpg" alt="ヴィンス・ギリガン『プルリブス』" data-k="pluribus" loading="lazy" decoding="async"></span>
+            <span class="st-txt"><small>ドラマ・2025年</small>
+              <b>ヴィンス・ギリガン『プルリブス』</b><span>『ブレイキング・バッド』のヴィンス・ギリガンが手がけた Apple TV+ のドラマ。人々の心がひとつに溶け合っていく世界で、それに加わらない一人の女性を描く。</span></span>
+          </a>
+        </li>
+        <li class="stop">
+          
+          <a class="seg" href="c/highest-2-lowest--pluribus/">
+            
+            <small>［同じ配信の窓］　事実</small>
+            <b><span class="seg-copy">誘拐劇とSFが、同じ画面から届く。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
+          <a class="fstop" href="w/highest-2-lowest/?c=highest-2-lowest--pluribus">
+            <span class="st-img"><img src="img/highest.jpg" alt="『HIGHEST 2 LOWEST』" data-k="highest-2-lowest" loading="lazy" decoding="async"></span>
+            <span class="st-txt"><small>映画・2025年</small>
+              <b>『HIGHEST 2 LOWEST』</b><span>スパイク・リーが、黒澤明『天国と地獄』の構造を現代のニューヨークへ移し替えた作品。富、家族、選択の価値が問われる。</span></span>
+          </a>
+        </li>
+        <li class="stop">
+          
+          <a class="seg" href="c/highest-2-lowest--high-and-low/">
+            
+            <small>［原作から再解釈へ］　事実</small>
+            <b><span class="seg-copy">誘拐劇は、60年後にアメリカへ戻った。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
+          <a class="fstop" href="w/high-and-low/?c=highest-2-lowest--high-and-low">
+            <span class="st-img"><img src="img/highlow.jpg" alt="黒澤明『天国と地獄』" data-k="high-and-low" loading="lazy" decoding="async"></span>
+            <span class="st-txt"><small>映画・1963年</small>
+              <b>黒澤明『天国と地獄』</b><span>エド・マクベインの小説『King’s Ransom』を原作に、誘拐事件を通じて企業家の倫理と社会の格差を描いた作品。</span></span>
+          </a>
+        </li></ol>
+            <div class="rail-more" id="railMore" aria-hidden="true"></div>
+          </section>
+        </article>
+      </article></div>
+</div>
+<!-- 左の端：ここから右へ払うと、ひとつ前の画面へ戻る（指に付いてページが動く） -->
+<div class="edge-back" id="edgeBack" aria-hidden="true"></div>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+<script type="application/ld+json" id="ld">{"@context":"https://schema.org","@type":"Article","headline":"管理社会の三作目。","alternativeHeadline":"監督と作品","about":[{"@type":"Person","name":"テリー・ギリアム","description":"アメリカ生まれで、英国を拠点にする映画監督。モンティ・パイソンのアニメーションを手がけ、『未来世紀ブラジル』『12モンキーズ』『ゼロの未来』を撮った。"},{"@type":"Movie","name":"ゼロの未来","description":"巨大企業の管理のもとで、「ゼロの定理」の証明に取り組まされる孤独なプログラマーを描いた映画。主演はクリストフ・ヴァルツ。","creator":{"@type":"Person","name":"テリー・ギリアム監督"}}],"author":{"@type":"Person","name":"生成AI（初稿）"},"datePublished":"2026-09-14T04:50:00.000Z","dateModified":"2026-09-14T04:50:00.000Z","inLanguage":"ja","articleBody":"『未来世紀ブラジル』『12モンキーズ』に続くディストピア。『ゼロの未来』は、巨大企業の管理のもとで「ゼロの定理」の証明を命じられた孤独なプログラマーの物語で、『未来世紀ブラジル』『12モンキーズ』と並べて、ギリアムのディストピア三部作と呼ばれることがある。書類の社会から、画面とネットワークの社会へ。30年を隔てて、ギリアムは同じ悪夢を、時代の道具に合わせて描き直した。","url":"https://ks235278.github.io/beautiful-context-demo/c/terry-gilliam--the-zero-theorem/","image":"https://ks235278.github.io/beautiful-context-demo/img/works/terry-gilliam.jpg"}</script>
+
+<script src="js/seed.js?v=119"></script>
+<script src="js/store.js?v=119"></script>
+<script src="js/social.js?v=119"></script>
+<script src="js/render.js?v=119"></script>
+<script src="js/transition.js?v=119"></script>
+<script src="js/app.js?v=119"></script>
+</body>
+</html>

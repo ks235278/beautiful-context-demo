@@ -50,6 +50,11 @@
     return !UNSAFE.test(s) && /^(https?:\/\/|img\/|data:image\/(png|jpe?g|webp|gif);base64,)/i.test(s) ? s : '';
   };
 
+  /* ページの道。作品・区間・編集者は、本物のアドレス（c/区間/、w/作品/、e/編集者/）を持つ。
+     検索エンジンや生成AIが一つひとつのページとして読めるように。アプリの中で触れたときは、
+     app.js が受け取って、読み直さずにその場で開く */
+  const pathOf = (k, slug, q) => `${k}/${encodeURIComponent(slug)}/${q || ''}`;
+  const urlOf = (k, slug, q) => new URL(pathOf(k, slug, q), document.baseURI).href;
   const hash = (s) => { let h = 0; for (const c of String(s)) h = (h * 31 + c.charCodeAt(0)) | 0; return Math.abs(h); };
   const PALETTE = ['#f2cf12', '#3447c9', '#d42b2b', '#b8792c', '#2f8f5b', '#c43f9a'];
   const lineColor = (e) => (e.context.line && /^#[0-9a-f]{6}$/i.test(e.context.line.color))
@@ -112,7 +117,7 @@
   /* 同じ作品をルーツに共有するコンテクスト */
   function roots(e, list){
     if (!list.length) return '';
-    return list.map(x => tease('#/c/' + encodeURIComponent(x.context.slug), `${x.a.title} ＋ ${x.b.title}`)).join('');
+    return list.map(x => tease(pathOf('c', x.context.slug), `${x.a.title} ＋ ${x.b.title}`)).join('');
   }
 
   /* 広告枠。コンテクストページの読み終わりに一枠だけ置く（記事単位の出稿枠） */
@@ -166,7 +171,7 @@
     const other = e ? e[side === 'a' ? 'b' : 'a'] : null;
     const others = hit.contexts.filter(x => !e || x.entry.id !== e.id);
     const more = others.map(({ entry, side: sd }) =>
-      tease('#/c/' + encodeURIComponent(entry.context.slug), `${entry[sd === 'a' ? 'b' : 'a'].title}とのコンテクストを見る`)).join('');
+      tease(pathOf('c', entry.context.slug), `${entry[sd === 'a' ? 'b' : 'a'].title}とのコンテクストを見る`)).join('');
     return `
       <article class="page wpage">
         ${backTop()}
@@ -211,7 +216,7 @@
   function editorRow(ed, on){
     if (!ed) return '';
     return `<div class="ed-row">
-      <a class="ed-link" href="#/e/${encodeURIComponent(ed.id)}">${avatar(ed.mark || ed.name)}<span><b>${esc(ed.name)}</b><small>${esc(ed.role || 'EDITOR')}</small></span></a>
+      <a class="ed-link" href="${attr(pathOf('e', ed.id))}">${avatar(ed.mark || ed.name)}<span><b>${esc(ed.name)}</b><small>${esc(ed.role || 'EDITOR')}</small></span></a>
       ${followBtn(ed, on)}</div>`;
   }
   /* 右上の Login。ログインしていれば、名前の頭文字の丸 */
@@ -298,7 +303,7 @@
   function editorPage(ed, list, on){
     const mini = (w) => { const s = safeImg(w.image); return s ? `<img src="${attr(s)}" alt="" loading="lazy" decoding="async">` : `<span class="ph">${esc(initial(w))}</span>`; };
     const items = list.map(e => `
-      <a class="ed-item" href="#/c/${encodeURIComponent(e.context.slug)}">
+      <a class="ed-item" href="${attr(pathOf('c', e.context.slug))}">
         <span class="ed-thumbs">${mini(e.a)}${mini(e.b)}</span>
         <span class="ed-txt"><small>［${esc(e.context.routeName)}］</small><b>${esc(e.context.headline).replace(/\n/g, '')}</b>
           <span>${esc(e.a.title)} ＋ ${esc(e.b.title)}</span></span></a>`).join('');
@@ -329,11 +334,11 @@
       const n = from + i, w = it.work, c = it.entry && it.entry.context;
       const parent = it.parent && items.find(x => x.slug === it.parent);
       const s = safeImg(w.image);
-      const href = '#/w/' + encodeURIComponent(it.slug) + (c ? '?c=' + encodeURIComponent(c.slug) : '');
+      const href = pathOf('w', it.slug, c ? '?c=' + encodeURIComponent(c.slug) : '');
       return `
         <li class="stop${n === 0 ? ' first' : ''}${it.branch ? ' branch' : ''}${!c && n > 0 ? ' newline' : ''}">
           ${!c && n > 0 ? `<p class="transfer"><span>別の路線へ</span></p>` : ''}
-          ${c ? `<a class="seg" href="#/c/${encodeURIComponent(c.slug)}">
+          ${c ? `<a class="seg" href="${attr(pathOf('c', c.slug))}">
             ${it.branch && parent ? `<span class="seg-from">${esc(tagText(parent.work))} から分岐</span>` : ''}
             <small>［${esc(c.routeName)}］${c.kind ? `　${esc(c.kind)}` : ''}</small>
             <b><span class="seg-copy">${esc(c.headline).replace(/\n/g, '')}</span><span class="seg-go" aria-hidden="true">››</span></b></a>` : ''}
@@ -363,9 +368,9 @@
   /* ---------- 検索 ---------- */
   function search(q, res){
     const ctx = res.contexts.map(e =>
-      tease('#/c/' + encodeURIComponent(e.context.slug), `${e.a.title} ＋ ${e.b.title}`)).join('');
+      tease(pathOf('c', e.context.slug), `${e.a.title} ＋ ${e.b.title}`)).join('');
     const works = res.works.map(({ work: w }) =>
-      `<a class="chip" href="#/w/${encodeURIComponent(w.slug)}"><span class="h">#</span>${esc(tagText(w))}</a>`).join('');
+      `<a class="chip" href="${attr(pathOf('w', w.slug))}"><span class="h">#</span>${esc(tagText(w))}</a>`).join('');
     const none = !res.contexts.length && !res.works.length;
     return `
       <article class="page text-page search-page">
@@ -412,7 +417,7 @@
     if (name === 'credits'){
       /* 画像の出典。CC BY / BY-SA の表示義務もここで満たす */
       const rows = S.works(S.all()).filter(h => h.work.credit).map(({ work: w, slug }) => `
-        <li><a href="#/w/${encodeURIComponent(slug)}">${esc(w.title)}</a>
+        <li><a href="${attr(pathOf('w', slug))}">${esc(w.title)}</a>
           <small>${esc(w.credit)}${safeUrl(w.creditUrl) ? `　<a href="${attr(safeUrl(w.creditUrl))}" target="_blank" rel="noopener nofollow">出典</a>` : ''}</small></li>`).join('');
       return shell('画像の出典', `
         <p class="lead">作品の画像は、作品紹介のための引用、または自由な利用が許された写真です。著作権は各権利者に帰属します。</p>
@@ -481,7 +486,7 @@
     const ai = safeUrl(e.context.aiUrl);
     if (ai) o.isBasedOn = ai;
     const pic = safeImg(e.a.image);
-    if (pic && !pic.startsWith('data:')) o.image = new URL(pic, location.href).href;
+    if (pic && !pic.startsWith('data:')) o.image = new URL(pic, document.baseURI).href;
     return o;
   }
   function listLd(list, brand){
@@ -492,7 +497,7 @@
       itemListElement: list.map((e, i) => ({
         '@type': 'ListItem', position: i + 1,
         name: `${e.a.title} ＋ ${e.b.title}`,
-        url: location.href.split('#')[0] + '#/c/' + encodeURIComponent(e.context.slug)
+        url: urlOf('c', e.context.slug)
       }))
     };
   }
@@ -540,7 +545,7 @@
   const linePath = (n) => smooth(SHAPES[Math.abs(n | 0) % SHAPES.length]);
 
   window.BCRender = {
-    esc, clean, safeUrl, safeImg, art, roots, ad, workPage, contextPage, editorPage, comments, loginChip, search, page,
+    pathOf, urlOf, thing, esc, clean, safeUrl, safeImg, art, roots, ad, workPage, contextPage, editorPage, comments, loginChip, search, page,
     mapMarkup, jsonLd, listLd, buildTags, tagText, readLabel, feedPage, feedStops, lineColor, linePath, ICON,
     PALETTE, SHAPE_COUNT: SHAPES.length
   };

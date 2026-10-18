@@ -11,9 +11,13 @@
      サイトの根を URL から割り出す。 -->
 <script>
   (() => {
-    const seg = location.pathname.split('/').filter(Boolean)[0];
-    const base = seg === 'beautiful-context-demo' ? '/beautiful-context-demo/' : '/';
-    location.replace(base + 'index.html#/404');
+    const parts = location.pathname.split('/').filter(Boolean);
+    const base = parts[0] === 'beautiful-context-demo' ? '/beautiful-context-demo/' : '/';
+    const rest = base === '/' ? parts : parts.slice(1);
+    /* 作品・区間・編集者のアドレス（c/…/ など）で、まだ静的なページがないもの（この端末で作ったつながりなど）は、
+       アプリの中のそのページへ渡す */
+    const to = rest.length >= 2 && /^(c|w|e)$/.test(rest[0]) ? `#/${rest[0]}/${rest[1]}${location.search}` : '#/404';
+    location.replace(base + 'index.html' + to);
   })();
 </script>
 <style>html,body{margin:0;height:100%;background:#061629;color:#e9e4d8;font:14px/1.8 sans-serif}

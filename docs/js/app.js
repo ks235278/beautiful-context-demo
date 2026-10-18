@@ -167,7 +167,8 @@
      何も起きない間ができてしまうため。自分で積んだ道筋を覚えておく。 */
   const stack = [];
   const depth = () => (history.state && history.state.bcDepth) || 0;
-  const base = () => location.pathname + location.search;
+  /* アプリの根（index.html のある所）。静的なページ（c/…/）から入っても、道筋は根の # に積む */
+  const base = () => body.dataset.route ? new URL('./', document.baseURI).pathname : location.pathname + location.search;
   function go(hash, motion, replace){
     if (replace){ history.replaceState({ bcDepth: depth() }, '', hash); stack[Math.max(0, stack.length - 1)] = hash; }
     else { history.pushState({ bcDepth: depth() + 1 }, '', hash); stack.push(hash); }
@@ -230,7 +231,8 @@
       routeTo('#/today', { dir: -1 });
       return;
     }
-    const h = location.hash;
+    /* 静的なページ（c/…/ など）で開いたときの最初の画面は、その道（body の data-route） */
+    const h = location.hash || body.dataset.route || '';
     if (!h || h === '#' || h === '#/') stack.length = 0;
     else if (stack[stack.length - 1] !== h){
       if (stack[stack.length - 2] === h){ stack.pop(); backNav = true; }
@@ -533,7 +535,7 @@
     }
     /* fade：表紙から Today へは、絵を運ばずに静かに浮かべる。
        swipe：左の端から払って戻ったとき。戻り先はもう指の下に見えているので、何も動かさずに置き換える */
-    const moving = motionOK() && !motion.fade && !motion.swipe;
+    const moving = motionOK() && !motion.fade && !motion.swipe && !motion.pre;
     const was = view.classList.contains('on');
     /* 離れるページのスクロール位置（路線なら読み足した駅の数も）を覚えておく */
     if (was && here) memo.set(here.key, { y: window.scrollY, n: viewIn.querySelectorAll('.stop').length });
@@ -546,7 +548,7 @@
     view.setAttribute('aria-label', title || '');
     document.title = (title ? title + '｜' : '') + brand;
     ld.textContent = page.kind === 'route' && page.entry && page.step === 1
-      ? JSON.stringify(R.jsonLd(page.entry, location.href)) : listLd();
+      ? JSON.stringify(R.jsonLd(page.entry, R.urlOf('c', page.entry.context.slug))) : listLd();
 
     if (page.feed) mountFeed(page.feed);
     else if (feedIO){ feedIO.disconnect(); feedIO = null; }
@@ -753,7 +755,8 @@
       for (const a of viewIn.querySelectorAll('.seg')){
         const r = a.getBoundingClientRect();
         if (r.bottom < 0 || r.top > bottom) continue;
-        const e = S.byContextSlug(decodeURIComponent((a.getAttribute('href') || '').replace('#/c/', '')));
+        const to = routeOfLink(a) || '';
+        const e = to.startsWith('#/c/') ? S.byContextSlug(decodeURIComponent(to.slice(4).split('?')[0])) : null;
         if (e && !readCtx.has(e.id)) return toCtx(e, 'コンテクストへ');
       }
     }
@@ -983,10 +986,23 @@
       return;
     }
 
-    /* ページの中の # 道筋は、履歴に積んでから開く */
-    const a = t.closest('a[href^="#/"]');
-    if (a){ ev.preventDefault(); go(a.getAttribute('href'), { origin: a.closest('.view') ? null : rectOf(a) }); }
+    /* ページの中の道（# 道筋も、c/…/・w/…/・e/…/ の本物のアドレスも）は、読み直さずに
+       アプリの中で開き、履歴に積む。新しいタブで開くとき（⌘・Ctrl・中ボタン）はそのまま */
+    const a = t.closest('a[href]');
+    if (!a || a.target || ev.metaKey || ev.ctrlKey || ev.shiftKey || ev.altKey || ev.button > 0) return;
+    const route = a.getAttribute('href').startsWith('#/') ? a.getAttribute('href') : routeOfLink(a);
+    if (route){ ev.preventDefault(); go(route, { origin: a.closest('.view') ? null : rectOf(a) }); }
   });
+  /* c/区間/・w/作品/・e/編集者/ のアドレスを、アプリの道筋（#/c/…）に読み替える。サイトの外や、ほかのファイルは null */
+  function routeOfLink(a){
+    let u;
+    try { u = new URL(a.getAttribute('href') || '', document.baseURI); } catch (e) { return null; }
+    if (u.origin !== location.origin) return null;
+    const root = new URL('./', document.baseURI).pathname;
+    if (!u.pathname.startsWith(root)) return null;
+    const m = u.pathname.slice(root.length).match(/^(c|w|e)\/([^/]+)\/?$/);
+    return m ? `#/${m[1]}/${m[2]}${u.search}` : null;
+  }
 
   /* ---------- アカウント・フォロー・コメント ----------
      まず中身を見せ、名前は必要になったときにだけ作ってもらう（いまは見本：この端末の中だけ。js/social.js） */
@@ -1411,6 +1427,8 @@
   /* transition.js の「右へ払う」：このページでは左の端からの払い（上）が戻る役、メニューは左へ払ってしまう。
      ここでは何もしない（右へ払ってページを離れることもしない） */
   window.BCSwipeBack = () => held || !menu.hidden || view.classList.contains('on');
+  /* transition.js は、アプリの中で開く道（c/…/ など）には手を出さない */
+  window.BCRouteOf = routeOfLink;
 
   /* エディターや管理画面で書き換えられたら、組み直す */
   const rebuild = () => { R.buildTags(tags); paintSelection(); };
@@ -1495,6 +1513,11 @@
     toUni(false);
     stack.push(location.hash);
     routeTo(location.hash, null);
+  } else if (body.dataset.route){
+    /* 静的なページ（c/…/・w/…/・e/…/。検索から来た人の入口）：表紙を飛ばし、描いてあるページをそのまま引き継ぐ */
+    toUni(false);
+    stack.push(body.dataset.route);
+    routeTo(body.dataset.route, { pre: true });
   } else {
     armIdle();
   }

@@ -1,0 +1,336 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<base href="../../">
+<!-- 表紙のロゴは「画面」の真ん中に置く（ページの枠ではなく）。iOS 26 のホーム画面から開くと、ページの枠が
+     画面より下で短くなり、枠の真ん中では起動画面のマークより上にずれる。画面の高さを最初の一コマより前に渡す -->
+<script>
+document.documentElement.style.setProperty('--sh', (screen.height || innerHeight) + 'px');
+/* 見えないところで読み直したあと（新しい版への入れ替え）は、離れたときの画面のまま。灯る演出はしない */
+try { if (sessionStorage.getItem('bc-resume')) document.documentElement.classList.add('resume'); } catch (e) {}
+</script>
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,viewport-fit=cover">
+<title>ペーター・ハントケ ＋ ノーベル文学賞受賞者｜Beautiful Context</title>
+<meta name="description" content="天使の詩を書いた作家は、ノーベル文学賞を受けた。 ペーター・ハントケ と ノーベル文学賞受賞者。映画の脚本家は、小説家であり劇作家だった。ペーター・ハントケは2019年、ノーベル文学賞を受けた。劇作『観客罵倒』や小説で、言葉と知覚そのものを問い直してきた作家だ。受賞には政治的な発言をめぐる批判もあ…">
+<meta name="theme-color" content="#061629">
+<link rel="canonical" href="https://ks235278.github.io/beautiful-context-demo/c/peter-handke--nobel-literature-laureates/">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://ks235278.github.io/beautiful-context-demo/c/peter-handke--nobel-literature-laureates/">
+<meta property="og:title" content="ペーター・ハントケ ＋ ノーベル文学賞受賞者｜Beautiful Context">
+<meta property="og:description" content="天使の詩を書いた作家は、ノーベル文学賞を受けた。 ペーター・ハントケ と ノーベル文学賞受賞者。映画の脚本家は、小説家であり劇作家だった。ペーター・ハントケは2019年、ノーベル文学賞を受けた。劇作『観客罵倒』や小説で、言葉と知覚そのものを問い直してきた作家だ。受賞には政治的な発言をめぐる批判もあ…">
+<meta property="og:image" content="https://ks235278.github.io/beautiful-context-demo/img/works/peter-handke.jpg">
+<!-- ホーム画面から開くとき、読み込みのあいだに出る起動画面。表紙の最初の一コマ（回路とロゴ）と同じ絵
+     （端末ごとの大きさ。iOS は PNG を求める） -->
+<link rel="apple-touch-startup-image" media="(device-width: 440px) and (device-height: 956px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="img/launch/440x956@3.png">
+<link rel="apple-touch-startup-image" media="(device-width: 402px) and (device-height: 874px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="img/launch/402x874@3.png">
+<link rel="apple-touch-startup-image" media="(device-width: 430px) and (device-height: 932px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="img/launch/430x932@3.png">
+<link rel="apple-touch-startup-image" media="(device-width: 393px) and (device-height: 852px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="img/launch/393x852@3.png">
+<link rel="apple-touch-startup-image" media="(device-width: 420px) and (device-height: 912px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="img/launch/420x912@3.png">
+<link rel="apple-touch-startup-image" media="(device-width: 428px) and (device-height: 926px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="img/launch/428x926@3.png">
+<link rel="apple-touch-startup-image" media="(device-width: 390px) and (device-height: 844px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="img/launch/390x844@3.png">
+<link rel="apple-touch-startup-image" media="(device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="img/launch/375x812@3.png">
+<link rel="apple-touch-startup-image" media="(device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="img/launch/414x896@3.png">
+<link rel="apple-touch-startup-image" media="(device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" href="img/launch/414x896@2.png">
+<link rel="apple-touch-startup-image" media="(device-width: 375px) and (device-height: 667px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" href="img/launch/375x667@2.png">
+<!-- 表紙に最初から出すもの（回路とロゴ）は先に読む。描くときに待たせない -->
+<link rel="preload" as="image" href="img/pcb-charcoal.jpg">
+<link rel="preload" as="image" href="img/logo-layer-mark.png">
+<link rel="preload" as="image" href="img/logo-layer-words.png">
+<link rel="manifest" href="manifest.webmanifest?v=119">
+<link rel="apple-touch-icon" href="icon-180.png">
+<!-- ホーム画面から開くと全画面になり、safe-area が 0 でなくなる。
+     そのとき初めて Dynamic Island の裏までページが描ける。 -->
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Beautiful Context">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebSite","name":"Beautiful Context",
+ "url":"https://ks235278.github.io/beautiful-context-demo/","inLanguage":"ja",
+ "description":"二つの作品の意外なつながりを、独立したコンテクストページとして読むサービスのデモ。",
+ "potentialAction":{"@type":"SearchAction",
+   "target":"https://ks235278.github.io/beautiful-context-demo/#/search?q={search_term_string}",
+   "query-input":"required name=search_term_string"}}
+</script>
+<!-- 表紙の BEAUTIFUL CONTEXT は、先生の構成図と同じ Bebas Neue -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<!-- フォントは最初の一コマを待たせない（表紙のロゴは絵。Lato は UniverseIt! が出るまでに届く） -->
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Lato:wght@300;400;700&display=swap" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Lato:wght@300;400;700&display=swap"></noscript>
+<script src="js/theme.js?v=119"></script>
+<link rel="stylesheet" href="app.css?v=119">
+<link rel="stylesheet" href="fade.css?v=119">
+</head>
+<body class="stage-uni viewing route" data-route="#/c/peter-handke--nobel-literature-laureates">
+
+<!-- 背景は先生の構成図（flow0921-2）の回路の絵そのもの。
+     表紙では原寸の濃さ、UniverseIt! からは 50% に落とす（構成図のプロンプトどおり）。 -->
+<!-- 二つの画面が左右に並ぶ：左 ReMixIt!（A / WHITE）、右 UniverseIt!（B / CHARCOAL）。左右にスライドして入れ替わる -->
+<div id="bg" aria-hidden="true"><div class="pcb pcb-c"></div><div class="pcb pcb-w"></div><div class="veil"></div></div>
+
+<button class="menu-btn" id="menuBtn" type="button" aria-label="メニュー" aria-expanded="false" aria-controls="menu"><i></i><i></i><i></i></button>
+
+<section class="intro" id="intro" aria-label="表紙">
+  <h1 class="wordmark" id="wordmark" aria-label="BEAUTIFUL CONTEXT"><span class="lockup"><img class="words" src="img/logo-layer-words.png" alt="" decoding="sync"><img class="markl" src="img/logo-layer-mark.png" alt="" decoding="sync"></span></h1>
+</section>
+
+<main class="uni" id="uni" aria-label="UniverseIt!">
+  <div class="uni-frame" aria-hidden="true"><i class="fr fr-c"></i><i class="fr fr-w"></i></div>
+  <header class="uni-head" id="uniHead">
+    <h1 class="uni-title"><span class="tt tt-u">UniverseIt!</span><span class="tt tt-r" aria-hidden="true">ReMixIt!</span></h1>
+    <p class="uni-sub"><span class="tt tt-u" id="tagline">言葉から、つながりを辿る。</span><span class="tt tt-r" aria-hidden="true">言葉から、つながりを創る。</span></p>
+    <a class="to-today" href="#/today" data-home>TODAY'S EDITOR'S CHOICE ›</a>
+  </header>
+  <div class="uni-list" id="tags" aria-label="言葉"></div>
+</main>
+
+<div class="dock" id="dock">
+  <div class="map" id="map"></div>
+  <p class="sel-hint" id="selHint" aria-live="polite"></p>
+  <p class="dock-brand" id="dockBrand">BEAUTIFUL CONTEXT</p>
+  <!-- 読む画面（Today・コンテクスト・作品）では NEXT UNIVERSE だけ。戻るのは左の端から右へ払う（iPhone と同じ）か、上の ‹。
+       ReMixIt!（つながりを創る）は編集の側の道具なので、UniverseIt! の画面とメニューに置く -->
+  <div class="actions">
+    <a class="act remix" id="remix" href="editor.html?new=1">
+      <svg viewBox="0 0 32 32" aria-hidden="true"><circle cx="12" cy="16" r="8.5"/><circle cx="20" cy="16" r="8.5"/></svg>
+      <span><b>つながりを創る</b><small>ReMixIt!</small></span>
+    </a>
+    <button class="act uni-btn" id="uniBtn" type="button">
+      <svg viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="16" r="11"/><ellipse cx="16" cy="16" rx="4.8" ry="11"/><path d="M5 16h22M7 10.5h18M7 21.5h18M16 5v22"/></svg>
+      <span><b>NEXT UNIVERSE</b><small id="uniLabel">UniverseIt!</small></span>
+    </button>
+  </div>
+</div>
+
+<nav class="menu" id="menu" aria-label="メニュー" hidden>
+  <form class="seek" role="search" data-seek>
+    <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6"/><path d="m15 15 5 5"/></svg>
+    <input type="search" name="q" placeholder="言葉で辿る" enterkeyhint="search" aria-label="言葉で辿る">
+  </form>
+  <a href="#/today" data-home>Today's Editor's Choice<small>今日のつながり</small></a>
+  <a href="#/" data-uni>UniverseIt!<small>すべての言葉から辿る</small></a>
+  <a href="editor.html?new=1">ReMixIt!<small>つながりを創る</small></a>
+  <button type="button" class="menu-account" id="menuAccount" data-login>ログイン<small>アカウントを作る</small></button>
+  <a href="#/mission">Our Mission</a>
+  <a href="#/ad">広告枠のご案内</a>
+  <a href="#/credits">画像の出典</a>
+  <a href="#/terms">利用規約・プライバシー</a>
+  <a href="manage.html">運営者メニュー</a>
+  <div class="theme-pick" role="group" aria-label="地">
+    <button type="button" data-theme-set="white">ReMixIt!<small>A / WHITE</small></button>
+    <button type="button" data-theme-set="charcoal">UniverseIt!<small>B / CHARCOAL</small></button>
+  </div>
+</nav>
+
+<div class="view on" id="view" role="dialog" aria-modal="true" aria-label="ペーター・ハントケ ＋ ノーベル文学賞受賞者">
+  <div class="view-in" id="viewIn">
+      <article class="page cpage">
+        <button type="button" class="back-close" data-close="" aria-label="戻る"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 4.5 7.5 12l7.5 7.5"></path></svg></button>
+        <div class="duo-hero"><a class="c-logo" href="#/" data-top="" aria-label="BEAUTIFUL CONTEXT（TOP へ戻る）"><img src="img/logo.png" alt=""></a><div class="duo"><button type="button" class="duo-go" data-step="0" aria-label="ペーター・ハントケの作品ページへ"><div class="art"><img src="img/works/peter-handke.jpg" alt="ペーター・ハントケ" data-k="peter-handke" decoding="async"></div></button><button type="button" class="duo-go" data-step="2" aria-label="ノーベル文学賞受賞者の作品ページへ"><div class="art"><img src="img/works/nobel-literature-laureates.jpg" alt="ノーベル文学賞受賞者" data-k="nobel-literature-laureates" decoding="async"></div></button><i class="swap" aria-hidden="true">↔</i></div></div>
+        <section class="context-lead">
+          
+          <div class="ed-row">
+      <a class="ed-link" href="e/desk/"><span class="ava" aria-hidden="true">部</span><span><b>BC 編集部</b><small>EDITORIAL DESK</small></span></a>
+      <button type="button" class="follow" data-follow="desk" aria-pressed="false">フォロー</button></div>
+          <p class="route-label">CONTEXT　［2019年の受賞］　約20秒</p>
+          <h2>天使の詩を書いた作家は、<br>ノーベル文学賞を受けた。</h2>
+          <div class="pair"><span>ペーター・ハントケ</span><span>2019年</span><span>ノーベル文学賞</span></div>
+          <button type="button" class="read" data-read="">このつながりを読む　約20秒 <span aria-hidden="true">↓</span></button>
+        </section>
+        <article class="context-body" id="story">
+          <p class="meta">CONTEXT STORY</p>
+          <h2>映画の脚本家は、小説家であり劇作家だった。</h2><p>ペーター・ハントケは2019年、ノーベル文学賞を受けた。劇作『観客罵倒』や小説で、言葉と知覚そのものを問い直してきた作家だ。</p><p>受賞には政治的な発言をめぐる批判もあった。文学賞が作品だけでなく、作家という人間をも問われる賞であることを示した年でもある。</p>
+          
+      <section class="axes" aria-label="このつながりの型と評価">
+        <p class="meta">このつながり<span class="agm">生成AIの初稿・編集者の確認前</span></p>
+        <p class="ax-kind"><span>型<b>事実</b></span><span>ハブ<b>2019年</b></span></p>
+        <dl class="ax"><div><dt>意外性</dt><dd aria-label="3 / 5"><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i></dd></div><div><dt>共感度</dt><dd aria-label="3 / 5"><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i></dd></div><div><dt>コンテンツ性</dt><dd aria-label="4 / 5"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i></dd></div><div><dt>世界観近似性</dt><dd aria-label="4 / 5"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i></dd></div></dl>
+      </section>
+          
+          <p class="byline">BC 編集部　·　2026/9/30</p>
+          
+      <section class="comments" id="comments" data-ctx="seed-peter-handke--nobel-literature-laureates">
+        <p class="meta">COMMENTS<span class="cm-n">0</span></p>
+        <p class="cm-empty">まだコメントはありません。このつながりについて、最初のひとことを。</p>
+        <form class="cm-form" data-comment="seed-peter-handke--nobel-literature-laureates">
+          <textarea name="text" rows="2" maxlength="600" placeholder="このつながりについて、思ったことを" aria-label="コメント"></textarea>
+          <button type="submit">送る</button>
+        </form>
+        <p class="cm-note">送るときに、名前を一つ作ります。コメントは編集者が確かめてから表示されます。</p>
+      </section>
+          <p class="meta more-label">同じルーツのコンテクスト</p><a class="tease" href="c/wings-of-desire--peter-handke/">映画『ベルリン・天使の詩』 ＋ ペーター・ハントケ <span aria-hidden="true">›</span></a><a class="tease" href="c/t-s-eliot--nobel-literature-laureates/">T・S・エリオット ＋ ノーベル文学賞受賞者 <span aria-hidden="true">›</span></a><a class="tease" href="c/the-grapes-of-wrath--nobel-literature-laureates/">ジョン・スタインベック『怒りの葡萄』 ＋ ノーベル文学賞受賞者 <span aria-hidden="true">›</span></a>
+          
+      <aside class="c-ad" aria-label="広告">
+        <a href="#/ad">
+          <img class="c-ad-img" src="img/ad-hands.jpg" alt="" loading="lazy" decoding="async">
+          <span class="ad-mark">AD</span>
+          <span class="ad-copy"><b>この場所に、作品の広告を。</b><small>映画・音楽・書籍・イベント ── 広告枠のご案内</small></span>
+        </a>
+      </aside>
+          <p class="img-credit">画像：撮影 Wild + Team Agentur／CC BY-SA 3.0／Wikimedia Commons</p><p class="img-credit">画像：ガルシア＝マルケスのノーベル文学賞のメダルと賞状（コロンビア国立図書館）（撮影 Peter Angritt）／CC BY-SA 4.0／Wikimedia Commons　<a href="https://commons.wikimedia.org/wiki/File:Biblioteca_Nacional_-_Nobel_Prize_for_Literature_-_Gabriel_Garcia_Marquez.jpg" target="_blank" rel="noopener nofollow">出典</a></p>
+          
+          <section class="ctx-rail" aria-label="この先のつながり">
+            <p class="meta more-label">この先のつながり</p>
+            <ol class="rail" id="rail">
+        <li class="stop first">
+          
+          
+          <a class="fstop" href="w/nobel-literature-laureates/">
+            <span class="st-img"><img src="img/works/nobel-literature-laureates.jpg" alt="ノーベル文学賞受賞者" data-k="nobel-literature-laureates" loading="lazy" decoding="async"></span>
+            <span class="st-txt"><small>人物・1901–年</small>
+              <b>ノーベル文学賞受賞者</b><span>1901年から続くノーベル文学賞を受けた作家たち。</span></span>
+          </a>
+        </li>
+        <li class="stop">
+          
+          <a class="seg" href="c/the-grapes-of-wrath--nobel-literature-laureates/">
+            
+            <small>［1962年の受賞］　ハブ</small>
+            <b><span class="seg-copy">砂嵐の時代を描いて、ノーベル賞へ。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
+          <a class="fstop" href="w/the-grapes-of-wrath/?c=the-grapes-of-wrath--nobel-literature-laureates">
+            <span class="st-img"><img src="img/works/the-grapes-of-wrath.jpg" alt="ジョン・スタインベック『怒りの葡萄』" data-k="the-grapes-of-wrath" loading="lazy" decoding="async"></span>
+            <span class="st-txt"><small>書籍・1939年</small>
+              <b>ジョン・スタインベック『怒りの葡萄』</b><span>砂嵐に土地を奪われたオクラホマの農民ジョード一家が、仕事を求めてカリフォルニアへ向かう。ピューリッツァー賞を受けた。</span></span>
+          </a>
+        </li>
+        <li class="stop">
+          
+          <a class="seg" href="c/interstellar--the-grapes-of-wrath/">
+            
+            <small>［ダストボウル］　事実</small>
+            <b><span class="seg-copy">砂嵐の農場から、星の海へ。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
+          <a class="fstop" href="w/interstellar/?c=interstellar--the-grapes-of-wrath">
+            <span class="st-img"><img src="img/works/interstellar.jpg" alt="クリストファー・ノーラン『インターステラー』" data-k="interstellar" loading="lazy" decoding="async"></span>
+            <span class="st-txt"><small>映画・2014年</small>
+              <b>クリストファー・ノーラン『インターステラー』</b><span>砂嵐と作物の枯死に追い詰められた近未来の地球から、人類の移住先を探して宇宙へ向かう元宇宙飛行士と、地球に残された娘の物語。</span></span>
+          </a>
+        </li>
+        <li class="stop">
+          
+          <a class="seg" href="c/interstellar--christopher-nolan/">
+            
+            <small>［監督と作品］　作者と作品</small>
+            <b><span class="seg-copy">父は、本棚の向こうから娘を呼んだ。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
+          <a class="fstop" href="w/christopher-nolan/?c=interstellar--christopher-nolan">
+            <span class="st-img"><img src="img/works/christopher-nolan.jpg" alt="クリストファー・ノーラン" data-k="christopher-nolan" loading="lazy" decoding="async"></span>
+            <span class="st-txt"><small>人物・1970年</small>
+              <b>クリストファー・ノーラン</b><span>ロンドン生まれの映画監督。『ダークナイト』『インセプション』『インターステラー』『ダンケルク』『オッペンハイマー』。</span></span>
+          </a>
+        </li>
+        <li class="stop branch">
+          
+          <a class="seg" href="c/war-of-the-worlds-2005--interstellar/">
+            <span class="seg-from">インターステラー から分岐</span>
+            <small>［スピルバーグを経由して］　ハブ</small>
+            <b><span class="seg-copy">父と子の物語は、もう一人の監督へ渡った。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
+          <a class="fstop" href="w/war-of-the-worlds-2005/?c=war-of-the-worlds-2005--interstellar">
+            <span class="st-img"><img src="img/works/war-of-the-worlds-2005.jpg" alt="スピルバーグ『宇宙戦争』" data-k="war-of-the-worlds-2005" loading="lazy" decoding="async"></span>
+            <span class="st-txt"><small>映画・2005年</small>
+              <b>スピルバーグ『宇宙戦争』</b><span>ウェルズの小説を現代のアメリカに移し、別れた妻のもとで暮らす子どもたちを連れて逃げる父親をトム・クルーズが演じた。</span></span>
+          </a>
+        </li>
+        <li class="stop">
+          
+          <a class="seg" href="c/the-war-of-the-worlds--war-of-the-worlds-2005/">
+            
+            <small>［小説から映画へ］　事実</small>
+            <b><span class="seg-copy">火星人の侵略は、父と子の逃避行になった。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
+          <a class="fstop" href="w/the-war-of-the-worlds/?c=the-war-of-the-worlds--war-of-the-worlds-2005">
+            <span class="st-img"><img src="img/works/the-war-of-the-worlds.jpg" alt="H・G・ウェルズ『宇宙戦争』" data-k="the-war-of-the-worlds" loading="lazy" decoding="async"></span>
+            <span class="st-txt"><small>書籍・1898年</small>
+              <b>H・G・ウェルズ『宇宙戦争』</b><span>火星人がロンドン近郊に降り立ち、当時世界最強だった英国の文明をたちまち圧倒する。侵略SFの古典。</span></span>
+          </a>
+        </li>
+        <li class="stop">
+          
+          <a class="seg" href="c/the-planets--the-war-of-the-worlds/">
+            
+            <small>［火星、戦争をもたらす者］　似ている</small>
+            <b><span class="seg-copy">組曲の最初の星は、戦争の神だった。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
+          <a class="fstop" href="w/the-planets/?c=the-planets--the-war-of-the-worlds">
+            <span class="st-img"><img src="img/works/the-planets.jpg" alt="ホルスト『惑星』" data-k="the-planets" loading="lazy" decoding="async"></span>
+            <span class="st-txt"><small>音楽・1918年</small>
+              <b>ホルスト『惑星』</b><span>火星・金星・水星・木星・土星・天王星・海王星の七つの楽章からなる管弦楽組曲。「木星」の旋律は、のちに英国の愛国歌「我は汝に誓う、我が祖国よ」になった。</span></span>
+          </a>
+        </li>
+        <li class="stop branch">
+          
+          <a class="seg" href="c/interstellar--spaceship-earth/">
+            <span class="seg-from">インターステラー から分岐</span>
+            <small>［地球という船］　似ている</small>
+            <b><span class="seg-copy">人類は、船を乗り換えられるのか。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
+          <a class="fstop" href="w/spaceship-earth/?c=interstellar--spaceship-earth">
+            <span class="st-img"><img src="img/works/spaceship-earth.jpg" alt="バックミンスター・フラー『宇宙船地球号 操縦マニュアル』" data-k="spaceship-earth" loading="lazy" decoding="async"></span>
+            <span class="st-txt"><small>書籍・1969年</small>
+              <b>バックミンスター・フラー『宇宙船地球号 操縦マニュアル』</b><span>地球を、限られた資源で航行する一隻の宇宙船にたとえ、人類はその操縦のしかたを学ばねばならないと説いた。</span></span>
+          </a>
+        </li>
+        <li class="stop">
+          
+          <a class="seg" href="c/buckminster-fuller--spaceship-earth/">
+            
+            <small>［作者と作品］　作者と作品</small>
+            <b><span class="seg-copy">地球には、操縦マニュアルがない。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
+          <a class="fstop" href="w/buckminster-fuller/?c=buckminster-fuller--spaceship-earth">
+            <span class="st-img"><img src="img/works/buckminster-fuller.jpg" alt="バックミンスター・フラー" data-k="buckminster-fuller" loading="lazy" decoding="async"></span>
+            <span class="st-txt"><small>人物・1895年</small>
+              <b>バックミンスター・フラー</b><span>ジオデシック・ドームを考案したアメリカの思想家・建築家。「宇宙船地球号」という言葉を広めた。</span></span>
+          </a>
+        </li>
+        <li class="stop">
+          
+          <a class="seg" href="c/buckminster-fuller--think-different/">
+            
+            <small>［クレイジーな人たち］　事実</small>
+            <b><span class="seg-copy">世界を変えられると本気で信じた人。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
+          <a class="fstop" href="w/think-different/?c=buckminster-fuller--think-different">
+            <span class="st-img"><img src="img/works/think-different.jpg" alt="アップル「Think Different」" data-k="think-different" loading="lazy" decoding="async"></span>
+            <span class="st-txt"><small>広告・1997年</small>
+              <b>アップル「Think Different」</b><span>1997年にアップルが始めた広告キャンペーン。アインシュタイン、ガンディー、ピカソら、世界を変えた「クレイジーな人たち」への賛辞を掲げた。</span></span>
+          </a>
+        </li>
+        <li class="stop">
+          
+          <a class="seg" href="c/nineteen-eighty-four--think-different/">
+            
+            <small>［1984年は『1984年』のようにはならない］　ハブ</small>
+            <b><span class="seg-copy">ビッグ・ブラザーを、ハンマーが打ち砕いた。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
+          <a class="fstop" href="w/nineteen-eighty-four/?c=nineteen-eighty-four--think-different">
+            <span class="st-img"><img src="img/works/nineteen-eighty-four.jpg" alt="ジョージ・オーウェル『1984年』" data-k="nineteen-eighty-four" loading="lazy" decoding="async"></span>
+            <span class="st-txt"><small>書籍・1949年</small>
+              <b>ジョージ・オーウェル『1984年』</b><span>「ビッグ・ブラザー」がすべてを監視する全体主義国家オセアニアで、真理省に勤めるウィンストンが体制に疑いを抱く。</span></span>
+          </a>
+        </li>
+        <li class="stop">
+          
+          <a class="seg" href="c/nineteen-eighty-four--blade-runner/">
+            
+            <small>［リドリー・スコットを経由して］　ハブ</small>
+            <b><span class="seg-copy">監督は、『1984年』の広告も撮っていた。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
+          <a class="fstop" href="w/blade-runner/?c=nineteen-eighty-four--blade-runner">
+            <span class="st-img"><img src="img/works/blade-runner.jpg" alt="リドリー・スコット『ブレードランナー』" data-k="blade-runner" loading="lazy" decoding="async"></span>
+            <span class="st-txt"><small>映画・1982年</small>
+              <b>リドリー・スコット『ブレードランナー』</b><span>フィリップ・K・ディックの小説『アンドロイドは電気羊の夢を見るか？』を原作に、2019年のロサンゼルスで人造人間を追う男を描いた映画。</span></span>
+          </a>
+        </li></ol>
+            <div class="rail-more" id="railMore" aria-hidden="true"></div>
+          </section>
+        </article>
+      </article></div>
+</div>
+<!-- 左の端：ここから右へ払うと、ひとつ前の画面へ戻る（指に付いてページが動く） -->
+<div class="edge-back" id="edgeBack" aria-hidden="true"></div>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+<script type="application/ld+json" id="ld">{"@context":"https://schema.org","@type":"Article","headline":"天使の詩を書いた作家は、ノーベル文学賞を受けた。","alternativeHeadline":"2019年の受賞","about":[{"@type":"Person","name":"ペーター・ハントケ","description":"オーストリアの作家・劇作家。『ベルリン・天使の詩』の脚本に加わり、2019年にノーベル文学賞を受賞した。"},{"@type":"Person","name":"ノーベル文学賞受賞者","description":"1901年から続くノーベル文学賞を受けた作家たち。"}],"author":{"@type":"Person","name":"生成AI（初稿）"},"datePublished":"2026-09-30T07:20:00.000Z","dateModified":"2026-09-30T07:20:00.000Z","inLanguage":"ja","articleBody":"映画の脚本家は、小説家であり劇作家だった。ペーター・ハントケは2019年、ノーベル文学賞を受けた。劇作『観客罵倒』や小説で、言葉と知覚そのものを問い直してきた作家だ。受賞には政治的な発言をめぐる批判もあった。文学賞が作品だけでなく、作家という人間をも問われる賞であることを示した年でもある。","url":"https://ks235278.github.io/beautiful-context-demo/c/peter-handke--nobel-literature-laureates/","image":"https://ks235278.github.io/beautiful-context-demo/img/works/peter-handke.jpg"}</script>
+
+<script src="js/seed.js?v=119"></script>
+<script src="js/store.js?v=119"></script>
+<script src="js/social.js?v=119"></script>
+<script src="js/render.js?v=119"></script>
+<script src="js/transition.js?v=119"></script>
+<script src="js/app.js?v=119"></script>
+</body>
+</html>

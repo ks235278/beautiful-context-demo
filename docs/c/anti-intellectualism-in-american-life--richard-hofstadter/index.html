@@ -1,0 +1,333 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<base href="../../">
+<!-- 表紙のロゴは「画面」の真ん中に置く（ページの枠ではなく）。iOS 26 のホーム画面から開くと、ページの枠が
+     画面より下で短くなり、枠の真ん中では起動画面のマークより上にずれる。画面の高さを最初の一コマより前に渡す -->
+<script>
+document.documentElement.style.setProperty('--sh', (screen.height || innerHeight) + 'px');
+/* 見えないところで読み直したあと（新しい版への入れ替え）は、離れたときの画面のまま。灯る演出はしない */
+try { if (sessionStorage.getItem('bc-resume')) document.documentElement.classList.add('resume'); } catch (e) {}
+</script>
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,viewport-fit=cover">
+<title>アメリカの反知性主義 ＋ リチャード・ホーフスタッター｜Beautiful Context</title>
+<meta name="description" content="ピュリッツァー賞を二度受けた歴史家。 アメリカの反知性主義 と リチャード・ホーフスタッター。歴史家は、自分の国の弱点を正面から書いた。リチャード・ホーフスタッターはコロンビア大学の歴史家。『改革の時代』と『アメリカの反知性主義』で、二度ピュリッツァー賞を受けた。1950年代のマッカーシズムの時代…">
+<meta name="theme-color" content="#061629">
+<link rel="canonical" href="https://ks235278.github.io/beautiful-context-demo/c/anti-intellectualism-in-american-life--richard-hofstadter/">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://ks235278.github.io/beautiful-context-demo/c/anti-intellectualism-in-american-life--richard-hofstadter/">
+<meta property="og:title" content="アメリカの反知性主義 ＋ リチャード・ホーフスタッター｜Beautiful Context">
+<meta property="og:description" content="ピュリッツァー賞を二度受けた歴史家。 アメリカの反知性主義 と リチャード・ホーフスタッター。歴史家は、自分の国の弱点を正面から書いた。リチャード・ホーフスタッターはコロンビア大学の歴史家。『改革の時代』と『アメリカの反知性主義』で、二度ピュリッツァー賞を受けた。1950年代のマッカーシズムの時代…">
+<meta property="og:image" content="https://ks235278.github.io/beautiful-context-demo/img/works/anti-intellectualism-in-american-life.jpg">
+<!-- ホーム画面から開くとき、読み込みのあいだに出る起動画面。表紙の最初の一コマ（回路とロゴ）と同じ絵
+     （端末ごとの大きさ。iOS は PNG を求める） -->
+<link rel="apple-touch-startup-image" media="(device-width: 440px) and (device-height: 956px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="img/launch/440x956@3.png">
+<link rel="apple-touch-startup-image" media="(device-width: 402px) and (device-height: 874px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="img/launch/402x874@3.png">
+<link rel="apple-touch-startup-image" media="(device-width: 430px) and (device-height: 932px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="img/launch/430x932@3.png">
+<link rel="apple-touch-startup-image" media="(device-width: 393px) and (device-height: 852px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="img/launch/393x852@3.png">
+<link rel="apple-touch-startup-image" media="(device-width: 420px) and (device-height: 912px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="img/launch/420x912@3.png">
+<link rel="apple-touch-startup-image" media="(device-width: 428px) and (device-height: 926px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="img/launch/428x926@3.png">
+<link rel="apple-touch-startup-image" media="(device-width: 390px) and (device-height: 844px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="img/launch/390x844@3.png">
+<link rel="apple-touch-startup-image" media="(device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="img/launch/375x812@3.png">
+<link rel="apple-touch-startup-image" media="(device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="img/launch/414x896@3.png">
+<link rel="apple-touch-startup-image" media="(device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" href="img/launch/414x896@2.png">
+<link rel="apple-touch-startup-image" media="(device-width: 375px) and (device-height: 667px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" href="img/launch/375x667@2.png">
+<!-- 表紙に最初から出すもの（回路とロゴ）は先に読む。描くときに待たせない -->
+<link rel="preload" as="image" href="img/pcb-charcoal.jpg">
+<link rel="preload" as="image" href="img/logo-layer-mark.png">
+<link rel="preload" as="image" href="img/logo-layer-words.png">
+<link rel="manifest" href="manifest.webmanifest?v=119">
+<link rel="apple-touch-icon" href="icon-180.png">
+<!-- ホーム画面から開くと全画面になり、safe-area が 0 でなくなる。
+     そのとき初めて Dynamic Island の裏までページが描ける。 -->
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Beautiful Context">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebSite","name":"Beautiful Context",
+ "url":"https://ks235278.github.io/beautiful-context-demo/","inLanguage":"ja",
+ "description":"二つの作品の意外なつながりを、独立したコンテクストページとして読むサービスのデモ。",
+ "potentialAction":{"@type":"SearchAction",
+   "target":"https://ks235278.github.io/beautiful-context-demo/#/search?q={search_term_string}",
+   "query-input":"required name=search_term_string"}}
+</script>
+<!-- 表紙の BEAUTIFUL CONTEXT は、先生の構成図と同じ Bebas Neue -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<!-- フォントは最初の一コマを待たせない（表紙のロゴは絵。Lato は UniverseIt! が出るまでに届く） -->
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Lato:wght@300;400;700&display=swap" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Lato:wght@300;400;700&display=swap"></noscript>
+<script src="js/theme.js?v=119"></script>
+<link rel="stylesheet" href="app.css?v=119">
+<link rel="stylesheet" href="fade.css?v=119">
+</head>
+<body class="stage-uni viewing route" data-route="#/c/anti-intellectualism-in-american-life--richard-hofstadter">
+
+<!-- 背景は先生の構成図（flow0921-2）の回路の絵そのもの。
+     表紙では原寸の濃さ、UniverseIt! からは 50% に落とす（構成図のプロンプトどおり）。 -->
+<!-- 二つの画面が左右に並ぶ：左 ReMixIt!（A / WHITE）、右 UniverseIt!（B / CHARCOAL）。左右にスライドして入れ替わる -->
+<div id="bg" aria-hidden="true"><div class="pcb pcb-c"></div><div class="pcb pcb-w"></div><div class="veil"></div></div>
+
+<button class="menu-btn" id="menuBtn" type="button" aria-label="メニュー" aria-expanded="false" aria-controls="menu"><i></i><i></i><i></i></button>
+
+<section class="intro" id="intro" aria-label="表紙">
+  <h1 class="wordmark" id="wordmark" aria-label="BEAUTIFUL CONTEXT"><span class="lockup"><img class="words" src="img/logo-layer-words.png" alt="" decoding="sync"><img class="markl" src="img/logo-layer-mark.png" alt="" decoding="sync"></span></h1>
+</section>
+
+<main class="uni" id="uni" aria-label="UniverseIt!">
+  <div class="uni-frame" aria-hidden="true"><i class="fr fr-c"></i><i class="fr fr-w"></i></div>
+  <header class="uni-head" id="uniHead">
+    <h1 class="uni-title"><span class="tt tt-u">UniverseIt!</span><span class="tt tt-r" aria-hidden="true">ReMixIt!</span></h1>
+    <p class="uni-sub"><span class="tt tt-u" id="tagline">言葉から、つながりを辿る。</span><span class="tt tt-r" aria-hidden="true">言葉から、つながりを創る。</span></p>
+    <a class="to-today" href="#/today" data-home>TODAY'S EDITOR'S CHOICE ›</a>
+  </header>
+  <div class="uni-list" id="tags" aria-label="言葉"></div>
+</main>
+
+<div class="dock" id="dock">
+  <div class="map" id="map"></div>
+  <p class="sel-hint" id="selHint" aria-live="polite"></p>
+  <p class="dock-brand" id="dockBrand">BEAUTIFUL CONTEXT</p>
+  <!-- 読む画面（Today・コンテクスト・作品）では NEXT UNIVERSE だけ。戻るのは左の端から右へ払う（iPhone と同じ）か、上の ‹。
+       ReMixIt!（つながりを創る）は編集の側の道具なので、UniverseIt! の画面とメニューに置く -->
+  <div class="actions">
+    <a class="act remix" id="remix" href="editor.html?new=1">
+      <svg viewBox="0 0 32 32" aria-hidden="true"><circle cx="12" cy="16" r="8.5"/><circle cx="20" cy="16" r="8.5"/></svg>
+      <span><b>つながりを創る</b><small>ReMixIt!</small></span>
+    </a>
+    <button class="act uni-btn" id="uniBtn" type="button">
+      <svg viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="16" r="11"/><ellipse cx="16" cy="16" rx="4.8" ry="11"/><path d="M5 16h22M7 10.5h18M7 21.5h18M16 5v22"/></svg>
+      <span><b>NEXT UNIVERSE</b><small id="uniLabel">UniverseIt!</small></span>
+    </button>
+  </div>
+</div>
+
+<nav class="menu" id="menu" aria-label="メニュー" hidden>
+  <form class="seek" role="search" data-seek>
+    <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6"/><path d="m15 15 5 5"/></svg>
+    <input type="search" name="q" placeholder="言葉で辿る" enterkeyhint="search" aria-label="言葉で辿る">
+  </form>
+  <a href="#/today" data-home>Today's Editor's Choice<small>今日のつながり</small></a>
+  <a href="#/" data-uni>UniverseIt!<small>すべての言葉から辿る</small></a>
+  <a href="editor.html?new=1">ReMixIt!<small>つながりを創る</small></a>
+  <button type="button" class="menu-account" id="menuAccount" data-login>ログイン<small>アカウントを作る</small></button>
+  <a href="#/mission">Our Mission</a>
+  <a href="#/ad">広告枠のご案内</a>
+  <a href="#/credits">画像の出典</a>
+  <a href="#/terms">利用規約・プライバシー</a>
+  <a href="manage.html">運営者メニュー</a>
+  <div class="theme-pick" role="group" aria-label="地">
+    <button type="button" data-theme-set="white">ReMixIt!<small>A / WHITE</small></button>
+    <button type="button" data-theme-set="charcoal">UniverseIt!<small>B / CHARCOAL</small></button>
+  </div>
+</nav>
+
+<div class="view on" id="view" role="dialog" aria-modal="true" aria-label="アメリカの反知性主義 ＋ リチャード・ホーフスタッター">
+  <div class="view-in" id="viewIn">
+      <article class="page cpage">
+        <button type="button" class="back-close" data-close="" aria-label="戻る"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 4.5 7.5 12l7.5 7.5"></path></svg></button>
+        <div class="duo-hero"><a class="c-logo" href="#/" data-top="" aria-label="BEAUTIFUL CONTEXT（TOP へ戻る）"><img src="img/logo.png" alt=""></a><div class="duo"><button type="button" class="duo-go" data-step="0" aria-label="アメリカの反知性主義の作品ページへ"><div class="art"><img src="img/works/anti-intellectualism-in-american-life.jpg" alt="アメリカの反知性主義" data-k="anti-intellectualism-in-american-life" decoding="async"></div></button><button type="button" class="duo-go" data-step="2" aria-label="リチャード・ホーフスタッターの作品ページへ"><div class="art"><img src="img/works/richard-hofstadter.jpg" alt="リチャード・ホーフスタッター" data-k="richard-hofstadter" decoding="async"></div></button><i class="swap" aria-hidden="true">↔</i></div></div>
+        <section class="context-lead">
+          
+          <div class="ed-row">
+      <a class="ed-link" href="e/desk/"><span class="ava" aria-hidden="true">部</span><span><b>BC 編集部</b><small>EDITORIAL DESK</small></span></a>
+      <button type="button" class="follow" data-follow="desk" aria-pressed="false">フォロー</button></div>
+          <p class="route-label">CONTEXT　［著者と作品］　約15秒</p>
+          <h2>ピュリッツァー賞を<br>二度受けた歴史家。</h2>
+          <div class="pair"><span>リチャード・ホーフスタッター</span><span>著者</span><span>『アメリカの反知性主義』</span></div>
+          <button type="button" class="read" data-read="">このつながりを読む　約15秒 <span aria-hidden="true">↓</span></button>
+        </section>
+        <article class="context-body" id="story">
+          <p class="meta">CONTEXT STORY</p>
+          <h2>歴史家は、自分の国の弱点を正面から書いた。</h2><p>リチャード・ホーフスタッターはコロンビア大学の歴史家。『改革の時代』と『アメリカの反知性主義』で、二度ピュリッツァー賞を受けた。</p><p>1950年代のマッカーシズムの時代を見つめた経験が、この本の背景にある。</p>
+          
+      <section class="axes" aria-label="このつながりの型と評価">
+        <p class="meta">このつながり<span class="agm">生成AIの初稿・編集者の確認前</span></p>
+        <p class="ax-kind"><span>型<b>作者と作品</b></span><span>ハブ<b>著者</b></span></p>
+        <dl class="ax"><div><dt>意外性</dt><dd aria-label="3 / 5"><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i></dd></div><div><dt>共感度</dt><dd aria-label="3 / 5"><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i></dd></div><div><dt>コンテンツ性</dt><dd aria-label="4 / 5"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i></dd></div><div><dt>世界観近似性</dt><dd aria-label="5 / 5"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i></dd></div></dl>
+      </section>
+          
+          <p class="byline">BC 編集部　·　2026/9/30</p>
+          
+      <section class="comments" id="comments" data-ctx="seed-anti-intellectualism-in-american-life--richard-hofstadter">
+        <p class="meta">COMMENTS<span class="cm-n">0</span></p>
+        <p class="cm-empty">まだコメントはありません。このつながりについて、最初のひとことを。</p>
+        <form class="cm-form" data-comment="seed-anti-intellectualism-in-american-life--richard-hofstadter">
+          <textarea name="text" rows="2" maxlength="600" placeholder="このつながりについて、思ったことを" aria-label="コメント"></textarea>
+          <button type="submit">送る</button>
+        </form>
+        <p class="cm-note">送るときに、名前を一つ作ります。コメントは編集者が確かめてから表示されます。</p>
+      </section>
+          <p class="meta more-label">同じルーツのコンテクスト</p><a class="tease" href="c/elmer-gantry--anti-intellectualism-in-american-life/">映画「エルマー・ガントリー」 ＋ アメリカの反知性主義 <span aria-hidden="true">›</span></a><a class="tease" href="c/anti-intellectualism--anti-intellectualism-in-american-life/">反知性主義 ＋ アメリカの反知性主義 <span aria-hidden="true">›</span></a>
+          
+      <aside class="c-ad" aria-label="広告">
+        <a href="#/ad">
+          <img class="c-ad-img" src="img/ad-hands.jpg" alt="" loading="lazy" decoding="async">
+          <span class="ad-mark">AD</span>
+          <span class="ad-copy"><b>この場所に、作品の広告を。</b><small>映画・音楽・書籍・イベント ── 広告枠のご案内</small></span>
+        </a>
+      </aside>
+          <p class="img-credit">画像：みすず書房版の表紙／© みすず書房／出典 みすず書房　<a href="https://www.msz.co.jp/book/detail/07066/" target="_blank" rel="noopener nofollow">出典</a></p><p class="img-credit">画像：ホーフスタッターが教えたコロンビア大学の「アルマ・マーテル」像／Public domain／Wikimedia Commons　<a href="https://commons.wikimedia.org/wiki/File:Almamater.jpg" target="_blank" rel="noopener nofollow">出典</a></p>
+          
+          <section class="ctx-rail" aria-label="この先のつながり">
+            <p class="meta more-label">この先のつながり</p>
+            <ol class="rail" id="rail">
+        <li class="stop first">
+          
+          
+          <a class="fstop" href="w/richard-hofstadter/">
+            <span class="st-img"><img src="img/works/richard-hofstadter.jpg" alt="リチャード・ホーフスタッター" data-k="richard-hofstadter" loading="lazy" decoding="async"></span>
+            <span class="st-txt"><small>人物</small>
+              <b>リチャード・ホーフスタッター</b><span>アメリカの歴史家。コロンビア大学で教え、『アメリカの反知性主義』などで二度ピュリッツァー賞を受けた。</span></span>
+          </a>
+        </li>
+        <li class="stop newline">
+          <p class="transfer"><span>別の路線へ</span></p>
+          
+          <a class="fstop" href="w/crime-and-punishment/">
+            <span class="st-img"><img src="img/works/crime-and-punishment.jpg" alt="罪と罰" data-k="crime-and-punishment" loading="lazy" decoding="async"></span>
+            <span class="st-txt"><small>書籍・1866年</small>
+              <b>罪と罰</b><span>貧しい元学生ラスコーリニコフが、自分の理屈で老婆を殺し、罪の意識に追いつめられていく長編小説。</span></span>
+          </a>
+        </li>
+        <li class="stop">
+          
+          <a class="seg" href="c/crime-and-punishment--fyodor-dostoevsky/">
+            
+            <small>［作家と作品］　作者と作品</small>
+            <b><span class="seg-copy">理屈で殺した青年は、良心に追いつめられる。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
+          <a class="fstop" href="w/fyodor-dostoevsky/?c=crime-and-punishment--fyodor-dostoevsky">
+            <span class="st-img"><img src="img/works/fyodor-dostoevsky.jpg" alt="ドストエフスキー" data-k="fyodor-dostoevsky" loading="lazy" decoding="async"></span>
+            <span class="st-txt"><small>人物</small>
+              <b>ドストエフスキー</b><span>ロシアの作家。『罪と罰』『カラマーゾフの兄弟』などで、人間の内面と信仰を深く描いた。</span></span>
+          </a>
+        </li>
+        <li class="stop">
+          
+          <a class="seg" href="c/the-outsider--fyodor-dostoevsky/">
+            
+            <small>［アウトサイダーの系譜］　事実</small>
+            <b><span class="seg-copy">社会の外に立つ人間の原型が、ここにいる。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
+          <a class="fstop" href="w/the-outsider/?c=the-outsider--fyodor-dostoevsky">
+            <span class="st-img"><img src="img/works/the-outsider.jpg" alt="コリン・ウィルソン『アウトサイダー』" data-k="the-outsider" loading="lazy" decoding="async"></span>
+            <span class="st-txt"><small>書籍・1956年</small>
+              <b>コリン・ウィルソン『アウトサイダー』</b><span>社会の中に居場所を見いだせない人間＝アウトサイダーを、カミュ、ドストエフスキー、ゴッホらの作品と生涯からたどった評論。20代半ばのデビュー作がベストセラーになった。</span></span>
+          </a>
+        </li>
+        <li class="stop">
+          
+          <a class="seg" href="c/the-outsider--tanaka-isson/">
+            
+            <small>［中央から離れて］　似ている</small>
+            <b><span class="seg-copy">画壇の外で、描き続けた画家。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
+          <a class="fstop" href="w/tanaka-isson/?c=the-outsider--tanaka-isson">
+            <span class="st-img"><img src="img/works/tanaka-isson.jpg" alt="田中一村" data-k="tanaka-isson" loading="lazy" decoding="async"></span>
+            <span class="st-txt"><small>人物・1908年</small>
+              <b>田中一村</b><span>50歳で奄美大島に移り住み、亜熱帯の植物や鳥を描き続けた日本画家。中央の画壇から離れて暮らした。</span></span>
+          </a>
+        </li>
+        <li class="stop">
+          
+          <a class="seg" href="c/tanaka-isson--kusamakura/">
+            
+            <small>［世を離れて描く］　似ている</small>
+            <b><span class="seg-copy">小説の画工を、生きてしまった画家がいる。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
+          <a class="fstop" href="w/kusamakura/?c=tanaka-isson--kusamakura">
+            <span class="st-img"><img src="img/kusamakura.jpg" alt="夏目漱石『草枕』" data-k="kusamakura" loading="lazy" decoding="async"></span>
+            <span class="st-txt"><small>書籍・1906年</small>
+              <b>夏目漱石『草枕』</b><span>「智に働けば角が立つ。情に棹させば流される。」で始まる、画工が非人情の世界を求めて旅する小説。</span></span>
+          </a>
+        </li>
+        <li class="stop">
+          
+          <a class="seg" href="c/glenn-gould--kusamakura/">
+            
+            <small>［非人情という共通言語］　事実</small>
+            <b><span class="seg-copy">枕元にあった二冊は、聖書と『草枕』だった。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
+          <a class="fstop" href="w/glenn-gould/?c=glenn-gould--kusamakura">
+            <span class="st-img"><img src="img/gould.jpg" alt="グレン・グールド" data-k="glenn-gould" loading="lazy" decoding="async"></span>
+            <span class="st-txt"><small>人物・1932年</small>
+              <b>グレン・グールド</b><span>バッハ演奏で知られ、クラシック音楽における「演奏とは何か」という考え方そのものを変えた20世紀を代表するピアニスト。</span></span>
+          </a>
+        </li>
+        <li class="stop">
+          
+          <a class="seg" href="c/glenn-gould--goldberg-variations/">
+            
+            <small>［始まりと終わりの録音］　事実</small>
+            <b><span class="seg-copy">デビューも最後の録音も、同じ曲だった。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
+          <a class="fstop" href="w/goldberg-variations/?c=glenn-gould--goldberg-variations">
+            <span class="st-img"><img src="img/works/goldberg-variations.jpg" alt="バッハ『ゴールドベルク変奏曲』" data-k="goldberg-variations" loading="lazy" decoding="async"></span>
+            <span class="st-txt"><small>音楽・1741年</small>
+              <b>バッハ『ゴールドベルク変奏曲』</b><span>アリアと30の変奏からなる鍵盤作品。1741年ごろに出版された。グレン・グールドの1955年の録音によって、20世紀に広く聴かれる曲になった。</span></span>
+          </a>
+        </li>
+        <li class="stop">
+          
+          <a class="seg" href="c/goldberg-variations--brad-mehldau/">
+            
+            <small>［バッハを経由して］　ハブ</small>
+            <b><span class="seg-copy">ジャズのピアニストも、バッハから始め直した。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
+          <a class="fstop" href="w/brad-mehldau/?c=goldberg-variations--brad-mehldau">
+            <span class="st-img"><img src="img/works/brad-mehldau.jpg" alt="ブラッド・メルドー" data-k="brad-mehldau" loading="lazy" decoding="async"></span>
+            <span class="st-txt"><small>音楽・1970年</small>
+              <b>ブラッド・メルドー</b><span>アメリカのジャズ・ピアニスト。ピアノ・トリオでの演奏のほか、バッハやロックの曲を独自に解釈した録音でも知られる。</span></span>
+          </a>
+        </li>
+        <li class="stop branch">
+          
+          <a class="seg" href="c/kusamakura--natsume-soseki/">
+            <span class="seg-from">草枕 から分岐</span>
+            <small>［画工の目、作家の目］　作者と作品</small>
+            <b><span class="seg-copy">「非人情」は、漱石自身の宿題だった。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
+          <a class="fstop" href="w/natsume-soseki/?c=kusamakura--natsume-soseki">
+            <span class="st-img"><img src="img/works/natsume-soseki.jpg" alt="夏目漱石" data-k="natsume-soseki" loading="lazy" decoding="async"></span>
+            <span class="st-txt"><small>人物・1867年</small>
+              <b>夏目漱石</b><span>『吾輩は猫である』『坊っちゃん』『草枕』『こころ』の作家。熊本の第五高等学校で教えたのち、1900年から英国に留学した。</span></span>
+          </a>
+        </li>
+        <li class="stop">
+          
+          <a class="seg" href="c/natsume-soseki--zhou-tokyo-diary/">
+            
+            <small>［異国の都の日記］　似ている</small>
+            <b><span class="seg-copy">漱石はロンドンで、周恩来は東京で書いた。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
+          <a class="fstop" href="w/zhou-tokyo-diary/?c=natsume-soseki--zhou-tokyo-diary">
+            <span class="st-img"><img src="img/zhou-diary.jpg" alt="周恩来『十九歳の東京日記』" data-k="zhou-tokyo-diary" loading="lazy" decoding="async"></span>
+            <span class="st-txt"><small>書籍・1918年</small>
+              <b>周恩来『十九歳の東京日記』</b><span>日本に留学していた周恩来が、1918年の東京で書いた日記。神保町、早稲田、浅草、上野、日本橋――19歳の青年が見た百年前の東京が記されている。</span></span>
+          </a>
+        </li>
+        <li class="stop">
+          
+          <a class="seg" href="c/kanyoro--zhou-tokyo-diary/">
+            
+            <small>［若き日の東京］　事実</small>
+            <b><span class="seg-copy">百年前の留学生は、神田の街を歩いていた。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
+          <a class="fstop" href="w/kanyoro/?c=kanyoro--zhou-tokyo-diary">
+            <span class="st-img"><img src="img/kanyoro.jpg" alt="中国名菜『漢陽楼』" data-k="kanyoro" loading="lazy" decoding="async"></span>
+            <span class="st-txt"><small>店・1911年</small>
+              <b>中国名菜『漢陽楼』</b><span>明治四十四年創業を掲げる、東京・神田の中国料理店。</span></span>
+          </a>
+        </li></ol>
+            <div class="rail-more" id="railMore" aria-hidden="true"></div>
+          </section>
+        </article>
+      </article></div>
+</div>
+<!-- 左の端：ここから右へ払うと、ひとつ前の画面へ戻る（指に付いてページが動く） -->
+<div class="edge-back" id="edgeBack" aria-hidden="true"></div>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+<script type="application/ld+json" id="ld">{"@context":"https://schema.org","@type":"Article","headline":"ピュリッツァー賞を二度受けた歴史家。","alternativeHeadline":"著者と作品","about":[{"@type":"Book","name":"アメリカの反知性主義","description":"アメリカ社会に根づく知性への反発を、宗教・政治・ビジネス・教育の歴史からたどった本。ピュリッツァー賞を受賞した。","creator":{"@type":"Person","name":"リチャード・ホーフスタッター（田村哲夫 訳）"}},{"@type":"Person","name":"リチャード・ホーフスタッター","description":"アメリカの歴史家。コロンビア大学で教え、『アメリカの反知性主義』などで二度ピュリッツァー賞を受けた。"}],"author":{"@type":"Person","name":"生成AI（初稿）"},"datePublished":"2026-09-30T05:10:00.000Z","dateModified":"2026-09-30T05:10:00.000Z","inLanguage":"ja","articleBody":"歴史家は、自分の国の弱点を正面から書いた。リチャード・ホーフスタッターはコロンビア大学の歴史家。『改革の時代』と『アメリカの反知性主義』で、二度ピュリッツァー賞を受けた。1950年代のマッカーシズムの時代を見つめた経験が、この本の背景にある。","url":"https://ks235278.github.io/beautiful-context-demo/c/anti-intellectualism-in-american-life--richard-hofstadter/","image":"https://ks235278.github.io/beautiful-context-demo/img/works/anti-intellectualism-in-american-life.jpg"}</script>
+
+<script src="js/seed.js?v=119"></script>
+<script src="js/store.js?v=119"></script>
+<script src="js/social.js?v=119"></script>
+<script src="js/render.js?v=119"></script>
+<script src="js/transition.js?v=119"></script>
+<script src="js/app.js?v=119"></script>
+</body>
+</html>

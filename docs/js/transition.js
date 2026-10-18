@@ -26,6 +26,9 @@
     const href = a.getAttribute('href');
     if (!href || href.startsWith('#') || /^[a-z]+:/i.test(href)) return;
     if (a.target === '_blank') return;
+    /* 作品・区間・編集者のアドレス（c/…/ など）は、index の中でその場で開く（app.js） */
+    if (typeof window.BCRouteOf === 'function' && window.BCRouteOf(a)) return;
+    if (ev.metaKey || ev.ctrlKey || ev.shiftKey || ev.altKey) return;
     ev.preventDefault();
     fadeOut();
     setTimeout(() => { location.href = href; }, 300);

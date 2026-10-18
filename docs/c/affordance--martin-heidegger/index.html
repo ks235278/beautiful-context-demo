@@ -1,0 +1,336 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<base href="../../">
+<!-- 表紙のロゴは「画面」の真ん中に置く（ページの枠ではなく）。iOS 26 のホーム画面から開くと、ページの枠が
+     画面より下で短くなり、枠の真ん中では起動画面のマークより上にずれる。画面の高さを最初の一コマより前に渡す -->
+<script>
+document.documentElement.style.setProperty('--sh', (screen.height || innerHeight) + 'px');
+/* 見えないところで読み直したあと（新しい版への入れ替え）は、離れたときの画面のまま。灯る演出はしない */
+try { if (sessionStorage.getItem('bc-resume')) document.documentElement.classList.add('resume'); } catch (e) {}
+</script>
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,viewport-fit=cover">
+<title>アフォーダンス ＋ マルティン・ハイデッガー｜Beautiful Context</title>
+<meta name="description" content="金槌は、使うときにだけ現れる。 アフォーダンス と マルティン・ハイデッガー。意味の上での近さから結ばれた区間。ハイデッガーは『存在と時間』で、わたしたちは金槌を「物」として眺める前に、まず手になじむ道具として使っている、と書いた。ギブソンのアフォーダンスも、環境を、行為の可能性として知覚されるも…">
+<meta name="theme-color" content="#061629">
+<link rel="canonical" href="https://ks235278.github.io/beautiful-context-demo/c/affordance--martin-heidegger/">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://ks235278.github.io/beautiful-context-demo/c/affordance--martin-heidegger/">
+<meta property="og:title" content="アフォーダンス ＋ マルティン・ハイデッガー｜Beautiful Context">
+<meta property="og:description" content="金槌は、使うときにだけ現れる。 アフォーダンス と マルティン・ハイデッガー。意味の上での近さから結ばれた区間。ハイデッガーは『存在と時間』で、わたしたちは金槌を「物」として眺める前に、まず手になじむ道具として使っている、と書いた。ギブソンのアフォーダンスも、環境を、行為の可能性として知覚されるも…">
+<meta property="og:image" content="https://ks235278.github.io/beautiful-context-demo/img/works/affordance.jpg">
+<!-- ホーム画面から開くとき、読み込みのあいだに出る起動画面。表紙の最初の一コマ（回路とロゴ）と同じ絵
+     （端末ごとの大きさ。iOS は PNG を求める） -->
+<link rel="apple-touch-startup-image" media="(device-width: 440px) and (device-height: 956px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="img/launch/440x956@3.png">
+<link rel="apple-touch-startup-image" media="(device-width: 402px) and (device-height: 874px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="img/launch/402x874@3.png">
+<link rel="apple-touch-startup-image" media="(device-width: 430px) and (device-height: 932px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="img/launch/430x932@3.png">
+<link rel="apple-touch-startup-image" media="(device-width: 393px) and (device-height: 852px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="img/launch/393x852@3.png">
+<link rel="apple-touch-startup-image" media="(device-width: 420px) and (device-height: 912px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="img/launch/420x912@3.png">
+<link rel="apple-touch-startup-image" media="(device-width: 428px) and (device-height: 926px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="img/launch/428x926@3.png">
+<link rel="apple-touch-startup-image" media="(device-width: 390px) and (device-height: 844px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="img/launch/390x844@3.png">
+<link rel="apple-touch-startup-image" media="(device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="img/launch/375x812@3.png">
+<link rel="apple-touch-startup-image" media="(device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="img/launch/414x896@3.png">
+<link rel="apple-touch-startup-image" media="(device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" href="img/launch/414x896@2.png">
+<link rel="apple-touch-startup-image" media="(device-width: 375px) and (device-height: 667px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" href="img/launch/375x667@2.png">
+<!-- 表紙に最初から出すもの（回路とロゴ）は先に読む。描くときに待たせない -->
+<link rel="preload" as="image" href="img/pcb-charcoal.jpg">
+<link rel="preload" as="image" href="img/logo-layer-mark.png">
+<link rel="preload" as="image" href="img/logo-layer-words.png">
+<link rel="manifest" href="manifest.webmanifest?v=119">
+<link rel="apple-touch-icon" href="icon-180.png">
+<!-- ホーム画面から開くと全画面になり、safe-area が 0 でなくなる。
+     そのとき初めて Dynamic Island の裏までページが描ける。 -->
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Beautiful Context">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebSite","name":"Beautiful Context",
+ "url":"https://ks235278.github.io/beautiful-context-demo/","inLanguage":"ja",
+ "description":"二つの作品の意外なつながりを、独立したコンテクストページとして読むサービスのデモ。",
+ "potentialAction":{"@type":"SearchAction",
+   "target":"https://ks235278.github.io/beautiful-context-demo/#/search?q={search_term_string}",
+   "query-input":"required name=search_term_string"}}
+</script>
+<!-- 表紙の BEAUTIFUL CONTEXT は、先生の構成図と同じ Bebas Neue -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<!-- フォントは最初の一コマを待たせない（表紙のロゴは絵。Lato は UniverseIt! が出るまでに届く） -->
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Lato:wght@300;400;700&display=swap" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Lato:wght@300;400;700&display=swap"></noscript>
+<script src="js/theme.js?v=119"></script>
+<link rel="stylesheet" href="app.css?v=119">
+<link rel="stylesheet" href="fade.css?v=119">
+</head>
+<body class="stage-uni viewing route" data-route="#/c/affordance--martin-heidegger">
+
+<!-- 背景は先生の構成図（flow0921-2）の回路の絵そのもの。
+     表紙では原寸の濃さ、UniverseIt! からは 50% に落とす（構成図のプロンプトどおり）。 -->
+<!-- 二つの画面が左右に並ぶ：左 ReMixIt!（A / WHITE）、右 UniverseIt!（B / CHARCOAL）。左右にスライドして入れ替わる -->
+<div id="bg" aria-hidden="true"><div class="pcb pcb-c"></div><div class="pcb pcb-w"></div><div class="veil"></div></div>
+
+<button class="menu-btn" id="menuBtn" type="button" aria-label="メニュー" aria-expanded="false" aria-controls="menu"><i></i><i></i><i></i></button>
+
+<section class="intro" id="intro" aria-label="表紙">
+  <h1 class="wordmark" id="wordmark" aria-label="BEAUTIFUL CONTEXT"><span class="lockup"><img class="words" src="img/logo-layer-words.png" alt="" decoding="sync"><img class="markl" src="img/logo-layer-mark.png" alt="" decoding="sync"></span></h1>
+</section>
+
+<main class="uni" id="uni" aria-label="UniverseIt!">
+  <div class="uni-frame" aria-hidden="true"><i class="fr fr-c"></i><i class="fr fr-w"></i></div>
+  <header class="uni-head" id="uniHead">
+    <h1 class="uni-title"><span class="tt tt-u">UniverseIt!</span><span class="tt tt-r" aria-hidden="true">ReMixIt!</span></h1>
+    <p class="uni-sub"><span class="tt tt-u" id="tagline">言葉から、つながりを辿る。</span><span class="tt tt-r" aria-hidden="true">言葉から、つながりを創る。</span></p>
+    <a class="to-today" href="#/today" data-home>TODAY'S EDITOR'S CHOICE ›</a>
+  </header>
+  <div class="uni-list" id="tags" aria-label="言葉"></div>
+</main>
+
+<div class="dock" id="dock">
+  <div class="map" id="map"></div>
+  <p class="sel-hint" id="selHint" aria-live="polite"></p>
+  <p class="dock-brand" id="dockBrand">BEAUTIFUL CONTEXT</p>
+  <!-- 読む画面（Today・コンテクスト・作品）では NEXT UNIVERSE だけ。戻るのは左の端から右へ払う（iPhone と同じ）か、上の ‹。
+       ReMixIt!（つながりを創る）は編集の側の道具なので、UniverseIt! の画面とメニューに置く -->
+  <div class="actions">
+    <a class="act remix" id="remix" href="editor.html?new=1">
+      <svg viewBox="0 0 32 32" aria-hidden="true"><circle cx="12" cy="16" r="8.5"/><circle cx="20" cy="16" r="8.5"/></svg>
+      <span><b>つながりを創る</b><small>ReMixIt!</small></span>
+    </a>
+    <button class="act uni-btn" id="uniBtn" type="button">
+      <svg viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="16" r="11"/><ellipse cx="16" cy="16" rx="4.8" ry="11"/><path d="M5 16h22M7 10.5h18M7 21.5h18M16 5v22"/></svg>
+      <span><b>NEXT UNIVERSE</b><small id="uniLabel">UniverseIt!</small></span>
+    </button>
+  </div>
+</div>
+
+<nav class="menu" id="menu" aria-label="メニュー" hidden>
+  <form class="seek" role="search" data-seek>
+    <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6"/><path d="m15 15 5 5"/></svg>
+    <input type="search" name="q" placeholder="言葉で辿る" enterkeyhint="search" aria-label="言葉で辿る">
+  </form>
+  <a href="#/today" data-home>Today's Editor's Choice<small>今日のつながり</small></a>
+  <a href="#/" data-uni>UniverseIt!<small>すべての言葉から辿る</small></a>
+  <a href="editor.html?new=1">ReMixIt!<small>つながりを創る</small></a>
+  <button type="button" class="menu-account" id="menuAccount" data-login>ログイン<small>アカウントを作る</small></button>
+  <a href="#/mission">Our Mission</a>
+  <a href="#/ad">広告枠のご案内</a>
+  <a href="#/credits">画像の出典</a>
+  <a href="#/terms">利用規約・プライバシー</a>
+  <a href="manage.html">運営者メニュー</a>
+  <div class="theme-pick" role="group" aria-label="地">
+    <button type="button" data-theme-set="white">ReMixIt!<small>A / WHITE</small></button>
+    <button type="button" data-theme-set="charcoal">UniverseIt!<small>B / CHARCOAL</small></button>
+  </div>
+</nav>
+
+<div class="view on" id="view" role="dialog" aria-modal="true" aria-label="アフォーダンス ＋ マルティン・ハイデッガー">
+  <div class="view-in" id="viewIn">
+      <article class="page cpage">
+        <button type="button" class="back-close" data-close="" aria-label="戻る"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 4.5 7.5 12l7.5 7.5"></path></svg></button>
+        <div class="duo-hero"><a class="c-logo" href="#/" data-top="" aria-label="BEAUTIFUL CONTEXT（TOP へ戻る）"><img src="img/logo.png" alt=""></a><div class="duo"><button type="button" class="duo-go" data-step="0" aria-label="アフォーダンスの作品ページへ"><div class="art"><img src="img/works/affordance.jpg" alt="アフォーダンス" data-k="affordance" decoding="async"></div></button><button type="button" class="duo-go" data-step="2" aria-label="マルティン・ハイデッガーの作品ページへ"><div class="art"><img src="img/works/martin-heidegger.jpg" alt="マルティン・ハイデッガー" data-k="martin-heidegger" decoding="async"></div></button><i class="swap" aria-hidden="true">↔</i></div></div>
+        <section class="context-lead">
+          
+          <div class="ed-row">
+      <a class="ed-link" href="e/desk/"><span class="ava" aria-hidden="true">部</span><span><b>BC 編集部</b><small>EDITORIAL DESK</small></span></a>
+      <button type="button" class="follow" data-follow="desk" aria-pressed="false">フォロー</button></div>
+          <p class="route-label">CONTEXT　［道具の哲学］　約20秒</p>
+          <h2>金槌は、<br>使うときにだけ現れる。</h2>
+          <div class="pair"><span>マルティン・ハイデッガー『存在と時間』</span><span>道具</span><span>アフォーダンス</span></div>
+          <button type="button" class="read" data-read="">このつながりを読む　約20秒 <span aria-hidden="true">↓</span></button>
+        </section>
+        <article class="context-body" id="story">
+          <p class="meta">CONTEXT STORY</p>
+          <h2>意味の上での近さから結ばれた区間。</h2><p>ハイデッガーは『存在と時間』で、わたしたちは金槌を「物」として眺める前に、まず手になじむ道具として使っている、と書いた。</p><p>ギブソンのアフォーダンスも、環境を、行為の可能性として知覚されるものとして捉える。</p><p>世界を観察の対象としてではなく、行為の手がかりとして見る。哲学と心理学が、別々の道から同じ地点に立っている。</p>
+          
+      <section class="axes" aria-label="このつながりの型と評価">
+        <p class="meta">このつながり<span class="agm">生成AIの初稿・編集者の確認前</span></p>
+        <p class="ax-kind"><span>型<b>似ている</b></span><span>ハブ<b>道具</b></span></p>
+        <dl class="ax"><div><dt>意外性</dt><dd aria-label="4 / 5"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i></dd></div><div><dt>共感度</dt><dd aria-label="4 / 5"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i></dd></div><div><dt>コンテンツ性</dt><dd aria-label="4 / 5"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i></dd></div><div><dt>世界観近似性</dt><dd aria-label="4 / 5"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i></dd></div></dl>
+      </section>
+          
+          <p class="byline">BC 編集部　·　2026/9/14</p>
+          
+      <section class="comments" id="comments" data-ctx="seed-affordance--martin-heidegger">
+        <p class="meta">COMMENTS<span class="cm-n">0</span></p>
+        <p class="cm-empty">まだコメントはありません。このつながりについて、最初のひとことを。</p>
+        <form class="cm-form" data-comment="seed-affordance--martin-heidegger">
+          <textarea name="text" rows="2" maxlength="600" placeholder="このつながりについて、思ったことを" aria-label="コメント"></textarea>
+          <button type="submit">送る</button>
+        </form>
+        <p class="cm-note">送るときに、名前を一つ作ります。コメントは編集者が確かめてから表示されます。</p>
+      </section>
+          <p class="meta more-label">同じルーツのコンテクスト</p><a class="tease" href="c/james-j-gibson--affordance/">ジェームズ・J・ギブソン ＋ アフォーダンス <span aria-hidden="true">›</span></a><a class="tease" href="c/affordance--minakata-mandala/">アフォーダンス ＋ 南方曼荼羅 <span aria-hidden="true">›</span></a><a class="tease" href="c/martin-heidegger--hannah-arendt/">マルティン・ハイデッガー ＋ ハンナ・アーレント <span aria-hidden="true">›</span></a>
+          
+      <aside class="c-ad" aria-label="広告">
+        <a href="#/ad">
+          <img class="c-ad-img" src="img/ad-hands.jpg" alt="" loading="lazy" decoding="async">
+          <span class="ad-mark">AD</span>
+          <span class="ad-copy"><b>この場所に、作品の広告を。</b><small>映画・音楽・書籍・イベント ── 広告枠のご案内</small></span>
+        </a>
+      </aside>
+          <p class="img-credit">画像：「おす」の貼り紙があるドア（撮影 Ishikawa Ken）／CC BY-SA 2.0／Wikimedia Commons</p><p class="img-credit">画像：撮影 Willy Pragher／CC BY-SA 3.0／Wikimedia Commons</p>
+          
+          <section class="ctx-rail" aria-label="この先のつながり">
+            <p class="meta more-label">この先のつながり</p>
+            <ol class="rail" id="rail">
+        <li class="stop first">
+          
+          
+          <a class="fstop" href="w/martin-heidegger/">
+            <span class="st-img"><img src="img/works/martin-heidegger.jpg" alt="マルティン・ハイデッガー" data-k="martin-heidegger" loading="lazy" decoding="async"></span>
+            <span class="st-txt"><small>人物・1889年</small>
+              <b>マルティン・ハイデッガー</b><span>ドイツの哲学者。『存在と時間』で、人間を、世界の中にすでに投げ込まれて生きている存在として捉え直した。</span></span>
+          </a>
+        </li>
+        <li class="stop">
+          
+          <a class="seg" href="c/martin-heidegger--hannah-arendt/">
+            
+            <small>［師と弟子］　事実</small>
+            <b><span class="seg-copy">哲学者と、その学生だった哲学者。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
+          <a class="fstop" href="w/hannah-arendt/?c=martin-heidegger--hannah-arendt">
+            <span class="st-img"><img src="img/works/hannah-arendt.jpg" alt="ハンナ・アーレント" data-k="hannah-arendt" loading="lazy" decoding="async"></span>
+            <span class="st-txt"><small>人物・1906年</small>
+              <b>ハンナ・アーレント</b><span>ドイツ生まれの政治哲学者。ナチスを逃れて米国に渡り、『全体主義の起原』『人間の条件』、アイヒマン裁判の報告で「悪の凡庸さ」を論じた。</span></span>
+          </a>
+        </li>
+        <li class="stop">
+          
+          <a class="seg" href="c/jidai-no-kishimi--hannah-arendt/">
+            
+            <small>［個人と国家］　似ている</small>
+            <b><span class="seg-copy">〈わたし〉と国家のあいだに立つ。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
+          <a class="fstop" href="w/jidai-no-kishimi/?c=jidai-no-kishimi--hannah-arendt">
+            <span class="st-img"><img src="img/works/jidai-no-kishimi.jpg" alt="鷲田清一『時代のきしみ——〈わたし〉と国家のあいだ』" data-k="jidai-no-kishimi" loading="lazy" decoding="async"></span>
+            <span class="st-txt"><small>書籍・2002年</small>
+              <b>鷲田清一『時代のきしみ——〈わたし〉と国家のあいだ』</b><span>法律や制度、習俗や縁といった「生の背景」が、個人の存在をどう編み上げているのかを考える哲学エッセイ集。</span></span>
+          </a>
+        </li>
+        <li class="stop">
+          
+          <a class="seg" href="c/washida-kiyokazu--jidai-no-kishimi/">
+            
+            <small>［書き手と本］　作者と作品</small>
+            <b><span class="seg-copy">時代を拒むほど、時代に絡めとられる。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
+          <a class="fstop" href="w/washida-kiyokazu/?c=washida-kiyokazu--jidai-no-kishimi">
+            <span class="st-img"><img src="img/works/washida-kiyokazu.jpg" alt="鷲田清一" data-k="washida-kiyokazu" loading="lazy" decoding="async"></span>
+            <span class="st-txt"><small>人物・1949年</small>
+              <b>鷲田清一</b><span>京都生まれの哲学者。大阪大学総長をつとめた。『モードの迷宮』『「聴く」ことの力』など、ファッションや身体、ケアを哲学の主題にしてきた。</span></span>
+          </a>
+        </li>
+        <li class="stop">
+          
+          <a class="seg" href="c/washida-kiyokazu--homme-less/">
+            
+            <small>［服を着る哲学］　似ている</small>
+            <b><span class="seg-copy">哲学者は、服を着ることを考えた。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
+          <a class="fstop" href="w/homme-less/?c=washida-kiyokazu--homme-less">
+            <span class="st-img"><img src="img/works/homme-less.jpg" alt="映画『ホームレス ニューヨークと寝た男』" data-k="homme-less" loading="lazy" decoding="async"></span>
+            <span class="st-txt"><small>映画・2014年</small>
+              <b>映画『ホームレス ニューヨークと寝た男』</b><span>ファッション写真家で元モデルのマーク・レイは、マンハッタンのアパートの屋上で寝袋にくるまって暮らしていた。その日々を追ったドキュメンタリー。</span></span>
+          </a>
+        </li>
+        <li class="stop">
+          
+          <a class="seg" href="c/homme-less--happy-pharrell/">
+            
+            <small>［屋根のない部屋］　似ている</small>
+            <b><span class="seg-copy">屋根のない部屋でも、手を叩ける。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
+          <a class="fstop" href="w/happy-pharrell/?c=homme-less--happy-pharrell">
+            <span class="st-img"><img src="img/works/happy-pharrell.jpg" alt="ファレル・ウィリアムス「HAPPY」" data-k="happy-pharrell" loading="lazy" decoding="async"></span>
+            <span class="st-txt"><small>音楽・2013年</small>
+              <b>ファレル・ウィリアムス「HAPPY」</b><span>映画『怪盗グルーのミニオン危機一発』のために書かれた曲。24時間ぶんのミュージックビデオが作られ、世界中で人々が踊る映像が生まれた。</span></span>
+          </a>
+        </li>
+        <li class="stop branch">
+          
+          <a class="seg" href="c/hannah-arendt--nineteen-eighty-four/">
+            <span class="seg-from">ハンナ・アーレント から分岐</span>
+            <small>［全体主義］　似ている</small>
+            <b><span class="seg-copy">人を丸ごと呑み込む国家のしくみ。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
+          <a class="fstop" href="w/nineteen-eighty-four/?c=hannah-arendt--nineteen-eighty-four">
+            <span class="st-img"><img src="img/works/nineteen-eighty-four.jpg" alt="ジョージ・オーウェル『1984年』" data-k="nineteen-eighty-four" loading="lazy" decoding="async"></span>
+            <span class="st-txt"><small>書籍・1949年</small>
+              <b>ジョージ・オーウェル『1984年』</b><span>「ビッグ・ブラザー」がすべてを監視する全体主義国家オセアニアで、真理省に勤めるウィンストンが体制に疑いを抱く。</span></span>
+          </a>
+        </li>
+        <li class="stop">
+          
+          <a class="seg" href="c/nineteen-eighty-four--blade-runner/">
+            
+            <small>［リドリー・スコットを経由して］　ハブ</small>
+            <b><span class="seg-copy">監督は、『1984年』の広告も撮っていた。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
+          <a class="fstop" href="w/blade-runner/?c=nineteen-eighty-four--blade-runner">
+            <span class="st-img"><img src="img/works/blade-runner.jpg" alt="リドリー・スコット『ブレードランナー』" data-k="blade-runner" loading="lazy" decoding="async"></span>
+            <span class="st-txt"><small>映画・1982年</small>
+              <b>リドリー・スコット『ブレードランナー』</b><span>フィリップ・K・ディックの小説『アンドロイドは電気羊の夢を見るか？』を原作に、2019年のロサンゼルスで人造人間を追う男を描いた映画。</span></span>
+          </a>
+        </li>
+        <li class="stop">
+          
+          <a class="seg" href="c/blade-runner--blade-runner-2049/">
+            
+            <small>［三十年後のロサンゼルス］　事実</small>
+            <b><span class="seg-copy">2019年の雨の街から、2049年の荒野へ。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
+          <a class="fstop" href="w/blade-runner-2049/?c=blade-runner--blade-runner-2049">
+            <span class="st-img"><img src="img/works/blade-runner-2049.jpg" alt="ヴィルヌーヴ『ブレードランナー 2049』" data-k="blade-runner-2049" loading="lazy" decoding="async"></span>
+            <span class="st-txt"><small>映画・2017年</small>
+              <b>ヴィルヌーヴ『ブレードランナー 2049』</b><span>前作から30年後の2049年を舞台にした続編。</span></span>
+          </a>
+        </li>
+        <li class="stop">
+          
+          <a class="seg" href="c/blade-runner-2049--blade-runner-2099/">
+            
+            <small>［さらに五十年後］　事実</small>
+            <b><span class="seg-copy">2049年の先に、2099年が続く。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
+          <a class="fstop" href="w/blade-runner-2099/?c=blade-runner-2049--blade-runner-2099">
+            <span class="st-img"><img src="img/works/blade-runner-2099.jpg" alt="『ブレードランナー 2099』" data-k="blade-runner-2099" loading="lazy" decoding="async"></span>
+            <span class="st-txt"><small>ドラマ</small>
+              <b>『ブレードランナー 2099』</b><span>2049年からさらに50年後を舞台にしたドラマ・シリーズ。ミシェル・ヨーとハンター・シェイファーが主演し、2026年11月25日から Prime Video で配信される。</span></span>
+          </a>
+        </li>
+        <li class="stop branch">
+          
+          <a class="seg" href="c/greg-egan--blade-runner-2049/">
+            <span class="seg-from">ブレードランナー 2049 から分岐</span>
+            <small>［記憶は誰のものか］　似ている</small>
+            <b><span class="seg-copy">植えつけられた記憶でも、それは自分なのか。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
+          <a class="fstop" href="w/greg-egan/?c=greg-egan--blade-runner-2049">
+            <span class="st-img"><img src="img/works/greg-egan.jpg" alt="グレッグ・イーガン" data-k="greg-egan" loading="lazy" decoding="async"></span>
+            <span class="st-txt"><small>人物・1961年</small>
+              <b>グレッグ・イーガン</b><span>オーストラリアのSF作家。『順列都市』『ディアスポラ』など、意識や自己を数学と物理から問い直すハードSFで知られる。</span></span>
+          </a>
+        </li>
+        <li class="stop branch">
+          
+          <a class="seg" href="c/do-androids-dream--blade-runner/">
+            <span class="seg-from">ブレードランナー から分岐</span>
+            <small>［小説から映画へ］　事実</small>
+            <b><span class="seg-copy">電気羊の夢は、酸性雨の街になった。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
+          <a class="fstop" href="w/do-androids-dream/?c=do-androids-dream--blade-runner">
+            <span class="st-img"><img src="img/works/do-androids-dream.jpg" alt="フィリップ・K・ディック『アンドロイドは電気羊の夢を見るか？』" data-k="do-androids-dream" loading="lazy" decoding="async"></span>
+            <span class="st-txt"><small>書籍・1968年</small>
+              <b>フィリップ・K・ディック『アンドロイドは電気羊の夢を見るか？』</b><span>核戦争のあとの地球で、火星から逃げてきたアンドロイドを追う賞金稼ぎリック・デッカードの物語。映画『ブレードランナー』の原作。</span></span>
+          </a>
+        </li></ol>
+            <div class="rail-more" id="railMore" aria-hidden="true"></div>
+          </section>
+        </article>
+      </article></div>
+</div>
+<!-- 左の端：ここから右へ払うと、ひとつ前の画面へ戻る（指に付いてページが動く） -->
+<div class="edge-back" id="edgeBack" aria-hidden="true"></div>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+<script type="application/ld+json" id="ld">{"@context":"https://schema.org","@type":"Article","headline":"金槌は、使うときにだけ現れる。","alternativeHeadline":"道具の哲学","about":[{"@type":"CreativeWork","name":"アフォーダンス","description":"環境が動物に与える、行為の可能性。椅子は「座る」ことを、取っ手は「つかむ」ことをアフォードする。ギブソンの造語。","creator":{"@type":"Person","name":"ジェームズ・J・ギブソン"}},{"@type":"Person","name":"マルティン・ハイデッガー","description":"ドイツの哲学者。『存在と時間』で、人間を、世界の中にすでに投げ込まれて生きている存在として捉え直した。"}],"author":{"@type":"Person","name":"生成AI（初稿）"},"datePublished":"2026-09-14T02:30:00.000Z","dateModified":"2026-09-14T02:30:00.000Z","inLanguage":"ja","articleBody":"意味の上での近さから結ばれた区間。ハイデッガーは『存在と時間』で、わたしたちは金槌を「物」として眺める前に、まず手になじむ道具として使っている、と書いた。ギブソンのアフォーダンスも、環境を、行為の可能性として知覚されるものとして捉える。世界を観察の対象としてではなく、行為の手がかりとして見る。哲学と心理学が、別々の道から同じ地点に立っている。","url":"https://ks235278.github.io/beautiful-context-demo/c/affordance--martin-heidegger/","image":"https://ks235278.github.io/beautiful-context-demo/img/works/affordance.jpg"}</script>
+
+<script src="js/seed.js?v=119"></script>
+<script src="js/store.js?v=119"></script>
+<script src="js/social.js?v=119"></script>
+<script src="js/render.js?v=119"></script>
+<script src="js/transition.js?v=119"></script>
+<script src="js/app.js?v=119"></script>
+</body>
+</html>
