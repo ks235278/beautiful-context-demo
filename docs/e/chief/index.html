@@ -37,7 +37,7 @@ try { if (sessionStorage.getItem('bc-resume')) document.documentElement.classLis
 <link rel="preload" as="image" href="img/pcb-charcoal.jpg">
 <link rel="preload" as="image" href="img/logo-layer-mark.png">
 <link rel="preload" as="image" href="img/logo-layer-words.png">
-<link rel="manifest" href="manifest.webmanifest?v=119">
+<link rel="manifest" href="manifest.webmanifest?v=120">
 <link rel="apple-touch-icon" href="icon-180.png">
 <!-- ホーム画面から開くと全画面になり、safe-area が 0 でなくなる。
      そのとき初めて Dynamic Island の裏までページが描ける。 -->
@@ -59,9 +59,9 @@ try { if (sessionStorage.getItem('bc-resume')) document.documentElement.classLis
 <!-- フォントは最初の一コマを待たせない（表紙のロゴは絵。Lato は UniverseIt! が出るまでに届く） -->
 <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Lato:wght@300;400;700&display=swap" onload="this.onload=null;this.rel='stylesheet'">
 <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Lato:wght@300;400;700&display=swap"></noscript>
-<script src="js/theme.js?v=119"></script>
-<link rel="stylesheet" href="app.css?v=119">
-<link rel="stylesheet" href="fade.css?v=119">
+<script src="js/theme.js?v=120"></script>
+<link rel="stylesheet" href="app.css?v=120">
+<link rel="stylesheet" href="fade.css?v=120">
 </head>
 <body class="stage-uni viewing" data-route="#/e/chief">
 
@@ -128,15 +128,15 @@ try { if (sessionStorage.getItem('bc-resume')) document.documentElement.classLis
   <div class="view-in" id="viewIn">
       <article class="page text-page editor-page">
         <button type="button" class="back-close" data-close="" aria-label="戻る"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 4.5 7.5 12l7.5 7.5"></path></svg></button><a class="c-logo on-paper" href="#/" data-top="" aria-label="BEAUTIFUL CONTEXT（TOP へ戻る）"><img src="img/logo.png" alt=""></a>
+        <div class="ed-cover empty"><span class="ava big" aria-hidden="true">長</span><span class="ed-down" aria-hidden="true"></span></div>
         <div class="content">
-          <div class="ed-head"><span class="ava big" aria-hidden="true">長</span>
+          <div class="ed-head">
+            <h2 class="ed-title"><span>BC 編集長の</span> <b>BEAUTIFUL CONTEXT</b></h2>
             <p class="meta">EDITOR IN CHIEF</p>
-            <h2>BC 編集長</h2>
             <p class="ed-bio">思いがけない二つのあいだに、確かめられる一本の線を引く。その線を一日に一本ずつ選んでいます。</p>
-            <p class="ed-stats">コンテクスト <b>5</b></p>
-            <button type="button" class="follow" data-follow="chief" aria-pressed="false">フォロー</button>
+            <div class="ed-acts"><button type="button" class="follow" data-follow="chief" aria-pressed="false">フォロー</button></div>
           </div>
-          <p class="meta more-label">この編集者が選んだつながり</p>
+          <h3 class="ed-chose">BC 編集長が選んだつながり<small>この編集者が選んだつながり　5</small></h3>
           <div class="ed-list">
       <a class="ed-item" href="c/highest-2-lowest--high-and-low/">
         <span class="ed-thumbs"><img src="img/highest.jpg" alt="" loading="lazy" decoding="async"><img src="img/highlow.jpg" alt="" loading="lazy" decoding="async"></span>
@@ -167,11 +167,11 @@ try { if (sessionStorage.getItem('bc-resume')) document.documentElement.classLis
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 <script type="application/ld+json" id="ld">{"@context":"https://schema.org","@type":"ProfilePage","url":"https://beautifulcontext.com/e/chief/","mainEntity":{"@type":"Person","name":"BC 編集長","jobTitle":"EDITOR IN CHIEF","description":"思いがけない二つのあいだに、確かめられる一本の線を引く。その線を一日に一本ずつ選んでいます。"}}</script>
 
-<script src="js/seed.js?v=119"></script>
-<script src="js/store.js?v=119"></script>
-<script src="js/social.js?v=119"></script>
-<script src="js/render.js?v=119"></script>
-<script src="js/transition.js?v=119"></script>
-<script src="js/app.js?v=119"></script>
+<script src="js/seed.js?v=120"></script>
+<script src="js/store.js?v=120"></script>
+<script src="js/social.js?v=120"></script>
+<script src="js/render.js?v=120"></script>
+<script src="js/transition.js?v=120"></script>
+<script src="js/app.js?v=120"></script>
 </body>
 </html>

@@ -307,18 +307,25 @@
         <span class="ed-thumbs">${mini(e.a)}${mini(e.b)}</span>
         <span class="ed-txt"><small>［${esc(e.context.routeName)}］</small><b>${esc(e.context.headline).replace(/\n/g, '')}</b>
           <span>${esc(e.a.title)} ＋ ${esc(e.b.title)}</span></span></a>`).join('');
+    /* マイページ（前田先生の MyBeautifulContext.pdf）：その人の写真を大きく、「〇〇の BEAUTIFUL CONTEXT」、
+       フォローと note へのリンク、その人が選んだつながり。写真がなければ、頭文字の丸を黒地に置く */
+    const pic = safeImg(ed.photo);
+    const note = /^[A-Za-z0-9_]{1,40}$/.test(ed.note || '') ? ed.note : '';
     return `
       <article class="page text-page editor-page">
         ${backTop()}${topLogo('on-paper')}
+        <div class="ed-cover${pic ? '' : ' empty'}">${pic
+          ? `<img src="${attr(pic)}" alt="${attr(ed.name)}" decoding="async">`
+          : avatar(ed.mark || ed.name, 'big')}<span class="ed-down" aria-hidden="true"></span></div>
         <div class="content">
-          <div class="ed-head">${avatar(ed.mark || ed.name, 'big')}
+          <div class="ed-head">
+            <h2 class="ed-title"><span>${esc(ed.name)}の</span> <b>BEAUTIFUL CONTEXT</b></h2>
             <p class="meta">${esc(ed.role || 'EDITOR')}</p>
-            <h2>${esc(ed.name)}</h2>
             ${ed.bio ? `<p class="ed-bio">${esc(ed.bio)}</p>` : ''}
-            <p class="ed-stats">コンテクスト <b>${list.length}</b></p>
-            ${followBtn(ed, on)}
+            <div class="ed-acts">${followBtn(ed, on)}${note
+              ? `<a class="note-link" href="https://note.com/${attr(note)}" target="_blank" rel="noopener"><b>note</b><span>note.com/${esc(note)}</span></a>` : ''}</div>
           </div>
-          <p class="meta more-label">この編集者が選んだつながり</p>
+          <h3 class="ed-chose">${esc(ed.name)}が選んだつながり<small>この編集者が選んだつながり　${list.length}</small></h3>
           <div class="ed-list">${items || '<p>まだありません。</p>'}</div>
         </div>
       </article>`;

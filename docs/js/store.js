@@ -467,8 +467,11 @@
       return this.editors().find((ed) => ed.id === id) || null;
     },
 
+    /* その編集者のつながり：自分が書いたもの（書き手）と、ほかの人の区間から選んだもの（picks：区間の slug） */
     byEditor(id) {
-      return this.visible().filter((e) => this.editorOf(e).id === id);
+      const ed = (window.BC_EDITORS || []).find((x) => x.id === id);
+      const picks = new Set((ed && ed.picks) || []);
+      return this.visible().filter((e) => this.editorOf(e).id === id || picks.has(e.context.slug));
     },
 
     /* 編集者の「今日の一本」。日付で決まり、同じ日はどの端末でも同じものになる */
