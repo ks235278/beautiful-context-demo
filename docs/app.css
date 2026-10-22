@@ -668,6 +668,8 @@ body.on-list .view-in{background:#000;padding-bottom:0}
    コンテクスト・作品のページは見開き：左に二枚の絵（読み進めても留まる）、右に文章。
    下の帯は、路線図とつながりを辿るを横一列に。一覧は、札を何列にも並べる */
 .menu .menu-logo{display:none}
+/* パソコンだけのもの（次の予告・はじめての案内・右の路線図）は、ほかの幅では出さない */
+.next-peek,.next-hint,.route-mini{display:none}
 @media (min-width:1100px){
   :root{--side:248px;--col:min(1120px,calc(100vw - var(--side) - 64px))}
   /* 左の列 */
@@ -708,9 +710,10 @@ body.on-list .view-in{background:#000;padding-bottom:0}
   .pair{font-size:13px}
 
   /* 下の帯：路線図とつながりを辿るを一列に */
-  body.viewing:not(.on-list) .dock{display:grid;grid-template-columns:minmax(0,1fr) 340px;align-items:center;gap:22px;padding:8px 22px 10px}
+  body.viewing:not(.on-list) .dock{display:grid;grid-template-columns:minmax(170px,1fr) minmax(0,290px) 260px;align-items:center;gap:18px;padding:8px 22px 10px}
   body.viewing .dock .map{grid-column:1}
-  body.viewing .dock .actions{grid-column:2}
+  body.viewing .dock .next-peek{grid-column:2}
+  body.viewing .dock .actions{grid-column:3}
   body.viewing .sel-hint{display:none}
 
   /* 読み物（マイページ・路線・検索・案内） */
@@ -726,8 +729,67 @@ body.on-list .view-in{background:#000;padding-bottom:0}
   .ls-bar{padding:12px 32px 14px}
   .ls-cats{flex-wrap:wrap;overflow:visible;margin:0 0 10px;padding:0}
   .ls-seek{max-width:560px}
+
+  /* 左の列：辿る道（Today・一覧・流れで観る・UniverseIt!・ReMixIt!）を前に、案内と運営は下に小さくまとめる */
+  .menu{display:flex;flex-direction:column}
+  .menu-foot{margin-top:auto;padding-top:18px}
+  .menu-foot a{display:inline-block;margin:0 12px 7px 0;padding:0;border:0;color:var(--uni-dim);font-size:11px;letter-spacing:.04em}
+  .menu-foot .theme-pick{margin-top:12px}
+  .menu-foot .theme-pick button{padding:8px 4px;font-size:9px}
+
+  /* 次のつながりの予告（つながりを辿るの隣）：行き先の絵と題 */
+  body.viewing .next-peek:not([hidden]){display:flex;align-items:center;gap:10px;min-width:0;height:54px;padding:6px 12px 6px 6px;
+    border:1px solid #d6d0c5;border-radius:9px;background:#fff;color:var(--ink);cursor:pointer;text-align:left;
+    transition:transform .2s ease,border-color .2s}
+  .next-peek:active{transform:scale(.97);transition-duration:.06s}
+  .np-imgs{flex:0 0 auto;display:flex;gap:2px}
+  .np-imgs img,.np-imgs i{display:grid;place-items:center;width:30px;height:42px;border-radius:2px;object-fit:cover;background:#111;
+    color:var(--gold);font:14px/1 var(--mincho);font-style:normal}
+  .np-txt{display:grid;gap:1px;min-width:0}
+  .np-txt small{color:var(--gold);font:700 9.5px/1.4 var(--gothic);letter-spacing:.06em}
+  .np-txt b{font:600 12.5px/1.4 var(--mincho);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .np-txt span{color:var(--muted);font:10.5px/1.4 var(--gothic);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+
+  /* はじめての案内：つながりを辿るの上に一度だけ */
+  body.viewing .next-hint:not([hidden]){display:block;position:absolute;right:22px;bottom:calc(100% + 10px);max-width:320px;margin:0;
+    padding:10px 14px;border-radius:10px;background:var(--navy);color:#fff;font:700 12px/1.5 var(--gothic);
+    box-shadow:0 10px 24px -10px #000a;opacity:0;transform:translateY(6px);transition:opacity .3s ease,transform .3s ease;pointer-events:none}
+  .next-hint.show{opacity:1 !important;transform:none !important}
+  .next-hint::after{content:"";position:absolute;right:46px;top:100%;border:7px solid transparent;border-top-color:var(--navy)}
+
+  /* 右の路線図：いまの前後を、地下鉄の路線図のように縦に（金の線、いまは紺） */
+  :root{--rail:200px}
+  body.has-route{--col:min(1120px,calc(100vw - var(--side) - var(--rail) - 48px))}
+  body.viewing.has-route .view{margin-right:var(--rail)}
+  body.viewing.has-route .dock{right:var(--rail)}
+  body.has-route .ghost,body.has-route .underlay{right:var(--rail)}
+  body.viewing.has-route .route-mini{display:flex}
+  .route-mini{position:fixed;z-index:34;top:0;right:0;bottom:0;width:var(--rail);flex-direction:column;justify-content:center;
+    padding:24px 16px 24px 14px;background:color-mix(in srgb,#04070d 76%,transparent);border-left:1px solid #ffffff14;color:#e9e4da;
+    font-family:var(--gothic)}
+  .rm-count{margin:0 0 14px;color:#8d877c;font:700 11px/1.3 "Lato",sans-serif;letter-spacing:.08em}
+  .rm-count b{color:#fff;font-size:22px;letter-spacing:.02em}
+  .rm-count small{display:block;margin-top:3px;color:#77726a;font:700 9.5px/1.4 var(--gothic);letter-spacing:.12em}
+  .rm{position:relative;margin:0;padding:0;list-style:none}
+  .rm::before{content:"";position:absolute;left:6px;top:8px;bottom:8px;width:3px;border-radius:2px;background:var(--gold);opacity:.75}
+  .rm a{position:relative;display:block;color:inherit;text-decoration:none}
+  .rm-st a{display:flex;align-items:center;gap:10px;padding:5px 0}
+  .rm-st i{position:relative;z-index:1;flex:0 0 auto;width:9px;height:9px;border:3px solid var(--gold);border-radius:50%;background:#0b0f17;box-sizing:content-box}
+  .rm-st span{min-width:0;font:600 12px/1.4 var(--mincho);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .rm-seg a{padding:7px 0 7px 24px}
+  .rm-seg small{display:block;color:var(--gold);font:700 9.5px/1.4 var(--gothic);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .rm-seg span{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;color:#a39d92;font:11px/1.5 var(--mincho)}
+  .rm-seg.now a::before{content:"";position:absolute;left:3px;top:5px;bottom:5px;width:9px;border-radius:5px;background:var(--navy);box-shadow:0 0 0 2px var(--gold)}
+  .rm-seg.now span{color:#fff}
+  .rm-st.now i{width:11px;height:11px;margin-left:-1px;background:var(--gold)}
+  .rm-st.now span{color:var(--gold)}
+  .rm-break span{position:relative;z-index:1;display:inline-block;margin:4px 0 4px 18px;padding:1px 8px;border:1px dashed #555;border-radius:9px;
+    background:#0b0f17;color:#8d877c;font:700 9px/1.5 var(--gothic);letter-spacing:.04em}
 }
 @media (min-width:1100px) and (hover:hover) and (pointer:fine){
+  .next-peek:hover{border-color:var(--navy)}
+  .rm a:hover span{color:#fff}
+  .menu-foot a:hover{color:var(--uni-ink)}
   .ls-item:hover{border-color:#4a4a4a;background:#141414}
   .ed-item:hover{background:#fff;border-color:#bdb6a9}
   .duo-go:hover .art{opacity:.9}

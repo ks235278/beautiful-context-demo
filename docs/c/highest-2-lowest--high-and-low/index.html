@@ -38,7 +38,7 @@ try { if (sessionStorage.getItem('bc-resume')) document.documentElement.classLis
 <link rel="preload" as="image" href="img/pcb-charcoal.jpg">
 <link rel="preload" as="image" href="img/logo-layer-mark.png">
 <link rel="preload" as="image" href="img/logo-layer-words.png">
-<link rel="manifest" href="manifest.webmanifest?v=130">
+<link rel="manifest" href="manifest.webmanifest?v=131">
 <link rel="apple-touch-icon" href="icon-180.png">
 <!-- タブと検索結果に出る小さな印。アプリの印（ホーム画面のアイコン）と同じ形 -->
 <link rel="icon" href="favicon.ico" sizes="16x16 32x32 48x48">
@@ -76,9 +76,9 @@ if (location.hostname === 'beautifulcontext.com'){
   document.head.appendChild(ga);
 }
 </script>
-<script src="js/theme.js?v=130"></script>
-<link rel="stylesheet" href="app.css?v=130">
-<link rel="stylesheet" href="fade.css?v=130">
+<script src="js/theme.js?v=131"></script>
+<link rel="stylesheet" href="app.css?v=131">
+<link rel="stylesheet" href="fade.css?v=131">
 </head>
 <body class="stage-uni viewing route" data-route="#/c/highest-2-lowest--high-and-low">
 
@@ -109,6 +109,9 @@ if (location.hostname === 'beautifulcontext.com'){
   <p class="dock-brand" id="dockBrand">BEAUTIFUL CONTEXT</p>
   <!-- 読む画面（Today・コンテクスト・作品）では NEXT UNIVERSE だけ。戻るのは左の端から右へ払う（iPhone と同じ）か、上の ‹。
        ReMixIt!（つながりを創る）は編集の側の道具なので、UniverseIt! の画面とメニューに置く -->
+  <!-- パソコン：つながりを辿るの行き先を、絵と題で先に見せる（次のエピソードのように）。触れても同じく次へ -->
+  <button type="button" class="next-peek" id="nextPeek" hidden><span class="np-imgs"></span><span class="np-txt"><small></small><b></b><span></span></span></button>
+  <p class="next-hint" id="nextHint" hidden>→ キーか「つながりを辿る」で、次のつながりへ</p>
   <div class="actions">
     <a class="act remix" id="remix" href="editor.html?new=1">
       <svg viewBox="0 0 32 32" aria-hidden="true"><circle cx="12" cy="16" r="8.5"/><circle cx="20" cy="16" r="8.5"/></svg>
@@ -136,16 +139,22 @@ if (location.hostname === 'beautifulcontext.com'){
   <a href="#/" data-uni>UniverseIt!<small>すべての言葉から辿る</small></a>
   <a href="editor.html?new=1">ReMixIt!<small>つながりを創る</small></a>
   <button type="button" class="menu-account" id="menuAccount" data-login>ログイン<small>アカウントを作る</small></button>
-  <a href="#/mission">Our Mission</a>
-  <a href="#/ad">広告枠のご案内</a>
-  <a href="#/credits">画像の出典</a>
-  <a href="#/terms">利用規約・プライバシー</a>
-  <a href="manage.html">運営者メニュー</a>
-  <div class="theme-pick" role="group" aria-label="地">
-    <button type="button" data-theme-set="white">ReMixIt!<small>A / WHITE</small></button>
-    <button type="button" data-theme-set="charcoal">UniverseIt!<small>B / CHARCOAL</small></button>
+  <!-- 案内と運営の入口。パソコンでは列の下に小さくまとめる（辿る道の邪魔をしない） -->
+  <div class="menu-foot">
+    <a href="#/mission">Our Mission</a>
+    <a href="#/ad">広告枠のご案内</a>
+    <a href="#/credits">画像の出典</a>
+    <a href="#/terms">利用規約・プライバシー</a>
+    <a href="manage.html">運営者メニュー</a>
+    <div class="theme-pick" role="group" aria-label="地">
+      <button type="button" data-theme-set="white">ReMixIt!<small>A / WHITE</small></button>
+      <button type="button" data-theme-set="charcoal">UniverseIt!<small>B / CHARCOAL</small></button>
+    </div>
   </div>
 </nav>
+
+<!-- パソコン：右の余白に、いまの前後の路線図（区間と駅を、つながりを辿ると同じ順に） -->
+<nav class="route-mini" id="routeMini" aria-label="路線図"></nav>
 
 <div class="view on" id="view" role="dialog" aria-modal="true" aria-label="『HIGHEST 2 LOWEST』 ＋ 黒澤明『天国と地獄』">
   <div class="view-in" id="viewIn">
@@ -349,11 +358,11 @@ if (location.hostname === 'beautifulcontext.com'){
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 <script type="application/ld+json" id="ld">{"@context":"https://schema.org","@type":"Article","headline":"誘拐劇は、60年後にアメリカへ戻った。","alternativeHeadline":"原作から再解釈へ","about":[{"@type":"Movie","name":"HIGHEST 2 LOWEST","description":"スパイク・リーが、黒澤明『天国と地獄』の構造を現代のニューヨークへ移し替えた作品。富、家族、選択の価値が問われる。","creator":{"@type":"Person","name":"スパイク・リー監督"}},{"@type":"Movie","name":"天国と地獄","description":"エド・マクベインの小説『King’s Ransom』を原作に、誘拐事件を通じて企業家の倫理と社会の格差を描いた作品。","creator":{"@type":"Person","name":"黒澤明監督"}}],"author":{"@type":"Person","name":"編集部（見本）"},"datePublished":"2026-09-20T09:00:00.000Z","dateModified":"2026-09-20T09:00:00.000Z","inLanguage":"ja","articleBody":"同じ物語が、別の社会を走る。1963年に日本で映画化された誘拐劇が、時代と場所を越えて、現代のニューヨークへ戻ってきた。二作品をつないでいるのは名前だけではない。原作の構造を受け継ぎながら、富を持つ者の責任、都市の格差、家族を守る選択をそれぞれの社会に問い直している。系譜エド・マクベイン『King’s Ransom』（1959）から、黒澤明『天国と地獄』（1963）へ。そこからさらに、スパイク・リー『Highest 2 Lowest』（2025）へ。アメリカ小説が日本映画になり、その日本映画がふたたびアメリカ映画になるという、珍しい往復運動である。共通する問い誘拐犯が間違えてさらったのは、主人公の息子ではなく、運転手の息子だった。全財産を失ってでも、他人の子を救うのか。二作品はいずれも、この一点に主人公を立たせる。黒澤版の権藤は製靴会社の重役であり、その倫理は「良い靴を作る」ことに宿る。リー版のデヴィッド・キングは音楽プロデューサーであり、それは「良い音を聴き分ける耳」に置き換えられている。どちらも単なる富裕層ではなく、自分の仕事に強い美学を持つ成功者である。高低差というタイトル黒澤は横浜を見下ろす高台の邸宅を「天国」、その下界を「地獄」として、都市の高低差をそのまま経済的な階級差に重ねた。スパイク・リーはそれを High and Low ではなく Highest 2 Lowest とし、頂点と最底辺の距離をさらに強調している。","url":"https://beautifulcontext.com/c/highest-2-lowest--high-and-low/","image":"https://beautifulcontext.com/img/highest.jpg"}</script>
 
-<script src="js/seed.js?v=130"></script>
-<script src="js/store.js?v=130"></script>
-<script src="js/social.js?v=130"></script>
-<script src="js/render.js?v=130"></script>
-<script src="js/transition.js?v=130"></script>
-<script src="js/app.js?v=130"></script>
+<script src="js/seed.js?v=131"></script>
+<script src="js/store.js?v=131"></script>
+<script src="js/social.js?v=131"></script>
+<script src="js/render.js?v=131"></script>
+<script src="js/transition.js?v=131"></script>
+<script src="js/app.js?v=131"></script>
 </body>
 </html>

@@ -367,7 +367,8 @@
   /* 次のつながりへ（NEXT・›・左へ払う、どれも同じ）。Today では今日のほかの Choice を先に、そのあとは辿る順に */
   /* how：押したもの（button：つながりを辿る、arrow：›、swipe：左へ払う、key：→） */
   function nextAction(by){
-    how('next_' + (by || 'button'));
+    how(by === 'preview' ? 'preview' : 'next_' + (by || 'button'));
+    hintNext(false);
     if (hasCard(1)) goCard(1);
     else nextPlan().run();
   }
@@ -615,7 +616,7 @@
       if (sent.has(k)) return;
       sent.add(k);
       track(k, { context: slug, sec: Math.round((Date.now() - t0) / 1000) });
-    }), { rootMargin: '0px 0px -40% 0px' });
+    }), { rootMargin: '0px 0px -65% 0px' });   /* 本文が画面の上の三分の一まで来たら（パソコンの見開きでは、開いた時点で本文が見えている） */
     if (start) readIO.observe(start);
     if (end) readIO.observe(end);
   }
@@ -671,7 +672,9 @@
     body.classList.toggle('at-root', atRoot());
     if (page.kind === 'route' && page.entry) markRead(page.entry.id, page.step === 1);
     /* ページの上では、つながりを辿るの行き先を示す（コンテクストへ／次の区間へ／次の路線へ） */
-    $('uniLabel').textContent = nextPlan().label;
+    paintNext();
+    paintRoute();
+    hintNext(true);
     armStrips();
     watchRead(page);
     if (page.kind === 'route') setDock(page.entry, page.step);
@@ -721,6 +724,8 @@
     count(null);
     watchRead(null);
     paintMenu();
+    paintNext();
+    paintRoute();
     ld.textContent = listLd();
     view.classList.add('instant');
     view.classList.remove('on', 'enter', 'fade-in');
@@ -821,7 +826,7 @@
   /* 道の上で、その区間の次。道に無ければ（または最後なら）道の始めへ */
   const after = (id) => { const T = trail(); return T.length ? T[(posOf(id) + 1) % T.length].entry : null; };
   function nextPlan(){
-    const toCtx = (e, label) => ({ label, run: () => {
+    const toCtx = (e, label) => ({ label, peek: e ? { entry: e } : null, run: () => {
       if (!e) return;
       if (here && here.entry && here.entry.id === e.id) goStep(1, null);   /* 同じ区間なら、帯の上を進む */
       else go('#/c/' + encodeURIComponent(e.context.slug), { dir: 1 });
@@ -834,7 +839,7 @@
     if (here && here.entry && here.step === 1){
       const t = trail()[posOf(here.entry.id)];
       const step = t && t.exit === 'a' ? 0 : 2;
-      return { label: 'その先の駅へ', run: () => goStep(step, null) };
+      return { label: 'その先の駅へ', run: () => goStep(step, null), peek: { work: here.entry[step ? 'b' : 'a'] } };
     }
     if (here && here.work){
       if (here.entry) return toCtx(after(here.entry.id), '次の区間へ');
@@ -857,8 +862,81 @@
   let labelTick = 0;
   window.addEventListener('scroll', () => {
     if (!here || !here.feed || labelTick) return;
-    labelTick = requestAnimationFrame(() => { labelTick = 0; if (here && here.feed) $('uniLabel').textContent = nextPlan().label; });
+    labelTick = requestAnimationFrame(() => { labelTick = 0; if (here && here.feed) paintNext(); });
   }, { passive: true });
+
+  /* ---------- パソコン：次の行き先の予告・右の路線図・はじめての案内 ---------- */
+  /* 次のつながりの予告：つながりを辿るの行き先を、絵と題で先に見せる（次のエピソードのように）。触れても同じく次へ */
+  const peekPic = (w) => { const s = R.safeImg(w.image);
+    return s ? `<img src="${R.esc(s)}" alt="" decoding="async">` : `<i>${R.esc(String(w.title || '?').replace(/[『』「」]/g, '').charAt(0))}</i>`; };
+  function paintNext(){
+    const plan = nextPlan(), box = $('nextPeek');
+    $('uniLabel').textContent = plan.label;
+    if (!box) return;
+    let p = view.classList.contains('on') && here && !here.list ? plan.peek : null;
+    if (hasCard(1)){ const x = todayList()[here.today.i + 1]; if (x) p = { entry: x.e, today: true }; }
+    if (!p || !(p.work || p.entry)){ box.hidden = true; return; }
+    const [small, b, sub] = box.querySelectorAll('.np-txt>*');
+    if (p.work){
+      box.querySelector('.np-imgs').innerHTML = peekPic(p.work);
+      small.textContent = '次は　その先の駅';
+      b.textContent = p.work.title;
+      sub.textContent = (p.work.type || '作品') + (p.work.year ? '・' + p.work.year + '年' : '');
+    } else {
+      const e = p.entry;
+      box.querySelector('.np-imgs').innerHTML = peekPic(e.a) + peekPic(e.b);
+      small.textContent = p.today ? "次は　Today's Choice" : '次は　つながり';
+      b.textContent = String(e.context.headline || '').replace(/\n/g, '');
+      sub.textContent = `${e.a.title} ＋ ${e.b.title}`;
+    }
+    box.setAttribute('aria-label', `次へ：${b.textContent}`);
+    box.hidden = false;
+  }
+  if ($('nextPeek')) $('nextPeek').addEventListener('click', () => { if (view.classList.contains('on')) nextAction('preview'); });
+
+  /* 右の路線図：いまの前後（前に二つ、あとに三つ）を、地下鉄の路線図のように縦に。
+     区間（コンテクスト）と駅（その先の作品）を、つながりを辿ると同じ順に交互に並べる。触れるとそこへ */
+  function paintRoute(){
+    const box = $('routeMini');
+    if (!box) return;
+    const T = trail();
+    const i = view.classList.contains('on') && here && here.entry && !here.list ? posOf(here.entry.id) : -1;
+    body.classList.toggle('has-route', i >= 0);
+    if (i < 0){ box.innerHTML = ''; return; }
+    const cur = 2 * i + (here.step === 1 ? 0 : 1);
+    const from = Math.max(0, cur - 2), to = Math.min(2 * T.length - 1, cur + 3);
+    let li = '';
+    for (let k = from; k <= to; k++){
+      const t = T[k >> 1], e = t.entry, now = k === cur;
+      const cur_ = now ? ' aria-current="page"' : '';
+      if (k % 2 === 0){
+        if (k > from && (t.jump || t.from)){
+          const fw = t.from && (e.a.slug === t.from ? e.a : e.b);
+          li += `<li class="rm-break"><span>${t.jump ? '別の路線へ' : R.esc(fw.title) + 'から分岐'}</span></li>`;
+        }
+        li += `<li class="rm-seg${now ? ' now' : ''}"><a href="#/c/${encodeURIComponent(e.context.slug)}"${cur_}>` +
+          `<small>［${R.esc(e.context.routeName)}］</small><span>${R.esc(String(e.context.headline || '').replace(/\n/g, ''))}</span></a></li>`;
+      } else {
+        const w = e[t.exit];
+        li += `<li class="rm-st${now ? ' now' : ''}"><a href="${stepHash(e, t.exit === 'a' ? 0 : 2)}"${cur_}><i></i><span>${R.esc(w.title)}</span></a></li>`;
+      }
+    }
+    box.innerHTML = `<p class="rm-count"><b>${String(i + 1).padStart(3, '0')}</b> / ${T.length}<small>つながりを辿る順</small></p><ol class="rm">${li}</ol>`;
+  }
+
+  /* はじめてパソコンで開いた人に一度だけ：→ キーか、つながりを辿るで次へ進めること。最初に進むか、8 秒で消える */
+  let hinted = false, hintT = 0;
+  function hintNext(on){
+    const el = $('nextHint');
+    if (!el) return;
+    if (!on){ clearTimeout(hintT); el.classList.remove('show'); return; }
+    if (hinted || !wide.matches || !view.classList.contains('on') || !here || here.list) return;
+    hinted = true;
+    try { if (localStorage.getItem('bc-hint-next')) return; localStorage.setItem('bc-hint-next', '1'); } catch (e) {}
+    el.hidden = false;
+    requestAnimationFrame(() => el.classList.add('show'));
+    hintT = setTimeout(() => hintNext(false), 8000);
+  }
 
   /* NEXT UNIVERSE：次のつながりへ（行き先はアプリが決める）。戻るのは左の端から払う */
   uniBtn.addEventListener('click', () => {
@@ -1086,7 +1164,7 @@
     /* つながりを創るへ（作品ページの ＋・メニュー・UniverseIt! の帯）。ページを離れる前に送る */
     if (/^editor\.html/.test(a.getAttribute('href'))) track('remix_open', { from_page: kindOf() });
     const route = a.getAttribute('href').startsWith('#/') ? a.getAttribute('href') : routeOfLink(a);
-    if (route){ ev.preventDefault(); how(a.closest('.ls') ? 'list' : a.closest('#menu') ? 'menu' : 'link'); go(route, { origin: a.closest('.view') ? null : rectOf(a) }); }
+    if (route){ ev.preventDefault(); how(a.closest('.ls') ? 'list' : a.closest('#menu') ? 'menu' : a.closest('#routeMini') ? 'route_map' : 'link'); go(route, { origin: a.closest('.view') ? null : rectOf(a) }); }
   });
   /* c/区間/・w/作品/・e/編集者/ のアドレスを、アプリの道筋（#/c/…）に読み替える。サイトの外や、ほかのファイルは null */
   function routeOfLink(a){

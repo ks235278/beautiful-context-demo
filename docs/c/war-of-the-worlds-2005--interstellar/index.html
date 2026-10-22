@@ -38,7 +38,7 @@ try { if (sessionStorage.getItem('bc-resume')) document.documentElement.classLis
 <link rel="preload" as="image" href="img/pcb-charcoal.jpg">
 <link rel="preload" as="image" href="img/logo-layer-mark.png">
 <link rel="preload" as="image" href="img/logo-layer-words.png">
-<link rel="manifest" href="manifest.webmanifest?v=130">
+<link rel="manifest" href="manifest.webmanifest?v=131">
 <link rel="apple-touch-icon" href="icon-180.png">
 <!-- タブと検索結果に出る小さな印。アプリの印（ホーム画面のアイコン）と同じ形 -->
 <link rel="icon" href="favicon.ico" sizes="16x16 32x32 48x48">
@@ -76,9 +76,9 @@ if (location.hostname === 'beautifulcontext.com'){
   document.head.appendChild(ga);
 }
 </script>
-<script src="js/theme.js?v=130"></script>
-<link rel="stylesheet" href="app.css?v=130">
-<link rel="stylesheet" href="fade.css?v=130">
+<script src="js/theme.js?v=131"></script>
+<link rel="stylesheet" href="app.css?v=131">
+<link rel="stylesheet" href="fade.css?v=131">
 </head>
 <body class="stage-uni viewing route" data-route="#/c/war-of-the-worlds-2005--interstellar">
 
@@ -109,6 +109,9 @@ if (location.hostname === 'beautifulcontext.com'){
   <p class="dock-brand" id="dockBrand">BEAUTIFUL CONTEXT</p>
   <!-- 読む画面（Today・コンテクスト・作品）では NEXT UNIVERSE だけ。戻るのは左の端から右へ払う（iPhone と同じ）か、上の ‹。
        ReMixIt!（つながりを創る）は編集の側の道具なので、UniverseIt! の画面とメニューに置く -->
+  <!-- パソコン：つながりを辿るの行き先を、絵と題で先に見せる（次のエピソードのように）。触れても同じく次へ -->
+  <button type="button" class="next-peek" id="nextPeek" hidden><span class="np-imgs"></span><span class="np-txt"><small></small><b></b><span></span></span></button>
+  <p class="next-hint" id="nextHint" hidden>→ キーか「つながりを辿る」で、次のつながりへ</p>
   <div class="actions">
     <a class="act remix" id="remix" href="editor.html?new=1">
       <svg viewBox="0 0 32 32" aria-hidden="true"><circle cx="12" cy="16" r="8.5"/><circle cx="20" cy="16" r="8.5"/></svg>
@@ -136,16 +139,22 @@ if (location.hostname === 'beautifulcontext.com'){
   <a href="#/" data-uni>UniverseIt!<small>すべての言葉から辿る</small></a>
   <a href="editor.html?new=1">ReMixIt!<small>つながりを創る</small></a>
   <button type="button" class="menu-account" id="menuAccount" data-login>ログイン<small>アカウントを作る</small></button>
-  <a href="#/mission">Our Mission</a>
-  <a href="#/ad">広告枠のご案内</a>
-  <a href="#/credits">画像の出典</a>
-  <a href="#/terms">利用規約・プライバシー</a>
-  <a href="manage.html">運営者メニュー</a>
-  <div class="theme-pick" role="group" aria-label="地">
-    <button type="button" data-theme-set="white">ReMixIt!<small>A / WHITE</small></button>
-    <button type="button" data-theme-set="charcoal">UniverseIt!<small>B / CHARCOAL</small></button>
+  <!-- 案内と運営の入口。パソコンでは列の下に小さくまとめる（辿る道の邪魔をしない） -->
+  <div class="menu-foot">
+    <a href="#/mission">Our Mission</a>
+    <a href="#/ad">広告枠のご案内</a>
+    <a href="#/credits">画像の出典</a>
+    <a href="#/terms">利用規約・プライバシー</a>
+    <a href="manage.html">運営者メニュー</a>
+    <div class="theme-pick" role="group" aria-label="地">
+      <button type="button" data-theme-set="white">ReMixIt!<small>A / WHITE</small></button>
+      <button type="button" data-theme-set="charcoal">UniverseIt!<small>B / CHARCOAL</small></button>
+    </div>
   </div>
 </nav>
+
+<!-- パソコン：右の余白に、いまの前後の路線図（区間と駅を、つながりを辿ると同じ順に） -->
+<nav class="route-mini" id="routeMini" aria-label="路線図"></nav>
 
 <div class="view on" id="view" role="dialog" aria-modal="true" aria-label="スピルバーグ『宇宙戦争』 ＋ クリストファー・ノーラン『インターステラー』">
   <div class="view-in" id="viewIn">
@@ -349,11 +358,11 @@ if (location.hostname === 'beautifulcontext.com'){
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 <script type="application/ld+json" id="ld">{"@context":"https://schema.org","@type":"Article","headline":"父と子の物語は、もう一人の監督へ渡った。","alternativeHeadline":"スピルバーグを経由して","about":[{"@type":"Movie","name":"宇宙戦争","description":"ウェルズの小説を現代のアメリカに移し、別れた妻のもとで暮らす子どもたちを連れて逃げる父親をトム・クルーズが演じた。","creator":{"@type":"Person","name":"スティーヴン・スピルバーグ監督"}},{"@type":"Movie","name":"インターステラー","description":"砂嵐と作物の枯死に追い詰められた近未来の地球から、人類の移住先を探して宇宙へ向かう元宇宙飛行士と、地球に残された娘の物語。","creator":{"@type":"Person","name":"クリストファー・ノーラン監督"}}],"author":{"@type":"Person","name":"生成AI（初稿）"},"datePublished":"2026-09-14T06:10:00.000Z","dateModified":"2026-09-14T06:10:00.000Z","inLanguage":"ja","articleBody":"ハブはスティーヴン・スピルバーグ。『インターステラー』は、はじめスピルバーグが監督する予定で企画が進められていた。脚本を書いていたのはジョナサン・ノーランで、のちに兄のクリストファーが引き継いだ。スピルバーグが『宇宙戦争』で描いた、地球の危機のなかの父と子。『インターステラー』もまた、地球の危機のなかで父が子のために旅立つ物語になった。二つの作品は、同じ監督の手を経由して、同じ主題を分け持っている。","url":"https://beautifulcontext.com/c/war-of-the-worlds-2005--interstellar/","image":"https://beautifulcontext.com/img/works/war-of-the-worlds-2005.jpg"}</script>
 
-<script src="js/seed.js?v=130"></script>
-<script src="js/store.js?v=130"></script>
-<script src="js/social.js?v=130"></script>
-<script src="js/render.js?v=130"></script>
-<script src="js/transition.js?v=130"></script>
-<script src="js/app.js?v=130"></script>
+<script src="js/seed.js?v=131"></script>
+<script src="js/store.js?v=131"></script>
+<script src="js/social.js?v=131"></script>
+<script src="js/render.js?v=131"></script>
+<script src="js/transition.js?v=131"></script>
+<script src="js/app.js?v=131"></script>
 </body>
 </html>
