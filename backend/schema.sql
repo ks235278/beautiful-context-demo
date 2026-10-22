@@ -1755,6 +1755,131 @@ language sql stable security definer set search_path = '' as $$
    limit 2000;
 $$;
 
+-- @migration 09_reports_no_global_block
+
+-- 二度目のレビュー（migration 08 への指摘）を直す。
+--   ・未ログインの合計 100件/時で「断る」と、一人が送り続けるだけで、権利者の削除依頼まで止められてしまう
+--     → 合計が多くても断らない。受け付けて throttled（後回し）の印を付け、運営者は後ろに並べて扱う
+--   ・一人あたりの上限は、IP そのものではなく subnet（IPv4 は /24、IPv6 は /48）で数える。近い番地を回しても抜けられない
+--   ・未ログインで送信元が分からないときは、はっきり断る（偽れる値には頼らない）
+--   ・ログインした人は、人ごとの上限だけ（同じ subnet の他人の送りすぎに巻き込まれない）
+-- private.client_ip()（cf-connecting-ip → x-real-ip → x-forwarded-for の右端）は 08 のまま。
+
+alter table public.reports add column throttled boolean not null default false;
+comment on column public.reports.throttled is '未ログインの依頼が直近1時間に100件以上あったときに受け付けたもの。断らずに受け付け、運営者は後回しにして扱う';
+comment on column public.reports.ip_hash is '送信元の subnet（IPv4 は /24、IPv6 は /48）と日付（日本時間）を混ぜた sha256。IP そのものは残さない';
+
+-- 運営者の列は「ふつうの依頼 → 後回し」の順。その並びで引く索引に替える
+drop index public.reports_open_idx;
+create index reports_queue_idx on public.reports (throttled, created_at) where status in ('open', 'in_progress');
+
+-- 送信元の subnet（'198.51.100.0/24'、'2001:db8:1::/48'）。分からなければ null
+create or replace function private.client_subnet()
+returns text language plpgsql stable set search_path = '' as $$
+declare
+  v_ip   text := private.client_ip();
+  v_addr inet;
+begin
+  if v_ip is null then return null; end if;
+  -- IPv6 に包まれた IPv4（::ffff:192.0.2.1）は IPv4 として扱う（/48 だと IPv4 全部が一つにまとまってしまう）
+  if v_ip ~* '^::ffff:[0-9]{1,3}(\.[0-9]{1,3}){3}$' then v_ip := substr(v_ip, 8); end if;
+  begin
+    v_addr := v_ip::inet;
+  exception when others then
+    return null;
+  end;
+  return network(set_masklen(v_addr, case when family(v_addr) = 4 then 24 else 48 end))::text;
+end $$;
+
+-- 同じ subnet から、未ログインで直近1時間に届いた依頼の数
+create or replace function private.recent_anon_reports_from(p_subnet_hash text)
+returns int language sql stable security definer set search_path = '' as $$
+  select count(*)::int from public.reports r
+   where r.reporter_user_id is null and r.ip_hash = p_subnet_hash and r.created_at > now() - interval '1 hour';
+$$;
+
+-- 同じ人が直近1時間に送った依頼の数
+create or replace function private.recent_reports_by(p_user uuid)
+returns int language sql stable security definer set search_path = '' as $$
+  select count(*)::int from public.reports r
+   where r.reporter_user_id = p_user and r.created_at > now() - interval '1 hour';
+$$;
+
+create or replace function private.reports_before_insert()
+returns trigger language plpgsql set search_path = '' as $$
+declare
+  v_subnet text;
+begin
+  if private.is_backend() then return new; end if;
+  new.reporter_user_id := auth.uid();
+  new.status     := 'open';
+  new.resolution := '';
+  new.handled_by := null;
+  new.handled_at := null;
+  new.created_at := now();
+  new.throttled  := false;
+  -- 偽れない IP から subnet を出し、日付と混ぜてハッシュにする
+  v_subnet := private.client_subnet();
+  new.ip_hash := case when v_subnet is null then null
+                      else encode(sha256(convert_to(v_subnet || '|' || to_char(now() at time zone 'Asia/Tokyo', 'YYYY-MM-DD'), 'UTF8')), 'hex') end;
+
+  -- ログインした人：人ごとに1時間5件まで（送信元が分からなくても送れる）
+  if new.reporter_user_id is not null then
+    if private.recent_reports_by(new.reporter_user_id) >= 5 then
+      raise exception '短い時間にたくさん送られています。しばらくしてから送ってください' using errcode = '54000';
+    end if;
+    return new;
+  end if;
+
+  -- 未ログイン：送信元が分からなければ断る
+  if new.ip_hash is null then
+    raise exception '送信元を確認できませんでした。お手数ですが、利用規約の連絡先からお知らせください。' using errcode = '22023';
+  end if;
+  -- 同じ subnet から1時間5件まで
+  if private.recent_anon_reports_from(new.ip_hash) >= 5 then
+    raise exception '短い時間にたくさん送られています。しばらくしてから送ってください' using errcode = '54000';
+  end if;
+  -- 未ログインの合計が1時間100件以上でも断らない。後回しの印を付けて受け付ける
+  if private.recent_anon_reports() >= 100 then
+    new.throttled := true;
+  end if;
+  return new;
+end $$;
+
+-- 08 の「IP か人か、どちらかが同じなら数える」関数は使わなくなった
+drop function private.recent_reports(text, uuid);
+
+revoke all on function private.client_subnet() from public;
+revoke all on function private.recent_anon_reports_from(text) from public;
+revoke all on function private.recent_reports_by(uuid) from public;
+grant execute on function private.client_subnet() to anon, authenticated, service_role;
+grant execute on function private.recent_anon_reports_from(text) to anon, authenticated, service_role;
+grant execute on function private.recent_reports_by(uuid) to anon, authenticated, service_role;
+
+-- 運営者の依頼の列（security_invoker：運営者にはすべて、読者には自分の分だけ）。ふつうの依頼が先、後回しは後ろ。どちらも古い順
+create view public.v_report_queue with (security_invoker = true) as
+select r.id, r.kind, r.target_type, r.target_id, r.target_url, r.reason, r.detail, r.is_rights_holder,
+       r.reporter_user_id, r.reporter_name, r.reporter_email, r.throttled, r.status, r.created_at
+  from public.reports r
+ where r.status in ('open', 'in_progress')
+ order by r.throttled, r.created_at;
+revoke all on public.v_report_queue from anon, authenticated;
+grant select on public.v_report_queue to authenticated, service_role;
+
+-- 日ごとの数に「後回しで受け付けた依頼」を足す（列は末尾に足すだけ）
+create or replace view public.v_daily_activity with (security_invoker = true) as
+with today as (select (now() at time zone 'Asia/Tokyo')::date as d),
+     days  as (select t.d - g as day from today t, generate_series(0, 89) as g)
+select d.day,
+       (select count(*) from public.profiles p  where (p.created_at   at time zone 'Asia/Tokyo')::date = d.day) as signups,
+       (select count(*) from public.follows f   where (f.created_at   at time zone 'Asia/Tokyo')::date = d.day) as follows,
+       (select count(*) from public.comments m  where (m.created_at   at time zone 'Asia/Tokyo')::date = d.day) as comments,
+       (select count(*) from public.contexts c  where (c.published_at at time zone 'Asia/Tokyo')::date = d.day) as published,
+       (select count(*) from public.reports r   where (r.created_at   at time zone 'Asia/Tokyo')::date = d.day) as reports,
+       (select count(*) from public.reports r   where r.throttled and (r.created_at at time zone 'Asia/Tokyo')::date = d.day) as reports_throttled
+  from days d
+ order by d.day desc;
+
 -- @end
 
 -- =====================================================================
