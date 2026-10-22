@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,viewport-fit=cover">
+<title>つながりを流れで観る｜Beautiful Context</title>
+<meta name="description" content="Beautiful Context のつながりを、一画面に一つずつ。上へ払うだけで、次のつながりへ。">
+<meta name="theme-color" content="#061629">
+<link rel="canonical" href="https://beautifulcontext.com/flow.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Beautiful Context">
+<meta property="og:title" content="つながりを流れで観る｜Beautiful Context">
+<meta property="og:description" content="Beautiful Context のつながりを、一画面に一つずつ。上へ払うだけで、次のつながりへ。">
+<meta property="og:image" content="https://beautifulcontext.com/icon-512.png">
+<link rel="apple-touch-icon" href="icon-180.png">
+<link rel="icon" href="favicon.ico" sizes="16x16 32x32 48x48">
+<link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Beautiful Context">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Lato:wght@300;400;700&display=swap" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Lato:wght@300;400;700&display=swap"></noscript>
+<!-- アクセス解析（Google アナリティクス 4）。index.html と同じ：本番のアドレスで開いたときだけ数える。
+     ページの表示は flow.js が、札が替わるたびに送る（nav_via: flow_swipe）。打った文字は送らない -->
+<script>
+if (location.hostname === 'beautifulcontext.com'){
+  window.dataLayer = window.dataLayer || [];
+  window.gtag = function(){ dataLayer.push(arguments); };
+  gtag('js', new Date()); gtag('config', 'G-Z955G7G1ZG', { send_page_view: false });
+  var ga = document.createElement('script'); ga.async = true; ga.src = 'https://www.googletagmanager.com/gtag/js?id=G-Z955G7G1ZG';
+  document.head.appendChild(ga);
+}
+</script>
+<link rel="stylesheet" href="flow.css?v=1">
+</head>
+<body>
+
+<!-- パソコンでは、地球の上に縦の舞台を一つ置く -->
+<div class="earth" aria-hidden="true"></div>
+<a class="pc-logo" href="index.html" aria-label="BEAUTIFUL CONTEXT（TOP へ）"><img src="img/logo.png" alt=""></a>
+
+<div class="stage" id="stage">
+  <header class="top">
+    <a class="wm" href="index.html" aria-label="BEAUTIFUL CONTEXT（TOP へ）"><img src="img/logo.png" alt=""></a>
+    <span class="pos" id="pos" aria-live="polite"></span>
+  </header>
+
+  <!-- 一画面に一つのつながり。上へ払うと次へ（scroll-snap。指の勢いも、途中で止めるのもブラウザそのもの） -->
+  <main class="flow" id="flow" aria-label="つながりの流れ"></main>
+
+  <!-- 右の細い列：フォロー・共感・共有・一覧 -->
+  <aside class="rail" id="rail" aria-label="このつながりへの操作"></aside>
+
+  <p class="hint" id="hint" aria-hidden="true">上へ払うと、次のつながり</p>
+
+  <!-- 「読む」：本文が紙の幕として下から上がる。流れからは離れない -->
+  <div class="sheet" id="sheet">
+    <div class="veil" data-close></div>
+    <section class="panel" id="panel" role="dialog" aria-modal="true" aria-label="コンテクスト・ストーリー">
+      <div class="grab" aria-hidden="true"><i></i></div>
+      <button type="button" class="x" data-close aria-label="閉じる">×</button>
+      <div class="body" id="sheetBody"></div>
+    </section>
+  </div>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+</div>
+
+<p class="pc-keys" aria-hidden="true">↑ ↓ で、前後のつながり</p>
+
+<script src="js/seed.js?v=130"></script>
+<script src="js/store.js?v=130"></script>
+<script src="js/social.js?v=130"></script>
+<script src="js/render.js?v=130"></script>
+<script src="js/flow.js?v=1"></script>
+</body>
+</html>

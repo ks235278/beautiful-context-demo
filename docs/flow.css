@@ -1,0 +1,205 @@
+/* Beautiful Context — つながりを流れで観る（試作）
+
+   一画面に一つのつながり。黒い地に二枚の絵を大きく、見出しはポスターのように。
+   上へ払うだけで次へ（scroll-snap。指の勢いも、途中で止めるのも、ブラウザそのまま）。
+   「読む」で、本文が紙の幕として下から上がる（流れから離れない）。
+
+   色と書体は app.css と同じ（紙・墨・金・紺・橙、明朝、Bebas Neue と Lato）。
+   先生の設計（index.html の道筋）には手を触れない。これは別の入口。 */
+
+:root{
+  --paper:#f7f4ed; --ink:#121212; --gold:#a97717; --navy:#1a2f5a; --accent:#ee8232; --ground:#061629;
+  --muted:#6b6b67; --rule-p:#d1ccc3;
+  --mincho:"Yu Mincho","YuMincho","Hiragino Mincho ProN","Noto Serif JP",serif;
+  --gothic:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Hiragino Kaku Gothic ProN","Yu Gothic","Noto Sans JP",sans-serif;
+  --sat:env(safe-area-inset-top,0px); --sab:env(safe-area-inset-bottom,0px);
+  /* 二枚の絵の高さ：画面の高さの 36%、ただし横幅に収まる範囲（3:4 を崩さない） */
+  --duoh:min(36vh,66vw);
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{height:100%;margin:0;overflow:hidden;overscroll-behavior:none;background:var(--ground);color:#fff;font-family:"Lato",var(--gothic)}
+button{font:inherit;color:inherit}
+a{color:inherit}
+img{display:block}
+.earth,.pc-logo,.pc-keys{display:none}
+
+/* ---------- 舞台（携帯では画面そのもの） ---------- */
+.stage{position:fixed;inset:0;overflow:hidden;background:var(--ground);container-type:size}
+@supports (height:1cqh){ .stage{--duoh:min(36cqh,66cqw)} }
+
+/* ---------- 流れ ---------- */
+.flow{position:absolute;inset:0;overflow-y:auto;overflow-x:hidden;scroll-snap-type:y mandatory;overscroll-behavior:contain;
+  -webkit-overflow-scrolling:touch;touch-action:pan-y;scrollbar-width:none}
+.flow::-webkit-scrollbar{display:none}
+
+/* 札。高さは流れの枠そのもの（100% = いま見えている画面の高さ。iOS の帯が出入りしても札の高さは枠に付いてくる） */
+.card{position:relative;height:100%;display:flex;flex-direction:column;scroll-snap-align:start;scroll-snap-stop:always;
+  padding:calc(var(--sat) + 56px) 0 calc(var(--sab) + 22px);
+  background:radial-gradient(120% 70% at 50% 26%,#0d2449 0%,var(--ground) 50%,#03091a 100%)}
+.card.empty{align-items:center;justify-content:center;color:rgba(255,255,255,.7);font:14px/2 var(--mincho)}
+
+/* 二枚の絵。3:4 のまま並べる（ポスターも表紙も切らない） */
+.hero{flex:0 0 auto;width:min(100% - 20px,calc(var(--duoh) * 1.51));margin:0 auto}
+.duo{position:relative;display:grid;grid-template-columns:1fr 1fr;gap:4px;width:100%;aspect-ratio:302/200;
+  transform:scale(1.02);transition:transform 1.2s cubic-bezier(.2,.7,.2,1)}
+.card.on .duo{transform:none}
+.art{position:relative;margin:0;overflow:hidden;background:#0a1a33;box-shadow:0 10px 40px -10px #000a}
+.art img{width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .6s ease;
+  -webkit-user-drag:none;user-select:none;-webkit-user-select:none;-webkit-touch-callout:none}
+.art img.in{opacity:1}
+.art .ph{position:absolute;inset:0;display:grid;place-content:center;text-align:center;color:var(--gold);font:46px/1 var(--mincho)}
+.art .ph small{display:block;margin-top:10px;font:400 10px/1.5 var(--gothic);color:#9aa7b8;letter-spacing:.14em}
+.swap{position:absolute;z-index:2;left:50%;top:50%;transform:translate(-50%,-50%);display:grid;place-items:center;width:28px;height:28px;border-radius:50%;
+  background:rgba(255,255,255,.94);color:#111;font:700 13px/1 var(--gothic);font-style:normal;box-shadow:0 3px 12px #0008}
+/* 絵の出典は、絵のすぐ下に小さく（一行ずつ、切れたら…） */
+.credits{margin:8px 0 0;padding:0 2px;color:rgba(255,255,255,.42);font:9.5px/1.5 var(--gothic);letter-spacing:.02em}
+.credits span{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+
+/* 見出しの組（ポスター・書籍の表紙のように、左揃え） */
+.lead{flex:1 1 auto;min-height:0;padding:24px 22px 0;
+  opacity:.5;transform:translateY(10px);transition:opacity .7s ease .05s,transform .9s cubic-bezier(.2,.7,.2,1) .05s}
+.card.on .lead{opacity:1;transform:none}
+.route{margin:0 0 10px;color:var(--gold);font:700 10px/1.4 var(--gothic);letter-spacing:.14em}
+/* 見出し。--n は一番長い行の字数（flow.js）。その行が一行に収まる大きさまで小さくする（途中で折らない） */
+.hl{margin:0;color:#fff;font:600 clamp(24px,7.6vw,32px)/1.46 var(--mincho);letter-spacing:.01em;text-wrap:balance;text-shadow:0 1px 14px rgba(0,0,0,.35);
+  font-size:min(clamp(24px,7.6vw,32px),calc((100vw - 48px) / var(--n,10) * .97))}
+@supports (width:1cqw){ .hl{font-size:min(clamp(24px,7.6cqw,32px),calc((100cqw - 48px) / var(--n,10) * .97))} }
+/* 関係の行。作品名は途中で折らず、ひとかたまりで次の行へ。右の列の下に入らないよう、右を空ける */
+.rel{margin:14px 48px 0 0;color:rgba(255,255,255,.72);font:12.5px/1.7 var(--mincho)}
+.rel span{display:inline-block;max-width:100%}
+.rel i{margin:0 .45em;color:var(--gold);font-style:normal}
+.row{display:flex;align-items:center;gap:18px;margin-top:24px}
+.read{display:inline-flex;align-items:center;gap:9px;height:40px;padding:0 20px;border:1px solid rgba(255,255,255,.6);border-radius:20px;
+  background:rgba(255,255,255,.05);cursor:pointer;font:700 12.5px/1 var(--gothic);letter-spacing:.1em;white-space:nowrap;
+  transition:transform .22s cubic-bezier(.2,.9,.3,1.2),background-color .2s}
+.read small{font:700 10px/1 "Lato",sans-serif;letter-spacing:.06em;color:rgba(255,255,255,.62)}
+.read:active{transform:scale(.96);background:rgba(255,255,255,.14)}
+.ed{display:grid;gap:3px;min-width:0;text-decoration:none}
+.ed b{font:700 12.5px/1.3 var(--gothic);letter-spacing:.02em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ed small{font:700 8.5px/1.3 "Lato",sans-serif;letter-spacing:.16em;color:rgba(255,255,255,.55)}
+.ed:active{opacity:.7}
+/* 低い画面（iPhone SE など）では、見出しを少し小さく、関係の行を詰める */
+@media (max-height:640px){
+  .card{padding-top:calc(var(--sat) + 48px)}
+  .lead{padding:16px 56px 0 22px}   /* 低い画面では右の列が高くまで来るので、文字の右を空ける */
+  .hl{font-size:min(clamp(20px,6.2vw,26px),calc((100vw - 82px) / var(--n,10) * .97))}
+  .rel{margin:10px 0 0;font-size:11.5px;line-height:1.55}
+  .row{margin-top:16px}
+}
+
+/* ---------- 上：名前と位置 ---------- */
+.top{position:absolute;z-index:6;left:0;right:0;top:0;display:flex;align-items:center;justify-content:center;
+  height:calc(var(--sat) + 54px);padding-top:var(--sat);pointer-events:none;
+  background:linear-gradient(rgba(6,22,41,.8),rgba(6,22,41,0))}
+.top .wm,.top .pos{pointer-events:auto}
+.wm{display:block;padding:6px}
+.wm img{height:17px;width:auto;opacity:.96}
+.wm:active{opacity:.7}
+.pos{position:absolute;right:16px;top:calc(var(--sat) + 19px);color:rgba(255,255,255,.62);
+  font:400 15px/1 "Bebas Neue","Oswald","Arial Narrow",sans-serif;letter-spacing:.1em;font-variant-numeric:tabular-nums}
+
+/* ---------- 右の細い列 ---------- */
+.rail{position:absolute;z-index:5;right:8px;bottom:calc(var(--sab) + 60px);display:grid;gap:12px;justify-items:center}
+.rb{position:relative;display:grid;justify-items:center;align-content:start;gap:4px;width:50px;padding:0;border:0;background:none;
+  text-decoration:none;cursor:pointer;color:#fff;transition:transform .22s cubic-bezier(.2,.9,.3,1.2)}
+.rb:active{transform:scale(.9)}
+.rb svg{width:28px;height:28px;fill:none;stroke:#fff;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round;
+  filter:drop-shadow(0 1px 6px rgba(0,0,0,.55));transition:fill .25s,stroke .25s}
+.rb small{font:700 9.5px/1 var(--gothic);letter-spacing:.06em;color:rgba(255,255,255,.82);text-shadow:0 1px 6px rgba(0,0,0,.6);font-variant-numeric:tabular-nums}
+.rb.like.on svg{fill:var(--gold);stroke:var(--gold)}
+.rb.pop svg{animation:pop .5s cubic-bezier(.2,.9,.3,1.3)}
+@keyframes pop{30%{transform:scale(1.28)}}
+.rb.follow{height:54px}
+.rb.follow .ava{display:grid;place-items:center;width:38px;height:38px;border-radius:50%;overflow:hidden;background:#1d1b18;color:#f3e7cf;
+  font:600 16px/1 var(--mincho);box-shadow:0 0 0 1.5px rgba(255,255,255,.9),0 2px 10px #0008;transition:box-shadow .25s}
+.rb.follow .ava img{width:100%;height:100%;object-fit:cover}
+.rb.follow .badge{position:absolute;left:50%;top:30px;transform:translateX(-50%);display:grid;place-items:center;width:17px;height:17px;border-radius:50%;
+  background:var(--accent);color:#fff;font:700 11px/1 var(--gothic);font-style:normal;box-shadow:0 0 0 1.5px var(--ground);transition:background-color .25s}
+.rb.follow.on .badge{background:var(--gold)}
+.rb.follow.on .ava{box-shadow:0 0 0 1.5px var(--gold),0 2px 10px #0008}
+/* 本文を読んでいるあいだ、列と印は退く */
+.stage.reading .rail,.stage.reading .hint,.stage.reading .top{opacity:0;transition:opacity .3s ease}
+.rail,.top{transition:opacity .4s ease}
+
+/* ---------- 最初の一度だけの印 ---------- */
+.hint{position:absolute;z-index:6;left:0;right:0;bottom:calc(var(--sab) + 16px);margin:0;text-align:center;color:rgba(255,255,255,.72);
+  font:11.5px/1.5 var(--gothic);letter-spacing:.12em;opacity:0;visibility:hidden;pointer-events:none;
+  transition:opacity .6s ease,visibility 0s linear .6s}
+.hint.show{opacity:1;visibility:visible;transition:opacity .9s ease 1.1s,visibility 0s linear 1.1s}
+.hint::before{content:"";display:block;width:12px;height:12px;margin:0 auto 10px;
+  border-left:1px solid rgba(255,255,255,.85);border-top:1px solid rgba(255,255,255,.85);
+  animation:lift 2.4s ease-in-out infinite}
+@keyframes lift{0%,100%{transform:translateY(4px) rotate(45deg);opacity:.45}50%{transform:translateY(-4px) rotate(45deg);opacity:1}}
+
+/* ---------- 紙の幕（本文） ---------- */
+.sheet{position:absolute;inset:0;z-index:20;visibility:hidden;transition:visibility 0s linear .5s}
+.sheet.open{visibility:visible;transition-delay:0s}
+.veil{position:absolute;inset:0;background:rgba(2,8,20,.5);opacity:0;transition:opacity .45s ease}
+.sheet.open .veil{opacity:1}
+.panel{position:absolute;left:0;right:0;bottom:0;height:88%;display:flex;flex-direction:column;border-radius:18px 18px 0 0;
+  background:var(--paper);color:var(--ink);box-shadow:0 -20px 60px #0007;
+  transform:translateY(104%);transition:transform .5s cubic-bezier(.2,.75,.2,1);will-change:transform}
+.sheet.open .panel{transform:none}
+.grab{flex:0 0 auto;display:grid;place-items:center;padding:10px 0 4px}
+.grab i{display:block;width:38px;height:4px;border-radius:2px;background:#c9c3b6}
+.x{position:absolute;z-index:2;right:8px;top:8px;width:42px;height:42px;border:0;border-radius:50%;background:none;color:#666;
+  font:300 28px/1 "Lato",sans-serif;cursor:pointer}
+.x:active{background:#e9e4d9}
+.body{flex:1 1 auto;min-height:0;overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;
+  padding:8px 24px calc(var(--sab) + 44px);font-family:var(--mincho)}
+.body .meta{margin:0 0 14px;padding-right:40px;color:var(--gold);font:700 10px/1.5 var(--gothic);letter-spacing:.14em}
+.body h2{margin:0 0 16px;font:600 21px/1.55 var(--mincho);letter-spacing:.01em}
+.body h3{margin:24px 0 8px;font:600 16px/1.5 var(--mincho)}
+.body p{margin:0 0 14px;font-size:14px;line-height:2;text-align:justify}
+.body ul,.body ol{margin:0 0 14px;padding-left:1.3em;font-size:14px;line-height:2}
+.body blockquote{margin:0 0 14px;padding-left:12px;border-left:2px solid var(--gold);color:#444}
+.body .byline{margin:26px 0 0;padding-top:14px;border-top:1px solid var(--rule-p);color:var(--muted);font:10.5px/1.6 var(--gothic);letter-spacing:.06em;text-align:left}
+.body .credit{margin:10px 0 0;color:var(--muted);font:10.5px/1.6 var(--gothic);word-break:break-word;text-align:left}
+.body .credit a{color:#555}
+.body .more{display:block;margin:26px 0 0;padding:14px 16px;border:1px solid #bdb6a9;border-radius:6px;background:#fff;
+  color:var(--ink);text-decoration:none;font:650 11.5px/1.4 var(--gothic);letter-spacing:.02em}
+.body .more span{float:right;margin-top:-3px;font-size:18px;line-height:1}
+.body .more:active{background:#f1ede4}
+.body .end{height:1px}
+
+/* ---------- 知らせ ---------- */
+.toast{position:absolute;z-index:30;left:50%;bottom:calc(var(--sab) + 92px);transform:translate(-50%,8px);max-width:86%;
+  padding:10px 18px;border-radius:20px;background:rgba(247,244,237,.96);color:var(--ink);font:12.5px/1.5 var(--gothic);letter-spacing:.02em;
+  box-shadow:0 6px 24px #0006;opacity:0;visibility:hidden;pointer-events:none;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+  transition:opacity .3s ease,transform .3s ease,visibility 0s linear .3s}
+.toast.show{opacity:1;visibility:visible;transform:translate(-50%,0);transition-delay:0s}
+
+/* ---------- パソコン（幅 1100px から）：地球の上に、縦の舞台を一つ ---------- */
+@media (min-width:1100px){
+  body{background:#04070d}
+  .earth{display:block;position:fixed;inset:0;background:#04070d url(img/bg-earth.jpg) center/cover no-repeat}
+  .earth::after{content:"";position:absolute;inset:0;background:rgba(3,8,18,.36)}
+  .pc-logo{display:block;position:fixed;z-index:2;left:34px;top:30px}
+  .pc-logo img{height:26px;width:auto;opacity:.92}
+  .pc-keys{display:block;position:fixed;z-index:2;left:36px;bottom:28px;margin:0;color:rgba(255,255,255,.55);
+    font:11px/1.5 "Lato",sans-serif;letter-spacing:.2em}
+  /* 舞台は角を丸め、中身（流れ・幕）だけを切り抜く。右の列は舞台の外、地球の上に浮かべる（文字の幅を狭めない） */
+  .stage{left:50%;top:50%;right:auto;bottom:auto;width:440px;height:min(100vh - 64px,900px);transform:translate(-50%,-50%);
+    overflow:visible;border-radius:16px;box-shadow:0 40px 100px #000c,0 0 0 1px rgba(255,255,255,.09)}
+  .stage{--sat:0px;--sab:0px}
+  .flow,.sheet{border-radius:16px;overflow:hidden}
+  .flow{overflow-y:auto;overflow-x:hidden}
+  .top{border-radius:16px 16px 0 0}
+  .panel{border-radius:16px 16px 0 0}
+  .rail{right:-82px;bottom:28px;gap:16px}
+  .rel{margin-right:0}
+}
+@media (hover:hover) and (pointer:fine){
+  .read:hover{background:rgba(255,255,255,.15)}
+  .rb:hover svg{opacity:.85}
+  .rb.follow:hover .ava{box-shadow:0 0 0 2px #fff,0 2px 10px #0008}
+  .x:hover{background:#e9e4d9}
+  .body .more:hover{background:#faf8f3}
+  .wm:hover img{opacity:1}
+}
+
+@media (prefers-reduced-motion:reduce){
+  *{animation:none !important;transition:none !important}
+  .duo,.lead{transform:none !important}
+  .lead{opacity:1 !important}
+}
