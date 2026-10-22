@@ -38,7 +38,7 @@ try { if (sessionStorage.getItem('bc-resume')) document.documentElement.classLis
 <link rel="preload" as="image" href="img/pcb-charcoal.jpg">
 <link rel="preload" as="image" href="img/logo-layer-mark.png">
 <link rel="preload" as="image" href="img/logo-layer-words.png">
-<link rel="manifest" href="manifest.webmanifest?v=128">
+<link rel="manifest" href="manifest.webmanifest?v=129">
 <link rel="apple-touch-icon" href="icon-180.png">
 <!-- タブと検索結果に出る小さな印。アプリの印（ホーム画面のアイコン）と同じ形 -->
 <link rel="icon" href="favicon.ico" sizes="16x16 32x32 48x48">
@@ -76,9 +76,9 @@ if (location.hostname === 'beautifulcontext.com'){
   document.head.appendChild(ga);
 }
 </script>
-<script src="js/theme.js?v=128"></script>
-<link rel="stylesheet" href="app.css?v=128">
-<link rel="stylesheet" href="fade.css?v=128">
+<script src="js/theme.js?v=129"></script>
+<link rel="stylesheet" href="app.css?v=129">
+<link rel="stylesheet" href="fade.css?v=129">
 </head>
 <body class="stage-uni viewing route" data-route="#/c/buckminster-fuller--spaceship-earth">
 
@@ -123,6 +123,8 @@ if (location.hostname === 'beautifulcontext.com'){
 </div>
 
 <nav class="menu" id="menu" aria-label="メニュー" hidden>
+  <!-- パソコンでは、メニューは左にいつも出ている列。その一番上に名前（触れると一覧へ） -->
+  <a class="menu-logo" href="#/list" data-top aria-label="BEAUTIFUL CONTEXT（つながりの一覧へ）"><img src="img/logo.png" alt=""></a>
   <form class="seek" role="search" data-seek>
     <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6"/><path d="m15 15 5 5"/></svg>
     <input type="search" name="q" placeholder="言葉で辿る" enterkeyhint="search" aria-label="言葉で辿る">
@@ -345,11 +347,11 @@ if (location.hostname === 'beautifulcontext.com'){
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 <script type="application/ld+json" id="ld">{"@context":"https://schema.org","@type":"Article","headline":"地球には、操縦マニュアルがない。","alternativeHeadline":"作者と作品","about":[{"@type":"Person","name":"バックミンスター・フラー","description":"ジオデシック・ドームを考案したアメリカの思想家・建築家。「宇宙船地球号」という言葉を広めた。"},{"@type":"Book","name":"宇宙船地球号 操縦マニュアル","description":"地球を、限られた資源で航行する一隻の宇宙船にたとえ、人類はその操縦のしかたを学ばねばならないと説いた。","creator":{"@type":"Person","name":"バックミンスター・フラー"}}],"author":{"@type":"Person","name":"生成AI（初稿）"},"datePublished":"2026-09-14T01:50:00.000Z","dateModified":"2026-09-14T01:50:00.000Z","inLanguage":"ja","articleBody":"「宇宙船地球号」を広めた一冊。フラーは1969年、『宇宙船地球号 操縦マニュアル』で、地球を限られた資源で航行する船にたとえ、人類は細分化された専門の知ではなく、全体を見渡す知でその船を操縦すべきだと説いた。ジオデシック・ドームを考え、「より少ないもので、より多くを」を唱えたフラーの思想は、のちの環境運動やシリコンバレーの文化に大きな影響を与えた。","url":"https://beautifulcontext.com/c/buckminster-fuller--spaceship-earth/","image":"https://beautifulcontext.com/img/works/buckminster-fuller.jpg"}</script>
 
-<script src="js/seed.js?v=128"></script>
-<script src="js/store.js?v=128"></script>
-<script src="js/social.js?v=128"></script>
-<script src="js/render.js?v=128"></script>
-<script src="js/transition.js?v=128"></script>
-<script src="js/app.js?v=128"></script>
+<script src="js/seed.js?v=129"></script>
+<script src="js/store.js?v=129"></script>
+<script src="js/social.js?v=129"></script>
+<script src="js/render.js?v=129"></script>
+<script src="js/transition.js?v=129"></script>
+<script src="js/app.js?v=129"></script>
 </body>
 </html>

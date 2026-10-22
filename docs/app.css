@@ -663,6 +663,80 @@ body.on-list .view-in{background:#000;padding-bottom:0}
   /* Today のメニューは、紙の列の左上に（窓の端ではなく） */
   body.viewing.at-root .menu-btn{left:calc(50% - var(--col) / 2 + 10px)}
 }
+/* ---------- パソコン（幅 1100px から） ----------
+   左にいつもメニューの列（≡ を押さなくても、どこへでも一度で行ける）。右が読む場所。
+   コンテクスト・作品のページは見開き：左に二枚の絵（読み進めても留まる）、右に文章。
+   下の帯は、路線図とつながりを辿るを横一列に。一覧は、札を何列にも並べる */
+.menu .menu-logo{display:none}
+@media (min-width:1100px){
+  :root{--side:248px;--col:min(1120px,calc(100vw - var(--side) - 64px))}
+  /* 左の列 */
+  .menu-btn,body.viewing.at-root .menu-btn{display:none}
+  .menu{width:var(--side);transform:none;transition:none;box-shadow:none;padding:26px 22px 24px;
+    background:color-mix(in srgb,var(--ground) 86%,transparent);border-right:1px solid var(--uni-rule)}
+  body.stage-intro .menu{visibility:hidden}
+  .menu .menu-logo{display:block;margin:2px 0 18px;padding:0;border:0}
+  .menu-logo img{display:block;width:100%;max-width:200px;height:auto}
+  html[data-theme="white"] .menu-logo img{filter:invert(1) hue-rotate(180deg)}
+  .menu a{padding:11px 0;font-size:15px}
+  .menu a[aria-current="page"]{color:var(--gold)}
+  .menu a[aria-current="page"] small{color:var(--gold)}
+  /* 読む場所は、左の列のぶん右へ */
+  .uni,.view{margin-left:var(--side)}
+  .uni-head,.dock,.ghost,.underlay,.edge-back,.nudge{left:var(--side)}
+  .toast{left:calc(50% + var(--side) / 2)}
+  .uni-head{width:min(820px,calc(100% - var(--side)))}
+  .view-in{max-width:var(--col)}
+  .view .c-logo{display:none}
+
+  /* 見開き：左に絵（留まる）、右に文章 */
+  .cpage,.wpage{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);align-items:start}
+  .cpage>.duo-hero,.wpage>.duo-hero{grid-column:1;grid-row:1/span 4;position:sticky;top:0;
+    height:calc(100vh - var(--dockh) - env(safe-area-inset-bottom));display:flex;flex-direction:column;justify-content:center;
+    padding:56px 30px 28px}
+  .cpage>.back-close,.wpage>.back-close{grid-column:1;grid-row:1;position:sticky;top:14px;margin:14px 0 0 14px;z-index:9}
+  .cpage>.context-lead,.cpage>.context-body,.wpage>.content{grid-column:2}
+  .cpage>.context-lead{grid-row:1;padding:56px 48px 30px}
+  .cpage>.context-body{grid-row:2;padding:34px 48px 48px}
+  .wpage>.content{grid-row:1;min-height:calc(100vh - var(--dockh));padding:64px 48px 48px}
+  .duo-hero .duo{width:100%;max-width:calc((100vh - var(--dockh) - 120px) * 1.47);margin:0 auto}
+  .duo-hero .ctx-nav.prev{left:10px}.duo-hero .ctx-nav.next{right:10px}
+  .context-lead h2{font-size:28px}
+  .context-body h2{font-size:24px}
+  .context-body p,.context-body ul,.context-body ol,.wpage .content p{font-size:15px;line-height:2}
+  .wpage .content h2{font-size:27px}
+  .pair{font-size:13px}
+
+  /* 下の帯：路線図とつながりを辿るを一列に */
+  body.viewing:not(.on-list) .dock{display:grid;grid-template-columns:minmax(0,1fr) 340px;align-items:center;gap:22px;padding:8px 22px 10px}
+  body.viewing .dock .map{grid-column:1}
+  body.viewing .dock .actions{grid-column:2}
+  body.viewing .sel-hint{display:none}
+
+  /* 読み物（マイページ・路線・検索・案内） */
+  .text-page .content{max-width:760px;margin:0 auto;background:none}
+  .text-page{background:linear-gradient(#faf9f5,#f2efe7)}
+  .editor-page .ed-cover{aspect-ratio:auto;height:min(46vh,440px)}
+  .content p,.content li{font-size:14px}
+
+  /* 一覧：札を何列にも */
+  .list-page .content{padding:64px 32px 22px}
+  .ls{grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:10px}
+  .ls-sep{grid-column:1/-1}
+  .ls-bar{padding:12px 32px 14px}
+  .ls-cats{flex-wrap:wrap;overflow:visible;margin:0 0 10px;padding:0}
+  .ls-seek{max-width:560px}
+}
+@media (min-width:1100px) and (hover:hover) and (pointer:fine){
+  .ls-item:hover{border-color:#4a4a4a;background:#141414}
+  .ed-item:hover{background:#fff;border-color:#bdb6a9}
+  .duo-go:hover .art{opacity:.9}
+  .duo-add:hover span{background:#2a2620}
+  .act.uni-btn:hover{filter:brightness(1.18)}
+  .ls-cats button:hover{border-color:#777}
+  .read:hover{background:#2a2a2a}
+  .seg:hover{background:#fff}
+}
 @media (hover:hover) and (pointer:fine){
   .tease:hover{background:#fff}
   .station:hover{color:var(--gold)}

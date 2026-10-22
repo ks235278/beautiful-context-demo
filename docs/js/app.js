@@ -117,10 +117,26 @@
     } else {
       menu.classList.remove('open');
       menuBtn.setAttribute('aria-expanded', 'false');
-      setTimeout(() => { if (!menu.classList.contains('open')) menu.hidden = true; }, 400);
+      setTimeout(() => { if (!menu.classList.contains('open') && !wide.matches) menu.hidden = true; }, 400);
     }
   }
   menuBtn.addEventListener('click', (ev) => { ev.stopPropagation(); openMenu(menu.hidden || !menu.classList.contains('open')); });
+  /* パソコン（幅 1100px から）では、メニューは左にいつも出ている列。≡ を押さずに、どこへでも一度で行ける */
+  const wide = matchMedia('(min-width:1100px)');
+  const placeMenu = () => {
+    if (wide.matches){ menu.hidden = false; menu.classList.remove('open'); menuBtn.setAttribute('aria-expanded', 'false'); }
+    else if (!menu.classList.contains('open')) menu.hidden = true;
+  };
+  wide.addEventListener('change', placeMenu);
+  placeMenu();
+  /* いまいる場所を、メニューの中で示す（Today・一覧・UniverseIt!） */
+  function paintMenu(){
+    const at = !here ? 'uni' : here.today ? 'today' : here.list ? 'list' : '';
+    menu.querySelectorAll('[data-home],a[href="#/list"]:not(.menu-logo),[data-uni]').forEach(a => {
+      const k = a.matches('[data-home]') ? 'today' : a.matches('[data-uni]') ? 'uni' : 'list';
+      if (k === at) a.setAttribute('aria-current', 'page'); else a.removeAttribute('aria-current');
+    });
+  }
   /* メニューは左から出てくるので、左へ払えばしまわれる（出てきた向きへ帰る） */
   {
     let mx = 0, my = 0;
@@ -645,6 +661,7 @@
     body.classList.toggle('on-work', !!page.work);
     body.classList.toggle('on-today', !!page.today);
     body.classList.toggle('on-list', !!page.list);
+    paintMenu();
     body.classList.toggle('at-root', atRoot());
     if (page.kind === 'route' && page.entry) markRead(page.entry.id, page.step === 1);
     /* ページの上では、つながりを辿るの行き先を示す（コンテクストへ／次の区間へ／次の路線へ） */
@@ -697,6 +714,7 @@
     document.title = homeTitle;
     count(null);
     watchRead(null);
+    paintMenu();
     ld.textContent = listLd();
     view.classList.add('instant');
     view.classList.remove('on', 'enter', 'fade-in');
@@ -1605,6 +1623,7 @@
   } else {
     armIdle();
   }
+  paintMenu();
   window.addEventListener('load', measureDock, { once: true });
   if (document.fonts && document.fonts.ready) document.fonts.ready.then(measureDock);
   (window.requestIdleCallback || ((f) => setTimeout(f, 800)))(preload);

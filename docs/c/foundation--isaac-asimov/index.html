@@ -38,7 +38,7 @@ try { if (sessionStorage.getItem('bc-resume')) document.documentElement.classLis
 <link rel="preload" as="image" href="img/pcb-charcoal.jpg">
 <link rel="preload" as="image" href="img/logo-layer-mark.png">
 <link rel="preload" as="image" href="img/logo-layer-words.png">
-<link rel="manifest" href="manifest.webmanifest?v=128">
+<link rel="manifest" href="manifest.webmanifest?v=129">
 <link rel="apple-touch-icon" href="icon-180.png">
 <!-- タブと検索結果に出る小さな印。アプリの印（ホーム画面のアイコン）と同じ形 -->
 <link rel="icon" href="favicon.ico" sizes="16x16 32x32 48x48">
@@ -76,9 +76,9 @@ if (location.hostname === 'beautifulcontext.com'){
   document.head.appendChild(ga);
 }
 </script>
-<script src="js/theme.js?v=128"></script>
-<link rel="stylesheet" href="app.css?v=128">
-<link rel="stylesheet" href="fade.css?v=128">
+<script src="js/theme.js?v=129"></script>
+<link rel="stylesheet" href="app.css?v=129">
+<link rel="stylesheet" href="fade.css?v=129">
 </head>
 <body class="stage-uni viewing route" data-route="#/c/foundation--isaac-asimov">
 
@@ -123,6 +123,8 @@ if (location.hostname === 'beautifulcontext.com'){
 </div>
 
 <nav class="menu" id="menu" aria-label="メニュー" hidden>
+  <!-- パソコンでは、メニューは左にいつも出ている列。その一番上に名前（触れると一覧へ） -->
+  <a class="menu-logo" href="#/list" data-top aria-label="BEAUTIFUL CONTEXT（つながりの一覧へ）"><img src="img/logo.png" alt=""></a>
   <form class="seek" role="search" data-seek>
     <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6"/><path d="m15 15 5 5"/></svg>
     <input type="search" name="q" placeholder="言葉で辿る" enterkeyhint="search" aria-label="言葉で辿る">
@@ -345,11 +347,11 @@ if (location.hostname === 'beautifulcontext.com'){
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 <script type="application/ld+json" id="ld">{"@context":"https://schema.org","@type":"Article","headline":"帝国の崩壊を、数学が予言した。","alternativeHeadline":"作者と作品","about":[{"@type":"Book","name":"ファウンデーション","description":"銀河帝国の崩壊を「心理歴史学」で予見した数学者ハリ・セルダンが、来るべき暗黒時代を短くするための計画を立てる。2021年から Apple TV+ でドラマになった。","creator":{"@type":"Person","name":"アイザック・アシモフ"}},{"@type":"Person","name":"アイザック・アシモフ","description":"『われはロボット』『ファウンデーション』のSF作家。ロボットが守るべき「ロボット工学三原則」を考えた。"}],"author":{"@type":"Person","name":"生成AI（初稿）"},"datePublished":"2026-09-14T04:20:00.000Z","dateModified":"2026-09-14T04:20:00.000Z","inLanguage":"ja","articleBody":"ローマ帝国の衰亡史に着想を得た銀河の物語。アシモフは、ギボンの『ローマ帝国衰亡史』から着想を得て、銀河帝国の崩壊と、その後の暗黒時代を短くしようとする人々の物語を書いた。個人の運命ではなく、人類全体のふるまいを統計で予測する「心理歴史学」。のちにアシモフは、この物語を自身のロボットものとも結びつけ、ひとつの未来史にまとめていった。","url":"https://beautifulcontext.com/c/foundation--isaac-asimov/","image":"https://beautifulcontext.com/img/works/foundation.jpg"}</script>
 
-<script src="js/seed.js?v=128"></script>
-<script src="js/store.js?v=128"></script>
-<script src="js/social.js?v=128"></script>
-<script src="js/render.js?v=128"></script>
-<script src="js/transition.js?v=128"></script>
-<script src="js/app.js?v=128"></script>
+<script src="js/seed.js?v=129"></script>
+<script src="js/store.js?v=129"></script>
+<script src="js/social.js?v=129"></script>
+<script src="js/render.js?v=129"></script>
+<script src="js/transition.js?v=129"></script>
+<script src="js/app.js?v=129"></script>
 </body>
 </html>

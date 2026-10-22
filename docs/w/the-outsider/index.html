@@ -38,7 +38,7 @@ try { if (sessionStorage.getItem('bc-resume')) document.documentElement.classLis
 <link rel="preload" as="image" href="img/pcb-charcoal.jpg">
 <link rel="preload" as="image" href="img/logo-layer-mark.png">
 <link rel="preload" as="image" href="img/logo-layer-words.png">
-<link rel="manifest" href="manifest.webmanifest?v=128">
+<link rel="manifest" href="manifest.webmanifest?v=129">
 <link rel="apple-touch-icon" href="icon-180.png">
 <!-- タブと検索結果に出る小さな印。アプリの印（ホーム画面のアイコン）と同じ形 -->
 <link rel="icon" href="favicon.ico" sizes="16x16 32x32 48x48">
@@ -76,9 +76,9 @@ if (location.hostname === 'beautifulcontext.com'){
   document.head.appendChild(ga);
 }
 </script>
-<script src="js/theme.js?v=128"></script>
-<link rel="stylesheet" href="app.css?v=128">
-<link rel="stylesheet" href="fade.css?v=128">
+<script src="js/theme.js?v=129"></script>
+<link rel="stylesheet" href="app.css?v=129">
+<link rel="stylesheet" href="fade.css?v=129">
 </head>
 <body class="stage-uni viewing" data-route="#/w/the-outsider">
 
@@ -123,6 +123,8 @@ if (location.hostname === 'beautifulcontext.com'){
 </div>
 
 <nav class="menu" id="menu" aria-label="メニュー" hidden>
+  <!-- パソコンでは、メニューは左にいつも出ている列。その一番上に名前（触れると一覧へ） -->
+  <a class="menu-logo" href="#/list" data-top aria-label="BEAUTIFUL CONTEXT（つながりの一覧へ）"><img src="img/logo.png" alt=""></a>
   <form class="seek" role="search" data-seek>
     <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6"/><path d="m15 15 5 5"/></svg>
     <input type="search" name="q" placeholder="言葉で辿る" enterkeyhint="search" aria-label="言葉で辿る">
@@ -165,11 +167,11 @@ if (location.hostname === 'beautifulcontext.com'){
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 <script type="application/ld+json" id="ld">{"@context":"https://schema.org","@type":"Book","name":"アウトサイダー","description":"社会の中に居場所を見いだせない人間＝アウトサイダーを、カミュ、ドストエフスキー、ゴッホらの作品と生涯からたどった評論。20代半ばのデビュー作がベストセラーになった。","creator":{"@type":"Person","name":"コリン・ウィルソン"},"url":"https://beautifulcontext.com/w/the-outsider/","image":"https://beautifulcontext.com/img/works/the-outsider.jpg","subjectOf":[{"@type":"Article","headline":"社会の外に立つ人間の原型が、ここにいる。","url":"https://beautifulcontext.com/c/the-outsider--fyodor-dostoevsky/"},{"@type":"Article","headline":"24歳の作家は、図書館で書いた。","url":"https://beautifulcontext.com/c/the-outsider--colin-wilson/"},{"@type":"Article","headline":"画壇の外で、描き続けた画家。","url":"https://beautifulcontext.com/c/the-outsider--tanaka-isson/"},{"@type":"Article","headline":"彼は、遠い星から来たと言う。","url":"https://beautifulcontext.com/c/the-outsider--k-pax/"}]}</script>
 
-<script src="js/seed.js?v=128"></script>
-<script src="js/store.js?v=128"></script>
-<script src="js/social.js?v=128"></script>
-<script src="js/render.js?v=128"></script>
-<script src="js/transition.js?v=128"></script>
-<script src="js/app.js?v=128"></script>
+<script src="js/seed.js?v=129"></script>
+<script src="js/store.js?v=129"></script>
+<script src="js/social.js?v=129"></script>
+<script src="js/render.js?v=129"></script>
+<script src="js/transition.js?v=129"></script>
+<script src="js/app.js?v=129"></script>
 </body>
 </html>

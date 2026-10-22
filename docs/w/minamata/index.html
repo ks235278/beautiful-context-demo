@@ -38,7 +38,7 @@ try { if (sessionStorage.getItem('bc-resume')) document.documentElement.classLis
 <link rel="preload" as="image" href="img/pcb-charcoal.jpg">
 <link rel="preload" as="image" href="img/logo-layer-mark.png">
 <link rel="preload" as="image" href="img/logo-layer-words.png">
-<link rel="manifest" href="manifest.webmanifest?v=128">
+<link rel="manifest" href="manifest.webmanifest?v=129">
 <link rel="apple-touch-icon" href="icon-180.png">
 <!-- タブと検索結果に出る小さな印。アプリの印（ホーム画面のアイコン）と同じ形 -->
 <link rel="icon" href="favicon.ico" sizes="16x16 32x32 48x48">
@@ -76,9 +76,9 @@ if (location.hostname === 'beautifulcontext.com'){
   document.head.appendChild(ga);
 }
 </script>
-<script src="js/theme.js?v=128"></script>
-<link rel="stylesheet" href="app.css?v=128">
-<link rel="stylesheet" href="fade.css?v=128">
+<script src="js/theme.js?v=129"></script>
+<link rel="stylesheet" href="app.css?v=129">
+<link rel="stylesheet" href="fade.css?v=129">
 </head>
 <body class="stage-uni viewing" data-route="#/w/minamata">
 
@@ -123,6 +123,8 @@ if (location.hostname === 'beautifulcontext.com'){
 </div>
 
 <nav class="menu" id="menu" aria-label="メニュー" hidden>
+  <!-- パソコンでは、メニューは左にいつも出ている列。その一番上に名前（触れると一覧へ） -->
+  <a class="menu-logo" href="#/list" data-top aria-label="BEAUTIFUL CONTEXT（つながりの一覧へ）"><img src="img/logo.png" alt=""></a>
   <form class="seek" role="search" data-seek>
     <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6"/><path d="m15 15 5 5"/></svg>
     <input type="search" name="q" placeholder="言葉で辿る" enterkeyhint="search" aria-label="言葉で辿る">
@@ -165,11 +167,11 @@ if (location.hostname === 'beautifulcontext.com'){
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 <script type="application/ld+json" id="ld">{"@context":"https://schema.org","@type":"Movie","name":"MINAMATA","description":"水俣病を世界に伝えた写真家W・ユージン・スミスと、アイリーン・美緒子・スミスの水俣での日々を描いた映画。音楽は坂本龍一。","creator":{"@type":"Person","name":"アンドリュー・レヴィタス監督"},"url":"https://beautifulcontext.com/w/minamata/","image":"https://beautifulcontext.com/img/works/minamata.jpg","subjectOf":[{"@type":"Article","headline":"海賊を演じた俳優が、水俣の写真家になった。","url":"https://beautifulcontext.com/c/johnny-depp--minamata/"},{"@type":"Article","headline":"写真が、世界に水俣を伝えた。","url":"https://beautifulcontext.com/c/w-eugene-smith--minamata/"},{"@type":"Article","headline":"同じ作曲家が、40年を隔てて音楽をつけた。","url":"https://beautifulcontext.com/c/merry-christmas-mr-lawrence--minamata/"}]}</script>
 
-<script src="js/seed.js?v=128"></script>
-<script src="js/store.js?v=128"></script>
-<script src="js/social.js?v=128"></script>
-<script src="js/render.js?v=128"></script>
-<script src="js/transition.js?v=128"></script>
-<script src="js/app.js?v=128"></script>
+<script src="js/seed.js?v=129"></script>
+<script src="js/store.js?v=129"></script>
+<script src="js/social.js?v=129"></script>
+<script src="js/render.js?v=129"></script>
+<script src="js/transition.js?v=129"></script>
+<script src="js/app.js?v=129"></script>
 </body>
 </html>
