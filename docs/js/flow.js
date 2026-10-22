@@ -90,7 +90,7 @@
   /* ---------- 始める位置 ----------
      アドレスの #区間 があればそこから。なければ最後に見た区間（bc-last）。なければ道の始め */
   const h = () => flow.clientHeight;
-  const hashSlug = decodeURIComponent(location.hash.replace(/^#\/?(c\/)?/, '').replace(/\/$/, ''));
+  const hashSlug = (() => { try { return decodeURIComponent(location.hash.replace(/^#\/?(c\/)?/, '').replace(/\/$/, '')); } catch (x) { return ''; } })();
   let start = hashSlug ? T.findIndex((t) => t.entry.context.slug === hashSlug) : -1;
   if (start < 0) { const last = kept('bc-last', null); if (typeof last === 'string') start = T.findIndex((t) => t.entry.id === last); }
   if (start < 0) start = 0;
