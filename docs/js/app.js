@@ -292,6 +292,12 @@
     } else if (name === 'c' && arg){
       const e = S.byContextSlug(arg);
       if (e){
+        /* 名前の変わった区間（古いアドレスから来た）：アドレスも新しい名前に置き換える */
+        if (e.context.slug !== arg && !body.dataset.route){
+          routed = '#/c/' + encodeURIComponent(e.context.slug);
+          history.replaceState(history.state, '', routed);
+          if (stack.length) stack[stack.length - 1] = routed;
+        }
         const opts = ctxOpts(e);
         return show({ key: 'c:' + e.id, kind: 'route', entry: e, step: 1, feed: opts.rail },
           R.contextPage(e, pickAd(e), opts), motion, `${e.a.title} ＋ ${e.b.title}`);

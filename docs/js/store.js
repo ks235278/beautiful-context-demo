@@ -17,7 +17,7 @@
   const KEY = 'beautiful-context-store-v2';
   const OLD_KEY = 'beautiful-context-store-v1';
   /* 見本を足したら上げる。端末に残っているデータへ、新しい見本だけを足し込む */
-  const SEED_VERSION = 7;
+  const SEED_VERSION = 8;
 
   const DEFAULT_SETTINGS = {
     brand: 'Beautiful Context',
@@ -98,6 +98,10 @@
   /* 見本が増えたとき。端末で作ったもの・手を入れた見本・消した見本はそのまま、
      まだ無い見本を足し、手を付けていない見本は新しい版に差し替える。 */
   function mergeSeeds(data) {
+    /* 見本から外したもの（前の版にあって、いまの版にない見本）は、手を付けていなければ消す */
+    const now = new Set((window.BC_SEED || []).map((s) => s.id));
+    const before = new Set(data.seedIds || []);
+    data.entries = data.entries.filter((e) => !(before.has(e.id) && !now.has(e.id) && e.updatedAt === e.createdAt));
     const gone = new Set(data.removedSeeds || []);
     const at = new Map(data.entries.map((e, i) => [e.id, i]));
     seedEntries().forEach((s) => {
@@ -214,7 +218,9 @@
     },
 
     byContextSlug(slug) {
-      return ensure().entries.find((e) => e.context.slug === slug) || null;
+      const find = (s) => ensure().entries.find((e) => e.context.slug === s) || null;
+      /* 組み直して名前の変わった区間は、古い名前でも新しい区間を返す */
+      return find(slug) || (window.BC_MOVED && window.BC_MOVED[slug] ? find(window.BC_MOVED[slug]) : null);
     },
 
     byId(id) {

@@ -86,7 +86,11 @@
     const s = safeImg(src);
     return s ? `<img class="${cls || ''}" src="${attr(s)}" alt="${attr(alt || '')}" loading="lazy" decoding="async">` : '';
   }
-  function initial(work){ return (work.title || '?').replace(/[『』「」]/g,'').trim().charAt(0) || '?'; }
+  /* 絵のない作品の札の文字。『』の中に題名があれば、その頭（「テレビ映画『ザ・バンカー』」なら「ザ」） */
+  function initial(work){
+    const t = String(work.title || '?'), m = /[『「]([^』」]+)[』」]/.exec(t);
+    return (m ? m[1] : t.replace(/[『』「」]/g, '')).trim().charAt(0) || '?';
+  }
 
   /* 作品の絵。画像が無ければ頭文字で立てる */
   function art(work){
