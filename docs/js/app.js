@@ -540,11 +540,12 @@
     const key = page ? page.key : 'uni';
     if (key === counted) return;
     counted = key;
-    const [p, qs] = String(routed || '').replace(/^#/, '').split('?');
-    const parts = page ? p.split('/').filter(Boolean) : [];
-    const q = parts[0] === 'search' && new URLSearchParams(qs || '').get('q');
-    const at = (parts.length ? '/' + parts.join('/') + '/' : '/') + (q ? '?q=' + encodeURIComponent(q) : '');
-    gtag('event', 'page_view', { page_location: location.origin + at, page_title: document.title });
+    const parts = page ? String(routed || '').replace(/^#/, '').split('?')[0].split('/').filter(Boolean) : [];
+    /* 人が打った文字（言葉で辿るの言葉、見つからなかったアドレス）は送らない。何が書かれているかわからない */
+    const typed = parts[0] === 'search' || (page && page.key === '404');
+    const at = typed ? '/' + (parts[0] === 'search' ? 'search' : '404') + '/' : parts.length ? '/' + parts.join('/') + '/' : '/';
+    gtag('event', 'page_view', { page_location: location.origin + at,
+      page_title: typed ? (parts[0] === 'search' ? '言葉で辿る｜' : 'ページが見つかりません｜') + brand : document.title });
   }
 
   function show(page, html, motion, title){
