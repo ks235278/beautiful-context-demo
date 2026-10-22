@@ -90,11 +90,17 @@
 ### S3. 新しく `Store.refresh()`（非同期・裏で）
 
 ```
+0. since（cache.since か BC_SNAPSHOT.at）が 30日より古ければ、1 の代わりに「突き合わせ」をする：
+     from('contexts').select('id')（RLS で公開中の id だけが返る。1,250 本で 50KB ほど。1,000 行ずつ range で）
+   → 控えと snapshot の id のうち、この一覧に無いものを cache.removed へ。あとは 2 から同じ
+   （見えなくなった区間が差分に出るのは直近 30 日だけなので、それより古い snapshot は差分では外しきれない）
 1. rpc('public_changes_since', { p_since: cache.since || BC_SNAPSHOT.at })
+   返る行：{ id, slug, visible, updated_at }。visible = false の行は slug が null（見えなくなった区間の URL は出さない）
 2. visible = true の id を、作品・編集者・数と一緒に読む
      from('contexts').select('*, a:works!work_a_id(*), b:works!work_b_id(*), stats:context_stats(reactions, comments)')
                      .in('id', ids)
-   → toEntry() して cache.upserts に入れる。visible = false の id は cache.removed へ
+   → toEntry() して cache.upserts に入れる。visible = false の行は **id で** cache.removed に入れ、upserts からも外す
+   （slug では探さない。slug は null で来る。画面の道 #/c/<slug> から外すのは、id で外した entry が持っていた slug）
 3. editors（updated_at > since）、ads、site_settings を読む（小さいので毎回でよい）
 4. ログインしていれば、自分の follows・reactions を読み直す（ほかの端末での変更を拾う）
 5. cache.since を更新して保存 → cache = null（ensure をやり直させる）→ 'data' を知らせる

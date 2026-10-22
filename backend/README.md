@@ -294,7 +294,8 @@ review = 'approved' にする → approved_by_editor・approved_at が付き、�
  ├ 対象   ：コンテクスト・作品・コメント・編集者・画像
  ├ 理由   ：著作権・肖像・プライバシー・名誉毀損・事実の誤り・スパム・その他
  └ 連絡先 ：ログインしていなければ名前とメール（運営者だけが読める）
- ▼ reports（status = open。1時間5件まで。IP は日ごとのハッシュにして残す）
+ ▼ reports（status = open。同じ IP・同じ人は1時間5件、未ログインの合計は1時間100件まで。
+   IP は Cloudflare が付ける偽れない cf-connecting-ip を使い、日ごとのハッシュにして残す）
 運営者メニュー「依頼」
  1. まず止める ：review_context(id, 'hidden', null, '依頼 #… を確認中')  ← 数分で読者から消える
  2. 確かめる   ：status = in_progress
@@ -378,6 +379,7 @@ review = 'approved' にする → approved_by_editor・approved_at が付き、�
   - Actions は `concurrency` で一本にまとめ、続けて公開しても一回だけ走らせる
   - 公開リポジトリなので Actions の時間は無料。必要な秘密は PAT だけで、それも Supabase 側にある（Actions は anon キーしか使わない）
 - **ビルドのあいだ**：アプリは起動後に `public_changes_since(snapshot の at)` を呼び、新しく公開されたものを足し、消えたもの・止めたものを外す。だから「公開したのに出ない」「消したのに見える」は、静的ページの側だけで、それも次のビルドまで。
+  見えなくなった区間は id だけが返り（slug は null）、それも直近30日に変わったものだけ。snapshot が30日より古い端末は、公開中の id の一覧で突き合わせ直す（client-plan.md S3）。
 - **大きさの関所**：1,250 本で `snapshot.js` は生で約 1.5〜2MB、gzip で約 0.4〜0.5MB の見込み（いまの seed.js は 130 本で 270KB）。**作ったら測る。** gzip で 400KB を超えたら、本文（`body`）を別のファイルに分けて、開いたときに読む（client-plan.md の「第2段階の軽量化」）。
 
 ---
@@ -538,7 +540,8 @@ review = 'approved' にする → approved_by_editor・approved_at が付き、�
   書いて読む確かめを一つの transaction にまとめ、最後に必ず `rollback` する（2026-10-22 の本番での確かめは、この形で 67 項目すべて通った）。
 
 - **見張り**：Supabase の Advisors（Security・Performance）を、migration を足すたびに見る。Database → Reports で容量と接続数。
-  いま残している警告（わざと）：`public_changes_since` の security definer（0028 / 0029。返すのは公開したことのある区間の id・slug・見えるかだけで、静的ページと sitemap にもう出ているもの）、
+  いま残している警告（わざと）：`public_changes_since` の security definer（0028 / 0029。公開中の区間は id・slug（静的ページと sitemap にもう出ているもの）、
+  見えなくなった区間は直近30日の id だけを返す。消えたものを端末から外すには、RLS の外を見る必要がある）、
   Supabase 自身の `rls_auto_enable`（「自動で RLS」の設定が作るもの。DDL の外で呼ばれても何もしない）、
   性能の INFO（使っていない索引・外部キーの索引）と、同じ表に読む policy が複数ある WARN（0006。1,250 本の規模では差が出ない。重くなったら一つにまとめる）。
 - **social.js の冒頭のコメント**（「本番では Firebase に差し替える」）は、Supabase に切り替えるときに直す。

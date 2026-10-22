@@ -1670,6 +1670,91 @@ end $$;
 revoke all on function private.import_work(text, text, text, text, text, text, text, text, text, numeric, boolean) from public, anon;
 grant execute on function private.import_work(text, text, text, text, text, text, text, text, text, numeric, boolean) to authenticated, service_role;
 
+-- @migration 08_security_review_fixes
+
+-- 自動のセキュリティレビュー（commit dfad47c）の指摘二つを直す。
+
+-- ---------- 1. 通報の送りすぎ止めを、偽れない IP で数える ----------
+-- いままでは x-forwarded-for の左端を IP にしていた。左端は利用者が自由に書けるので、毎回変えれば上限をすり抜けられた。
+-- 本番（2026-10-22）で request.headers を確かめた結果：
+--   ・cf-connecting-ip … Cloudflare が必ず付ける。利用者が送ると Cloudflare が 403（error 1000）で止める → 偽れない
+--   ・x-real-ip        … 届かない（利用者が送っても消される）。ほかの置き場所に移ったとき用に二番目に見る
+--   ・x-forwarded-for  … 利用者が送った値が左に残り、本当の IP は右端に付く → 右端だけを使う
+create or replace function private.client_ip()
+returns text language sql stable set search_path = '' as $$
+  with h as (select coalesce(nullif(current_setting('request.headers', true), ''), '{}')::json as j),
+       c as (select coalesce(
+                      nullif(btrim(h.j ->> 'cf-connecting-ip'), ''),
+                      nullif(btrim(h.j ->> 'x-real-ip'), ''),
+                      nullif(btrim((string_to_array(h.j ->> 'x-forwarded-for', ','))[
+                                     array_length(string_to_array(h.j ->> 'x-forwarded-for', ','), 1)]), '')
+                    ) as ip
+               from h)
+  select case when c.ip ~ '^[0-9A-Fa-f:.]{2,45}$' then c.ip end from c;   -- IP の形をしていなければ「分からない」
+$$;
+
+-- ログインしていない人から、直近1時間に届いた依頼の合計（IP に関係なく数える）
+create or replace function private.recent_anon_reports()
+returns int language sql stable security definer set search_path = '' as $$
+  select count(*)::int from public.reports r
+   where r.reporter_user_id is null and r.created_at > now() - interval '1 hour';
+$$;
+create index reports_anon_recent_idx on public.reports (created_at) where reporter_user_id is null;
+
+create or replace function private.reports_before_insert()
+returns trigger language plpgsql set search_path = '' as $$
+declare
+  v_ip text;
+begin
+  if private.is_backend() then return new; end if;
+  new.reporter_user_id := auth.uid();
+  new.status     := 'open';
+  new.resolution := '';
+  new.handled_by := null;
+  new.handled_at := null;
+  new.created_at := now();
+  -- 偽れない IP を、日付と混ぜてハッシュにする（IP そのものは残さない）
+  v_ip := private.client_ip();
+  new.ip_hash := case when v_ip is null then null
+                      else encode(sha256(convert_to(v_ip || '|' || to_char(now() at time zone 'Asia/Tokyo', 'YYYY-MM-DD'), 'UTF8')), 'hex') end;
+  -- 一人あたり（同じ IP か、同じユーザー）1時間に5件まで
+  if private.recent_reports(new.ip_hash, new.reporter_user_id) >= 5 then
+    raise exception '短い時間にたくさん送られています。しばらくしてから送ってください' using errcode = '54000';
+  end if;
+  -- ログインしていない人の合計は1時間に100件まで。IP が分からないときも効く（閉じる側に倒す）
+  if new.reporter_user_id is null and private.recent_anon_reports() >= 100 then
+    raise exception 'いまは依頼が混み合っています。しばらくしてから送るか、ログインして送ってください' using errcode = '54000';
+  end if;
+  return new;
+end $$;
+
+revoke all on function private.client_ip() from public;
+revoke all on function private.recent_anon_reports() from public;
+grant execute on function private.client_ip() to anon, authenticated, service_role;
+grant execute on function private.recent_anon_reports() to anon, authenticated, service_role;
+
+-- ---------- 2. 差分の読み込みで、見えなくなった区間の slug を出さない ----------
+-- 見えなくなった（非公開・一時非表示・削除・編集者の停止）区間は、id だけを返し slug は null にする。
+-- それも直近30日に変わったものだけ（端末の控えから外すのに要るのは id だけ）。
+-- 30日より古い snapshot を持つ端末は、差分ではなく公開中の id の一覧で突き合わせ直す（client-plan.md S3）。
+create or replace function public.public_changes_since(p_since timestamptz)
+returns table (id uuid, slug text, visible boolean, updated_at timestamptz)
+language sql stable security definer set search_path = '' as $$
+  select x.id,
+         case when x.visible then x.slug end as slug,
+         x.visible,
+         x.updated_at
+    from (select c.id, c.slug,
+                 (c.status = 'public' and c.deleted_at is null and e.status = 'active') as visible,
+                 c.updated_at
+            from public.contexts c
+            join public.editors e on e.id = c.editor_id
+           where c.updated_at > p_since and c.published_at is not null) x
+   where x.visible or x.updated_at > now() - interval '30 days'
+   order by x.updated_at
+   limit 2000;
+$$;
+
 -- @end
 
 -- =====================================================================
