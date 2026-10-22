@@ -791,7 +791,11 @@
     const fresh = far.filter(w => !recentStarts.includes(w.slug));
     const pick = choose(fresh.length ? fresh : far.length ? far : all);
     recentStarts.push(pick.slug);
-    go('#/f/' + encodeURIComponent(pick.slug), { dir: 1 }, true);
+    /* 路線の一覧（つながりの路線）には出さない。ボタン一つで、いつもコンテクストのページを読み進められるように
+       （BC修正要望 2026.10.22）。遠い作品の、まだ読んでいない区間へ。区間のない作品なら、その作品の片側のページへ */
+    const e = unreadFrom(pick.slug) || (S.neighbors(pick.slug)[0] || {}).entry;
+    if (view.classList.contains('on')) go(e ? '#/c/' + encodeURIComponent(e.context.slug) : '#/w/' + encodeURIComponent(pick.slug), { dir: 1 });
+    else go('#/f/' + encodeURIComponent(pick.slug), { dir: 1 }, true);
   }
 
   /* NEXT UNIVERSE：次のつながりへ（行き先はアプリが決める）。戻るのは左の端から払う */
