@@ -1880,6 +1880,155 @@ select d.day,
   from days d
  order by d.day desc;
 
+-- @migration 10_reports_soft_throttle
+
+-- 通報・削除の依頼の送りすぎ止めを、最終の形にする（09 への二つの指摘：使い捨てアカウントでのすり抜け、
+-- 同じ subnet の一人の送りすぎで周りの正当な依頼まで断られる）。
+-- 考え方：「断る」のは一つの送り元からの洪水だけ。それ以外は断らずに受け付け、throttled（後回し）の印を付ける。
+--   断る ……… 未ログイン：同じ IP（そのもの）から1時間20件を超えたら ／ ログイン：同じ人から1時間5件を超えたら
+--              ／ 未ログインで送信元が分からないとき
+--   後回し …… 同じ subnet（IPv4 /24・IPv6 /48）から1時間5件を超えたら（ログインの有無を問わず全部数える）
+--              ／ 未ログインの合計が1時間100件を超えたら ／ ログインでも、できて24時間以内かメール未確認のアカウント
+-- 依頼には IP のハッシュと subnet のハッシュを両方残し、それぞれの数え方に使う。
+-- ハッシュの材料は「秘密の salt＋日付（日本時間）＋値」。IP そのものは残さない。
+-- （IPv4 は約43億通りしかないので、salt が無いと日付と総当たりで IP に戻せてしまう）
+
+-- ---------- 秘密の salt（API に出ない private スキーマ。誰にも select を与えない） ----------
+create table private.secrets (
+  name       text primary key,
+  value      text not null,
+  created_at timestamptz not null default now()
+);
+alter table private.secrets enable row level security;   -- policy なし＝持ち主（関数）以外は読めない
+revoke all on private.secrets from public, anon, authenticated;
+insert into private.secrets (name, value)
+values ('report_hash_salt', replace(gen_random_uuid()::text || gen_random_uuid()::text, '-', ''));   -- 環境ごとに違う乱数
+
+create or replace function private.report_hash(p_value text)
+returns text language sql stable security definer set search_path = '' as $$
+  select case when p_value is null then null
+              else encode(sha256(convert_to(
+                     (select s.value from private.secrets s where s.name = 'report_hash_salt')
+                     || '|' || to_char(now() at time zone 'Asia/Tokyo', 'YYYY-MM-DD') || '|' || p_value, 'UTF8')), 'hex') end;
+$$;
+
+-- ---------- 送信元の住所（inet で読み、IPv6 に包まれた IPv4 は IPv4 に戻す） ----------
+create or replace function private.client_addr()
+returns inet language plpgsql stable set search_path = '' as $$
+declare
+  v_ip   text := private.client_ip();   -- cf-connecting-ip → x-real-ip → x-forwarded-for の右端（08 のまま）
+  v_addr inet;
+begin
+  if v_ip is null then return null; end if;
+  begin
+    v_addr := v_ip::inet;
+  exception when others then
+    return null;
+  end;
+  if v_addr << '::ffff:0:0/96'::inet then
+    v_addr := '0.0.0.0'::inet + (v_addr - '::ffff:0:0'::inet);   -- ::ffff:192.0.2.1 → 192.0.2.1
+  end if;
+  return v_addr;
+end $$;
+
+create or replace function private.subnet_of(p_addr inet)
+returns text language sql immutable strict set search_path = '' as $$
+  select network(set_masklen(p_addr, case when family(p_addr) = 4 then 24 else 48 end))::text;
+$$;
+
+-- 09 の client_subnet を、上の二つで作り直す（テキストの正規表現ではなく inet で判定）
+create or replace function private.client_subnet()
+returns text language sql stable set search_path = '' as $$
+  select private.subnet_of(private.client_addr());
+$$;
+
+-- ---------- 依頼に二つのハッシュを残す ----------
+alter table public.reports add column subnet_hash text;
+comment on column public.reports.ip_hash is '送信元の IP（そのもの）のハッシュ。秘密の salt＋日付（日本時間）＋IP の sha256。未ログインの洪水を断るのに使う';
+comment on column public.reports.subnet_hash is '送信元の subnet（IPv4 /24・IPv6 /48）のハッシュ。秘密の salt＋日付＋subnet の sha256。後回しの判定に使う';
+comment on column public.reports.throttled is '後回しで受け付けた依頼（同じ subnet が多い・未ログインの合計が多い・新しい／未確認のアカウント）。運営者は後ろに並べて扱い、印を外せる';
+create index reports_subnet_idx on public.reports (subnet_hash, created_at);
+
+-- ---------- 数える関数（security definer：送った本人は reports を読めないため） ----------
+-- 同じ IP（そのもの）から、未ログインで直近1時間
+create or replace function private.recent_anon_reports_from_ip(p_ip_hash text)
+returns int language sql stable security definer set search_path = '' as $$
+  select count(*)::int from public.reports r
+   where r.reporter_user_id is null and r.ip_hash = p_ip_hash and r.created_at > now() - interval '1 hour';
+$$;
+
+-- 同じ subnet から直近1時間（ログインの有無を問わず全部）
+create or replace function private.recent_reports_from_subnet(p_subnet_hash text)
+returns int language sql stable security definer set search_path = '' as $$
+  select count(*)::int from public.reports r
+   where r.subnet_hash = p_subnet_hash and r.created_at > now() - interval '1 hour';
+$$;
+
+-- できて24時間以内か、メールを確認していないアカウントか（auth.users を読むので definer）
+create or replace function private.reporter_is_new(p_user uuid)
+returns boolean language sql stable security definer set search_path = '' as $$
+  select coalesce((select u.created_at > now() - interval '24 hours' or u.email_confirmed_at is null
+                     from auth.users u where u.id = p_user), true);
+$$;
+
+-- ---------- 依頼を受けるときの決まり ----------
+create or replace function private.reports_before_insert()
+returns trigger language plpgsql set search_path = '' as $$
+declare
+  v_addr inet;
+begin
+  if private.is_backend() then return new; end if;
+  new.reporter_user_id := auth.uid();
+  new.status     := 'open';
+  new.resolution := '';
+  new.handled_by := null;
+  new.handled_at := null;
+  new.created_at := now();
+  v_addr := private.client_addr();
+  new.ip_hash     := private.report_hash(host(v_addr));
+  new.subnet_hash := private.report_hash(private.subnet_of(v_addr));
+
+  -- 断る：一つの送り元からの洪水だけ
+  if new.reporter_user_id is null then
+    if new.ip_hash is null then
+      raise exception '送信元を確認できませんでした。お手数ですが、利用規約の連絡先からお知らせください。' using errcode = '22023';
+    end if;
+    if private.recent_anon_reports_from_ip(new.ip_hash) >= 20 then
+      raise exception '短い時間にたくさん送られています。しばらくしてから送ってください' using errcode = '54000';
+    end if;
+  else
+    if private.recent_reports_by(new.reporter_user_id) >= 5 then
+      raise exception '短い時間にたくさん送られています。しばらくしてから送ってください' using errcode = '54000';
+    end if;
+  end if;
+
+  -- 後回し：断らずに受け付け、印を付ける
+  new.throttled :=
+       (new.subnet_hash is not null and private.recent_reports_from_subnet(new.subnet_hash) >= 5)
+    or (new.reporter_user_id is null and private.recent_anon_reports() >= 100)
+    or (new.reporter_user_id is not null and private.reporter_is_new(new.reporter_user_id));
+  return new;
+end $$;
+
+-- 09 の「同じ subnet から5件で断る」関数は使わなくなった
+drop function private.recent_anon_reports_from(text);
+
+revoke all on function private.report_hash(text)                    from public;
+revoke all on function private.client_addr()                        from public;
+revoke all on function private.subnet_of(inet)                      from public;
+revoke all on function private.client_subnet()                      from public;
+revoke all on function private.recent_anon_reports_from_ip(text)    from public;
+revoke all on function private.recent_reports_from_subnet(text)     from public;
+revoke all on function private.reporter_is_new(uuid)                from public;
+grant execute on function private.report_hash(text)                 to anon, authenticated, service_role;
+grant execute on function private.client_addr()                     to anon, authenticated, service_role;
+grant execute on function private.subnet_of(inet)                   to anon, authenticated, service_role;
+grant execute on function private.client_subnet()                   to anon, authenticated, service_role;
+grant execute on function private.recent_anon_reports_from_ip(text) to anon, authenticated, service_role;
+grant execute on function private.recent_reports_from_subnet(text)  to anon, authenticated, service_role;
+grant execute on function private.reporter_is_new(uuid)             to anon, authenticated, service_role;
+-- v_report_queue（ふつう → 後回し、古い順。運営者は印を外せる）は 09 のまま
+
 -- @end
 
 -- =====================================================================
