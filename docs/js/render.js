@@ -308,8 +308,8 @@
 
   /* ---------- 編集者のページ ----------
      名前・ひとこと・フォロー。その人が選んだコンテクストの一覧 */
+  const mini = (w) => { const s = safeImg(w.image); return s ? `<img src="${attr(s)}" alt="" loading="lazy" decoding="async">` : `<span class="ph">${esc(initial(w))}</span>`; };
   function editorPage(ed, list, on){
-    const mini = (w) => { const s = safeImg(w.image); return s ? `<img src="${attr(s)}" alt="" loading="lazy" decoding="async">` : `<span class="ph">${esc(initial(w))}</span>`; };
     const items = list.map(e => `
       <a class="ed-item" href="${attr(pathOf('c', e.context.slug))}">
         <span class="ed-thumbs">${mini(e.a)}${mini(e.b)}</span>
@@ -335,6 +335,52 @@
           </div>
           <h3 class="ed-chose">${esc(ed.name)}が選んだつながり<small>この編集者が選んだつながり　${list.length}</small></h3>
           <div class="ed-list">${items || '<p>まだありません。</p>'}</div>
+        </div>
+      </article>`;
+  }
+
+  /* ---------- 一覧（BC修正要望 2026.10.22） ----------
+     ロゴから開く。すべてのつながりを「つながりを辿る」と同じ順（S.trail）に、番号を付けて並べる。
+     読んだものには印、最後に読んだところに「いまここ」。前に見たものを、位置と番号で探せるように。
+     黒地。下の帯は、つながりを辿るの代わりに、作品の種類で分ける札と、言葉で絞る欄 */
+  const kinds = (w) => String(w.type || '').split('・').map(s => s.trim()).filter(Boolean);
+  function listPage(items, o){
+    const tally = new Map();
+    items.forEach(({ entry: e }) => new Set([...kinds(e.a), ...kinds(e.b)]).forEach(k => tally.set(k, (tally.get(k) || 0) + 1)));
+    const cats = [...tally].filter(([, n]) => n >= 3).sort((x, y) => y[1] - x[1]).map(([k]) => k);
+    const read = items.filter(t => o.read.has(t.entry.id)).length;
+    const rows = items.map((t, i) => {
+      const e = t.entry, c = e.context, done = o.read.has(e.id), now = e.id === o.here;
+      const from = t.from && (e.a.slug === t.from ? e.a : e.b);
+      const hay = [c.routeName, c.headline, e.a.title, e.a.creator, e.b.title, e.b.creator].join(' ').toLowerCase();
+      return `${t.jump ? '<li class="ls-sep"><span>別の路線へ</span></li>' : ''}
+        <li class="ls-row${done ? ' done' : ''}${now ? ' now' : ''}" data-kinds="${attr([...kinds(e.a), ...kinds(e.b)].join('|'))}" data-hay="${attr(hay)}">
+          <a class="ls-item" href="${attr(pathOf('c', c.slug))}">
+            <span class="ls-no">${String(i + 1).padStart(3, '0')}</span>
+            <span class="ed-thumbs">${mini(e.a)}${mini(e.b)}</span>
+            <span class="ed-txt"><small>［${esc(c.routeName)}］${now ? '<i class="ls-mark now">いまここ</i>' : done ? '<i class="ls-mark">読んだ</i>' : ''}</small>
+              <b>${esc(c.headline).replace(/\n/g, '')}</b>
+              <span>${from ? `${esc(tagText(from))}から分岐　` : ''}${esc(e.a.title)} ＋ ${esc(e.b.title)}</span></span></a></li>`;
+    }).join('');
+    return `
+      <article class="page list-page">
+        ${backTop()}${topLogo()}
+        <div class="content">
+          <p class="meta">つながりを辿る順</p>
+          <h2>つながりの一覧</h2>
+          <p class="ls-count">${items.length} のつながり　·　読んだ ${read}</p>
+          <ol class="ls" id="ls">${rows}</ol>
+          <p class="ls-none" id="lsNone" hidden>見つかりませんでした。別の言葉で探してみてください。</p>
+        </div>
+        <div class="ls-bar">
+          <div class="ls-cats" role="group" aria-label="種類で分ける">
+            <button type="button" class="on" data-cat="" aria-pressed="true">すべて</button>
+            <button type="button" data-cat=":read" aria-pressed="false">読んだ</button>
+            ${cats.map(k => `<button type="button" data-cat="${attr(k)}" aria-pressed="false">${esc(k)}</button>`).join('')}
+          </div>
+          <form class="seek ls-seek" role="search" data-ls-seek>
+            ${ICON.seek}<input type="search" name="q" placeholder="一覧から探す（作品・人・言葉）" enterkeyhint="search" aria-label="一覧から探す">
+          </form>
         </div>
       </article>`;
   }
@@ -561,7 +607,7 @@
   const linePath = (n) => smooth(SHAPES[Math.abs(n | 0) % SHAPES.length]);
 
   window.BCRender = {
-    pathOf, urlOf, thing, esc, clean, safeUrl, safeImg, art, roots, ad, workPage, contextPage, editorPage, comments, loginChip, search, page,
+    pathOf, urlOf, thing, esc, clean, safeUrl, safeImg, art, roots, ad, workPage, contextPage, editorPage, listPage, comments, loginChip, search, page,
     mapMarkup, jsonLd, listLd, buildTags, tagText, readLabel, feedPage, feedStops, lineColor, linePath, ICON,
     PALETTE, SHAPE_COUNT: SHAPES.length
   };

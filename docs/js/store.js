@@ -366,6 +366,33 @@
       return out;
     },
 
+    /* つながりを辿る順（BC修正要望 2026.10.22）。すべての区間を一本の道に並べる。
+       区間を読んだら、その先の駅（片側のページ）に立ち、その駅から延びる、まだ通っていない区間へ。
+       延びる区間がなければ、通ってきた駅を新しい順に遡り、まだ延びる区間のある駅から分かれる（from）。
+       どの駅からも延びなければ、先生の一覧の順で、まだ通っていない次の区間へ乗り換える（jump）。
+       「一覧」もこの順に並べるので、辿って読んだものを、一覧の同じ位置で見つけられる。
+       exit：区間を読んだあとに立つ駅（'a' か 'b'）。来た駅と反対の側 */
+    trail() {
+      const order = new Map(this.works().map((h) => [h.slug, +h.work.order || 9999]));
+      const rank = (e) => [order.get(e.a.slug) || 9999, order.get(e.b.slug) || 9999].sort((x, y) => x - y);
+      const list = this.visible().map((e) => ({ e, r: rank(e) }))
+        .sort((x, y) => x.r[0] - y.r[0] || x.r[1] - y.r[1] || (x.e.context.slug < y.e.context.slug ? -1 : 1))
+        .map((x) => x.e);
+      const used = new Set(), out = [], path = [];
+      const fromStation = (s) => list.find((x) => !used.has(x.id) && (x.a.slug === s || x.b.slug === s));
+      while (out.length < list.length) {
+        let at = path[path.length - 1], e = at ? fromStation(at) : null, from = null, jump = false;
+        for (let k = path.length - 2; !e && k >= 0; k--) { e = fromStation(path[k]); if (e) { at = from = path[k]; } }
+        if (!e) { e = list.find((x) => !used.has(x.id)); at = null; jump = out.length > 0; }
+        used.add(e.id);
+        const exit = e.b.slug === at && e.a.slug !== at ? 'a' : 'b';
+        out.push({ entry: e, exit, from, jump });
+        if (at !== path[path.length - 1]) path.push(at || e[exit === 'a' ? 'b' : 'a'].slug);
+        path.push(e[exit].slug);
+      }
+      return out;
+    },
+
     /* ---------- 共感・コメント ---------- */
     liked(id) {
       return !!ensure().liked[id];

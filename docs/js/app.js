@@ -288,6 +288,9 @@
       const items = S.feed(arg);
       if (items.length) return show({ key: 'f:' + arg, kind: 'page', feed: items },
         R.feedPage(items, FEED_BATCH), motion, `${R.tagText(items[0].work)}から辿る`);
+    } else if (name === 'list'){
+      return show({ key: 'list', kind: 'page', list: true },
+        R.listPage(trail(), { read: readCtx, here: lastCtx }), motion, 'つながりの一覧');
     } else if (name === 'search'){
       const s = q.get('q') || '';
       return show({ key: 's:' + s, kind: 'page' }, R.search(s, S.search(s)), motion, s ? `「${s}」を辿る` : '言葉で辿る');
@@ -494,7 +497,19 @@
   let uniScroll = 0;   /* ページを開く前の UniverseIt! のスクロール位置 */
   let lifted = null;   /* 持ち上げて離した絵：その位置から運ぶ（下の「絵を指でつかむ」） */
   let armStrips = () => {};   /* ページを置いたとき、絵に指の仕掛けを付ける（下で定める） */
-  const readCtx = new Set();  /* このセッションで読んだコンテクスト */
+  /* 読んだコンテクストと、最後に開いた区間。この端末に覚えておき、一覧に「読んだ」「いまここ」と印を付ける
+     （前に見たものを探せるように）。つながりを辿るは、ほかのページからは最後の区間の続きへ */
+  const kept = (k, fb) => { try { const v = JSON.parse(localStorage.getItem(k)); return v == null ? fb : v; } catch (e) { return fb; } };
+  const readCtx = new Set([].concat(kept('bc-read', [])).filter(x => typeof x === 'string'));
+  let lastCtx = typeof kept('bc-last', null) === 'string' ? kept('bc-last', null) : null;
+  function markRead(id, read){
+    lastCtx = id;
+    if (read) readCtx.add(id);
+    try {
+      localStorage.setItem('bc-last', JSON.stringify(id));
+      localStorage.setItem('bc-read', JSON.stringify([...readCtx].slice(-2000)));
+    } catch (e) {}
+  }
   const memo = new Map();   /* ページごとのスクロール位置 */
   let backNav = false;      /* 戻る向きの移動か */
   let dry = null;           /* 描かずに組み立てるときの受け皿 */
@@ -586,13 +601,17 @@
     backNav = false;
     if (m && page.feed) extendFeed(m.n);
     window.scrollTo({ top: m ? m.y : 0, behavior: 'instant' });
+    /* 一覧は、最後に読んだところ（いまここ）を画面の上のほうに出して開く */
+    const now = !m && page.list && viewIn.querySelector('.ls-row.now');
+    if (now) window.scrollTo({ top: Math.max(0, now.getBoundingClientRect().top + window.scrollY - innerHeight * 0.3), behavior: 'instant' });
     /* 払って戻ったときは、後ろの写しを本物の絵が描けるまで残す（払う側で外す） */
     if (!motion.swipe) dropUnderlay();
     body.classList.toggle('route', page.kind === 'route');
     body.classList.toggle('on-work', !!page.work);
     body.classList.toggle('on-today', !!page.today);
+    body.classList.toggle('on-list', !!page.list);
     body.classList.toggle('at-root', atRoot());
-    if (page.kind === 'route' && page.step === 1 && page.entry) readCtx.add(page.entry.id);
+    if (page.kind === 'route' && page.entry) markRead(page.entry.id, page.step === 1);
     /* ページの上では、つながりを辿るの行き先を示す（コンテクストへ／次の区間へ／次の路線へ） */
     $('uniLabel').textContent = nextPlan().label;
     armStrips();
@@ -644,7 +663,7 @@
     ld.textContent = listLd();
     view.classList.add('instant');
     view.classList.remove('on', 'enter', 'fade-in');
-    body.classList.remove('viewing', 'route', 'on-work', 'on-today', 'at-root');
+    body.classList.remove('viewing', 'route', 'on-work', 'on-today', 'on-list', 'at-root');
     peek(false);
     dropUnderlay();
     backNav = false;
@@ -727,63 +746,41 @@
   /* ---------- 触れたもの ---------- */
   const rectOf = (el) => centerOf(el.getBoundingClientRect());
 
-  /* 路線（フィード）の上で「つながりを辿る」：偶然の別の作品から、次の路線へ。
-     履歴は置き換えるので、‹ で一度に UniverseIt! へ戻れる。最近の出発点は避ける */
-  const recentStarts = [];
-  /* いま画面に見えている作品（下の帯の裏は除く） */
-  function visibleWorks(){
-    const bottom = document.getElementById('dock').getBoundingClientRect().top;
-    const seen = new Set();
-    viewIn.querySelectorAll('img[data-k]').forEach(im => {
-      const r = im.getBoundingClientRect();
-      if (r.bottom > 0 && r.top < bottom && r.width > 4) seen.add(im.dataset.k);
-    });
-    if (here && here.entry && !seen.size){ seen.add(here.entry.a.slug); seen.add(here.entry.b.slug); }
-    return seen;
-  }
-  /* つながりを辿るの飛び先（前田先生のルール）：
-     画面に見えている作品とも、それと区間でつながっている作品とも、つながっていない作品から
-     次の路線を始める。最近の出発点も避ける。該当がなければ条件をゆるめる */
-  /* ---------- つながりを辿るの行き先（前田先生のルール） ----------
-     コンテクスト詳細 ＞ 他の区間 ＞ ランダム。スクロールして探して押す手間を、ボタン一つにする。
-     ・作品ページ：その作品を含む、まだ読んでいないコンテクストへ
-     ・コンテクストページ：B から（なければ A から）延びる、まだ読んでいない他の区間へ
+  /* ---------- つながりを辿るの行き先（BC修正要望 2026.10.22） ----------
+     ボタン一つで、すべてのつながりを読み進める。道はいつも同じ一本（S.trail）で、一覧の並びと同じ。
+     区間 → その先の駅（片側のページ：左に作品、右に ＋）→ 次の区間 → …（片方のページを省かない）
+     ・コンテクストページ：その区間を読んだ先の駅へ
+     ・作品ページ：道の上で、次の区間へ
+     ・編集者のマイページ：その人が選んだつながりから
      ・路線：画面に見えている区間のうち、まだ読んでいないものへ
-     ・近くに読んでいないものがなければ、一駅先の作品の区間へ。それもなければ
-       見えている作品とつながっていない作品から、偶然に次の路線へ（ランダムに迷い込まない） */
-  const byOrderOf = (a, b) => (+a.work.order || 9999) - (+b.work.order || 9999);
-  const unreadFrom = (slug) => S.neighbors(slug).sort(byOrderOf).map(n => n.entry).find(e => !readCtx.has(e.id));
-  function nextOver(slugs){
-    for (const s of slugs){
-      for (const n of S.neighbors(s).sort(byOrderOf)){
-        const e = unreadFrom(n.slug);
-        if (e) return e;
-      }
-    }
-    return null;
-  }
+     ・そのほか（検索・読み物）：最後に開いた区間の続きから */
+  let trailMemo = null;
+  const trail = () => trailMemo || (trailMemo = S.trail());
+  const posOf = (id) => trail().findIndex(t => t.entry.id === id);
+  /* 道の上で、その区間の次。道に無ければ（または最後なら）道の始めへ */
+  const after = (id) => { const T = trail(); return T.length ? T[(posOf(id) + 1) % T.length].entry : null; };
   function nextPlan(){
     const toCtx = (e, label) => ({ label, run: () => {
+      if (!e) return;
       if (here && here.entry && here.entry.id === e.id) goStep(1, null);   /* 同じ区間なら、帯の上を進む */
       else go('#/c/' + encodeURIComponent(e.context.slug), { dir: 1 });
     }});
-    /* 編集者のマイページ：その人が選んだつながりから始める（BC修正要望 2026.10.22） */
     if (here && here.editorId){
       const list = S.byEditor(here.editorId);
       const e = list.find(x => !readCtx.has(x.id)) || list[0];
       if (e) return toCtx(e, 'この編集者のつながりへ');
     }
-    if (here && here.work && here.slug){
-      const e = unreadFrom(here.slug);
-      if (e) return toCtx(e, 'コンテクストへ');
-      const e2 = nextOver([here.slug]);
-      if (e2) return toCtx(e2, '次の区間へ');
-    } else if (here && here.entry && here.step === 1){
-      const e = unreadFrom(here.entry.b.slug) || unreadFrom(here.entry.a.slug);
-      if (e) return toCtx(e, '次の区間へ');
-      const e2 = nextOver([here.entry.b.slug, here.entry.a.slug]);
-      if (e2) return toCtx(e2, '次の区間へ');
-    } else if (here && here.feed){
+    if (here && here.entry && here.step === 1){
+      const t = trail()[posOf(here.entry.id)];
+      const step = t && t.exit === 'a' ? 0 : 2;
+      return { label: 'その先の駅へ', run: () => goStep(step, null) };
+    }
+    if (here && here.work){
+      if (here.entry) return toCtx(after(here.entry.id), '次の区間へ');
+      const t = trail().find(x => x.entry.a.slug === here.slug || x.entry.b.slug === here.slug);
+      if (t) return toCtx(t.entry, 'コンテクストへ');
+    }
+    if (here && here.feed){
       const bottom = document.getElementById('dock').getBoundingClientRect().top;
       for (const a of viewIn.querySelectorAll('.seg')){
         const r = a.getBoundingClientRect();
@@ -793,7 +790,7 @@
         if (e && !readCtx.has(e.id)) return toCtx(e, 'コンテクストへ');
       }
     }
-    return { label: '次の路線へ', run: nextFeed };
+    return toCtx(after(lastCtx), '続きから');
   }
   /* 路線をスクロールすると見えている区間が変わるので、行き先の表示も合わせる */
   let labelTick = 0;
@@ -801,24 +798,6 @@
     if (!here || !here.feed || labelTick) return;
     labelTick = requestAnimationFrame(() => { labelTick = 0; if (here && here.feed) $('uniLabel').textContent = nextPlan().label; });
   }, { passive: true });
-
-  function nextFeed(){
-    const all = S.works();
-    if (!all.length) return;
-    const near = new Set();
-    visibleWorks().forEach(k => { near.add(k); S.neighbors(k).forEach(n => near.add(n.slug)); });
-    while (recentStarts.length > Math.min(20, all.length - 1)) recentStarts.shift();
-    const choose = (list) => list[Math.floor(Math.random() * list.length)];
-    const far = all.filter(w => !near.has(w.slug));
-    const fresh = far.filter(w => !recentStarts.includes(w.slug));
-    const pick = choose(fresh.length ? fresh : far.length ? far : all);
-    recentStarts.push(pick.slug);
-    /* 路線の一覧（つながりの路線）には出さない。ボタン一つで、いつもコンテクストのページを読み進められるように
-       （BC修正要望 2026.10.22）。遠い作品の、まだ読んでいない区間へ。区間のない作品なら、その作品の片側のページへ */
-    const e = unreadFrom(pick.slug) || (S.neighbors(pick.slug)[0] || {}).entry;
-    if (view.classList.contains('on')) go(e ? '#/c/' + encodeURIComponent(e.context.slug) : '#/w/' + encodeURIComponent(pick.slug), { dir: 1 });
-    else go('#/f/' + encodeURIComponent(pick.slug), { dir: 1 }, true);
-  }
 
   /* NEXT UNIVERSE：次のつながりへ（行き先はアプリが決める）。戻るのは左の端から払う */
   uniBtn.addEventListener('click', () => {
@@ -905,13 +884,25 @@
   }
   $('selHint').addEventListener('click', ev => { if (ev.target.closest('[data-clear-sel]')) showAll(); });
 
-  /* TOP へ：ページの上のロゴから。最初の画面（Today's Editor's Choice）へ一度で戻る。
-     奥の UniverseIt! も、次に入ったときはすべての言葉を一番上から */
-  function goTop(){
-    uniScroll = 0;
-    sel = null; lit = new Set(); pick = [];
-    goHome();
+  /* 一覧を絞る：選んだ種類の札（または「読んだ」）と、打った言葉の両方に合うものだけ。番号は道の順のまま */
+  function filterList(){
+    const on = viewIn.querySelector('[data-cat].on');
+    const cat = on ? on.dataset.cat : '';
+    const box = viewIn.querySelector('[data-ls-seek] input');
+    const words = (box ? box.value : '').toLowerCase().split(/[\s　]+/).filter(Boolean);
+    let n = 0;
+    viewIn.querySelectorAll('.ls-row').forEach(li => {
+      const ok = (!cat || (cat === ':read' ? li.classList.contains('done') : li.dataset.kinds.split('|').includes(cat)))
+        && words.every(w => li.dataset.hay.includes(w));
+      li.hidden = !ok;
+      if (ok) n++;
+    });
+    const all = !cat && !words.length;
+    viewIn.querySelectorAll('.ls-sep').forEach(s => { s.hidden = !all; });
+    const none = $('lsNone');
+    if (none) none.hidden = n > 0;
   }
+  document.addEventListener('input', ev => { if (ev.target.closest('[data-ls-seek]')) filterList(); });
 
   /* ---------- UniverseIt! ⇄ ReMixIt!：左右にスライドして画面を入れ替える（flow1002） ----------
      二つの画面は左右に並んでいる（左 ReMixIt! の白、右 UniverseIt! の回路）。指で横に引くと、
@@ -1001,8 +992,11 @@
     if (t.closest('[data-home]')){ ev.preventDefault(); openMenu(false); goHome(); return; }
     /* 奥の UniverseIt!（すべての言葉）へ */
     if (t.closest('[data-uni]')){ ev.preventDefault(); openMenu(false); toNetwork(); return; }
-    /* ロゴは TOP（Today's Editor's Choice）へ */
-    if (t.closest('[data-top]')){ ev.preventDefault(); goTop(); return; }
+    /* ロゴは一覧へ（BC修正要望 2026.10.22「ロゴをクリックするとメニューに行きたい」） */
+    if (t.closest('[data-top]')){ ev.preventDefault(); openMenu(false); if (!(here && here.list)) go('#/list', { dir: 1 }); return; }
+    /* 一覧を種類で分ける */
+    const cat = t.closest('[data-cat]');
+    if (cat){ viewIn.querySelectorAll('[data-cat]').forEach(b => { b.classList.toggle('on', b === cat); b.setAttribute('aria-pressed', String(b === cat)); }); filterList(); return; }
 
     /* ‹ › ：› は NEXT と同じ、‹ は一つ前のつながりへ */
     const arrow = t.closest('[data-ctx-go]');
@@ -1164,6 +1158,8 @@
       if (me) post(me); else openLogin('コメントに出す名前を作りましょう', post);
       return;
     }
+    /* 一覧の中で探す欄は、打つそばから絞っている。送ったら鍵盤を閉じるだけ */
+    if (f.matches('[data-ls-seek]')){ ev.preventDefault(); f.elements.q.blur(); return; }
     if (!f.matches('[data-seek]')) return;
     ev.preventDefault();
     const q = (f.elements.q.value || '').trim();
