@@ -246,6 +246,7 @@
   window.addEventListener('hashchange', onHistory);
 
   function routeTo(hash, motion){
+    routed = hash;
     let h = String(hash || '').replace(/^#/, '');
     try { h = decodeURIComponent(h); } catch (e) {}
     if (!h || h === '/'){ hideView(motion || { toCenter: true }); return; }
@@ -528,6 +529,24 @@
     return true;
   }
   function dropUnderlay(){ document.querySelectorAll('.underlay').forEach(n => n.remove()); }
+
+  /* ---------- アクセス解析 ----------
+     画面が替わるたびに、表示を一回数える。# から先の道は Google アナリティクスには見えないので、
+     静的なページと同じアドレスの形（/c/…/・/w/…/・/e/…/）に直して送る。
+     表紙は数えない（すぐ Today に替わるので、一回の来訪が二回に見えてしまう） */
+  let routed = '', counted = null, quiet = false;
+  function count(page){
+    if (!window.gtag || quiet) return;
+    const key = page ? page.key : 'uni';
+    if (key === counted) return;
+    counted = key;
+    const [p, qs] = String(routed || '').replace(/^#/, '').split('?');
+    const parts = page ? p.split('/').filter(Boolean) : [];
+    const q = parts[0] === 'search' && new URLSearchParams(qs || '').get('q');
+    const at = (parts.length ? '/' + parts.join('/') + '/' : '/') + (q ? '?q=' + encodeURIComponent(q) : '');
+    gtag('event', 'page_view', { page_location: location.origin + at, page_title: document.title });
+  }
+
   function show(page, html, motion, title){
     if (dry){ dry.page = page; dry.html = html; return; }
     if (here && here.key === page.key && view.classList.contains('on')) return;
@@ -552,6 +571,7 @@
     viewIn.innerHTML = html;
     view.setAttribute('aria-label', title || '');
     document.title = (title ? title + '｜' : '') + brand;
+    count(page);
     ld.textContent = page.kind === 'route' && page.entry && page.step === 1
       ? JSON.stringify(R.jsonLd(page.entry, R.urlOf('c', page.entry.context.slug))) : listLd();
 
@@ -619,6 +639,7 @@
     if (feedIO){ feedIO.disconnect(); feedIO = null; }
     here = null;
     document.title = brand;
+    count(null);
     ld.textContent = listLd();
     view.classList.add('instant');
     view.classList.remove('on', 'enter', 'fade-in');
@@ -1522,7 +1543,10 @@
       stack.length = 0;
       (resume.stack && resume.stack.length ? resume.stack : [location.hash]).forEach(h => stack.push(h));
       if (resume.key){ memo.set(resume.key, { y: resume.y || 0, n: resume.n || 0 }); backNav = true; }
+      /* 新しい版への入れ替えで読み直しただけ。同じページをもう一度は数えない */
+      quiet = true;
       routeTo(location.hash, { dismiss: true });
+      quiet = false;
       uniScroll = resume.uniY || 0;   /* ページを置くと上書きされるので、置いたあとに戻す */
     } else {
       paintSelection();

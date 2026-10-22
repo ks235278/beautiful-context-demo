@@ -37,7 +37,7 @@ try { if (sessionStorage.getItem('bc-resume')) document.documentElement.classLis
 <link rel="preload" as="image" href="img/pcb-charcoal.jpg">
 <link rel="preload" as="image" href="img/logo-layer-mark.png">
 <link rel="preload" as="image" href="img/logo-layer-words.png">
-<link rel="manifest" href="manifest.webmanifest?v=124">
+<link rel="manifest" href="manifest.webmanifest?v=125">
 <link rel="apple-touch-icon" href="icon-180.png">
 <!-- タブと検索結果に出る小さな印。アプリの印（ホーム画面のアイコン）と同じ形 -->
 <link rel="icon" href="favicon.ico" sizes="16x16 32x32 48x48">
@@ -63,19 +63,20 @@ try { if (sessionStorage.getItem('bc-resume')) document.documentElement.classLis
 <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Lato:wght@300;400;700&display=swap" onload="this.onload=null;this.rel='stylesheet'">
 <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Lato:wght@300;400;700&display=swap"></noscript>
 <!-- アクセス解析（Google アナリティクス 4）。表示を待たせないよう非同期で読む。何を送るかは 利用規約・プライバシー に書いた。
-     本番のアドレスで開いたときだけ数える（静的なページの書き出しや、手元での確かめは数えない） -->
+     本番のアドレスで開いたときだけ数える（静的なページの書き出しや、手元での確かめは数えない）。
+     ページの表示は app.js が画面の替わるたびに送る（ここで送ると、表紙と # の先の道が数えられない） -->
 <script>
 if (location.hostname === 'beautifulcontext.com'){
   window.dataLayer = window.dataLayer || [];
   window.gtag = function(){ dataLayer.push(arguments); };
-  gtag('js', new Date()); gtag('config', 'G-Z955G7G1ZG');
+  gtag('js', new Date()); gtag('config', 'G-Z955G7G1ZG', { send_page_view: false });
   var ga = document.createElement('script'); ga.async = true; ga.src = 'https://www.googletagmanager.com/gtag/js?id=G-Z955G7G1ZG';
   document.head.appendChild(ga);
 }
 </script>
-<script src="js/theme.js?v=124"></script>
-<link rel="stylesheet" href="app.css?v=124">
-<link rel="stylesheet" href="fade.css?v=124">
+<script src="js/theme.js?v=125"></script>
+<link rel="stylesheet" href="app.css?v=125">
+<link rel="stylesheet" href="fade.css?v=125">
 </head>
 <body class="stage-uni viewing route" data-route="#/c/chainsaw-man--parasyte">
 
@@ -341,11 +342,11 @@ if (location.hostname === 'beautifulcontext.com'){
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 <script type="application/ld+json" id="ld">{"@context":"https://schema.org","@type":"Article","headline":"悪魔の心臓と、右手の寄生生物。","alternativeHeadline":"体に宿るもう一つの命","about":[{"@type":"CreativeWork","name":"チェンソーマン","description":"悪魔のポチタと一体になり、チェンソーの悪魔の力を得た少年デンジの物語。2018年に週刊少年ジャンプで連載が始まった。","creator":{"@type":"Person","name":"藤本タツキ"}},{"@type":"CreativeWork","name":"寄生獣","description":"人間に寄生する生物が現れた世界で、右手に寄生された高校生・泉新一と「ミギー」の共生を描いた漫画。","creator":{"@type":"Person","name":"岩明均"}}],"author":{"@type":"Person","name":"生成AI（初稿）"},"datePublished":"2026-09-15T06:40:00.000Z","dateModified":"2026-09-15T06:40:00.000Z","inLanguage":"ja","articleBody":"意味の上での近さから結ばれた区間。『寄生獣』の泉新一は、脳を乗っ取られるはずだった寄生生物に右手だけを奪われ、「ミギー」と名づけたその生き物と共に生きることになる。『チェンソーマン』のデンジは、瀕死のところを悪魔のポチタに救われ、ポチタが心臓となって一体になる。どちらの少年も、自分の体の中に人間ではない相棒を抱えて戦う。そして物語は、人間とは何かという問いを、その相棒のほうから投げかけてくる。時代を隔てた二つの漫画は、同じ構図の上に立っている。","url":"https://beautifulcontext.com/c/chainsaw-man--parasyte/","image":"https://beautifulcontext.com/img/works/chainsaw-man.jpg"}</script>
 
-<script src="js/seed.js?v=124"></script>
-<script src="js/store.js?v=124"></script>
-<script src="js/social.js?v=124"></script>
-<script src="js/render.js?v=124"></script>
-<script src="js/transition.js?v=124"></script>
-<script src="js/app.js?v=124"></script>
+<script src="js/seed.js?v=125"></script>
+<script src="js/store.js?v=125"></script>
+<script src="js/social.js?v=125"></script>
+<script src="js/render.js?v=125"></script>
+<script src="js/transition.js?v=125"></script>
+<script src="js/app.js?v=125"></script>
 </body>
 </html>

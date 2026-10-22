@@ -37,7 +37,7 @@ try { if (sessionStorage.getItem('bc-resume')) document.documentElement.classLis
 <link rel="preload" as="image" href="img/pcb-charcoal.jpg">
 <link rel="preload" as="image" href="img/logo-layer-mark.png">
 <link rel="preload" as="image" href="img/logo-layer-words.png">
-<link rel="manifest" href="manifest.webmanifest?v=124">
+<link rel="manifest" href="manifest.webmanifest?v=125">
 <link rel="apple-touch-icon" href="icon-180.png">
 <!-- タブと検索結果に出る小さな印。アプリの印（ホーム画面のアイコン）と同じ形 -->
 <link rel="icon" href="favicon.ico" sizes="16x16 32x32 48x48">
@@ -63,19 +63,20 @@ try { if (sessionStorage.getItem('bc-resume')) document.documentElement.classLis
 <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Lato:wght@300;400;700&display=swap" onload="this.onload=null;this.rel='stylesheet'">
 <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Lato:wght@300;400;700&display=swap"></noscript>
 <!-- アクセス解析（Google アナリティクス 4）。表示を待たせないよう非同期で読む。何を送るかは 利用規約・プライバシー に書いた。
-     本番のアドレスで開いたときだけ数える（静的なページの書き出しや、手元での確かめは数えない） -->
+     本番のアドレスで開いたときだけ数える（静的なページの書き出しや、手元での確かめは数えない）。
+     ページの表示は app.js が画面の替わるたびに送る（ここで送ると、表紙と # の先の道が数えられない） -->
 <script>
 if (location.hostname === 'beautifulcontext.com'){
   window.dataLayer = window.dataLayer || [];
   window.gtag = function(){ dataLayer.push(arguments); };
-  gtag('js', new Date()); gtag('config', 'G-Z955G7G1ZG');
+  gtag('js', new Date()); gtag('config', 'G-Z955G7G1ZG', { send_page_view: false });
   var ga = document.createElement('script'); ga.async = true; ga.src = 'https://www.googletagmanager.com/gtag/js?id=G-Z955G7G1ZG';
   document.head.appendChild(ga);
 }
 </script>
-<script src="js/theme.js?v=124"></script>
-<link rel="stylesheet" href="app.css?v=124">
-<link rel="stylesheet" href="fade.css?v=124">
+<script src="js/theme.js?v=125"></script>
+<link rel="stylesheet" href="app.css?v=125">
+<link rel="stylesheet" href="fade.css?v=125">
 </head>
 <body class="stage-uni viewing route" data-route="#/c/brazil--johnny-depp">
 
@@ -341,11 +342,11 @@ if (location.hostname === 'beautifulcontext.com'){
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 <script type="application/ld+json" id="ld">{"@context":"https://schema.org","@type":"Article","headline":"夢に逃げる役人の監督と、夢を演じる俳優。","alternativeHeadline":"テリー・ギリアムを経由して","about":[{"@type":"Movie","name":"未来世紀ブラジル","description":"書類と管理に覆われた近未来の社会で、夢に逃げ込む役人を描いた映画。","creator":{"@type":"Person","name":"テリー・ギリアム監督"}},{"@type":"Person","name":"ジョニー・デップ","description":"アメリカの俳優。ティム・バートンやテリー・ギリアムの作品に数多く出演し、『MINAMATA』では主演とともに製作にも加わった。"}],"author":{"@type":"Person","name":"生成AI（初稿）"},"datePublished":"2026-09-15T02:40:00.000Z","dateModified":"2026-09-15T02:40:00.000Z","inLanguage":"ja","articleBody":"ハブは監督テリー・ギリアム。『未来世紀ブラジル』を撮ったテリー・ギリアムは、のちにジョニー・デップを主演に『ラスベガスをやっつけろ』（1998）を撮った。デップは、ヒース・レジャーの急逝で未完成になりかけた『Dr.パルナサスの鏡』（2009）でも、ギリアムのために役を引き継いでいる。現実から夢や幻覚へと滑り込んでいくギリアムの映画は、奇妙な人物を演じることに長けた俳優を必要としてきた。二人の仕事は、その相性の良さを物語っている。","url":"https://beautifulcontext.com/c/brazil--johnny-depp/","image":"https://beautifulcontext.com/img/works/brazil.jpg"}</script>
 
-<script src="js/seed.js?v=124"></script>
-<script src="js/store.js?v=124"></script>
-<script src="js/social.js?v=124"></script>
-<script src="js/render.js?v=124"></script>
-<script src="js/transition.js?v=124"></script>
-<script src="js/app.js?v=124"></script>
+<script src="js/seed.js?v=125"></script>
+<script src="js/store.js?v=125"></script>
+<script src="js/social.js?v=125"></script>
+<script src="js/render.js?v=125"></script>
+<script src="js/transition.js?v=125"></script>
+<script src="js/app.js?v=125"></script>
 </body>
 </html>

@@ -37,7 +37,7 @@ try { if (sessionStorage.getItem('bc-resume')) document.documentElement.classLis
 <link rel="preload" as="image" href="img/pcb-charcoal.jpg">
 <link rel="preload" as="image" href="img/logo-layer-mark.png">
 <link rel="preload" as="image" href="img/logo-layer-words.png">
-<link rel="manifest" href="manifest.webmanifest?v=124">
+<link rel="manifest" href="manifest.webmanifest?v=125">
 <link rel="apple-touch-icon" href="icon-180.png">
 <!-- タブと検索結果に出る小さな印。アプリの印（ホーム画面のアイコン）と同じ形 -->
 <link rel="icon" href="favicon.ico" sizes="16x16 32x32 48x48">
@@ -63,19 +63,20 @@ try { if (sessionStorage.getItem('bc-resume')) document.documentElement.classLis
 <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Lato:wght@300;400;700&display=swap" onload="this.onload=null;this.rel='stylesheet'">
 <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Lato:wght@300;400;700&display=swap"></noscript>
 <!-- アクセス解析（Google アナリティクス 4）。表示を待たせないよう非同期で読む。何を送るかは 利用規約・プライバシー に書いた。
-     本番のアドレスで開いたときだけ数える（静的なページの書き出しや、手元での確かめは数えない） -->
+     本番のアドレスで開いたときだけ数える（静的なページの書き出しや、手元での確かめは数えない）。
+     ページの表示は app.js が画面の替わるたびに送る（ここで送ると、表紙と # の先の道が数えられない） -->
 <script>
 if (location.hostname === 'beautifulcontext.com'){
   window.dataLayer = window.dataLayer || [];
   window.gtag = function(){ dataLayer.push(arguments); };
-  gtag('js', new Date()); gtag('config', 'G-Z955G7G1ZG');
+  gtag('js', new Date()); gtag('config', 'G-Z955G7G1ZG', { send_page_view: false });
   var ga = document.createElement('script'); ga.async = true; ga.src = 'https://www.googletagmanager.com/gtag/js?id=G-Z955G7G1ZG';
   document.head.appendChild(ga);
 }
 </script>
-<script src="js/theme.js?v=124"></script>
-<link rel="stylesheet" href="app.css?v=124">
-<link rel="stylesheet" href="fade.css?v=124">
+<script src="js/theme.js?v=125"></script>
+<link rel="stylesheet" href="app.css?v=125">
+<link rel="stylesheet" href="fade.css?v=125">
 </head>
 <body class="stage-uni viewing route" data-route="#/c/shooting-an-elephant--nineteen-eighty-four">
 
@@ -341,11 +342,11 @@ if (location.hostname === 'beautifulcontext.com'){
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 <script type="application/ld+json" id="ld">{"@context":"https://schema.org","@type":"Article","headline":"象を撃った警官は、やがて監視国家を書いた。","alternativeHeadline":"ビルマから『1984年』へ","about":[{"@type":"Book","name":"象を撃つ","description":"英領ビルマで警官をしていた若いオーウェルが、暴れた象を、群衆の前で「撃たねばならなくなった」経験を書いたエッセイ。","creator":{"@type":"Person","name":"ジョージ・オーウェル"}},{"@type":"Book","name":"1984年","description":"「ビッグ・ブラザー」がすべてを監視する全体主義国家オセアニアで、真理省に勤めるウィンストンが体制に疑いを抱く。","creator":{"@type":"Person","name":"ジョージ・オーウェル"}}],"author":{"@type":"Person","name":"生成AI（初稿）"},"datePublished":"2026-09-14T08:00:00.000Z","dateModified":"2026-09-14T08:00:00.000Z","inLanguage":"ja","articleBody":"ハブは書き手オーウェル。権力の側に立った経験から、権力の物語が生まれた。本名エリック・ブレアは、1920年代に英領ビルマで警察官をしていた。『象を撃つ』は、街で暴れた象を、群衆の期待に応えるために撃たねばならなかった経験を書いたエッセイで、支配する側の人間の内面の敗北が描かれる。オーウェルはやがて警官を辞め、ビルマを舞台にした小説を書いた。その目は、『動物農場』『1984年』で、国家が人を支配するしくみそのものへ向かう。前田先生の note によれば、ミャンマーでは長く、オーウェルの本が出版を禁じられていた。軍事政権のもとの暮らしを、あまりに正確に言い当てていたからである。","url":"https://beautifulcontext.com/c/shooting-an-elephant--nineteen-eighty-four/","image":"https://beautifulcontext.com/img/works/shooting-an-elephant.jpg"}</script>
 
-<script src="js/seed.js?v=124"></script>
-<script src="js/store.js?v=124"></script>
-<script src="js/social.js?v=124"></script>
-<script src="js/render.js?v=124"></script>
-<script src="js/transition.js?v=124"></script>
-<script src="js/app.js?v=124"></script>
+<script src="js/seed.js?v=125"></script>
+<script src="js/store.js?v=125"></script>
+<script src="js/social.js?v=125"></script>
+<script src="js/render.js?v=125"></script>
+<script src="js/transition.js?v=125"></script>
+<script src="js/app.js?v=125"></script>
 </body>
 </html>

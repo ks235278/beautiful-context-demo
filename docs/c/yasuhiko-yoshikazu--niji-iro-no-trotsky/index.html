@@ -37,7 +37,7 @@ try { if (sessionStorage.getItem('bc-resume')) document.documentElement.classLis
 <link rel="preload" as="image" href="img/pcb-charcoal.jpg">
 <link rel="preload" as="image" href="img/logo-layer-mark.png">
 <link rel="preload" as="image" href="img/logo-layer-words.png">
-<link rel="manifest" href="manifest.webmanifest?v=124">
+<link rel="manifest" href="manifest.webmanifest?v=125">
 <link rel="apple-touch-icon" href="icon-180.png">
 <!-- タブと検索結果に出る小さな印。アプリの印（ホーム画面のアイコン）と同じ形 -->
 <link rel="icon" href="favicon.ico" sizes="16x16 32x32 48x48">
@@ -63,19 +63,20 @@ try { if (sessionStorage.getItem('bc-resume')) document.documentElement.classLis
 <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Lato:wght@300;400;700&display=swap" onload="this.onload=null;this.rel='stylesheet'">
 <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Lato:wght@300;400;700&display=swap"></noscript>
 <!-- アクセス解析（Google アナリティクス 4）。表示を待たせないよう非同期で読む。何を送るかは 利用規約・プライバシー に書いた。
-     本番のアドレスで開いたときだけ数える（静的なページの書き出しや、手元での確かめは数えない） -->
+     本番のアドレスで開いたときだけ数える（静的なページの書き出しや、手元での確かめは数えない）。
+     ページの表示は app.js が画面の替わるたびに送る（ここで送ると、表紙と # の先の道が数えられない） -->
 <script>
 if (location.hostname === 'beautifulcontext.com'){
   window.dataLayer = window.dataLayer || [];
   window.gtag = function(){ dataLayer.push(arguments); };
-  gtag('js', new Date()); gtag('config', 'G-Z955G7G1ZG');
+  gtag('js', new Date()); gtag('config', 'G-Z955G7G1ZG', { send_page_view: false });
   var ga = document.createElement('script'); ga.async = true; ga.src = 'https://www.googletagmanager.com/gtag/js?id=G-Z955G7G1ZG';
   document.head.appendChild(ga);
 }
 </script>
-<script src="js/theme.js?v=124"></script>
-<link rel="stylesheet" href="app.css?v=124">
-<link rel="stylesheet" href="fade.css?v=124">
+<script src="js/theme.js?v=125"></script>
+<link rel="stylesheet" href="app.css?v=125">
+<link rel="stylesheet" href="fade.css?v=125">
 </head>
 <body class="stage-uni viewing route" data-route="#/c/yasuhiko-yoshikazu--niji-iro-no-trotsky">
 
@@ -341,11 +342,11 @@ if (location.hostname === 'beautifulcontext.com'){
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 <script type="application/ld+json" id="ld">{"@context":"https://schema.org","@type":"Article","headline":"満州の大学に、ひとりの青年が送り込まれる。","alternativeHeadline":"作者と作品","about":[{"@type":"Person","name":"安彦良和","description":"テレビアニメ『機動戦士ガンダム』のキャラクターデザインと作画監督をつとめた。漫画家として『虹色のトロツキー』など、歴史を題材にした作品を描く。"},{"@type":"CreativeWork","name":"虹色のトロツキー","description":"1938年の満州。日本人とモンゴル人の血を引く青年ウムボルトが、建国大学に送り込まれ、トロツキーをめぐる謀略に巻き込まれていく。","creator":{"@type":"Person","name":"安彦良和"}}],"author":{"@type":"Person","name":"生成AI（初稿）"},"datePublished":"2026-09-14T00:50:00.000Z","dateModified":"2026-09-14T00:50:00.000Z","inLanguage":"ja","articleBody":"ガンダムの作り手が描いた、満州の歴史。『虹色のトロツキー』は、1938年の満州を舞台に、日本人とモンゴル人の血を引く青年ウムボルトが、建国大学に送り込まれ、トロツキーを満州に招くという謀略に巻き込まれていく物語である。石原莞爾ら実在の人物が登場し、ノモンハン事件へと向かう歴史を背景にしている。安彦良和は、アニメーターから漫画家に転じたあと、近代史を題材にした作品を描き続けている。","url":"https://beautifulcontext.com/c/yasuhiko-yoshikazu--niji-iro-no-trotsky/","image":"https://beautifulcontext.com/img/works/yasuhiko-yoshikazu.jpg"}</script>
 
-<script src="js/seed.js?v=124"></script>
-<script src="js/store.js?v=124"></script>
-<script src="js/social.js?v=124"></script>
-<script src="js/render.js?v=124"></script>
-<script src="js/transition.js?v=124"></script>
-<script src="js/app.js?v=124"></script>
+<script src="js/seed.js?v=125"></script>
+<script src="js/store.js?v=125"></script>
+<script src="js/social.js?v=125"></script>
+<script src="js/render.js?v=125"></script>
+<script src="js/transition.js?v=125"></script>
+<script src="js/app.js?v=125"></script>
 </body>
 </html>
