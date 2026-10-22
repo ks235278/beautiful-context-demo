@@ -95,7 +95,7 @@ function page(r, got){
   const swap = (a, b) => { must(h, a); h = h.replace(a, () => b); };
   /* 資源（CSS・JS・絵）は、サイトの根から読む */
   swap('<meta charset="utf-8">', '<meta charset="utf-8">\n<base href="../../">');
-  swap('<title>Beautiful Context</title>', `<title>${esc(got.title)}</title>`);
+  h = h.replace(/<title>[^<]*<\/title>/, () => `<title>${esc(got.title)}</title>`);
   h = h.replace(/<meta name="description" content="[^"]*">/, () => `<meta name="description" content="${esc(got.desc)}">`);
   h = h.replace(/<link rel="canonical" href="[^"]*">/, () => `<link rel="canonical" href="${esc(url)}">`);
   h = h.replace(/<meta property="og:type" content="[^"]*">/, () => `<meta property="og:type" content="${r.kind === 'c' ? 'article' : 'profile'}">\n<meta property="og:url" content="${esc(url)}">`);

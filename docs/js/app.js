@@ -39,7 +39,9 @@
   }
   $('dockBrand').textContent = brand;
   if (settings.tagline) $('tagline').textContent = settings.tagline;
-  document.title = brand;
+  /* 表紙と UniverseIt! の題名。名前が既定のままなら index.html の題名（検索結果に出る、何のサイトかわかる題名）のまま */
+  const homeTitle = /^beautiful context$/i.test(brand.trim()) && !body.dataset.route ? document.title : brand;
+  document.title = homeTitle;
 
   const reduced = matchMedia('(prefers-reduced-motion:reduce)');
   const motionOK = () => !reduced.matches;
@@ -84,6 +86,7 @@
      （UniverseIt! はその奥に控え、メニューから入る） */
   function toHome(){
     if (stage !== 'intro') return;
+    how('open');
     toUni(false);
     openToday();
   }
@@ -108,6 +111,7 @@
       /* 表紙のうちに開いたら、先に Today を置いてからメニューを重ねる */
       if (stage === 'intro') toHome();
       menu.hidden = false;
+      track('menu_open', { from_page: kindOf() });
       requestAnimationFrame(() => menu.classList.add('open'));
       menuBtn.setAttribute('aria-expanded', 'true');
     } else {
@@ -180,8 +184,9 @@
   }
   /* Today が最初の画面（履歴のいちばん奥）なら、そこより前はない */
   const atRoot = () => !!(here && here.today) && depth() === 0;
-  function closeView(motion){
+  function closeView(motion, by){
     if (!view.classList.contains('on') || atRoot()) return;
+    how(by || (motion && motion.swipe ? 'back_swipe' : motion && motion.dismiss ? 'back_drag' : 'back'));
     const d = depth();
     backNav = true;
     if (d > 0){
@@ -232,6 +237,7 @@
       return;
     }
     /* 静的なページ（c/…/ など）で開いたときの最初の画面は、その道（body の data-route） */
+    if (!via) how('history');   /* ブラウザの戻る・進む */
     const h = location.hash || body.dataset.route || '';
     if (!h || h === '#' || h === '#/') stack.length = 0;
     else if (stack[stack.length - 1] !== h){
@@ -337,7 +343,9 @@
     go('#/today' + (j ? '?i=' + j : ''), { dir: d });
   }
   /* 次のつながりへ（NEXT・›・左へ払う、どれも同じ）。Today では今日のほかの Choice を先に、そのあとは辿る順に */
-  function nextAction(){
+  /* how：押したもの（button：つながりを辿る、arrow：›、swipe：左へ払う、key：→） */
+  function nextAction(by){
+    how('next_' + (by || 'button'));
     if (hasCard(1)) goCard(1);
     else nextPlan().run();
   }
@@ -550,6 +558,13 @@
      静的なページと同じアドレスの形（/c/…/・/w/…/・/e/…/）に直して送る。
      表紙は数えない（すぐ Today に替わるので、一回の来訪が二回に見えてしまう） */
   let routed = '', counted = null, quiet = false;
+  /* 読者の動き（前田先生「ユーザー行動がわからない」）：どこから来たか（nav_via）と、何をしたかを送る。
+     名前・打った文字・コメントの中身は送らない。via は付けた操作のあいだだけ生きる（同じ流れの中で数える） */
+  let via = 'open';
+  const how = (v) => { via = v; queueMicrotask(() => { if (via === v) via = ''; }); };
+  const track = (name, params) => { if (window.gtag && !quiet) gtag('event', name, params || {}); };
+  const kindOf = () => !here ? 'uni' : here.list ? 'list' : here.today ? 'today' : here.editorId ? 'editor'
+    : here.work ? 'work' : here.entry ? 'context' : here.feed ? 'feed' : 'page';
   function count(page){
     if (!window.gtag || quiet) return;
     const key = page ? page.key : 'uni';
@@ -559,8 +574,28 @@
     /* 人が打った文字（言葉で辿るの言葉、見つからなかったアドレス）は送らない。何が書かれているかわからない */
     const typed = parts[0] === 'search' || (page && page.key === '404');
     const at = typed ? '/' + (parts[0] === 'search' ? 'search' : '404') + '/' : parts.length ? '/' + parts.join('/') + '/' : '/';
-    gtag('event', 'page_view', { page_location: location.origin + at,
+    /* set しておくと、このあとの滞在時間や操作も、このページのものとして数えられる */
+    gtag('set', { page_location: location.origin + at,
       page_title: typed ? (parts[0] === 'search' ? '言葉で辿る｜' : 'ページが見つかりません｜') + brand : document.title });
+    gtag('event', 'page_view', { nav_via: via || 'link' });
+    via = '';
+  }
+  /* コンテクストを読み始めたか（本文が画面の上のほうまで来たか）、読み終えたか（署名まで来たか）と、そこまでの秒数 */
+  let readIO = null;
+  function watchRead(page){
+    if (readIO){ readIO.disconnect(); readIO = null; }
+    if (!window.gtag || quiet || !(page && page.kind === 'route' && page.step === 1 && page.entry)) return;
+    const start = viewIn.querySelector('#story'), end = viewIn.querySelector('#story .byline');
+    const t0 = Date.now(), sent = new Set(), slug = page.entry.context.slug;
+    readIO = new IntersectionObserver(es => es.forEach(x => {
+      if (!x.isIntersecting) return;
+      const k = x.target === end ? 'read_complete' : 'read_start';
+      if (sent.has(k)) return;
+      sent.add(k);
+      track(k, { context: slug, sec: Math.round((Date.now() - t0) / 1000) });
+    }), { rootMargin: '0px 0px -40% 0px' });
+    if (start) readIO.observe(start);
+    if (end) readIO.observe(end);
   }
 
   function show(page, html, motion, title){
@@ -615,6 +650,7 @@
     /* ページの上では、つながりを辿るの行き先を示す（コンテクストへ／次の区間へ／次の路線へ） */
     $('uniLabel').textContent = nextPlan().label;
     armStrips();
+    watchRead(page);
     if (page.kind === 'route') setDock(page.entry, page.step);
     else setDock(null);
 
@@ -658,8 +694,9 @@
     viewIn.innerHTML = '';
     if (feedIO){ feedIO.disconnect(); feedIO = null; }
     here = null;
-    document.title = brand;
+    document.title = homeTitle;
     count(null);
+    watchRead(null);
     ld.textContent = listLd();
     view.classList.add('instant');
     view.classList.remove('on', 'enter', 'fade-in');
@@ -801,7 +838,7 @@
 
   /* NEXT UNIVERSE：次のつながりへ（行き先はアプリが決める）。戻るのは左の端から払う */
   uniBtn.addEventListener('click', () => {
-    if (view.classList.contains('on')){ nextAction(); return; }
+    if (view.classList.contains('on')){ nextAction('button'); return; }
     if (stage === 'intro'){ toHome(); return; }
     /* 言葉を選んでいればその作品から、選んでいなければ一覧の中から偶然の一つを選び、
        つながりの路線（フィード）として開く */
@@ -989,18 +1026,19 @@
     /* ‹ はどのページでも一つ戻る（同じ形のものは同じに働く）。TOP へはロゴから */
     if (t.closest('[data-close]')){ ev.preventDefault(); closeView(); return; }
     /* Today's Editor's Choice へ（メニュー・UniverseIt! の見出しの下） */
-    if (t.closest('[data-home]')){ ev.preventDefault(); openMenu(false); goHome(); return; }
+    if (t.closest('[data-home]')){ ev.preventDefault(); how(t.closest('#menu') ? 'menu' : 'link'); openMenu(false); goHome(); return; }
     /* 奥の UniverseIt!（すべての言葉）へ */
-    if (t.closest('[data-uni]')){ ev.preventDefault(); openMenu(false); toNetwork(); return; }
+    if (t.closest('[data-uni]')){ ev.preventDefault(); how('menu'); openMenu(false); toNetwork(); return; }
     /* ロゴは一覧へ（BC修正要望 2026.10.22「ロゴをクリックするとメニューに行きたい」） */
-    if (t.closest('[data-top]')){ ev.preventDefault(); openMenu(false); if (!(here && here.list)) go('#/list', { dir: 1 }); return; }
+    if (t.closest('[data-top]')){ ev.preventDefault(); how('logo'); openMenu(false); if (!(here && here.list)) go('#/list', { dir: 1 }); return; }
     /* 一覧を種類で分ける */
     const cat = t.closest('[data-cat]');
-    if (cat){ viewIn.querySelectorAll('[data-cat]').forEach(b => { b.classList.toggle('on', b === cat); b.setAttribute('aria-pressed', String(b === cat)); }); filterList(); return; }
+    if (cat){ viewIn.querySelectorAll('[data-cat]').forEach(b => { b.classList.toggle('on', b === cat); b.setAttribute('aria-pressed', String(b === cat)); }); filterList();
+      track('list_filter', { category: cat.dataset.cat === ':read' ? 'read' : cat.dataset.cat || 'all' }); return; }
 
     /* ‹ › ：› は NEXT と同じ、‹ は一つ前のつながりへ */
     const arrow = t.closest('[data-ctx-go]');
-    if (arrow){ if (+arrow.dataset.ctxGo > 0) nextAction(); else closeView(); return; }
+    if (arrow){ if (+arrow.dataset.ctxGo > 0) nextAction('arrow'); else closeView(); return; }
 
     /* 編集者をフォローする（ログインしなくてもできる。この端末に覚える） */
     const fol = t.closest('[data-follow]');
@@ -1021,8 +1059,10 @@
        アプリの中で開き、履歴に積む。新しいタブで開くとき（⌘・Ctrl・中ボタン）はそのまま */
     const a = t.closest('a[href]');
     if (!a || a.target || ev.metaKey || ev.ctrlKey || ev.shiftKey || ev.altKey || ev.button > 0) return;
+    /* つながりを創るへ（作品ページの ＋・メニュー・UniverseIt! の帯）。ページを離れる前に送る */
+    if (/^editor\.html/.test(a.getAttribute('href'))) track('remix_open', { from_page: kindOf() });
     const route = a.getAttribute('href').startsWith('#/') ? a.getAttribute('href') : routeOfLink(a);
-    if (route){ ev.preventDefault(); go(route, { origin: a.closest('.view') ? null : rectOf(a) }); }
+    if (route){ ev.preventDefault(); how(a.closest('.ls') ? 'list' : a.closest('#menu') ? 'menu' : 'link'); go(route, { origin: a.closest('.view') ? null : rectOf(a) }); }
   });
   /* c/区間/・w/作品/・e/編集者/ のアドレスを、アプリの道筋（#/c/…）に読み替える。サイトの外や、ほかのファイルは null */
   function routeOfLink(a){
@@ -1068,6 +1108,7 @@
       ev.preventDefault();
       const me = Social.signIn(ev.target.elements.name.value);
       if (!me) return;
+      track('sign_up', { method: 'demo' });
       closeSheet();
       toast(`${me.name} としてログインしました`);
       if (then) then(me);
@@ -1101,6 +1142,7 @@
   }
   function toggleFollow(id){
     const on = Social.toggleFollow(id);
+    track(on ? 'follow' : 'unfollow', { editor_id: id, from_page: kindOf() });
     const ed = S.editorById(id);
     const name = ed ? ed.name : '';
     if (!on){ toast(`${name} のフォローをやめました`); return; }
@@ -1150,6 +1192,7 @@
       const id = f.dataset.comment;
       const post = (me) => {
         if (!S.addComment(id, { uid: me.uid, name: me.name, text })) return;
+        track('comment_submit', { context: (S.byId(id) || { context: {} }).context.slug });
         f.elements.text.value = '';
         redrawComments();
         toast('送りました。編集者が確かめてから表示されます');
@@ -1175,7 +1218,7 @@
     if (ev.key === 'Escape' && sel && !view.classList.contains('on')){ select(null); return; }
     if (!view.classList.contains('on') || (tgt && tgt.closest && tgt.closest('input,textarea'))) return;
     if (ev.key === 'Escape'){ ev.preventDefault(); closeView(); }
-    else if (ev.key === 'ArrowRight'){ ev.preventDefault(); nextAction(); }
+    else if (ev.key === 'ArrowRight'){ ev.preventDefault(); nextAction('key'); }
     else if (ev.key === 'ArrowLeft' && !atRoot()){ ev.preventDefault(); closeView(); }
   });
 
@@ -1327,7 +1370,7 @@
         const v = vel(G.s, 1);
         const fling = Math.abs(v) > 0.45 ? -Math.sign(v) : 0;
         const dir = cancelled ? 0 : fling || (Math.abs(G.x) > vw() * 0.24 ? -Math.sign(G.x) : 0);
-        if (dir && hasStep(dir)){ if (dir > 0) nextAction(); else closeView(); return; }   /* 絵は今の位置から運ばれる */
+        if (dir && hasStep(dir)){ if (dir > 0) nextAction('swipe'); else closeView(null, 'back_swipe'); return; }   /* 絵は今の位置から運ばれる */
         setX(G.strip, 0);
         G.strip.animate([{ transform: `translate3d(${G.x}px,0,0)` }, { transform: 'translate3d(0,0,0)' }],
           { duration: 460, easing: 'cubic-bezier(.18,1.3,.35,1)' });
@@ -1379,7 +1422,7 @@
     const t = e.changedTouches && e.changedTouches[0];
     if (!t) return;
     const dx = t.clientX - sx, dy = Math.abs(t.clientY - sy);
-    if (dx <= -88 && -dx > dy * 1.6 && here) nextAction();
+    if (dx <= -88 && -dx > dy * 1.6 && here) nextAction('swipe');
   }, { passive: true });
 
   /* ---------- 左の端から右へ払って戻る（iPhone と同じ） ----------

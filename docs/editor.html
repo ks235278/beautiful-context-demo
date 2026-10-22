@@ -3,7 +3,9 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,viewport-fit=cover">
-  <meta name="description" content="作品A・作品B・二作品間のコンテクストを分離して入力できるBeautiful Context編集デモ">
+  <meta name="description" content="二つの作品を選び、そのあいだのつながりを書く。Beautiful Context の編集画面（ReMixIt!）。">
+  <!-- 編集の道具。検索結果には出さない（読み物のページだけを出す） -->
+  <meta name="robots" content="noindex">
   <meta name="theme-color" content="#171716">
 <link rel="manifest" href="manifest.webmanifest?v=49">
 <link rel="apple-touch-icon" href="icon-180.png">
@@ -13,7 +15,7 @@
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Beautiful Context">
-<title>Beautiful Context — カード型エディター</title>
+<title>ReMixIt!（つながりを創る）｜Beautiful Context</title>
   <link rel="icon" href="favicon.ico" sizes="16x16 32x32 48x48">
   <style>
     :root {
@@ -212,7 +214,7 @@
     .shape-pick path{fill:none;stroke-width:3.2;stroke-linecap:round;stroke-linejoin:round}
   </style>
 <style>:root{--veil:var(--canvas)}</style>
-  <link rel="stylesheet" href="fade.css?v=127">
+  <link rel="stylesheet" href="fade.css?v=128">
 </head>
 <body>
   <div class="app">
@@ -399,9 +401,9 @@
   </div>
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
-  <script src="js/seed.js?v=127"></script>
-  <script src="js/store.js?v=127"></script>
-  <script src="js/render.js?v=127"></script>
+  <script src="js/seed.js?v=128"></script>
+  <script src="js/store.js?v=128"></script>
+  <script src="js/render.js?v=128"></script>
 
   <script>
   (() => {
@@ -582,6 +584,6 @@
     }
   })();
   </script>
-  <script src="js/transition.js?v=127"></script>
+  <script src="js/transition.js?v=128"></script>
 </body>
 </html>
