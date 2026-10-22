@@ -172,10 +172,12 @@
     const others = hit.contexts.filter(x => !e || x.entry.id !== e.id);
     const more = others.map(({ entry, side: sd }) =>
       tease(pathOf('c', entry.context.slug), `${entry[sd === 'a' ? 'b' : 'a'].title}とのコンテクストを見る`)).join('');
+    /* 作品ページもコンテクストページと同じ形に（BC修正要望 2026.10.22「全ての Content は Context に」）。
+       左にその作品、右はまだ誰も結んでいない席：＋ でエディターを開き、この作品から新しいつながりを創る */
     return `
       <article class="page wpage">
         ${backTop()}
-        <div class="hero"><a class="c-logo" href="#/" data-top aria-label="BEAUTIFUL CONTEXT（TOP へ戻る）"><img src="img/logo.png" alt=""></a>${frame(w, 'art')}</div>
+        <div class="duo-hero"><a class="c-logo" href="#/" data-top aria-label="BEAUTIFUL CONTEXT（TOP へ戻る）"><img src="img/logo.png" alt=""></a><div class="duo">${frame(w, 'art')}<a class="duo-add" href="editor.html?from=${attr(encodeURIComponent(w.slug))}" aria-label="${attr(w.title)}から、新しいつながりを創る"><span aria-hidden="true">＋</span><small>つながりを創る</small></a></div>${navArrows()}</div>
         <div class="content">
           <p class="meta">${esc(w.type || '作品')}${w.year ? '・' + esc(w.year) + '年' : ''}　CURRENT STATION</p>
           <h2>${esc(w.title)}</h2>
@@ -213,6 +215,12 @@
   const avatar = (name, cls) => `<span class="ava${cls ? ' ' + cls : ''}" aria-hidden="true">${esc(String(name || '?').replace(/^BC\s*/, '').charAt(0) || '?')}</span>`;
   const followBtn = (ed, on) =>
     `<button type="button" class="follow${on ? ' on' : ''}" data-follow="${attr(ed.id)}" aria-pressed="${on ? 'true' : 'false'}">${on ? 'フォロー中' : 'フォロー'}</button>`;
+  const navArrows = () =>
+    `<button type="button" class="ctx-nav prev" data-ctx-go="-1" aria-label="一つ前のつながりへ">‹</button>` +
+    `<button type="button" class="ctx-nav next" data-ctx-go="1" aria-label="次のつながりへ">›</button>`;
+  /* フォローしている人の数。いまは見本（この端末のフォローだけを数える）。本番はサーバーの数 */
+  const followers = (ed, on) =>
+    `<span class="ed-followers" data-follow-count="${attr(ed.id)}"><b>${(+ed.followers || 0) + (on ? 1 : 0)}</b> フォロワー</span>`;
   function editorRow(ed, on){
     if (!ed) return '';
     return `<div class="ed-row">
@@ -259,9 +267,9 @@
       ? `<p class="back-state">${e.status === 'private' ? '非公開' : '一時非表示'}のコンテクストです。読者には表示されていません。</p>` : '';
     /* 本文の最初の太字の一文は、demo-1 の「同じ物語が、別の社会を走る。」の位置に */
     const story = clean(c.body).replace(/^\s*<p><strong>([\s\S]*?)<\/strong><\/p>/, '<h2>$1</h2>');
-    const nav = td && td.n > 1
-      ? `<button type="button" class="today-nav prev" data-today-go="-1" aria-label="前の Choice"${td.i <= 0 ? ' disabled' : ''}>‹</button>` +
-        `<button type="button" class="today-nav next" data-today-go="1" aria-label="次の Choice"${td.i >= td.n - 1 ? ' disabled' : ''}>›</button>` : '';
+    /* ‹ › はどのコンテクストページにも（BC修正要望 2026.10.22）。› は NEXT と同じ、‹ は一つ前のつながりへ。
+       最初の画面には戻る先がないので ‹ は出さない（body.at-root） */
+    const nav = navArrows();
     const dots = td && td.n > 1
       ? `<span class="today-dots" aria-label="${td.n} 本のうち ${td.i + 1} 本目">${Array.from({ length: td.n }, (_, k) => `<i${k === td.i ? ' class="on"' : ''}></i>`).join('')}</span>` : '';
     return `
@@ -322,7 +330,7 @@
             <h2 class="ed-title"><span>${esc(ed.name)}の</span> <b>BEAUTIFUL CONTEXT</b></h2>
             <p class="meta">${esc(ed.role || 'EDITOR')}</p>
             ${ed.bio ? `<p class="ed-bio">${esc(ed.bio)}</p>` : ''}
-            <div class="ed-acts">${followBtn(ed, on)}${note
+            <div class="ed-acts">${followBtn(ed, on)}${followers(ed, on)}${note
               ? `<a class="note-link" href="https://note.com/${attr(note)}" target="_blank" rel="noopener"><b>note</b><span>note.com/${esc(note)}</span></a>` : ''}</div>
           </div>
           <h3 class="ed-chose">${esc(ed.name)}が選んだつながり<small>この編集者が選んだつながり　${list.length}</small></h3>

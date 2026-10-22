@@ -37,7 +37,7 @@ try { if (sessionStorage.getItem('bc-resume')) document.documentElement.classLis
 <link rel="preload" as="image" href="img/pcb-charcoal.jpg">
 <link rel="preload" as="image" href="img/logo-layer-mark.png">
 <link rel="preload" as="image" href="img/logo-layer-words.png">
-<link rel="manifest" href="manifest.webmanifest?v=120">
+<link rel="manifest" href="manifest.webmanifest?v=121">
 <link rel="apple-touch-icon" href="icon-180.png">
 <!-- ホーム画面から開くと全画面になり、safe-area が 0 でなくなる。
      そのとき初めて Dynamic Island の裏までページが描ける。 -->
@@ -59,9 +59,9 @@ try { if (sessionStorage.getItem('bc-resume')) document.documentElement.classLis
 <!-- フォントは最初の一コマを待たせない（表紙のロゴは絵。Lato は UniverseIt! が出るまでに届く） -->
 <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Lato:wght@300;400;700&display=swap" onload="this.onload=null;this.rel='stylesheet'">
 <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Lato:wght@300;400;700&display=swap"></noscript>
-<script src="js/theme.js?v=120"></script>
-<link rel="stylesheet" href="app.css?v=120">
-<link rel="stylesheet" href="fade.css?v=120">
+<script src="js/theme.js?v=121"></script>
+<link rel="stylesheet" href="app.css?v=121">
+<link rel="stylesheet" href="fade.css?v=121">
 </head>
 <body class="stage-uni viewing route" data-route="#/c/shoplifters--apocalypse-now">
 
@@ -97,9 +97,10 @@ try { if (sessionStorage.getItem('bc-resume')) document.documentElement.classLis
       <svg viewBox="0 0 32 32" aria-hidden="true"><circle cx="12" cy="16" r="8.5"/><circle cx="20" cy="16" r="8.5"/></svg>
       <span><b>つながりを創る</b><small>ReMixIt!</small></span>
     </a>
+    <!-- 次のつながりへ。BEAUTIFUL CONTEXT のマークと「NEXT CONTEXT」（BC修正要望 2026.10.22） -->
     <button class="act uni-btn" id="uniBtn" type="button">
-      <svg viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="16" r="11"/><ellipse cx="16" cy="16" rx="4.8" ry="11"/><path d="M5 16h22M7 10.5h18M7 21.5h18M16 5v22"/></svg>
-      <span><b>NEXT UNIVERSE</b><small id="uniLabel">UniverseIt!</small></span>
+      <img class="act-mark" src="img/logo-mark.png" alt="" aria-hidden="true">
+      <span><b>NEXT CONTEXT</b><small id="uniLabel">UniverseIt!</small></span>
     </button>
   </div>
 </div>
@@ -128,7 +129,7 @@ try { if (sessionStorage.getItem('bc-resume')) document.documentElement.classLis
   <div class="view-in" id="viewIn">
       <article class="page cpage">
         <button type="button" class="back-close" data-close="" aria-label="戻る"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 4.5 7.5 12l7.5 7.5"></path></svg></button>
-        <div class="duo-hero"><a class="c-logo" href="#/" data-top="" aria-label="BEAUTIFUL CONTEXT（TOP へ戻る）"><img src="img/logo.png" alt=""></a><div class="duo"><button type="button" class="duo-go" data-step="0" aria-label="是枝裕和『万引き家族』の作品ページへ"><div class="art"><img src="img/works/shoplifters.jpg" alt="是枝裕和『万引き家族』" data-k="shoplifters" decoding="async"></div></button><button type="button" class="duo-go" data-step="2" aria-label="コッポラ『地獄の黙示録』の作品ページへ"><div class="art"><img src="img/works/apocalypse-now.jpg" alt="コッポラ『地獄の黙示録』" data-k="apocalypse-now" decoding="async"></div></button><i class="swap" aria-hidden="true">↔</i></div></div>
+        <div class="duo-hero"><a class="c-logo" href="#/" data-top="" aria-label="BEAUTIFUL CONTEXT（TOP へ戻る）"><img src="img/logo.png" alt=""></a><div class="duo"><button type="button" class="duo-go" data-step="0" aria-label="是枝裕和『万引き家族』の作品ページへ"><div class="art"><img src="img/works/shoplifters.jpg" alt="是枝裕和『万引き家族』" data-k="shoplifters" decoding="async"></div></button><button type="button" class="duo-go" data-step="2" aria-label="コッポラ『地獄の黙示録』の作品ページへ"><div class="art"><img src="img/works/apocalypse-now.jpg" alt="コッポラ『地獄の黙示録』" data-k="apocalypse-now" decoding="async"></div></button><i class="swap" aria-hidden="true">↔</i></div><button type="button" class="ctx-nav prev" data-ctx-go="-1" aria-label="一つ前のつながりへ">‹</button><button type="button" class="ctx-nav next" data-ctx-go="1" aria-label="次のつながりへ">›</button></div>
         <section class="context-lead">
           
           <div class="ed-row">
@@ -326,11 +327,11 @@ try { if (sessionStorage.getItem('bc-resume')) document.documentElement.classLis
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 <script type="application/ld+json" id="ld">{"@context":"https://schema.org","@type":"Article","headline":"ジャングルの奥の戦争と、東京の片隅の家族。","alternativeHeadline":"パルム・ドールの系譜","about":[{"@type":"Movie","name":"万引き家族","description":"万引きで暮らしを補う一家と、彼らに拾われた少女を描いた映画。2018年のカンヌ国際映画祭でパルム・ドールを受けた。","creator":{"@type":"Person","name":"是枝裕和監督"}},{"@type":"Movie","name":"地獄の黙示録","description":"ベトナム戦争のさなか、軍を離れて奥地に王国を築いたカーツ大佐の暗殺を命じられた大尉の旅。1979年のカンヌ国際映画祭でパルム・ドールを受けた。","creator":{"@type":"Person","name":"フランシス・フォード・コッポラ監督"}}],"author":{"@type":"Person","name":"生成AI（初稿）"},"datePublished":"2026-09-15T06:00:00.000Z","dateModified":"2026-09-15T06:00:00.000Z","inLanguage":"ja","articleBody":"ハブはカンヌ国際映画祭の最高賞。まったく違う二本が、同じ賞でつながる。コッポラの『地獄の黙示録』は1979年のパルム・ドールを受けた（『ブリキの太鼓』と同時受賞）。巨額の予算と長い撮影の末に完成した、戦争の狂気をめぐる大作である。39年後の2018年、同じ賞を受けたのは、東京の古い家で肩を寄せ合う家族を描いた『万引き家族』だった。国家の戦争と、社会の片隅の暮らし。規模も手法も正反対の二本が同じ賞に選ばれたことは、映画祭が「人間とは何か」を問う作品を選び続けてきたことを物語っている。","url":"https://beautifulcontext.com/c/shoplifters--apocalypse-now/","image":"https://beautifulcontext.com/img/works/shoplifters.jpg"}</script>
 
-<script src="js/seed.js?v=120"></script>
-<script src="js/store.js?v=120"></script>
-<script src="js/social.js?v=120"></script>
-<script src="js/render.js?v=120"></script>
-<script src="js/transition.js?v=120"></script>
-<script src="js/app.js?v=120"></script>
+<script src="js/seed.js?v=121"></script>
+<script src="js/store.js?v=121"></script>
+<script src="js/social.js?v=121"></script>
+<script src="js/render.js?v=121"></script>
+<script src="js/transition.js?v=121"></script>
+<script src="js/app.js?v=121"></script>
 </body>
 </html>

@@ -317,9 +317,14 @@ body.viewing .uni{display:none}
 .duo-go{display:block;padding:0;border:0;background:none;cursor:pointer;-webkit-tap-highlight-color:transparent;touch-action:manipulation}
 .duo-go:active .art{opacity:.85}
 /* 二枚の絵は指に付いてくる帯。縦はスクロール、横は指で運ぶ */
-.cpage .duo-hero{overflow:hidden}
-.cpage .duo,.wpage .hero .art{touch-action:pan-y;will-change:transform}
-.wpage .hero{overflow:hidden}
+.cpage .duo-hero,.wpage .duo-hero{overflow:hidden}
+.cpage .duo,.wpage .duo{touch-action:pan-y;will-change:transform}
+/* 作品ページの右の席：まだ誰も結んでいない。＋ でエディターへ（この作品から新しいつながりを創る） */
+.duo-add{display:grid;place-content:center;justify-items:center;gap:10px;aspect-ratio:3/4.08;background:#050505;color:#f3e7cf;text-decoration:none}
+.duo-add span{display:grid;place-items:center;width:64px;height:64px;border-radius:50%;background:#1d1b18;box-shadow:0 0 0 1px #3a352c;
+  font:300 36px/1 "Lato",sans-serif;transition:transform .2s ease,background-color .2s}
+.duo-add small{color:rgba(243,231,207,.7);font:700 10px/1.4 var(--gothic);letter-spacing:.12em}
+.duo-add:active span{transform:scale(.92);background:#2a2620}
 /* 絵を持ち上げているあいだ、後ろに UniverseIt! を透かす（閉じる前と同じ位置に留めて置く） */
 body.viewing.peek .uni{display:block;position:fixed;left:0;right:0;z-index:1;pointer-events:none}
 body.viewing.peek #bg{visibility:visible}
@@ -374,7 +379,7 @@ body.viewing.peek #bg{visibility:visible}
 
 /* つながりの路線（フィード）。左に一本の路線、作品は駅、そのあいだに区間 */
 .rail{list-style:none;margin:22px 0 0;padding:0 0 0 26px;position:relative}
-.rail::before{content:"";position:absolute;left:7px;top:10px;bottom:0;width:3px;border-radius:3px;background:var(--gold);opacity:.85}
+.rail::before{content:"";position:absolute;left:6.5px;top:10px;bottom:0;width:3px;border-radius:3px;background:var(--gold);opacity:.85}
 .stop{position:relative;margin:0 0 6px}
 .stop .fstop{position:relative;display:grid;grid-template-columns:92px 1fr;gap:14px;align-items:start;padding:10px 0 14px;
   color:var(--ink);text-decoration:none}
@@ -441,6 +446,8 @@ body.viewing .act.remix{display:none}
 body.viewing .actions{grid-template-columns:1fr}
 .act b{white-space:nowrap}
 .act.uni-btn b{font:700 12.5px/1.3 "Lato",var(--gothic);letter-spacing:.14em}
+/* NEXT CONTEXT の左に BEAUTIFUL CONTEXT のマーク */
+.act .act-mark{flex:0 0 30px;width:30px;height:30px;object-fit:contain}
 /* 左の端の帯：ここから右へ払うと戻る。見えない。指で触れる端末で、戻る先があるときだけ */
 .edge-back{display:none;position:fixed;z-index:39;left:0;top:calc(env(safe-area-inset-top) + 60px);bottom:calc(var(--dockh) + env(safe-area-inset-bottom));
   width:18px;touch-action:none}
@@ -451,7 +458,8 @@ body.edging .underlay{will-change:transform}
 
 /* 読み終わりの下に続く「この先のつながり」の路線。最初の駅は、いま読んだ B（ここから先へ） */
 .ctx-rail{margin-top:8px}
-.ctx-rail .rail{margin-top:10px}
+/* 本文の箇条書き（.context-body ol の左の余白）を受け継がない。受け継ぐと駅の丸だけが左へ寄り、縦の線と数 px ずれる */
+.context-body .ctx-rail .rail{margin:10px 0 0;padding:0 0 0 26px;font-size:inherit;line-height:normal}
 .ctx-rail .stop.first .fstop{grid-template-columns:92px 1fr;gap:14px}
 .ctx-rail .stop.first .st-img{width:auto}
 .ctx-rail .stop.first .st-txt b{font-size:inherit}
@@ -473,14 +481,14 @@ body.viewing.at-root .menu-btn[aria-expanded="true"] i:nth-child(3){transform:tr
 .login-chip:active{transform:scale(.94)}
 .login-chip.me{width:32px;padding:0;border-color:transparent;background:none}
 .login-chip.me .ava{width:32px;height:32px;font-size:13px}
-/* ‹ › 今日のほかの Choice */
-.today-nav{position:absolute;z-index:8;top:calc(50% + env(safe-area-inset-top) / 2 + 27px);transform:translateY(-50%);display:grid;place-items:center;
+/* ‹ › どのコンテクストページにも：› は NEXT と同じ、‹ は一つ前のつながりへ（最初の画面では出さない） */
+.ctx-nav{position:absolute;z-index:8;top:calc(50% + env(safe-area-inset-top) / 2 + 27px);transform:translateY(-50%);display:grid;place-items:center;
   width:34px;height:34px;padding:0 0 3px;border:0;border-radius:50%;background:rgba(0,0,0,.5);color:#fff;cursor:pointer;
   -webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);font:300 26px/1 "Lato",sans-serif;transition:opacity .2s,transform .2s}
-.today-nav::after{content:"";position:absolute;inset:-6px}
-.today-nav.prev{left:4px}.today-nav.next{right:4px}
-.today-nav:active{transform:translateY(-50%) scale(.92)}
-.today-nav:disabled{opacity:0;pointer-events:none}
+.ctx-nav::after{content:"";position:absolute;inset:-6px}
+.ctx-nav.prev{left:4px}.ctx-nav.next{right:4px}
+.ctx-nav:active{transform:translateY(-50%) scale(.92)}
+body.at-root .ctx-nav.prev{display:none}
 /* 上の帯：題名（Today's Editor's Choice）と日付・何本目か。左にメニュー、右に Login */
 .today-bar{position:absolute;z-index:7;left:56px;right:84px;top:calc(env(safe-area-inset-top) + 8px);display:grid;justify-items:center;gap:3px;
   color:#fff;text-align:center;pointer-events:none}
@@ -546,6 +554,9 @@ body.viewing.at-root .menu-btn[aria-expanded="true"] i:nth-child(3){transform:tr
 .ed-bio{max-width:24em;margin:4px 0 0 !important;text-align:center !important}
 .ed-acts{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:10px;margin-top:8px}
 /* その人の note へ（note を競合でなく、編集者の実績として扱う） */
+/* フォローしている人の数 */
+.ed-followers{color:var(--muted);font:12px var(--gothic)}
+.ed-followers b{color:var(--ink);font-weight:700}
 .note-link{display:flex;align-items:center;gap:8px;height:30px;padding:0 12px 0 10px;border:1px solid #d6d0c5;border-radius:15px;background:#fff;
   color:var(--ink);text-decoration:none;font:11px var(--gothic)}
 .note-link b{font:800 14px/1 "Lato",sans-serif;letter-spacing:.06em}

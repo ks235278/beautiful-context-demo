@@ -326,11 +326,16 @@
       R.contextPage(x.e, pickAd(x.e), opts), motion, "Today's Editor's Choice");
   }
   const hasCard = (d) => !!(here && here.today && here.today.i + d >= 0 && here.today.i + d < here.today.n);
-  /* 今日のほかの Choice へ。履歴は積まない（BACK は Choice を一枚ずつ戻らない） */
+  /* 今日のほかの Choice へ。履歴に積む（‹ で一つ前の Choice に戻れる） */
   function goCard(d){
     if (!hasCard(d)) return;
     const j = here.today.i + d;
-    go('#/today' + (j ? '?i=' + j : ''), { dir: d }, true);
+    go('#/today' + (j ? '?i=' + j : ''), { dir: d });
+  }
+  /* 次のつながりへ（NEXT・›・左へ払う、どれも同じ）。Today では今日のほかの Choice を先に、そのあとは辿る順に */
+  function nextAction(){
+    if (hasCard(1)) goCard(1);
+    else nextPlan().run();
   }
 
   /* 記事単位の広告枠。区間ごとに決まった枠が出る */
@@ -740,6 +745,12 @@
       if (here && here.entry && here.entry.id === e.id) goStep(1, null);   /* 同じ区間なら、帯の上を進む */
       else go('#/c/' + encodeURIComponent(e.context.slug), { dir: 1 });
     }});
+    /* 編集者のマイページ：その人が選んだつながりから始める（BC修正要望 2026.10.22） */
+    if (here && here.editorId){
+      const list = S.byEditor(here.editorId);
+      const e = list.find(x => !readCtx.has(x.id)) || list[0];
+      if (e) return toCtx(e, 'この編集者のつながりへ');
+    }
     if (here && here.work && here.slug){
       const e = unreadFrom(here.slug);
       if (e) return toCtx(e, 'コンテクストへ');
@@ -785,7 +796,7 @@
 
   /* NEXT UNIVERSE：次のつながりへ（行き先はアプリが決める）。戻るのは左の端から払う */
   uniBtn.addEventListener('click', () => {
-    if (view.classList.contains('on')){ nextPlan().run(); return; }
+    if (view.classList.contains('on')){ nextAction(); return; }
     if (stage === 'intro'){ toHome(); return; }
     /* 言葉を選んでいればその作品から、選んでいなければ一覧の中から偶然の一つを選び、
        つながりの路線（フィード）として開く */
@@ -967,9 +978,9 @@
     /* ロゴは TOP（Today's Editor's Choice）へ */
     if (t.closest('[data-top]')){ ev.preventDefault(); goTop(); return; }
 
-    /* 今日のほかの Choice へ */
-    const card = t.closest('[data-today-go]');
-    if (card){ goCard(+card.dataset.todayGo); return; }
+    /* ‹ › ：› は NEXT と同じ、‹ は一つ前のつながりへ */
+    const arrow = t.closest('[data-ctx-go]');
+    if (arrow){ if (+arrow.dataset.ctxGo > 0) nextAction(); else closeView(); return; }
 
     /* 編集者をフォローする（ログインしなくてもできる。この端末に覚える） */
     const fol = t.closest('[data-follow]');
@@ -1094,6 +1105,11 @@
       b.setAttribute('aria-pressed', String(on));
       b.textContent = on ? 'フォロー中' : 'フォロー';
     });
+    document.querySelectorAll('[data-follow-count]').forEach(n => {
+      const ed = S.editorById(n.dataset.followCount);
+      const b = n.querySelector('b');
+      if (b) b.textContent = String((+(ed && ed.followers) || 0) + (Social.isFollowing(n.dataset.followCount) ? 1 : 0));
+    });
     viewIn.querySelectorAll('.login-chip').forEach(c => { c.outerHTML = R.loginChip(me); });
     const acc = $('menuAccount');
     acc.toggleAttribute('data-login', !me);
@@ -1137,9 +1153,8 @@
     if (ev.key === 'Escape' && sel && !view.classList.contains('on')){ select(null); return; }
     if (!view.classList.contains('on') || (tgt && tgt.closest && tgt.closest('input,textarea'))) return;
     if (ev.key === 'Escape'){ ev.preventDefault(); closeView(); }
-    else if ((ev.key === 'ArrowRight' || ev.key === 'ArrowLeft') && here && here.today){ ev.preventDefault(); goCard(ev.key === 'ArrowRight' ? 1 : -1); }
-    else if (ev.key === 'ArrowRight' && here && here.entry){ ev.preventDefault(); goStep(here.step + 1); }
-    else if (ev.key === 'ArrowLeft' && here && here.entry){ ev.preventDefault(); goStep(here.step - 1); }
+    else if (ev.key === 'ArrowRight'){ ev.preventDefault(); nextAction(); }
+    else if (ev.key === 'ArrowLeft' && !atRoot()){ ev.preventDefault(); closeView(); }
   });
 
   /* ---------- 絵を指でつかむ（写真アプリのように） ----------
@@ -1170,7 +1185,8 @@
       return b[0] > a[0] ? (b[i] - a[i]) / (b[0] - a[0]) : 0;   /* px/ms */
     };
     /* 横の行き先：Today では今日のほかの Choice、ほかのページでは路線の隣（作品 A・B） */
-    const hasStep = (d) => here && here.today ? hasCard(d) : !!(here && here.entry && here.step + d >= 0 && here.step + d <= 2);
+    /* 横に払う：左へは次のつながりへ（› と同じ）、右へは一つ前へ（‹ と同じ。最初の画面では行き先がない） */
+    const hasStep = (d) => !!here && (d > 0 || !atRoot());
     /* 最初の画面（Today）は閉じる先がないので、絵を下へ持ち上げない */
     const noLift = () => atRoot();
     /* 行き先があれば半分までは素直に、その先と行き先のない側は抵抗 */
@@ -1184,7 +1200,7 @@
     /* 指の仕掛けは、ページを置いたときに絵そのものへ付ける。触れてから付けると、
        iPhone はすでにスクロールと決めていて、下へ持ち上げられないことがある */
     armStrips = () => {
-      viewIn.querySelectorAll('.cpage .duo, .wpage .hero .art').forEach(el => {
+      viewIn.querySelectorAll('.cpage .duo, .wpage .duo').forEach(el => {
         el.addEventListener('touchstart', onStart, { passive: true });
         el.addEventListener('touchmove', onMove, { passive: false });
         el.addEventListener('touchend', onEnd, { passive: true });
@@ -1289,7 +1305,7 @@
         const v = vel(G.s, 1);
         const fling = Math.abs(v) > 0.45 ? -Math.sign(v) : 0;
         const dir = cancelled ? 0 : fling || (Math.abs(G.x) > vw() * 0.24 ? -Math.sign(G.x) : 0);
-        if (dir && hasStep(dir)){ if (here.today) goCard(dir); else goStep(here.step + dir); return; }   /* 絵は今の位置から運ばれる */
+        if (dir && hasStep(dir)){ if (dir > 0) nextAction(); else closeView(); return; }   /* 絵は今の位置から運ばれる */
         setX(G.strip, 0);
         G.strip.animate([{ transform: `translate3d(${G.x}px,0,0)` }, { transform: 'translate3d(0,0,0)' }],
           { duration: 460, easing: 'cubic-bezier(.18,1.3,.35,1)' });
@@ -1341,7 +1357,7 @@
     const t = e.changedTouches && e.changedTouches[0];
     if (!t) return;
     const dx = t.clientX - sx, dy = Math.abs(t.clientY - sy);
-    if (dx <= -88 && -dx > dy * 1.6 && here && here.entry && !here.today && here.step < 2) goStep(here.step + 1);
+    if (dx <= -88 && -dx > dy * 1.6 && here) nextAction();
   }, { passive: true });
 
   /* ---------- 左の端から右へ払って戻る（iPhone と同じ） ----------

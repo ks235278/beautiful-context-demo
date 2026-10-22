@@ -4293,7 +4293,9 @@
      マイページに出せるもの：photo（上の大きな写真）、note（note のユーザー名。note.com/〇〇 へのリンク）、
      picks（ほかの人の区間から選んだつながり。区間の slug） */
   window.BC_EDITORS = [
-    { id: 'chief', authors: [AUTHOR, '編集部'], name: 'BC 編集長', mark: '長', role: 'EDITOR IN CHIEF',
+    /* 編集長は前田先生（BC修正要望 2026.10.22）。匿名ではなく、半実名のペンネーム */
+    { id: 'chief', authors: [AUTHOR, '編集部'], name: '眞江田國廣', mark: '眞', role: 'EDITOR IN CHIEF',
+      photo: 'img/editors/chief.jpg', note: 'mdkh',
       bio: '思いがけない二つのあいだに、確かめられる一本の線を引く。その線を一日に一本ずつ選んでいます。' },
     { id: 'desk', authors: [AI], name: 'BC 編集部', mark: '部', role: 'EDITORIAL DESK',
       bio: '生成AIが書いた初稿を、編集部が事実と出典まで確かめて公開します。確かめ終えたものには「確認済み」と記します。' }

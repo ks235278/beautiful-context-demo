@@ -37,7 +37,7 @@ try { if (sessionStorage.getItem('bc-resume')) document.documentElement.classLis
 <link rel="preload" as="image" href="img/pcb-charcoal.jpg">
 <link rel="preload" as="image" href="img/logo-layer-mark.png">
 <link rel="preload" as="image" href="img/logo-layer-words.png">
-<link rel="manifest" href="manifest.webmanifest?v=120">
+<link rel="manifest" href="manifest.webmanifest?v=121">
 <link rel="apple-touch-icon" href="icon-180.png">
 <!-- ホーム画面から開くと全画面になり、safe-area が 0 でなくなる。
      そのとき初めて Dynamic Island の裏までページが描ける。 -->
@@ -59,9 +59,9 @@ try { if (sessionStorage.getItem('bc-resume')) document.documentElement.classLis
 <!-- フォントは最初の一コマを待たせない（表紙のロゴは絵。Lato は UniverseIt! が出るまでに届く） -->
 <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Lato:wght@300;400;700&display=swap" onload="this.onload=null;this.rel='stylesheet'">
 <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Lato:wght@300;400;700&display=swap"></noscript>
-<script src="js/theme.js?v=120"></script>
-<link rel="stylesheet" href="app.css?v=120">
-<link rel="stylesheet" href="fade.css?v=120">
+<script src="js/theme.js?v=121"></script>
+<link rel="stylesheet" href="app.css?v=121">
+<link rel="stylesheet" href="fade.css?v=121">
 </head>
 <body class="stage-uni viewing route" data-route="#/c/blade-runner--blade-runner-2049">
 
@@ -97,9 +97,10 @@ try { if (sessionStorage.getItem('bc-resume')) document.documentElement.classLis
       <svg viewBox="0 0 32 32" aria-hidden="true"><circle cx="12" cy="16" r="8.5"/><circle cx="20" cy="16" r="8.5"/></svg>
       <span><b>つながりを創る</b><small>ReMixIt!</small></span>
     </a>
+    <!-- 次のつながりへ。BEAUTIFUL CONTEXT のマークと「NEXT CONTEXT」（BC修正要望 2026.10.22） -->
     <button class="act uni-btn" id="uniBtn" type="button">
-      <svg viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="16" r="11"/><ellipse cx="16" cy="16" rx="4.8" ry="11"/><path d="M5 16h22M7 10.5h18M7 21.5h18M16 5v22"/></svg>
-      <span><b>NEXT UNIVERSE</b><small id="uniLabel">UniverseIt!</small></span>
+      <img class="act-mark" src="img/logo-mark.png" alt="" aria-hidden="true">
+      <span><b>NEXT CONTEXT</b><small id="uniLabel">UniverseIt!</small></span>
     </button>
   </div>
 </div>
@@ -128,7 +129,7 @@ try { if (sessionStorage.getItem('bc-resume')) document.documentElement.classLis
   <div class="view-in" id="viewIn">
       <article class="page cpage">
         <button type="button" class="back-close" data-close="" aria-label="戻る"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 4.5 7.5 12l7.5 7.5"></path></svg></button>
-        <div class="duo-hero"><a class="c-logo" href="#/" data-top="" aria-label="BEAUTIFUL CONTEXT（TOP へ戻る）"><img src="img/logo.png" alt=""></a><div class="duo"><button type="button" class="duo-go" data-step="0" aria-label="リドリー・スコット『ブレードランナー』の作品ページへ"><div class="art"><img src="img/works/blade-runner.jpg" alt="リドリー・スコット『ブレードランナー』" data-k="blade-runner" decoding="async"></div></button><button type="button" class="duo-go" data-step="2" aria-label="ヴィルヌーヴ『ブレードランナー 2049』の作品ページへ"><div class="art"><img src="img/works/blade-runner-2049.jpg" alt="ヴィルヌーヴ『ブレードランナー 2049』" data-k="blade-runner-2049" decoding="async"></div></button><i class="swap" aria-hidden="true">↔</i></div></div>
+        <div class="duo-hero"><a class="c-logo" href="#/" data-top="" aria-label="BEAUTIFUL CONTEXT（TOP へ戻る）"><img src="img/logo.png" alt=""></a><div class="duo"><button type="button" class="duo-go" data-step="0" aria-label="リドリー・スコット『ブレードランナー』の作品ページへ"><div class="art"><img src="img/works/blade-runner.jpg" alt="リドリー・スコット『ブレードランナー』" data-k="blade-runner" decoding="async"></div></button><button type="button" class="duo-go" data-step="2" aria-label="ヴィルヌーヴ『ブレードランナー 2049』の作品ページへ"><div class="art"><img src="img/works/blade-runner-2049.jpg" alt="ヴィルヌーヴ『ブレードランナー 2049』" data-k="blade-runner-2049" decoding="async"></div></button><i class="swap" aria-hidden="true">↔</i></div><button type="button" class="ctx-nav prev" data-ctx-go="-1" aria-label="一つ前のつながりへ">‹</button><button type="button" class="ctx-nav next" data-ctx-go="1" aria-label="次のつながりへ">›</button></div>
         <section class="context-lead">
           
           <div class="ed-row">
@@ -323,11 +324,11 @@ try { if (sessionStorage.getItem('bc-resume')) document.documentElement.classLis
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 <script type="application/ld+json" id="ld">{"@context":"https://schema.org","@type":"Article","headline":"2019年の雨の街から、2049年の荒野へ。","alternativeHeadline":"三十年後のロサンゼルス","about":[{"@type":"Movie","name":"ブレードランナー","description":"フィリップ・K・ディックの小説『アンドロイドは電気羊の夢を見るか？』を原作に、2019年のロサンゼルスで人造人間を追う男を描いた映画。","creator":{"@type":"Person","name":"リドリー・スコット監督"}},{"@type":"Movie","name":"ブレードランナー 2049","description":"前作から30年後の2049年を舞台にした続編。","creator":{"@type":"Person","name":"ドゥニ・ヴィルヌーヴ監督"}}],"author":{"@type":"Person","name":"生成AI（初稿）"},"datePublished":"2026-09-15T03:10:00.000Z","dateModified":"2026-09-15T03:10:00.000Z","inLanguage":"ja","articleBody":"35年を隔てて作られた続編が、物語の中でも30年後を描いた。『ブレードランナー』は、酸性雨の降る2019年のロサンゼルスで、人造人間レプリカントを追う男デッカードを描いた。公開当時は興行的に振るわなかったが、のちに多くの映画に影響を与える作品になった。2017年、ドゥニ・ヴィルヌーヴが続編『ブレードランナー 2049』を撮る。前作から30年後の世界で、新たな捜査官Kが、デッカードの残した秘密に近づいていく。ハリソン・フォードは同じ役で再び登場した。","url":"https://beautifulcontext.com/c/blade-runner--blade-runner-2049/","image":"https://beautifulcontext.com/img/works/blade-runner.jpg"}</script>
 
-<script src="js/seed.js?v=120"></script>
-<script src="js/store.js?v=120"></script>
-<script src="js/social.js?v=120"></script>
-<script src="js/render.js?v=120"></script>
-<script src="js/transition.js?v=120"></script>
-<script src="js/app.js?v=120"></script>
+<script src="js/seed.js?v=121"></script>
+<script src="js/store.js?v=121"></script>
+<script src="js/social.js?v=121"></script>
+<script src="js/render.js?v=121"></script>
+<script src="js/transition.js?v=121"></script>
+<script src="js/app.js?v=121"></script>
 </body>
 </html>
