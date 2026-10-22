@@ -615,6 +615,10 @@ body.at-root .ctx-nav.prev{display:none}
   .uni-list{width:min(820px,100%);margin:0 auto}
   .tag{font-size:30px}
   .view{background:color-mix(in srgb,var(--ground) 62%,transparent);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px)}
+  /* PC 版の背景（前田先生 2026.10.22）：ページを読んでいるあいだ、紙の列の左右に地球。UniverseIt! は回路のまま */
+  body.viewing #bg{background:#04070d url(img/bg-earth.jpg) center/cover no-repeat}
+  body.viewing #bg .pcb,body.viewing #bg .veil{display:none}
+  body.viewing .view{background:rgba(4,8,16,.18);-webkit-backdrop-filter:none;backdrop-filter:none}
   .view-in{box-shadow:0 0 60px #0006}
   .hero .art{width:auto;height:min(60vh,620px);margin:0 auto}
   .menu-btn{top:22px;left:24px}
