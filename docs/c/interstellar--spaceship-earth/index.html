@@ -37,7 +37,7 @@ try { if (sessionStorage.getItem('bc-resume')) document.documentElement.classLis
 <link rel="preload" as="image" href="img/pcb-charcoal.jpg">
 <link rel="preload" as="image" href="img/logo-layer-mark.png">
 <link rel="preload" as="image" href="img/logo-layer-words.png">
-<link rel="manifest" href="manifest.webmanifest?v=123">
+<link rel="manifest" href="manifest.webmanifest?v=124">
 <link rel="apple-touch-icon" href="icon-180.png">
 <!-- ホーム画面から開くと全画面になり、safe-area が 0 でなくなる。
      そのとき初めて Dynamic Island の裏までページが描ける。 -->
@@ -59,9 +59,20 @@ try { if (sessionStorage.getItem('bc-resume')) document.documentElement.classLis
 <!-- フォントは最初の一コマを待たせない（表紙のロゴは絵。Lato は UniverseIt! が出るまでに届く） -->
 <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Lato:wght@300;400;700&display=swap" onload="this.onload=null;this.rel='stylesheet'">
 <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Lato:wght@300;400;700&display=swap"></noscript>
-<script src="js/theme.js?v=123"></script>
-<link rel="stylesheet" href="app.css?v=123">
-<link rel="stylesheet" href="fade.css?v=123">
+<!-- アクセス解析（Google アナリティクス 4）。表示を待たせないよう非同期で読む。何を送るかは 利用規約・プライバシー に書いた。
+     本番のアドレスで開いたときだけ数える（静的なページの書き出しや、手元での確かめは数えない） -->
+<script>
+if (location.hostname === 'beautifulcontext.com'){
+  window.dataLayer = window.dataLayer || [];
+  window.gtag = function(){ dataLayer.push(arguments); };
+  gtag('js', new Date()); gtag('config', 'G-Z955G7G1ZG');
+  var ga = document.createElement('script'); ga.async = true; ga.src = 'https://www.googletagmanager.com/gtag/js?id=G-Z955G7G1ZG';
+  document.head.appendChild(ga);
+}
+</script>
+<script src="js/theme.js?v=124"></script>
+<link rel="stylesheet" href="app.css?v=124">
+<link rel="stylesheet" href="fade.css?v=124">
 </head>
 <body class="stage-uni viewing route" data-route="#/c/interstellar--spaceship-earth">
 
@@ -327,11 +338,11 @@ try { if (sessionStorage.getItem('bc-resume')) document.documentElement.classLis
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 <script type="application/ld+json" id="ld">{"@context":"https://schema.org","@type":"Article","headline":"人類は、船を乗り換えられるのか。","alternativeHeadline":"地球という船","about":[{"@type":"Movie","name":"インターステラー","description":"砂嵐と作物の枯死に追い詰められた近未来の地球から、人類の移住先を探して宇宙へ向かう元宇宙飛行士と、地球に残された娘の物語。","creator":{"@type":"Person","name":"クリストファー・ノーラン監督"}},{"@type":"Book","name":"宇宙船地球号 操縦マニュアル","description":"地球を、限られた資源で航行する一隻の宇宙船にたとえ、人類はその操縦のしかたを学ばねばならないと説いた。","creator":{"@type":"Person","name":"バックミンスター・フラー"}}],"author":{"@type":"Person","name":"生成AI（初稿）"},"datePublished":"2026-09-14T06:00:00.000Z","dateModified":"2026-09-14T06:00:00.000Z","inLanguage":"ja","articleBody":"意味の上での近さから結ばれた区間。バックミンスター・フラーは、地球を、限られた資源で宇宙を航行する一隻の船にたとえ、人類はその操縦法を学ばねばならないと説いた。『インターステラー』の人類は、その船がもう持たないと知り、乗り換える先を探しに星の海へ出る。操縦法を学べなかった未来と、学ぼうとする現在。フラーの言葉は、映画を観たあとに読むと、半世紀前からの警告として響く。","url":"https://beautifulcontext.com/c/interstellar--spaceship-earth/","image":"https://beautifulcontext.com/img/works/interstellar.jpg"}</script>
 
-<script src="js/seed.js?v=123"></script>
-<script src="js/store.js?v=123"></script>
-<script src="js/social.js?v=123"></script>
-<script src="js/render.js?v=123"></script>
-<script src="js/transition.js?v=123"></script>
-<script src="js/app.js?v=123"></script>
+<script src="js/seed.js?v=124"></script>
+<script src="js/store.js?v=124"></script>
+<script src="js/social.js?v=124"></script>
+<script src="js/render.js?v=124"></script>
+<script src="js/transition.js?v=124"></script>
+<script src="js/app.js?v=124"></script>
 </body>
 </html>

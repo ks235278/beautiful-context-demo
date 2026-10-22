@@ -37,7 +37,7 @@ try { if (sessionStorage.getItem('bc-resume')) document.documentElement.classLis
 <link rel="preload" as="image" href="img/pcb-charcoal.jpg">
 <link rel="preload" as="image" href="img/logo-layer-mark.png">
 <link rel="preload" as="image" href="img/logo-layer-words.png">
-<link rel="manifest" href="manifest.webmanifest?v=123">
+<link rel="manifest" href="manifest.webmanifest?v=124">
 <link rel="apple-touch-icon" href="icon-180.png">
 <!-- ホーム画面から開くと全画面になり、safe-area が 0 でなくなる。
      そのとき初めて Dynamic Island の裏までページが描ける。 -->
@@ -59,9 +59,20 @@ try { if (sessionStorage.getItem('bc-resume')) document.documentElement.classLis
 <!-- フォントは最初の一コマを待たせない（表紙のロゴは絵。Lato は UniverseIt! が出るまでに届く） -->
 <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Lato:wght@300;400;700&display=swap" onload="this.onload=null;this.rel='stylesheet'">
 <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Lato:wght@300;400;700&display=swap"></noscript>
-<script src="js/theme.js?v=123"></script>
-<link rel="stylesheet" href="app.css?v=123">
-<link rel="stylesheet" href="fade.css?v=123">
+<!-- アクセス解析（Google アナリティクス 4）。表示を待たせないよう非同期で読む。何を送るかは 利用規約・プライバシー に書いた。
+     本番のアドレスで開いたときだけ数える（静的なページの書き出しや、手元での確かめは数えない） -->
+<script>
+if (location.hostname === 'beautifulcontext.com'){
+  window.dataLayer = window.dataLayer || [];
+  window.gtag = function(){ dataLayer.push(arguments); };
+  gtag('js', new Date()); gtag('config', 'G-Z955G7G1ZG');
+  var ga = document.createElement('script'); ga.async = true; ga.src = 'https://www.googletagmanager.com/gtag/js?id=G-Z955G7G1ZG';
+  document.head.appendChild(ga);
+}
+</script>
+<script src="js/theme.js?v=124"></script>
+<link rel="stylesheet" href="app.css?v=124">
+<link rel="stylesheet" href="fade.css?v=124">
 </head>
 <body class="stage-uni viewing route" data-route="#/c/the-hollow-men--apocalypse-now">
 
@@ -327,11 +338,11 @@ try { if (sessionStorage.getItem('bc-resume')) document.documentElement.classLis
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 <script type="application/ld+json" id="ld">{"@context":"https://schema.org","@type":"Article","headline":"ジャングルの奥で、カーツ大佐が詩を読む。","alternativeHeadline":"カーツ大佐の朗読","about":[{"@type":"CreativeWork","name":"うつろな人々","description":"「世界の終わりはこうだ、爆発ではなく、すすり泣きで」と結ばれる詩。題辞にコンラッド『闇の奥』の一行を掲げる。","creator":{"@type":"Person","name":"T・S・エリオット"}},{"@type":"Movie","name":"地獄の黙示録","description":"ベトナム戦争のさなか、軍を離れて奥地に王国を築いたカーツ大佐の暗殺を命じられた大尉の旅。1979年のカンヌ国際映画祭でパルム・ドールを受けた。","creator":{"@type":"Person","name":"フランシス・フォード・コッポラ監督"}}],"author":{"@type":"Person","name":"生成AI（初稿）"},"datePublished":"2026-09-30T06:00:00.000Z","dateModified":"2026-09-30T06:00:00.000Z","inLanguage":"ja","articleBody":"映画の終盤、狂気の王国で詩が読まれる。『地獄の黙示録』のカーツ大佐（マーロン・ブランド）は、ジャングルの奥の王国で、エリオットの『うつろな人々』を朗読する。部屋にはエリオットの詩が影響を受けた人類学の本も置かれている。戦争の果てにたどり着いた空虚を、コッポラは一篇の詩で語らせた。","url":"https://beautifulcontext.com/c/the-hollow-men--apocalypse-now/","image":"https://beautifulcontext.com/img/works/the-hollow-men.jpg"}</script>
 
-<script src="js/seed.js?v=123"></script>
-<script src="js/store.js?v=123"></script>
-<script src="js/social.js?v=123"></script>
-<script src="js/render.js?v=123"></script>
-<script src="js/transition.js?v=123"></script>
-<script src="js/app.js?v=123"></script>
+<script src="js/seed.js?v=124"></script>
+<script src="js/store.js?v=124"></script>
+<script src="js/social.js?v=124"></script>
+<script src="js/render.js?v=124"></script>
+<script src="js/transition.js?v=124"></script>
+<script src="js/app.js?v=124"></script>
 </body>
 </html>
