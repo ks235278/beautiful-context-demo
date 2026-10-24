@@ -352,6 +352,20 @@ body.viewing.peek #bg{visibility:visible}
 .context-body ul,.context-body ol{margin:0 0 13px;padding-left:1.3em;font-size:13px;line-height:1.95}
 .context-body blockquote{margin:0 0 13px;padding-left:12px;border-left:2px solid var(--gold);color:#444}
 .back-state{margin:0 0 14px;padding:8px 10px;border:1px dashed var(--gold);border-radius:4px;color:var(--gold);font:12px/1.5 var(--gothic)}
+/* 札から本文へ誘う（開発会議 2026.10.23 §3.2）。札だけ見て終わる人が多いので、
+   読む時間はボタンの中に小さく（主役にしない）、↓ はゆっくり息をするように上下し、
+   ボタンの下の金の細い線（.story-cue）が本文の罫線を少し越えて、CONTEXT STORY へ流れる。
+   動きを減らす設定では線と ↓ は止まったまま（それでも形は崩れない）。見開き（1100px〜）では本文が横に見えているので出さない */
+.read small{margin-left:.6em;font:400 11px/1.4 var(--gothic);color:rgba(255,255,255,.6);letter-spacing:.02em}
+.read span{animation:readDown 2.4s ease-in-out infinite}
+@keyframes readDown{50%{transform:translateY(3px)}}
+.story-cue{display:block;position:relative;width:1px;height:30px;margin:14px auto -37px;overflow:hidden;background:var(--gold);opacity:.55}
+.story-cue::after{content:"";position:absolute;left:0;top:0;width:100%;height:12px;background:linear-gradient(transparent,#fff,transparent);opacity:0;
+  animation:cueFlow 2.4s ease-in-out infinite}
+@keyframes cueFlow{0%{transform:translateY(-12px);opacity:0}25%{opacity:1}100%{transform:translateY(30px);opacity:0}}
+@media (min-width:1100px){.story-cue{display:none}.read span{animation:none}}
+/* 下の *{animation:none} は ::after には効かないので、ここで別に止める */
+@media (prefers-reduced-motion:reduce){.story-cue::after{animation:none}}
 
 /* 読み終わり：型と四軸・出典・同じルーツ・広告・書き手 */
 .axes{margin-top:26px;padding-top:14px;border-top:1px solid var(--rule-p)}

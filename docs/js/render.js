@@ -276,6 +276,9 @@
     const nav = navArrows();
     const dots = td && td.n > 1
       ? `<span class="today-dots" aria-label="${td.n} 本のうち ${td.i + 1} 本目">${Array.from({ length: td.n }, (_, k) => `<i${k === td.i ? ' class="on"' : ''}></i>`).join('')}</span>` : '';
+    /* 読む時間は見出しの行（route-label）から外し、ボタンの中に小さく残すだけ。「読了時間30秒」の札は要らない、
+       代わりに続きを読みたくなる誘導を（開発会議 2026.10.23 §3.2）。ボタンの ↓ はゆっくり上下し、
+       ボタンの下の .story-cue（金の細い線）が本文へ向かって流れる。携帯だけ。見開きでは本文が横に見えている */
     return `
       <article class="page cpage${td ? ' today' : ''}">
         ${td ? '' : backTop()}
@@ -285,10 +288,11 @@
         <section class="context-lead">
           ${state}
           ${editorRow(o.editor, o.following)}
-          <p class="route-label">${esc(c.label || 'CONTEXT')}　［${esc(c.routeName)}］　${t}</p>
+          <p class="route-label">${esc(c.label || 'CONTEXT')}　［${esc(c.routeName)}］</p>
           <h2>${esc(c.headline).replace(/\n/g, '<br>')}</h2>
           ${relationParts(c) ? `<div class="pair">${relationParts(c)}</div>` : ''}
-          <button type="button" class="read" data-read>このつながりを読む　${t} <span aria-hidden="true">↓</span></button>
+          <button type="button" class="read" data-read>このつながりを読む<small>${t}</small><span aria-hidden="true">↓</span></button>
+          <i class="story-cue" aria-hidden="true"></i>
         </section>
         <article class="context-body" id="story">
           <p class="meta">CONTEXT STORY</p>
