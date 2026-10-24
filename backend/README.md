@@ -1,6 +1,8 @@
 # Beautiful Context — バックエンドの設計（Supabase）
 
-> 状態：**設計だけ**。プロジェクトはまだ作っていない。`docs/` は一行も変えていない。
+> 状態（2026-10-24）：dev のプロジェクト `jajlkgybusedmvjmnqjc`（東京）に `schema.sql`（migration 01〜11）を流し、見本の 130 本を入れた。
+> 第1段階のうち「ログイン（メールのコード）・表示名・フォロー・共感・コメント・運営者のコメント確認」を `docs/` につないだ（ブランチ `backend-phase1`。何が動くかは 6.1、残りと持ち主の作業は 7 章）。
+> 読むもの（コンテクスト・作品・編集者）は、まだ `seed.js` から読む。
 > 書いた人の前提：エンジニアは一人。だから「自分でサーバーを持たない・夜中に起こされない」ことを最優先にした。
 
 | ファイル | 中身 |
@@ -423,6 +425,39 @@ review = 'approved' にする → approved_by_editor・approved_at が付き、�
 
 切り替えは `docs/js/config.js` の `backend: 'local' | 'supabase'` 一つで行い、戻すときもここを戻すだけにする（client-plan.md）。
 
+### 6.1 いま動いているもの（第1段階の前半・2026-10-24）
+
+読むものは `seed.js` のまま、**人ごとのものだけ** Supabase に送る。Supabase が止まっていても、読むことはすべてできる。
+
+| ファイル | 中身 |
+|---|---|
+| `docs/js/config.js` | URL と publishable key（公開してよい値）、`googleEnabled: false`、`timeoutMs: 6000`。`?static=1` のときは `'snapshot'`（ネットに出ない） |
+| `docs/js/vendor/supabase.js` | supabase-js **2.118.0** の UMD 版（jsdelivr から取得、sha256 を先頭に記す）。CDN からは読まない |
+| `docs/js/backend.js` | `window.BCBackend`。supabase-js は**一コマ目を描き終えてから**読み込む（load → 次の描画 → 手が空いたとき）。PKCE、セッションは `bc-auth`、控えは `bc-cache-v3`・`bc-me`、送れなかった書き込みは `bc-outbox` |
+| `docs/js/login.js` | ログインのシート：メールアドレス →「コードを送る」→ 6桁のコード →「ログイン」→ 表示名。Google のボタンは `googleEnabled` のときだけ |
+| `docs/js/social.js`・`store.js` | 関数の名前はそのまま。`BCBackend` があれば Supabase に、無ければ今までどおり端末の中だけ |
+| `docs/js/manage.js` | 「コメントの確認」：運営者（`profiles.role = 'operator'`）なら Supabase の確認待ちを出し、「表示する」「表示しない」を送る |
+| `tools/export-published.mjs` | anon キーで公開中のものを読み、`seed.js` と同じ形の `snapshot.js` を書く。`--check` で `seed.js` と突き合わせる（130 本・編集者・広告枠とも差 0。配列の並びだけ違う）。**まだ prerender につないでいない** |
+
+動き：
+
+- **未ログイン**：読む・フォロー・共感はその場で効く（端末にだけある。数には入らない）。公開中のコメントとフォロワー数は Supabase から読む
+- **ログイン**：その時点で、端末のフォロー・共感を `follows`・`reactions` に送る（数が 1 増える）。以後の切り替えは裏で送り、送れなければ outbox に積んで、ログイン・`online`・画面に戻ったときに送り直す
+- **コメント**：`comments` に入れる（トリガーで必ず `pending`）。書いた本人にだけ「確認中・あなたにだけ表示」で見える。運営者が通すと、だれにでも見える
+- **ログアウト**：この端末だけ（`scope: 'local'`）。サーバーから読んだフォロー・共感は端末に残さない
+- **GA**：ログインの画面で入ったときだけ `sign_up`（はじめて）か `login`、`method: 'email' | 'google'`
+- **利用規約・プライバシー**（`#/terms`）：外部送信に Supabase（何を送るか・東京に保存）を書いた
+
+通しの確かめ（2026-10-24、dev、`@example.invalid` の使い捨てユーザーを SQL で作り、終わったら消して残り 0）：
+未ログインでフォロー・共感 → パスワードでログイン（テストだけ）→ `follows`・`reactions` に入り `editor_stats.followers`・`context_stats.reactions` が 1 ／
+コメント → 本人にだけ確認中、anon の REST では `[]` → SQL で通す・運営者メニューで通す → 別の未ログインのブラウザで 2 本見える ／
+Supabase への通信をすべて落として読み直す → コンテクスト・編集者・一覧・Today が読め、フォローとコメントは outbox → つないで読み直すと送られる。
+
+まだのもの：`snapshot.js` への切り替え（client-plan S1〜S5）、`public_changes_since` の差分読み、`editor.html` の保存先、運営者メニューのほかの見出し（公開状態・広告枠・設定）の Supabase 化、1,250 本の取り込み。
+
+**メールの送り先について（大事）**：Supabase の既定のメール送信は、**プロジェクトの組織（Team）のメンバーのアドレスにしか送らない**（ほかは `email_address_not_authorized`）。
+しかも 1 時間に約 2 通まで（Auth → Rate Limits。Supabase の都合で変わる）。だから、既定のままでログインできるのは組織のメンバーだけで、**読者に出すベータの前に自分の SMTP（Resend など）が要る**（4.1 のとおり）。
+
 ---
 
 ## 7. 段階の計画
@@ -447,6 +482,37 @@ review = 'approved' にする → approved_by_editor・approved_at が付き、�
 - 公開の前に **Pro へ**（バックアップ）
 
 終わりの目安：二つの端末で同じアカウントに入ると、同じフォローが見え、数が合う。コメントは通すまで本人にしか見えない。Supabase を止めても（DevTools でオフライン）読める。
+
+#### 第1段階の進み（2026-10-24）
+
+- [x] `config.js`・`backend.js`・`vendor/supabase.js`、`store.js`・`social.js` の切り替え（人ごとのものだけ。6.1）
+- [x] ログインのシート（メールのコード・表示名）、ログインしたときに端末のフォロー・共感をそろえる
+- [x] フォロー・共感・フォロワー数、コメントは確認待ち → 運営者メニューで通す
+- [x] `tools/export-published.mjs`（`seed.js` と差 0）
+- [ ] Google ログイン（コードは入っている。`googleEnabled: false` のまま。下の 5）
+- [ ] メールのコードを実際に受け取ってのログイン（自分の SMTP と雛形の `{{ .Token }}` のあとで、実機の iPhone で測る）
+- [ ] `snapshot.js` に切り替え、`prerender` の前に `export-published` を回す
+- [ ] 運営者メニューのほかの見出し・`editor.html`・1,250 本・Pro
+
+#### 持ち主がダッシュボードですること（チェックリスト）
+
+エージェントは Auth の設定を変えない。持ち主がダッシュボード（Authentication）で：
+
+1. **URL Configuration**
+   - Site URL：`https://beautifulcontext.com`
+   - Redirect URLs：`https://beautifulcontext.com/**` と `http://127.0.0.1:8765/**`（手元での確かめ用）
+2. **Emails → Templates**：「Magic Link」と「Confirm signup」の本文に `{{ .Token }}` を入れる（6桁のコードが届く。リンクだけだと、ホーム画面の BC から開いたときに戻れない）。件名・本文は日本語に
+3. **Providers → Email**：有効のまま。「Email OTP Length」が 6 であること（画面は「6桁」と書いている）。有効期限は既定（1 時間）でよい
+4. **SMTP**（ベータの前に必須）：Resend などの自分の SMTP をつなぐ。送り元は `beautifulcontext.com` のアドレス（SPF・DKIM をドメインに）。つないだら Rate Limits の「メールの送信数／時」を見直す
+5. **Google**（あとで）：Google Cloud で OAuth クライアントを作り、承認済みのリダイレクト URI に `https://jajlkgybusedmvjmnqjc.supabase.co/auth/v1/callback`。Providers → Google に ID と secret を入れる。
+   iPhone のホーム画面の BC で戻ってこられることを実機で確かめてから、`config.js` の `googleEnabled` を `true` に
+6. **運営者の役割**：先生と CTO が一度ログインして表示名を決めたあと、SQL Editor で（DB への書き込みなので、承認の手順を通す）：
+
+   ```sql
+   update public.profiles set role = 'operator'
+    where id in (select id from auth.users where email in ('<先生のアドレス>', '<CTO のアドレス>'));
+   select p.id, u.email, p.role from public.profiles p join auth.users u on u.id = p.id where p.role = 'operator';
+   ```
 
 ### 第2段階：編集者（3〜4週間）　投稿と審査・AGM
 
