@@ -14,6 +14,12 @@
   const esc = R.esc;
   const $ = (id) => document.getElementById(id);
   const main = $('main'), tabs = $('tabs');
+  /* この端末で運営者メニューを開いた印（運営者の端末を見分けるため。アクセス解析から外すときなどに使う） */
+  try { localStorage.setItem('bc-operator', '1'); } catch (e) {}
+  /* Supabase の窓口。運営者（profiles.role = 'operator'）でログインしていれば、読者のコメントをここで確かめる */
+  const B = window.BCBackend && window.BCBackend.enabled() ? window.BCBackend : null;
+  let remote = null;            // Supabase の確認待ちのコメント（運営者のときだけ）
+  let remoteState = B ? 'loading' : 'off';   // 'loading' | 'ok' | 'no'（運営者でない） | 'error' | 'off'
 
   function toast(msg){
     const t = $('toast');
@@ -34,7 +40,7 @@
   /* ---------- 見出し（左の列） ---------- */
   const TABS = [
     { id: 'contexts', label: 'コンテクスト', count: () => S.all().length },
-    { id: 'comments', label: 'コメントの確認', count: () => S.pendingComments().length },
+    { id: 'comments', label: 'コメントの確認', count: () => (remote ? remote.length : S.pendingComments().length) },
     { id: 'ads', label: '広告枠', count: () => S.ads().length },
     { id: 'authors', label: '書き手', count: () => S.authors().length },
     null,
@@ -120,6 +126,7 @@
      読者のコメントは、編集者が確かめてから表示する（真善美を約束する場なので、先に確認する）。
      本番では、生成AIが先に明らかな迷惑・攻撃を除き、各コンテクストの編集者が通す。最後の判断は編集長 */
   function commentsPanel(){
+    if (remote) return remotePanel();
     const rows = S.pendingComments().map(({ entry: e, comment: c }) => `
       <div class="item" data-cm="${esc(c.id)}" data-cm-ctx="${esc(e.id)}">
         <div class="thumbs"><span style="border-radius:50%;width:44px;height:44px">${esc((c.name || '?').charAt(0))}</span></div>
@@ -134,9 +141,49 @@
           <button type="button" class="warn" data-cm-hide title="表示しない（データは残る）">表示しない</button>
         </div>
       </div>`).join('');
+    const where = {
+      loading: 'Supabase を確かめています…',
+      no: '読者のコメント（Supabase）は、運営者のアカウントでログインすると、ここで確かめられます。サイトの右上の Login からログインしてから、このページを開き直してください。いまは、この端末で書かれたコメントだけを出しています。',
+      error: 'Supabase につながりません。いまは、この端末で書かれたコメントだけを出しています。'
+    }[remoteState];
     return `<section class="panel">${head('2.4 コメントの確認', 'コメントの確認',
-      '読者のコメントは、ここで確かめてから表示します。書いた本人には「確認中」として見えています。本番では、生成AIが明らかな迷惑・攻撃を先に除き、各コンテクストの編集者が通します。')}
+      '読者のコメントは、ここで確かめてから表示します。書いた本人には「確認中」として見えています。本番では、生成AIが明らかな迷惑・攻撃を先に除き、各コンテクストの編集者が通します。' +
+      (where ? '<br>' + esc(where) : ''))}
       <div class="body"><div class="list">${rows || '<p class="empty">確認待ちのコメントはありません。</p>'}</div></div></section>`;
+  }
+  /* 運営者：Supabase の確認待ち。通す（approved）と、だれにでも見える。表示しない（hidden）は、データは残る */
+  function remotePanel(){
+    const rows = remote.map((c) => {
+      const ctx = c.context || {};
+      const e = S.byId(ctx.legacy_id) || S.byId(ctx.id) || S.byContextSlug(ctx.slug);
+      const title = e ? `${e.a.title} ＋ ${e.b.title}` : (ctx.route_name || ctx.slug || '');
+      return `
+      <div class="item" data-cm-remote="${esc(c.id)}">
+        <div class="thumbs"><span style="border-radius:50%;width:44px;height:44px">${esc((c.name || '?').charAt(0))}</span></div>
+        <div class="info">
+          <b>${esc(c.name)}</b>
+          <span class="sub" style="white-space:pre-wrap">${esc(c.text)}</span>
+          <span class="meta"><span>${esc(title)}</span><span>${esc(day(c.at))}</span></span>
+        </div>
+        <div class="ops">
+          <button type="button" data-cm-ok title="読者に表示する">表示する</button>
+          ${ctx.slug ? `<a href="index.html#/c/${encodeURIComponent(ctx.slug)}">ページ</a>` : ''}
+          <button type="button" class="warn" data-cm-hide title="表示しない（データは残る）">表示しない</button>
+        </div>
+      </div>`;
+    }).join('');
+    return `<section class="panel">${head('2.4 コメントの確認', 'コメントの確認',
+      '読者のコメント（Supabase）です。運営者のアカウントで確かめています。「表示する」で、だれにでも見えるようになります。書いた本人には、それまで「確認中」として見えています。')}
+      <div class="body"><div class="list">${rows || '<p class="empty">確認待ちのコメントはありません。</p>'}</div></div></section>`;
+  }
+  async function loadRemote(){
+    try {
+      await B.ready();
+      if (!B.isOperator()){ remote = null; remoteState = 'no'; }
+      else { remote = await B.pendingForReview(); remoteState = 'ok'; }
+    } catch (e) { remote = null; remoteState = 'error'; }
+    /* ほかの見出しで書きかけのものは消さない（数だけ直す） */
+    if (tabId() === 'comments') draw(); else drawTabs();
   }
 
   /* ---------- 広告枠 ---------- */
@@ -445,6 +492,15 @@
       S.approve(row.dataset.id); toast('承認しました。ページの表示が「確認済み」になります'); draw(); return;
     }
     if (t.matches('[data-csv]')){ downloadCSV(); toast('つながり一覧を書き出しました'); return; }
+    const rc = t.closest('[data-cm-remote]');
+    if (rc && (t.matches('[data-cm-ok]') || t.matches('[data-cm-hide]'))){
+      const ok = t.matches('[data-cm-ok]');
+      t.disabled = true;
+      B.moderate(rc.dataset.cmRemote, ok ? 'approved' : 'hidden')
+        .then(() => { toast(ok ? 'コメントを表示しました' : '表示しないことにしました'); return loadRemote(); })
+        .catch((err) => { toast(B.message(err)); t.disabled = false; });
+      return;
+    }
     const cm = t.closest('[data-cm]');
     if (cm && t.matches('[data-cm-ok]')){ S.approveComment(cm.dataset.cmCtx, cm.dataset.cm); toast('コメントを表示しました'); draw(); return; }
     if (cm && t.matches('[data-cm-hide]')){ S.setCommentHidden(cm.dataset.cmCtx, cm.dataset.cm, true); toast('表示しないことにしました'); draw(); return; }
@@ -524,4 +580,5 @@
   }
 
   draw();
+  if (B) loadRemote();
 })();
