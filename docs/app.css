@@ -873,3 +873,14 @@ html[data-theme="white"] .tag,html[data-theme="white"] .uni-title{text-shadow:0 
     .ghost:not(.edge-shot)>.view-in>:is(.cpage,.wpage)>.duo-hero{background:transparent;box-shadow:none}
   }
 }
+
+/* ---------- パソコンの下の帯：横の路線図を出さない（前田先生 2026.10.24） ----------
+   パソコン（1100px〜）では右に縦の路線図（.route-mini）がいつも出ていて、下の帯の横の路線図（.map）と同じものが
+   二つ並んでいた。先生は縦の方を残し、絵の下の横の方を外すことにした（開発会議 2026.10.23 §3.1「重複する導線の整理」）。
+   縦の路線図が無い画面（body.has-route でないとき）では、これまでどおり横の路線図が残る。携帯・タブレットは変えない */
+@media (min-width:1100px){
+  body.viewing.has-route .dock .map{display:none}
+  body.viewing.has-route:not(.on-list) .dock{grid-template-columns:minmax(0,1fr) 260px}
+  body.viewing.has-route .dock .next-peek{grid-column:1;justify-self:end;width:100%;max-width:360px}
+  body.viewing.has-route .dock .actions{grid-column:2}
+}
