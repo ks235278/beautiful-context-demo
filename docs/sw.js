@@ -9,15 +9,15 @@
      見えないところで読み直し、いまの画面とスクロール位置のまま戻す（app.js）。 */
 const CACHE = 'bc-shell';
 const PAGES = ['./index.html', './editor.html', './manage.html'];
-const STATIC = ['./img/pcb-charcoal.jpg', './img/pcb-white.jpg', './img/logo.png', './img/logo-mark.png', './img/logo-layer-mark.png', './img/logo-layer-words.png', './icon-512.png',
+const STATIC = ['./img/bg-earth.jpg', './img/logo.png', './img/logo-mark.png', './img/logo-layer-mark.png', './img/logo-layer-words.png', './icon-512.png',
   './icon-180.png', './icon-192.png', './manifest.webmanifest'];
 
-/* ページが使う同じサイトの CSS・JS（?v= 付き）と、表紙の絵 */
+/* ページが使う同じサイトの CSS・JS（?v= 付き）と、表紙の絵（地球 bg-earth.jpg。2026.10.24 まで回路 pcb-*.jpg）とロゴ */
 function assetsOf(html, base){
   const out = new Set();
   html.replace(/(?:src|href)="([^"]+)"/g, (_, u) => {
     if (/^(https?:)?\/\//.test(u) || u.startsWith('#') || u.startsWith('data:')) return;
-    if (/\.(css|js)(\?|$)/.test(u) || /img\/(pcb-|logo)/.test(u)) out.add(new URL(u, base).href);
+    if (/\.(css|js)(\?|$)/.test(u) || /img\/(bg-earth|logo)/.test(u)) out.add(new URL(u, base).href);
   });
   return [...out];
 }

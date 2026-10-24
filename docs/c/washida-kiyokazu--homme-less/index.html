@@ -21,7 +21,7 @@ try { if (sessionStorage.getItem('bc-resume')) document.documentElement.classLis
 <meta property="og:title" content="鷲田清一 ＋ 映画『ホームレス ニューヨークと寝た男』｜Beautiful Context">
 <meta property="og:description" content="哲学者は、服を着ることを考えた。 鷲田清一 と 映画『ホームレス ニューヨークと寝た男』。意味の上での近さから結ばれた区間。鷲田清一は『モードの迷宮』などで、服を着ることを、自分と世界との境目をつくる行為として考えてきた。『ホームレス ニューヨークと寝た男』のマーク・レイは、家を持たないまま、仕立…">
 <meta property="og:image" content="https://beautifulcontext.com/img/works/washida-kiyokazu.jpg">
-<!-- ホーム画面から開くとき、読み込みのあいだに出る起動画面。表紙の最初の一コマ（回路とロゴ）と同じ絵
+<!-- ホーム画面から開くとき、読み込みのあいだに出る起動画面。表紙の最初の一コマ（地球とロゴ）と同じ絵
      （端末ごとの大きさ。iOS は PNG を求める） -->
 <link rel="apple-touch-startup-image" media="(device-width: 440px) and (device-height: 956px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="img/launch/440x956@3.png">
 <link rel="apple-touch-startup-image" media="(device-width: 402px) and (device-height: 874px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="img/launch/402x874@3.png">
@@ -34,11 +34,11 @@ try { if (sessionStorage.getItem('bc-resume')) document.documentElement.classLis
 <link rel="apple-touch-startup-image" media="(device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="img/launch/414x896@3.png">
 <link rel="apple-touch-startup-image" media="(device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" href="img/launch/414x896@2.png">
 <link rel="apple-touch-startup-image" media="(device-width: 375px) and (device-height: 667px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" href="img/launch/375x667@2.png">
-<!-- 表紙に最初から出すもの（回路とロゴ）は先に読む。描くときに待たせない -->
-<link rel="preload" as="image" href="img/pcb-charcoal.jpg">
+<!-- 表紙に最初から出すもの（地球とロゴ）は先に読む。描くときに待たせない -->
+<link rel="preload" as="image" href="img/bg-earth.jpg">
 <link rel="preload" as="image" href="img/logo-layer-mark.png">
 <link rel="preload" as="image" href="img/logo-layer-words.png">
-<link rel="manifest" href="manifest.webmanifest?v=132">
+<link rel="manifest" href="manifest.webmanifest?v=133">
 <link rel="apple-touch-icon" href="icon-180.png">
 <!-- タブと検索結果に出る小さな印。アプリの印（ホーム画面のアイコン）と同じ形 -->
 <link rel="icon" href="favicon.ico" sizes="16x16 32x32 48x48">
@@ -76,9 +76,9 @@ if (location.hostname === 'beautifulcontext.com'){
   document.head.appendChild(ga);
 }
 </script>
-<script src="js/theme.js?v=132"></script>
-<link rel="stylesheet" href="app.css?v=132">
-<link rel="stylesheet" href="fade.css?v=132">
+<script src="js/theme.js?v=133"></script>
+<link rel="stylesheet" href="app.css?v=133">
+<link rel="stylesheet" href="fade.css?v=133">
 </head>
 <body class="stage-uni viewing route" data-route="#/c/washida-kiyokazu--homme-less">
 
@@ -168,10 +168,11 @@ if (location.hostname === 'beautifulcontext.com'){
           <div class="ed-row">
       <a class="ed-link" href="e/desk/"><span class="ava" aria-hidden="true">部</span><span><b>BC 編集部</b><small>EDITORIAL DESK</small></span></a>
       <button type="button" class="follow" data-follow="desk" aria-pressed="false">フォロー</button></div>
-          <p class="route-label">CONTEXT　［服を着る哲学］　約25秒</p>
+          <p class="route-label">CONTEXT　［服を着る哲学］</p>
           <h2>哲学者は、<br>服を着ることを考えた。</h2>
           <div class="pair"><span>鷲田清一『モードの迷宮』</span><span>ファッション</span><span>映画『ホームレス ニューヨークと寝た男』</span></div>
-          <button type="button" class="read" data-read="">このつながりを読む　約25秒 <span aria-hidden="true">↓</span></button>
+          <button type="button" class="read" data-read="">このつながりを読む<small>約25秒</small><span aria-hidden="true">↓</span></button>
+          <i class="story-cue" aria-hidden="true"></i>
         </section>
         <article class="context-body" id="story">
           <p class="meta">CONTEXT STORY</p>
@@ -354,11 +355,11 @@ if (location.hostname === 'beautifulcontext.com'){
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 <script type="application/ld+json" id="ld">{"@context":"https://schema.org","@type":"Article","headline":"哲学者は、服を着ることを考えた。","alternativeHeadline":"服を着る哲学","about":[{"@type":"Person","name":"鷲田清一","description":"京都生まれの哲学者。大阪大学総長をつとめた。『モードの迷宮』『「聴く」ことの力』など、ファッションや身体、ケアを哲学の主題にしてきた。"},{"@type":"Movie","name":"ホームレス ニューヨークと寝た男","description":"ファッション写真家で元モデルのマーク・レイは、マンハッタンのアパートの屋上で寝袋にくるまって暮らしていた。その日々を追ったドキュメンタリー。","creator":{"@type":"Person","name":"トーマス・ヴィルテンゾーン監督"}}],"author":{"@type":"Person","name":"生成AI（初稿）"},"datePublished":"2026-09-14T05:30:00.000Z","dateModified":"2026-09-14T05:30:00.000Z","inLanguage":"ja","articleBody":"意味の上での近さから結ばれた区間。鷲田清一は『モードの迷宮』などで、服を着ることを、自分と世界との境目をつくる行為として考えてきた。『ホームレス ニューヨークと寝た男』のマーク・レイは、家を持たないまま、仕立てのよい服に身を包み、ファッション写真家としてマンハッタンの華やかな場に立ち続ける。住まいを失っても、装いは手放さない。服が人を支えるとはどういうことか。哲学者の問いに、一人の男の暮らしが答えているように見える。","url":"https://beautifulcontext.com/c/washida-kiyokazu--homme-less/","image":"https://beautifulcontext.com/img/works/washida-kiyokazu.jpg"}</script>
 
-<script src="js/seed.js?v=132"></script>
-<script src="js/store.js?v=132"></script>
-<script src="js/social.js?v=132"></script>
-<script src="js/render.js?v=132"></script>
-<script src="js/transition.js?v=132"></script>
-<script src="js/app.js?v=132"></script>
+<script src="js/seed.js?v=133"></script>
+<script src="js/store.js?v=133"></script>
+<script src="js/social.js?v=133"></script>
+<script src="js/render.js?v=133"></script>
+<script src="js/transition.js?v=133"></script>
+<script src="js/app.js?v=133"></script>
 </body>
 </html>

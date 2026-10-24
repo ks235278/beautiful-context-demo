@@ -905,7 +905,8 @@
     const i = view.classList.contains('on') && here && here.entry && !here.list ? posOf(here.entry.id) : -1;
     body.classList.toggle('has-route', i >= 0);
     if (i < 0){ box.innerHTML = ''; return; }
-    const cur = 2 * i + (here.step === 1 ? 0 : 1);
+    /* 駅の印は、その駅（区間の出口）に居るときだけ。もう一方の絵（入口の駅）を開いているときは、区間のほうを示す */
+    const cur = 2 * i + (here.step !== 1 && (here.step === 2 ? 'b' : 'a') === T[i].exit ? 1 : 0);
     const from = Math.max(0, cur - 2), to = Math.min(2 * T.length - 1, cur + 3);
     let li = '';
     for (let k = from; k <= to; k++){
@@ -1318,7 +1319,8 @@
   document.addEventListener('keydown', ev => {
     const tgt = ev.target;
     if (ev.key === 'Escape' && document.querySelector('.sheet')){ closeSheet(); return; }
-    if (ev.key === 'Escape' && !menu.hidden){ openMenu(false); return; }
+    /* パソコン（1100px〜）ではメニューはいつも出ている列（hidden でない）ので、重ねて開いている（.open）ときだけ閉じる。そうでないと Esc が戻るに届かない */
+    if (ev.key === 'Escape' && !menu.hidden && menu.classList.contains('open')){ openMenu(false); return; }
     if (ev.key === 'Escape' && sel && !view.classList.contains('on')){ select(null); return; }
     if (!view.classList.contains('on') || (tgt && tgt.closest && tgt.closest('input,textarea'))) return;
     if (ev.key === 'Escape'){ ev.preventDefault(); closeView(); }
@@ -1469,6 +1471,14 @@
       if (!g) return;
       const G = g; g = null;
       heldTimer = setTimeout(() => { held = false; dragged = false; }, toScroll ? 0 : 450);
+      /* ばねで戻る途中の帯は onStart でその位置に止めてつかむ。そのまま動かさず離した・スクロールに渡した・
+         途中で切れた（touchcancel）ときは向きが決まらず、帯がずれたまま置き去りになっていた
+         （開発会議 2026.10.23 §3.4「元の位置に戻らない」）。向きが決まらなくても、止めた位置から元へ戻す */
+      if (!G.mode && G.x){
+        setX(G.strip, 0);
+        G.strip.animate([{ transform: `translate3d(${G.x}px,0,0)` }, { transform: 'translate3d(0,0,0)' }],
+          { duration: 460, easing: 'cubic-bezier(.18,1.3,.35,1)' });
+      }
       if (!G.mode) return;                      /* 触れて離しただけ：絵のボタンがそのまま働く */
       if (G.mode === 'strip'){
         const v = vel(G.s, 1);
@@ -1490,6 +1500,10 @@
         G.img.style.visibility = '';
         G.img.parentElement.classList.remove('landing');
         closeView({ dismiss: true, toCenter: true });   /* 来た画面へ。絵は離した位置から自分の場所へ */
+        /* 後ろに透かした UniverseIt!（peek）は、来た画面が UniverseIt! なら hideView が外すが、
+           リンクから直接開いたページでは来た画面が Today（show）になり、外す者がいなかった
+           （開発会議 2026.10.23 §3.4）。持ち上げた側で外す */
+        peek(false);
         return;
       }
       const a = G.f.animate([{ transform: G.f.style.transform }, { transform: 'translate3d(0,0,0) scale(1)' }],

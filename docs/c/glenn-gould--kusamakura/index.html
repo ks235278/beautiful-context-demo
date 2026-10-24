@@ -21,7 +21,7 @@ try { if (sessionStorage.getItem('bc-resume')) document.documentElement.classLis
 <meta property="og:title" content="グレン・グールド ＋ 夏目漱石『草枕』｜Beautiful Context">
 <meta property="og:description" content="枕元にあった二冊は、聖書と『草枕』だった。 グレン・グールド と 夏目漱石『草枕』。意味の上での近さはない。あるのは、検証された事実である。カナダのピアニストと明治の日本文学に、本来なら接点はない。二人をつないでいるのは一冊の翻訳書という事実だけである。出会いグールドが読んだのは、アラン・ターニー…">
 <meta property="og:image" content="https://beautifulcontext.com/img/gould.jpg">
-<!-- ホーム画面から開くとき、読み込みのあいだに出る起動画面。表紙の最初の一コマ（回路とロゴ）と同じ絵
+<!-- ホーム画面から開くとき、読み込みのあいだに出る起動画面。表紙の最初の一コマ（地球とロゴ）と同じ絵
      （端末ごとの大きさ。iOS は PNG を求める） -->
 <link rel="apple-touch-startup-image" media="(device-width: 440px) and (device-height: 956px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="img/launch/440x956@3.png">
 <link rel="apple-touch-startup-image" media="(device-width: 402px) and (device-height: 874px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="img/launch/402x874@3.png">
@@ -34,11 +34,11 @@ try { if (sessionStorage.getItem('bc-resume')) document.documentElement.classLis
 <link rel="apple-touch-startup-image" media="(device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="img/launch/414x896@3.png">
 <link rel="apple-touch-startup-image" media="(device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" href="img/launch/414x896@2.png">
 <link rel="apple-touch-startup-image" media="(device-width: 375px) and (device-height: 667px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" href="img/launch/375x667@2.png">
-<!-- 表紙に最初から出すもの（回路とロゴ）は先に読む。描くときに待たせない -->
-<link rel="preload" as="image" href="img/pcb-charcoal.jpg">
+<!-- 表紙に最初から出すもの（地球とロゴ）は先に読む。描くときに待たせない -->
+<link rel="preload" as="image" href="img/bg-earth.jpg">
 <link rel="preload" as="image" href="img/logo-layer-mark.png">
 <link rel="preload" as="image" href="img/logo-layer-words.png">
-<link rel="manifest" href="manifest.webmanifest?v=132">
+<link rel="manifest" href="manifest.webmanifest?v=133">
 <link rel="apple-touch-icon" href="icon-180.png">
 <!-- タブと検索結果に出る小さな印。アプリの印（ホーム画面のアイコン）と同じ形 -->
 <link rel="icon" href="favicon.ico" sizes="16x16 32x32 48x48">
@@ -76,9 +76,9 @@ if (location.hostname === 'beautifulcontext.com'){
   document.head.appendChild(ga);
 }
 </script>
-<script src="js/theme.js?v=132"></script>
-<link rel="stylesheet" href="app.css?v=132">
-<link rel="stylesheet" href="fade.css?v=132">
+<script src="js/theme.js?v=133"></script>
+<link rel="stylesheet" href="app.css?v=133">
+<link rel="stylesheet" href="fade.css?v=133">
 </head>
 <body class="stage-uni viewing route" data-route="#/c/glenn-gould--kusamakura">
 
@@ -168,10 +168,11 @@ if (location.hostname === 'beautifulcontext.com'){
           <div class="ed-row">
       <a class="ed-link" href="e/chief/"><span class="ava" aria-hidden="true">眞</span><span><b>眞江田國廣</b><small>EDITOR IN CHIEF</small></span></a>
       <button type="button" class="follow" data-follow="chief" aria-pressed="false">フォロー</button></div>
-          <p class="route-label">CONTEXT　［非人情という共通言語］　約1分</p>
+          <p class="route-label">CONTEXT　［非人情という共通言語］</p>
           <h2>枕元にあった二冊は、<br>聖書と『草枕』だった。</h2>
           <div class="pair"><span>グレン・グールド</span><span>英訳『The Three-Cornered World』</span><span>夏目漱石『草枕』</span></div>
-          <button type="button" class="read" data-read="">このつながりを読む　約1分 <span aria-hidden="true">↓</span></button>
+          <button type="button" class="read" data-read="">このつながりを読む<small>約1分</small><span aria-hidden="true">↓</span></button>
+          <i class="story-cue" aria-hidden="true"></i>
         </section>
         <article class="context-body" id="story">
           <p class="meta">CONTEXT STORY</p>
@@ -360,11 +361,11 @@ if (location.hostname === 'beautifulcontext.com'){
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 <script type="application/ld+json" id="ld">{"@context":"https://schema.org","@type":"Article","headline":"枕元にあった二冊は、聖書と『草枕』だった。","alternativeHeadline":"非人情という共通言語","about":[{"@type":"Person","name":"グレン・グールド","description":"バッハ演奏で知られ、クラシック音楽における「演奏とは何か」という考え方そのものを変えた20世紀を代表するピアニスト。"},{"@type":"Book","name":"草枕","description":"「智に働けば角が立つ。情に棹させば流される。」で始まる、画工が非人情の世界を求めて旅する小説。","creator":{"@type":"Person","name":"夏目漱石"}}],"author":{"@type":"Person","name":"編集部（見本）"},"datePublished":"2026-09-19T09:00:00.000Z","dateModified":"2026-09-19T09:00:00.000Z","inLanguage":"ja","articleBody":"意味の上での近さはない。あるのは、検証された事実である。カナダのピアニストと明治の日本文学に、本来なら接点はない。二人をつないでいるのは一冊の翻訳書という事実だけである。出会いグールドが読んだのは、アラン・ターニーによる英訳 The Three-Cornered World（1965年）である。1967年ごろに出会い、その後15年ほど強く惹かれ続けた。『草枕』について37ページものノートを残し、英訳されていた漱石作品を次々に集め、最晩年には『草枕』をもとにしたラジオ作品まで構想していた。死去時、ベッドサイドにあった本が『聖書』と『草枕』だったとも伝えられている。非人情いちばん重要なのは「非人情」である。『草枕』の画工は、冒頭で「智に働けば角が立つ。情に棹させば流される。意地を通せば窮屈だ。」と語る。感情に流されず、しかし冷淡でもない場所から世界を眺めるという態度。演奏会という場を離れ、録音というかたちで音楽と向き合うことを選んだグールドにとって、この作品は単なる愛読書ではなく、自分自身の芸術観を言語化してくれたものに近かったと考えると、二人の関係がよく見えてくる。","url":"https://beautifulcontext.com/c/glenn-gould--kusamakura/","image":"https://beautifulcontext.com/img/gould.jpg"}</script>
 
-<script src="js/seed.js?v=132"></script>
-<script src="js/store.js?v=132"></script>
-<script src="js/social.js?v=132"></script>
-<script src="js/render.js?v=132"></script>
-<script src="js/transition.js?v=132"></script>
-<script src="js/app.js?v=132"></script>
+<script src="js/seed.js?v=133"></script>
+<script src="js/store.js?v=133"></script>
+<script src="js/social.js?v=133"></script>
+<script src="js/render.js?v=133"></script>
+<script src="js/transition.js?v=133"></script>
+<script src="js/app.js?v=133"></script>
 </body>
 </html>

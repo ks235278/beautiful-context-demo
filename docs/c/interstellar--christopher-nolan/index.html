@@ -21,7 +21,7 @@ try { if (sessionStorage.getItem('bc-resume')) document.documentElement.classLis
 <meta property="og:title" content="クリストファー・ノーラン『インターステラー』 ＋ クリストファー・ノーラン｜Beautiful Context">
 <meta property="og:description" content="父は、本棚の向こうから娘を呼んだ。 クリストファー・ノーラン『インターステラー』 と クリストファー・ノーラン。弟ジョナサンとの共同脚本。『インターステラー』は、弟のジョナサン・ノーランが書いていた脚本を、クリストファー・ノーランが引き継いで監督した作品である。時間の流れが星ごとに違う宇宙で、父と…">
 <meta property="og:image" content="https://beautifulcontext.com/img/works/interstellar.jpg">
-<!-- ホーム画面から開くとき、読み込みのあいだに出る起動画面。表紙の最初の一コマ（回路とロゴ）と同じ絵
+<!-- ホーム画面から開くとき、読み込みのあいだに出る起動画面。表紙の最初の一コマ（地球とロゴ）と同じ絵
      （端末ごとの大きさ。iOS は PNG を求める） -->
 <link rel="apple-touch-startup-image" media="(device-width: 440px) and (device-height: 956px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="img/launch/440x956@3.png">
 <link rel="apple-touch-startup-image" media="(device-width: 402px) and (device-height: 874px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="img/launch/402x874@3.png">
@@ -34,11 +34,11 @@ try { if (sessionStorage.getItem('bc-resume')) document.documentElement.classLis
 <link rel="apple-touch-startup-image" media="(device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="img/launch/414x896@3.png">
 <link rel="apple-touch-startup-image" media="(device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" href="img/launch/414x896@2.png">
 <link rel="apple-touch-startup-image" media="(device-width: 375px) and (device-height: 667px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" href="img/launch/375x667@2.png">
-<!-- 表紙に最初から出すもの（回路とロゴ）は先に読む。描くときに待たせない -->
-<link rel="preload" as="image" href="img/pcb-charcoal.jpg">
+<!-- 表紙に最初から出すもの（地球とロゴ）は先に読む。描くときに待たせない -->
+<link rel="preload" as="image" href="img/bg-earth.jpg">
 <link rel="preload" as="image" href="img/logo-layer-mark.png">
 <link rel="preload" as="image" href="img/logo-layer-words.png">
-<link rel="manifest" href="manifest.webmanifest?v=132">
+<link rel="manifest" href="manifest.webmanifest?v=133">
 <link rel="apple-touch-icon" href="icon-180.png">
 <!-- タブと検索結果に出る小さな印。アプリの印（ホーム画面のアイコン）と同じ形 -->
 <link rel="icon" href="favicon.ico" sizes="16x16 32x32 48x48">
@@ -76,9 +76,9 @@ if (location.hostname === 'beautifulcontext.com'){
   document.head.appendChild(ga);
 }
 </script>
-<script src="js/theme.js?v=132"></script>
-<link rel="stylesheet" href="app.css?v=132">
-<link rel="stylesheet" href="fade.css?v=132">
+<script src="js/theme.js?v=133"></script>
+<link rel="stylesheet" href="app.css?v=133">
+<link rel="stylesheet" href="fade.css?v=133">
 </head>
 <body class="stage-uni viewing route" data-route="#/c/interstellar--christopher-nolan">
 
@@ -168,10 +168,11 @@ if (location.hostname === 'beautifulcontext.com'){
           <div class="ed-row">
       <a class="ed-link" href="e/desk/"><span class="ava" aria-hidden="true">部</span><span><b>BC 編集部</b><small>EDITORIAL DESK</small></span></a>
       <button type="button" class="follow" data-follow="desk" aria-pressed="false">フォロー</button></div>
-          <p class="route-label">CONTEXT　［監督と作品］　約20秒</p>
+          <p class="route-label">CONTEXT　［監督と作品］</p>
           <h2>父は、<br>本棚の向こうから娘を呼んだ。</h2>
           <div class="pair"><span>クリストファー・ノーラン</span><span>監督</span><span>『インターステラー』</span></div>
-          <button type="button" class="read" data-read="">このつながりを読む　約20秒 <span aria-hidden="true">↓</span></button>
+          <button type="button" class="read" data-read="">このつながりを読む<small>約20秒</small><span aria-hidden="true">↓</span></button>
+          <i class="story-cue" aria-hidden="true"></i>
         </section>
         <article class="context-body" id="story">
           <p class="meta">CONTEXT STORY</p>
@@ -357,11 +358,11 @@ if (location.hostname === 'beautifulcontext.com'){
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 <script type="application/ld+json" id="ld">{"@context":"https://schema.org","@type":"Article","headline":"父は、本棚の向こうから娘を呼んだ。","alternativeHeadline":"監督と作品","about":[{"@type":"Movie","name":"インターステラー","description":"砂嵐と作物の枯死に追い詰められた近未来の地球から、人類の移住先を探して宇宙へ向かう元宇宙飛行士と、地球に残された娘の物語。","creator":{"@type":"Person","name":"クリストファー・ノーラン監督"}},{"@type":"Person","name":"クリストファー・ノーラン","description":"ロンドン生まれの映画監督。『ダークナイト』『インセプション』『インターステラー』『ダンケルク』『オッペンハイマー』。"}],"author":{"@type":"Person","name":"生成AI（初稿）"},"datePublished":"2026-09-14T06:30:00.000Z","dateModified":"2026-09-14T06:30:00.000Z","inLanguage":"ja","articleBody":"弟ジョナサンとの共同脚本。『インターステラー』は、弟のジョナサン・ノーランが書いていた脚本を、クリストファー・ノーランが引き継いで監督した作品である。時間の流れが星ごとに違う宇宙で、父と娘の時間がずれていく。『メメント』『インセプション』『TENET』と、時間の構造そのものを物語にしてきたノーランの関心が、ここでは家族の物語として結晶している。","url":"https://beautifulcontext.com/c/interstellar--christopher-nolan/","image":"https://beautifulcontext.com/img/works/interstellar.jpg"}</script>
 
-<script src="js/seed.js?v=132"></script>
-<script src="js/store.js?v=132"></script>
-<script src="js/social.js?v=132"></script>
-<script src="js/render.js?v=132"></script>
-<script src="js/transition.js?v=132"></script>
-<script src="js/app.js?v=132"></script>
+<script src="js/seed.js?v=133"></script>
+<script src="js/store.js?v=133"></script>
+<script src="js/social.js?v=133"></script>
+<script src="js/render.js?v=133"></script>
+<script src="js/transition.js?v=133"></script>
+<script src="js/app.js?v=133"></script>
 </body>
 </html>

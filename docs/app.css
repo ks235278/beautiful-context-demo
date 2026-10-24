@@ -1,8 +1,8 @@
 /* Beautiful Context — 読者の画面
    前田先生の構成図 flow0921-2 と demo-1.html のとおりに組む。
 
-     表紙 ………… 回路の絵（先生の構成図の画像そのもの）に BEAUTIFUL CONTEXT
-     UniverseIt! … 同じ回路の上に、「# 言葉」を横に並べて折り返す。
+     表紙 ………… 地の絵に BEAUTIFUL CONTEXT（構成図では回路の画像そのもの。2026.10.24 から地球。末尾の節）
+     UniverseIt! … 同じ地の上に、「# 言葉」を横に並べて折り返す。
                    下に BEAUTIFUL CONTEXT と、橙「つながりを創る」紺「つながりを辿る」
      作品ページ …… demo-1。黒地に絵、紙の地に明朝の解説、下に路線図
      コンテクスト … demo-1。黒地に二枚の絵と ↔、紙の地に見出しと本文
@@ -11,21 +11,20 @@
 
 :root{
   --paper:#f7f4ed; --ink:#121212; --gold:#a97717; --muted:#6b6b67; --rule-p:#d1ccc3;
-  --ground:#061629;                       /* 回路の地（構成図の画像から測った値） */
+  --ground:#061629;                       /* 地の紺（構成図の回路の画像から測った値。回路を外したあとも、この紺が地） */
   --accent:#ee8232; --navy:#1a2f5a;       /* 橙と紺（構成図の画像から測った値） */
   --uni-ink:#fff; --uni-dim:rgba(255,255,255,.7); --uni-hash:rgba(255,255,255,.62);
   --uni-rule:rgba(255,255,255,.3);
-  --pcb:url(img/pcb-charcoal.jpg);
+  --earth:url(img/bg-earth.jpg);          /* 表紙・UniverseIt!・ReMixIt! の地の絵（2026.10.24 まで回路 pcb-*.jpg。末尾の「地球」の節） */
   --dockh:128px; --col:100%;
   --mincho:"Yu Mincho","YuMincho","Hiragino Mincho ProN","Noto Serif JP",serif;
   --gothic:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Hiragino Kaku Gothic ProN","Yu Gothic","Noto Sans JP",sans-serif;
 }
-/* A / WHITE。白地に青い回路の版 */
+/* A / WHITE。白い地の版（同じ地球を、白い紗の向こうに淡く） */
 html[data-theme="white"]{
   --ground:#ffffff;
   --uni-ink:#0f1722; --uni-dim:rgba(15,23,34,.62); --uni-hash:rgba(15,23,34,.42);
   --uni-rule:rgba(15,23,34,.2);
-  --pcb:url(img/pcb-white.jpg);
 }
 
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
@@ -43,8 +42,8 @@ a{color:inherit}
 
 /* ---------- 背景 ---------- */
 #bg{position:fixed;inset:0;z-index:0;background:var(--ground)}
-/* 左右に並ぶ二枚の回路：左が A / WHITE（ReMixIt!）、右が B / CHARCOAL（UniverseIt!）。
-   いま見ている方が画面にあり、もう一方は隣（画面の外）に控えている */
+/* 左右に並ぶ二枚の地：左が A / WHITE（ReMixIt!）、右が B / CHARCOAL（UniverseIt!）。
+   いま見ている方が画面にあり、もう一方は隣（画面の外）に控えている（class 名 pcb-* は回路だった頃の名。app.js が選ぶので変えない） */
 #bg .pcb,.uni-frame .fr{position:absolute;inset:0;background-position:center;background-size:cover;background-repeat:no-repeat}
 /* 画面いっぱいの絵を、いつも GPU に持たせない。iPhone（3 倍の解像度）では一枚で約 15MB になり、
    持ちすぎると iOS が層を捨て、UniverseIt! の地が黒く抜けていた。
@@ -53,12 +52,16 @@ a{color:inherit}
 html:not([data-theme="white"]) body:not(.swiping):not(.settling) :is(#bg .pcb-w,.uni-frame .fr-w),
 html[data-theme="white"] body:not(.swiping):not(.settling) :is(#bg .pcb-c,.uni-frame .fr-c){visibility:hidden}
 body.swiping :is(#bg .pcb,.uni-frame .fr),body.settling :is(#bg .pcb,.uni-frame .fr){will-change:transform}
-#bg .pcb-c,.uni-frame .fr-c{background-color:#061629;background-image:url(img/pcb-charcoal.jpg)}
-#bg .pcb-w,.uni-frame .fr-w{background-color:#fff;background-image:url(img/pcb-white.jpg);transform:translate3d(-100%,0,0)}
+/* 絵は地球（--earth）。紺の紗（B）／白い紗（A）を重ねた上に文字を置く。紗の濃さと絵の置き場所は末尾の「地球」の節。
+   絵の上に残る帯の地色は A も B も --earth-sky（写真の宇宙と同じ黒）。A の白い紗は絵の上端（--earth-y）までは上端の濃さのまま、
+   そこから下で紙色へ薄くなる。帯を白にしたり紗を上から薄め始めたりすると、同じ紗の下で帯と写真の宇宙の明るさが違い、絵の上端に線が出る */
+#bg .pcb-c,.uni-frame .fr-c{background-color:var(--earth-sky);background-image:linear-gradient(var(--earth-dark-top),var(--earth-dark-bottom)),var(--earth)}
+#bg .pcb-w,.uni-frame .fr-w{background-color:var(--earth-sky);background-image:linear-gradient(var(--earth-light-top),var(--earth-light-top) var(--earth-y),var(--earth-light-bottom)),var(--earth);transform:translate3d(-100%,0,0)}
 html[data-theme="white"] #bg .pcb-c,html[data-theme="white"] .uni-frame .fr-c{transform:translate3d(100%,0,0)}
 html[data-theme="white"] #bg .pcb-w,html[data-theme="white"] .uni-frame .fr-w{transform:none}
-.uni-frame .fr-c{background-image:linear-gradient(rgba(6,22,41,.14),rgba(6,22,41,.14)),url(img/pcb-charcoal.jpg)}
-.uni-frame .fr-w{background-image:linear-gradient(rgba(255,255,255,.14),rgba(255,255,255,.14)),url(img/pcb-white.jpg)}
+/* 見出しの下と下の帯の後ろの写しは、veil（14%）の分だけ同じに落とす。#bg と同じ絵・同じ位置でないと、流れる言葉の上下で地がずれて見える */
+.uni-frame .fr-c{background-image:linear-gradient(rgba(6,22,41,.14),rgba(6,22,41,.14)),linear-gradient(var(--earth-dark-top),var(--earth-dark-bottom)),var(--earth)}
+.uni-frame .fr-w{background-image:linear-gradient(rgba(255,255,255,.14),rgba(255,255,255,.14)),linear-gradient(var(--earth-light-top),var(--earth-light-top) var(--earth-y),var(--earth-light-bottom)),var(--earth)}
 #bg .veil{position:absolute;inset:0;background:var(--ground);opacity:0;transition:opacity .9s ease}
 body:not(.stage-intro) #bg .veil{opacity:.14}   /* 構成図の UniverseIt! は表紙とほぼ同じ明るさ。文字が読める分だけ落とす */
 
@@ -352,6 +355,20 @@ body.viewing.peek #bg{visibility:visible}
 .context-body ul,.context-body ol{margin:0 0 13px;padding-left:1.3em;font-size:13px;line-height:1.95}
 .context-body blockquote{margin:0 0 13px;padding-left:12px;border-left:2px solid var(--gold);color:#444}
 .back-state{margin:0 0 14px;padding:8px 10px;border:1px dashed var(--gold);border-radius:4px;color:var(--gold);font:12px/1.5 var(--gothic)}
+/* 札から本文へ誘う（開発会議 2026.10.23 §3.2）。札だけ見て終わる人が多いので、
+   読む時間はボタンの中に小さく（主役にしない）、↓ はゆっくり息をするように上下し、
+   ボタンの下の金の細い線（.story-cue）が本文の罫線を少し越えて、CONTEXT STORY へ流れる。
+   動きを減らす設定では線と ↓ は止まったまま（それでも形は崩れない）。見開き（1100px〜）では本文が横に見えているので出さない */
+.read small{margin-left:.6em;font:400 11px/1.4 var(--gothic);color:rgba(255,255,255,.6);letter-spacing:.02em}
+.read span{animation:readDown 2.4s ease-in-out infinite}
+@keyframes readDown{50%{transform:translateY(3px)}}
+.story-cue{display:block;position:relative;width:1px;height:30px;margin:14px auto -37px;overflow:hidden;background:var(--gold);opacity:.55}
+.story-cue::after{content:"";position:absolute;left:0;top:0;width:100%;height:12px;background:linear-gradient(transparent,#fff,transparent);opacity:0;
+  animation:cueFlow 2.4s ease-in-out infinite}
+@keyframes cueFlow{0%{transform:translateY(-12px);opacity:0}25%{opacity:1}100%{transform:translateY(30px);opacity:0}}
+@media (min-width:1100px){.story-cue{display:none}.read span{animation:none}}
+/* 下の *{animation:none} は ::after には効かないので、ここで別に止める */
+@media (prefers-reduced-motion:reduce){.story-cue::after{animation:none}}
 
 /* 読み終わり：型と四軸・出典・同じルーツ・広告・書き手 */
 .axes{margin-top:26px;padding-top:14px;border-top:1px solid var(--rule-p)}
@@ -815,3 +832,154 @@ body.on-list .view-in{background:#000;padding-bottom:0}
   .intro,.uni,.dock,.menu,#bg .veil,.wordmark{transition:none !important}
 }
 html[data-theme="white"] .tag,html[data-theme="white"] .uni-title{text-shadow:0 1px 10px rgba(255,255,255,.8)}
+
+/* ---------- 地色の釣り合い（開発会議 2026.10.23 §3.3） ----------
+   「背景画像の見える範囲を広げる」「黒背景が強すぎる部分を調整する」「ベージュを使った従来のデザインとの釣り合い」。
+   数字は下の :root の変数だけで調整できる（ほかの行を読まなくてよい）。
+   ・パソコン：絵の面を黒い板でなく、地球の上に掛けた薄い暗幕にする。紙の列の左右に見えている地球が、
+     二枚の絵の後ろにも続く（前田先生 2026.10.22 の「読んでいるあいだは地球、UniverseIt! は回路」はそのまま）
+   ・携帯・タブレット：絵の地は暗いままだが、真っ黒でなく回路の地（--ground）に寄せた濃い紺。紙との境は影で和らげる
+   ・表紙・UniverseIt!（回路・veil）には触れない。地球の回転は後回し（会議の決め） */
+:root{
+  --hero-pc-top:rgba(4,8,16,.72);        /* パソコン：絵の面に掛ける暗幕、上端の濃さ（1 で真っ黒・0 で地球そのまま） */
+  --hero-pc-bottom:rgba(4,8,16,.5);      /* 同、下端の濃さ */
+  --hero-pc-edge:rgba(247,244,237,.16);  /* 暗幕と紙の境に添える、紙色のうすい縁 */
+  --view-dim:rgba(4,8,16,.08);           /* パソコン・タブレット：紙の列のまわりの地球に掛ける暗さ（以前は .18） */
+  --rail-dim:72%;                        /* パソコン：右の路線図の板の濃さ（以前は 76%。64% まで薄めると、雲の明るい所で 11px の駅の説明が 3:1 を割る） */
+  --hero-m-top:#0b1324;                  /* 携帯・タブレット：絵の面の上端の色（紺に寄せた黒。以前は #080808） */
+  --hero-m-bottom:#060c17;               /* 同、下端の色 */
+  --hero-join:0 10px 18px -6px rgba(6,12,23,.45);   /* 絵の面から紙へ落ちる影（硬い境を和らげる） */
+}
+/* 携帯・タブレット：絵の面は紺寄りの暗い段階、下の紙に短い影 */
+@media (max-width:1099px){
+  .duo-hero{background:linear-gradient(var(--hero-m-top),var(--hero-m-bottom));box-shadow:var(--hero-join)}
+}
+/* タブレット・パソコン：地球の上に掛ける暗さを薄く（見える範囲を広げる） */
+@media (min-width:760px){
+  body.viewing .view{background:var(--view-dim)}
+}
+@media (min-width:1100px){
+  .route-mini{background:color-mix(in srgb,#04070d var(--rail-dim),transparent)}
+  /* 読んでいるページの紙を、文章の列（右）だけに。絵の列（左）は紙を外して、地球の上の暗幕にする。
+     写し（‹ › で抜ける .ghost・払って戻る .edge-shot・持ち上げた絵の後ろの .underlay）も本物と同じ作りにする：
+     写しだけ黒い板のままだと、‹ › を押すたび・端から払うたびに左の列が地球 → 黒 → 地球と瞬く。
+     :has を知らない古いブラウザでは、この中は丸ごと効かず、以前の黒い板のまま */
+  @supports selector(:has(> .cpage)){
+    :is(.view,.ghost,.underlay)>.view-in:has(>.cpage),:is(.view,.ghost,.underlay)>.view-in:has(>.wpage),
+    .underlay:has(>.view-in>.cpage),.underlay:has(>.view-in>.wpage){background:transparent}
+    /* 紙は右の列ぶんだけ（列の幅は .cpage の 1.15fr : 1fr と同じ割り。1px 引いて、境に地球の筋を出さない） */
+    :is(.view,.ghost,.underlay)>.view-in>:is(.cpage,.wpage){background:linear-gradient(to right,transparent calc(100% * 1.15 / 2.15 - 1px),var(--paper) 0)}
+    :is(.view,.ghost,.underlay)>.view-in>:is(.cpage,.wpage)>.duo-hero{
+      background:linear-gradient(var(--hero-pc-top),var(--hero-pc-bottom));box-shadow:inset -1px 0 0 var(--hero-pc-edge)}
+    /* ‹ › で薄れて抜ける写しは本物の上に重なる。暗幕まで重ねると一瞬濃くなるので、この写しの暗幕は無し（紙と絵の枠だけが抜ける）。
+       .edge-shot と .underlay は一枚のページとして見えるものなので、暗幕を持ったまま */
+    .ghost:not(.edge-shot)>.view-in>:is(.cpage,.wpage)>.duo-hero{background:transparent;box-shadow:none}
+  }
+}
+
+/* ---------- パソコンの下の帯：横の路線図を出さない（前田先生 2026.10.24） ----------
+   パソコン（1100px〜）では右に縦の路線図（.route-mini）がいつも出ていて、下の帯の横の路線図（.map）と同じものが
+   二つ並んでいた。先生は縦の方を残し、絵の下の横の方を外すことにした（開発会議 2026.10.23 §3.1「重複する導線の整理」）。
+   縦の路線図が無い画面（body.has-route でないとき）では、これまでどおり横の路線図が残る。携帯・タブレットは変えない */
+@media (min-width:1100px){
+  body.viewing.has-route .dock .map{display:none}
+  body.viewing.has-route:not(.on-list) .dock{grid-template-columns:minmax(0,1fr) 260px}
+  body.viewing.has-route .dock .next-peek{grid-column:1;justify-self:end;width:100%;max-width:360px}
+  body.viewing.has-route .dock .actions{grid-column:2}
+}
+
+/* ---------- パソコンの見開きの手直し（前田先生 2026.10.24・開発会議 2026.10.23 §3.1） ----------
+   横の路線図を外したあと、見開き（左の列｜絵｜紙｜右の縦の路線図）を読み直して、小さく確かなところだけを直す。
+   先生の決めたこと（右の縦の路線図・読んでいるあいだの地球・絵の列の暗幕・下の帯の二つだけ）はそのまま。
+   すべて 1100px〜 の中だけで、携帯・タブレット（〜1099px）には一行も効かない。
+   1. 1100〜1279px の帯：紙の列が携帯より狭く（文字の幅 185px・一行 12 字）、見出しの <br> が効かない。
+      紙の左右の余白を 48→34px に、札の見出しは 23〜28px のあいだで幅に合わせる（1280px〜はこれまでどおり）
+   2. 札の見出しの 12em の上限を外す：28px では 12 字ちょうどの行の末尾一字（「た。」）が落ちる。列の幅が上限になる
+   3. 小さな金の見出し（CONTEXT STORY・CURRENT STATION・この先のつながり・このつながり・COMMENTS）：
+      .context-body p / .content p（15px・14px）の指定に負けて本文と同じ大きさになっていたのを 11px に
+      （.meta の 10px に近く、机の距離で読める大きさ。作品ページの CURRENT STATION が二行に折れていた）
+   4. ‹ › を ↔ と同じ高さに：携帯の絵の面に合わせた +27px のぶん、パソコンでは 13px 下がっていた。(上 56 − 下 28) / 2 = 14px
+   5. ‹ › で薄れて抜ける写し（.ghost）に、携帯のロゴと二つ目の ‹ が一瞬出ていたのを出さない（.view の中だけ隠していた）
+   6. 次の予告（.next-peek）に触れた時の縁取りが、指定の強さの差で効いていなかった。予告と「つながりを辿る」は
+      同じ一つの動きなので、どちらに触れても両方が応える
+   7. ‹ ›・フォロー・‹（戻る）・編集者名：マウスを載せた時の応え（ほかの押せるものは応えるのに、これらだけ無かった）
+   8. 縦の路線図が無い読み物（About・検索など）の下の帯：横の路線図が空のときも、予告と「つながりを辿る」を
+      路線のページと同じ二列に（三列のままだと予告が 290px に縮んで題が切れ、二つの位置がページごとに変わる）
+   9. 右の路線図の小さな字（順番・別の路線へ・区間の説明）：雲の明るい所で 2〜2.8:1 だった灰を 3.6:1 以上に。金はそのまま */
+@media (min-width:1100px){
+  /* 2 */
+  .context-lead h2{max-width:none}
+  /* 3 */
+  .content .meta,.wpage .content .meta,.context-body .meta{font-size:11px;line-height:1.5}
+  /* 4 */
+  .cpage>.duo-hero .ctx-nav,.wpage>.duo-hero .ctx-nav{top:calc(50% + 14px)}
+  /* 5 */
+  .ghost .c-logo,.underlay .c-logo{display:none}
+  .ghost>.view-in>:is(.cpage,.wpage)>.back-close{visibility:hidden}
+  /* 8（:has を知らない古いブラウザでは、これまでどおり三列のまま） */
+  body.viewing:not(.on-list) .dock:has(>.map:empty){grid-template-columns:minmax(0,1fr) 260px}
+  body.viewing .dock:has(>.map:empty) .next-peek{grid-column:1;justify-self:end;width:100%;max-width:360px}
+  body.viewing .dock:has(>.map:empty) .actions{grid-column:2}
+  /* 9 */
+  .rm-seg span{color:#b5afa4}
+  .rm-count,.rm-count small,.rm-break span{color:#a39d92}
+}
+/* 1 */
+@media (min-width:1100px) and (max-width:1279px){
+  .cpage>.context-lead,.cpage>.context-body,.wpage>.content{padding-left:34px;padding-right:34px}
+  .context-lead h2{font-size:clamp(23px,2.1vw,28px)}
+}
+@media (min-width:1100px) and (hover:hover) and (pointer:fine){
+  /* 6 */
+  body.viewing .next-peek:not([hidden]):hover{border-color:var(--navy)}
+  .next-peek:not([hidden]):hover ~ .actions .act.uni-btn{filter:brightness(1.18)}
+  .dock:has(.act.uni-btn:hover) .next-peek:not([hidden]){border-color:var(--navy)}
+  /* 7 */
+  .ctx-nav:hover{background:rgba(0,0,0,.82);box-shadow:0 0 0 1px rgba(255,255,255,.4)}
+  .follow:not(.on):hover{background:rgba(0,0,0,.06)}
+  .follow.on:hover{background:#333}
+  .back-close:hover{background:rgba(0,0,0,.6)}
+  .text-page .back-close:hover{background:rgba(0,0,0,.14)}
+  .list-page .back-close:hover{background:#ffffff33}
+  .ed-link:hover b{text-decoration:underline;text-underline-offset:3px}
+}
+
+/* ---------- 表紙・UniverseIt!・ReMixIt! の地を、回路から地球へ（CTO 2026.10.24・開発会議 2026.10.23 §3.3） ----------
+   先生の構成図の回路（pcb-charcoal.jpg／pcb-white.jpg）を外し、読んでいるあいだのパソコンの地（前田先生 2026.10.22）と
+   同じ地球 bg-earth.jpg を、表紙・UniverseIt!・ReMixIt! にも使う。サイト全体が「紺の地に地球、紙に明朝」の一つの調子になり、
+   会議の「地球が回転し、その周囲に言葉が浮かぶ」（§3.3）の、まず「地球のまわりに言葉が浮かぶ」の方を形にする。
+   新しい絵は足していない（回転は後回し。会議の決め：見た目の仕上げで 11 月のベータを遅らせない）。
+
+   置き方：写真の上端は宇宙の黒、地球の縁（limb）は上から約 11%。これを画面の上から --earth-y ぶん下げて置き、
+   上に宇宙の黒（--earth-sky。写真の上端と同じ色）を残す。表紙では BEAUTIFUL ◉ CONTEXT が地平の上に浮かび、
+   UniverseIt! では見出しが宇宙に、言葉が地球の上を流れる。紗（勾配）は絵とは別に、要素いっぱいに敷く。
+   帯も写真の上端も同じ紗の下にあるので、絵の上端に継ぎ目は出ない（差 1/255 以内。測って確かめる）。
+   ・縦長（携帯・タブレット縦）：絵の高さを画面（--sh = screen.height。表紙のロゴと同じ寸。ホーム画面の起動画面と
+     同じ一コマになる）に合わせ、--earth-drop ぶん下げる。横は中央で切る。パソコンの縦長の窓（画面より低い）で
+     地球が下にはみ出さないよう、下げ幅は窓の高さの 60% まで
+   ・横長（パソコン・iPhone の横向き）：絵の幅を画面に合わせ（高さは余って下が切れる）、窓の高さ（100vh）の
+     --earth-drop-wide ぶん下げる。--sh は使わない：--sh は画面（モニタ）の高さで、最大化していない窓や大きなモニタ、
+     横向きの iPhone（screen.height は縦のまま）では窓よりずっと大きく、地球が窓の外に出てしまう
+   紗：B（紺）は上 --earth-dark-top から下 --earth-dark-bottom へ濃くなる。雲の明るい所でも白い Lato（21〜30px・影つき）が読める濃さ。
+       A（白）は同じ地球を白い紗の向こうに淡く。言葉は濃い字（--uni-ink）のまま読める。
+   起動画面 img/launch/*.png は、この表紙の最初の一コマを端末ごとの大きさで描いたもの（絵を変えたら描き直す）。
+   数字はここの :root だけで調整できる */
+:root{
+  --earth-sky:#040509;                    /* 絵の上に残る宇宙の帯。写真の上端の色そのもの（上端の行の平均 (4,5,9)。同じ紗の下で写真の宇宙とつながり、継ぎ目が出ない） */
+  --earth-drop:.45;                       /* 縦長：絵の上端を画面の高さの何割ぶん下げるか（地平はその約 11% 下） */
+  --earth-drop-wide:.42;                  /* 横長：同じ（窓の高さに対して） */
+  --earth-x:50%;                          /* 横の切り方（50% で大西洋〜ヨーロッパが中央） */
+  --earth-size:auto var(--sh,100vh);      /* 縦長：絵の高さを画面に */
+  --earth-y:min(calc(var(--sh,100vh) * var(--earth-drop)),60vh);
+  --earth-dark-top:rgba(6,22,41,.46);     /* B：紗の上端の濃さ（地平の光る縁。上は宇宙の黒なので、濃くしても表紙は暗くならない） */
+  --earth-dark-bottom:rgba(6,22,41,.7);   /* B：紗の下端の濃さ（雲のいちばん明るい所でも、白い字と 5:1 以上） */
+  --earth-light-top:rgba(255,255,255,.97);   /* A：白い紗の、上端から絵の上端（--earth-y）までの濃さ（宇宙の黒が、紙より白い地 #f8f8f8 になる） */
+  --earth-light-bottom:rgba(247,244,237,.78);/* A：白い紗の下端（紙の色。地球が淡く透ける） */
+}
+@media (min-aspect-ratio:1/1){
+  :root{--earth-size:100% auto;--earth-y:calc(100vh * var(--earth-drop-wide))}
+}
+/* 層ごとに大きさと置き場所を書く（#bg は 紗・絵 の二層、.uni-frame は veil 分・紗・絵 の三層）。
+   一つだけ書くと全部の層に効き、紗まで絵と同じ大きさ・同じ所に置かれて、絵の上の帯が素の地色のまま残り、絵の上端に横一本の線が出る */
+#bg .pcb{background-size:auto,var(--earth-size);background-position:0 0,var(--earth-x) var(--earth-y)}
+.uni-frame .fr{background-size:auto,auto,var(--earth-size);background-position:0 0,0 0,var(--earth-x) var(--earth-y)}

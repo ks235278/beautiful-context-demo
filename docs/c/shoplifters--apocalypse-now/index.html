@@ -21,7 +21,7 @@ try { if (sessionStorage.getItem('bc-resume')) document.documentElement.classLis
 <meta property="og:title" content="是枝裕和『万引き家族』 ＋ コッポラ『地獄の黙示録』｜Beautiful Context">
 <meta property="og:description" content="ジャングルの奥の戦争と、東京の片隅の家族。 是枝裕和『万引き家族』 と コッポラ『地獄の黙示録』。ハブはカンヌ国際映画祭の最高賞。まったく違う二本が、同じ賞でつながる。コッポラの『地獄の黙示録』は1979年のパルム・ドールを受けた（『ブリキの太鼓』と同時受賞）。巨額の予算と長い撮影の末に完成した、…">
 <meta property="og:image" content="https://beautifulcontext.com/img/works/shoplifters.jpg">
-<!-- ホーム画面から開くとき、読み込みのあいだに出る起動画面。表紙の最初の一コマ（回路とロゴ）と同じ絵
+<!-- ホーム画面から開くとき、読み込みのあいだに出る起動画面。表紙の最初の一コマ（地球とロゴ）と同じ絵
      （端末ごとの大きさ。iOS は PNG を求める） -->
 <link rel="apple-touch-startup-image" media="(device-width: 440px) and (device-height: 956px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="img/launch/440x956@3.png">
 <link rel="apple-touch-startup-image" media="(device-width: 402px) and (device-height: 874px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="img/launch/402x874@3.png">
@@ -34,11 +34,11 @@ try { if (sessionStorage.getItem('bc-resume')) document.documentElement.classLis
 <link rel="apple-touch-startup-image" media="(device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="img/launch/414x896@3.png">
 <link rel="apple-touch-startup-image" media="(device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" href="img/launch/414x896@2.png">
 <link rel="apple-touch-startup-image" media="(device-width: 375px) and (device-height: 667px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" href="img/launch/375x667@2.png">
-<!-- 表紙に最初から出すもの（回路とロゴ）は先に読む。描くときに待たせない -->
-<link rel="preload" as="image" href="img/pcb-charcoal.jpg">
+<!-- 表紙に最初から出すもの（地球とロゴ）は先に読む。描くときに待たせない -->
+<link rel="preload" as="image" href="img/bg-earth.jpg">
 <link rel="preload" as="image" href="img/logo-layer-mark.png">
 <link rel="preload" as="image" href="img/logo-layer-words.png">
-<link rel="manifest" href="manifest.webmanifest?v=132">
+<link rel="manifest" href="manifest.webmanifest?v=133">
 <link rel="apple-touch-icon" href="icon-180.png">
 <!-- タブと検索結果に出る小さな印。アプリの印（ホーム画面のアイコン）と同じ形 -->
 <link rel="icon" href="favicon.ico" sizes="16x16 32x32 48x48">
@@ -76,9 +76,9 @@ if (location.hostname === 'beautifulcontext.com'){
   document.head.appendChild(ga);
 }
 </script>
-<script src="js/theme.js?v=132"></script>
-<link rel="stylesheet" href="app.css?v=132">
-<link rel="stylesheet" href="fade.css?v=132">
+<script src="js/theme.js?v=133"></script>
+<link rel="stylesheet" href="app.css?v=133">
+<link rel="stylesheet" href="fade.css?v=133">
 </head>
 <body class="stage-uni viewing route" data-route="#/c/shoplifters--apocalypse-now">
 
@@ -168,10 +168,11 @@ if (location.hostname === 'beautifulcontext.com'){
           <div class="ed-row">
       <a class="ed-link" href="e/desk/"><span class="ava" aria-hidden="true">部</span><span><b>BC 編集部</b><small>EDITORIAL DESK</small></span></a>
       <button type="button" class="follow" data-follow="desk" aria-pressed="false">フォロー</button></div>
-          <p class="route-label">CONTEXT　［パルム・ドールの系譜］　約30秒</p>
+          <p class="route-label">CONTEXT　［パルム・ドールの系譜］</p>
           <h2>ジャングルの奥の戦争と、<br>東京の片隅の家族。</h2>
           <div class="pair"><span>『地獄の黙示録』（1979）</span><span>カンヌ国際映画祭パルム・ドール</span><span>『万引き家族』（2018）</span></div>
-          <button type="button" class="read" data-read="">このつながりを読む　約30秒 <span aria-hidden="true">↓</span></button>
+          <button type="button" class="read" data-read="">このつながりを読む<small>約30秒</small><span aria-hidden="true">↓</span></button>
+          <i class="story-cue" aria-hidden="true"></i>
         </section>
         <article class="context-body" id="story">
           <p class="meta">CONTEXT STORY</p>
@@ -360,11 +361,11 @@ if (location.hostname === 'beautifulcontext.com'){
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 <script type="application/ld+json" id="ld">{"@context":"https://schema.org","@type":"Article","headline":"ジャングルの奥の戦争と、東京の片隅の家族。","alternativeHeadline":"パルム・ドールの系譜","about":[{"@type":"Movie","name":"万引き家族","description":"万引きで暮らしを補う一家と、彼らに拾われた少女を描いた映画。2018年のカンヌ国際映画祭でパルム・ドールを受けた。","creator":{"@type":"Person","name":"是枝裕和監督"}},{"@type":"Movie","name":"地獄の黙示録","description":"ベトナム戦争のさなか、軍を離れて奥地に王国を築いたカーツ大佐の暗殺を命じられた大尉の旅。1979年のカンヌ国際映画祭でパルム・ドールを受けた。","creator":{"@type":"Person","name":"フランシス・フォード・コッポラ監督"}}],"author":{"@type":"Person","name":"生成AI（初稿）"},"datePublished":"2026-09-15T06:00:00.000Z","dateModified":"2026-09-15T06:00:00.000Z","inLanguage":"ja","articleBody":"ハブはカンヌ国際映画祭の最高賞。まったく違う二本が、同じ賞でつながる。コッポラの『地獄の黙示録』は1979年のパルム・ドールを受けた（『ブリキの太鼓』と同時受賞）。巨額の予算と長い撮影の末に完成した、戦争の狂気をめぐる大作である。39年後の2018年、同じ賞を受けたのは、東京の古い家で肩を寄せ合う家族を描いた『万引き家族』だった。国家の戦争と、社会の片隅の暮らし。規模も手法も正反対の二本が同じ賞に選ばれたことは、映画祭が「人間とは何か」を問う作品を選び続けてきたことを物語っている。","url":"https://beautifulcontext.com/c/shoplifters--apocalypse-now/","image":"https://beautifulcontext.com/img/works/shoplifters.jpg"}</script>
 
-<script src="js/seed.js?v=132"></script>
-<script src="js/store.js?v=132"></script>
-<script src="js/social.js?v=132"></script>
-<script src="js/render.js?v=132"></script>
-<script src="js/transition.js?v=132"></script>
-<script src="js/app.js?v=132"></script>
+<script src="js/seed.js?v=133"></script>
+<script src="js/store.js?v=133"></script>
+<script src="js/social.js?v=133"></script>
+<script src="js/render.js?v=133"></script>
+<script src="js/transition.js?v=133"></script>
+<script src="js/app.js?v=133"></script>
 </body>
 </html>
