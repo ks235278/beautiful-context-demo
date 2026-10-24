@@ -905,7 +905,8 @@
     const i = view.classList.contains('on') && here && here.entry && !here.list ? posOf(here.entry.id) : -1;
     body.classList.toggle('has-route', i >= 0);
     if (i < 0){ box.innerHTML = ''; return; }
-    const cur = 2 * i + (here.step === 1 ? 0 : 1);
+    /* 駅の印は、その駅（区間の出口）に居るときだけ。もう一方の絵（入口の駅）を開いているときは、区間のほうを示す */
+    const cur = 2 * i + (here.step !== 1 && (here.step === 2 ? 'b' : 'a') === T[i].exit ? 1 : 0);
     const from = Math.max(0, cur - 2), to = Math.min(2 * T.length - 1, cur + 3);
     let li = '';
     for (let k = from; k <= to; k++){
@@ -1318,7 +1319,8 @@
   document.addEventListener('keydown', ev => {
     const tgt = ev.target;
     if (ev.key === 'Escape' && document.querySelector('.sheet')){ closeSheet(); return; }
-    if (ev.key === 'Escape' && !menu.hidden){ openMenu(false); return; }
+    /* パソコン（1100px〜）ではメニューはいつも出ている列（hidden でない）ので、重ねて開いている（.open）ときだけ閉じる。そうでないと Esc が戻るに届かない */
+    if (ev.key === 'Escape' && !menu.hidden && menu.classList.contains('open')){ openMenu(false); return; }
     if (ev.key === 'Escape' && sel && !view.classList.contains('on')){ select(null); return; }
     if (!view.classList.contains('on') || (tgt && tgt.closest && tgt.closest('input,textarea'))) return;
     if (ev.key === 'Escape'){ ev.preventDefault(); closeView(); }

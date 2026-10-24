@@ -884,3 +884,59 @@ html[data-theme="white"] .tag,html[data-theme="white"] .uni-title{text-shadow:0 
   body.viewing.has-route .dock .next-peek{grid-column:1;justify-self:end;width:100%;max-width:360px}
   body.viewing.has-route .dock .actions{grid-column:2}
 }
+
+/* ---------- パソコンの見開きの手直し（前田先生 2026.10.24・開発会議 2026.10.23 §3.1） ----------
+   横の路線図を外したあと、見開き（左の列｜絵｜紙｜右の縦の路線図）を読み直して、小さく確かなところだけを直す。
+   先生の決めたこと（右の縦の路線図・読んでいるあいだの地球・絵の列の暗幕・下の帯の二つだけ）はそのまま。
+   すべて 1100px〜 の中だけで、携帯・タブレット（〜1099px）には一行も効かない。
+   1. 1100〜1279px の帯：紙の列が携帯より狭く（文字の幅 185px・一行 12 字）、見出しの <br> が効かない。
+      紙の左右の余白を 48→34px に、札の見出しは 23〜28px のあいだで幅に合わせる（1280px〜はこれまでどおり）
+   2. 札の見出しの 12em の上限を外す：28px では 12 字ちょうどの行の末尾一字（「た。」）が落ちる。列の幅が上限になる
+   3. 小さな金の見出し（CONTEXT STORY・CURRENT STATION・この先のつながり・このつながり・COMMENTS）：
+      .context-body p / .content p（15px・14px）の指定に負けて本文と同じ大きさになっていたのを 11px に
+      （.meta の 10px に近く、机の距離で読める大きさ。作品ページの CURRENT STATION が二行に折れていた）
+   4. ‹ › を ↔ と同じ高さに：携帯の絵の面に合わせた +27px のぶん、パソコンでは 13px 下がっていた。(上 56 − 下 28) / 2 = 14px
+   5. ‹ › で薄れて抜ける写し（.ghost）に、携帯のロゴと二つ目の ‹ が一瞬出ていたのを出さない（.view の中だけ隠していた）
+   6. 次の予告（.next-peek）に触れた時の縁取りが、指定の強さの差で効いていなかった。予告と「つながりを辿る」は
+      同じ一つの動きなので、どちらに触れても両方が応える
+   7. ‹ ›・フォロー・‹（戻る）・編集者名：マウスを載せた時の応え（ほかの押せるものは応えるのに、これらだけ無かった）
+   8. 縦の路線図が無い読み物（About・検索など）の下の帯：横の路線図が空のときも、予告と「つながりを辿る」を
+      路線のページと同じ二列に（三列のままだと予告が 290px に縮んで題が切れ、二つの位置がページごとに変わる）
+   9. 右の路線図の小さな字（順番・別の路線へ・区間の説明）：雲の明るい所で 2〜2.8:1 だった灰を 3.6:1 以上に。金はそのまま */
+@media (min-width:1100px){
+  /* 2 */
+  .context-lead h2{max-width:none}
+  /* 3 */
+  .content .meta,.wpage .content .meta,.context-body .meta{font-size:11px;line-height:1.5}
+  /* 4 */
+  .cpage>.duo-hero .ctx-nav,.wpage>.duo-hero .ctx-nav{top:calc(50% + 14px)}
+  /* 5 */
+  .ghost .c-logo,.underlay .c-logo{display:none}
+  .ghost>.view-in>:is(.cpage,.wpage)>.back-close{visibility:hidden}
+  /* 8（:has を知らない古いブラウザでは、これまでどおり三列のまま） */
+  body.viewing:not(.on-list) .dock:has(>.map:empty){grid-template-columns:minmax(0,1fr) 260px}
+  body.viewing .dock:has(>.map:empty) .next-peek{grid-column:1;justify-self:end;width:100%;max-width:360px}
+  body.viewing .dock:has(>.map:empty) .actions{grid-column:2}
+  /* 9 */
+  .rm-seg span{color:#b5afa4}
+  .rm-count,.rm-count small,.rm-break span{color:#a39d92}
+}
+/* 1 */
+@media (min-width:1100px) and (max-width:1279px){
+  .cpage>.context-lead,.cpage>.context-body,.wpage>.content{padding-left:34px;padding-right:34px}
+  .context-lead h2{font-size:clamp(23px,2.1vw,28px)}
+}
+@media (min-width:1100px) and (hover:hover) and (pointer:fine){
+  /* 6 */
+  body.viewing .next-peek:not([hidden]):hover{border-color:var(--navy)}
+  .next-peek:not([hidden]):hover ~ .actions .act.uni-btn{filter:brightness(1.18)}
+  .dock:has(.act.uni-btn:hover) .next-peek:not([hidden]){border-color:var(--navy)}
+  /* 7 */
+  .ctx-nav:hover{background:rgba(0,0,0,.82);box-shadow:0 0 0 1px rgba(255,255,255,.4)}
+  .follow:not(.on):hover{background:rgba(0,0,0,.06)}
+  .follow.on:hover{background:#333}
+  .back-close:hover{background:rgba(0,0,0,.6)}
+  .text-page .back-close:hover{background:rgba(0,0,0,.14)}
+  .list-page .back-close:hover{background:#ffffff33}
+  .ed-link:hover b{text-decoration:underline;text-underline-offset:3px}
+}
