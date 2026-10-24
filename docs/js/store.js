@@ -11,10 +11,17 @@
    ほかに、広告枠（ads）、書き手ごとの表示状態（authors）、サービスの
    見た目の設定（settings）を持つ。
 
-   サーバーは無い。すべてこの端末の localStorage に入る。端末をまたいで
-   持ち運ぶには、管理画面の書き出し／読み込みを使う。 */
+   コンテクスト・作品・編集者・広告枠・設定は、この端末の localStorage に入る（見本は seed.js）。
+   端末をまたいで持ち運ぶには、管理画面の書き出し／読み込みを使う。
+
+   config.js の backend が 'supabase' のときは、人ごとのものだけを Supabase に送る（js/backend.js 経由）：
+     共感 …… ログインしていれば reactions に。数は context_stats（サーバーの数に、まだ数に入っていない自分の分を足し引き）
+     コメント …… ログインしていれば comments に（確認待ちで入る）。読めるのは公開されたものと、自分の確認待ち
+   ログインしていない・Supabase が止まっているときは、いままでどおりこの端末の中だけで動く（読むことはすべてできる）。 */
 (() => {
   const KEY = 'beautiful-context-store-v2';
+  /* Supabase の窓口（無い・'local' のときは null。いままでどおりの動き） */
+  const B = window.BCBackend && window.BCBackend.enabled() ? window.BCBackend : null;
   const OLD_KEY = 'beautiful-context-store-v1';
   /* 見本を足したら上げる。端末に残っているデータへ、新しい見本だけを足し込む */
   const SEED_VERSION = 8;
@@ -404,8 +411,12 @@
       return !!ensure().liked[id];
     },
 
+    /* サーバーの数（context_stats）があれば、そこに入っていない自分の分だけを足し引きする（二重に足さない） */
     reactionCount(e) {
-      return (e ? e.reactions : 0) + (e && ensure().liked[e.id] ? 1 : 0);
+      const mine = !!(e && ensure().liked[e.id]);
+      const srv = B && e ? B.reactions(e) : null;
+      if (srv == null) return (e ? e.reactions : 0) + (mine ? 1 : 0);
+      return Math.max(0, srv + (mine ? 1 : 0) - (B.likedOnServer(e) ? 1 : 0));
     },
 
     react(id) {
@@ -413,17 +424,26 @@
       if (data.liked[id]) delete data.liked[id];
       else data.liked[id] = true;
       commit();
-      return { liked: !!data.liked[id], count: this.reactionCount(this.byId(id)) };
+      const e = this.byId(id);
+      /* ログインしていれば裏で送る（送れなければ outbox に残る）。していなければ、ログインしたときに送る */
+      if (B && B.me() && e) B.react(e, !!data.liked[id]);
+      return { liked: !!data.liked[id], count: this.reactionCount(e) };
     },
 
-    /* 読者に見えるコメント：確認を通ったもの（pending でない）で、隠されていないもの */
+    /* 読者に見えるコメント：確認を通ったもの（pending でない）で、隠されていないもの。
+       Supabase では、サーバーの公開中のコメントを足す（控えを同期で返し、古ければ裏で読み直す） */
     visibleComments(e) {
-      return (e && e.comments ? e.comments : []).filter((c) => !c.hidden && !c.pending);
+      const here = (e && e.comments ? e.comments : []).filter((c) => !c.hidden && !c.pending);
+      const srv = B && e ? B.comments(e) : null;
+      return srv ? here.concat(srv.filter((c) => !c.hidden && !c.pending)) : here;
     },
 
-    /* 書いた本人にだけ見せる、確認待ちのコメント */
+    /* 書いた本人にだけ見せる、確認待ちのコメント（まだ送れていないものも、同じ「確認中」で見せる） */
     myPendingComments(e, uid) {
-      return uid ? (e && e.comments ? e.comments : []).filter((c) => c.pending && !c.hidden && c.uid === uid) : [];
+      const here = uid ? (e && e.comments ? e.comments : []).filter((c) => c.pending && !c.hidden && c.uid === uid) : [];
+      if (!B || !uid || !e) return here;
+      const srv = (B.comments(e) || []).filter((c) => c.pending && !c.hidden && c.uid === uid);
+      return here.concat(srv, B.outComments(e));
     },
 
     /* 確認待ちのコメント（運営者メニュー） */
@@ -438,6 +458,8 @@
       const e = this.byId(id);
       const text = (c.text || '').trim();
       if (!e || !text) return null;
+      /* Supabase にログインしていれば、サーバーへ（表示名と書いた人はサーバーが入れる）。この端末の entries には書かない */
+      if (B && B.me()) return B.addComment(e, text);
       const item = {
         id: uid('m'),
         uid: c.uid || '',
@@ -612,4 +634,21 @@
   };
 
   window.BCStore = Store;
+
+  if (B) {
+    /* ログインの前にこの端末で押した共感（ログインしたときにサーバーへ送る） */
+    B.provide('liked', () => Object.keys(ensure().liked).map((id) => Store.byId(id)).filter(Boolean));
+    /* ログイン：サーバーにある自分の共感に揃える。ログアウト：共用の端末に残さない */
+    B.on('auth', (ev) => {
+      const data = ensure();
+      if (ev.event === 'out') data.liked = {};
+      else {
+        const l = B.myLiked();
+        if (!l) return;
+        data.liked = {};
+        l.forEach((id) => { data.liked[id] = true; });
+      }
+      commit();
+    });
+  }
 })();
