@@ -222,9 +222,9 @@
   const navArrows = () =>
     `<button type="button" class="ctx-nav prev" data-ctx-go="-1" aria-label="一つ前のつながりへ">‹</button>` +
     `<button type="button" class="ctx-nav next" data-ctx-go="1" aria-label="次のつながりへ">›</button>`;
-  /* フォローしている人の数。いまは見本（この端末のフォローだけを数える）。本番はサーバーの数 */
+  /* フォローしている人の数。Supabase の数（editor_stats）があればそれ（BCSocial.followerCount）。無ければ見本の数 ＋ この端末のフォロー */
   const followers = (ed, on) =>
-    `<span class="ed-followers" data-follow-count="${attr(ed.id)}"><b>${(+ed.followers || 0) + (on ? 1 : 0)}</b> フォロワー</span>`;
+    `<span class="ed-followers" data-follow-count="${attr(ed.id)}"><b>${window.BCSocial && BCSocial.followerCount ? BCSocial.followerCount(ed.id, ed.followers) : (+ed.followers || 0) + (on ? 1 : 0)}</b> フォロワー</span>`;
   function editorRow(ed, on){
     if (!ed) return '';
     return `<div class="ed-row">

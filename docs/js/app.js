@@ -1197,6 +1197,8 @@
     return el;
   }
   function openLogin(title, then){
+    /* Supabase につながる版は、メールのコードでログインする（js/login.js） */
+    if (Social.remote() && window.BCLogin){ BCLogin.open({ sheet, closeSheet, toast }, title, then); return; }
     const el = sheet(`
       <p class="meta">BEAUTIFUL CONTEXT</p>
       <h2>${R.esc(title || 'ログイン')}</h2>
@@ -1220,7 +1222,7 @@
   }
   function openAccount(){
     const me = Social.me();
-    if (!me){ openLogin(); return; }
+    if (!me || me.named === false){ openLogin(); return; }
     const n = Social.following().length;
     const el = sheet(`
       <p class="meta">ACCOUNT</p>
@@ -1260,7 +1262,11 @@
     const sec = viewIn.querySelector('#comments');
     if (!sec || !here || !here.entry) return;
     const me = Social.me(), e = S.byId(here.entry.id) || here.entry;
+    /* 裏で読み直したコメントで描き直しても、書きかけの文と入力の位置は消さない */
+    const ta = sec.querySelector('textarea'), text = ta ? ta.value : '', at = ta && document.activeElement === ta ? [ta.selectionStart, ta.selectionEnd] : null;
     sec.outerHTML = R.comments(e, S.visibleComments(e), me ? S.myPendingComments(e, me.uid) : [], me);
+    const nt = (text || at) && viewIn.querySelector('#comments textarea');
+    if (nt){ nt.value = text; if (at){ nt.focus({ preventScroll: true }); nt.setSelectionRange(at[0], at[1]); } }
   }
   /* ログイン・フォローが変わったら、見えている印を合わせる */
   function paintSocial(){
@@ -1274,7 +1280,7 @@
     document.querySelectorAll('[data-follow-count]').forEach(n => {
       const ed = S.editorById(n.dataset.followCount);
       const b = n.querySelector('b');
-      if (b) b.textContent = String((+(ed && ed.followers) || 0) + (Social.isFollowing(n.dataset.followCount) ? 1 : 0));
+      if (b) b.textContent = String(Social.followerCount(n.dataset.followCount, ed && ed.followers));
     });
     viewIn.querySelectorAll('.login-chip').forEach(c => { c.outerHTML = R.loginChip(me); });
     const acc = $('menuAccount');
@@ -1285,6 +1291,11 @@
   }
   Social.onChange(paintSocial);
   paintSocial();
+  /* ログインの数え方（GA）：はじめてなら sign_up、二度目からは login。送れなかった書き込みは一言で知らせる */
+  if (window.BCBackend){
+    BCBackend.on('auth', ev => { if (ev.event === 'login') track(ev.isNew ? 'sign_up' : 'login', { method: ev.method }); });
+    BCBackend.on('notice', toast);
+  }
 
   document.addEventListener('submit', ev => {
     const f = ev.target;
@@ -1302,7 +1313,7 @@
         toast('送りました。編集者が確かめてから表示されます');
       };
       const me = Social.me();
-      if (me) post(me); else openLogin('コメントに出す名前を作りましょう', post);
+      if (me && me.named !== false) post(me); else openLogin('コメントに出す名前を作りましょう', post);
       return;
     }
     /* 一覧の中で探す欄は、打つそばから絞っている。送ったら鍵盤を閉じるだけ */
