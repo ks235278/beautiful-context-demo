@@ -454,12 +454,39 @@
   }
 
   /* ---------- 読み物のページ ---------- */
+  /* 「Beautiful Context とは」の説明文（検索結果の説明と、構造化データで同じものを使う） */
+  const ABOUT_DESC = 'Beautiful Context（ビューティフル・コンテクスト）は、映画・本・音楽・人物・場所など、二つの作品のあいだにある意外なつながりを、編集者が一本の「コンテクスト」として届けるメディアです。読み方、編集の方針、運営について。';
   function page(name){
     const shell = (title, body) => `
       <article class="page text-page">
         ${backTop()}${topLogo('on-paper')}
         <div class="content"><h2>${title}</h2>${body}</div>
       </article>`;
+    /* About（開発会議 2026.10.23：検索エンジンが BC を「カードのデータベース」としか読めていないため、最優先で用意） */
+    if (name === 'about') return shell('Beautiful Context とは', `
+      <p class="lead">Beautiful Context（ビューティフル・コンテクスト）は、映画・本・音楽・人物・場所など、二つの作品のあいだにある意外なつながりを、編集者が一本の「コンテクスト」として書き、届けるメディアです。</p>
+      <p>たとえば、ピアニストのグレン・グールドが生涯の愛読書にしていたのが、夏目漱石の『草枕』だったこと。二つの作品のどちらにも属さないその関係を、独立した一本の読み物として読めるようにしています。</p>
+      <p>私たちは、作品を「駅」、二つの作品のあいだにある関係を「区間」と呼んでいます。駅にあたる作品は、それぞれの作者や権利者のものです。Beautiful Context がつくるのは、駅と駅のあいだの区間のほうです。区間を一本読み終えると次の駅に着き、そこからまた別の区間へ。作品から作品へ、つながりを辿っていけます。</p>
+      <h3>読み方</h3>
+      <ul>
+        <li>開くと、まず「Today's Editor's Choice」が表示されます。編集者がその日に選んだコンテクストです。</li>
+        <li>読み終わりの「つながりを辿る」を押すと、いま読んだ区間の先にある駅（作品）へ進み、そこから次のコンテクストへ続きます。</li>
+        <li>左上のロゴを押すと「つながりの一覧」が開きます。すべてのコンテクストが、辿る順に並んでいます。</li>
+        <li>メニューの「つながりを流れで観る」では、一枚ずつ上へ払いながら辿れます（試作）。</li>
+        <li>「UniverseIt!」では、すべての作品の言葉から辿り始められます。「言葉で辿る」で検索もできます。</li>
+      </ul>
+      <h3>編集者について</h3>
+      <p>コンテクストを選び、書くのは、編集の経験をもつ編集者です。真・善・美──確かめられる事実に立ち、作品への敬意を保ち、読んで美しいと感じられる一本だけを公開します。</p>
+      <p>下書きに生成AIを使うことがあります。生成AIの初稿は、編集者が事実と出典を確かめてから公開します。公開されたコンテクストには、選んだ編集者の名前を記しています。</p>
+      <h3>つくる人へ</h3>
+      <p>「ReMixIt!」では、どなたでも二つの作品のあいだにあるつながりを提案できます。長い解説は要りません。大切なのは文章の量ではなく、つながりを見つける感覚です。二つを結びつけ、その関係の面白さが短く伝われば、それで一本になります。</p>
+      <p>編集者のアカウントは、いまのところ招待制です。</p>
+      <h3>運営</h3>
+      <!-- ★ 先生が埋める欄：会社名・連絡先（決まり次第、ここを書き換える） -->
+      <p class="org">運営：（会社名）<br>代表：前田邦宏<br>連絡先：info@beautifulcontext.com（準備中）</p>
+      ${tease('#/terms', '利用規約・プライバシー')}
+      ${tease('#/credits', '画像の出典')}
+      ${tease('#/ad', '広告枠のご案内')}`);
     if (name === 'mission') return shell('Our Mission', `
       <p class="lead">意外な関係を持つ二つの情報を、つなぎ、読める場所をつくる。</p>
       <p>たとえば、自分が見た海外の映画に原作があり、それが日本の著名な映画監督によってすでに撮られていたと気づいたとき。その発見は、二つの作品のどちらにも属さない、独立した一つの読み物になる。</p>
@@ -479,7 +506,8 @@
       <p>サイトの改善と利用状況の把握のため、Google LLC の「Google アナリティクス」を使っています。ページを開くと、閲覧したページのアドレス、参照元、おおよその地域、端末やブラウザの種類などの情報が、Cookie などを通じて Google に送信されます。氏名やメールアドレスなど、個人を直接特定する情報は送りません。</p>
       <p>送信される情報の扱いは <a href="https://policies.google.com/technologies/partner-sites?hl=ja" target="_blank" rel="noopener">Google のポリシー</a> をご覧ください。送信を止めたい場合は <a href="https://tools.google.com/dlpage/gaoptout?hl=ja" target="_blank" rel="noopener">Google アナリティクス オプトアウト アドオン</a> を使えます。</p>
       <h3>画像と文章</h3>
-      <p>見本の作品画像は、作品紹介を目的として引用しています。著作権は各権利者に帰属します。出典は<a href="#/credits">画像の出典</a>にまとめています。見本の解説文は、確かめられる事実に基づいて書いた見本です。</p>`);
+      <p>見本の作品画像は、作品紹介を目的として引用しています。著作権は各権利者に帰属します。出典は<a href="#/credits">画像の出典</a>にまとめています。見本の解説文は、確かめられる事実に基づいて書いた見本です。</p>
+      <p>このメディアの目的と読み方は<a href="#/about">Beautiful Context とは</a>をご覧ください。</p>`);
     if (name === 'credits'){
       /* 画像の出典。CC BY / BY-SA の表示義務もここで満たす */
       const rows = S.works(S.all()).filter(h => h.work.credit).map(({ work: w, slug }) => `
@@ -502,7 +530,23 @@
       ${tease('manage.html#ads', '管理画面で広告枠を見る')}`);
     return shell('ページが見つかりません', `
       <p class="lead">お探しのページは移動したか、公開が終了した可能性があります。</p>
-      <a class="tease" href="#/today" data-home>Today's Editor's Choice へ戻る <span aria-hidden="true">›</span></a>`);
+      <a class="tease" href="#/today" data-home>Today's Editor's Choice へ戻る <span aria-hidden="true">›</span></a>
+      <p class="after">はじめての方は<a href="#/about">Beautiful Context とは</a>へ。</p>`);
+  }
+
+  /* 「Beautiful Context とは」の構造化データ：AboutPage と、運営する Organization（名前・アドレス・ロゴ） */
+  function aboutLd(){
+    const site = new URL('./', document.baseURI).href;
+    const org = { '@type': 'Organization', '@id': site + '#organization', name: 'Beautiful Context', url: site, logo: site + 'icon-512.png' };
+    return {
+      '@context': 'https://schema.org',
+      '@graph': [
+        { '@type': 'AboutPage', '@id': site + 'about/', url: site + 'about/', name: 'Beautiful Context とは', inLanguage: 'ja',
+          description: ABOUT_DESC, about: { '@id': org['@id'] },
+          isPartOf: { '@type': 'WebSite', name: 'Beautiful Context', url: site } },
+        org
+      ]
+    };
   }
 
   /* ---------- 下の路線図 ----------
@@ -612,7 +656,7 @@
 
   window.BCRender = {
     pathOf, urlOf, thing, esc, clean, safeUrl, safeImg, art, roots, ad, workPage, contextPage, editorPage, listPage, comments, loginChip, search, page,
-    mapMarkup, jsonLd, listLd, buildTags, tagText, readLabel, feedPage, feedStops, lineColor, linePath, ICON,
+    mapMarkup, jsonLd, listLd, aboutLd, ABOUT_DESC, buildTags, tagText, readLabel, feedPage, feedStops, lineColor, linePath, ICON,
     PALETTE, SHAPE_COUNT: SHAPES.length
   };
 })();

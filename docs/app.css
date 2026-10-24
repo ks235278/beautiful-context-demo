@@ -295,6 +295,9 @@ body.viewing .uni{display:none}
 .content h3{margin:22px 0 8px;font-size:17px}
 .content p,.content li{margin:0 0 12px;font-size:13px;line-height:1.9;text-align:justify}
 .content .by{margin-top:-8px;color:var(--muted);font-size:12px}
+/* About の運営の欄（行ごとに折る）と、導線の下に添える一行 */
+.content .org{text-align:left}
+.content .after{margin-top:16px;color:var(--muted);font-size:12px}
 .content .lead{font-size:15px;line-height:1.85}
 .tease{display:block;width:100%;margin-top:17px;padding:12px;border:1px solid #aaa;background:#fff9;color:var(--ink);
   text-align:left;text-decoration:none;font:650 11px/1.4 var(--gothic);cursor:pointer}

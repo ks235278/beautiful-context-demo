@@ -1,4 +1,4 @@
-// 検索エンジン・生成AI のための静的なページを作る（docs/c/…/、docs/w/…/、docs/e/…/、sitemap.xml、robots.txt）。
+// 検索エンジン・生成AI のための静的なページを作る（docs/c/…/、docs/w/…/、docs/e/…/、docs/about/、sitemap.xml、robots.txt）。
 //
 //   node tools/prerender.mjs
 //
@@ -88,22 +88,28 @@ const esc = (s) => String(s == null ? '' : s).replace(/[&<>"']/g, (c) => ({ '&':
 const local = new RegExp(ORIGIN.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + '/', 'g');
 const must = (s, a) => { if (!s.includes(a)) throw new Error('index.html の形が変わっています：' + a.slice(0, 60)); };
 
-function page(r, got){
-  const rel = `${r.kind}/${encodeURIComponent(r.slug)}/`;
-  const url = `${SITE}/${rel}`;
+/* 一枚の置き場：rel は根からの道（c/区間/・about/）、route はアプリの道筋、og は og:type、body は body の追加クラス */
+const spec = (r) => r.kind === 'about'
+  ? { rel: 'about/', route: '#/about', og: 'website', body: '' }
+  : { rel: `${r.kind}/${encodeURIComponent(r.slug)}/`, route: `#/${r.kind}/${encodeURIComponent(r.slug)}`,
+      og: r.kind === 'c' ? 'article' : 'profile', body: r.kind === 'c' ? ' route' : '' };
+
+function page(s, got){
+  const url = `${SITE}/${s.rel}`;
   let h = TEMPLATE;
   const swap = (a, b) => { must(h, a); h = h.replace(a, () => b); };
-  /* 資源（CSS・JS・絵）は、サイトの根から読む */
-  swap('<meta charset="utf-8">', '<meta charset="utf-8">\n<base href="../../">');
+  /* 資源（CSS・JS・絵）は、サイトの根から読む。上がる数は置き場の深さで決まる（c/区間/ は二つ、about/ は一つ） */
+  const up = '../'.repeat(s.rel.split('/').length - 1);
+  swap('<meta charset="utf-8">', `<meta charset="utf-8">\n<base href="${up}">`);
   h = h.replace(/<title>[^<]*<\/title>/, () => `<title>${esc(got.title)}</title>`);
   h = h.replace(/<meta name="description" content="[^"]*">/, () => `<meta name="description" content="${esc(got.desc)}">`);
   h = h.replace(/<link rel="canonical" href="[^"]*">/, () => `<link rel="canonical" href="${esc(url)}">`);
-  h = h.replace(/<meta property="og:type" content="[^"]*">/, () => `<meta property="og:type" content="${r.kind === 'c' ? 'article' : 'profile'}">\n<meta property="og:url" content="${esc(url)}">`);
+  h = h.replace(/<meta property="og:type" content="[^"]*">/, () => `<meta property="og:type" content="${s.og}">\n<meta property="og:url" content="${esc(url)}">`);
   h = h.replace(/<meta property="og:title" content="[^"]*">/, () => `<meta property="og:title" content="${esc(got.title)}">`);
   h = h.replace(/<meta property="og:description" content="[^"]*">/, () => `<meta property="og:description" content="${esc(got.desc)}">`);
   if (got.image) h = h.replace(/<meta property="og:image" content="[^"]*">/, () => `<meta property="og:image" content="${esc(got.image)}">`);
   swap('<script type="application/ld+json" id="ld"></script>', `<script type="application/ld+json" id="ld">${got.ld.replace(/</g, '\\u003c')}</script>`);
-  swap('<body class="stage-intro">', `<body class="stage-uni viewing${r.kind === 'c' ? ' route' : ''}" data-route="#/${r.kind}/${encodeURIComponent(r.slug)}">`);
+  swap('<body class="stage-intro">', `<body class="stage-uni viewing${s.body}" data-route="${s.route}">`);
   const VIEW = /<div class="view" id="view" role="dialog" aria-modal="true">\s*<div class="view-in" id="viewIn"><\/div>/;
   if (!VIEW.test(h)) throw new Error('index.html の形が変わっています：#view');
   h = h.replace(VIEW, () => `<div class="view on" id="view" role="dialog" aria-modal="true" aria-label="${esc(got.label)}">\n  <div class="view-in" id="viewIn">${got.html}</div>`);
@@ -146,8 +152,24 @@ for (const r of routes) {
   for (const k of ['html', 'ld', 'image']) got[k] = String(got[k] || '').replace(local, SITE + '/');
   const dir = path.join(DOCS, r.kind, r.slug);
   fs.mkdirSync(dir, { recursive: true });
-  fs.writeFileSync(path.join(dir, 'index.html'), page(r, got));
+  fs.writeFileSync(path.join(dir, 'index.html'), page(spec(r), got));
   done.push(r);
+}
+
+/* 「Beautiful Context とは」（about/）。読み物も、アプリに描かせたものをそのまま書き出す
+   （検索エンジンが JS を待たなくても、本文・AboutPage・Organization が HTML にある） */
+{
+  const got = await run(`
+    const R = window.BCRender;
+    location.hash = '#/about';
+    await new Promise(res => setTimeout(res, 60));
+    return { html: document.getElementById('viewIn').innerHTML, title: document.title,
+      label: document.getElementById('view').getAttribute('aria-label') || '',
+      desc: R.ABOUT_DESC, ld: document.getElementById('ld').textContent, image: '' };`);
+  for (const k of ['html', 'ld']) got[k] = String(got[k] || '').replace(local, SITE + '/');
+  if (!got.html.includes('Beautiful Context とは') || !got.ld.includes('AboutPage')) throw new Error('about/ の中身が描けていません');
+  fs.mkdirSync(path.join(DOCS, 'about'), { recursive: true });
+  fs.writeFileSync(path.join(DOCS, 'about', 'index.html'), page(spec({ kind: 'about' }), got));
 }
 
 /* 古いページ（非公開にした・消したもの）を片づける */
@@ -161,12 +183,13 @@ for (const kind of ['c', 'w', 'e']) {
 /* ---------- sitemap.xml と robots.txt ---------- */
 const day = (iso) => (iso || new Date().toISOString()).slice(0, 10);
 const urls = [{ loc: `${SITE}/`, lastmod: day(done.map((r) => r.updated).sort().pop()) },
+  { loc: `${SITE}/about/`, lastmod: day() },
   ...done.map((r) => ({ loc: `${SITE}/${r.kind}/${encodeURIComponent(r.slug)}/`, lastmod: day(r.updated) }))];
 fs.writeFileSync(path.join(DOCS, 'sitemap.xml'),
   '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' +
   urls.map((u) => `  <url><loc>${esc(u.loc)}</loc><lastmod>${u.lastmod}</lastmod></url>`).join('\n') + '\n</urlset>\n');
 fs.writeFileSync(path.join(DOCS, 'robots.txt'), `User-agent: *\nAllow: /\n\nSitemap: ${SITE}/sitemap.xml\n`);
 
-console.log(`書き出しました：${done.length} 枚 + sitemap.xml（${urls.length} 件）`);
+console.log(`書き出しました：${done.length} 枚 + about/ + sitemap.xml（${urls.length} 件）`);
 if (errors.length) console.log('ページのエラー：', errors.slice(0, 5));
 ws.close(); chrome.kill(); server.close();

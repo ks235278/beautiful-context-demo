@@ -322,9 +322,9 @@
     } else if (name === 'search'){
       const s = q.get('q') || '';
       return show({ key: 's:' + s, kind: 'page' }, R.search(s, S.search(s)), motion, s ? `「${s}」を辿る` : '言葉で辿る');
-    } else if (['mission', 'terms', 'ad', 'credits'].includes(name)){
+    } else if (['about', 'mission', 'terms', 'ad', 'credits'].includes(name)){
       return show({ key: 'p:' + name, kind: 'page' }, R.page(name), motion,
-        { mission: 'Our Mission', terms: '利用規約・プライバシー', ad: '広告枠のご案内', credits: '画像の出典' }[name]);
+        { about: 'Beautiful Context とは', mission: 'Our Mission', terms: '利用規約・プライバシー', ad: '広告枠のご案内', credits: '画像の出典' }[name]);
     }
     show({ key: '404', kind: 'page' }, R.page('404'), motion, 'ページが見つかりません');
   }
@@ -646,8 +646,10 @@
     view.setAttribute('aria-label', title || '');
     document.title = (title ? title + '｜' : '') + brand;
     count(page);
+    /* 構造化データ：コンテクストは Article、「Beautiful Context とは」は AboutPage と Organization、ほかは一覧 */
     ld.textContent = page.kind === 'route' && page.entry && page.step === 1
-      ? JSON.stringify(R.jsonLd(page.entry, R.urlOf('c', page.entry.context.slug))) : listLd();
+      ? JSON.stringify(R.jsonLd(page.entry, R.urlOf('c', page.entry.context.slug)))
+      : page.key === 'p:about' ? JSON.stringify(R.aboutLd()) : listLd();
 
     if (page.feed) mountFeed(page.feed);
     else if (feedIO){ feedIO.disconnect(); feedIO = null; }
