@@ -1,0 +1,62 @@
+/* Beautiful Context — 読む画面の使い勝手（2026.10.24、開発会議 2026.10.23 のあと）
+   app.css は別の作業（地の色・背景・パソコンの下の帯）と並んで直しているので、新しい決まりはここに足す。
+   index.html で app.css のすぐあとに読む（静的なページ c/…/ などにも、書き出し（tools/prerender.mjs）でそのまま入る）。
+   先生の配置と名前は変えない。足すだけ */
+
+/* ---------- ‹ ：検索などから直接開いたページでは、行き先（TODAY）を添える ----------
+   body.direct（app.js）：アプリの中で辿ってきた道がなく、‹ の先が Today's Editor's Choice のとき。
+   丸を横に伸ばして、‹ の右に小さく TODAY。::after は文字に使うので、指の届く範囲は ::before で広げる。
+   静的なページ（body[data-route]）は、台本が起き上がる前から同じ形にしておく（あとから TODAY が現れて ‹ が伸びないように） */
+body.direct .back-close,body[data-route]:not(.app-ready) .back-close{width:max-content;min-width:38px;padding:0 12px 0 7px;border-radius:19px;grid-auto-flow:column;gap:1px}
+body.direct .back-close::before,body[data-route]:not(.app-ready) .back-close::before{content:"";position:absolute;inset:-8px}
+body.direct .back-close::after,body[data-route]:not(.app-ready) .back-close::after{content:"TODAY";position:static;inset:auto;font:700 10px/1 "Lato",sans-serif;letter-spacing:.14em}
+
+/* ---------- ≡ ：どのページからもメニューへ（携帯・タブレット） ----------
+   最初の画面（Today の一本目）は左上に ≡・右上に Login のまま。ほかのページは左上が ‹ なので、≡ は右上に、同じ丸で。
+   ロゴ・絵の横の ‹ › より上（.menu-btn は z-index 50）。指の届く範囲は 44px */
+.menu-btn::after{content:"";position:absolute;inset:-3px}
+@media (max-width:1099px){
+  body.viewing:not(.at-root) .menu-btn{opacity:1;visibility:visible;left:auto;right:10px;top:calc(env(safe-area-inset-top) + 10px);
+    width:38px;height:38px;gap:4px;border-radius:50%;background:rgba(0,0,0,.42);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);
+    transition:opacity .25s ease,transform .25s ease,visibility 0s linear 0s}
+  body.viewing:not(.at-root) .menu-btn i{width:17px;background:#fff}
+  body.viewing:not(.at-root) .menu-btn[aria-expanded="true"] i:nth-child(1){transform:translateY(6px) rotate(45deg)}
+  body.viewing:not(.at-root) .menu-btn[aria-expanded="true"] i:nth-child(3){transform:translateY(-6px) rotate(-45deg)}
+  /* Today の二本目から（‹ を押して戻れる所）も、‹ は無く右上は Login。≡ は一本目と同じ左上 */
+  body.viewing.on-today:not(.at-root) .menu-btn{left:10px;right:auto}
+}
+/* タブレット：紙の列の右上（窓の端ではなく）。Today は列の左上（app.css の at-root と同じ） */
+@media (min-width:760px) and (max-width:1099px){
+  body.viewing:not(.at-root) .menu-btn{right:calc(50% - var(--col) / 2 + 10px)}
+  body.viewing.on-today:not(.at-root) .menu-btn{left:calc(50% - var(--col) / 2 + 10px);right:auto}
+}
+
+/* ---------- 読み下ろしているあいだは、上に浮かぶ ‹ と ≡ を引っ込める（携帯・タブレット） ----------
+   body.scrolled-down（app.js）：下へ読み進めているとき。少し上へ戻せば、すぐ出る（iPhone の Safari の帯と同じ）。
+   開いているメニューの ✕ は引っ込めない。パソコンの見開きでは ‹ は絵の列にあり文字に重ならないので、そのまま */
+@media (max-width:1099px){
+  body.scrolled-down .back-close,
+  body.scrolled-down.viewing:not(.at-root):not(.on-today) .menu-btn[aria-expanded="false"]{opacity:0;transform:translateY(-10px);pointer-events:none}
+}
+
+/* ---------- メニュー ---------- */
+/* 運営者メニューは、運営の画面を開いた端末にだけ（app.js が hidden を外す）。.menu a の display に負けないように */
+#menu a[hidden]{display:none}
+/* 地の切り替えの名前（画面：ReMixIt!（白）など）は、狭い列では二行に折れてよい */
+.theme-pick button{line-height:1.35;letter-spacing:.06em}
+
+/* ---------- 作品ページ：CURRENT STATION の下に、駅がどういう場所かを一行 ---------- */
+.content p.meta-sub,.wpage .content p.meta-sub{margin:-4px 0 12px;color:var(--muted);font:11px/1.6 var(--gothic);letter-spacing:.04em;text-align:left}
+
+/* ---------- 検索などから直接開いた、はじめての人へ：このメディアが何かを一行（app.js が置く） ---------- */
+.landing-note{margin:0 0 14px;color:var(--muted);font:11.5px/1.7 var(--gothic);letter-spacing:.02em}
+.landing-note a{color:inherit;text-decoration:underline;text-decoration-color:#b9b3a6;text-underline-offset:3px;white-space:nowrap}
+.wpage .content p.landing-note{margin:0 0 14px;font-size:11.5px;line-height:1.7;text-align:left}
+
+/* ---------- コンテクストページのいちばん下：このメディアの入口を小さく ---------- */
+.c-foot{margin:36px 0 0;padding:14px 0 4px;border-top:1px solid var(--rule-p);color:var(--muted);text-align:center;
+  font:11px/2 var(--gothic);letter-spacing:.02em}
+.c-foot>span{white-space:nowrap}   /* 折り返すのは項目のあいだだけ（· は前の項目の後ろに付けたまま） */
+.c-foot a{color:inherit;text-decoration:none}
+.c-foot a:active{opacity:.6}
+@media (hover:hover) and (pointer:fine){.c-foot a:hover{color:var(--ink)}}

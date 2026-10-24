@@ -152,10 +152,11 @@
 
   /* 画像。data-k は作品の目印で、ページが替わるときに同じ作品の絵を
      前のページの位置から次のページの位置へ運ぶために使う。 */
+  /* fetchpriority="low"：遅い回線では、絵より先に台本（js）を取る。触れて動くまでの間を縮める（開発会議 2026.10.23） */
   function frame(w, cls){
     const s = safeImg(w.image);
     return `<div class="${cls}">` + (s
-      ? `<img src="${attr(s)}" alt="${attr(w.title)}" data-k="${attr(w.slug)}" decoding="async">`
+      ? `<img src="${attr(s)}" alt="${attr(w.title)}" data-k="${attr(w.slug)}" decoding="async" fetchpriority="low">`
       : `<span class="ph">${esc(initial(w))}<small>${esc(w.type || '作品')}</small></span>`) + `</div>`;
   }
 
@@ -181,9 +182,10 @@
     return `
       <article class="page wpage">
         ${backTop()}
-        <div class="duo-hero"><a class="c-logo" href="#/" data-top aria-label="BEAUTIFUL CONTEXT（TOP へ戻る）"><img src="img/logo.png" alt=""></a><div class="duo">${frame(w, 'art')}<a class="duo-add" href="editor.html?from=${attr(encodeURIComponent(w.slug))}" aria-label="${attr(w.title)}から、新しいつながりを創る"><span aria-hidden="true">＋</span><small>つながりを創る</small></a></div>${navArrows()}</div>
+        <div class="duo-hero"><a class="c-logo" href="#/" data-top aria-label="BEAUTIFUL CONTEXT（TOP へ戻る）"><img src="img/logo.png" alt=""></a><div class="duo">${frame(w, 'art')}<a class="duo-add" href="editor.html?from=${attr(encodeURIComponent(w.slug))}" aria-label="${attr(w.title)}から、新しいつながりを創る" title="この作品から、新しいつながりを創る（ReMixIt!・編集者向け）"><span aria-hidden="true">＋</span><small>つながりを創る</small></a></div>${navArrows()}</div>
         <div class="content">
           <p class="meta">${esc(w.type || '作品')}${w.year ? '・' + esc(w.year) + '年' : ''}　CURRENT STATION</p>
+          <p class="meta-sub">駅：この作品を起点に、次の区間へ</p>
           <h2>${esc(w.title)}</h2>
           ${w.creator ? `<p class="by">${esc(w.creator)}</p>` : ''}
           ${w.summary ? `<p>${esc(w.summary)}</p>` : ''}
@@ -310,9 +312,13 @@
             <ol class="rail" id="rail">${feedStops(o.rail, 0, o.railBatch || 12, true)}</ol>
             <div class="rail-more" id="railMore" aria-hidden="true"></div>
           </section>` : ''}
+          ${cfoot()}
         </article>
       </article>`;
   }
+  /* コンテクストページのいちばん下：検索などから来た人が、このメディアのどこへでも行ける小さな入口 */
+  const cfoot = () => `
+          <nav class="c-foot" aria-label="Beautiful Context の案内"><span><a href="about/">Beautiful Context とは</a> ·</span> <span><a href="#/today" data-home>Today's Editor's Choice</a> ·</span> <span><a href="#/list">つながりの一覧</a> ·</span> <span><a href="#/search">言葉で辿る</a></span></nav>`;
 
   /* ---------- 編集者のページ ----------
      名前・ひとこと・フォロー。その人が選んだコンテクストの一覧 */
@@ -476,7 +482,7 @@
         <li>開くと、まず「Today's Editor's Choice」が表示されます。編集者がその日に選んだコンテクストです。</li>
         <li>読み終わりの「つながりを辿る」を押すと、いま読んだ区間の先にある駅（作品）へ進み、そこから次のコンテクストへ続きます。</li>
         <li>左上のロゴを押すと「つながりの一覧」が開きます。すべてのコンテクストが、辿る順に並んでいます。</li>
-        <li>メニューの「つながりを流れで観る」では、一枚ずつ上へ払いながら辿れます（試作）。</li>
+        <li>メニューの「縦スクロールで観る」では、一枚ずつ上へ払いながら辿れます（試作）。</li>
         <li>「UniverseIt!」では、すべての作品の言葉から辿り始められます。「言葉で辿る」で検索もできます。</li>
       </ul>
       <h3>編集者について</h3>

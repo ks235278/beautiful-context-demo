@@ -214,13 +214,13 @@
     .shape-pick path{fill:none;stroke-width:3.2;stroke-linecap:round;stroke-linejoin:round}
   </style>
 <style>:root{--veil:var(--canvas)}</style>
-  <link rel="stylesheet" href="fade.css?v=132">
+  <link rel="stylesheet" href="fade.css?v=133">
 </head>
 <body>
   <div class="app">
     <header class="topbar">
       <div class="brand"><span>Beautiful Context</span></div>
-      <a class="btn ghost small to-uni" href="index.html" style="text-decoration:none;display:inline-flex;align-items:center">&larr;　UniverseIt! へ</a>
+      <a class="btn ghost small to-uni" href="index.html" style="text-decoration:none;display:inline-flex;align-items:center">← 元のページへ</a>
       <a class="btn ghost small" href="manage.html" style="text-decoration:none;display:inline-flex;align-items:center">運営</a>
       <div class="top-title">コンテンツ／コンテクスト エディター</div>
       <div class="top-actions">
@@ -401,9 +401,9 @@
   </div>
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
-  <script src="js/seed.js?v=132"></script>
-  <script src="js/store.js?v=132"></script>
-  <script src="js/render.js?v=132"></script>
+  <script src="js/seed.js?v=133"></script>
+  <script src="js/store.js?v=133"></script>
+  <script src="js/render.js?v=133"></script>
 
   <script>
   (() => {
@@ -584,6 +584,13 @@
     }
   })();
   </script>
-  <script src="js/transition.js?v=132"></script>
+  <script>
+  /* 元のページへ：同じサイトのページ（作品ページの ＋ など）から来たなら、その画面へ戻る（読んでいた位置のまま）。
+     直接開いたとき（ブックマーク・新しいタブ）は index.html へ。transition.js の薄れより先に受け取る */
+  document.querySelector('.to-uni').addEventListener('click', (ev) => {
+    if (history.length > 1 && document.referrer.startsWith(location.origin + '/')){ ev.preventDefault(); ev.stopPropagation(); history.back(); }
+  });
+  </script>
+  <script src="js/transition.js?v=133"></script>
 </body>
 </html>

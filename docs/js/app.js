@@ -12,7 +12,7 @@
 
    重ねて開いたページは # に道筋を残す（#/w/…, #/c/…）。
    携帯では右へ払うと戻り、左へ払うと路線の先へ進む。
-   パソコンではブラウザの戻る・Esc、← → で路線を移る。 */
+   パソコンではブラウザの戻る・Esc で戻り、← → で辿る順の前後のつながりへ移る（絵の横の ‹ › と同じ）。 */
 (() => {
   const S = window.BCStore, R = window.BCRender, Social = window.BCSocial;
   const $ = (id) => document.getElementById(id);
@@ -129,6 +129,8 @@
   };
   wide.addEventListener('change', placeMenu);
   placeMenu();
+  /* 運営者メニューは、運営の画面（manage.html）を一度でも開いた端末にだけ出す。読者のメニューには要らない */
+  try { if (localStorage.getItem('bc-operator') === '1'){ const op = menu.querySelector('[data-operator]'); if (op) op.hidden = false; } } catch (e) {}
   /* いまいる場所を、メニューの中で示す（Today・一覧・UniverseIt!） */
   function paintMenu(){
     const at = !here ? 'uni' : here.today ? 'today' : here.list ? 'list' : '';
@@ -187,11 +189,16 @@
      何も起きない間ができてしまうため。自分で積んだ道筋を覚えておく。 */
   const stack = [];
   const depth = () => (history.state && history.state.bcDepth) || 0;
+  /* 最初の画面（Today か UniverseIt!）が、履歴のどの深さにあるか。ふつうは 0（いちばん奥）。
+     検索などからページを直接開いた人が ‹ を押すと、そのページの上に Today を積む（積んだ Today が 1）。
+     以前は開いたページを Today に置き換えていて、ブラウザの戻るで読んでいたページへ帰れず、サイトの外へ出ていた */
+  const rootDepth = () => (history.state && history.state.bcRoot) || 0;
+  const mark = (d, r) => (d || r ? { bcDepth: d, bcRoot: r } : null);
   /* アプリの根（index.html のある所）。静的なページ（c/…/）から入っても、道筋は根の # に積む */
   const base = () => body.dataset.route ? new URL('./', document.baseURI).pathname : location.pathname + location.search;
   function go(hash, motion, replace){
-    if (replace){ history.replaceState({ bcDepth: depth() }, '', hash); stack[Math.max(0, stack.length - 1)] = hash; }
-    else { history.pushState({ bcDepth: depth() + 1 }, '', hash); stack.push(hash); }
+    if (replace){ history.replaceState(mark(depth(), rootDepth()), '', hash); stack[Math.max(0, stack.length - 1)] = hash; }
+    else { history.pushState(mark(depth() + 1, rootDepth()), '', hash); stack.push(hash); }
     routeTo(hash, motion);
   }
   function goStep(step, from){
@@ -199,13 +206,38 @@
     go(stepHash(here.entry, step), { dir: Math.sign(step - here.step), origin: from || null });
   }
   /* Today が最初の画面（履歴のいちばん奥）なら、そこより前はない */
-  const atRoot = () => !!(here && here.today) && depth() === 0;
+  const atRoot = () => !!(here && here.today) && depth() <= rootDepth();
+  /* 検索や共有のリンクから、ページを直接開いたところ（アプリの中で辿ってきた道がない）。‹ の先は Today */
+  const isDirect = () => !!(here && !here.today) && view.classList.contains('on') && depth() <= rootDepth();
+  /* ‹ の行き先。closeView・左の端から払う・絵を持ち上げたときの後ろの画面は、どれもこの決め方（null は奥の UniverseIt!） */
+  const backHash = () => depth() <= rootDepth() ? '#/today' : (stack.length >= 2 ? stack[stack.length - 2] : null);
+  /* 直接開いたページの上に、最初の画面（hash が空なら UniverseIt!）を一枚積む。積んだ画面が新しい「いちばん奥」 */
+  function pushRoot(hash, from){
+    from = from || stack[stack.length - 1];
+    history.pushState(mark(depth() + 1, depth() + 1), '', base() + hash);
+    stack.length = 0;
+    if (hash){ if (from) stack.push(from); stack.push(hash); }
+  }
+  /* いま履歴が指している道。静的なページ（c/…/ など）のアドレスそのものなら、その道（body の data-route）。
+     根のアドレス（/）に積んだ画面は # の道だけを見る（# の無い / は UniverseIt!。data-route に読み替えない） */
+  const hereHash = () => location.hash || (body.dataset.route && location.pathname !== base() ? body.dataset.route : '');
+  const isRootHash = (h) => !h || h === '#' || h === '#/' || /^#\/today(\?|$)/.test(h);
+  /* いまいる所の印：最初の画面か（‹ を出さない・左の端から払えない）、直接開いたページか（‹ に TODAY を添える） */
+  function paintRoot(){
+    body.classList.toggle('at-root', atRoot());
+    const direct = isDirect();
+    body.classList.toggle('direct', direct);
+    const b = viewIn.querySelector('.back-close');
+    if (!b) return;
+    if (direct){ b.title = "Today's Editor's Choice へ"; b.setAttribute('aria-label', "Today's Editor's Choice へ戻る"); }
+    else { b.removeAttribute('title'); b.setAttribute('aria-label', '戻る'); }
+  }
   function closeView(motion, by){
     if (!view.classList.contains('on') || atRoot()) return;
     how(by || (motion && motion.swipe ? 'back_swipe' : motion && motion.dismiss ? 'back_drag' : 'back'));
     const d = depth();
     backNav = true;
-    if (d > 0){
+    if (d > rootDepth()){
       stack.pop();
       /* 戻り先は、覚えている道筋の一つ前。リンクから直接ページを開いた人は、その一つ前も
          ページ（UniverseIt! ではない）。そこへ UniverseIt! を一瞬はさむと、絵が点滅して見えた */
@@ -214,19 +246,23 @@
       else hideView(motion || { toCenter: true });
       history.back();
     } else {
-      /* リンクから直接開いたページの一つ前は、最初の画面（Today's Editor's Choice） */
-      stack.length = 0; stack.push('#/today');
-      history.replaceState(null, '', base() + '#/today');
+      /* リンクから直接開いたページの一つ前は、最初の画面（Today's Editor's Choice）。
+         開いたページの上に積む（置き換えない）。ブラウザの戻るで、読んでいたページへ帰れる */
+      pushRoot('#/today');
       routeTo('#/today', motion || { dir: -1 });
     }
   }
-  /* つながりを辿る（UniverseIt!）：どこまで進んでいても、一度で戻る */
+  /* つながりを辿る（UniverseIt!）：どこまで進んでいても、一度で戻る。
+     戻った先（いちばん奥）は Today のアドレスなので、着いたら UniverseIt! に書き換える（networking。goHome の homing と同じ） */
+  let networking = false;
   function toNetwork(){
-    const d = depth();
+    const up = depth() - rootDepth();
     stack.length = 0;
+    if (up > 0){ networking = true; hideView({ toCenter: true }); history.go(-up); return; }
+    /* 直接開いたページからは、その上に UniverseIt! を積む（ブラウザの戻るで、読んでいたページへ） */
+    if (isDirect()) pushRoot('');
+    else history.replaceState(history.state, '', base());
     hideView({ toCenter: true });
-    if (d > 0) history.go(-d);
-    else history.replaceState(null, '', base());
   }
   /* Today's Editor's Choice（最初の画面）へ。どこまで進んでいても一度で戻り、履歴のいちばん奥を Today にする */
   let homing = false;
@@ -236,33 +272,40 @@
     routeTo('#/today', { fade: true });
   }
   function goHome(){
-    const d = depth();
-    stack.length = 0;
-    if (d > 0){ homing = true; history.go(-d); return; }
-    history.replaceState(null, '', base() + '#/today');
-    stack.push('#/today');
+    const up = depth() - rootDepth();
+    if (up > 0){ stack.length = 0; homing = true; history.go(-up); return; }
+    /* 直接開いたページからは、‹ と同じく、その上に Today を積む */
+    if (isDirect()) pushRoot('#/today');
+    else { history.replaceState(history.state, '', base() + '#/today'); stack.length = 0; stack.push('#/today'); }
     routeTo('#/today', { dir: -1 });
   }
   /* ブラウザの戻る・進むで動いたときは、覚えている道筋を合わせてから開く */
   function onHistory(){
-    if (homing){
-      homing = false;
-      history.replaceState(null, '', base() + '#/today');
-      stack.length = 0; stack.push('#/today');
-      routeTo('#/today', { dir: -1 });
+    /* Today へ・UniverseIt! へ、一度で戻ったところ（goHome・toNetwork）。いちばん奥のアドレスを、行き先に書き換える。
+       いちばん奥が、直接開いたページ（Today でも UniverseIt! でもない）なら、書き換えずにその上に積む
+       （ブラウザの戻るで、読んでいたページへ帰れるように。‹ と同じ） */
+    if (homing || networking){
+      const hash = homing ? '#/today' : '';
+      homing = networking = false;
+      const at = hereHash();
+      if (isRootHash(at)){ history.replaceState(history.state, '', base() + hash); stack.length = 0; if (hash) stack.push(hash); }
+      else pushRoot(hash, at);
+      if (hash) routeTo(hash, { dir: -1 });
+      else hideView();
+      paintRoot();
       return;
     }
     /* 静的なページ（c/…/ など）で開いたときの最初の画面は、その道（body の data-route） */
     if (!via) how('history');   /* ブラウザの戻る・進む */
-    const h = location.hash || body.dataset.route || '';
+    const h = hereHash();
     if (!h || h === '#' || h === '#/') stack.length = 0;
     else if (stack[stack.length - 1] !== h){
       if (stack[stack.length - 2] === h){ stack.pop(); backNav = true; }
       else { stack.length = 0; stack.push(h); }
     }
     routeTo(h, null);
-    /* 戻るボタンは履歴が戻りきる前に絵を動かすので、最初の画面かどうかは戻ったあとで決め直す */
-    body.classList.toggle('at-root', atRoot());
+    /* 戻るボタンは履歴が戻りきる前に絵を動かすので、最初の画面か・直接開いたページかは、戻ったあとで決め直す */
+    paintRoot();
   }
   window.addEventListener('popstate', onHistory);
   window.addEventListener('hashchange', onHistory);
@@ -371,6 +414,31 @@
     hintNext(false);
     if (hasCard(1)) goCard(1);
     else nextPlan().run();
+  }
+  /* 一つ前のつながりへ（絵の横の ‹・← キー）。辿る順（S.trail）の一つ前：
+     コンテクストからは道の一つ前の区間、駅（作品ページ）からはそこへ来た区間、Today では一つ前の Choice。
+     道の始め・最初の Choice（と、道に載っていないページ）では、ふつうに戻る（closeView）。
+     一つ前の画面がちょうどその行き先なら、積まずに履歴を戻る（‹ を押すたびに履歴が伸びないように） */
+  /* how：押したもの（arrow：絵の横の ‹、key：←） */
+  const sameHash = (a, b) => {
+    const d = (h) => { try { return decodeURIComponent(String(h || '')); } catch (e) { return String(h || ''); } };
+    return !!a && !!b && d(a) === d(b);
+  };
+  function prevAction(by){
+    const v = 'prev_' + (by || 'arrow');
+    hintNext(false);
+    let to = null, dir = -1;
+    if (here && here.today){
+      if (hasCard(-1)){ const j = here.today.i - 1; to = '#/today' + (j ? '?i=' + j : ''); }
+    } else if (here && here.entry && here.step !== 1){
+      to = stepHash(here.entry, 1); dir = Math.sign(1 - here.step);
+    } else if (here && here.entry){
+      const i = posOf(here.entry.id);
+      if (i > 0) to = '#/c/' + encodeURIComponent(trail()[i - 1].entry.context.slug);
+    }
+    if (!to || (depth() > rootDepth() && sameHash(stack[stack.length - 2], to))){ closeView(null, v); return; }
+    how(v);
+    go(to, { dir });
   }
 
   /* 記事単位の広告枠。区間ごとに決まった枠が出る */
@@ -499,13 +567,16 @@
       a.onfinish = done;
       inflight.push(done);
     });
-    /* 前のページにしかない絵 */
+    /* 前のページにしかない絵。自分の言葉へ帰るのは、行き先が本当に UniverseIt! のとき（hideView。ページは閉じている）だけ。
+       ページへ戻るとき（直接開いたページから持ち上げて Today へ、など）は、見えない UniverseIt! の言葉の位置へ飛ばさず、
+       その場で薄れる（開発会議 2026.10.23 §3.4。Today の題の上に絵が重なって残っていた） */
+    const toUni = !!motion.toCenter && !view.classList.contains('on');
     pool.forEach(b => {
       const f = flyer(b.src, b.r, b.pos);
       let to, frames, opt;
-      const tag = motion.toCenter && tags.querySelector(`.tag[data-work="${CSS.escape(b.k)}"]`);
+      const tag = toUni && tags.querySelector(`.tag[data-work="${CSS.escape(b.k)}"]`);
       const tr = tag && tag.getBoundingClientRect();
-      if (motion.toCenter){
+      if (toUni){
         /* 自分の言葉が見えていればそこへ、見えなければ画面の中心（宇宙）へ帰る */
         const home = tr && tr.bottom > 0 && tr.top < H ? centerOf(tr) : { x: window.innerWidth / 2, y: H * 0.5 };
         to = around(home, 24, 24 * b.r.height / b.r.width);
@@ -546,9 +617,10 @@
   let dry = null;           /* 描かずに組み立てるときの受け皿 */
   /* 来た画面の写しを、持ち上げた絵の後ろに置く（離したときの位置のまま） */
   /* held：いま指で持っている作品。その作品の絵は、来た画面の中でも空けておく（同じ絵は一枚しかない） */
-  /* hash：置く画面（省けば道筋の一つ前） */
+  /* hash：置く画面（省けば ‹ の行き先＝ backHash。直接開いたページなら Today。以前は道筋の一つ前だけを見ていて、
+     直接開いたページでは後ろに UniverseIt! を透かしたまま、離すと Today へ行っていた） */
   function underlay(held, hash){
-    const to = hash || (stack.length >= 2 ? stack[stack.length - 2] : null);
+    const to = hash === undefined ? backHash() : hash;
     if (!to || to === '#' || to === '#/') return false;
     dry = {};
     try { routeTo(to, null); } finally { var got = dry; dry = null; }
@@ -664,14 +736,17 @@
     /* 一覧は、最後に読んだところ（いまここ）を画面の上のほうに出して開く */
     const now = !m && page.list && viewIn.querySelector('.ls-row.now');
     if (now) window.scrollTo({ top: Math.max(0, now.getBoundingClientRect().top + window.scrollY - innerHeight * 0.3), behavior: 'instant' });
-    /* 払って戻ったときは、後ろの写しを本物の絵が描けるまで残す（払う側で外す） */
-    if (!motion.swipe) dropUnderlay();
+    body.classList.remove('scrolled-down');
+    lastY = window.scrollY;
+    /* 払って戻ったときは、後ろの写しを本物の絵が描けるまで残す（払う側で外す）。
+       透かした UniverseIt!（peek）も一緒に外す（持ち上げて別のページへ着いたとき、残っていた） */
+    if (!motion.swipe){ dropUnderlay(); peek(false); }
     body.classList.toggle('route', page.kind === 'route');
     body.classList.toggle('on-work', !!page.work);
     body.classList.toggle('on-today', !!page.today);
     body.classList.toggle('on-list', !!page.list);
     paintMenu();
-    body.classList.toggle('at-root', atRoot());
+    paintRoot();
     if (page.kind === 'route' && page.entry) markRead(page.entry.id, page.step === 1);
     /* ページの上では、つながりを辿るの行き先を示す（コンテクストへ／次の区間へ／次の路線へ） */
     paintNext();
@@ -731,7 +806,7 @@
     ld.textContent = listLd();
     view.classList.add('instant');
     view.classList.remove('on', 'enter', 'fade-in');
-    body.classList.remove('viewing', 'route', 'on-work', 'on-today', 'on-list', 'at-root');
+    body.classList.remove('viewing', 'route', 'on-work', 'on-today', 'on-list', 'at-root', 'direct', 'scrolled-down');
     peek(false);
     dropUnderlay();
     backNav = false;
@@ -860,6 +935,17 @@
     }
     return toCtx(after(lastCtx), '続きから');
   }
+  /* 読み下ろしているあいだは、上に浮かぶ ‹ と ≡ を引っ込める（文字に重ねない）。少し上へ戻せば出る（iPhone の Safari の帯と同じ）。
+     見た目は ux.css（携帯・タブレットだけ） */
+  let lastY = 0;
+  window.addEventListener('scroll', () => {
+    if (!body.classList.contains('viewing')) return;
+    const y = window.scrollY, d = y - lastY;
+    if (y < 80){ body.classList.remove('scrolled-down'); lastY = y; return; }
+    if (Math.abs(d) < 8) return;
+    body.classList.toggle('scrolled-down', d > 0);
+    lastY = y;
+  }, { passive: true });
   /* 路線をスクロールすると見えている区間が変わるので、行き先の表示も合わせる */
   let labelTick = 0;
   window.addEventListener('scroll', () => {
@@ -1140,9 +1226,9 @@
     if (cat){ viewIn.querySelectorAll('[data-cat]').forEach(b => { b.classList.toggle('on', b === cat); b.setAttribute('aria-pressed', String(b === cat)); }); filterList();
       track('list_filter', { category: cat.dataset.cat === ':read' ? 'read' : cat.dataset.cat || 'all' }); return; }
 
-    /* ‹ › ：› は NEXT と同じ、‹ は一つ前のつながりへ */
+    /* ‹ › ：› は NEXT と同じ、‹ は辿る順の一つ前のつながりへ（左上の ‹ は戻る） */
     const arrow = t.closest('[data-ctx-go]');
-    if (arrow){ if (+arrow.dataset.ctxGo > 0) nextAction('arrow'); else closeView(); return; }
+    if (arrow){ if (+arrow.dataset.ctxGo > 0) nextAction('arrow'); else prevAction('arrow'); return; }
 
     /* 編集者をフォローする（ログインしなくてもできる。この端末に覚える） */
     const fol = t.closest('[data-follow]');
@@ -1168,6 +1254,27 @@
     const route = a.getAttribute('href').startsWith('#/') ? a.getAttribute('href') : routeOfLink(a);
     if (route){ ev.preventDefault(); how(a.closest('.ls') ? 'list' : a.closest('#menu') ? 'menu' : a.closest('#routeMini') ? 'route_map' : 'link'); go(route, { origin: a.closest('.view') ? null : rectOf(a) }); }
   });
+  /* つながりを創る（作品ページの ＋・メニューの ReMixIt!）は編集者向けの道具。ログインしていない読者には、エディターへ移る前に
+     一度たずねる（読んでいる途中で、いきなり編集の画面に飛ばない）。ログインしていればそのまま。
+     transition.js（ページを離れる薄れ）より先に受け取るので、捕まえる側（capture）で聞く */
+  document.addEventListener('click', ev => {
+    const a = ev.target.closest && ev.target.closest('a.duo-add[href], #menu a[data-remix][href]');
+    if (!a || Social.me() || ev.metaKey || ev.ctrlKey || ev.shiftKey || ev.altKey || ev.button > 0) return;
+    ev.preventDefault(); ev.stopPropagation();
+    const href = a.getAttribute('href'), work = a.matches('.duo-add');
+    openMenu(false);
+    const el = sheet(`
+      <p class="meta">ReMixIt!・編集者向け</p>
+      <h2>${work ? 'この作品から、<br>' : ''}新しいつながりを創る</h2>
+      <button type="button" class="sheet-go" data-remix-go>はじめる</button>
+      <button type="button" class="sheet-later" data-sheet-close>読み続ける</button>`);
+    el.setAttribute('aria-label', 'ReMixIt!・編集者向け');
+    el.querySelector('[data-remix-go]').addEventListener('click', () => {
+      track('remix_open', { from_page: kindOf() });
+      closeSheet();
+      if (window.BCLeave) window.BCLeave(href); else location.href = href;
+    });
+  }, true);
   /* c/区間/・w/作品/・e/編集者/ のアドレスを、アプリの道筋（#/c/…）に読み替える。サイトの外や、ほかのファイルは null */
   function routeOfLink(a){
     let u;
@@ -1175,7 +1282,9 @@
     if (u.origin !== location.origin) return null;
     const root = new URL('./', document.baseURI).pathname;
     if (!u.pathname.startsWith(root)) return null;
-    const m = u.pathname.slice(root.length).match(/^(c|w|e)\/([^/]+)\/?$/);
+    const rest = u.pathname.slice(root.length);
+    if (/^about\/?$/.test(rest)) return '#/about';   /* 「Beautiful Context とは」の静的なページ */
+    const m = rest.match(/^(c|w|e)\/([^/]+)\/?$/);
     return m ? `#/${m[1]}/${m[2]}${u.search}` : null;
   }
 
@@ -1318,12 +1427,14 @@
   document.addEventListener('keydown', ev => {
     const tgt = ev.target;
     if (ev.key === 'Escape' && document.querySelector('.sheet')){ closeSheet(); return; }
-    if (ev.key === 'Escape' && !menu.hidden){ openMenu(false); return; }
+    /* 携帯・タブレットで開いているメニューは、Esc で閉じる。パソコンの左の列はいつも出ている（menu.hidden ではない）ので、
+       それを見ていると Esc がページに届かなかった */
+    if (ev.key === 'Escape' && menu.classList.contains('open') && !wide.matches){ openMenu(false); return; }
     if (ev.key === 'Escape' && sel && !view.classList.contains('on')){ select(null); return; }
     if (!view.classList.contains('on') || (tgt && tgt.closest && tgt.closest('input,textarea'))) return;
     if (ev.key === 'Escape'){ ev.preventDefault(); closeView(); }
     else if (ev.key === 'ArrowRight'){ ev.preventDefault(); nextAction('key'); }
-    else if (ev.key === 'ArrowLeft' && !atRoot()){ ev.preventDefault(); closeView(); }
+    else if (ev.key === 'ArrowLeft'){ ev.preventDefault(); prevAction('key'); }
   });
 
   /* ---------- 絵を指でつかむ（写真アプリのように） ----------
@@ -1354,7 +1465,7 @@
       return b[0] > a[0] ? (b[i] - a[i]) / (b[0] - a[0]) : 0;   /* px/ms */
     };
     /* 横の行き先：Today では今日のほかの Choice、ほかのページでは路線の隣（作品 A・B） */
-    /* 横に払う：左へは次のつながりへ（› と同じ）、右へは一つ前へ（‹ と同じ。最初の画面では行き先がない） */
+    /* 横に払う：左へは次のつながりへ（› と同じ）、右へは戻る（左上の ‹・左の端から払うのと同じ。最初の画面では行き先がない） */
     const hasStep = (d) => !!here && (d > 0 || !atRoot());
     /* 最初の画面（Today）は閉じる先がないので、絵を下へ持ち上げない */
     const noLift = () => atRoot();
@@ -1524,12 +1635,12 @@
   })();
 
   /* 右へ払えば戻る（transition.js）。左へ払えば路線の先へ進む */
-  let sx = 0, sy = 0, swiping = false;
+  let sx = 0, sy = 0, sY = 0, swiping = false;
   document.addEventListener('touchstart', e => {
     if (e.touches.length !== 1 || !body.classList.contains('route')) { swiping = false; return; }
     const t = e.touches[0];
     if (t.target.closest && t.target.closest('input,textarea,select')) { swiping = false; return; }
-    sx = t.clientX; sy = t.clientY; swiping = true;
+    sx = t.clientX; sy = t.clientY; sY = window.scrollY; swiping = true;
   }, { passive: true });
   document.addEventListener('touchend', e => {
     if (!swiping) return;
@@ -1538,7 +1649,10 @@
     const t = e.changedTouches && e.changedTouches[0];
     if (!t) return;
     const dx = t.clientX - sx, dy = Math.abs(t.clientY - sy);
-    if (dx <= -88 && -dx > dy * 1.6 && here) nextAction('swipe');
+    /* 文字の上を斜めに送る指（読みながら下へスクロールする）で、次へ進んでいた（開発会議 2026.10.23 §3.4）。
+       ほぼ真横（縦のぶれ 40px 未満か、横が縦の 2.5 倍以上）で、そのあいだにページが動いていないときだけ次へ */
+    const flat = dy < 40 || -dx >= dy * 2.5;
+    if (dx <= -88 && -dx > dy * 1.6 && flat && Math.abs(window.scrollY - sY) < 2 && here) nextAction('swipe');
   }, { passive: true });
 
   /* ---------- 左の端から右へ払って戻る（iPhone と同じ） ----------
@@ -1551,11 +1665,10 @@
     const W = () => window.innerWidth;
     const PAR = 0.28;   /* 後ろの画面は、指の 3 割ほど遅れて付いてくる */
     let s = null;
-    /* 戻り先：closeView と同じ決め方（null は奥の UniverseIt!） */
-    const target = () => depth() === 0 ? '#/today' : (stack.length >= 2 ? stack[stack.length - 2] : null);
     function begin(){
       settleAll();
-      const to = target();
+      /* 戻り先：closeView と同じ決め方（null は奥の UniverseIt!） */
+      const to = backHash();
       const under = to ? underlay(null, to) : false;
       if (!under && !to) peek(true);
       s.under = document.querySelector('.underlay');
@@ -1685,6 +1798,17 @@
     });
   }
 
+  /* 検索などからページを直接開いた、はじめての人（この端末で一度も開いていない）へ：このメディアが何かを一行だけ。
+     書き出した静的なページには入れない（二度目からの人には要らない一行が、起き上がると消えて段がずれるため） */
+  let firstVisit = false;
+  try { firstVisit = !localStorage.getItem('bc-seen'); localStorage.setItem('bc-seen', '1'); } catch (e) {}
+  function landingNote(){
+    if (!firstVisit || !isDirect()) return;
+    const at = viewIn.querySelector('.cpage>.context-lead, .wpage>.content');
+    if (!at) return;
+    at.insertAdjacentHTML('afterbegin', '<p class="landing-note">二つの作品のあいだの、意外なつながりを辿るメディア ― <a href="about/">Beautiful Context とは ›</a></p>');
+  }
+
   const resume = takeResume();
   if (resume){
     /* 見えないところで読み直したあと：離れたときの画面のまま */
@@ -1713,11 +1837,13 @@
     toUni(false);
     stack.push(location.hash);
     routeTo(location.hash, null);
+    landingNote();
   } else if (body.dataset.route){
     /* 静的なページ（c/…/・w/…/・e/…/。検索から来た人の入口）：表紙を飛ばし、描いてあるページをそのまま引き継ぐ */
     toUni(false);
     stack.push(body.dataset.route);
     routeTo(body.dataset.route, { pre: true });
+    landingNote();
   } else {
     armIdle();
   }
@@ -1725,4 +1851,18 @@
   window.addEventListener('load', measureDock, { once: true });
   if (document.fonts && document.fonts.ready) document.fonts.ready.then(measureDock);
   (window.requestIdleCallback || ((f) => setTimeout(f, 800)))(preload);
+
+  /* 起き上がった（index.html の、読み込み中の薄さと金の線を外す）。
+     読み込みのあいだに触れた一回（index.html の小さな script が window.__early に覚えている）を、ここで一度だけ行う */
+  body.classList.add('app-ready');
+  {
+    const early = window.__early;
+    window.__early = null;
+    if (early) requestAnimationFrame(() => {
+      if (early === 'uni') uniBtn.click();
+      else if (early === 'next') nextAction('arrow');
+      else if (early === 'prev') prevAction('arrow');
+      else closeView();
+    });
+  }
 })();
