@@ -91,12 +91,19 @@
     const t = setTimeout(() => ctl.abort(), +C.timeoutMs || 6000);
     return window.fetch(input, Object.assign({}, init, { signal: ctl.signal })).finally(() => clearTimeout(t));
   };
+  /* 最初の一コマを描き終えたか（load のあと、次の描画のあと、手が空いたとき）。それまで supabase-js を読み込まない。
+     Google から戻ったとき（?code=）だけは待たない（すぐにログインを済ませる） */
+  const URGENT = /[?&]code=/.test(location.search);
+  const painted = new Promise((resolve) => {
+    const go = () => requestAnimationFrame(() => setTimeout(() => idle(resolve), 0));
+    if (document.readyState === 'complete') go(); else window.addEventListener('load', go, { once: true });
+  });
   let client = null, loading = null;
   function load() {
     if (!ON) return Promise.reject(new Error('off'));
     if (client) return Promise.resolve(client);
     if (loading) return loading;
-    loading = new Promise((resolve, reject) => {
+    loading = (URGENT ? Promise.resolve() : painted).then(() => new Promise((resolve, reject) => {
       const make = () => {
         try {
           client = window.supabase.createClient(C.supabaseUrl, C.supabaseAnonKey, {
@@ -115,7 +122,7 @@
       s.onload = () => (window.supabase && window.supabase.createClient ? make() : reject(new Error('load')));
       s.onerror = () => reject(new Error('load'));
       document.head.appendChild(s);
-    });
+    }));
     loading.catch(() => { loading = null; });
     return loading;
   }
@@ -286,7 +293,9 @@
     const t = (x) => (x ? Date.parse(x) : NaN), last = t(u.last_sign_in_at);
     return Math.abs(last - t(u.created_at)) < MINUTE || Math.abs(last - t(u.email_confirmed_at || u.confirmed_at)) < MINUTE;
   };
+  /* ログインの手続きの最中か（そのあいだに onAuthStateChange が来ても、二重に送らない） */
   let logging = false;
+  /* method：'email' | 'google'（この画面でログインした。GA に数える）、null（ほかのタブ・ほかの道でログインした） */
   async function afterLogin(method, user) {
     logging = true;
     const isNew = isNewUser(user);
@@ -303,7 +312,7 @@
       cache.comments = {};   // 自分の確認待ちのコメントを読み直す
       save();
     } finally { logging = false; }
-    emit('auth', { event: 'login', method, isNew });
+    emit('auth', method ? { event: 'login', method, isNew } : { event: 'in' });
     return { isNew, needsName: !me.name };
   }
   async function resume(user) {
@@ -322,8 +331,8 @@
     const u = session && session.user;
     if (!u) { if (event === 'SIGNED_OUT') signedOut(); return; }
     if (logging || event === 'TOKEN_REFRESHED' || event === 'INITIAL_SESSION') return;
-    /* ほかのタブでログインした・この端末のセッションが別の人になった */
-    if (!me || me.uid !== u.id) await resume(u);
+    /* ほかのタブでログインした・この端末のセッションが別の人になった：この端末で押したものもそろえる（GA には数えない） */
+    if (!me || me.uid !== u.id) await afterLogin(null, u);
   }
 
   /* 起動：セッションを確かめる（Google から戻った ?code= の交換もここで終わる）→ outbox を送る → 数を読む */
@@ -334,7 +343,8 @@
     boot = (async () => {
       const c = await load();
       const code = /[?&]code=/.test(location.search);
-      const { data, error } = await c.auth.getSession();
+      if (code) logging = true;   // ?code= の交換で来る SIGNED_IN は、下の afterLogin が受け持つ
+      const { data, error } = await c.auth.getSession().finally(() => { logging = false; });
       /* ネットが無くてセッションを確かめられないときは、控えのまま（ログアウトにしない。outbox も残す） */
       if (error && isNetwork(error)) throw error;
       const u = data.session && data.session.user;
@@ -428,9 +438,12 @@
     },
     async verifyCode(email, code) {
       const c = await load();
-      const { data, error } = await c.auth.verifyOtp({ email: String(email || '').trim(), token: String(code || '').replace(/\D/g, ''), type: 'email' });
-      if (error) throw error;
-      return afterLogin('email', data.user);
+      logging = true;   // verifyOtp の中で来る SIGNED_IN は、ここの afterLogin が受け持つ
+      let r;
+      try { r = await c.auth.verifyOtp({ email: String(email || '').trim(), token: String(code || '').replace(/\D/g, ''), type: 'email' }); }
+      finally { logging = false; }
+      if (r.error) throw r.error;
+      return afterLogin('email', r.data.user);
     },
     /* Google（googleEnabled のときだけ画面に出す）。出かける前の画面を覚えて、戻ってきたら ready() が戻す */
     async google() {
@@ -505,9 +518,7 @@
   if (!ON) return;
   /* 起動は、ページを描き終えて手が空いてから。Google から戻ったとき（?code=）だけはすぐ */
   const kick = () => quiet(ready());
-  if (/[?&]code=/.test(location.search)) kick();
-  else if (document.readyState === 'complete') idle(kick);
-  else window.addEventListener('load', () => idle(kick), { once: true });
+  if (URGENT) kick(); else painted.then(kick);
   window.addEventListener('online', () => { if (client) poll(); else kick(); });
   document.addEventListener('visibilitychange', () => {
     if (document.visibilityState !== 'visible' || !client) return;
