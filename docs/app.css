@@ -1,8 +1,8 @@
 /* Beautiful Context — 読者の画面
    前田先生の構成図 flow0921-2 と demo-1.html のとおりに組む。
 
-     表紙 ………… 回路の絵（先生の構成図の画像そのもの）に BEAUTIFUL CONTEXT
-     UniverseIt! … 同じ回路の上に、「# 言葉」を横に並べて折り返す。
+     表紙 ………… 地の絵に BEAUTIFUL CONTEXT（構成図では回路の画像そのもの。2026.10.24 から地球。末尾の節）
+     UniverseIt! … 同じ地の上に、「# 言葉」を横に並べて折り返す。
                    下に BEAUTIFUL CONTEXT と、橙「つながりを創る」紺「つながりを辿る」
      作品ページ …… demo-1。黒地に絵、紙の地に明朝の解説、下に路線図
      コンテクスト … demo-1。黒地に二枚の絵と ↔、紙の地に見出しと本文
@@ -11,21 +11,20 @@
 
 :root{
   --paper:#f7f4ed; --ink:#121212; --gold:#a97717; --muted:#6b6b67; --rule-p:#d1ccc3;
-  --ground:#061629;                       /* 回路の地（構成図の画像から測った値） */
+  --ground:#061629;                       /* 地の紺（構成図の回路の画像から測った値。回路を外したあとも、この紺が地） */
   --accent:#ee8232; --navy:#1a2f5a;       /* 橙と紺（構成図の画像から測った値） */
   --uni-ink:#fff; --uni-dim:rgba(255,255,255,.7); --uni-hash:rgba(255,255,255,.62);
   --uni-rule:rgba(255,255,255,.3);
-  --pcb:url(img/pcb-charcoal.jpg);
+  --earth:url(img/bg-earth.jpg);          /* 表紙・UniverseIt!・ReMixIt! の地の絵（2026.10.24 まで回路 pcb-*.jpg。末尾の「地球」の節） */
   --dockh:128px; --col:100%;
   --mincho:"Yu Mincho","YuMincho","Hiragino Mincho ProN","Noto Serif JP",serif;
   --gothic:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Hiragino Kaku Gothic ProN","Yu Gothic","Noto Sans JP",sans-serif;
 }
-/* A / WHITE。白地に青い回路の版 */
+/* A / WHITE。白い地の版（同じ地球を、白い紗の向こうに淡く） */
 html[data-theme="white"]{
   --ground:#ffffff;
   --uni-ink:#0f1722; --uni-dim:rgba(15,23,34,.62); --uni-hash:rgba(15,23,34,.42);
   --uni-rule:rgba(15,23,34,.2);
-  --pcb:url(img/pcb-white.jpg);
 }
 
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
@@ -43,8 +42,8 @@ a{color:inherit}
 
 /* ---------- 背景 ---------- */
 #bg{position:fixed;inset:0;z-index:0;background:var(--ground)}
-/* 左右に並ぶ二枚の回路：左が A / WHITE（ReMixIt!）、右が B / CHARCOAL（UniverseIt!）。
-   いま見ている方が画面にあり、もう一方は隣（画面の外）に控えている */
+/* 左右に並ぶ二枚の地：左が A / WHITE（ReMixIt!）、右が B / CHARCOAL（UniverseIt!）。
+   いま見ている方が画面にあり、もう一方は隣（画面の外）に控えている（class 名 pcb-* は回路だった頃の名。app.js が選ぶので変えない） */
 #bg .pcb,.uni-frame .fr{position:absolute;inset:0;background-position:center;background-size:cover;background-repeat:no-repeat}
 /* 画面いっぱいの絵を、いつも GPU に持たせない。iPhone（3 倍の解像度）では一枚で約 15MB になり、
    持ちすぎると iOS が層を捨て、UniverseIt! の地が黒く抜けていた。
@@ -53,12 +52,16 @@ a{color:inherit}
 html:not([data-theme="white"]) body:not(.swiping):not(.settling) :is(#bg .pcb-w,.uni-frame .fr-w),
 html[data-theme="white"] body:not(.swiping):not(.settling) :is(#bg .pcb-c,.uni-frame .fr-c){visibility:hidden}
 body.swiping :is(#bg .pcb,.uni-frame .fr),body.settling :is(#bg .pcb,.uni-frame .fr){will-change:transform}
-#bg .pcb-c,.uni-frame .fr-c{background-color:#061629;background-image:url(img/pcb-charcoal.jpg)}
-#bg .pcb-w,.uni-frame .fr-w{background-color:#fff;background-image:url(img/pcb-white.jpg);transform:translate3d(-100%,0,0)}
+/* 絵は地球（--earth）。紺の紗（B）／白い紗（A）を重ねた上に文字を置く。紗の濃さと絵の置き場所は末尾の「地球」の節。
+   絵の上に残る帯の地色は A も B も --earth-sky（写真の宇宙と同じ黒）。A の白い紗は絵の上端（--earth-y）までは上端の濃さのまま、
+   そこから下で紙色へ薄くなる。帯を白にしたり紗を上から薄め始めたりすると、同じ紗の下で帯と写真の宇宙の明るさが違い、絵の上端に線が出る */
+#bg .pcb-c,.uni-frame .fr-c{background-color:var(--earth-sky);background-image:linear-gradient(var(--earth-dark-top),var(--earth-dark-bottom)),var(--earth)}
+#bg .pcb-w,.uni-frame .fr-w{background-color:var(--earth-sky);background-image:linear-gradient(var(--earth-light-top),var(--earth-light-top) var(--earth-y),var(--earth-light-bottom)),var(--earth);transform:translate3d(-100%,0,0)}
 html[data-theme="white"] #bg .pcb-c,html[data-theme="white"] .uni-frame .fr-c{transform:translate3d(100%,0,0)}
 html[data-theme="white"] #bg .pcb-w,html[data-theme="white"] .uni-frame .fr-w{transform:none}
-.uni-frame .fr-c{background-image:linear-gradient(rgba(6,22,41,.14),rgba(6,22,41,.14)),url(img/pcb-charcoal.jpg)}
-.uni-frame .fr-w{background-image:linear-gradient(rgba(255,255,255,.14),rgba(255,255,255,.14)),url(img/pcb-white.jpg)}
+/* 見出しの下と下の帯の後ろの写しは、veil（14%）の分だけ同じに落とす。#bg と同じ絵・同じ位置でないと、流れる言葉の上下で地がずれて見える */
+.uni-frame .fr-c{background-image:linear-gradient(rgba(6,22,41,.14),rgba(6,22,41,.14)),linear-gradient(var(--earth-dark-top),var(--earth-dark-bottom)),var(--earth)}
+.uni-frame .fr-w{background-image:linear-gradient(rgba(255,255,255,.14),rgba(255,255,255,.14)),linear-gradient(var(--earth-light-top),var(--earth-light-top) var(--earth-y),var(--earth-light-bottom)),var(--earth)}
 #bg .veil{position:absolute;inset:0;background:var(--ground);opacity:0;transition:opacity .9s ease}
 body:not(.stage-intro) #bg .veil{opacity:.14}   /* 構成図の UniverseIt! は表紙とほぼ同じ明るさ。文字が読める分だけ落とす */
 
@@ -940,3 +943,43 @@ html[data-theme="white"] .tag,html[data-theme="white"] .uni-title{text-shadow:0 
   .list-page .back-close:hover{background:#ffffff33}
   .ed-link:hover b{text-decoration:underline;text-underline-offset:3px}
 }
+
+/* ---------- 表紙・UniverseIt!・ReMixIt! の地を、回路から地球へ（CTO 2026.10.24・開発会議 2026.10.23 §3.3） ----------
+   先生の構成図の回路（pcb-charcoal.jpg／pcb-white.jpg）を外し、読んでいるあいだのパソコンの地（前田先生 2026.10.22）と
+   同じ地球 bg-earth.jpg を、表紙・UniverseIt!・ReMixIt! にも使う。サイト全体が「紺の地に地球、紙に明朝」の一つの調子になり、
+   会議の「地球が回転し、その周囲に言葉が浮かぶ」（§3.3）の、まず「地球のまわりに言葉が浮かぶ」の方を形にする。
+   新しい絵は足していない（回転は後回し。会議の決め：見た目の仕上げで 11 月のベータを遅らせない）。
+
+   置き方：写真の上端は宇宙の黒、地球の縁（limb）は上から約 11%。これを画面の上から --earth-y ぶん下げて置き、
+   上に宇宙の黒（--earth-sky。写真の上端と同じ色）を残す。表紙では BEAUTIFUL ◉ CONTEXT が地平の上に浮かび、
+   UniverseIt! では見出しが宇宙に、言葉が地球の上を流れる。紗（勾配）は絵とは別に、要素いっぱいに敷く。
+   帯も写真の上端も同じ紗の下にあるので、絵の上端に継ぎ目は出ない（差 1/255 以内。測って確かめる）。
+   ・縦長（携帯・タブレット縦）：絵の高さを画面（--sh = screen.height。表紙のロゴと同じ寸。ホーム画面の起動画面と
+     同じ一コマになる）に合わせ、--earth-drop ぶん下げる。横は中央で切る。パソコンの縦長の窓（画面より低い）で
+     地球が下にはみ出さないよう、下げ幅は窓の高さの 60% まで
+   ・横長（パソコン・iPhone の横向き）：絵の幅を画面に合わせ（高さは余って下が切れる）、窓の高さ（100vh）の
+     --earth-drop-wide ぶん下げる。--sh は使わない：--sh は画面（モニタ）の高さで、最大化していない窓や大きなモニタ、
+     横向きの iPhone（screen.height は縦のまま）では窓よりずっと大きく、地球が窓の外に出てしまう
+   紗：B（紺）は上 --earth-dark-top から下 --earth-dark-bottom へ濃くなる。雲の明るい所でも白い Lato（21〜30px・影つき）が読める濃さ。
+       A（白）は同じ地球を白い紗の向こうに淡く。言葉は濃い字（--uni-ink）のまま読める。
+   起動画面 img/launch/*.png は、この表紙の最初の一コマを端末ごとの大きさで描いたもの（絵を変えたら描き直す）。
+   数字はここの :root だけで調整できる */
+:root{
+  --earth-sky:#040509;                    /* 絵の上に残る宇宙の帯。写真の上端の色そのもの（上端の行の平均 (4,5,9)。同じ紗の下で写真の宇宙とつながり、継ぎ目が出ない） */
+  --earth-drop:.45;                       /* 縦長：絵の上端を画面の高さの何割ぶん下げるか（地平はその約 11% 下） */
+  --earth-drop-wide:.42;                  /* 横長：同じ（窓の高さに対して） */
+  --earth-x:50%;                          /* 横の切り方（50% で大西洋〜ヨーロッパが中央） */
+  --earth-size:auto var(--sh,100vh);      /* 縦長：絵の高さを画面に */
+  --earth-y:min(calc(var(--sh,100vh) * var(--earth-drop)),60vh);
+  --earth-dark-top:rgba(6,22,41,.46);     /* B：紗の上端の濃さ（地平の光る縁。上は宇宙の黒なので、濃くしても表紙は暗くならない） */
+  --earth-dark-bottom:rgba(6,22,41,.7);   /* B：紗の下端の濃さ（雲のいちばん明るい所でも、白い字と 5:1 以上） */
+  --earth-light-top:rgba(255,255,255,.97);   /* A：白い紗の、上端から絵の上端（--earth-y）までの濃さ（宇宙の黒が、紙より白い地 #f8f8f8 になる） */
+  --earth-light-bottom:rgba(247,244,237,.78);/* A：白い紗の下端（紙の色。地球が淡く透ける） */
+}
+@media (min-aspect-ratio:1/1){
+  :root{--earth-size:100% auto;--earth-y:calc(100vh * var(--earth-drop-wide))}
+}
+/* 層ごとに大きさと置き場所を書く（#bg は 紗・絵 の二層、.uni-frame は veil 分・紗・絵 の三層）。
+   一つだけ書くと全部の層に効き、紗まで絵と同じ大きさ・同じ所に置かれて、絵の上の帯が素の地色のまま残り、絵の上端に横一本の線が出る */
+#bg .pcb{background-size:auto,var(--earth-size);background-position:0 0,var(--earth-x) var(--earth-y)}
+.uni-frame .fr{background-size:auto,auto,var(--earth-size);background-position:0 0,0 0,var(--earth-x) var(--earth-y)}

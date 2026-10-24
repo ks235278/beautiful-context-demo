@@ -101,8 +101,10 @@
   .theme-opt input{position:absolute;opacity:0}
   .theme-opt.on{border-color:var(--ink);box-shadow:0 0 0 1px var(--ink)}
   .theme-opt i{display:block;height:74px;border-radius:8px;background-size:40px 40px}
-  .theme-opt i.charcoal{background:#061629 url(img/pcb-charcoal.jpg) center/cover}
-  .theme-opt i.white{background:#fff url(img/pcb-white.jpg) center/cover}
+  /* 地の見本：表紙と同じ地球（app.css の紗の濃さと同じ。2026.10.24 に回路から替えた） */
+  .theme-opt i.charcoal{background-color:#061629;background-image:linear-gradient(rgba(6,22,41,.46),rgba(6,22,41,.7)),url(img/bg-earth.jpg)}
+  .theme-opt i.white{background-color:#fff;background-image:linear-gradient(rgba(255,255,255,.97),rgba(247,244,237,.78)),url(img/bg-earth.jpg)}
+  .theme-opt i.charcoal,.theme-opt i.white{background-size:cover;background-position:50% 30%}
   .theme-opt b{font-size:12.5px}
   .custom{display:grid;grid-template-columns:1fr 300px;gap:24px;align-items:start}
   .preview{position:sticky;top:96px;display:grid;gap:8px;justify-items:center}
