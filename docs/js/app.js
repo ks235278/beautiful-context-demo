@@ -1469,6 +1469,14 @@
       if (!g) return;
       const G = g; g = null;
       heldTimer = setTimeout(() => { held = false; dragged = false; }, toScroll ? 0 : 450);
+      /* ばねで戻る途中の帯は onStart でその位置に止めてつかむ。そのまま動かさず離した・スクロールに渡した・
+         途中で切れた（touchcancel）ときは向きが決まらず、帯がずれたまま置き去りになっていた
+         （開発会議 2026.10.23 §3.4「元の位置に戻らない」）。向きが決まらなくても、止めた位置から元へ戻す */
+      if (!G.mode && G.x){
+        setX(G.strip, 0);
+        G.strip.animate([{ transform: `translate3d(${G.x}px,0,0)` }, { transform: 'translate3d(0,0,0)' }],
+          { duration: 460, easing: 'cubic-bezier(.18,1.3,.35,1)' });
+      }
       if (!G.mode) return;                      /* 触れて離しただけ：絵のボタンがそのまま働く */
       if (G.mode === 'strip'){
         const v = vel(G.s, 1);
@@ -1490,6 +1498,10 @@
         G.img.style.visibility = '';
         G.img.parentElement.classList.remove('landing');
         closeView({ dismiss: true, toCenter: true });   /* 来た画面へ。絵は離した位置から自分の場所へ */
+        /* 後ろに透かした UniverseIt!（peek）は、来た画面が UniverseIt! なら hideView が外すが、
+           リンクから直接開いたページでは来た画面が Today（show）になり、外す者がいなかった
+           （開発会議 2026.10.23 §3.4）。持ち上げた側で外す */
+        peek(false);
         return;
       }
       const a = G.f.animate([{ transform: G.f.style.transform }, { transform: 'translate3d(0,0,0) scale(1)' }],
