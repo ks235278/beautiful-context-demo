@@ -9,7 +9,7 @@
 --
 -- 流し方
 --   `-- @migration <名前>` の行で六つに分かれている（01_types_tables 〜 06_views_initial_data）。
---   本番（beautiful-context / jajlkgybusedmvjmnqjc）には、この六つを順に migration として流した（2026-10-22）。
+--   本番（beautiful-context / jajlkgybusedmvjmnqjc）には、この六つを順に migration として流した（2026-10-22）。07〜11 もあとから流してある。
 --   一つの migration は一つのトランザクションで流れるので、失敗した部分だけを直して流し直せる。
 --   新しいプロジェクトなら、全体を SQL Editor に貼って一度に流してもよい（一つのトランザクションになる）。
 --   または supabase CLI で supabase/migrations/ に分けて置き、supabase db push。
@@ -2028,6 +2028,79 @@ grant execute on function private.recent_anon_reports_from_ip(text) to anon, aut
 grant execute on function private.recent_reports_from_subnet(text)  to anon, authenticated, service_role;
 grant execute on function private.reporter_is_new(uuid)             to anon, authenticated, service_role;
 -- v_report_queue（ふつう → 後回し、古い順。運営者は印を外せる）は 09 のまま
+
+-- @migration 11_reports_ipv6_prefix_and_subnet_ceiling
+
+-- anon キーを画面に載せる前の手当て（二つ）。10 の「断るのは一つの送り元の洪水だけ」の考え方は変えない。
+--   1. 「断る」の数え方（未ログイン：一つの送り元から1時間20件）を、IPv6 では /64 で数える。
+--      IPv6 は一つの契約に /64（2^64 個の番地）が配られ、中の番地は端末が勝手に変える（プライバシー拡張）ので、
+--      番地そのもので数えると、番地を変えるだけで 20 件の壁をすり抜けられる。IPv4 はいままでどおり番地そのもの。
+--   2. 同じ subnet（IPv4 /24・IPv6 /48）の合計に天井を置く：1時間に 200 件を超えたら、ログインの有無を問わず断る。
+--      「5 件を超えたら後回し（throttled）」は 10 のまま。天井は、使い捨てのアカウントや /64 を並べた洪水が
+--      表を埋め尽くすのを止めるための最後の壁で、ふつうの会社や携帯のネットワークが 1 時間に 200 件も送ることはない。
+-- 確かめ（2026-10-24、begin…rollback の中で 19 項目）：IPv6 の /64・/48 のハッシュ、同じ /64 の 21 件目が 54000、
+--   別の /64 は通って throttled、IPv4 は番地そのもの、::ffff: の IPv4、送信元不明は 22023、
+--   同じ /24 の 200 件目は通って throttled・201 件目は 54000（ログインした人も同じ）、同じ人が静かな所からなら通る。
+
+-- 「一つの送り元」：IPv4 は番地そのもの、IPv6 は /64
+create or replace function private.source_of(p_addr inet)
+returns text language sql immutable strict set search_path = '' as $$
+  select case when family(p_addr) = 4 then host(p_addr)
+              else network(set_masklen(p_addr, 64))::text end;
+$$;
+
+comment on column public.reports.ip_hash is '送信元（IPv4 は番地そのもの、IPv6 は /64）のハッシュ。秘密の salt＋日付（日本時間）＋値の sha256。未ログインの洪水を断るのに使う';
+comment on column public.reports.subnet_hash is '送信元の subnet（IPv4 /24・IPv6 /48）のハッシュ。秘密の salt＋日付＋subnet の sha256。5件で後回し、200件で断る（天井）';
+
+create or replace function private.reports_before_insert()
+returns trigger language plpgsql set search_path = '' as $$
+declare
+  v_addr     inet;
+  v_subnet_n int := 0;
+begin
+  if private.is_backend() then return new; end if;
+  new.reporter_user_id := auth.uid();
+  new.status     := 'open';
+  new.resolution := '';
+  new.handled_by := null;
+  new.handled_at := null;
+  new.created_at := now();
+  v_addr := private.client_addr();
+  new.ip_hash     := private.report_hash(private.source_of(v_addr));   -- 11：IPv6 は /64
+  new.subnet_hash := private.report_hash(private.subnet_of(v_addr));
+
+  -- 断る：一つの送り元からの洪水だけ
+  if new.reporter_user_id is null then
+    if new.ip_hash is null then
+      raise exception '送信元を確認できませんでした。お手数ですが、利用規約の連絡先からお知らせください。' using errcode = '22023';
+    end if;
+    if private.recent_anon_reports_from_ip(new.ip_hash) >= 20 then
+      raise exception '短い時間にたくさん送られています。しばらくしてから送ってください' using errcode = '54000';
+    end if;
+  else
+    if private.recent_reports_by(new.reporter_user_id) >= 5 then
+      raise exception '短い時間にたくさん送られています。しばらくしてから送ってください' using errcode = '54000';
+    end if;
+  end if;
+
+  -- 断る：同じ subnet の合計の天井（1時間 200 件。ログインの有無を問わない）
+  if new.subnet_hash is not null then
+    v_subnet_n := private.recent_reports_from_subnet(new.subnet_hash);
+    if v_subnet_n >= 200 then
+      raise exception 'いまは依頼が混み合っています。しばらくしてから送るか、利用規約の連絡先からお知らせください' using errcode = '54000';
+    end if;
+  end if;
+
+  -- 後回し：断らずに受け付け、印を付ける（10 のまま）
+  new.throttled :=
+       v_subnet_n >= 5
+    or (new.reporter_user_id is null and private.recent_anon_reports() >= 100)
+    or (new.reporter_user_id is not null and private.reporter_is_new(new.reporter_user_id));
+  return new;
+end $$;
+
+revoke all on function private.source_of(inet) from public;
+grant execute on function private.source_of(inet) to anon, authenticated, service_role;
 
 -- @end
 
