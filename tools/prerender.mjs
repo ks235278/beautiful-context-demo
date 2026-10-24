@@ -69,7 +69,8 @@ await send('Page.enable'); await send('Runtime.enable');
 await send('Emulation.setDeviceMetricsOverride', { width: 402, height: 874, deviceScaleFactor: 1, mobile: true });
 /* 動きを止める（絵を運ぶ途中の印が HTML に残らないように） */
 await send('Emulation.setEmulatedMedia', { features: [{ name: 'prefers-reduced-motion', value: 'reduce' }] });
-await send('Page.navigate', { url: `${ORIGIN}/index.html#/today` });
+/* ?static=1：config.js が backend を 'snapshot' にする（Supabase に出ない。コメントや数をページに焼き込まない） */
+await send('Page.navigate', { url: `${ORIGIN}/index.html?static=1#/today` });
 await sleep(2500);
 
 /* ---------- 書き出すページの一覧（公開中のものだけ） ---------- */
