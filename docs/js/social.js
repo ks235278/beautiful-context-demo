@@ -57,6 +57,8 @@
     verifyCode(email, code) { return B ? B.verifyCode(email, code) : Promise.reject(new Error('off')); },
     signInWithGoogle() { return B ? B.google() : Promise.reject(new Error('off')); },
     setName(name) { return B ? B.setName(name) : Promise.reject(new Error('off')); },
+    /* 退会（Supabase のときだけ。アカウントとコメントなどがサーバーから消え、この端末もログアウトする） */
+    deleteAccount() { return B ? B.deleteAccount() : Promise.reject(new Error('off')); },
     message(err) { return B ? B.message(err) : '送れませんでした'; },
 
     following() { return st.follows.slice(); },

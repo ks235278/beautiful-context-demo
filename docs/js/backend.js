@@ -139,7 +139,8 @@
     if (code === 'email_address_invalid' || code === 'validation_failed') return 'メールアドレスを確かめてください';
     if (code === 'email_address_not_authorized') return 'いまはこのアドレスにメールを送れません（準備中です）';
     if (code === 'signup_disabled') return 'いまは新しいアカウントを作れません';
-    if (code === '42501') return '権限がありません';
+    /* schema.sql が日本語で理由を書いた 42501（編集者は退会できない など）は、その文のまま。PostgREST の英語の文は一言に */
+    if (code === '42501') return e && /[^\x00-\x7f]/.test(e.message || '') ? e.message : '権限がありません';
     if (code === '54000' || code === '22023') return e.message;   // schema.sql の言葉のまま（送りすぎ・表示名が要る）
     if (code === '23505') return 'もう登録されています';
     return '送れませんでした' + (code ? '（' + code + '）' : '');
@@ -468,6 +469,19 @@
       signedOut();
       if (client) { try { await client.auth.signOut({ scope: 'local' }); } catch (e) {} }
       else write(K.auth, null);
+    },
+    /* 退会（App Store 5.1.1(v)）：サーバーの delete_my_account() が、アカウント・フォロー・共感・コメント（公開中のものも）・
+       お知らせを消す（backend/migrations/12）。消えたら、この端末の控えも消してログアウトする。
+       失敗（ネット・編集者は消せない など）は投げる。画面は BCBackend.message(err) で一言にする */
+    async deleteAccount() {
+      if (!me) { const e = new Error('ログインしていません'); e.code = '42501'; throw e; }
+      const c = await load();
+      const { error } = await c.rpc('delete_my_account');
+      if (error) throw error;
+      signedOut();
+      /* サーバーのセッションはもう無い（auth.users ごと消えた）。端末のトークンだけを捨てる */
+      try { await c.auth.signOut({ scope: 'local' }); } catch (e) {}
+      write(K.auth, null);
     },
 
     /* フォロー */

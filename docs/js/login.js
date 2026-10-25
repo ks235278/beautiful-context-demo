@@ -29,7 +29,7 @@
         <form data-login-name${me0 ? '' : ' hidden'}>
           <label>表示名<input name="name" maxlength="24" autocomplete="nickname" required placeholder="例：映画と本の山田" value="${R.esc(Social.demoName())}"></label>
           <button type="submit" class="sheet-go">はじめる</button>
-          ${me0 ? '<button type="button" class="sheet-later" data-login-out>ログアウト</button>' : ''}
+          ${me0 ? '<button type="button" class="sheet-later" data-login-out>ログアウト</button><button type="button" class="sheet-del" data-login-delete>アカウントを削除する</button>' : ''}
         </form>
         <p class="sheet-demo" data-login-msg role="status" aria-live="polite">メールアドレスはログインのためだけに使い、ほかの人には見えません。コメントには表示名だけが出ます。</p>
         <button type="button" class="sheet-later" data-sheet-close>あとで</button>`);
@@ -98,6 +98,37 @@
       });
       const out = $('[data-login-out]');
       if (out) out.addEventListener('click', () => { Social.signOut(); ui.closeSheet(); ui.toast('ログアウトしました'); });
+      const del = $('[data-login-delete]');
+      if (del) del.addEventListener('click', () => this.confirmDelete(ui));
+      return el;
+    },
+
+    /* 退会の確かめ（App Store 5.1.1(v)：アプリの中で始めて、終えられること）。
+       何が消えるかを一度だけ見せ、「削除する」で消す。二度目の確かめ（コードの入力など）は求めない。
+       編集者・運営者は、サーバーが断る（理由の文をそのまま出す） */
+    confirmDelete(ui) {
+      const Social = window.BCSocial;
+      const el = ui.sheet(`
+        <p class="meta">ACCOUNT</p>
+        <h2>アカウントを削除しますか</h2>
+        <p class="sheet-note">表示名・フォロー・共感と、これまでに書いたコメント（公開中のものも）が、すべて消えます。元には戻せません。</p>
+        <button type="button" class="sheet-go sheet-danger" data-delete-go>削除する</button>
+        <button type="button" class="sheet-later" data-sheet-close>やめる</button>
+        <p class="sheet-demo" data-delete-msg role="status" aria-live="polite"></p>`);
+      el.setAttribute('aria-label', 'アカウントの削除');
+      const go = el.querySelector('[data-delete-go]');
+      go.addEventListener('click', async () => {
+        go.disabled = true; go.textContent = '削除しています…';
+        try {
+          await Social.deleteAccount();
+          if (ui.track) ui.track('account_delete');
+          ui.closeSheet();
+          ui.toast('アカウントを削除しました');
+        } catch (err) {
+          el.querySelector('[data-delete-msg]').textContent = Social.message(err);
+          go.disabled = false; go.textContent = '削除する';
+        }
+      });
       return el;
     }
   };

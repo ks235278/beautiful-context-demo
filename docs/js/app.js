@@ -1307,7 +1307,7 @@
   }
   function openLogin(title, then){
     /* Supabase につながる版は、メールのコードでログインする（js/login.js） */
-    if (Social.remote() && window.BCLogin){ BCLogin.open({ sheet, closeSheet, toast }, title, then); return; }
+    if (Social.remote() && window.BCLogin){ BCLogin.open({ sheet, closeSheet, toast, track }, title, then); return; }
     const el = sheet(`
       <p class="meta">BEAUTIFUL CONTEXT</p>
       <h2>${R.esc(title || 'ログイン')}</h2>
@@ -1338,9 +1338,13 @@
       <h2>${R.esc(me.name)}</h2>
       <p class="sheet-note">フォロー中の編集者 ${n} 人</p>
       <button type="button" class="sheet-go" data-signout>ログアウト</button>
-      <button type="button" class="sheet-later" data-sheet-close>閉じる</button>`);
+      <button type="button" class="sheet-later" data-sheet-close>閉じる</button>
+      ${Social.remote() && window.BCLogin ? '<button type="button" class="sheet-del" data-delete-account>アカウントを削除する</button>' : ''}`);
     el.setAttribute('aria-label', 'アカウント');
     el.querySelector('[data-signout]').addEventListener('click', () => { Social.signOut(); closeSheet(); toast('ログアウトしました'); });
+    /* 退会（App Store 5.1.1(v)）。確かめのシートは js/login.js */
+    const del = el.querySelector('[data-delete-account]');
+    if (del) del.addEventListener('click', () => BCLogin.confirmDelete({ sheet, closeSheet, toast, track }));
   }
   /* フォローしたあとで一度だけ、アカウントを勧める（しつこくしない。閉じれば二度と出ない） */
   function nudge(title, text){
