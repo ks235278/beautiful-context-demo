@@ -10,7 +10,7 @@
 -- 流し方
 --   `-- @migration <名前>` の行で六つに分かれている（01_types_tables 〜 06_views_initial_data）。
 --   本番（beautiful-context / jajlkgybusedmvjmnqjc）には、この六つを順に migration として流した（2026-10-22）。07〜11 もあとから流してある。
---   12 からは、頭に「まだ dev に流していない」と書いたものは未適用（backend/migrations/ に同じ文がある。流したら注を外す）。
+--   12・13 は 2026-10-25 に dev へ適用済み。これから書く migration は、頭に「まだ dev に流していない」と書いたものが未適用（backend/migrations/ に同じ文がある。流したら注を外す）。
 --   一つの migration は一つのトランザクションで流れるので、失敗した部分だけを直して流し直せる。
 --   新しいプロジェクトなら、全体を SQL Editor に貼って一度に流してもよい（一つのトランザクションになる）。
 --   または supabase CLI で supabase/migrations/ に分けて置き、supabase db push。
@@ -2104,7 +2104,7 @@ revoke all on function private.source_of(inet) from public;
 grant execute on function private.source_of(inet) to anon, authenticated, service_role;
 
 -- @migration 12_delete_my_account
--- （2026-10-25 に書いた。まだ dev に流していない。流したら README 6.1 と schema.sql の「未適用」の注を外す）
+-- （2026-10-25 に書き、同じ日に dev に流した。確かめ：tools/sql-test.mjs --applied で全項目通過）
 --
 -- 読者が、アプリの中で自分のアカウントを消す（App Store 審査 5.1.1(v)：退会はアプリの中で始められ、
 -- アカウントと、その人のデータ（書いたコメントを含む）が消えること。電話・メールで頼ませるのは不可）。
@@ -2147,7 +2147,7 @@ revoke all on function public.delete_my_account() from public, anon;
 grant execute on function public.delete_my_account() to authenticated;
 
 -- @migration 13_user_mutes
--- （2026-10-25 に書いた。まだ dev に流していない。流したら README 6.1 と schema.sql の「未適用」の注を外す）
+-- （2026-10-25 に書き、同じ日に dev に流した。確かめ：tools/sql-test.mjs --applied で全項目通過）
 --
 -- 「この人のコメントを表示しない」（App Store 審査 1.2：利用者が、ほかの利用者を遮れること）。
 -- ・隠れるのは、設定した人の画面だけ。相手には知らせず、相手のコメントも消えない（運営が消すのは通報から）。

@@ -3,7 +3,7 @@
 > 状態（2026-10-24）：dev のプロジェクト `jajlkgybusedmvjmnqjc`（東京）に `schema.sql`（migration 01〜11）を流し、見本の 130 本を入れた。
 > 第1段階のうち「ログイン（メールのコード）・表示名・フォロー・共感・コメント・運営者のコメント確認」を `docs/` につないだ（ブランチ `backend-phase1`。何が動くかは 6.1、残りと持ち主の作業は 7 章）。
 > 2026-10-25：App Store 審査に要る「アプリの中での退会（5.1.1(v)）」「コメントを運営に知らせる・その人を表示しない（1.2）」「自分のコメントの削除」を画面に足した。
-> そのための **migration 12・13 は書いて手元の Postgres で確かめたが、まだ dev に流していない**（`backend/migrations/`。流し方は 7 章）。流すまでは、退会は「いまは使えません（準備中です）」、表示しないは端末の中だけで動く。
+> そのための **migration 12・13 は 2026-10-25 に dev へ適用済み**（`backend/migrations/`。Supabase 上で `tools/sql-test.mjs --applied` の全項目が通った：12 は 18 項目、13 は 13 項目。試しのデータは残っていない）。
 > 読むもの（コンテクスト・作品・編集者）は、まだ `seed.js` から読む。
 > 書いた人の前提：エンジニアは一人。だから「自分でサーバーを持たない・夜中に起こされない」ことを最優先にした。
 
@@ -12,7 +12,7 @@
 | `backend/README.md` | これ。全体の形・表・権限・流れ・引っ越し・段階・費用・危険 |
 | `backend/schema.sql` | Supabase にそのまま流せる migration（表・RLS・トリガー・取り込み関数・Storage・集計ビュー） |
 | `backend/client-plan.md` | `docs/js/store.js` と `docs/js/social.js` を localStorage から Supabase に切り替える手順（関数ごと） |
-| `backend/migrations/` | 12 からの migration を一つずつ（schema.sql の末尾と同じ文。頭に「まだ dev に流していない」とあるものは未適用） |
+| `backend/migrations/` | 12 からの migration を一つずつ（schema.sql の末尾と同じ文。頭に「まだ dev に流していない」とあるものは未適用（12・13 は 2026-10-25 に適用済み）） |
 | `backend/tests/` | migration ごとの確かめ。試しのデータを中で作り、最後にわざと例外を投げて全体を取り消す（何も残らない）。`node tools/sql-test.mjs 12` で migration と一つにして出す |
 
 ---
@@ -107,7 +107,7 @@ flowchart LR
 | `reactions` | 共感（本人の行だけ見える） | `store.js` の `liked` | 1 |
 | `comments` | コメント。`pending` で入り、確かめてから `approved` | `entry.comments` | 1 |
 | `reports` | 通報と削除の依頼。ログインしていない権利者も送れる | なし | 3（コメントへの通報は 2026-10-25 に画面へ） |
-| `user_mutes` | コメントを表示しない相手（1.2 のブロック。本人の画面だけで隠す）。migration 13・未適用 | `social.js` の `mutes` | 2 |
+| `user_mutes` | コメントを表示しない相手（1.2 のブロック。本人の画面だけで隠す）。migration 13・dev に適用済み（2026-10-25） | `social.js` の `mutes` | 2 |
 | `notifications` | お知らせ（差し戻し・公開・コメント公開・依頼の対応） | なし | 3 |
 | `ads` | 広告枠。記事単位の枠（`context_id`）も持てる | `store.js` の `ads` | 1 |
 | `site_settings` | サービス名・キャッチ・地・アクセント色・広告の間隔（一行だけ） | `store.js` の `settings` | 1 |
@@ -548,9 +548,9 @@ Supabase への通信をすべて落として読み直す → コンテクスト
 
 #### 第2段階の進み（2026-10-25）
 
-- [x] 退会（5.1.1(v)）：画面と migration 12（**未適用**）
+- [x] 退会（5.1.1(v)）：画面と migration 12（dev に適用済み 2026-10-25）
 - [x] コメントを運営に知らせる（1.2）：画面と運営者メニュー「通報」（表はもとからある）
-- [x] その人のコメントを表示しない（1.2）：画面と migration 13（**未適用**。流す前は端末だけ）
+- [x] その人のコメントを表示しない（1.2）：画面と migration 13（dev に適用済み 2026-10-25）
 - [x] 自分のコメントの削除
 - [ ] migration 12・13 を dev に流す（下の 7、承認のあと）
 - [ ] 編集者・運営者の退会（下の「決めること」）
@@ -564,7 +564,7 @@ Supabase への通信をすべて落として読み直す → コンテクスト
    2. 本番：`apply_migration` に `12_delete_my_account`（`backend/migrations/12_delete_my_account.sql` の中身）、続けて `13_user_mutes`
    3. もう一度：`node tools/sql-test.mjs --applied 12 13` を流して `BC_TEST_OK`
    4. `get_advisors`（security）：新しく出てよいのは `delete_my_account` の「authenticated が security definer を呼べる」（0029）一つだけ（わざと。11 章）
-   5. schema.sql と `backend/migrations/12・13` の頭の「まだ dev に流していない」と、この README の「未適用」を外してコミット
+   5. （済）schema.sql と migrations の「まだ dev に流していない」の注は外した（12・13：2026-10-25）
 8. **連絡先**（1.2「連絡先を載せる」・5.1.1(v)）：利用規約・プライバシーに、運営の問い合わせ先（info@ など、開発会議で決めたアドレス）を書く。いまの規約は「デモ版」の文のまま
 9. **試しの利用者**：dev で画面を通して確かめる（メールのコードでログイン）には、自分の SMTP（上の 4）が要る。それまでは組織のメンバーのアドレスで
 
