@@ -242,15 +242,21 @@
      書いた本人には確認待ちのものも見える */
   function comments(e, list, mine, me){
     const day = (iso) => { try { return new Date(iso).toLocaleDateString('ja-JP'); } catch (x) { return ''; } };
+    /* 「…」：運営に知らせる・この人のコメントを表示しない（App Store 1.2）。サーバーのコメント（id が uuid）で、自分のもの以外にだけ */
+    const remote = !!(window.BCSocial && BCSocial.remote && BCSocial.remote());
+    const more = (c) => remote && c.uid && /^[0-9a-f-]{36}$/i.test(c.id || '') && !(me && me.uid === c.uid)
+      ? `<button type="button" class="cm-more" data-cm-more aria-label="このコメントについて（運営に知らせる・表示しない）">…</button>` : '';
     const li = (c, wait) => `
-      <li class="cm${wait ? ' pending' : ''}">${avatar(c.name)}<div>
-        <p class="cm-h"><b>${esc(c.name)}</b><time>${esc(day(c.at))}</time>${wait ? '<span class="cm-wait">確認中・あなたにだけ表示</span>' : ''}</p>
+      <li class="cm${wait ? ' pending' : ''}"${wait ? '' : ` data-cm-id="${attr(c.id || '')}" data-cm-uid="${attr(c.uid || '')}"`}>${avatar(c.name)}<div>
+        <p class="cm-h"><b>${esc(c.name)}</b><time>${esc(day(c.at))}</time>${wait ? '<span class="cm-wait">確認中・あなたにだけ表示</span>' : more(c)}</p>
         <p class="cm-t">${esc(c.text)}</p></div></li>`;
     const items = list.map(c => li(c)).join('') + (mine || []).map(c => li(c, true)).join('');
+    const muted = S.mutedComments ? S.mutedComments(e) : 0;
     return `
       <section class="comments" id="comments" data-ctx="${attr(e.id)}">
         <p class="meta">COMMENTS<span class="cm-n">${list.length}</span></p>
-        ${items ? `<ul class="cm-list">${items}</ul>` : '<p class="cm-empty">まだコメントはありません。このつながりについて、最初のひとことを。</p>'}
+        ${items ? `<ul class="cm-list">${items}</ul>` : muted ? '' : '<p class="cm-empty">まだコメントはありません。このつながりについて、最初のひとことを。</p>'}
+        ${muted ? `<p class="cm-muted">表示しないことにした人のコメントが ${muted} 件あります。<button type="button" data-unmute>すべて表示する</button></p>` : ''}
         <form class="cm-form" data-comment="${attr(e.id)}">
           <textarea name="text" rows="2" maxlength="600" placeholder="このつながりについて、思ったことを" aria-label="コメント"></textarea>
           <button type="submit">送る</button>
@@ -519,6 +525,8 @@
       <h3>ログインとコメント（外部送信）</h3>
       <p>ログイン・フォロー・コメントのために、Supabase Inc. の「Supabase」を使っています。送信するのは、ログインに使うメールアドレス（コードを届けるため）、コメントに出す表示名、フォローした編集者、共感したコンテクスト、書いたコメントです。データは Supabase の東京リージョン（日本国内のサーバー）に保存されます。</p>
       <p>メールアドレスはログインのためだけに使い、ほかの読者には見えません。コメントは編集者が確かめてから、表示名とともに公開されます。ログインしないで読むときも、公開中のコメントやフォロワーの数を読むために Supabase へ接続します（このとき送られるのは通信に伴う IP アドレスやブラウザの種類などで、名前やメールアドレスは送りません）。扱いは <a href="https://supabase.com/privacy" target="_blank" rel="noopener">Supabase のプライバシーポリシー</a> をご覧ください。</p>
+      <h3>コメントの通報と「表示しない」</h3>
+      <p>コメントは編集者が確かめてから表示します。表示されたコメントに問題があれば、コメントの「…」から運営に知らせてください（ログインしていなくても送れます）。運営が確かめ、この規約に反するものは表示を止めます。「…」から「表示しない」を選ぶと、その人のコメントがあなたの画面に出なくなります（相手には知らされません。コメント欄からいつでも戻せます）。</p>
       <h3>アカウントの削除</h3>
       <p>アカウントは、メニューの「アカウント」からいつでも削除できます。削除すると、メールアドレス・表示名・フォロー・共感と、書いたコメント（公開中のものも）がすぐに消え、元には戻せません。お送りいただいた通報・削除の依頼は、対応の記録として内容だけを残し、送った方との結びつき（アカウント・お名前・メールアドレス）を外します。</p>
       <h3>画像と文章</h3>

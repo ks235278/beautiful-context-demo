@@ -20,6 +20,7 @@
   const B = window.BCBackend && window.BCBackend.enabled() ? window.BCBackend : null;
   let remote = null;            // Supabase の確認待ちのコメント（運営者のときだけ）
   let remoteState = B ? 'loading' : 'off';   // 'loading' | 'ok' | 'no'（運営者でない） | 'error' | 'off'
+  let reports = null;           // Supabase の、まだ片づいていない通報・削除の依頼（運営者のときだけ）
 
   function toast(msg){
     const t = $('toast');
@@ -41,6 +42,8 @@
   const TABS = [
     { id: 'contexts', label: 'コンテクスト', count: () => S.all().length },
     { id: 'comments', label: 'コメントの確認', count: () => (remote ? remote.length : S.pendingComments().length) },
+    /* 通報（App Store 1.2：知らせを受けて、すぐに対応する）。Supabase のときだけ */
+    ...(B ? [{ id: 'reports', label: '通報', count: () => (reports ? reports.filter((r) => r.status === 'open').length : 0) }] : []),
     { id: 'ads', label: '広告枠', count: () => S.ads().length },
     { id: 'authors', label: '書き手', count: () => S.authors().length },
     null,
@@ -184,6 +187,53 @@
     } catch (e) { remote = null; remoteState = 'error'; }
     /* ほかの見出しで書きかけのものは消さない（数だけ直す） */
     if (tabId() === 'comments') draw(); else drawTabs();
+  }
+
+  /* ---------- 通報（読者がコメントの「…」から送ったもの・削除の依頼） ----------
+     ふつうの依頼が先、後回し（同じ所からたくさん・新しいアカウント）は後ろ。どちらも古い順（v_report_queue）。
+     コメントへの通報は、そのコメントをここで「表示しない」にできる（データは残る）。対象のアドレスは送った人が書けるので、リンクにしない */
+  const REASON = { copyright: '著作権', portrait: '肖像', privacy: '個人の情報', defamation: '悪口・攻撃', inaccurate: '事実の誤り', spam: '宣伝・スパム', other: 'そのほか' };
+  const TARGET = { context: 'コンテクスト', work: '作品', comment: 'コメント', editor: '編集者', image: '画像', other: 'そのほか' };
+  function reportsPanel(){
+    const where = {
+      loading: 'Supabase を確かめています…',
+      no: '通報は、運営者のアカウントでログインすると、ここで見られます。サイトの右上の Login からログインしてから、このページを開き直してください。',
+      error: 'Supabase につながりません。'
+    }[remoteState];
+    const rows = (reports || []).map((r) => {
+      const cm = r.comment, ctx = (cm && cm.context) || {};
+      const target = r.target_type === 'comment'
+        ? (cm ? `${cm.name}「${cm.text.length > 80 ? cm.text.slice(0, 79) + '…' : cm.text}」${cm.status === 'hidden' ? '（いまは表示していない）' : ''}` : '（もう無いコメント）')
+        : (r.target_url || r.target_id || '');
+      return `
+      <div class="item" data-rp="${esc(r.id)}"${cm ? ` data-rp-cm="${esc(cm.id)}"` : ''}>
+        <div class="thumbs"><span style="border-radius:50%;width:44px;height:44px">${r.kind === 'removal' ? '削' : '報'}</span></div>
+        <div class="info">
+          <b>${esc(TARGET[r.target_type] || r.target_type)}・${esc(REASON[r.reason] || r.reason)}${r.throttled ? ' <span class="tag part">後回し</span>' : ''}${r.is_rights_holder ? ' <span class="tag ok">権利者・本人</span>' : ''}</b>
+          <span class="sub" style="white-space:pre-wrap">${esc(r.detail)}</span>
+          <span class="meta"><span>対象：${esc(target)}</span></span>
+          <span class="meta"><span>${esc(day(r.created_at))}</span><span>${r.status === 'in_progress' ? '確かめ中' : '未対応'}</span>${r.reporter_email ? `<span>${esc(r.reporter_name)} ${esc(r.reporter_email)}</span>` : ''}</span>
+        </div>
+        <div class="ops">
+          ${cm && cm.status !== 'hidden' ? '<button type="button" class="warn" data-rp-hide title="このコメントを読者に表示しない（データは残る）">コメントを表示しない</button>' : ''}
+          ${ctx.slug ? `<a href="index.html#/c/${encodeURIComponent(ctx.slug)}">ページ</a>` : ''}
+          ${r.status === 'open' ? '<button type="button" data-rp-status="in_progress">確かめ中にする</button>' : ''}
+          <button type="button" data-rp-status="resolved" title="対応を終えた">対応した</button>
+          <button type="button" data-rp-status="rejected" title="問題なしとして閉じる">対応しない</button>
+        </div>
+      </div>`;
+    }).join('');
+    return `<section class="panel">${head('2.5 コメント投稿（通報）', '通報',
+      '読者がコメントの「…」から「運営に知らせる」で送ったものと、削除の依頼です。まず確かめ、必要ならコメントを表示しないにしてから「対応した」を押します。後回しの印は、同じ所から続けて届いたものや、できたばかりのアカウントからのものです。' +
+      (where ? '<br>' + esc(where) : ''))}
+      <div class="body"><div class="list">${rows || (reports ? '<p class="empty">片づいていない通報はありません。</p>' : '')}</div></div></section>`;
+  }
+  async function loadReports(){
+    try {
+      await B.ready();
+      reports = B.isOperator() ? await B.reportQueue() : null;
+    } catch (e) { reports = null; }
+    if (tabId() === 'reports') draw(); else drawTabs();
   }
 
   /* ---------- 広告枠 ---------- */
@@ -344,7 +394,7 @@
     ['—', 'AGM：生成AIが初稿を書き、編集者が確かめて通す', OK, '運営者メニューの「承認」。ページには「確認前／確認済み」と出る'],
     ['—', '四軸評価（意外性・共感度・コンテンツ性・世界観近似性）', PART, '区間ごとに採点を表示。採点そのものの自動化は本番'],
     ['—', 'ReMixIt!：生成AIが接続の候補を示し、四軸で採点して下書きを作る', PROD, '事業計画書の中核。いまは初稿をまとめて作って載せている'],
-    ['2.5', 'コメント投稿（リアクション）', PART, 'つながりの下のコメント欄。編集者の確認を通ったものだけ表示（運営者メニュー「コメントの確認」）。いまは見本でこの端末の中だけ'],
+    ['2.5', 'コメント投稿（リアクション）', PART, 'つながりの下のコメント欄。編集者の確認を通ったものだけ表示（運営者メニュー「コメントの確認」）。ログインした読者のコメントは Supabase に入る。コメントの「…」から運営に知らせる・その人を表示しない（運営者メニュー「通報」）'],
     ['2.7–2.8', '友達招待・招待状況確認', PROD, 'メール送信とアカウントが必要'],
     ['グループ', 'アカウント'],
     ['1.1–1.4', 'サインアップ・ログイン・パスワード再設定', PART, '中身を見せてから、フォロー・コメントのときに名前を作る流れはデモで動作。本番は Google ログイン（Firebase Authentication）'],
@@ -379,7 +429,7 @@
   }
 
   /* ---------- 描く ---------- */
-  const PANELS = { contexts, comments: commentsPanel, ads, authors, custom, data, features };
+  const PANELS = { contexts, comments: commentsPanel, reports: reportsPanel, ads, authors, custom, data, features };
   function draw(keepFocus){
     const f = keepFocus && document.activeElement && document.activeElement.matches('[data-query]');
     const pos = f ? document.activeElement.selectionStart : 0;
@@ -501,6 +551,18 @@
         .catch((err) => { toast(B.message(err)); t.disabled = false; });
       return;
     }
+    const rp = t.closest('[data-rp]');
+    if (rp && B && (t.matches('[data-rp-hide]') || t.matches('[data-rp-status]'))){
+      t.disabled = true;
+      const hide = t.matches('[data-rp-hide]');
+      const status = hide ? 'resolved' : t.dataset.rpStatus;
+      const note = hide ? 'コメントを表示しないことにした' : { in_progress: '', resolved: '対応した', rejected: '対応しない' }[status];
+      (hide ? B.moderate(rp.dataset.rpCm, 'hidden') : Promise.resolve())
+        .then(() => B.setReport(rp.dataset.rp, status, note))
+        .then(() => { toast(hide ? 'コメントを表示しないことにし、通報を片づけました' : status === 'in_progress' ? '確かめ中にしました' : '通報を片づけました'); return loadReports(); })
+        .catch((err) => { toast(B.message(err)); t.disabled = false; });
+      return;
+    }
     const cm = t.closest('[data-cm]');
     if (cm && t.matches('[data-cm-ok]')){ S.approveComment(cm.dataset.cmCtx, cm.dataset.cm); toast('コメントを表示しました'); draw(); return; }
     if (cm && t.matches('[data-cm-hide]')){ S.setCommentHidden(cm.dataset.cmCtx, cm.dataset.cm, true); toast('表示しないことにしました'); draw(); return; }
@@ -580,5 +642,5 @@
   }
 
   draw();
-  if (B) loadRemote();
+  if (B){ loadRemote(); loadReports(); }
 })();

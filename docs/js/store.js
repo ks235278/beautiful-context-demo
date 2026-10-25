@@ -435,7 +435,17 @@
     visibleComments(e) {
       const here = (e && e.comments ? e.comments : []).filter((c) => !c.hidden && !c.pending);
       const srv = B && e ? B.comments(e) : null;
-      return srv ? here.concat(srv.filter((c) => !c.hidden && !c.pending)) : here;
+      const all = srv ? here.concat(srv.filter((c) => !c.hidden && !c.pending)) : here;
+      /* 読者が「表示しない」にした人のコメントは外す（js/social.js。その人の画面だけ） */
+      const So = window.BCSocial;
+      return So && So.mutedCount && So.mutedCount() ? all.filter((c) => !So.isMuted(c.uid)) : all;
+    },
+    /* 「表示しない」にした人のコメントが、このつながりに何件あるか（コメント欄に一行で知らせ、戻せるようにする） */
+    mutedComments(e) {
+      const So = window.BCSocial;
+      if (!So || !So.mutedCount || !So.mutedCount() || !e) return 0;
+      const srv = B ? B.comments(e) || [] : [];
+      return (e.comments || []).concat(srv).filter((c) => !c.hidden && !c.pending && So.isMuted(c.uid)).length;
     },
 
     /* 書いた本人にだけ見せる、確認待ちのコメント（まだ送れていないものも、同じ「確認中」で見せる） */

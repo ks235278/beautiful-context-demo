@@ -1235,6 +1235,15 @@
     if (fol){ ev.preventDefault(); toggleFollow(fol.dataset.follow); return; }
     if (t.closest('[data-login]')){ ev.preventDefault(); openMenu(false); openLogin(); return; }
     if (t.closest('[data-account]')){ ev.preventDefault(); openMenu(false); openAccount(); return; }
+    /* コメントの「…」：運営に知らせる・この人のコメントを表示しない（js/report.js）。「すべて表示する」で戻す */
+    const more = t.closest('[data-cm-more]');
+    if (more && window.BCReport && here && here.entry){
+      const li = more.closest('[data-cm-id]'), e = S.byId(here.entry.id) || here.entry;
+      const c = li && S.visibleComments(e).find(x => x.id === li.dataset.cmId);
+      if (c) BCReport.open({ sheet, closeSheet, toast, track }, { id: c.id, uid: c.uid, name: c.name, text: c.text, slug: e.context.slug });
+      return;
+    }
+    if (t.closest('[data-unmute]')){ const n = Social.unmuteAll(); if (n) toast('表示しないことにした人のコメントを、すべて表示します'); return; }
 
     const step = t.closest('[data-step]');
     if (step && here && here.entry){ goStep(+step.dataset.step, rectOf(step)); return; }

@@ -18,6 +18,7 @@
   };
   let st = read();
   st.follows = Array.isArray(st.follows) ? st.follows : [];
+  st.mutes = Array.isArray(st.mutes) ? st.mutes : [];   // コメントを表示しない相手（利用者の id）
   const save = () => { try { localStorage.setItem(KEY, JSON.stringify(st)); } catch (e) {} };
   const listeners = new Set();
   const notify = () => listeners.forEach((fn) => { try { fn(); } catch (e) {} });
@@ -80,6 +81,28 @@
       return Math.max(0, srv + (on ? 1 : 0) - (B.followedOnServer(id) ? 1 : 0));
     },
 
+    /* コメントを表示しない相手（App Store 1.2 のブロック）。隠すのはこの人の画面だけで、相手には知らせない。
+       ログインしていれば Supabase の user_mutes にも送り（ほかの端末でも隠れる）、していなければ端末にだけ覚える */
+    isMuted(uid) { return !!uid && st.mutes.includes(uid); },
+    mutedCount() { return st.mutes.length; },
+    mute(uid) {
+      if (!uid || st.mutes.includes(uid)) return;
+      const me = this.me();
+      if (me && me.uid === uid) return;
+      st.mutes.push(uid);
+      if (B && B.me()) B.mute(uid, true);
+      changed();
+    },
+    unmuteAll() {
+      const was = st.mutes.slice();
+      st.mutes = [];
+      if (B && B.me()) was.forEach((uid) => B.mute(uid, false));
+      changed();
+      return was.length;
+    },
+    /* 運営に知らせる（Promise。Supabase のときだけ） */
+    report(row) { return B ? B.report(row) : Promise.reject(new Error('off')); },
+
     /* アカウントを勧めるのは一度だけ（しつこくしない） */
     nudged() { return !!st.nudged; },
     markNudged() { st.nudged = true; save(); },
@@ -90,15 +113,22 @@
   if (B) {
     /* ログインの前にこの端末でフォローしていた編集者（ログインしたときにサーバーへ送る） */
     B.provide('follows', () => st.follows.slice());
+    B.provide('mutes', () => st.mutes.slice());
+    const same = (a, b) => a.length === b.length && a.every((x) => b.includes(x));
     B.on('auth', (ev) => {
-      /* ログアウト：サーバーから読んだフォローは、共用の端末に残さない */
-      if (ev.event === 'out') st.follows = [];
-      else { const f = B.myFollows(); if (f) st.follows = f; }
+      /* ログアウト：サーバーから読んだフォロー・表示しない相手は、共用の端末に残さない */
+      if (ev.event === 'out') { st.follows = []; st.mutes = []; }
+      else {
+        const f = B.myFollows(); if (f) st.follows = f;
+        const m = B.myMutes(); if (m) st.mutes = m;
+      }
       changed();
     });
     B.on('data', () => {
       const f = B.me() && B.myFollows();
-      if (f && (f.length !== st.follows.length || f.some((x) => !st.follows.includes(x)))) { st.follows = f; save(); }
+      if (f && !same(f, st.follows)) { st.follows = f; save(); }
+      const m = B.me() && B.myMutes();
+      if (m && !same(m, st.mutes)) { st.mutes = m; save(); }
       notify();
     });
   }
@@ -107,6 +137,7 @@
   window.addEventListener('storage', (ev) => {
     if (ev.key !== KEY) return;
     st = read(); st.follows = Array.isArray(st.follows) ? st.follows : [];
+    st.mutes = Array.isArray(st.mutes) ? st.mutes : [];
     notify();
   });
 })();

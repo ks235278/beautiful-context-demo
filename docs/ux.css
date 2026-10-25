@@ -65,3 +65,16 @@ body.direct .back-close::after,body[data-route]:not(.app-ready) .back-close::aft
 .sheet-del{display:block;margin:4px auto 0;padding:10px 6px;border:0;background:none;color:var(--muted);cursor:pointer;
   font:11px var(--gothic);letter-spacing:.04em;text-decoration:underline;text-decoration-color:#b9b3a6;text-underline-offset:3px}
 .sheet-go.sheet-danger{background:#9b2c22}
+
+/* ---------- コメントの「…」（運営に知らせる・この人を表示しない。App Store 1.2）：名前の行の右端に小さく ---------- */
+.cm-h .cm-more{position:relative;margin-left:auto;align-self:center;min-width:30px;height:22px;padding:0 6px;border:0;border-radius:11px;
+  background:none;color:var(--muted);cursor:pointer;font:700 13px/1 "Lato",sans-serif;letter-spacing:.06em}
+.cm-h .cm-more::after{content:"";position:absolute;inset:-11px -7px}   /* 指の届く範囲は 44px */
+.cm-muted{margin:10px 0 0 !important;color:var(--muted);font:10.5px/1.6 var(--gothic) !important}
+.cm-muted button{padding:0 2px;border:0;background:none;color:inherit;cursor:pointer;font:inherit;text-decoration:underline;text-underline-offset:3px}
+/* シートの中の選ぶ欄・書く欄（通報）。input と同じ形 */
+.sheet-in select,.sheet-in textarea{padding:0 12px;border:1px solid #c9c4ba;border-radius:10px;background:#fff;color:var(--ink);font:16px var(--gothic);outline:none}
+.sheet-in select{height:46px}
+.sheet-in textarea{min-height:88px;padding:10px 12px;line-height:1.6;resize:vertical}
+.sheet-in select:focus,.sheet-in textarea:focus{border-color:var(--ink)}
+.sheet-in form label+label{margin-top:12px}

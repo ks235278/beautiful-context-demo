@@ -139,6 +139,8 @@
     if (code === 'email_address_invalid' || code === 'validation_failed') return 'メールアドレスを確かめてください';
     if (code === 'email_address_not_authorized') return 'いまはこのアドレスにメールを送れません（準備中です）';
     if (code === 'signup_disabled') return 'いまは新しいアカウントを作れません';
+    /* サーバーにまだ関数・表が無い（migration を流す前） */
+    if (code === 'PGRST202' || code === 'PGRST205' || code === '42P01' || code === '42883') return 'いまは使えません（準備中です）';
     /* schema.sql が日本語で理由を書いた 42501（編集者は退会できない など）は、その文のまま。PostgREST の英語の文は一言に */
     if (code === '42501') return e && /[^\x00-\x7f]/.test(e.message || '') ? e.message : '権限がありません';
     if (code === '54000' || code === '22023') return e.message;   // schema.sql の言葉のまま（送りすぎ・表示名が要る）
@@ -195,10 +197,16 @@
     ]);
     const err = p.error || f.error || r.error;
     if (err) throw err;
+    /* コメントを表示しない相手（migration 13）。表がまだ無い・読めないときは null（端末の控えをそのまま使い、消さない） */
+    let mutes = null;
+    try {
+      const m = await c.from('user_mutes').select('muted_user_id').eq('user_id', uid);
+      if (!m.error) mutes = m.data.map((x) => x.muted_user_id);
+    } catch (e) {}
     if (!me || me.uid !== uid) return;
     if (p.data) { me.name = p.data.display_name || ''; me.role = p.data.role; me.status = p.data.status; }
     write(K.me, me);
-    cache.mine = { uid, follows: f.data.map((x) => x.editor_id), liked: r.data.map((x) => x.context_id), at: Date.now() };
+    cache.mine = { uid, follows: f.data.map((x) => x.editor_id), liked: r.data.map((x) => x.context_id), mutes, at: Date.now() };
     save(); changed();
   }
   async function loadCounts() {
@@ -234,6 +242,20 @@
         cache.mine.follows = [...s];
       }
       return 'follow';
+    }
+    if (op.kind === 'mute') {
+      const q = op.on
+        ? c.from('user_mutes').upsert({ muted_user_id: op.key }, { onConflict: 'user_id,muted_user_id', ignoreDuplicates: true })
+        : c.from('user_mutes').delete().eq('user_id', op.uid).eq('muted_user_id', op.key);
+      const { error } = await q;
+      /* 相手が退会した（23503）・表がまだ無い（migration 13 の前）：この端末の中だけで隠しておく（知らせない） */
+      if (error && !['23505', '23503', '42P01', 'PGRST205'].includes(error.code)) throw error;
+      if (mineOk() && cache.mine.mutes) {
+        const s = new Set(cache.mine.mutes);
+        if (op.on) s.add(op.key); else s.delete(op.key);
+        cache.mine.mutes = [...s];
+      }
+      return 'mute';
     }
     const e = { id: op.key, context: { slug: op.slug } };
     const id = await idOf(e);
@@ -307,6 +329,7 @@
       /* ログインの前にこの端末で押したフォロー・共感を、サーバーへ（ほかの端末でも同じになり、数に入る） */
       (providers.follows ? providers.follows() : []).forEach((id) => queue({ kind: 'follow', key: id, on: true, uid: user.id }));
       (providers.liked ? providers.liked() : []).forEach((e) => queue({ kind: 'react', key: e.id, slug: e.context.slug, on: true, uid: user.id }));
+      (providers.mutes ? providers.mutes() : []).forEach((id) => { if (id !== user.id) queue({ kind: 'mute', key: id, on: true, uid: user.id }); });
       await flush();
       try { await loadMine(); } catch (e) {}
       quiet(loadCounts());
@@ -510,6 +533,22 @@
     /* コメント：控えを同期で返し（null はまだ読んでいない・サーバーに無い）、古ければ裏で読み直す */
     comments, outComments, addComment,
 
+    /* コメントを表示しない相手（App Store 1.2。migration 13 の user_mutes）。隠すのは自分の画面だけ */
+    mute(uid, on) { if (!me || !uid || uid === me.uid) return; queue({ kind: 'mute', key: uid, on: !!on, uid: me.uid }); quiet(flush()); },
+    myMutes() {
+      if (!mineOk() || !cache.mine.mutes) return null;
+      const s = new Set(cache.mine.mutes);
+      outbox.forEach((o) => { if (o.kind === 'mute' && o.uid === me.uid) { if (o.on) s.add(o.key); else s.delete(o.key); } });
+      return [...s];
+    },
+    /* 運営に知らせる（reports。未ログインでも送れる。送りすぎ止めはサーバーのトリガー：migration 09〜11）。
+       送った人は読み返せない（RLS）ので、select を付けずに送る */
+    async report(row) {
+      const c = await load();
+      const { error } = await c.from('reports').insert(row);
+      if (error) throw error;
+    },
+
     /* 運営者メニュー：確認待ちのコメント（RLS で、運営者にはすべて、書き手には自分のコンテクストの分だけが返る） */
     async pendingForReview() {
       await ready();
@@ -524,6 +563,28 @@
     async moderate(id, status) {
       const c = await load();
       const { data, error } = await c.from('comments').update({ status }).eq('id', id).select('id');
+      if (error) throw error;
+      if (!data || !data.length) { const e = new Error('権限がありません'); e.code = '42501'; throw e; }
+    },
+    /* 運営者メニュー「通報」：まだ片づいていない通報・削除の依頼（v_report_queue：ふつうが先、後回しは後ろ。古い順）。
+       コメントへの通報には、そのコメント（本文・状態・どのつながりか）を添える */
+    async reportQueue() {
+      await ready();
+      const c = await load();
+      const { data, error } = await c.from('v_report_queue').select('*');
+      if (error) throw error;
+      const ids = data.filter((r) => r.target_type === 'comment' && /^[0-9a-f-]{36}$/i.test(r.target_id)).map((r) => r.target_id);
+      const cm = {};
+      if (ids.length) {
+        const q = await c.from('comments').select(COLS + ', context:contexts(id, legacy_id, slug, route_name)').in('id', [...new Set(ids)]);
+        if (!q.error) q.data.forEach((x) => { cm[x.id] = Object.assign(toComment(x), { status: x.status, context: x.context }); });
+      }
+      return data.map((r) => Object.assign({}, r, { comment: cm[r.target_id] || null }));
+    },
+    /* 通報を片づける：in_progress（確かめ中）・resolved（対応した）・rejected（対応しない）。resolution は運営の記録 */
+    async setReport(id, status, resolution) {
+      const c = await load();
+      const { data, error } = await c.from('reports').update({ status, resolution: String(resolution || '').slice(0, 2000) }).eq('id', id).select('id');
       if (error) throw error;
       if (!data || !data.length) { const e = new Error('権限がありません'); e.code = '42501'; throw e; }
     }
