@@ -38,7 +38,11 @@ try { if (sessionStorage.getItem('bc-resume')) document.documentElement.classLis
 <link rel="preload" as="image" href="img/pcb-charcoal.jpg">
 <link rel="preload" as="image" href="img/logo-layer-mark.png">
 <link rel="preload" as="image" href="img/logo-layer-words.png">
-<link rel="manifest" href="manifest.webmanifest?v=132">
+<!-- 台本も先に取りに行く（静的なページは台本より先に本文が描かれる。遅い回線で、触れて動くまでの間を縮める）。
+     src と同じアドレス（?v= まで）でないと、二度取りに行く -->
+<link rel="preload" as="script" href="js/seed.js?v=134">
+<link rel="preload" as="script" href="js/app.js?v=134">
+<link rel="manifest" href="manifest.webmanifest?v=134">
 <link rel="apple-touch-icon" href="icon-180.png">
 <!-- タブと検索結果に出る小さな印。アプリの印（ホーム画面のアイコン）と同じ形 -->
 <link rel="icon" href="favicon.ico" sizes="16x16 32x32 48x48">
@@ -76,11 +80,34 @@ if (location.hostname === 'beautifulcontext.com'){
   document.head.appendChild(ga);
 }
 </script>
-<script src="js/theme.js?v=132"></script>
-<link rel="stylesheet" href="app.css?v=132">
-<link rel="stylesheet" href="fade.css?v=132">
+<script src="js/theme.js?v=134"></script>
+<link rel="stylesheet" href="app.css?v=134">
+<!-- 読む画面の使い勝手（2026.10.24）。app.css のすぐあと -->
+<link rel="stylesheet" href="ux.css?v=134">
+<link rel="stylesheet" href="fade.css?v=134">
+<!-- 台本（js）が揃うまで：まだ押しても動かないもの（‹・絵の横の ‹ ›・つながりを辿る）を少し薄くし、下の帯の上の縁に細い金の線を走らせる。
+     app.js が最後に body.app-ready を付けて外す。すぐ揃うときは何も見せない（0.3 秒待ってから出す） -->
+<style>
+body:not(.app-ready) .back-close,body:not(.app-ready) #uniBtn,body:not(.app-ready) .ctx-nav{animation:bc-dim .2s ease .3s both}
+@keyframes bc-dim{to{opacity:.55}}
+body:not(.app-ready) .dock::before{content:"";position:absolute;z-index:3;left:0;top:0;width:28%;height:2px;border-radius:1px;background:#a97717;
+  animation:bc-show .2s ease .3s both,bc-load 1.1s ease-in-out .3s infinite alternate}
+@keyframes bc-show{from{opacity:0}}
+@keyframes bc-load{from{transform:translateX(0)}to{transform:translateX(257%)}}
+</style>
 </head>
 <body class="stage-uni viewing route" data-route="#/c/lumumba--heart-of-darkness">
+<!-- 台本が届く前に触れた一回を覚えておく（つながりを辿る・‹・絵の横の ‹ ›）。app.js が起き上がったら、その一回を行う。
+     遅い回線で「押したのに何も起きない」を無くす -->
+<script>
+document.addEventListener('click', function (e) {
+  if (document.body.classList.contains('app-ready')) return;
+  var t = e.target && e.target.closest ? e.target.closest('#uniBtn,.back-close,[data-ctx-go]') : null;
+  if (!t) return;
+  e.preventDefault();
+  if (!window.__early) window.__early = t.id === 'uniBtn' ? 'uni' : t.hasAttribute('data-ctx-go') ? (+t.getAttribute('data-ctx-go') > 0 ? 'next' : 'prev') : 'close';
+}, true);
+</script>
 
 <!-- 背景は先生の構成図（flow0921-2）の回路の絵そのもの。
      表紙では原寸の濃さ、UniverseIt! からは 50% に落とす（構成図のプロンプトどおり）。 -->
@@ -136,10 +163,11 @@ if (location.hostname === 'beautifulcontext.com'){
   <!-- About：このメディアが何か（開発会議 2026.10.23 で最優先に） -->
   <a href="#/about">Beautiful Context とは<small>このメディアについて</small></a>
   <a href="#/list">つながりの一覧<small>辿る順に、すべてのつながり</small></a>
-  <!-- 試作：一画面に一つのつながり。上へ払うと次へ（先生の道筋とは別の入口） -->
-  <a href="flow.html">つながりを流れで観る<small>一枚ずつ、上へ払って辿る（試作）</small></a>
+  <!-- 一画面に一つのつながり。上へ払うと次へ（先生の道筋とは別の入口） -->
+  <a href="flow.html">縦スクロールで観る<small>一枚ずつ、上へ払って辿る</small></a>
   <a href="#/" data-uni>UniverseIt!<small>すべての言葉から辿る</small></a>
-  <a href="editor.html?new=1">ReMixIt!<small>つながりを創る</small></a>
+  <!-- 編集者向け。ログインしていない読者には、エディターへ移る前に app.js が一度たずねる（data-remix） -->
+  <a href="editor.html?new=1" data-remix>ReMixIt!<small>つながりを創る</small></a>
   <button type="button" class="menu-account" id="menuAccount" data-login>ログイン<small>アカウントを作る</small></button>
   <!-- 案内と運営の入口。パソコンでは列の下に小さくまとめる（辿る道の邪魔をしない） -->
   <div class="menu-foot">
@@ -147,10 +175,12 @@ if (location.hostname === 'beautifulcontext.com'){
     <a href="#/ad">広告枠のご案内</a>
     <a href="#/credits">画像の出典</a>
     <a href="#/terms">利用規約・プライバシー</a>
-    <a href="manage.html">運営者メニュー</a>
+    <!-- 運営者メニューは、運営の画面を一度でも開いた端末（localStorage の bc-operator）にだけ。app.js が hidden を外す -->
+    <a href="manage.html" data-operator hidden>運営者メニュー</a>
+    <!-- 地の切り替え。何を切り替えるのかがわかる名前に（A / WHITE・B / CHARCOAL の白と炭） -->
     <div class="theme-pick" role="group" aria-label="地">
-      <button type="button" data-theme-set="white">ReMixIt!<small>A / WHITE</small></button>
-      <button type="button" data-theme-set="charcoal">UniverseIt!<small>B / CHARCOAL</small></button>
+      <button type="button" data-theme-set="white">画面：ReMixIt!（白）</button>
+      <button type="button" data-theme-set="charcoal">画面：UniverseIt!（炭）</button>
     </div>
   </div>
 </nav>
@@ -161,17 +191,18 @@ if (location.hostname === 'beautifulcontext.com'){
 <div class="view on" id="view" role="dialog" aria-modal="true" aria-label="ラウル・ペック『ルムンバの叫び』 ＋ ジョセフ・コンラッド『闇の奥』">
   <div class="view-in" id="viewIn">
       <article class="page cpage">
-        <button type="button" class="back-close" data-close="" aria-label="戻る"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 4.5 7.5 12l7.5 7.5"></path></svg></button>
-        <div class="duo-hero"><a class="c-logo" href="#/" data-top="" aria-label="BEAUTIFUL CONTEXT（TOP へ戻る）"><img src="img/logo.png" alt=""></a><div class="duo"><button type="button" class="duo-go" data-step="0" aria-label="ラウル・ペック『ルムンバの叫び』の作品ページへ"><div class="art"><img src="img/works/lumumba.jpg" alt="ラウル・ペック『ルムンバの叫び』" data-k="lumumba" decoding="async"></div></button><button type="button" class="duo-go" data-step="2" aria-label="ジョセフ・コンラッド『闇の奥』の作品ページへ"><div class="art"><img src="img/works/heart-of-darkness.jpg" alt="ジョセフ・コンラッド『闇の奥』" data-k="heart-of-darkness" decoding="async"></div></button><i class="swap" aria-hidden="true">↔</i></div><button type="button" class="ctx-nav prev" data-ctx-go="-1" aria-label="一つ前のつながりへ">‹</button><button type="button" class="ctx-nav next" data-ctx-go="1" aria-label="次のつながりへ">›</button></div>
+        <button type="button" class="back-close" data-close="" aria-label="Today's Editor's Choice へ戻る" title="Today's Editor's Choice へ"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 4.5 7.5 12l7.5 7.5"></path></svg></button>
+        <div class="duo-hero"><a class="c-logo" href="#/" data-top="" aria-label="BEAUTIFUL CONTEXT（TOP へ戻る）"><img src="img/logo.png" alt=""></a><div class="duo"><button type="button" class="duo-go" data-step="0" aria-label="ラウル・ペック『ルムンバの叫び』の作品ページへ"><div class="art"><img src="img/works/lumumba.jpg" alt="ラウル・ペック『ルムンバの叫び』" data-k="lumumba" decoding="async" fetchpriority="low"></div></button><button type="button" class="duo-go" data-step="2" aria-label="ジョセフ・コンラッド『闇の奥』の作品ページへ"><div class="art"><img src="img/works/heart-of-darkness.jpg" alt="ジョセフ・コンラッド『闇の奥』" data-k="heart-of-darkness" decoding="async" fetchpriority="low"></div></button><i class="swap" aria-hidden="true">↔</i></div><button type="button" class="ctx-nav prev" data-ctx-go="-1" aria-label="一つ前のつながりへ">‹</button><button type="button" class="ctx-nav next" data-ctx-go="1" aria-label="次のつながりへ">›</button></div>
         <section class="context-lead">
           
           <div class="ed-row">
       <a class="ed-link" href="e/desk/"><span class="ava" aria-hidden="true">部</span><span><b>BC 編集部</b><small>EDITORIAL DESK</small></span></a>
       <button type="button" class="follow" data-follow="desk" aria-pressed="false">フォロー</button></div>
-          <p class="route-label">CONTEXT　［コンゴという土地］　約30秒</p>
+          <p class="route-label">CONTEXT　［コンゴという土地］</p>
           <h2>植民地の奥地と、<br>独立の叫び。</h2>
           <div class="pair"><span>コンラッド『闇の奥』（1899）</span><span>コンゴ</span><span>『ルムンバの叫び』</span></div>
-          <button type="button" class="read" data-read="">このつながりを読む　約30秒 <span aria-hidden="true">↓</span></button>
+          <button type="button" class="read" data-read="">このつながりを読む<small>約30秒</small><span aria-hidden="true">↓</span></button>
+          <i class="story-cue" aria-hidden="true"></i>
         </section>
         <article class="context-body" id="story">
           <p class="meta">CONTEXT STORY</p>
@@ -351,6 +382,8 @@ if (location.hostname === 'beautifulcontext.com'){
         </li></ol>
             <div class="rail-more" id="railMore" aria-hidden="true"></div>
           </section>
+          
+          <nav class="c-foot" aria-label="Beautiful Context の案内"><span><a href="about/">Beautiful Context とは</a> ·</span> <span><a href="#/today" data-home="">Today's Editor's Choice</a> ·</span> <span><a href="#/list">つながりの一覧</a> ·</span> <span><a href="#/search">言葉で辿る</a></span></nav>
         </article>
       </article></div>
 </div>
@@ -360,11 +393,14 @@ if (location.hostname === 'beautifulcontext.com'){
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 <script type="application/ld+json" id="ld">{"@context":"https://schema.org","@type":"Article","headline":"植民地の奥地と、独立の叫び。","alternativeHeadline":"コンゴという土地","about":[{"@type":"Movie","name":"ルムンバの叫び","description":"コンゴ独立の指導者パトリス・ルムンバの、首相就任から殺害までを描いた映画。","creator":{"@type":"Person","name":"ラウル・ペック監督"}},{"@type":"Book","name":"闇の奥","description":"象牙交易の奥地へ向かう船乗りマーロウが、消息を絶った交易所の責任者クルツを探す物語。当時のコンゴ自由国が舞台とされる。","creator":{"@type":"Person","name":"ジョセフ・コンラッド"}}],"author":{"@type":"Person","name":"生成AI（初稿）"},"datePublished":"2026-09-15T05:10:00.000Z","dateModified":"2026-09-15T05:10:00.000Z","inLanguage":"ja","articleBody":"ハブはコンゴ。時代を隔てて、同じ土地が二度描かれた。コンラッドの『闇の奥』は、象牙を求めて川を遡る船乗りの物語で、ベルギー国王の私領だったコンゴ自由国が舞台とされる。植民地支配の暴力を、欧州の側から見つめた小説である。1960年、コンゴは独立し、パトリス・ルムンバが初代首相となった。だが翌年、ルムンバは殺害される。その短い時間を描いたのが『ルムンバの叫び』である。奥地へ向かう欧州人の物語と、独立を叫ぶコンゴの人の物語。同じ土地を、反対の側から見た二つの作品が並ぶ。","url":"https://beautifulcontext.com/c/lumumba--heart-of-darkness/","image":"https://beautifulcontext.com/img/works/lumumba.jpg"}</script>
 
-<script src="js/seed.js?v=132"></script>
-<script src="js/store.js?v=132"></script>
-<script src="js/social.js?v=132"></script>
-<script src="js/render.js?v=132"></script>
-<script src="js/transition.js?v=132"></script>
-<script src="js/app.js?v=132"></script>
+<script src="js/config.js?v=134"></script>
+<script src="js/seed.js?v=134"></script>
+<script src="js/backend.js?v=134"></script>
+<script src="js/store.js?v=134"></script>
+<script src="js/social.js?v=134"></script>
+<script src="js/render.js?v=134"></script>
+<script src="js/login.js?v=134"></script>
+<script src="js/transition.js?v=134"></script>
+<script src="js/app.js?v=134"></script>
 </body>
 </html>

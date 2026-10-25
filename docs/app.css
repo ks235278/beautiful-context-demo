@@ -352,6 +352,20 @@ body.viewing.peek #bg{visibility:visible}
 .context-body ul,.context-body ol{margin:0 0 13px;padding-left:1.3em;font-size:13px;line-height:1.95}
 .context-body blockquote{margin:0 0 13px;padding-left:12px;border-left:2px solid var(--gold);color:#444}
 .back-state{margin:0 0 14px;padding:8px 10px;border:1px dashed var(--gold);border-radius:4px;color:var(--gold);font:12px/1.5 var(--gothic)}
+/* 札から本文へ誘う（開発会議 2026.10.23 §3.2）。札だけ見て終わる人が多いので、
+   読む時間はボタンの中に小さく（主役にしない）、↓ はゆっくり息をするように上下し、
+   ボタンの下の金の細い線（.story-cue）が本文の罫線を少し越えて、CONTEXT STORY へ流れる。
+   動きを減らす設定では線と ↓ は止まったまま（それでも形は崩れない）。見開き（1100px〜）では本文が横に見えているので出さない */
+.read small{margin-left:.6em;font:400 11px/1.4 var(--gothic);color:rgba(255,255,255,.6);letter-spacing:.02em}
+.read span{animation:readDown 2.4s ease-in-out infinite}
+@keyframes readDown{50%{transform:translateY(3px)}}
+.story-cue{display:block;position:relative;width:1px;height:30px;margin:14px auto -37px;overflow:hidden;background:var(--gold);opacity:.55}
+.story-cue::after{content:"";position:absolute;left:0;top:0;width:100%;height:12px;background:linear-gradient(transparent,#fff,transparent);opacity:0;
+  animation:cueFlow 2.4s ease-in-out infinite}
+@keyframes cueFlow{0%{transform:translateY(-12px);opacity:0}25%{opacity:1}100%{transform:translateY(30px);opacity:0}}
+@media (min-width:1100px){.story-cue{display:none}.read span{animation:none}}
+/* 下の *{animation:none} は ::after には効かないので、ここで別に止める */
+@media (prefers-reduced-motion:reduce){.story-cue::after{animation:none}}
 
 /* 読み終わり：型と四軸・出典・同じルーツ・広告・書き手 */
 .axes{margin-top:26px;padding-top:14px;border-top:1px solid var(--rule-p)}
@@ -815,3 +829,58 @@ body.on-list .view-in{background:#000;padding-bottom:0}
   .intro,.uni,.dock,.menu,#bg .veil,.wordmark{transition:none !important}
 }
 html[data-theme="white"] .tag,html[data-theme="white"] .uni-title{text-shadow:0 1px 10px rgba(255,255,255,.8)}
+
+/* ---------- 地色の釣り合い（開発会議 2026.10.23 §3.3） ----------
+   「背景画像の見える範囲を広げる」「黒背景が強すぎる部分を調整する」「ベージュを使った従来のデザインとの釣り合い」。
+   数字は下の :root の変数だけで調整できる（ほかの行を読まなくてよい）。
+   ・パソコン：絵の面を黒い板でなく、地球の上に掛けた薄い暗幕にする。紙の列の左右に見えている地球が、
+     二枚の絵の後ろにも続く（前田先生 2026.10.22 の「読んでいるあいだは地球、UniverseIt! は回路」はそのまま）
+   ・携帯・タブレット：絵の地は暗いままだが、真っ黒でなく回路の地（--ground）に寄せた濃い紺。紙との境は影で和らげる
+   ・表紙・UniverseIt!（回路・veil）には触れない。地球の回転は後回し（会議の決め） */
+:root{
+  --hero-pc-top:rgba(4,8,16,.72);        /* パソコン：絵の面に掛ける暗幕、上端の濃さ（1 で真っ黒・0 で地球そのまま） */
+  --hero-pc-bottom:rgba(4,8,16,.5);      /* 同、下端の濃さ */
+  --hero-pc-edge:rgba(247,244,237,.16);  /* 暗幕と紙の境に添える、紙色のうすい縁 */
+  --view-dim:rgba(4,8,16,.08);           /* パソコン・タブレット：紙の列のまわりの地球に掛ける暗さ（以前は .18） */
+  --rail-dim:72%;                        /* パソコン：右の路線図の板の濃さ（以前は 76%。64% まで薄めると、雲の明るい所で 11px の駅の説明が 3:1 を割る） */
+  --hero-m-top:#0b1324;                  /* 携帯・タブレット：絵の面の上端の色（紺に寄せた黒。以前は #080808） */
+  --hero-m-bottom:#060c17;               /* 同、下端の色 */
+  --hero-join:0 10px 18px -6px rgba(6,12,23,.45);   /* 絵の面から紙へ落ちる影（硬い境を和らげる） */
+}
+/* 携帯・タブレット：絵の面は紺寄りの暗い段階、下の紙に短い影 */
+@media (max-width:1099px){
+  .duo-hero{background:linear-gradient(var(--hero-m-top),var(--hero-m-bottom));box-shadow:var(--hero-join)}
+}
+/* タブレット・パソコン：地球の上に掛ける暗さを薄く（見える範囲を広げる） */
+@media (min-width:760px){
+  body.viewing .view{background:var(--view-dim)}
+}
+@media (min-width:1100px){
+  .route-mini{background:color-mix(in srgb,#04070d var(--rail-dim),transparent)}
+  /* 読んでいるページの紙を、文章の列（右）だけに。絵の列（左）は紙を外して、地球の上の暗幕にする。
+     写し（‹ › で抜ける .ghost・払って戻る .edge-shot・持ち上げた絵の後ろの .underlay）も本物と同じ作りにする：
+     写しだけ黒い板のままだと、‹ › を押すたび・端から払うたびに左の列が地球 → 黒 → 地球と瞬く。
+     :has を知らない古いブラウザでは、この中は丸ごと効かず、以前の黒い板のまま */
+  @supports selector(:has(> .cpage)){
+    :is(.view,.ghost,.underlay)>.view-in:has(>.cpage),:is(.view,.ghost,.underlay)>.view-in:has(>.wpage),
+    .underlay:has(>.view-in>.cpage),.underlay:has(>.view-in>.wpage){background:transparent}
+    /* 紙は右の列ぶんだけ（列の幅は .cpage の 1.15fr : 1fr と同じ割り。1px 引いて、境に地球の筋を出さない） */
+    :is(.view,.ghost,.underlay)>.view-in>:is(.cpage,.wpage){background:linear-gradient(to right,transparent calc(100% * 1.15 / 2.15 - 1px),var(--paper) 0)}
+    :is(.view,.ghost,.underlay)>.view-in>:is(.cpage,.wpage)>.duo-hero{
+      background:linear-gradient(var(--hero-pc-top),var(--hero-pc-bottom));box-shadow:inset -1px 0 0 var(--hero-pc-edge)}
+    /* ‹ › で薄れて抜ける写しは本物の上に重なる。暗幕まで重ねると一瞬濃くなるので、この写しの暗幕は無し（紙と絵の枠だけが抜ける）。
+       .edge-shot と .underlay は一枚のページとして見えるものなので、暗幕を持ったまま */
+    .ghost:not(.edge-shot)>.view-in>:is(.cpage,.wpage)>.duo-hero{background:transparent;box-shadow:none}
+  }
+}
+
+/* ---------- パソコンの下の帯：横の路線図を出さない（前田先生 2026.10.24） ----------
+   パソコン（1100px〜）では右に縦の路線図（.route-mini）がいつも出ていて、下の帯の横の路線図（.map）と同じものが
+   二つ並んでいた。先生は縦の方を残し、絵の下の横の方を外すことにした（開発会議 2026.10.23 §3.1「重複する導線の整理」）。
+   縦の路線図が無い画面（body.has-route でないとき）では、これまでどおり横の路線図が残る。携帯・タブレットは変えない */
+@media (min-width:1100px){
+  body.viewing.has-route .dock .map{display:none}
+  body.viewing.has-route:not(.on-list) .dock{grid-template-columns:minmax(0,1fr) 260px}
+  body.viewing.has-route .dock .next-peek{grid-column:1;justify-self:end;width:100%;max-width:360px}
+  body.viewing.has-route .dock .actions{grid-column:2}
+}

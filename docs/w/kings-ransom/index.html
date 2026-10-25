@@ -38,7 +38,11 @@ try { if (sessionStorage.getItem('bc-resume')) document.documentElement.classLis
 <link rel="preload" as="image" href="img/pcb-charcoal.jpg">
 <link rel="preload" as="image" href="img/logo-layer-mark.png">
 <link rel="preload" as="image" href="img/logo-layer-words.png">
-<link rel="manifest" href="manifest.webmanifest?v=132">
+<!-- 台本も先に取りに行く（静的なページは台本より先に本文が描かれる。遅い回線で、触れて動くまでの間を縮める）。
+     src と同じアドレス（?v= まで）でないと、二度取りに行く -->
+<link rel="preload" as="script" href="js/seed.js?v=134">
+<link rel="preload" as="script" href="js/app.js?v=134">
+<link rel="manifest" href="manifest.webmanifest?v=134">
 <link rel="apple-touch-icon" href="icon-180.png">
 <!-- タブと検索結果に出る小さな印。アプリの印（ホーム画面のアイコン）と同じ形 -->
 <link rel="icon" href="favicon.ico" sizes="16x16 32x32 48x48">
@@ -76,11 +80,34 @@ if (location.hostname === 'beautifulcontext.com'){
   document.head.appendChild(ga);
 }
 </script>
-<script src="js/theme.js?v=132"></script>
-<link rel="stylesheet" href="app.css?v=132">
-<link rel="stylesheet" href="fade.css?v=132">
+<script src="js/theme.js?v=134"></script>
+<link rel="stylesheet" href="app.css?v=134">
+<!-- 読む画面の使い勝手（2026.10.24）。app.css のすぐあと -->
+<link rel="stylesheet" href="ux.css?v=134">
+<link rel="stylesheet" href="fade.css?v=134">
+<!-- 台本（js）が揃うまで：まだ押しても動かないもの（‹・絵の横の ‹ ›・つながりを辿る）を少し薄くし、下の帯の上の縁に細い金の線を走らせる。
+     app.js が最後に body.app-ready を付けて外す。すぐ揃うときは何も見せない（0.3 秒待ってから出す） -->
+<style>
+body:not(.app-ready) .back-close,body:not(.app-ready) #uniBtn,body:not(.app-ready) .ctx-nav{animation:bc-dim .2s ease .3s both}
+@keyframes bc-dim{to{opacity:.55}}
+body:not(.app-ready) .dock::before{content:"";position:absolute;z-index:3;left:0;top:0;width:28%;height:2px;border-radius:1px;background:#a97717;
+  animation:bc-show .2s ease .3s both,bc-load 1.1s ease-in-out .3s infinite alternate}
+@keyframes bc-show{from{opacity:0}}
+@keyframes bc-load{from{transform:translateX(0)}to{transform:translateX(257%)}}
+</style>
 </head>
 <body class="stage-uni viewing" data-route="#/w/kings-ransom">
+<!-- 台本が届く前に触れた一回を覚えておく（つながりを辿る・‹・絵の横の ‹ ›）。app.js が起き上がったら、その一回を行う。
+     遅い回線で「押したのに何も起きない」を無くす -->
+<script>
+document.addEventListener('click', function (e) {
+  if (document.body.classList.contains('app-ready')) return;
+  var t = e.target && e.target.closest ? e.target.closest('#uniBtn,.back-close,[data-ctx-go]') : null;
+  if (!t) return;
+  e.preventDefault();
+  if (!window.__early) window.__early = t.id === 'uniBtn' ? 'uni' : t.hasAttribute('data-ctx-go') ? (+t.getAttribute('data-ctx-go') > 0 ? 'next' : 'prev') : 'close';
+}, true);
+</script>
 
 <!-- 背景は先生の構成図（flow0921-2）の回路の絵そのもの。
      表紙では原寸の濃さ、UniverseIt! からは 50% に落とす（構成図のプロンプトどおり）。 -->
@@ -136,10 +163,11 @@ if (location.hostname === 'beautifulcontext.com'){
   <!-- About：このメディアが何か（開発会議 2026.10.23 で最優先に） -->
   <a href="#/about">Beautiful Context とは<small>このメディアについて</small></a>
   <a href="#/list">つながりの一覧<small>辿る順に、すべてのつながり</small></a>
-  <!-- 試作：一画面に一つのつながり。上へ払うと次へ（先生の道筋とは別の入口） -->
-  <a href="flow.html">つながりを流れで観る<small>一枚ずつ、上へ払って辿る（試作）</small></a>
+  <!-- 一画面に一つのつながり。上へ払うと次へ（先生の道筋とは別の入口） -->
+  <a href="flow.html">縦スクロールで観る<small>一枚ずつ、上へ払って辿る</small></a>
   <a href="#/" data-uni>UniverseIt!<small>すべての言葉から辿る</small></a>
-  <a href="editor.html?new=1">ReMixIt!<small>つながりを創る</small></a>
+  <!-- 編集者向け。ログインしていない読者には、エディターへ移る前に app.js が一度たずねる（data-remix） -->
+  <a href="editor.html?new=1" data-remix>ReMixIt!<small>つながりを創る</small></a>
   <button type="button" class="menu-account" id="menuAccount" data-login>ログイン<small>アカウントを作る</small></button>
   <!-- 案内と運営の入口。パソコンでは列の下に小さくまとめる（辿る道の邪魔をしない） -->
   <div class="menu-foot">
@@ -147,10 +175,12 @@ if (location.hostname === 'beautifulcontext.com'){
     <a href="#/ad">広告枠のご案内</a>
     <a href="#/credits">画像の出典</a>
     <a href="#/terms">利用規約・プライバシー</a>
-    <a href="manage.html">運営者メニュー</a>
+    <!-- 運営者メニューは、運営の画面を一度でも開いた端末（localStorage の bc-operator）にだけ。app.js が hidden を外す -->
+    <a href="manage.html" data-operator hidden>運営者メニュー</a>
+    <!-- 地の切り替え。何を切り替えるのかがわかる名前に（A / WHITE・B / CHARCOAL の白と炭） -->
     <div class="theme-pick" role="group" aria-label="地">
-      <button type="button" data-theme-set="white">ReMixIt!<small>A / WHITE</small></button>
-      <button type="button" data-theme-set="charcoal">UniverseIt!<small>B / CHARCOAL</small></button>
+      <button type="button" data-theme-set="white">画面：ReMixIt!（白）</button>
+      <button type="button" data-theme-set="charcoal">画面：UniverseIt!（炭）</button>
     </div>
   </div>
 </nav>
@@ -161,10 +191,11 @@ if (location.hostname === 'beautifulcontext.com'){
 <div class="view on" id="view" role="dialog" aria-modal="true" aria-label="エド・マクベイン『キングの身代金』">
   <div class="view-in" id="viewIn">
       <article class="page wpage">
-        <button type="button" class="back-close" data-close="" aria-label="戻る"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 4.5 7.5 12l7.5 7.5"></path></svg></button>
-        <div class="duo-hero"><a class="c-logo" href="#/" data-top="" aria-label="BEAUTIFUL CONTEXT（TOP へ戻る）"><img src="img/logo.png" alt=""></a><div class="duo"><div class="art"><img src="img/kings-ransom.jpg" alt="エド・マクベイン『キングの身代金』" data-k="kings-ransom" decoding="async"></div><a class="duo-add" href="editor.html?from=kings-ransom" aria-label="エド・マクベイン『キングの身代金』から、新しいつながりを創る"><span aria-hidden="true">＋</span><small>つながりを創る</small></a></div><button type="button" class="ctx-nav prev" data-ctx-go="-1" aria-label="一つ前のつながりへ">‹</button><button type="button" class="ctx-nav next" data-ctx-go="1" aria-label="次のつながりへ">›</button></div>
+        <button type="button" class="back-close" data-close="" aria-label="Today's Editor's Choice へ戻る" title="Today's Editor's Choice へ"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 4.5 7.5 12l7.5 7.5"></path></svg></button>
+        <div class="duo-hero"><a class="c-logo" href="#/" data-top="" aria-label="BEAUTIFUL CONTEXT（TOP へ戻る）"><img src="img/logo.png" alt=""></a><div class="duo"><div class="art"><img src="img/kings-ransom.jpg" alt="エド・マクベイン『キングの身代金』" data-k="kings-ransom" decoding="async" fetchpriority="low"></div><a class="duo-add" href="editor.html?from=kings-ransom" aria-label="エド・マクベイン『キングの身代金』から、新しいつながりを創る" title="この作品から、新しいつながりを創る（ReMixIt!・編集者向け）"><span aria-hidden="true">＋</span><small>つながりを創る</small></a></div><button type="button" class="ctx-nav prev" data-ctx-go="-1" aria-label="一つ前のつながりへ">‹</button><button type="button" class="ctx-nav next" data-ctx-go="1" aria-label="次のつながりへ">›</button></div>
         <div class="content">
           <p class="meta">書籍・1959年　CURRENT STATION</p>
+          <p class="meta-sub">駅：この作品を起点に、次の区間へ</p>
           <h2>エド・マクベイン『キングの身代金』</h2>
           <p class="by">エド・マクベイン（87分署シリーズ）</p>
           <p>架空の街アイソラの87分署を舞台にした警察小説シリーズの一作。原題『King’s Ransom』。靴会社の重役のもとに、身代金を要求する電話がかかってくる。</p>
@@ -180,11 +211,14 @@ if (location.hostname === 'beautifulcontext.com'){
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 <script type="application/ld+json" id="ld">{"@context":"https://schema.org","@type":"Book","name":"キングの身代金","description":"架空の街アイソラの87分署を舞台にした警察小説シリーズの一作。原題『King’s Ransom』。靴会社の重役のもとに、身代金を要求する電話がかかってくる。","creator":{"@type":"Person","name":"エド・マクベイン（87分署シリーズ）"},"url":"https://beautifulcontext.com/w/kings-ransom/","image":"https://beautifulcontext.com/img/kings-ransom.jpg","subjectOf":[{"@type":"Article","headline":"身代金の電話は、横浜の高台で鳴った。","url":"https://beautifulcontext.com/c/high-and-low--kings-ransom/"},{"@type":"Article","headline":"始まりは黒澤ではなく、一冊の小説だった。","url":"https://beautifulcontext.com/c/highest-2-lowest--kings-ransom/"}]}</script>
 
-<script src="js/seed.js?v=132"></script>
-<script src="js/store.js?v=132"></script>
-<script src="js/social.js?v=132"></script>
-<script src="js/render.js?v=132"></script>
-<script src="js/transition.js?v=132"></script>
-<script src="js/app.js?v=132"></script>
+<script src="js/config.js?v=134"></script>
+<script src="js/seed.js?v=134"></script>
+<script src="js/backend.js?v=134"></script>
+<script src="js/store.js?v=134"></script>
+<script src="js/social.js?v=134"></script>
+<script src="js/render.js?v=134"></script>
+<script src="js/login.js?v=134"></script>
+<script src="js/transition.js?v=134"></script>
+<script src="js/app.js?v=134"></script>
 </body>
 </html>
