@@ -16,8 +16,9 @@
   const cut = (t, n) => { t = String(t || '').replace(/\s+/g, ' ').trim(); return t.length > n ? t.slice(0, n - 1) + '…' : t; };
 
   window.BCReport = {
-    /* c：{ id, uid, name, text, slug }（コメントと、それが付いたつながりの slug） */
+    /* c：{ id, uid, name, text, slug, entry, mine }（コメントと、それが付いたつながり。mine は自分のコメント） */
     open(ui, c) {
+      if (c.mine) return this.own(ui, c);
       const Social = window.BCSocial, R = window.BCRender;
       const el = ui.sheet(`
         <p class="meta">COMMENT</p>
@@ -70,6 +71,33 @@
         } catch (err) {
           say(Social.message(err));
           b.disabled = false; b.textContent = '送る';
+        }
+      });
+      return el;
+    },
+
+    /* 自分のコメント：いつでも消せる（公開中のものも・確認待ちのものも）。消したら元に戻せない */
+    own(ui, c) {
+      const Social = window.BCSocial, R = window.BCRender;
+      const el = ui.sheet(`
+        <p class="meta">COMMENT</p>
+        <h2>あなたのコメント</h2>
+        <p class="sheet-note">「${R.esc(cut(c.text, 80))}」</p>
+        <button type="button" class="sheet-go sheet-danger" data-cm-delete>このコメントを削除する</button>
+        <button type="button" class="sheet-later" data-sheet-close>閉じる</button>
+        <p class="sheet-demo" data-report-msg role="status" aria-live="polite">削除すると、ほかの人からも見えなくなり、元には戻せません。</p>`);
+      el.setAttribute('aria-label', 'あなたのコメント');
+      const b = el.querySelector('[data-cm-delete]');
+      b.addEventListener('click', async () => {
+        b.disabled = true; b.textContent = '削除しています…';
+        try {
+          await Social.deleteComment(c.entry, c.id);
+          if (ui.track) ui.track('comment_delete');
+          ui.closeSheet();
+          ui.toast('コメントを削除しました');
+        } catch (err) {
+          el.querySelector('[data-report-msg]').textContent = Social.message(err);
+          b.disabled = false; b.textContent = 'このコメントを削除する';
         }
       });
       return el;

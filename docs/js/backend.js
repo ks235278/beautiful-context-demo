@@ -541,6 +541,20 @@
       outbox.forEach((o) => { if (o.kind === 'mute' && o.uid === me.uid) { if (o.on) s.add(o.key); else s.delete(o.key); } });
       return [...s];
     },
+    /* 自分のコメントを消す（公開中のものも・確認待ちのものも。RLS の comments_delete：本人か運営者）。
+       消えたら控えからも外し、公開中だったなら数も読み直す */
+    async deleteComment(e, id) {
+      if (!me || !e) { const x = new Error('ログインしていません'); x.code = '42501'; throw x; }
+      const c = await load();
+      const { data, error } = await c.from('comments').delete().eq('id', id).select('id');
+      if (error) throw error;
+      if (!data || !data.length) { const x = new Error('権限がありません'); x.code = '42501'; throw x; }
+      const hit = cache.comments[e.id];
+      if (hit) hit.list = hit.list.filter((x) => x.id !== id);
+      save(); changed();
+      const sidv = sid(e);
+      if (sidv) quiet(loadStat(sidv));
+    },
     /* 運営に知らせる（reports。未ログインでも送れる。送りすぎ止めはサーバーのトリガー：migration 09〜11）。
        送った人は読み返せない（RLS）ので、select を付けずに送る */
     async report(row) {

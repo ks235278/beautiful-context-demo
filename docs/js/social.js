@@ -100,6 +100,8 @@
       changed();
       return was.length;
     },
+    /* 自分のコメントを消す（Promise。Supabase のときだけ。e はコメントが付いたコンテクスト） */
+    deleteComment(e, id) { return B ? B.deleteComment(e, id) : Promise.reject(new Error('off')); },
     /* 運営に知らせる（Promise。Supabase のときだけ） */
     report(row) { return B ? B.report(row) : Promise.reject(new Error('off')); },
 

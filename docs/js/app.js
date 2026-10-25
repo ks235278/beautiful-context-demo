@@ -1238,9 +1238,10 @@
     /* コメントの「…」：運営に知らせる・この人のコメントを表示しない（js/report.js）。「すべて表示する」で戻す */
     const more = t.closest('[data-cm-more]');
     if (more && window.BCReport && here && here.entry){
-      const li = more.closest('[data-cm-id]'), e = S.byId(here.entry.id) || here.entry;
-      const c = li && S.visibleComments(e).find(x => x.id === li.dataset.cmId);
-      if (c) BCReport.open({ sheet, closeSheet, toast, track }, { id: c.id, uid: c.uid, name: c.name, text: c.text, slug: e.context.slug });
+      const li = more.closest('[data-cm-id]'), e = S.byId(here.entry.id) || here.entry, me = Social.me();
+      const list = S.visibleComments(e).concat(me ? S.myPendingComments(e, me.uid) : []);
+      const c = li && list.find(x => x.id === li.dataset.cmId);
+      if (c) BCReport.open({ sheet, closeSheet, toast, track }, { id: c.id, uid: c.uid, name: c.name, text: c.text, slug: e.context.slug, entry: e, mine: !!(me && me.uid === c.uid) });
       return;
     }
     if (t.closest('[data-unmute]')){ const n = Social.unmuteAll(); if (n) toast('表示しないことにした人のコメントを、すべて表示します'); return; }
