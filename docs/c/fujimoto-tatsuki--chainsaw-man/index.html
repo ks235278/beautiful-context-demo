@@ -40,9 +40,9 @@ try { if (sessionStorage.getItem('bc-resume')) document.documentElement.classLis
 <link rel="preload" as="image" href="img/logo-layer-words.png">
 <!-- 台本も先に取りに行く（静的なページは台本より先に本文が描かれる。遅い回線で、触れて動くまでの間を縮める）。
      src と同じアドレス（?v= まで）でないと、二度取りに行く -->
-<link rel="preload" as="script" href="js/seed.js?v=134">
-<link rel="preload" as="script" href="js/app.js?v=134">
-<link rel="manifest" href="manifest.webmanifest?v=134">
+<link rel="preload" as="script" href="js/seed.js?v=135">
+<link rel="preload" as="script" href="js/app.js?v=135">
+<link rel="manifest" href="manifest.webmanifest?v=135">
 <link rel="apple-touch-icon" href="icon-180.png">
 <!-- タブと検索結果に出る小さな印。アプリの印（ホーム画面のアイコン）と同じ形 -->
 <link rel="icon" href="favicon.ico" sizes="16x16 32x32 48x48">
@@ -80,11 +80,11 @@ if (location.hostname === 'beautifulcontext.com'){
   document.head.appendChild(ga);
 }
 </script>
-<script src="js/theme.js?v=134"></script>
-<link rel="stylesheet" href="app.css?v=134">
+<script src="js/theme.js?v=135"></script>
+<link rel="stylesheet" href="app.css?v=135">
 <!-- 読む画面の使い勝手（2026.10.24）。app.css のすぐあと -->
-<link rel="stylesheet" href="ux.css?v=134">
-<link rel="stylesheet" href="fade.css?v=134">
+<link rel="stylesheet" href="ux.css?v=135">
+<link rel="stylesheet" href="fade.css?v=135">
 <!-- 台本（js）が揃うまで：まだ押しても動かないもの（‹・絵の横の ‹ ›・つながりを辿る）を少し薄くし、下の帯の上の縁に細い金の線を走らせる。
      app.js が最後に body.app-ready を付けて外す。すぐ揃うときは何も見せない（0.3 秒待ってから出す） -->
 <style>
@@ -219,6 +219,7 @@ document.addEventListener('click', function (e) {
       <section class="comments" id="comments" data-ctx="seed-fujimoto-tatsuki--chainsaw-man">
         <p class="meta">COMMENTS<span class="cm-n">0</span></p>
         <p class="cm-empty">まだコメントはありません。このつながりについて、最初のひとことを。</p>
+        
         <form class="cm-form" data-comment="seed-fujimoto-tatsuki--chainsaw-man">
           <textarea name="text" rows="2" maxlength="600" placeholder="このつながりについて、思ったことを" aria-label="コメント"></textarea>
           <button type="submit">送る</button>
@@ -393,14 +394,15 @@ document.addEventListener('click', function (e) {
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 <script type="application/ld+json" id="ld">{"@context":"https://schema.org","@type":"Article","headline":"借金を背負った少年に、チェンソーの心臓が宿る。","alternativeHeadline":"悪魔を狩る少年","about":[{"@type":"Person","name":"藤本タツキ","description":"『チェンソーマン』『ルックバック』『ファイアパンチ』の漫画家。"},{"@type":"CreativeWork","name":"チェンソーマン","description":"悪魔のポチタと一体になり、チェンソーの悪魔の力を得た少年デンジの物語。2018年に週刊少年ジャンプで連載が始まった。","creator":{"@type":"Person","name":"藤本タツキ"}}],"author":{"@type":"Person","name":"生成AI（初稿）"},"datePublished":"2026-09-15T06:50:00.000Z","dateModified":"2026-09-15T06:50:00.000Z","inLanguage":"ja","articleBody":"作者の名を広く知らしめた長編。『チェンソーマン』は2018年に週刊少年ジャンプで連載が始まった。父の借金を背負ったデンジは、チェンソーの悪魔ポチタと一体になり、悪魔を狩る側に回る。容赦のない展開と、ふとした場面の静けさ。映画から受けた影響を隠さない画面づくりは、同じ作者の『ルックバック』にも通じている。第二部は少年ジャンプ＋に移って続き、アニメはMAPPAが手がけた。","url":"https://beautifulcontext.com/c/fujimoto-tatsuki--chainsaw-man/","image":"https://beautifulcontext.com/img/works/fujimoto-tatsuki.jpg"}</script>
 
-<script src="js/config.js?v=134"></script>
-<script src="js/seed.js?v=134"></script>
-<script src="js/backend.js?v=134"></script>
-<script src="js/store.js?v=134"></script>
-<script src="js/social.js?v=134"></script>
-<script src="js/render.js?v=134"></script>
-<script src="js/login.js?v=134"></script>
-<script src="js/transition.js?v=134"></script>
-<script src="js/app.js?v=134"></script>
+<script src="js/config.js?v=135"></script>
+<script src="js/seed.js?v=135"></script>
+<script src="js/backend.js?v=135"></script>
+<script src="js/store.js?v=135"></script>
+<script src="js/social.js?v=135"></script>
+<script src="js/render.js?v=135"></script>
+<script src="js/login.js?v=135"></script>
+<script src="js/report.js?v=135"></script>
+<script src="js/transition.js?v=135"></script>
+<script src="js/app.js?v=135"></script>
 </body>
 </html>

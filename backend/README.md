@@ -2,6 +2,8 @@
 
 > 状態（2026-10-24）：dev のプロジェクト `jajlkgybusedmvjmnqjc`（東京）に `schema.sql`（migration 01〜11）を流し、見本の 130 本を入れた。
 > 第1段階のうち「ログイン（メールのコード）・表示名・フォロー・共感・コメント・運営者のコメント確認」を `docs/` につないだ（ブランチ `backend-phase1`。何が動くかは 6.1、残りと持ち主の作業は 7 章）。
+> 2026-10-25：App Store 審査に要る「アプリの中での退会（5.1.1(v)）」「コメントを運営に知らせる・その人を表示しない（1.2）」「自分のコメントの削除」を画面に足した。
+> そのための **migration 12・13 は書いて手元の Postgres で確かめたが、まだ dev に流していない**（`backend/migrations/`。流し方は 7 章）。流すまでは、退会は「いまは使えません（準備中です）」、表示しないは端末の中だけで動く。
 > 読むもの（コンテクスト・作品・編集者）は、まだ `seed.js` から読む。
 > 書いた人の前提：エンジニアは一人。だから「自分でサーバーを持たない・夜中に起こされない」ことを最優先にした。
 
@@ -10,6 +12,8 @@
 | `backend/README.md` | これ。全体の形・表・権限・流れ・引っ越し・段階・費用・危険 |
 | `backend/schema.sql` | Supabase にそのまま流せる migration（表・RLS・トリガー・取り込み関数・Storage・集計ビュー） |
 | `backend/client-plan.md` | `docs/js/store.js` と `docs/js/social.js` を localStorage から Supabase に切り替える手順（関数ごと） |
+| `backend/migrations/` | 12 からの migration を一つずつ（schema.sql の末尾と同じ文。頭に「まだ dev に流していない」とあるものは未適用） |
+| `backend/tests/` | migration ごとの確かめ。試しのデータを中で作り、最後にわざと例外を投げて全体を取り消す（何も残らない）。`node tools/sql-test.mjs 12` で migration と一つにして出す |
 
 ---
 
@@ -102,7 +106,8 @@ flowchart LR
 | `follows` | フォロー（本人の行だけ見える） | `social.js` の `follows` | 1 |
 | `reactions` | 共感（本人の行だけ見える） | `store.js` の `liked` | 1 |
 | `comments` | コメント。`pending` で入り、確かめてから `approved` | `entry.comments` | 1 |
-| `reports` | 通報と削除の依頼。ログインしていない権利者も送れる | なし | 3 |
+| `reports` | 通報と削除の依頼。ログインしていない権利者も送れる | なし | 3（コメントへの通報は 2026-10-25 に画面へ） |
+| `user_mutes` | コメントを表示しない相手（1.2 のブロック。本人の画面だけで隠す）。migration 13・未適用 | `social.js` の `mutes` | 2 |
 | `notifications` | お知らせ（差し戻し・公開・コメント公開・依頼の対応） | なし | 3 |
 | `ads` | 広告枠。記事単位の枠（`context_id`）も持てる | `store.js` の `ads` | 1 |
 | `site_settings` | サービス名・キャッチ・地・アクセント色・広告の間隔（一行だけ） | `store.js` の `settings` | 1 |
@@ -332,7 +337,10 @@ review = 'approved' にする → approved_by_editor・approved_at が付き、�
 **天井（migration 11）**　「後回し」は依頼を失わないが、表は増え続ける。anon キーを画面に載せると、誰でも PostgREST に直接 insert を打てるので、/64 や使い捨てアカウントを並べた洪水が一時間に何千件も入りうる。そこで同じ subnet（/24・/48）の合計に 200 件／時の天井を置き、それを超えた分だけは断る。ふつうの会社や携帯のネットワークが一時間に 200 件も送ることはなく、天井に当たった人にも規約の連絡先（メール）が残る。確かめは `begin…rollback` の中で 19 項目（schema.sql の 11 の頭に列挙）。
 
 - **公開の日に要る最低限**：「削除の依頼」の窓口（フォームか、問い合わせ用のメールアドレス）を規約とフッターに出すこと。画面の流れ（上の図）は第3段階でよい。
-- **読者の退会**：Edge Function `delete-account` が、本人の JWT を確かめ、Storage に置いたものを消してから `auth.admin.deleteUser()` を呼ぶ（Storage にものが残っているとユーザーを消せない）。`profiles`・フォロー・共感・コメント・お知らせは一緒に消える。
+- **読者の退会**（2026-10-25 に変えた）：Edge Function ではなく RPC `delete_my_account()`（migration 12。security definer、引数なし、本人だけ）。
+  読者は Storage に絵を置けない（置けるのは編集者・運営者）ので、先に消すものがなく、`auth.users` を消せば `profiles`・フォロー・共感・コメント（公開中も）・お知らせ・表示しない相手が cascade で消える。
+  通報は記録として残し、送り手の印・名前・メールを空にする。**編集者・運営者は 42501 で断る**（公開中のつながり・Storage の絵に結びつくため。どう消すかは 7 章の「決めること」）。
+  編集者の退会を作るときに、Storage を先に消す Edge Function `delete-account`（`auth.admin.deleteUser()`）を足す。
 - **静的ページの履歴**：いまのやり方（`docs/c/…` をコミット）だと、消したページが公開リポジトリの履歴に残る。第2段階で GitHub Pages の公開元を「GitHub Actions」に変え、作ったページはコミットせずに配る（5 章）。
 
 ### 4.7 1,250 本の一括取り込み
@@ -437,7 +445,9 @@ review = 'approved' にする → approved_by_editor・approved_at が付き、�
 | `docs/js/login.js` | ログインのシート：メールアドレス →「コードを送る」→ 6桁のコード →「ログイン」→ 表示名。Google のボタンは `googleEnabled` のときだけ |
 | `docs/js/social.js`・`store.js` | 関数の名前はそのまま。`BCBackend` があれば Supabase に、無ければ今までどおり端末の中だけ |
 | `docs/js/manage.js` | 「コメントの確認」：運営者（`profiles.role = 'operator'`）なら Supabase の確認待ちを出し、「表示する」「表示しない」を送る |
-| `tools/export-published.mjs` | anon キーで公開中のものを読み、`seed.js` と同じ形の `snapshot.js` を書く。`--check` で `seed.js` と突き合わせる（130 本・編集者・広告枠とも差 0。配列の並びだけ違う）。**まだ prerender につないでいない** |
+| `tools/export-published.mjs` | anon キーで公開中のものを読み、`seed.js` と同じ形の `snapshot.js` を書く。`--check` で `seed.js` と突き合わせる（130 本・編集者・広告枠とも差 0。配列の並びだけ違う）。**まだ prerender につないでいない**（7 章「決めること」） |
+| `docs/js/report.js` | コメントの「…」のシート（2026-10-25）。ほかの人のコメント →「運営に知らせる」（理由とひとことを `reports` へ。未ログインでも送れる）・「○○ さんのコメントを表示しない」。自分のコメント →「このコメントを削除する」 |
+| `tools/sql-test.mjs` | `node tools/sql-test.mjs 12 13`：migration と確かめを一つの SQL にして出す（最後の例外で全部取り消す）。`--applied` は確かめだけ。schema.sql と migrations/ の文が食い違っていたら止まる |
 
 動き：
 
@@ -446,14 +456,36 @@ review = 'approved' にする → approved_by_editor・approved_at が付き、�
 - **コメント**：`comments` に入れる（トリガーで必ず `pending`）。書いた本人にだけ「確認中・あなたにだけ表示」で見える。運営者が通すと、だれにでも見える
 - **ログアウト**：この端末だけ（`scope: 'local'`）。サーバーから読んだフォロー・共感は端末に残さない
 - **GA**：ログインの画面で入ったときだけ `sign_up`（はじめて）か `login`、`method: 'email' | 'google'`
-- **利用規約・プライバシー**（`#/terms`）：外部送信に Supabase（何を送るか・東京に保存）を書いた
+- **利用規約・プライバシー**（`#/terms`）：外部送信に Supabase（何を送るか・東京に保存）を書いた。2026-10-25 に「コメントの通報と『表示しない』」「アカウントの削除」を足した
+- **退会**（2026-10-25・migration 12 が要る）：アカウントのシートの下の「アカウントを削除する」→ 確かめのシート（消えるものを一度だけ見せる）→ `rpc('delete_my_account')` → 端末の `bc-me`・`bc-auth`・outbox・フォロー・共感も消してログアウト。
+  表示名を決める前のシートからも同じ。編集者・運営者にはサーバーの理由の文を出す。GA は `account_delete`
+- **通報**（2026-10-25・表はもとからある）：ほかの人のコメントの「…」→「運営に知らせる」→ 理由（宣伝・攻撃・個人の情報・著作権・そのほか）とひとこと → `reports`（`target_type = 'comment'`）。
+  運営者メニューの「通報」（`v_report_queue`）で、コメントの本文を見て「コメントを表示しない」「確かめ中にする」「対応した」「対応しない」。GA は `report_submit`（理由だけ）
+- **表示しない**（2026-10-25・migration 13 が要る）：「…」→「○○ さんのコメントを表示しない」→ その人のコメントをこの画面から外す（`store.visibleComments`）。
+  コメント欄に「表示しないことにした人のコメントが N 件あります。すべて表示する」。ログインしていれば `user_mutes` にも送り（ほかの端末でも隠れる）、
+  していなければ端末だけ（ログインしたときに送る。ログアウトで端末から消す）。**migration 13 を流す前は端末だけで動き、エラーは出さない**
+- **自分のコメントの削除**（2026-10-25・migration は要らない）：自分のコメント（確認待ちも）の「…」→「このコメントを削除する」。RLS の `comments_delete` はもとからある
 
 通しの確かめ（2026-10-24、dev、`@example.invalid` の使い捨てユーザーを SQL で作り、終わったら消して残り 0）：
 未ログインでフォロー・共感 → パスワードでログイン（テストだけ）→ `follows`・`reactions` に入り `editor_stats.followers`・`context_stats.reactions` が 1 ／
 コメント → 本人にだけ確認中、anon の REST では `[]` → SQL で通す・運営者メニューで通す → 別の未ログインのブラウザで 2 本見える ／
 Supabase への通信をすべて落として読み直す → コンテクスト・編集者・一覧・Today が読め、フォローとコメントは outbox → つないで読み直すと送られる。
 
-まだのもの：`snapshot.js` への切り替え（client-plan S1〜S5）、`public_changes_since` の差分読み、`editor.html` の保存先、運営者メニューのほかの見出し（公開状態・広告枠・設定）の Supabase 化、1,250 本の取り込み。
+通しの確かめ（2026-10-25。dev には何も書いていない）：
+- **SQL**：手元の Postgres（PGlite。Supabase の auth・storage と anon / authenticated / service_role を最小に真似た）に schema.sql 01〜11 を流し、
+  `node tools/sql-test.mjs 12 13` の出力を流す → `BC_TEST_OK`（12 は 18 項目、13 は 13 項目）、流したあとも関数・表・利用者は 0（取り消された）。
+  確かめが本当に落ちるかも試した（わざと壊した migration 9 通り：auth.users を消さない・編集者を断らない・通報の名前を残す・anon に実行権・search_path なし・
+  自分を隠せる・他人の行が見える・他人の名前で入れる・cascade なし → どれも `BC_TEST_NG` で止まる）
+- **画面**：Supabase をページの中の偽物に差し替え（`fetch` を置き換え。dev に触れない）、390×844 と 1366×768 で：
+  未ログインでフォロー・共感 → メールのコードでログイン → サーバーに入る・数は二重にならない → コメントは確認中 → 運営者が通す → 未ログインで見える ／
+  退会 → 偽物の DB の利用者・フォロー・共感・コメントが 0、端末の控えも空、運営者は理由の文で断られる ／
+  未ログインで通報 → 運営者メニュー「通報」→「コメントを表示しない」→ 未ログインの読者から消える ／ 表示しない → ログインで送る → ログアウトで消える → もう一度ログインで戻る → すべて表示する ／
+  user_mutes が無い（migration 13 の前）でも、表示しないは端末で効き、エラーも出ない ／ 自分のコメントを確認待ち・公開中とも消せる
+- **本物の dev**（anon、GET だけ）：`editor_stats`・`contexts`・`comments` が読め、ページのエラー 0。`*.supabase.co` を遮断しても Today・記事・編集者・一覧・作品が読め、
+  最初の描画（FCP）は遮断の有無・`?static=1` で差が無い（Supabase への最初の通信は load と FCP のあと）
+
+まだのもの：`snapshot.js` への切り替え（client-plan S1〜S5）、`public_changes_since` の差分読み、`editor.html` の保存先、運営者メニューのほかの見出し（公開状態・広告枠・設定）の Supabase 化、1,250 本の取り込み、
+編集者・運営者の退会、お知らせ（notifications）の画面。
 
 **メールの送り先について（大事）**：Supabase の既定のメール送信は、**プロジェクトの組織（Team）のメンバーのアドレスにしか送らない**（ほかは `email_address_not_authorized`）。
 しかも 1 時間に約 2 通まで（Auth → Rate Limits。Supabase の都合で変わる）。だから、既定のままでログインできるのは組織のメンバーだけで、**読者に出すベータの前に自分の SMTP（Resend など）が要る**（4.1 のとおり）。
@@ -513,6 +545,36 @@ Supabase への通信をすべて落として読み直す → コンテクスト
     where id in (select id from auth.users where email in ('<先生のアドレス>', '<CTO のアドレス>'));
    select p.id, u.email, p.role from public.profiles p join auth.users u on u.id = p.id where p.role = 'operator';
    ```
+
+#### 第2段階の進み（2026-10-25）
+
+- [x] 退会（5.1.1(v)）：画面と migration 12（**未適用**）
+- [x] コメントを運営に知らせる（1.2）：画面と運営者メニュー「通報」（表はもとからある）
+- [x] その人のコメントを表示しない（1.2）：画面と migration 13（**未適用**。流す前は端末だけ）
+- [x] 自分のコメントの削除
+- [ ] migration 12・13 を dev に流す（下の 7、承認のあと）
+- [ ] 編集者・運営者の退会（下の「決めること」）
+- [ ] `snapshot.js` への切り替えと prerender（下の「決めること」）
+
+#### 持ち主（と、承認を受けた進行役）がすること・続き
+
+7. **migration 12・13 を dev に流す**（DB への書き込み。CTO の承認のあと、進行役が MCP で）：
+   1. 確かめ：`node tools/sql-test.mjs 12 13` の出力を `execute_sql` で流す → 返る文が `BC_TEST_OK 13_user_mutes…`（12 の OK は NOTICE）。最後の例外で全部取り消されるので、何も残らない。
+      MCP が読むだけのモードだと試しのデータを作れないので、そのときは SQL Editor に貼る
+   2. 本番：`apply_migration` に `12_delete_my_account`（`backend/migrations/12_delete_my_account.sql` の中身）、続けて `13_user_mutes`
+   3. もう一度：`node tools/sql-test.mjs --applied 12 13` を流して `BC_TEST_OK`
+   4. `get_advisors`（security）：新しく出てよいのは `delete_my_account` の「authenticated が security definer を呼べる」（0029）一つだけ（わざと。11 章）
+   5. schema.sql と `backend/migrations/12・13` の頭の「まだ dev に流していない」と、この README の「未適用」を外してコミット
+8. **連絡先**（1.2「連絡先を載せる」・5.1.1(v)）：利用規約・プライバシーに、運営の問い合わせ先（info@ など、開発会議で決めたアドレス）を書く。いまの規約は「デモ版」の文のまま
+9. **試しの利用者**：dev で画面を通して確かめる（メールのコードでログイン）には、自分の SMTP（上の 4）が要る。それまでは組織のメンバーのアドレスで
+
+#### 決めること（CTO・先生）
+
+- **編集者・運営者の退会**：いまは断って「利用規約の連絡先から」と出す。App Store は「問い合わせで退会」を認めないので、アプリを出す前に決める。
+  (A) 署名（編集者の名前・紹介）は残し、ログインだけ消す（`editors.user_id` は外れる。公開中のつながりはそのまま） ／
+  (B) 公開中のつながりも非公開にし、Storage の絵も消す（Edge Function `delete-account`） ／ (C) 運営がすぐ手で消すと約束し、規約に日数を書く
+- **`snapshot.js` と prerender**：静的なページに、コメントや数を焼き込まない（いまの決まり）。焼き込むと、公開リポジトリの履歴に表示名とコメントが残り、退会しても消せない。
+  `snapshot.js` に切り替えると、読むものの元が `seed.js` から Supabase になる（`seed.js` を直す流れ・コンテンツの取り込みの流れと合わせて決める）
 
 ### 第2段階：編集者（3〜4週間）　投稿と審査・AGM
 
@@ -627,7 +689,9 @@ Supabase への通信をすべて落として読み直す → コンテクスト
   書いて読む確かめを一つの transaction にまとめ、最後に必ず `rollback` する（2026-10-22 の本番での確かめは、この形で 67 項目すべて通った）。
 
 - **見張り**：Supabase の Advisors（Security・Performance）を、migration を足すたびに見る。Database → Reports で容量と接続数。
-  いま残している警告（わざと）：`public_changes_since` の security definer（0028 / 0029。公開中の区間は id・slug（静的ページと sitemap にもう出ているもの）、
+  いま残している警告（わざと）：`delete_my_account` の security definer を authenticated が呼べる（0029。migration 12 を流したら出る。
+  `auth.users` を消せるのは持ち主だけなので definer が要る。引数を取らず、消すのは `auth.uid()` 本人だけ・anon は呼べない・編集者と運営者は断る）、
+  `public_changes_since` の security definer（0028 / 0029。公開中の区間は id・slug（静的ページと sitemap にもう出ているもの）、
   見えなくなった区間は直近30日の id だけを返す。消えたものを端末から外すには、RLS の外を見る必要がある）、
   Supabase 自身の `rls_auto_enable`（「自動で RLS」の設定が作るもの。DDL の外で呼ばれても何もしない）、
   `private.secrets` の「RLS はあるが policy が無い」INFO（0008。policy 無し＝誰も読めない、がねらい。API に出ないスキーマで、
