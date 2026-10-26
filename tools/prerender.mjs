@@ -12,7 +12,7 @@ import http from 'node:http';
 import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
-import { spawn } from 'node:child_process';
+import { spawn, spawnSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 
 const DOCS = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..', 'docs');
@@ -46,6 +46,24 @@ const port = 9400 + Math.floor(Math.random() * 400);
 const prof = fs.mkdtempSync(path.join(os.tmpdir(), 'bc-prerender-'));
 const chrome = spawn(CHROME, ['--headless=new', `--remote-debugging-port=${port}`, `--user-data-dir=${prof}`,
   '--no-first-run', '--no-default-browser-check', 'about:blank'], { stdio: 'ignore' });
+/* 使い捨てのプロファイルは、終わったら必ず消す（うまくいっても、途中で失敗しても、Ctrl+C でも）。
+   Windows では Chrome の子プロセスが閉じきるまでファイルがつかまれているので、木ごと止め、消えるまで少し待つ */
+const chromeGone = new Promise((r) => chrome.once('exit', r));
+const killChrome = () => {
+  if (!chrome.pid || chrome.exitCode !== null || chrome.signalCode !== null) return;
+  if (process.platform === 'win32') spawnSync('taskkill', ['/pid', String(chrome.pid), '/T', '/F'], { stdio: 'ignore' });
+  else chrome.kill();
+};
+const dropProf = () => { try { fs.rmSync(prof, { recursive: true, force: true }); return true; } catch (e) { return false; } };
+let closing;
+const closeChrome = () => closing ||= (async () => {
+  killChrome();
+  if (chrome.pid) await Promise.race([chromeGone, sleep(5000)]);
+  for (let i = 0; i < 50 && !dropProf(); i++) await sleep(100);
+})();
+process.on('uncaughtException', (e) => { console.error(e); closeChrome().finally(() => process.exit(1)); });
+for (const sig of ['SIGINT', 'SIGTERM', 'SIGHUP']) process.on(sig, () => closeChrome().finally(() => process.exit(130)));
+process.on('exit', () => { killChrome(); dropProf(); });
 let list;
 for (let i = 0; i < 80; i++) {
   try { list = await (await fetch(`http://127.0.0.1:${port}/json/list`)).json(); if (list.length) break; } catch (e) {}
@@ -193,4 +211,4 @@ fs.writeFileSync(path.join(DOCS, 'robots.txt'), `User-agent: *\nAllow: /\n\nSite
 
 console.log(`書き出しました：${done.length} 枚 + about/ + sitemap.xml（${urls.length} 件）`);
 if (errors.length) console.log('ページのエラー：', errors.slice(0, 5));
-ws.close(); chrome.kill(); server.close();
+ws.close(); server.close(); await closeChrome();
