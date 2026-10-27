@@ -12,14 +12,14 @@ try { if (sessionStorage.getItem('bc-resume')) document.documentElement.classLis
 </script>
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,viewport-fit=cover">
 <title>Beautiful Context とは｜Beautiful Context</title>
-<meta name="description" content="Beautiful Context（ビューティフル・コンテクスト）は、映画・本・音楽・人物・場所など、二つの作品のあいだにある意外なつながりを、編集者が一本の「コンテクスト」として届けるメディアです。読み方、編集の方針、運営について。">
+<meta name="description" content="Beautiful Context（ビューティフル・コンテクスト）は、映画・本・音楽・人物・場所など、二つの作品のあいだにある意外なつながりを、編集者が一本の「コンテクスト」として届けるメディアです。読み方、生成AIの初稿の扱いを含む編集の方針、運営について。">
 <meta name="theme-color" content="#061629">
 <link rel="canonical" href="https://beautifulcontext.com/about/">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://beautifulcontext.com/about/">
 <meta property="og:site_name" content="Beautiful Context">
 <meta property="og:title" content="Beautiful Context とは｜Beautiful Context">
-<meta property="og:description" content="Beautiful Context（ビューティフル・コンテクスト）は、映画・本・音楽・人物・場所など、二つの作品のあいだにある意外なつながりを、編集者が一本の「コンテクスト」として届けるメディアです。読み方、編集の方針、運営について。">
+<meta property="og:description" content="Beautiful Context（ビューティフル・コンテクスト）は、映画・本・音楽・人物・場所など、二つの作品のあいだにある意外なつながりを、編集者が一本の「コンテクスト」として届けるメディアです。読み方、生成AIの初稿の扱いを含む編集の方針、運営について。">
 <meta property="og:image" content="https://beautifulcontext.com/icon-512.png">
 <meta name="twitter:card" content="summary">
 <!-- ホーム画面から開くとき、読み込みのあいだに出る起動画面。表紙の最初の一コマ（回路とロゴ）と同じ絵
@@ -41,9 +41,9 @@ try { if (sessionStorage.getItem('bc-resume')) document.documentElement.classLis
 <link rel="preload" as="image" href="img/logo-layer-words.png">
 <!-- 台本も先に取りに行く（静的なページは台本より先に本文が描かれる。遅い回線で、触れて動くまでの間を縮める）。
      src と同じアドレス（?v= まで）でないと、二度取りに行く -->
-<link rel="preload" as="script" href="js/seed.js?v=137">
-<link rel="preload" as="script" href="js/app.js?v=137">
-<link rel="manifest" href="manifest.webmanifest?v=137">
+<link rel="preload" as="script" href="js/seed.js?v=138">
+<link rel="preload" as="script" href="js/app.js?v=138">
+<link rel="manifest" href="manifest.webmanifest?v=138">
 <link rel="apple-touch-icon" href="icon-180.png">
 <!-- タブと検索結果に出る小さな印。アプリの印（ホーム画面のアイコン）と同じ形 -->
 <link rel="icon" href="favicon.ico" sizes="16x16 32x32 48x48">
@@ -72,11 +72,11 @@ if (location.hostname === 'beautifulcontext.com'){
   document.head.appendChild(ga);
 }
 </script>
-<script src="js/theme.js?v=137"></script>
-<link rel="stylesheet" href="app.css?v=137">
+<script src="js/theme.js?v=138"></script>
+<link rel="stylesheet" href="app.css?v=138">
 <!-- 読む画面の使い勝手（2026.10.24）。app.css のすぐあと -->
-<link rel="stylesheet" href="ux.css?v=137">
-<link rel="stylesheet" href="fade.css?v=137">
+<link rel="stylesheet" href="ux.css?v=138">
+<link rel="stylesheet" href="fade.css?v=138">
 <!-- 台本（js）が揃うまで：まだ押しても動かないもの（‹・絵の横の ‹ ›・つながりを辿る）を少し薄くし、下の帯の上の縁に細い金の線を走らせる。
      app.js が最後に body.app-ready を付けて外す。すぐ揃うときは何も見せない（0.3 秒待ってから出す） -->
 <style>
@@ -198,7 +198,7 @@ document.addEventListener('click', function (e) {
       </ul>
       <h3>編集者について</h3>
       <p>コンテクストを選び、書くのは、編集の経験をもつ編集者です。真・善・美──確かめられる事実に立ち、作品への敬意を保ち、読んで美しいと感じられる一本だけを公開します。</p>
-      <p>下書きに生成AIを使うことがあります。生成AIの初稿は、編集者が事実と出典を確かめてから公開します。公開されたコンテクストには、選んだ編集者の名前を記しています。</p>
+      <p>いま公開しているコンテクストの多くは、生成AIが書いた初稿です。各ページに「生成AIの初稿・編集者の確認前」と記し、編集者が事実と出典を確かめたものは「確認済み」に変わります。公開されたコンテクストには、選んだ編集者の名前を記しています。</p>
       <h3>つくる人へ</h3>
       <p>「ReMixIt!」では、どなたでも二つの作品のあいだにあるつながりを提案できます。長い解説は要りません。大切なのは文章の量ではなく、つながりを見つける感覚です。二つを結びつけ、その関係の面白さが短く伝われば、それで一本になります。</p>
       <p>編集者のアカウントは、いまのところ招待制です。</p>
@@ -214,17 +214,17 @@ document.addEventListener('click', function (e) {
 <div class="edge-back" id="edgeBack" aria-hidden="true"></div>
 
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
-<script type="application/ld+json" id="ld">{"@context":"https://schema.org","@graph":[{"@type":"AboutPage","@id":"https://beautifulcontext.com/about/","url":"https://beautifulcontext.com/about/","name":"Beautiful Context とは","inLanguage":"ja","description":"Beautiful Context（ビューティフル・コンテクスト）は、映画・本・音楽・人物・場所など、二つの作品のあいだにある意外なつながりを、編集者が一本の「コンテクスト」として届けるメディアです。読み方、編集の方針、運営について。","about":{"@id":"https://beautifulcontext.com/#organization"},"isPartOf":{"@type":"WebSite","name":"Beautiful Context","url":"https://beautifulcontext.com/"}},{"@type":"Organization","@id":"https://beautifulcontext.com/#organization","name":"Beautiful Context","url":"https://beautifulcontext.com/","logo":"https://beautifulcontext.com/icon-512.png"}]}</script>
+<script type="application/ld+json" id="ld">{"@context":"https://schema.org","@graph":[{"@type":"AboutPage","@id":"https://beautifulcontext.com/about/","url":"https://beautifulcontext.com/about/","name":"Beautiful Context とは","inLanguage":"ja","description":"Beautiful Context（ビューティフル・コンテクスト）は、映画・本・音楽・人物・場所など、二つの作品のあいだにある意外なつながりを、編集者が一本の「コンテクスト」として届けるメディアです。読み方、生成AIの初稿の扱いを含む編集の方針、運営について。","about":{"@id":"https://beautifulcontext.com/#organization"},"isPartOf":{"@type":"WebSite","name":"Beautiful Context","url":"https://beautifulcontext.com/"}},{"@type":"Organization","@id":"https://beautifulcontext.com/#organization","name":"Beautiful Context","url":"https://beautifulcontext.com/","logo":"https://beautifulcontext.com/icon-512.png"}]}</script>
 
-<script src="js/config.js?v=137"></script>
-<script src="js/seed.js?v=137"></script>
-<script src="js/backend.js?v=137"></script>
-<script src="js/store.js?v=137"></script>
-<script src="js/social.js?v=137"></script>
-<script src="js/render.js?v=137"></script>
-<script src="js/login.js?v=137"></script>
-<script src="js/report.js?v=137"></script>
-<script src="js/transition.js?v=137"></script>
-<script src="js/app.js?v=137"></script>
+<script src="js/config.js?v=138"></script>
+<script src="js/seed.js?v=138"></script>
+<script src="js/backend.js?v=138"></script>
+<script src="js/store.js?v=138"></script>
+<script src="js/social.js?v=138"></script>
+<script src="js/render.js?v=138"></script>
+<script src="js/login.js?v=138"></script>
+<script src="js/report.js?v=138"></script>
+<script src="js/transition.js?v=138"></script>
+<script src="js/app.js?v=138"></script>
 </body>
 </html>
