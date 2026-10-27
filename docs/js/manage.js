@@ -308,7 +308,7 @@
           <div class="field"><label>アクセント色</label>
             <div class="swatches">
               ${ACCENTS.map((c) => `<button type="button" class="sw${c === st.accent ? ' on' : ''}" data-sw="${c}" style="background:${c}" aria-label="${c}"></button>`).join('')}
-              <input type="color" name="accent" value="${esc(st.accent)}" aria-label="色を選ぶ" style="width:44px;height:36px;padding:2px;border:1px solid var(--line);border-radius:8px">
+              <input type="color" name="accent" value="${esc(st.accent)}" aria-label="色を選ぶ" style="width:44px;height:36px;padding:2px;border:1px solid var(--rule-field);border-radius:6px">
             </div>
             <small>「つながりを創る（ReMixIt!）」のボタンの色です</small>
           </div>
