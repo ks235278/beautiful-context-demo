@@ -184,7 +184,8 @@ html[data-theme="white"] body.has-sel .tag.sel{color:#b4530f}
 .sel-hint{margin:0 2px 6px;min-height:0;color:#ffd29a;text-align:center;font:12px/1.5 var(--gothic);letter-spacing:.04em;
   text-shadow:0 1px 8px rgba(0,0,0,.6)}
 .sel-hint:empty{display:none}
-html[data-theme="white"] .sel-hint{color:#b4530f;text-shadow:none}
+/* 和紙の白では、下の山と金の筆の上に乗るので、橙を焦げ茶寄りに沈め（12px で 4.5:1 以上）、炭と同じ形の紙色の縁を添える */
+html[data-theme="white"] .sel-hint{color:#7a3306;text-shadow:0 1px 8px rgba(250,247,241,.9)}
 body.viewing .sel-hint{display:none}
 .sel-clear{display:inline-block;margin-left:10px;padding:2px 10px;border:1px solid currentColor;border-radius:12px;background:none;
   color:inherit;font:700 11px/1.5 var(--gothic);letter-spacing:.04em;cursor:pointer}
@@ -223,6 +224,8 @@ body.viewing .act.remix{color:#3a1f08}
 body.on-work .act.remix,html[data-theme="white"] body:not(.viewing) .act.remix,.act.remix:focus-visible{--a:1;color:#1d130a}
 /* ReMixIt! の画面（白）では、辿るが半透明。白い地の上なので文字は紺 */
 html[data-theme="white"] body:not(.viewing) .act.uni-btn{--b:.3;color:var(--navy)}
+/* UniverseIt!（炭）では、紺のボタンが墨の山の紺に溶けるので、縁だけ金の細線にする */
+html:not([data-theme="white"]) body:not(.viewing) .act.uni-btn{box-shadow:inset 0 0 0 1px rgba(239,176,47,.65)}
 /* ReMixIt! では、つなぐ二つの言葉を選ぶ（A と B） */
 body.has-pick .tag{opacity:.4}
 body.has-pick .tag.pick-a,body.has-pick .tag.pick-b{opacity:1}
@@ -695,9 +698,10 @@ body.on-list .view-in{background:#000;padding-bottom:0}
   .uni-list{width:min(820px,100%);margin:0 auto}
   .tag{font-size:30px}
   .view{background:color-mix(in srgb,var(--ground) 62%,transparent);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px)}
-  /* PC 版の背景（前田先生 2026.10.22）：ページを読んでいるあいだ、紙の列の左右に黒地の絵。UniverseIt! は墨の山のまま。
-     絵は --side-img 一つで替わる。いまは墨の山の紺（ink-side）。地球に戻すときは --side-img:url(img/bg-earth.jpg)（絵は残してある） */
-  body.viewing #bg{background:#071a30 var(--side-img,url(img/ink-side.jpg)) center/cover no-repeat}
+  /* PC 版の背景（前田先生 2026.10.22）：ページを読んでいるあいだ、紙の列の左右に地球。UniverseIt! は墨の山のまま。
+     絵は --side-img 一つで替わる。墨の山の紺（img/ink-side.jpg）に替えるかは先生のご判断待ち。
+     それまでは地球のまま（替えるときは --side-img:url(img/ink-side.jpg) と flow.css の .earth の二か所） */
+  body.viewing #bg{background:#04070d var(--side-img,url(img/bg-earth.jpg)) center/cover no-repeat}
   body.viewing #bg .pcb,body.viewing #bg .veil{display:none}
   body.viewing .view{background:rgba(4,8,16,.18);-webkit-backdrop-filter:none;backdrop-filter:none}
   .view-in{box-shadow:0 0 60px #0006}
@@ -863,7 +867,7 @@ html[data-theme="white"] .tag,html[data-theme="white"] .uni-title{text-shadow:0 
    数字は下の :root の変数だけで調整できる（ほかの行を読まなくてよい）。
    ・パソコン：絵の面を黒い板でなく、地球の上に掛けた薄い暗幕にする。紙の列の左右に見えている地球が、
      二枚の絵の後ろにも続く（前田先生 2026.10.22 の「読んでいるあいだは地球、UniverseIt! は回路」の組み立てはそのまま。
-     地球はいま墨の山の紺 ink-side に替えてある：--side-img）
+     UniverseIt! の回路はいま墨の山の絵。地球は先生のご判断まで残す：--side-img）
    ・携帯・タブレット：絵の地は暗いままだが、真っ黒でなく炭の地（--ground）に寄せた濃い紺。紙との境は影で和らげる
    ・表紙・UniverseIt!（背景の絵・veil）には触れない。地球の回転は後回し（会議の決め） */
 :root{
