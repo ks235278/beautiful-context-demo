@@ -131,12 +131,15 @@
   placeMenu();
   /* 運営者メニューは、運営の画面（manage.html）を一度でも開いた端末にだけ出す。読者のメニューには要らない */
   try { if (localStorage.getItem('bc-operator') === '1'){ const op = menu.querySelector('[data-operator]'); if (op) op.hidden = false; } } catch (e) {}
-  /* いまいる場所を、メニューの中で示す（Today・一覧・UniverseIt!） */
+  /* いまいる場所を、メニューの中で示す（Today・一覧・UniverseIt!。白の地のときは ReMixIt!。
+     案内と運営のページ（About・Our Mission・広告・出典・規約）は、その項目） */
   function paintMenu(){
-    const at = !here ? 'uni' : here.today ? 'today' : here.list ? 'list' : '';
-    menu.querySelectorAll('[data-home],a[href="#/list"]:not(.menu-logo),[data-uni]').forEach(a => {
-      const k = a.matches('[data-home]') ? 'today' : a.matches('[data-uni]') ? 'uni' : 'list';
-      if (k === at) a.setAttribute('aria-current', 'page'); else a.removeAttribute('aria-current');
+    const white = document.documentElement.dataset.theme === 'white';
+    const at = !here ? (white ? 'remix' : 'uni') : here.today ? 'today' : here.list ? 'list'
+      : /^p:/.test(here.key || '') ? here.key.slice(2) : '';
+    menu.querySelectorAll('a:not(.menu-logo)').forEach(a => {
+      const k = a.matches('[data-uni]') ? 'uni' : a.matches('[data-remix]') ? 'remix' : (a.getAttribute('href') || '').replace(/^#\//, '');
+      if (at && k === at) a.setAttribute('aria-current', 'page'); else a.removeAttribute('aria-current');
     });
   }
   /* メニューは左から出てくるので、左へ払えばしまわれる（出てきた向きへ帰る） */
@@ -160,6 +163,7 @@
     if (meta) meta.content = ground;
     document.documentElement.style.setProperty('--veil', ground);
     markTheme();
+    paintMenu();   /* UniverseIt!（炭）と ReMixIt!（白）で、メニューの「いま」も入れ替わる */
     if (typeof paintSelection === 'function') paintSelection();
   }
   function markTheme(){

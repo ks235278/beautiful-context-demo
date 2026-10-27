@@ -38,7 +38,7 @@
 /* A / WHITE。和紙に墨の山の版。言葉は墨の色 */
 html[data-theme="white"]{
   --ground:#f8f4eb;
-  --uni-ink:#06142b; --uni-dim:rgba(6,20,43,.70); --uni-hash:rgba(6,20,43,.45);
+  --uni-ink:#06142b; --uni-dim:rgba(6,20,43,.70); --uni-hash:rgba(6,20,43,.72);   /* # は少し退く。.45 では山の上で 3:1 を割った（.72 で 5:1 以上） */
   --uni-rule:rgba(6,20,43,.2);
 }
 
@@ -97,24 +97,33 @@ body:not(.stage-intro) #bg .veil{opacity:.14}   /* 構成図の UniverseIt! は�
 .menu-btn[aria-expanded="true"] i:nth-child(1){transform:translateY(8px) rotate(45deg)}
 .menu-btn[aria-expanded="true"] i:nth-child(2){opacity:0}
 .menu-btn[aria-expanded="true"] i:nth-child(3){transform:translateY(-8px) rotate(-45deg)}
+/* 開いたメニューは紙なので、✕ はどの画面でも紺の丸に白い線（白い線のままだと紙に消える） */
+#menuBtn[aria-expanded="true"]{background:var(--navy);border-radius:50%;box-shadow:none}
+#menuBtn[aria-expanded="true"] i{background:#fff}
 body.viewing .menu-btn{opacity:0;visibility:hidden;transition:opacity .3s ease,visibility 0s linear .3s}
 
+/* 携帯・タブレットのメニューは紙（文字は墨）。パソコンの左の列は紺のまま（下の 1100px〜） */
 .menu{position:fixed;z-index:45;top:0;left:0;bottom:0;width:min(330px,86vw);overflow-y:auto;
   padding:calc(env(safe-area-inset-top) + 78px) 26px calc(30px + env(safe-area-inset-bottom));
-  background:color-mix(in srgb,var(--ground) 93%,transparent);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);
-  color:var(--uni-ink);transform:translateX(-100%);transition:transform .38s cubic-bezier(.2,.7,.2,1);
-  box-shadow:20px 0 40px -20px #0008}
+  --uni-ink:var(--ink); --uni-dim:var(--muted); --uni-rule:var(--rule-p);
+  background:var(--paper);color:var(--uni-ink);transform:translateX(-100%);transition:transform .38s cubic-bezier(.2,.7,.2,1);
+  box-shadow:20px 0 40px -20px rgba(6,20,43,.4)}
 .menu.open{transform:none}
-.menu a{display:block;padding:13px 0;border-bottom:1px solid var(--uni-rule);text-decoration:none;font-size:16px;letter-spacing:.02em}
-.menu a small{display:block;margin-top:2px;color:var(--uni-dim);font-size:11px;letter-spacing:.08em}
-.menu .seek{display:flex;align-items:center;gap:8px;margin:0 0 6px;padding:8px 0 10px;border-bottom:1px solid var(--uni-rule)}
-.menu .seek svg{flex:0 0 18px;width:18px;height:18px;fill:none;stroke:var(--uni-dim);stroke-width:2;stroke-linecap:round}
+.menu a{display:block;padding:14px 0;border-bottom:1px solid var(--uni-rule);text-decoration:none;font:700 17px/1.4 var(--mincho);letter-spacing:.02em}
+.menu a small{display:block;margin-top:3px;color:var(--uni-dim);font:400 12px/1.5 var(--mincho);letter-spacing:.08em}
+.menu a[aria-current="page"] small{color:var(--gold-ink)}
+.menu .seek{display:flex;align-items:center;gap:8px;margin:0 0 6px;padding:8px 0 10px;border-bottom:1.5px solid var(--navy)}
+.menu .seek svg{flex:0 0 18px;width:18px;height:18px;fill:none;stroke:var(--navy);stroke-width:2;stroke-linecap:round}
 .menu .seek input{flex:1;min-width:0;border:0;background:none;color:inherit;font:inherit;font-size:16px;outline:none;-webkit-appearance:none;appearance:none}
 .menu .seek input::placeholder{color:var(--uni-dim)}
+/* 案内と運営（いちばん下のまとまり）：上に金の細線、一行 44px */
+.menu-foot{margin-top:6px;border-top:1px solid var(--gold)}
+.menu .menu-foot a{padding:11px 0;font:700 14px/22px var(--mincho)}
+.menu .menu-foot a[aria-current="page"]{color:var(--gold-ink)}
 .theme-pick{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:22px}
-.theme-pick button{padding:11px 6px;border:1px solid var(--uni-rule);border-radius:8px;background:none;cursor:pointer;
+.theme-pick button{padding:11px 6px;border:1px solid var(--rule-field);border-radius:8px;background:none;cursor:pointer;
   font:700 10.5px/1 "Lato",sans-serif;letter-spacing:.12em}
-.theme-pick button[aria-pressed="true"]{background:var(--uni-ink);border-color:var(--uni-ink);color:var(--ground)}
+.theme-pick button[aria-pressed="true"]{background:var(--navy);border-color:var(--navy);color:#fff}
 
 /* ---------- 表紙 ---------- */
 /* 表紙は画面（screen）と同じ高さの箱。ページの枠が短くても、ロゴは起動画面と同じ位置に来る */
@@ -160,7 +169,7 @@ html[data-theme="white"] .tt-u{opacity:0}
 html[data-theme="white"] .tt-r{opacity:1}
 .uni{touch-action:pan-y}
 body.swiping .uni{user-select:none;-webkit-user-select:none}
-.uni-title{margin:0;color:var(--uni-ink);font:400 clamp(48px,13.8vw,88px)/1.02 "Lato",sans-serif;letter-spacing:-.012em;text-shadow:0 2px 14px rgba(0,0,0,.35)}
+.uni-title{margin:0;color:var(--uni-ink);font:400 clamp(48px,13.8vw,88px)/1.02 "Lato",sans-serif;letter-spacing:-.012em;text-shadow:0 2px 12px rgba(0,0,0,.25)}
 .uni-sub{margin:8px 0 0 3px;color:var(--uni-dim);font-size:12px;letter-spacing:.32em;font-family:var(--gothic)}
 .uni-list{padding:10px 26px 0}
 .tag{display:inline-block;margin:0 .42em 0 0;padding:0;border:0;background:none;cursor:pointer;text-shadow:0 1px 10px rgba(0,0,0,.45);
@@ -206,7 +215,7 @@ body:not(.stage-intro) .dock{opacity:1;transform:none;pointer-events:auto}
 .dock-brand{margin:0 2px 8px;padding-top:9px;border-top:1px solid var(--uni-rule);color:var(--uni-dim);text-align:center;
   font:400 9px/1.4 "Lato",sans-serif;letter-spacing:.42em;text-indent:.42em;text-transform:uppercase}
 .actions{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-.act{display:flex;align-items:center;justify-content:center;gap:10px;height:54px;padding:0 10px;border:0;border-radius:9px;
+.act{display:flex;align-items:center;justify-content:center;gap:10px;height:54px;padding:0 10px;border:0;border-radius:999px;
   text-decoration:none;cursor:pointer;font-family:var(--gothic)}
 .act svg{flex:0 0 28px;width:28px;height:28px;fill:none;stroke:currentColor;stroke-width:1.6}
 .act span{display:grid;text-align:center;line-height:1.3}
@@ -216,21 +225,23 @@ body:not(.stage-intro) .dock{opacity:1;transform:none;pointer-events:auto}
    --a / --b が地の濃さ（1 で不透明） */
 .act.remix{--a:.45;background:color-mix(in srgb,var(--accent) calc(var(--a) * 100%),transparent);color:#fff;
   box-shadow:inset 0 0 0 1px color-mix(in srgb,var(--accent) 85%,transparent);transition:background-color .25s,color .25s}
-.act.uni-btn{--b:1;background:color-mix(in srgb,var(--navy) calc(var(--b) * 100%),transparent);color:#fff;
-  box-shadow:inset 0 0 0 1px color-mix(in srgb,var(--navy) 85%,transparent);transition:background-color .25s,color .25s}
+.act.uni-btn{--b:1;background:color-mix(in srgb,var(--navy) calc(var(--b) * 100%),transparent);color:#fff;transition:background-color .25s,color .25s}
+/* 読む画面では、つながりを辿るは紺そのもの（透かさない） */
+body.viewing .act.uni-btn{background:var(--navy)}
 /* 紙のページでは、透けた橙の上の文字は濃く */
 body.viewing .act.remix{color:#3a1f08}
 /* 作品ページ（コンテンツ詳細）と ReMixIt! の画面では、創るが前に出る */
 body.on-work .act.remix,html[data-theme="white"] body:not(.viewing) .act.remix,.act.remix:focus-visible{--a:1;color:#1d130a}
 /* ReMixIt! の画面（白）では、辿るが半透明。白い地の上なので文字は紺 */
-html[data-theme="white"] body:not(.viewing) .act.uni-btn{--b:.3;color:var(--navy)}
-/* UniverseIt!（炭）では、紺のボタンが墨の山の紺に溶けるので、縁だけ金の細線にする */
-html:not([data-theme="white"]) body:not(.viewing) .act.uni-btn{box-shadow:inset 0 0 0 1px rgba(239,176,47,.65)}
+html[data-theme="white"] body:not(.viewing) .act.uni-btn{--b:.3;color:var(--navy);box-shadow:inset 0 0 0 1px rgba(10,31,58,.55)}
+/* UniverseIt!（炭）では、紺のボタンが墨の山の紺に溶けるので、縁だけ金の細線にする（丸い棒の端でも切れない 1.5px） */
+html:not([data-theme="white"]) body:not(.viewing) .act.uni-btn{box-shadow:inset 0 0 0 1.5px rgba(239,176,47,.65)}
 /* ReMixIt! では、つなぐ二つの言葉を選ぶ（A と B） */
 body.has-pick .tag{opacity:.4}
 body.has-pick .tag.pick-a,body.has-pick .tag.pick-b{opacity:1}
 .tag.pick-a .t,.tag.pick-b .t{text-decoration-color:var(--accent)}
-.tag.pick-a::after,.tag.pick-b::after{display:inline-block;margin-left:.2em;padding:0 .32em;border-radius:.3em;background:var(--accent);color:#fff;
+/* A・B の札は橙のまま、文字は焦げ茶（白では 2.7:1 で読みにくかった。#1d130a で 6.9:1） */
+.tag.pick-a::after,.tag.pick-b::after{display:inline-block;margin-left:.2em;padding:0 .32em;border-radius:.3em;background:var(--accent);color:#1d130a;
   font:700 .48em/1.5 "Lato",sans-serif;vertical-align:.9em}
 .tag.pick-a::after{content:"A"}
 .tag.pick-b::after{content:"B"}
@@ -245,8 +256,8 @@ body.has-pick .tag.pick-a,body.has-pick .tag.pick-b{opacity:1}
 .sel-clear{position:relative}
 .sel-clear::after{content:"";position:absolute;inset:-10px -4px}
 
-body.viewing .dock{background:#fbfaf6f2;-webkit-backdrop-filter:blur(16px);backdrop-filter:blur(16px);
-  border-top:1px solid #cac5bc;box-shadow:0 -7px 20px #0001}
+body.viewing .dock{background:rgba(250,247,241,.95);-webkit-backdrop-filter:blur(16px);backdrop-filter:blur(16px);
+  border-top:1px solid var(--rule-gold-soft);box-shadow:0 -6px 18px -10px rgba(11,33,61,.2)}
 /* ページの上ではロゴが名前を示すので、下の帯の名前は出さない（UniverseIt! だけに残す） */
 body.viewing .dock-brand{display:none}
 
@@ -256,21 +267,21 @@ body.viewing .dock-brand{display:none}
 .map-layer{position:absolute;inset:0;transition:opacity .3s ease,transform .3s cubic-bezier(.22,.72,.24,1)}
 .map-layer.entering{opacity:0;transform:translateY(5px)}
 .map-layer.leaving{opacity:0;transform:translateY(-5px);pointer-events:none}
-.line-name{position:absolute;z-index:5;left:17px;top:4px;max-width:70%;padding:0 4px;background:#fbfaf6;color:var(--gold);
+.line-name{position:absolute;z-index:5;left:17px;top:4px;max-width:70%;padding:0 4px;background:var(--paper);color:var(--gold-ink);
   font:700 10px/1.4 var(--mincho);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .line{position:absolute;left:17px;right:17px;top:33px;height:3px;border-radius:3px;background:var(--gold)}
 .segment{position:absolute;left:18%;right:18%;top:26px;height:17px;padding:0;border:0;background:none;cursor:pointer}
 .segment.on::before{content:"";position:absolute;left:0;right:0;top:5px;height:7px;border-radius:5px;background:var(--gold);opacity:.2}
 .dot{position:absolute;z-index:4;top:24px;width:21px;height:21px;padding:0;border:0;background:none;cursor:pointer}
-.dot::before{content:"";position:absolute;left:4px;top:4px;width:8px;height:8px;border:3px solid var(--gold);border-radius:50%;background:#fff;box-sizing:content-box}
+.dot::before{content:"";position:absolute;left:4px;top:4px;width:8px;height:8px;border:3px solid var(--gold);border-radius:50%;background:var(--paper);box-sizing:content-box}
 .dot.left{left:15%}.dot.right{right:15%}
 .dot.current::before{left:1px;top:1px;width:14px;height:14px;border-width:4px}
-.station{position:absolute;top:44px;max-width:46%;padding:2px 0;border:0;background:none;cursor:pointer;color:#111;
-  font:9px/1.2 var(--mincho);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.station{position:absolute;top:44px;max-width:46%;padding:2px 0;border:0;background:none;cursor:pointer;color:var(--ink);
+  font:10px/1.2 var(--mincho);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .station.left{left:9px;text-align:left}.station.right{right:9px;text-align:right}
-.station.current{color:var(--gold);font-weight:700}
-.section-label{position:absolute;z-index:5;left:50%;top:22px;transform:translateX(-50%);padding:2px 6px;border:1px solid #111;
-  border-radius:3px;background:#fff;color:#111;font:700 8px/1.4 var(--gothic);white-space:nowrap;pointer-events:none}
+.station.current{color:var(--gold-ink);font-weight:700}
+.section-label{position:absolute;z-index:5;left:50%;top:22px;transform:translateX(-50%);padding:2px 6px;border:1px solid var(--navy);
+  border-radius:3px;background:var(--paper);color:var(--navy);font:700 8px/1.4 var(--gothic);white-space:nowrap;pointer-events:none}
 
 /* ---------- ページ（demo-1） ----------
    ページは UniverseIt! の上に重ねる別の枠ではなく、文書の中に置く。開いているあいだ UniverseIt! は
@@ -305,21 +316,23 @@ body.viewing .uni{display:none}
 .page{position:relative;font-family:var(--mincho);color:var(--ink)}
 .back-close{position:sticky;z-index:6;top:calc(env(safe-area-inset-top) + 10px);display:grid;place-items:center;
   width:38px;height:38px;margin:0 0 -38px 10px;padding:0;border:0;border-radius:50%;cursor:pointer;
-  background:rgba(0,0,0,.42);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);color:#fff}
+  background:rgba(10,31,58,.6);box-shadow:inset 0 0 0 1px rgba(255,255,255,.18);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);color:#fff}
 .back-close svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
-.text-page .back-close{background:rgba(0,0,0,.07);color:var(--ink)}
+/* 絵や暗い帯の上の ‹ ≡ ‹ › は半透明の紺に白い細い縁。紙の上（読み物）では紺の丸に白（ぼかしは要らない） */
+.text-page .back-close{background:var(--navy);box-shadow:none;-webkit-backdrop-filter:none;backdrop-filter:none;color:#fff}
 
 /* 絵 */
-.art{position:relative;overflow:hidden;aspect-ratio:672/1000;color:#fff;background:#050505}
+.art{position:relative;overflow:hidden;aspect-ratio:672/1000;color:#fff;background:#0a1f3a}
 .art>img{position:absolute;inset:0;width:100%;height:100%;display:block;object-fit:cover;object-position:center 45%}
-.art .ph{position:absolute;inset:0;display:grid;place-content:center;text-align:center;color:var(--gold);
+.art .ph{position:absolute;inset:0;display:grid;place-content:center;text-align:center;color:var(--gold-lite);
   font:400 58px/1 var(--mincho)}
 .art .ph small{display:block;margin-top:10px;font:400 11px/1.5 var(--gothic);color:#9aa7b8;letter-spacing:.14em}
 
 /* 作品ページ */
 .hero{padding:calc(env(safe-area-inset-top) + 54px) 18px 0;background:#070707}
 .content{padding:24px 23px 34px;background:linear-gradient(#faf9f5,#f2efe7)}
-.meta{margin:0 0 8px;color:var(--gold);font:700 10px/1.4 var(--gothic);letter-spacing:.12em}
+/* 金の小さな見出し（大文字の英字）。紙の上の小さな文字は --gold-ink（--gold は細線・◆・点だけ） */
+.meta{margin:0 0 8px;color:var(--gold-ink);font:700 11px/14px "Lato",var(--gothic);letter-spacing:.16em}   /* 行の高さは以前（10px）と同じ 14px。下が動かない */
 .content h2{margin:0 0 14px;font-size:23px;line-height:1.42}
 .content h3{margin:22px 0 8px;font-size:17px}
 .content p,.content li{margin:0 0 12px;font-size:13px;line-height:1.9;text-align:justify}
@@ -328,9 +341,13 @@ body.viewing .uni{display:none}
 .content .org{text-align:left}
 .content .after{margin-top:16px;color:var(--muted);font-size:12px}
 .content .lead{font-size:15px;line-height:1.85}
-.tease{display:block;width:100%;margin-top:17px;padding:12px;border:1px solid #aaa;background:#fff9;color:var(--ink);
-  text-align:left;text-decoration:none;font:650 11px/1.4 var(--gothic);cursor:pointer}
-.tease span{float:right;margin-top:-3px;font-size:18px;line-height:1}
+/* 次への札：紙の上に一段浮かぶ札。右に › の丸（二行になっても札の高さの真ん中に） */
+.tease{position:relative;display:block;width:100%;margin-top:17px;padding:12px 52px 12px 14px;border:1px solid var(--hair);border-radius:6px;
+  background:var(--paper-card);box-shadow:var(--card-shadow);color:var(--ink);
+  text-align:left;text-decoration:none;font:700 12.5px/1.5 var(--gothic);cursor:pointer}
+.tease span{position:absolute;right:12px;top:50%;display:grid;place-items:center;width:28px;height:28px;margin-top:-14px;border-radius:50%;
+  padding-bottom:2px;background:#fff;box-shadow:0 0 0 1px var(--hair);color:var(--navy);font:400 18px/1 "Lato",var(--gothic)}   /* › は字の中心が低いので 2px 上げる */
+.tease[data-step="1"] span{background:var(--navy);box-shadow:none;color:#fff}
 .tease + .tease{margin-top:8px}
 .more-label{margin-top:28px !important}
 
@@ -364,14 +381,15 @@ body.viewing.peek #bg{visibility:visible}
 .underlay>.view-in{min-height:100vh}
 .duo img,.hero img{-webkit-user-drag:none;user-select:none;-webkit-user-select:none;-webkit-touch-callout:none}
 .swap{position:absolute;z-index:8;left:50%;top:50%;transform:translate(-50%,-50%);display:grid;place-items:center;
-  width:30px;height:30px;border-radius:50%;background:#fff;color:#111;font:700 14px/1 var(--gothic);font-style:normal;
-  box-shadow:0 3px 12px #0008}
+  width:34px;height:34px;border-radius:50%;background:var(--paper-card);color:var(--navy);font:700 14px/1 var(--gothic);font-style:normal;
+  box-shadow:0 2px 10px rgba(11,33,61,.22)}
 .context-lead{padding:24px 22px 25px;background:linear-gradient(#faf9f5,#f1eee6);text-align:center}
-.route-label{margin:0 0 9px;color:var(--gold);font:700 10px/1.4 var(--gothic);letter-spacing:.08em}
+.route-label{margin:0 0 9px;color:var(--gold-ink);font:700 11px/14px "Lato",var(--gothic);letter-spacing:.16em}
 .context-lead h2{margin:0 auto 12px;max-width:12em;font-size:24px;line-height:1.48}
 .pair{display:grid;gap:3px;padding-top:11px;border-top:1px solid #aaa;font-size:12px;line-height:1.45}
-.read{width:100%;margin-top:15px;padding:13px;border:0;border-radius:25px;background:#171717;color:#fff;cursor:pointer;
-  font:700 12px/1.4 var(--gothic)}
+/* 主のボタン：紺の丸い棒（高さ 44） */
+.read{width:100%;height:44px;margin-top:15px;padding:0 18px;border:0;border-radius:999px;background:var(--navy);color:#fff;cursor:pointer;
+  font:700 13px/1.4 var(--gothic)}
 .read span{float:right;font-size:18px;line-height:.9}
 .context-body{scroll-margin-top:10px;padding:28px 23px 34px;background:linear-gradient(#faf9f5,#f1eee6);border-top:1px solid var(--rule-p)}
 .context-body h2{margin:0 0 15px;font-size:22px;line-height:1.48}
@@ -464,12 +482,14 @@ body.viewing.peek #bg{visibility:visible}
 
 /* 検索・読み物 */
 .text-page .content{min-height:100%;padding-top:calc(env(safe-area-inset-top) + 64px)}
-.seek.big{display:flex;align-items:center;gap:8px;margin:4px 0 22px;padding:10px 2px;border-bottom:1px solid #aaa}
-.seek.big svg{flex:0 0 18px;width:18px;height:18px;fill:none;stroke:#888;stroke-width:2;stroke-linecap:round}
+/* 探す欄（大）：紺の縁の丸い欄。文字は 17px（16px 以上なら iPhone が拡大しない） */
+.seek.big{display:flex;align-items:center;gap:8px;height:44px;margin:4px 0 22px;padding:0 16px;border:1.5px solid var(--navy);border-radius:999px;
+  background:#fff;box-shadow:0 4px 12px rgba(6,20,43,.12)}
+.seek.big svg{flex:0 0 18px;width:18px;height:18px;fill:none;stroke:var(--navy);stroke-width:2;stroke-linecap:round}
 .seek.big input{flex:1;min-width:0;border:0;background:none;color:var(--ink);font:17px var(--gothic);outline:none;-webkit-appearance:none;appearance:none}
 .chips{display:flex;flex-wrap:wrap;gap:8px}
-.chip{padding:6px 12px;border:1px solid #bbb;border-radius:16px;color:var(--ink);text-decoration:none;font:13px/1.4 var(--gothic)}
-.chip .h{margin-right:2px;color:#999}
+.chip{padding:6px 12px;border:1px solid var(--rule-p);border-radius:999px;background:var(--paper-card);color:var(--ink);text-decoration:none;font:13px/1.4 var(--gothic)}
+.chip .h{margin-right:2px;color:var(--gold-ink)}
 .steps{padding-left:1.4em}
 .steps b{display:inline-block;min-width:3.5em;color:var(--gold)}
 .motto{margin:26px 0 8px;color:var(--gold);font:700 12px/1.6 var(--gothic) !important;letter-spacing:.2em}
@@ -480,7 +500,7 @@ body.viewing.peek #bg{visibility:visible}
 
 /* ---------- 共通 ---------- */
 .toast{position:fixed;z-index:60;left:50%;bottom:calc(var(--dockh) + 18px + env(safe-area-inset-bottom));transform:translateX(-50%);
-  padding:8px 14px;border-radius:16px;background:#111e;color:#fff;font:11px var(--gothic);white-space:nowrap;
+  padding:8px 14px;border-radius:16px;background:rgba(10,31,58,.94);color:#fff;font:11px var(--gothic);white-space:nowrap;
   opacity:0;pointer-events:none;transition:opacity .18s}
 .toast.show{opacity:1}
 
@@ -515,7 +535,8 @@ body.edging .underlay{will-change:transform}
 /* ---------- Today's Editor's Choice ---------- */
 /* 最初の画面だけ、左上にメニュー（ほかのページでは ‹ が来る場所） */
 body.viewing.at-root .menu-btn{opacity:1;visibility:visible;left:10px;top:calc(env(safe-area-inset-top) + 10px);
-  width:38px;height:38px;gap:4px;border-radius:50%;background:rgba(0,0,0,.42);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px)}
+  width:38px;height:38px;gap:4px;border-radius:50%;background:rgba(10,31,58,.6);box-shadow:inset 0 0 0 1px rgba(255,255,255,.18);
+  -webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px)}
 body.viewing.at-root .menu-btn i{width:17px;background:#fff}
 body.viewing.at-root .menu-btn[aria-expanded="true"] i:nth-child(1){transform:translateY(6px) rotate(45deg)}
 body.viewing.at-root .menu-btn[aria-expanded="true"] i:nth-child(3){transform:translateY(-6px) rotate(-45deg)}
@@ -528,20 +549,20 @@ body.viewing.at-root .menu-btn[aria-expanded="true"] i:nth-child(3){transform:tr
 .login-chip.me .ava{width:32px;height:32px;font-size:13px}
 /* ‹ › どのコンテクストページにも：› は NEXT と同じ、‹ は一つ前のつながりへ（最初の画面では出さない） */
 .ctx-nav{position:absolute;z-index:8;top:calc(50% + env(safe-area-inset-top) / 2 + 27px);transform:translateY(-50%);display:grid;place-items:center;
-  width:34px;height:34px;padding:0 0 3px;border:0;border-radius:50%;background:rgba(0,0,0,.5);color:#fff;cursor:pointer;
+  width:36px;height:36px;padding:0 0 3px;border:0;border-radius:50%;background:rgba(10,31,58,.6);box-shadow:inset 0 0 0 1px rgba(255,255,255,.18);color:#fff;cursor:pointer;
   -webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);font:300 26px/1 "Lato",sans-serif;transition:opacity .2s,transform .2s}
 .ctx-nav::after{content:"";position:absolute;inset:-6px}
-.ctx-nav.prev{left:4px}.ctx-nav.next{right:4px}
+.ctx-nav.prev{left:3px}.ctx-nav.next{right:3px}   /* 丸を 36px にしたぶん 1px 外へ。丸の中心は以前と同じ所 */
 .ctx-nav:active{transform:translateY(-50%) scale(.92)}
 body.at-root .ctx-nav.prev{display:none}
 /* 上の帯：題名（Today's Editor's Choice）と日付・何本目か。左にメニュー、右に Login */
 .today-bar{position:absolute;z-index:7;left:56px;right:84px;top:calc(env(safe-area-inset-top) + 8px);display:grid;justify-items:center;gap:3px;
   color:#fff;text-align:center;pointer-events:none}
-.today-bar b{font:700 12px/1.3 "Lato",sans-serif;letter-spacing:.16em;white-space:nowrap}
+.today-bar b{color:var(--gold-lite);font:700 12px/1.3 "Lato",sans-serif;letter-spacing:.16em;white-space:nowrap}
 .today-bar span{display:flex;align-items:center;gap:8px;color:rgba(255,255,255,.62);font:700 10px/1.3 "Lato",sans-serif;letter-spacing:.1em}
 .today-dots{display:flex;gap:5px}
 .today-dots i{width:5px;height:5px;border-radius:50%;background:rgba(255,255,255,.35)}
-.today-dots i.on{background:var(--accent)}
+.today-dots i.on{background:var(--gold-lite)}
 
 /* 編集者（頭文字の丸・名前・フォロー） */
 .ava{display:inline-grid;place-items:center;flex:0 0 auto;width:34px;height:34px;border-radius:50%;background:#1d1b18;color:#f3e7cf;
@@ -552,12 +573,12 @@ body.at-root .ctx-nav.prev{display:none}
 .ed-link span{display:grid;min-width:0}
 .ed-link b{font:700 13px/1.3 var(--gothic);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .ed-link small{color:var(--muted);font:700 9px/1.4 "Lato",sans-serif;letter-spacing:.14em}
-.follow{flex:0 0 auto;height:30px;padding:0 14px;border:1px solid var(--ink);border-radius:15px;background:none;color:var(--ink);cursor:pointer;
+.follow{flex:0 0 auto;height:30px;padding:0 14px;border:1.5px solid var(--navy);border-radius:999px;background:none;color:var(--navy);cursor:pointer;
   font:700 11px/1 var(--gothic);letter-spacing:.04em;transition:transform .2s ease,background-color .2s,color .2s}
 .follow::after{content:"";position:absolute;inset:-7px}
 .follow{position:relative}
 .follow:active{transform:scale(.95)}
-.follow.on{background:var(--ink);color:#fff}
+.follow.on{background:var(--navy);color:#fff}
 
 /* コメント欄：つながりの下に、読んだ人が思ったことを置く */
 .comments{margin-top:30px;padding-top:16px;border-top:1px solid var(--rule-p);text-align:left}
@@ -602,8 +623,8 @@ body.at-root .ctx-nav.prev{display:none}
 /* フォローしている人の数 */
 .ed-followers{color:var(--muted);font:12px var(--gothic)}
 .ed-followers b{color:var(--ink);font-weight:700}
-.note-link{display:flex;align-items:center;gap:8px;height:30px;padding:0 12px 0 10px;border:1px solid #d6d0c5;border-radius:15px;background:#fff;
-  color:var(--ink);text-decoration:none;font:11px var(--gothic)}
+.note-link{display:flex;align-items:center;gap:8px;height:30px;padding:0 12px 0 10px;border:1.5px solid var(--navy);border-radius:999px;background:none;
+  color:var(--navy);text-decoration:none;font:11px var(--gothic)}
 .note-link b{font:800 14px/1 "Lato",sans-serif;letter-spacing:.06em}
 .note-link span{color:var(--muted)}
 .ed-chose{margin:24px 0 12px !important;font:700 16px/1.5 var(--gothic) !important;text-align:left}
@@ -658,35 +679,40 @@ body.on-list .view-in{background:#000;padding-bottom:0}
 
 /* ログインのシート（下から出る）と、一度だけのアカウントのおすすめ */
 .sheet{position:fixed;z-index:70;inset:0;display:flex;align-items:flex-end;justify-content:center;background:rgba(0,0,0,0);transition:background-color .28s ease}
-.sheet.open{background:rgba(0,0,0,.45)}
-.sheet-in{width:100%;max-width:460px;padding:22px 24px calc(22px + env(safe-area-inset-bottom));border-radius:18px 18px 0 0;background:var(--paper);
+.sheet.open{background:rgba(6,20,43,.5)}
+/* シートは紙。見出しは明朝、金の小さな見出し、紺の丸い主のボタン */
+.sheet-in{width:100%;max-width:460px;padding:22px 24px calc(22px + env(safe-area-inset-bottom));border-radius:20px 20px 0 0;background:var(--paper);
+  box-shadow:0 -10px 30px -12px rgba(6,20,43,.35);
   color:var(--ink);font-family:var(--gothic);transform:translateY(100%);transition:transform .32s cubic-bezier(.2,.8,.2,1)}
 .sheet.open .sheet-in{transform:none}
-.sheet-in h2{margin:0 0 8px;font:600 21px/1.45 var(--mincho)}
-.sheet-in .meta{font-family:"Lato",var(--gothic);letter-spacing:.2em}
-.sheet-note{margin:0 0 16px;color:#444;font-size:13px;line-height:1.7}
+.sheet-in h2{margin:0 0 14px;color:var(--ink);font:700 22px/1.45 var(--mincho)}
+.sheet-in .meta{color:var(--gold-ink);font:700 11px/14px "Lato",var(--gothic);letter-spacing:.2em}
+.sheet-note{margin:0 0 16px;color:var(--ink-2);font-size:13px;line-height:1.7}
 .sheet-in label{display:grid;gap:6px;color:var(--muted);font-size:11px;letter-spacing:.06em}
-.sheet-in input{height:46px;padding:0 12px;border:1px solid #c9c4ba;border-radius:10px;background:#fff;color:var(--ink);font:16px var(--gothic);outline:none}
-.sheet-in input:focus{border-color:var(--ink)}
-.sheet-go{width:100%;height:48px;margin-top:12px;border:0;border-radius:24px;background:var(--ink);color:#fff;cursor:pointer;font:700 14px/1 var(--gothic)}
-.sheet-later{display:block;width:100%;height:44px;margin-top:4px;border:0;background:none;color:var(--muted);cursor:pointer;font:13px var(--gothic)}
+.sheet-in input{height:46px;padding:0 12px;border:1px solid var(--rule-field);border-radius:6px;background:#fff;color:var(--ink);font:16px var(--gothic);outline:none}
+.sheet-in input::placeholder{color:var(--placeholder)}
+.sheet-in input:focus{border-color:var(--navy)}
+.sheet-go{width:100%;height:48px;margin-top:12px;border:0;border-radius:999px;background:var(--navy);color:#fff;cursor:pointer;font:700 14px/1 var(--gothic)}
+.sheet-later{display:block;width:100%;height:44px;margin-top:4px;border:0;background:none;color:var(--ink);cursor:pointer;font:13px var(--gothic);
+  text-decoration:underline;text-decoration-color:var(--gold);text-decoration-thickness:1px;text-underline-offset:4px}
 .sheet-demo{margin:12px 0 0;color:var(--muted);font-size:11px;line-height:1.6}
 .nudge{position:fixed;z-index:55;left:12px;right:12px;bottom:calc(var(--dockh) + 12px + env(safe-area-inset-bottom));max-width:436px;margin:0 auto;
-  padding:14px 16px;border-radius:14px;background:#141414f2;color:#fff;font:12px/1.6 var(--gothic);box-shadow:0 12px 30px -12px #000a;
+  padding:14px 16px;border-radius:14px;background:rgba(10,31,58,.95);color:#fff;font:12px/1.6 var(--gothic);box-shadow:0 12px 30px -12px rgba(6,20,43,.6);
   opacity:0;transform:translateY(10px);transition:opacity .3s ease,transform .3s cubic-bezier(.2,.8,.2,1)}
 .nudge.show{opacity:1;transform:none}
 .nudge p{margin:0}
 .nudge b{display:block;margin-bottom:2px;font-size:13px}
 .nudge div{display:flex;gap:8px;margin-top:10px}
 .nudge button{height:36px;padding:0 14px;border:0;border-radius:18px;cursor:pointer;font:700 12px var(--gothic)}
-.nudge [data-login]{background:#fff;color:#111}
+.nudge [data-login]{background:#fff;color:var(--navy)}
 .nudge [data-nudge-close]{background:none;color:#ccc}
 /* メニューのログイン（ほかの項目と同じ並び） */
-.menu-account{display:block;width:100%;padding:13px 0;border:0;border-bottom:1px solid var(--uni-rule);background:none;color:inherit;text-align:left;
-  font-size:16px;letter-spacing:.02em;cursor:pointer}
-.menu-account small{display:block;margin-top:2px;color:var(--uni-dim);font-size:11px;letter-spacing:.08em}
+.menu-account{display:block;width:100%;padding:14px 0;border:0;border-bottom:1px solid var(--uni-rule);background:none;color:inherit;text-align:left;
+  font:700 17px/1.4 var(--mincho);letter-spacing:.02em;cursor:pointer}
+.menu-account small{display:block;margin-top:3px;color:var(--uni-dim);font:400 12px/1.5 var(--mincho);letter-spacing:.08em}
 /* UniverseIt! から Today へ */
-.to-today{display:inline-block;margin:12px 0 0 3px;padding:4px 0;color:var(--uni-dim);text-decoration:none;font:700 10px/1.4 "Lato",sans-serif;letter-spacing:.18em}
+.to-today{display:inline-block;margin:12px 0 0 3px;padding:4px 0;color:var(--gold-lite);text-decoration:none;font:700 10px/1.4 "Lato",sans-serif;letter-spacing:.18em}
+html[data-theme="white"] .to-today{color:var(--gold-ink)}
 
 /* ---------- 大きな画面 ----------
    構成図はどれも携帯の画面。パソコンでは、UniverseIt! は中央の広い一列に、
@@ -725,13 +751,22 @@ body.on-list .view-in{background:#000;padding-bottom:0}
   .menu{width:var(--side);transform:none;transition:none;box-shadow:none;padding:26px 22px 24px;
     --uni-ink:#fff;--uni-dim:rgba(255,255,255,.72);--uni-rule:rgba(255,255,255,.3);
     background:var(--navy-side);-webkit-backdrop-filter:none;backdrop-filter:none;border-right:1px solid rgba(255,255,255,.10)}
-  .menu .theme-pick button[aria-pressed="true"]{color:var(--navy-side)}
+  .menu .theme-pick button{border-color:var(--uni-rule)}
+  .menu .theme-pick button[aria-pressed="true"]{background:#fff;border-color:#fff;color:var(--navy-side)}
   body.stage-intro .menu{visibility:hidden}
   .menu .menu-logo{display:block;margin:2px 0 18px;padding:0;border:0}
   .menu-logo img{display:block;width:100%;max-width:200px;height:auto}
-  .menu a{padding:11px 0;font-size:15px}
-  .menu a[aria-current="page"]{color:var(--gold)}
-  .menu a[aria-current="page"] small{color:var(--gold)}
+  /* 左の列の文字は以前のまま（Lato とゴシック）。携帯の紙のメニューだけ明朝 */
+  .menu a{padding:11px 0;font:400 15px "Lato",var(--gothic)}
+  .menu-account{padding:13px 0;font:400 16px "Lato",var(--gothic)}
+  .menu a small,.menu-account small{margin-top:2px;font:400 11px "Lato",var(--gothic)}
+  .menu .seek{border-bottom:1px solid var(--uni-rule)}
+  .menu .seek svg{stroke:var(--uni-dim)}
+  /* いま見ている所：金の文字と、列の左の端に金の縦線（うすい金のにじみを右へ） */
+  .menu a[aria-current="page"]{position:relative;z-index:0;color:var(--gold-lite)}
+  .menu a[aria-current="page"] small{color:rgba(239,176,47,.85)}
+  .menu a[aria-current="page"]::before{content:"";position:absolute;z-index:-1;top:0;bottom:0;left:-22px;right:0;pointer-events:none;
+    background:linear-gradient(90deg,rgba(239,176,47,.12),transparent 50%);box-shadow:inset 3px 0 0 var(--gold-lite)}
   /* 読む場所は、左の列のぶん右へ */
   .uni,.view{margin-left:var(--side)}
   .uni-head,.dock,.ghost,.underlay,.edge-back,.nudge{left:var(--side)}
@@ -751,12 +786,13 @@ body.on-list .view-in{background:#000;padding-bottom:0}
   .cpage>.context-body{grid-row:2;padding:34px 48px 48px}
   .wpage>.content{grid-row:1;min-height:calc(100vh - var(--dockh));padding:64px 48px 48px}
   .duo-hero .duo{width:100%;max-width:calc((100vh - var(--dockh) - 120px) * 1.47);margin:0 auto}
-  .duo-hero .ctx-nav.prev{left:10px}.duo-hero .ctx-nav.next{right:10px}
+  .duo-hero .ctx-nav.prev{left:9px}.duo-hero .ctx-nav.next{right:9px}
   .context-lead h2{font-size:28px}
   .context-body h2{font-size:24px}
   .context-body p,.context-body ul,.context-body ol,.wpage .content p{font-size:15px;line-height:2}
   .wpage .content h2{font-size:27px}
   .pair{font-size:13px}
+  .read{height:46px}
 
   /* 下の帯：路線図とつながりを辿るを一列に */
   body.viewing:not(.on-list) .dock{display:grid;grid-template-columns:minmax(170px,1fr) minmax(0,290px) 260px;align-items:center;gap:18px;padding:8px 22px 10px}
@@ -781,21 +817,23 @@ body.on-list .view-in{background:#000;padding-bottom:0}
 
   /* 左の列：辿る道（Today・一覧・流れで観る・UniverseIt!・ReMixIt!）を前に、案内と運営は下に小さくまとめる */
   .menu{display:flex;flex-direction:column}
-  .menu-foot{margin-top:auto;padding-top:18px}
-  .menu-foot a{display:inline-block;margin:0 12px 7px 0;padding:0;border:0;color:var(--uni-dim);font-size:11px;letter-spacing:.04em}
+  .menu-foot{margin-top:auto;padding-top:18px;border-top:0}
+  .menu .menu-foot a{display:inline-block;margin:0 12px 7px 0;padding:0;border:0;color:var(--uni-dim);font:400 11px "Lato",var(--gothic);letter-spacing:.04em}
+  .menu .menu-foot a[aria-current="page"]{color:var(--gold-lite)}
+  .menu .menu-foot a[aria-current="page"]::before{content:none}
   .menu-foot .theme-pick{margin-top:12px}
   .menu-foot .theme-pick button{padding:8px 4px;font-size:9px}
 
   /* 次のつながりの予告（つながりを辿るの隣）：行き先の絵と題 */
   body.viewing .next-peek:not([hidden]){display:flex;align-items:center;gap:10px;min-width:0;height:54px;padding:6px 12px 6px 6px;
-    border:1px solid #d6d0c5;border-radius:9px;background:#fff;color:var(--ink);cursor:pointer;text-align:left;
+    border:1px solid var(--hair);border-radius:10px;background:var(--paper-card);color:var(--ink);cursor:pointer;text-align:left;
     transition:transform .2s ease,border-color .2s}
   .next-peek:active{transform:scale(.97);transition-duration:.06s}
   .np-imgs{flex:0 0 auto;display:flex;gap:2px}
   .np-imgs img,.np-imgs i{display:grid;place-items:center;width:30px;height:42px;border-radius:2px;object-fit:cover;background:#111;
     color:var(--gold);font:14px/1 var(--mincho);font-style:normal}
   .np-txt{display:grid;gap:1px;min-width:0}
-  .np-txt small{color:var(--gold);font:700 9.5px/1.4 var(--gothic);letter-spacing:.06em}
+  .np-txt small{color:var(--gold-ink);font:700 9.5px/1.4 var(--gothic);letter-spacing:.06em}
   .np-txt b{font:600 12.5px/1.4 var(--mincho);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
   .np-txt span{color:var(--muted);font:10.5px/1.4 var(--gothic);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 
@@ -806,54 +844,59 @@ body.on-list .view-in{background:#000;padding-bottom:0}
   .next-hint.show{opacity:1 !important;transform:none !important}
   .next-hint::after{content:"";position:absolute;right:46px;top:100%;border:7px solid transparent;border-top-color:var(--navy)}
 
-  /* 右の路線図：いまの前後を、地下鉄の路線図のように縦に（金の線、いまは紺） */
-  :root{--rail:200px}
-  body.has-route{--col:min(1120px,calc(100vw - var(--side) - var(--rail) - 48px))}
+  /* 右の路線図：いまの前後を、地下鉄の路線図のように縦に（金の線。いまの駅と区間は明るい金）。
+     左の列と同じ紺の板。読む列は左の列と路線図のあいだを隙間なく埋める（1366px で 886px） */
+  :root{--rail:232px}
+  body.has-route{--col:min(1120px,calc(100vw - var(--side) - var(--rail)))}
   body.viewing.has-route .view{margin-right:var(--rail)}
   body.viewing.has-route .dock{right:var(--rail)}
   body.has-route .ghost,body.has-route .underlay{right:var(--rail)}
   body.viewing.has-route .route-mini{display:flex}
   .route-mini{position:fixed;z-index:34;top:0;right:0;bottom:0;width:var(--rail);flex-direction:column;justify-content:center;
-    padding:24px 16px 24px 14px;background:color-mix(in srgb,#04070d 76%,transparent);border-left:1px solid #ffffff14;color:#e9e4da;
+    padding:24px 18px 24px 22px;background:var(--navy-side);border-left:1px solid rgba(255,255,255,.08);color:#e9e4da;
     font-family:var(--gothic)}
-  .rm-count{margin:0 0 14px;color:#8d877c;font:700 11px/1.3 "Lato",sans-serif;letter-spacing:.08em}
-  .rm-count b{color:#fff;font-size:22px;letter-spacing:.02em}
-  .rm-count small{display:block;margin-top:3px;color:#77726a;font:700 9.5px/1.4 var(--gothic);letter-spacing:.12em}
+  .rm-count{margin:0 0 16px;color:rgba(255,255,255,.62);font:700 11px/1.3 "Lato",sans-serif;letter-spacing:.08em}
+  .rm-count b{color:#fff;font-size:20px;letter-spacing:.02em}
+  .rm-count small{display:block;margin-top:3px;color:rgba(255,255,255,.62);font:700 9.5px/1.4 var(--gothic);letter-spacing:.12em}
+  .rm-count small::after{content:"";display:block;width:24px;height:1px;margin-top:8px;background:var(--gold-lite)}
   .rm{position:relative;margin:0;padding:0;list-style:none}
   .rm::before{content:"";position:absolute;left:6px;top:8px;bottom:8px;width:3px;border-radius:2px;background:var(--gold);opacity:.75}
   .rm a{position:relative;display:block;color:inherit;text-decoration:none}
   .rm-st a{display:flex;align-items:center;gap:10px;padding:5px 0}
-  .rm-st i{position:relative;z-index:1;flex:0 0 auto;width:9px;height:9px;border:3px solid var(--gold);border-radius:50%;background:#0b0f17;box-sizing:content-box}
-  .rm-st span{min-width:0;font:600 12px/1.4 var(--mincho);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  /* 駅は中の空いた丸。いまの駅は明るい金の丸に、うすい金の輪 */
+  .rm-st i{position:relative;z-index:1;flex:0 0 auto;width:9px;height:9px;border:3px solid #cdc7be;border-radius:50%;background:var(--navy-side);box-sizing:content-box}
+  .rm-st span{min-width:0;color:#f5f7f9;font:600 13px/1.4 var(--mincho);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
   .rm-seg a{padding:7px 0 7px 24px}
-  .rm-seg small{display:block;color:var(--gold);font:700 9.5px/1.4 var(--gothic);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-  .rm-seg span{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;color:#a39d92;font:11px/1.5 var(--mincho)}
-  .rm-seg.now a::before{content:"";position:absolute;left:3px;top:5px;bottom:5px;width:9px;border-radius:5px;background:var(--navy);box-shadow:0 0 0 2px var(--gold)}
+  .rm-seg small{display:block;color:var(--gold-lite);font:700 10px/1.4 var(--gothic);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .rm-seg span{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;color:#c9cdd3;font:11px/1.5 var(--mincho)}
+  /* いま読んでいる区間：路線の線の上を、明るい金の線でなぞる（紺の板の上に紺の印は見えないので） */
+  .rm-seg.now a::before{content:"";position:absolute;left:6px;top:5px;bottom:5px;width:3px;border-radius:2px;background:var(--gold-lite)}
   .rm-seg.now span{color:#fff}
-  .rm-st.now i{width:11px;height:11px;margin-left:-1px;background:var(--gold)}
-  .rm-st.now span{color:var(--gold)}
-  .rm-break span{position:relative;z-index:1;display:inline-block;margin:4px 0 4px 18px;padding:1px 8px;border:1px dashed #555;border-radius:9px;
-    background:#0b0f17;color:#8d877c;font:700 9px/1.5 var(--gothic);letter-spacing:.04em}
+  .rm-st.now i{width:11px;height:11px;margin-left:-1px;border-color:var(--gold-lite);background:var(--gold-lite);box-shadow:0 0 0 4px rgba(239,176,47,.28)}
+  .rm-st.now span{color:var(--gold-lite)}
+  .rm-break span{position:relative;z-index:1;display:inline-block;margin:4px 0 4px 18px;padding:1px 8px;border:1px dashed rgba(255,255,255,.3);border-radius:9px;
+    background:var(--navy-side);color:rgba(255,255,255,.62);font:700 9px/1.5 var(--gothic);letter-spacing:.04em}
 }
 @media (min-width:1100px) and (hover:hover) and (pointer:fine){
   .next-peek:hover{border-color:var(--navy)}
   .rm a:hover span{color:#fff}
-  .menu-foot a:hover{color:var(--uni-ink)}
+  /* 左の列：触れる前に金に（いま見ている所と同じ色） */
+  #menu a:hover,#menu .menu-account:hover{color:var(--gold-lite)}
   .ls-item:hover{border-color:#4a4a4a;background:#141414}
   .ed-item:hover{background:#fff;border-color:#bdb6a9}
   .duo-go:hover .art{opacity:.9}
   .duo-add:hover span{background:#2a2620}
   .act.uni-btn:hover{filter:brightness(1.18)}
   .ls-cats button:hover{border-color:#777}
-  .read:hover{background:#2a2a2a}
+  .read:hover{background:var(--navy-hover)}
   .seg:hover{background:#fff}
 }
 @media (hover:hover) and (pointer:fine){
   .tease:hover{background:#fff}
-  .station:hover{color:var(--gold)}
+  .station:hover{color:var(--gold-ink)}
   .dot:hover::before{background:#f6e6c4}
   .menu a:hover{color:var(--uni-dim)}
-  .chip:hover{border-color:var(--ink)}
+  .chip:hover{border-color:var(--navy)}
 }
 
 @media (prefers-reduced-motion:reduce){
@@ -875,7 +918,6 @@ html[data-theme="white"] .tag,html[data-theme="white"] .uni-title{text-shadow:0 
   --hero-pc-bottom:rgba(4,8,16,.5);      /* 同、下端の濃さ */
   --hero-pc-edge:rgba(247,244,237,.16);  /* 暗幕と紙の境に添える、紙色のうすい縁 */
   --view-dim:rgba(4,8,16,.08);           /* パソコン・タブレット：紙の列のまわりの地球に掛ける暗さ（以前は .18） */
-  --rail-dim:72%;                        /* パソコン：右の路線図の板の濃さ（以前は 76%。64% まで薄めると、雲の明るい所で 11px の駅の説明が 3:1 を割る） */
   --hero-m-top:#0b1324;                  /* 携帯・タブレット：絵の面の上端の色（紺に寄せた黒。以前は #080808） */
   --hero-m-bottom:#060c17;               /* 同、下端の色 */
   --hero-join:0 10px 18px -6px rgba(6,12,23,.45);   /* 絵の面から紙へ落ちる影（硬い境を和らげる） */
@@ -889,7 +931,6 @@ html[data-theme="white"] .tag,html[data-theme="white"] .uni-title{text-shadow:0 
   body.viewing .view{background:var(--view-dim)}
 }
 @media (min-width:1100px){
-  .route-mini{background:color-mix(in srgb,#04070d var(--rail-dim),transparent)}
   /* 読んでいるページの紙を、文章の列（右）だけに。絵の列（左）は紙を外して、地球の上の暗幕にする。
      写し（‹ › で抜ける .ghost・払って戻る .edge-shot・持ち上げた絵の後ろの .underlay）も本物と同じ作りにする：
      写しだけ黒い板のままだと、‹ › を押すたび・端から払うたびに左の列が地球 → 黒 → 地球と瞬く。

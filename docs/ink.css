@@ -1,0 +1,30 @@
+/* Beautiful Context — editorial-ink（紙・墨・金, 2026.10.27）
+   app.css・ux.css のあとに読む。紙の上の小さな飾りと、「紙の上か、絵の上か」で変わる決まりだけをここに集める。
+   色の変数・地・ボタンの形は app.css（ここを外しても画面は崩れない。飾りと紙の上の ≡ が以前の形に戻るだけ）。
+   先生の配置と名前は変えない。足すだけ */
+
+/* ---------- ◆ の罫：金の細い線を二つに分け、真ん中に縦長の菱形（5×9） ----------
+   文字の ◆ は字形しだいで細く描かれるので使わず、絵（SVG）で描く。線と菱形のあいだは 4px ずつ空ける。
+   .rule-d は罫そのもの（hr などに）。同じ絵を ::before / ::after に敷くときは background:var(--rule-d) */
+:root{
+  --diamond:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='6' height='9' viewBox='0 0 6 9'%3E%3Cpath d='M3 0 6 4.5 3 9 0 4.5z' fill='%23a97717'/%3E%3C/svg%3E");
+  --rule-d:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='5' height='9' viewBox='0 0 5 9'%3E%3Cpath d='M2.5 0 5 4.5 2.5 9 0 4.5z' fill='%23a97717'/%3E%3C/svg%3E") center/5px 9px no-repeat,
+    linear-gradient(var(--gold),var(--gold)) left center/calc(50% - 6.5px) 1px no-repeat,
+    linear-gradient(var(--gold),var(--gold)) right center/calc(50% - 6.5px) 1px no-repeat;
+}
+.rule-d{display:block;height:9px;margin:0;padding:0;border:0;background:var(--rule-d)}
+
+/* ---------- 紙の上の ≡（携帯・タブレット） ----------
+   読み物（.text-page：About・案内・検索・路線・編集者・404）では、右上の ≡ は絵ではなく紙の上に浮かぶ。
+   紺の丸に白い線（‹ と同じ。ぼかしは要らない）。絵や暗い帯の上では app.css / ux.css の半透明の紺のまま。
+   :has を知らない古いブラウザでは、ここは効かず半透明の紺のまま */
+@media (max-width:1099px){
+  body.viewing:not(.at-root):has(#viewIn>.text-page) .menu-btn{background:var(--navy);box-shadow:none;-webkit-backdrop-filter:none;backdrop-filter:none}
+}
+
+/* ---------- 携帯のメニュー（紙）：いまいる所に、左の余白へ金の ◆ ---------- */
+@media (max-width:1099px){
+  .menu a[aria-current="page"]{position:relative}
+  .menu a[aria-current="page"]::before{content:"";position:absolute;left:-16px;top:calc(14px + 12px - 4.5px);width:6px;height:9px;background:var(--diamond) center/6px 9px no-repeat}
+  .menu .menu-foot a[aria-current="page"]::before{top:calc(50% - 4.5px)}
+}
