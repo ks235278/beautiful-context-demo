@@ -41,9 +41,9 @@ try { if (sessionStorage.getItem('bc-resume')) document.documentElement.classLis
 <link rel="preload" as="image" href="img/logo-layer-words.png">
 <!-- 台本も先に取りに行く（静的なページは台本より先に本文が描かれる。遅い回線で、触れて動くまでの間を縮める）。
      src と同じアドレス（?v= まで）でないと、二度取りに行く -->
-<link rel="preload" as="script" href="js/seed.js?v=138">
-<link rel="preload" as="script" href="js/app.js?v=138">
-<link rel="manifest" href="manifest.webmanifest?v=138">
+<link rel="preload" as="script" href="js/seed.js?v=139">
+<link rel="preload" as="script" href="js/app.js?v=139">
+<link rel="manifest" href="manifest.webmanifest?v=139">
 <link rel="apple-touch-icon" href="icon-180.png">
 <!-- タブと検索結果に出る小さな印。アプリの印（ホーム画面のアイコン）と同じ形 -->
 <link rel="icon" href="favicon.ico" sizes="16x16 32x32 48x48">
@@ -72,11 +72,11 @@ if (location.hostname === 'beautifulcontext.com'){
   document.head.appendChild(ga);
 }
 </script>
-<script src="js/theme.js?v=138"></script>
-<link rel="stylesheet" href="app.css?v=138">
+<script src="js/theme.js?v=139"></script>
+<link rel="stylesheet" href="app.css?v=139">
 <!-- 読む画面の使い勝手（2026.10.24）。app.css のすぐあと -->
-<link rel="stylesheet" href="ux.css?v=138">
-<link rel="stylesheet" href="fade.css?v=138">
+<link rel="stylesheet" href="ux.css?v=139">
+<link rel="stylesheet" href="fade.css?v=139">
 <!-- 台本（js）が揃うまで：まだ押しても動かないもの（‹・絵の横の ‹ ›・つながりを辿る）を少し薄くし、下の帯の上の縁に細い金の線を走らせる。
      app.js が最後に body.app-ready を付けて外す。すぐ揃うときは何も見せない（0.3 秒待ってから出す） -->
 <style>
@@ -206,6 +206,11 @@ document.addEventListener('click', function (e) {
         <dl class="ax"><div><dt>意外性</dt><dd aria-label="1 / 5"><i class="on"></i><i></i><i></i><i></i><i></i></dd></div><div><dt>共感度</dt><dd aria-label="4 / 5"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i></dd></div><div><dt>コンテンツ性</dt><dd aria-label="4 / 5"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i></dd></div><div><dt>世界観近似性</dt><dd aria-label="5 / 5"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i></dd></div></dl>
       </section>
           
+          
+          <section class="refs" aria-label="参考・出典">
+            <p class="meta">参考・出典</p>
+            <ol><li><a href="https://www.kodansha.co.jp/comic/products/0000029944" target="_blank" rel="noopener">『寄生獣（１）』（岩明 均）｜講談社</a><small>講談社</small></li><li><a href="https://www.bunka.go.jp/j-mediaarts-festival/award/single/historie/index.html" target="_blank" rel="noopener">ヒストリエ - 文化庁メディア芸術祭 - JAPAN MEDIA ARTS FESTIVAL</a><small>文化庁メディア芸術祭</small></li><li><a href="https://ja.wikipedia.org/wiki/寄生獣" target="_blank" rel="noopener">寄生獣</a><small>Wikipedia</small></li><li><a href="https://animeanime.jp/release/prtimes/20260523/288640.html" target="_blank" rel="noopener">2026年６月横浜開催の『寄生獣展』ティザービジュアル第3弾公開＆見どころを公開！</a><small>アニメ！アニメ！（PR TIMES掲載）</small></li><li><a href="https://ja.wikipedia.org/wiki/岩明均" target="_blank" rel="noopener">岩明均</a><small>Wikipedia</small></li></ol>
+          </section>
           <p class="byline">BC 編集部　·　2026/9/15</p>
           
       <section class="comments" id="comments" data-ctx="seed-iwaaki-hitoshi--parasyte">
@@ -384,17 +389,18 @@ document.addEventListener('click', function (e) {
 <div class="edge-back" id="edgeBack" aria-hidden="true"></div>
 
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
-<script type="application/ld+json" id="ld">{"@context":"https://schema.org","@type":"Article","headline":"右手に寄生した生き物が、人間を問い直す。","alternativeHeadline":"作者と代表作","about":[{"@type":"Person","name":"岩明均","description":"『寄生獣』『ヒストリエ』の漫画家。"},{"@type":"CreativeWork","name":"寄生獣","description":"人間に寄生する生物が現れた世界で、右手に寄生された高校生・泉新一と「ミギー」の共生を描いた漫画。","creator":{"@type":"Person","name":"岩明均"}}],"author":{"@type":"Person","name":"生成AI（初稿）"},"datePublished":"2026-09-15T02:00:00.000Z","dateModified":"2026-09-15T02:00:00.000Z","inLanguage":"ja","articleBody":"作者の名を知らしめた長編。『寄生獣』は1988年から1995年まで連載された。人間を捕食する寄生生物と、それに右手だけを奪われた高校生の共生を通して、人間という種そのものを外側から見つめる物語である。淡々とした線と、容赦のない出来事。その落差が生む緊張感は、のちの『ヒストリエ』にも受け継がれている。","url":"https://beautifulcontext.com/c/iwaaki-hitoshi--parasyte/","image":"https://beautifulcontext.com/img/works/iwaaki-hitoshi.jpg"}</script>
+<script type="application/ld+json" id="ld">{"@context":"https://schema.org","@type":"Article","headline":"右手に寄生した生き物が、人間を問い直す。","alternativeHeadline":"作者と代表作","about":[{"@type":"Person","name":"岩明均","description":"『寄生獣』『ヒストリエ』の漫画家。"},{"@type":"CreativeWork","name":"寄生獣","description":"人間に寄生する生物が現れた世界で、右手に寄生された高校生・泉新一と「ミギー」の共生を描いた漫画。","creator":{"@type":"Person","name":"岩明均"}}],"author":{"@type":"Person","name":"生成AI（初稿）"},"datePublished":"2026-09-15T02:00:00.000Z","dateModified":"2026-09-15T02:00:00.000Z","inLanguage":"ja","articleBody":"作者の名を知らしめた長編。『寄生獣』は1988年から1995年まで連載された。人間を捕食する寄生生物と、それに右手だけを奪われた高校生の共生を通して、人間という種そのものを外側から見つめる物語である。淡々とした線と、容赦のない出来事。その落差が生む緊張感は、のちの『ヒストリエ』にも受け継がれている。","url":"https://beautifulcontext.com/c/iwaaki-hitoshi--parasyte/","citation":[{"@type":"CreativeWork","name":"『寄生獣（１）』（岩明 均）｜講談社","url":"https://www.kodansha.co.jp/comic/products/0000029944","publisher":{"@type":"Organization","name":"講談社"}},{"@type":"CreativeWork","name":"ヒストリエ - 文化庁メディア芸術祭 - JAPAN MEDIA ARTS FESTIVAL","url":"https://www.bunka.go.jp/j-mediaarts-festival/award/single/historie/index.html","publisher":{"@type":"Organization","name":"文化庁メディア芸術祭"}},{"@type":"CreativeWork","name":"寄生獣","url":"https://ja.wikipedia.org/wiki/寄生獣","publisher":{"@type":"Organization","name":"Wikipedia"}},{"@type":"CreativeWork","name":"2026年６月横浜開催の『寄生獣展』ティザービジュアル第3弾公開＆見どころを公開！","url":"https://animeanime.jp/release/prtimes/20260523/288640.html","publisher":{"@type":"Organization","name":"アニメ！アニメ！（PR TIMES掲載）"}},{"@type":"CreativeWork","name":"岩明均","url":"https://ja.wikipedia.org/wiki/岩明均","publisher":{"@type":"Organization","name":"Wikipedia"}}],"image":"https://beautifulcontext.com/img/works/iwaaki-hitoshi.jpg"}</script>
 
-<script src="js/config.js?v=138"></script>
-<script src="js/seed.js?v=138"></script>
-<script src="js/backend.js?v=138"></script>
-<script src="js/store.js?v=138"></script>
-<script src="js/social.js?v=138"></script>
-<script src="js/render.js?v=138"></script>
-<script src="js/login.js?v=138"></script>
-<script src="js/report.js?v=138"></script>
-<script src="js/transition.js?v=138"></script>
-<script src="js/app.js?v=138"></script>
+<script src="js/config.js?v=139"></script>
+<script src="js/seed.js?v=139"></script>
+<script src="js/sources.js?v=139"></script>
+<script src="js/backend.js?v=139"></script>
+<script src="js/store.js?v=139"></script>
+<script src="js/social.js?v=139"></script>
+<script src="js/render.js?v=139"></script>
+<script src="js/login.js?v=139"></script>
+<script src="js/report.js?v=139"></script>
+<script src="js/transition.js?v=139"></script>
+<script src="js/app.js?v=139"></script>
 </body>
 </html>

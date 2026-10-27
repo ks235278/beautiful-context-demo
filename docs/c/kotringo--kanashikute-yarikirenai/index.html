@@ -41,9 +41,9 @@ try { if (sessionStorage.getItem('bc-resume')) document.documentElement.classLis
 <link rel="preload" as="image" href="img/logo-layer-words.png">
 <!-- 台本も先に取りに行く（静的なページは台本より先に本文が描かれる。遅い回線で、触れて動くまでの間を縮める）。
      src と同じアドレス（?v= まで）でないと、二度取りに行く -->
-<link rel="preload" as="script" href="js/seed.js?v=138">
-<link rel="preload" as="script" href="js/app.js?v=138">
-<link rel="manifest" href="manifest.webmanifest?v=138">
+<link rel="preload" as="script" href="js/seed.js?v=139">
+<link rel="preload" as="script" href="js/app.js?v=139">
+<link rel="manifest" href="manifest.webmanifest?v=139">
 <link rel="apple-touch-icon" href="icon-180.png">
 <!-- タブと検索結果に出る小さな印。アプリの印（ホーム画面のアイコン）と同じ形 -->
 <link rel="icon" href="favicon.ico" sizes="16x16 32x32 48x48">
@@ -72,11 +72,11 @@ if (location.hostname === 'beautifulcontext.com'){
   document.head.appendChild(ga);
 }
 </script>
-<script src="js/theme.js?v=138"></script>
-<link rel="stylesheet" href="app.css?v=138">
+<script src="js/theme.js?v=139"></script>
+<link rel="stylesheet" href="app.css?v=139">
 <!-- 読む画面の使い勝手（2026.10.24）。app.css のすぐあと -->
-<link rel="stylesheet" href="ux.css?v=138">
-<link rel="stylesheet" href="fade.css?v=138">
+<link rel="stylesheet" href="ux.css?v=139">
+<link rel="stylesheet" href="fade.css?v=139">
 <!-- 台本（js）が揃うまで：まだ押しても動かないもの（‹・絵の横の ‹ ›・つながりを辿る）を少し薄くし、下の帯の上の縁に細い金の線を走らせる。
      app.js が最後に body.app-ready を付けて外す。すぐ揃うときは何も見せない（0.3 秒待ってから出す） -->
 <style>
@@ -206,6 +206,11 @@ document.addEventListener('click', function (e) {
         <dl class="ax"><div><dt>意外性</dt><dd aria-label="3 / 5"><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i></dd></div><div><dt>共感度</dt><dd aria-label="5 / 5"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i></dd></div><div><dt>コンテンツ性</dt><dd aria-label="4 / 5"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i></dd></div><div><dt>世界観近似性</dt><dd aria-label="5 / 5"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i></dd></div></dl>
       </section>
           
+          
+          <section class="refs" aria-label="参考・出典">
+            <p class="meta">参考・出典</p>
+            <ol><li><a href="https://www.universal-music.co.jp/the-folk-crusaders/news/2013-03-07/" target="_blank" rel="noopener">第4次フォークルのニューアルバム、誕生！「若い加藤和彦のように」3月30日発売決定！！ - UNIVERSAL MUSIC JAPAN</a><small>UNIVERSAL MUSIC JAPAN</small></li><li><a href="https://konosekai.jp/" target="_blank" rel="noopener">この世界の片隅に【映画】</a><small>映画『この世界の片隅に』公式サイト</small></li><li><a href="https://ja.wikipedia.org/wiki/悲しくてやりきれない" target="_blank" rel="noopener">悲しくてやりきれない - Wikipedia</a><small>Wikipedia</small></li><li><a href="https://realsound.jp/movie/2016/09/post-2826_3.html" target="_blank" rel="noopener">(3ページ目)『君の名は。』『聲の形』『この世界の片隅に』ーー 最新アニメ映画の音楽、その傾向と問題点について｜Real Sound｜リアルサウンド 映画部</a><small>Real Sound（リアルサウンド）映画部</small></li><li><a href="https://eiga.com/movie/82278/" target="_blank" rel="noopener">この世界の片隅に : 作品情報・声優・キャスト・あらすじ・動画 - 映画.com</a><small>映画.com</small></li></ol>
+          </section>
           <p class="byline">BC 編集部　·　2026/9/15</p>
           
       <section class="comments" id="comments" data-ctx="seed-kotringo--kanashikute-yarikirenai">
@@ -384,17 +389,18 @@ document.addEventListener('click', function (e) {
 <div class="edge-back" id="edgeBack" aria-hidden="true"></div>
 
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
-<script type="application/ld+json" id="ld">{"@context":"https://schema.org","@type":"Article","headline":"1968年の歌を、静かな声がうたい直した。","alternativeHeadline":"うたい直された歌","about":[{"@type":"MusicRecording","name":"コトリンゴ","description":"ピアノと歌のシンガーソングライター。アニメーション映画『この世界の片隅に』の音楽を手がけ、「悲しくてやりきれない」を歌った。","creator":{"@type":"Person","name":"シンガーソングライター・作曲家"}},{"@type":"MusicRecording","name":"「悲しくてやりきれない」","description":"1968年に発表されたザ・フォーク・クルセダーズの歌。多くの歌い手にうたい継がれてきた。","creator":{"@type":"Person","name":"ザ・フォーク・クルセダーズ（作詞 サトウハチロー／作曲 加藤和彦）"}}],"author":{"@type":"Person","name":"生成AI（初稿）"},"datePublished":"2026-09-15T07:50:00.000Z","dateModified":"2026-09-15T07:50:00.000Z","inLanguage":"ja","articleBody":"半世紀近く前の歌が、新しい声で映画の冒頭に置かれた。「悲しくてやりきれない」は、1968年にザ・フォーク・クルセダーズが発表した歌で、作詞はサトウハチロー、作曲は加藤和彦。コトリンゴはこの歌をカバーし、アニメーション映画『この世界の片隅に』（2016）の冒頭に流れる歌として使われた。ピアノに寄り添う柔らかな声は、原曲の悲しみを、日々を生きる人のささやきのように聴かせる。","url":"https://beautifulcontext.com/c/kotringo--kanashikute-yarikirenai/","image":"https://beautifulcontext.com/img/works/kotringo.jpg"}</script>
+<script type="application/ld+json" id="ld">{"@context":"https://schema.org","@type":"Article","headline":"1968年の歌を、静かな声がうたい直した。","alternativeHeadline":"うたい直された歌","about":[{"@type":"MusicRecording","name":"コトリンゴ","description":"ピアノと歌のシンガーソングライター。アニメーション映画『この世界の片隅に』の音楽を手がけ、「悲しくてやりきれない」を歌った。","creator":{"@type":"Person","name":"シンガーソングライター・作曲家"}},{"@type":"MusicRecording","name":"「悲しくてやりきれない」","description":"1968年に発表されたザ・フォーク・クルセダーズの歌。多くの歌い手にうたい継がれてきた。","creator":{"@type":"Person","name":"ザ・フォーク・クルセダーズ（作詞 サトウハチロー／作曲 加藤和彦）"}}],"author":{"@type":"Person","name":"生成AI（初稿）"},"datePublished":"2026-09-15T07:50:00.000Z","dateModified":"2026-09-15T07:50:00.000Z","inLanguage":"ja","articleBody":"半世紀近く前の歌が、新しい声で映画の冒頭に置かれた。「悲しくてやりきれない」は、1968年にザ・フォーク・クルセダーズが発表した歌で、作詞はサトウハチロー、作曲は加藤和彦。コトリンゴはこの歌をカバーし、アニメーション映画『この世界の片隅に』（2016）の冒頭に流れる歌として使われた。ピアノに寄り添う柔らかな声は、原曲の悲しみを、日々を生きる人のささやきのように聴かせる。","url":"https://beautifulcontext.com/c/kotringo--kanashikute-yarikirenai/","citation":[{"@type":"CreativeWork","name":"第4次フォークルのニューアルバム、誕生！「若い加藤和彦のように」3月30日発売決定！！ - UNIVERSAL MUSIC JAPAN","url":"https://www.universal-music.co.jp/the-folk-crusaders/news/2013-03-07/","publisher":{"@type":"Organization","name":"UNIVERSAL MUSIC JAPAN"}},{"@type":"CreativeWork","name":"この世界の片隅に【映画】","url":"https://konosekai.jp/","publisher":{"@type":"Organization","name":"映画『この世界の片隅に』公式サイト"}},{"@type":"CreativeWork","name":"悲しくてやりきれない - Wikipedia","url":"https://ja.wikipedia.org/wiki/悲しくてやりきれない","publisher":{"@type":"Organization","name":"Wikipedia"}},{"@type":"CreativeWork","name":"(3ページ目)『君の名は。』『聲の形』『この世界の片隅に』ーー 最新アニメ映画の音楽、その傾向と問題点について｜Real Sound｜リアルサウンド 映画部","url":"https://realsound.jp/movie/2016/09/post-2826_3.html","publisher":{"@type":"Organization","name":"Real Sound（リアルサウンド）映画部"}},{"@type":"CreativeWork","name":"この世界の片隅に : 作品情報・声優・キャスト・あらすじ・動画 - 映画.com","url":"https://eiga.com/movie/82278/","publisher":{"@type":"Organization","name":"映画.com"}}],"image":"https://beautifulcontext.com/img/works/kotringo.jpg"}</script>
 
-<script src="js/config.js?v=138"></script>
-<script src="js/seed.js?v=138"></script>
-<script src="js/backend.js?v=138"></script>
-<script src="js/store.js?v=138"></script>
-<script src="js/social.js?v=138"></script>
-<script src="js/render.js?v=138"></script>
-<script src="js/login.js?v=138"></script>
-<script src="js/report.js?v=138"></script>
-<script src="js/transition.js?v=138"></script>
-<script src="js/app.js?v=138"></script>
+<script src="js/config.js?v=139"></script>
+<script src="js/seed.js?v=139"></script>
+<script src="js/sources.js?v=139"></script>
+<script src="js/backend.js?v=139"></script>
+<script src="js/store.js?v=139"></script>
+<script src="js/social.js?v=139"></script>
+<script src="js/render.js?v=139"></script>
+<script src="js/login.js?v=139"></script>
+<script src="js/report.js?v=139"></script>
+<script src="js/transition.js?v=139"></script>
+<script src="js/app.js?v=139"></script>
 </body>
 </html>

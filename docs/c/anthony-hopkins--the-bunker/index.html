@@ -41,9 +41,9 @@ try { if (sessionStorage.getItem('bc-resume')) document.documentElement.classLis
 <link rel="preload" as="image" href="img/logo-layer-words.png">
 <!-- 台本も先に取りに行く（静的なページは台本より先に本文が描かれる。遅い回線で、触れて動くまでの間を縮める）。
      src と同じアドレス（?v= まで）でないと、二度取りに行く -->
-<link rel="preload" as="script" href="js/seed.js?v=138">
-<link rel="preload" as="script" href="js/app.js?v=138">
-<link rel="manifest" href="manifest.webmanifest?v=138">
+<link rel="preload" as="script" href="js/seed.js?v=139">
+<link rel="preload" as="script" href="js/app.js?v=139">
+<link rel="manifest" href="manifest.webmanifest?v=139">
 <link rel="apple-touch-icon" href="icon-180.png">
 <!-- タブと検索結果に出る小さな印。アプリの印（ホーム画面のアイコン）と同じ形 -->
 <link rel="icon" href="favicon.ico" sizes="16x16 32x32 48x48">
@@ -72,11 +72,11 @@ if (location.hostname === 'beautifulcontext.com'){
   document.head.appendChild(ga);
 }
 </script>
-<script src="js/theme.js?v=138"></script>
-<link rel="stylesheet" href="app.css?v=138">
+<script src="js/theme.js?v=139"></script>
+<link rel="stylesheet" href="app.css?v=139">
 <!-- 読む画面の使い勝手（2026.10.24）。app.css のすぐあと -->
-<link rel="stylesheet" href="ux.css?v=138">
-<link rel="stylesheet" href="fade.css?v=138">
+<link rel="stylesheet" href="ux.css?v=139">
+<link rel="stylesheet" href="fade.css?v=139">
 <!-- 台本（js）が揃うまで：まだ押しても動かないもの（‹・絵の横の ‹ ›・つながりを辿る）を少し薄くし、下の帯の上の縁に細い金の線を走らせる。
      app.js が最後に body.app-ready を付けて外す。すぐ揃うときは何も見せない（0.3 秒待ってから出す） -->
 <style>
@@ -206,6 +206,11 @@ document.addEventListener('click', function (e) {
         <dl class="ax"><div><dt>意外性</dt><dd aria-label="5 / 5"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i></dd></div><div><dt>共感度</dt><dd aria-label="3 / 5"><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i></dd></div><div><dt>コンテンツ性</dt><dd aria-label="4 / 5"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i></dd></div><div><dt>世界観近似性</dt><dd aria-label="4 / 5"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i></dd></div></dl>
       </section>
           
+          
+          <section class="refs" aria-label="参考・出典">
+            <p class="meta">参考・出典</p>
+            <ol><li><a href="https://www.televisionacademy.com/shows/bunker" target="_blank" rel="noopener">The Bunker | Emmy Awards and Nominations | Television Academy</a><small>Television Academy</small></li><li><a href="https://www.oscars.org/oscars/ceremonies/1992" target="_blank" rel="noopener">The 64th Academy Awards | 1992</a><small>Academy of Motion Picture Arts and Sciences</small></li></ol>
+          </section>
           <p class="byline">BC 編集部　·　2026/10/22</p>
           
       <section class="comments" id="comments" data-ctx="seed-anthony-hopkins--the-bunker">
@@ -384,17 +389,18 @@ document.addEventListener('click', function (e) {
 <div class="edge-back" id="edgeBack" aria-hidden="true"></div>
 
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
-<script type="application/ld+json" id="ld">{"@context":"https://schema.org","@type":"Article","headline":"レクター博士も、ヒトラーを演じていた。","alternativeHeadline":"二人のヒトラー","about":[{"@type":"Person","name":"アンソニー・ホプキンス","description":"英国ウェールズ出身の俳優。『羊たちの沈黙』のハンニバル・レクター役でアカデミー主演男優賞を受賞した。"},{"@type":"CreativeWork","name":"ザ・バンカー","description":"ベルリンの総統地下壕で過ごしたヒトラーの最後の日々を、ジェームズ・P・オドネルの著書をもとに描いたアメリカのテレビ映画。アンソニー・ホプキンスがヒトラーを演じ、エミー賞（主演男優賞）を受けた。","creator":{"@type":"Person","name":"ジョージ・シェーファー監督（米 CBS）"}}],"author":{"@type":"Person","name":"生成AI（初稿）"},"datePublished":"2026-10-22T09:40:00.000Z","dateModified":"2026-10-22T09:40:00.000Z","inLanguage":"ja","articleBody":"エミー賞を受けたヒトラー役。1981年、アメリカの CBS が放送したテレビ映画『ザ・バンカー』で、アンソニー・ホプキンスはヒトラーを演じた。ベルリンの総統地下壕で過ごした最後の日々を、ジャーナリストのジェームズ・P・オドネルの著書をもとに描いた作品だ。ホプキンスはこの役で、エミー賞の主演男優賞（ミニシリーズ・テレビ映画部門）を受けている。その十年後、彼は『羊たちの沈黙』のハンニバル・レクター役でアカデミー主演男優賞を受ける。独裁者と、檻の中の精神科医。閉ざされた部屋から周りを支配する人物を、二度演じたことになる。","url":"https://beautifulcontext.com/c/anthony-hopkins--the-bunker/","image":"https://beautifulcontext.com/img/works/anthony-hopkins.jpg"}</script>
+<script type="application/ld+json" id="ld">{"@context":"https://schema.org","@type":"Article","headline":"レクター博士も、ヒトラーを演じていた。","alternativeHeadline":"二人のヒトラー","about":[{"@type":"Person","name":"アンソニー・ホプキンス","description":"英国ウェールズ出身の俳優。『羊たちの沈黙』のハンニバル・レクター役でアカデミー主演男優賞を受賞した。"},{"@type":"CreativeWork","name":"ザ・バンカー","description":"ベルリンの総統地下壕で過ごしたヒトラーの最後の日々を、ジェームズ・P・オドネルの著書をもとに描いたアメリカのテレビ映画。アンソニー・ホプキンスがヒトラーを演じ、エミー賞（主演男優賞）を受けた。","creator":{"@type":"Person","name":"ジョージ・シェーファー監督（米 CBS）"}}],"author":{"@type":"Person","name":"生成AI（初稿）"},"datePublished":"2026-10-22T09:40:00.000Z","dateModified":"2026-10-22T09:40:00.000Z","inLanguage":"ja","articleBody":"エミー賞を受けたヒトラー役。1981年、アメリカの CBS が放送したテレビ映画『ザ・バンカー』で、アンソニー・ホプキンスはヒトラーを演じた。ベルリンの総統地下壕で過ごした最後の日々を、ジャーナリストのジェームズ・P・オドネルの著書をもとに描いた作品だ。ホプキンスはこの役で、エミー賞の主演男優賞（ミニシリーズ・テレビ映画部門）を受けている。その十年後、彼は『羊たちの沈黙』のハンニバル・レクター役でアカデミー主演男優賞を受ける。独裁者と、檻の中の精神科医。閉ざされた部屋から周りを支配する人物を、二度演じたことになる。","url":"https://beautifulcontext.com/c/anthony-hopkins--the-bunker/","citation":[{"@type":"CreativeWork","name":"The Bunker | Emmy Awards and Nominations | Television Academy","url":"https://www.televisionacademy.com/shows/bunker","publisher":{"@type":"Organization","name":"Television Academy"}},{"@type":"CreativeWork","name":"The 64th Academy Awards | 1992","url":"https://www.oscars.org/oscars/ceremonies/1992","publisher":{"@type":"Organization","name":"Academy of Motion Picture Arts and Sciences"}}],"image":"https://beautifulcontext.com/img/works/anthony-hopkins.jpg"}</script>
 
-<script src="js/config.js?v=138"></script>
-<script src="js/seed.js?v=138"></script>
-<script src="js/backend.js?v=138"></script>
-<script src="js/store.js?v=138"></script>
-<script src="js/social.js?v=138"></script>
-<script src="js/render.js?v=138"></script>
-<script src="js/login.js?v=138"></script>
-<script src="js/report.js?v=138"></script>
-<script src="js/transition.js?v=138"></script>
-<script src="js/app.js?v=138"></script>
+<script src="js/config.js?v=139"></script>
+<script src="js/seed.js?v=139"></script>
+<script src="js/sources.js?v=139"></script>
+<script src="js/backend.js?v=139"></script>
+<script src="js/store.js?v=139"></script>
+<script src="js/social.js?v=139"></script>
+<script src="js/render.js?v=139"></script>
+<script src="js/login.js?v=139"></script>
+<script src="js/report.js?v=139"></script>
+<script src="js/transition.js?v=139"></script>
+<script src="js/app.js?v=139"></script>
 </body>
 </html>

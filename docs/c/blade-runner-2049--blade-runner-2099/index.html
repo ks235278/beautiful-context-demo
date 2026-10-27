@@ -41,9 +41,9 @@ try { if (sessionStorage.getItem('bc-resume')) document.documentElement.classLis
 <link rel="preload" as="image" href="img/logo-layer-words.png">
 <!-- 台本も先に取りに行く（静的なページは台本より先に本文が描かれる。遅い回線で、触れて動くまでの間を縮める）。
      src と同じアドレス（?v= まで）でないと、二度取りに行く -->
-<link rel="preload" as="script" href="js/seed.js?v=138">
-<link rel="preload" as="script" href="js/app.js?v=138">
-<link rel="manifest" href="manifest.webmanifest?v=138">
+<link rel="preload" as="script" href="js/seed.js?v=139">
+<link rel="preload" as="script" href="js/app.js?v=139">
+<link rel="manifest" href="manifest.webmanifest?v=139">
 <link rel="apple-touch-icon" href="icon-180.png">
 <!-- タブと検索結果に出る小さな印。アプリの印（ホーム画面のアイコン）と同じ形 -->
 <link rel="icon" href="favicon.ico" sizes="16x16 32x32 48x48">
@@ -72,11 +72,11 @@ if (location.hostname === 'beautifulcontext.com'){
   document.head.appendChild(ga);
 }
 </script>
-<script src="js/theme.js?v=138"></script>
-<link rel="stylesheet" href="app.css?v=138">
+<script src="js/theme.js?v=139"></script>
+<link rel="stylesheet" href="app.css?v=139">
 <!-- 読む画面の使い勝手（2026.10.24）。app.css のすぐあと -->
-<link rel="stylesheet" href="ux.css?v=138">
-<link rel="stylesheet" href="fade.css?v=138">
+<link rel="stylesheet" href="ux.css?v=139">
+<link rel="stylesheet" href="fade.css?v=139">
 <!-- 台本（js）が揃うまで：まだ押しても動かないもの（‹・絵の横の ‹ ›・つながりを辿る）を少し薄くし、下の帯の上の縁に細い金の線を走らせる。
      app.js が最後に body.app-ready を付けて外す。すぐ揃うときは何も見せない（0.3 秒待ってから出す） -->
 <style>
@@ -206,6 +206,11 @@ document.addEventListener('click', function (e) {
         <dl class="ax"><div><dt>意外性</dt><dd aria-label="1 / 5"><i class="on"></i><i></i><i></i><i></i><i></i></dd></div><div><dt>共感度</dt><dd aria-label="4 / 5"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i></dd></div><div><dt>コンテンツ性</dt><dd aria-label="3 / 5"><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i></dd></div><div><dt>世界観近似性</dt><dd aria-label="5 / 5"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i></dd></div></dl>
       </section>
           
+          
+          <section class="refs" aria-label="参考・出典">
+            <p class="meta">参考・出典</p>
+            <ol><li><a href="https://aboutamazon.com/news/entertainment/blade-runner-2099-prime-video" target="_blank" rel="noopener">'Blade Runner 2099': Cast, plot, trailer, Prime Video release date, and more</a><small>About Amazon</small></li><li><a href="https://www.loc.gov/static/programs/national-film-preservation-board/documents/blade_runner.pdf" target="_blank" rel="noopener">Blade Runner</a><small>Library of Congress（National Film Preservation Board）</small></li><li><a href="https://www.tvline.com/2222636/blade-runner-2099-teaser-trailer-release-date-prime-video/" target="_blank" rel="noopener">Blade Runner 2099: Watch Teaser Trailer, Get Release Date For Prime Video Series</a><small>TVLine</small></li><li><a href="https://theplaylist.net/first-official-synopsis-blade-runner-2049-revealed-20161219/" target="_blank" rel="noopener">First Official Synopsis For 'Blade Runner 2049' Revealed</a><small>The Playlist</small></li><li><a href="https://en.wikipedia.org/wiki/Blade_Runner_2049" target="_blank" rel="noopener">Blade Runner 2049</a><small>Wikipedia</small></li></ol>
+          </section>
           <p class="byline">BC 編集部　·　2026/9/15</p>
           
       <section class="comments" id="comments" data-ctx="seed-blade-runner-2049--blade-runner-2099">
@@ -381,17 +386,18 @@ document.addEventListener('click', function (e) {
 <div class="edge-back" id="edgeBack" aria-hidden="true"></div>
 
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
-<script type="application/ld+json" id="ld">{"@context":"https://schema.org","@type":"Article","headline":"2049年の先に、2099年が続く。","alternativeHeadline":"さらに五十年後","about":[{"@type":"Movie","name":"ブレードランナー 2049","description":"前作から30年後の2049年を舞台にした続編。","creator":{"@type":"Person","name":"ドゥニ・ヴィルヌーヴ監督"}},{"@type":"CreativeWork","name":"ブレードランナー 2099","description":"2049年からさらに50年後を舞台にしたドラマ・シリーズ。ミシェル・ヨーとハンター・シェイファーが主演し、2026年11月25日から Prime Video で配信される。","creator":{"@type":"Person","name":"リドリー・スコット製作総指揮"}}],"author":{"@type":"Person","name":"生成AI（初稿）"},"datePublished":"2026-09-15T03:00:00.000Z","dateModified":"2026-09-15T03:00:00.000Z","inLanguage":"ja","articleBody":"映画から配信のシリーズへ、時代は半世紀ずつ進む。『ブレードランナー 2099』は、『2049』からさらに50年後を舞台にしたドラマ・シリーズとして、2026年11月25日から Prime Video で配信される。リドリー・スコットが製作総指揮に名を連ね、ミシェル・ヨーとハンター・シェイファーが主演する。1982年、2017年、そして次の作品へ。同じ世界が、作られる時代ごとの技術と不安を映しながら、少しずつ未来へ引き延ばされていく。","url":"https://beautifulcontext.com/c/blade-runner-2049--blade-runner-2099/","image":"https://beautifulcontext.com/img/works/blade-runner-2049.jpg"}</script>
+<script type="application/ld+json" id="ld">{"@context":"https://schema.org","@type":"Article","headline":"2049年の先に、2099年が続く。","alternativeHeadline":"さらに五十年後","about":[{"@type":"Movie","name":"ブレードランナー 2049","description":"前作から30年後の2049年を舞台にした続編。","creator":{"@type":"Person","name":"ドゥニ・ヴィルヌーヴ監督"}},{"@type":"CreativeWork","name":"ブレードランナー 2099","description":"2049年からさらに50年後を舞台にしたドラマ・シリーズ。ミシェル・ヨーとハンター・シェイファーが主演し、2026年11月25日から Prime Video で配信される。","creator":{"@type":"Person","name":"リドリー・スコット製作総指揮"}}],"author":{"@type":"Person","name":"生成AI（初稿）"},"datePublished":"2026-09-15T03:00:00.000Z","dateModified":"2026-09-15T03:00:00.000Z","inLanguage":"ja","articleBody":"映画から配信のシリーズへ、時代は半世紀ずつ進む。『ブレードランナー 2099』は、『2049』からさらに50年後を舞台にしたドラマ・シリーズとして、2026年11月25日から Prime Video で配信される。リドリー・スコットが製作総指揮に名を連ね、ミシェル・ヨーとハンター・シェイファーが主演する。1982年、2017年、そして次の作品へ。同じ世界が、作られる時代ごとの技術と不安を映しながら、少しずつ未来へ引き延ばされていく。","url":"https://beautifulcontext.com/c/blade-runner-2049--blade-runner-2099/","citation":[{"@type":"CreativeWork","name":"'Blade Runner 2099': Cast, plot, trailer, Prime Video release date, and more","url":"https://aboutamazon.com/news/entertainment/blade-runner-2099-prime-video","publisher":{"@type":"Organization","name":"About Amazon"}},{"@type":"CreativeWork","name":"Blade Runner","url":"https://www.loc.gov/static/programs/national-film-preservation-board/documents/blade_runner.pdf","publisher":{"@type":"Organization","name":"Library of Congress（National Film Preservation Board）"}},{"@type":"CreativeWork","name":"Blade Runner 2099: Watch Teaser Trailer, Get Release Date For Prime Video Series","url":"https://www.tvline.com/2222636/blade-runner-2099-teaser-trailer-release-date-prime-video/","publisher":{"@type":"Organization","name":"TVLine"}},{"@type":"CreativeWork","name":"First Official Synopsis For 'Blade Runner 2049' Revealed","url":"https://theplaylist.net/first-official-synopsis-blade-runner-2049-revealed-20161219/","publisher":{"@type":"Organization","name":"The Playlist"}},{"@type":"CreativeWork","name":"Blade Runner 2049","url":"https://en.wikipedia.org/wiki/Blade_Runner_2049","publisher":{"@type":"Organization","name":"Wikipedia"}}],"image":"https://beautifulcontext.com/img/works/blade-runner-2049.jpg"}</script>
 
-<script src="js/config.js?v=138"></script>
-<script src="js/seed.js?v=138"></script>
-<script src="js/backend.js?v=138"></script>
-<script src="js/store.js?v=138"></script>
-<script src="js/social.js?v=138"></script>
-<script src="js/render.js?v=138"></script>
-<script src="js/login.js?v=138"></script>
-<script src="js/report.js?v=138"></script>
-<script src="js/transition.js?v=138"></script>
-<script src="js/app.js?v=138"></script>
+<script src="js/config.js?v=139"></script>
+<script src="js/seed.js?v=139"></script>
+<script src="js/sources.js?v=139"></script>
+<script src="js/backend.js?v=139"></script>
+<script src="js/store.js?v=139"></script>
+<script src="js/social.js?v=139"></script>
+<script src="js/render.js?v=139"></script>
+<script src="js/login.js?v=139"></script>
+<script src="js/report.js?v=139"></script>
+<script src="js/transition.js?v=139"></script>
+<script src="js/app.js?v=139"></script>
 </body>
 </html>

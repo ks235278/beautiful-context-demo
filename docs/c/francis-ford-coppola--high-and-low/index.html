@@ -41,9 +41,9 @@ try { if (sessionStorage.getItem('bc-resume')) document.documentElement.classLis
 <link rel="preload" as="image" href="img/logo-layer-words.png">
 <!-- 台本も先に取りに行く（静的なページは台本より先に本文が描かれる。遅い回線で、触れて動くまでの間を縮める）。
      src と同じアドレス（?v= まで）でないと、二度取りに行く -->
-<link rel="preload" as="script" href="js/seed.js?v=138">
-<link rel="preload" as="script" href="js/app.js?v=138">
-<link rel="manifest" href="manifest.webmanifest?v=138">
+<link rel="preload" as="script" href="js/seed.js?v=139">
+<link rel="preload" as="script" href="js/app.js?v=139">
+<link rel="manifest" href="manifest.webmanifest?v=139">
 <link rel="apple-touch-icon" href="icon-180.png">
 <!-- タブと検索結果に出る小さな印。アプリの印（ホーム画面のアイコン）と同じ形 -->
 <link rel="icon" href="favicon.ico" sizes="16x16 32x32 48x48">
@@ -72,11 +72,11 @@ if (location.hostname === 'beautifulcontext.com'){
   document.head.appendChild(ga);
 }
 </script>
-<script src="js/theme.js?v=138"></script>
-<link rel="stylesheet" href="app.css?v=138">
+<script src="js/theme.js?v=139"></script>
+<link rel="stylesheet" href="app.css?v=139">
 <!-- 読む画面の使い勝手（2026.10.24）。app.css のすぐあと -->
-<link rel="stylesheet" href="ux.css?v=138">
-<link rel="stylesheet" href="fade.css?v=138">
+<link rel="stylesheet" href="ux.css?v=139">
+<link rel="stylesheet" href="fade.css?v=139">
 <!-- 台本（js）が揃うまで：まだ押しても動かないもの（‹・絵の横の ‹ ›・つながりを辿る）を少し薄くし、下の帯の上の縁に細い金の線を走らせる。
      app.js が最後に body.app-ready を付けて外す。すぐ揃うときは何も見せない（0.3 秒待ってから出す） -->
 <style>
@@ -206,6 +206,11 @@ document.addEventListener('click', function (e) {
         <dl class="ax"><div><dt>意外性</dt><dd aria-label="5 / 5"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i></dd></div><div><dt>共感度</dt><dd aria-label="4 / 5"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i></dd></div><div><dt>コンテンツ性</dt><dd aria-label="5 / 5"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i></dd></div><div><dt>世界観近似性</dt><dd aria-label="3 / 5"><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i></dd></div></dl>
       </section>
           
+          
+          <section class="refs" aria-label="参考・出典">
+            <p class="meta">参考・出典</p>
+            <ol><li><a href="https://highered.mheducation.com/sites/0073386138/student_view0/chapter27/notes_and_queries.html" target="_blank" rel="noopener">Notes and Queries</a><small>McGraw-Hill Higher Education（Film History 第3版 付属サイト、第27章）</small></li><li><a href="https://www.apple.com/tv-pr/news/2025/08/a24-and-apple-original-films-celebrate-the-new-york-premiere-of-highest-2-lowest-with-director-spike-lee-and-stars-denzel-washington-aap-rocky-jeffrey-wright-ilfenesh-hadera-elijah-wright-and-more" target="_blank" rel="noopener">A24 and Apple Original Films celebrate the New York premiere of “Highest 2 Lowest” with director Spike Lee and stars Denzel Washington, A$AP Rocky, Jeffrey Wright, Ilfenesh Hadera, Elijah Wright and more</a><small>Apple TV Press</small></li><li><a href="https://en.wikipedia.org/wiki/Kagemusha" target="_blank" rel="noopener">Kagemusha</a><small>Wikipedia</small></li><li><a href="https://akirakurosawa.info/biography-part-10/" target="_blank" rel="noopener">The Life of Akira Kurosawa – Part 10: Comeback (1978–1986)</a><small>Akira Kurosawa Info</small></li><li><a href="https://salon.com/2009/08/27/kagemusha" target="_blank" rel="noopener">Kurosawa's "Kagemusha" on DVD</a><small>Salon</small></li></ol>
+          </section>
           <p class="byline">BC 編集部　·　2026/9/15</p>
           
       <section class="comments" id="comments" data-ctx="seed-francis-ford-coppola--high-and-low">
@@ -384,17 +389,18 @@ document.addEventListener('click', function (e) {
 <div class="edge-back" id="edgeBack" aria-hidden="true"></div>
 
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
-<script type="application/ld+json" id="ld">{"@context":"https://schema.org","@type":"Article","headline":"コッポラは、黒澤の映画づくりを支えた。","alternativeHeadline":"黒澤明を経由して","about":[{"@type":"Person","name":"フランシス・フォード・コッポラ","description":"『ゴッドファーザー』『地獄の黙示録』の映画監督。"},{"@type":"Movie","name":"天国と地獄","description":"エド・マクベインの小説『King’s Ransom』を原作に、誘拐事件を通じて企業家の倫理と社会の格差を描いた作品。","creator":{"@type":"Person","name":"黒澤明監督"}}],"author":{"@type":"Person","name":"生成AI（初稿）"},"datePublished":"2026-09-15T04:30:00.000Z","dateModified":"2026-09-15T04:30:00.000Z","inLanguage":"ja","articleBody":"ハブは黒澤明。1970年代、黒澤明は新作の資金集めに苦しんでいた。黒澤を敬愛していたフランシス・フォード・コッポラとジョージ・ルーカスは、『影武者』（1980）の海外版に製作者として名を連ね、20世紀フォックスからの出資を後押しした。『天国と地獄』でアメリカの小説を日本に移した黒澤は、今度はアメリカの監督たちに支えられて映画を撮ることになった。のちにスパイク・リーが『天国と地獄』を再解釈したことも含めて、黒澤とアメリカ映画のあいだには、何度も往復する線が引かれている。","url":"https://beautifulcontext.com/c/francis-ford-coppola--high-and-low/","image":"https://beautifulcontext.com/img/works/francis-ford-coppola.jpg"}</script>
+<script type="application/ld+json" id="ld">{"@context":"https://schema.org","@type":"Article","headline":"コッポラは、黒澤の映画づくりを支えた。","alternativeHeadline":"黒澤明を経由して","about":[{"@type":"Person","name":"フランシス・フォード・コッポラ","description":"『ゴッドファーザー』『地獄の黙示録』の映画監督。"},{"@type":"Movie","name":"天国と地獄","description":"エド・マクベインの小説『King’s Ransom』を原作に、誘拐事件を通じて企業家の倫理と社会の格差を描いた作品。","creator":{"@type":"Person","name":"黒澤明監督"}}],"author":{"@type":"Person","name":"生成AI（初稿）"},"datePublished":"2026-09-15T04:30:00.000Z","dateModified":"2026-09-15T04:30:00.000Z","inLanguage":"ja","articleBody":"ハブは黒澤明。1970年代、黒澤明は新作の資金集めに苦しんでいた。黒澤を敬愛していたフランシス・フォード・コッポラとジョージ・ルーカスは、『影武者』（1980）の海外版に製作者として名を連ね、20世紀フォックスからの出資を後押しした。『天国と地獄』でアメリカの小説を日本に移した黒澤は、今度はアメリカの監督たちに支えられて映画を撮ることになった。のちにスパイク・リーが『天国と地獄』を再解釈したことも含めて、黒澤とアメリカ映画のあいだには、何度も往復する線が引かれている。","url":"https://beautifulcontext.com/c/francis-ford-coppola--high-and-low/","citation":[{"@type":"CreativeWork","name":"Notes and Queries","url":"https://highered.mheducation.com/sites/0073386138/student_view0/chapter27/notes_and_queries.html","publisher":{"@type":"Organization","name":"McGraw-Hill Higher Education（Film History 第3版 付属サイト、第27章）"}},{"@type":"CreativeWork","name":"A24 and Apple Original Films celebrate the New York premiere of “Highest 2 Lowest” with director Spike Lee and stars Denzel Washington, A$AP Rocky, Jeffrey Wright, Ilfenesh Hadera, Elijah Wright and more","url":"https://www.apple.com/tv-pr/news/2025/08/a24-and-apple-original-films-celebrate-the-new-york-premiere-of-highest-2-lowest-with-director-spike-lee-and-stars-denzel-washington-aap-rocky-jeffrey-wright-ilfenesh-hadera-elijah-wright-and-more","publisher":{"@type":"Organization","name":"Apple TV Press"}},{"@type":"CreativeWork","name":"Kagemusha","url":"https://en.wikipedia.org/wiki/Kagemusha","publisher":{"@type":"Organization","name":"Wikipedia"}},{"@type":"CreativeWork","name":"The Life of Akira Kurosawa – Part 10: Comeback (1978–1986)","url":"https://akirakurosawa.info/biography-part-10/","publisher":{"@type":"Organization","name":"Akira Kurosawa Info"}},{"@type":"CreativeWork","name":"Kurosawa's \"Kagemusha\" on DVD","url":"https://salon.com/2009/08/27/kagemusha","publisher":{"@type":"Organization","name":"Salon"}}],"image":"https://beautifulcontext.com/img/works/francis-ford-coppola.jpg"}</script>
 
-<script src="js/config.js?v=138"></script>
-<script src="js/seed.js?v=138"></script>
-<script src="js/backend.js?v=138"></script>
-<script src="js/store.js?v=138"></script>
-<script src="js/social.js?v=138"></script>
-<script src="js/render.js?v=138"></script>
-<script src="js/login.js?v=138"></script>
-<script src="js/report.js?v=138"></script>
-<script src="js/transition.js?v=138"></script>
-<script src="js/app.js?v=138"></script>
+<script src="js/config.js?v=139"></script>
+<script src="js/seed.js?v=139"></script>
+<script src="js/sources.js?v=139"></script>
+<script src="js/backend.js?v=139"></script>
+<script src="js/store.js?v=139"></script>
+<script src="js/social.js?v=139"></script>
+<script src="js/render.js?v=139"></script>
+<script src="js/login.js?v=139"></script>
+<script src="js/report.js?v=139"></script>
+<script src="js/transition.js?v=139"></script>
+<script src="js/app.js?v=139"></script>
 </body>
 </html>

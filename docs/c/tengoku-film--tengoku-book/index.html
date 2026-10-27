@@ -41,9 +41,9 @@ try { if (sessionStorage.getItem('bc-resume')) document.documentElement.classLis
 <link rel="preload" as="image" href="img/logo-layer-words.png">
 <!-- 台本も先に取りに行く（静的なページは台本より先に本文が描かれる。遅い回線で、触れて動くまでの間を縮める）。
      src と同じアドレス（?v= まで）でないと、二度取りに行く -->
-<link rel="preload" as="script" href="js/seed.js?v=138">
-<link rel="preload" as="script" href="js/app.js?v=138">
-<link rel="manifest" href="manifest.webmanifest?v=138">
+<link rel="preload" as="script" href="js/seed.js?v=139">
+<link rel="preload" as="script" href="js/app.js?v=139">
+<link rel="manifest" href="manifest.webmanifest?v=139">
 <link rel="apple-touch-icon" href="icon-180.png">
 <!-- タブと検索結果に出る小さな印。アプリの印（ホーム画面のアイコン）と同じ形 -->
 <link rel="icon" href="favicon.ico" sizes="16x16 32x32 48x48">
@@ -72,11 +72,11 @@ if (location.hostname === 'beautifulcontext.com'){
   document.head.appendChild(ga);
 }
 </script>
-<script src="js/theme.js?v=138"></script>
-<link rel="stylesheet" href="app.css?v=138">
+<script src="js/theme.js?v=139"></script>
+<link rel="stylesheet" href="app.css?v=139">
 <!-- 読む画面の使い勝手（2026.10.24）。app.css のすぐあと -->
-<link rel="stylesheet" href="ux.css?v=138">
-<link rel="stylesheet" href="fade.css?v=138">
+<link rel="stylesheet" href="ux.css?v=139">
+<link rel="stylesheet" href="fade.css?v=139">
 <!-- 台本（js）が揃うまで：まだ押しても動かないもの（‹・絵の横の ‹ ›・つながりを辿る）を少し薄くし、下の帯の上の縁に細い金の線を走らせる。
      app.js が最後に body.app-ready を付けて外す。すぐ揃うときは何も見せない（0.3 秒待ってから出す） -->
 <style>
@@ -206,6 +206,11 @@ document.addEventListener('click', function (e) {
         <dl class="ax"><div><dt>意外性</dt><dd aria-label="2 / 5"><i class="on"></i><i class="on"></i><i></i><i></i><i></i></dd></div><div><dt>共感度</dt><dd aria-label="5 / 5"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i></dd></div><div><dt>コンテンツ性</dt><dd aria-label="5 / 5"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i></dd></div><div><dt>世界観近似性</dt><dd aria-label="5 / 5"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i></dd></div></dl>
       </section>
           
+          
+          <section class="refs" aria-label="参考・出典">
+            <p class="meta">参考・出典</p>
+            <ol><li><a href="https://ja.wikipedia.org/wiki/%E6%A3%AE%E6%9D%91%E6%A1%82" target="_blank" rel="noopener">森村桂 - Wikipedia</a><small>Wikipedia</small></li><li><a href="https://ja.wikipedia.org/wiki/%E5%A4%A9%E5%9B%BD%E3%81%AB%E3%81%84%E3%81%A1%E3%81%B0%E3%82%93%E8%BF%91%E3%81%84%E5%B3%B6" target="_blank" rel="noopener">天国にいちばん近い島 - Wikipedia</a><small>Wikipedia</small></li><li><a href="https://eiga.com/movie/37981/" target="_blank" rel="noopener">天国にいちばん近い島 : 作品情報・キャスト・あらすじ - 映画.com</a><small>映画.com</small></li><li><a href="https://ja.wikipedia.org/wiki/%E6%B5%B7%E5%A4%96%E6%97%85%E8%A1%8C" target="_blank" rel="noopener">海外旅行 - Wikipedia</a><small>Wikipedia</small></li><li><a href="https://ja.wikipedia.org/wiki/%E5%86%86_%28%E9%80%9A%E8%B2%A8%29" target="_blank" rel="noopener">円 (通貨) - Wikipedia</a><small>Wikipedia</small></li></ol>
+          </section>
           <p class="byline">BC 編集部　·　2026/9/14</p>
           
       <section class="comments" id="comments" data-ctx="seed-tengoku-film--tengoku-book">
@@ -378,17 +383,18 @@ document.addEventListener('click', function (e) {
 <div class="edge-back" id="edgeBack" aria-hidden="true"></div>
 
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
-<script type="application/ld+json" id="ld">{"@context":"https://schema.org","@type":"Article","headline":"天国は、場所ではなかった。","alternativeHeadline":"原作から映画へ","about":[{"@type":"Movie","name":"天国にいちばん近い島","description":"亡き父から聞いた「天国にいちばん近い島」を探して、ニューカレドニアへ旅立つ少女の物語。主演は原田知世。","creator":{"@type":"Person","name":"大林宣彦監督"}},{"@type":"Book","name":"天国にいちばん近い島","description":"1964年、貨物船に乗ってひとりニューカレドニアへ渡った著者の旅の記録。ベストセラーになった。","creator":{"@type":"Person","name":"森村桂"}}],"author":{"@type":"Person","name":"生成AI（初稿）"},"datePublished":"2026-09-14T08:30:00.000Z","dateModified":"2026-09-14T08:30:00.000Z","inLanguage":"ja","articleBody":"若い女性の実体験の旅が、映画になった。森村桂は1964年、1ドルが360円で海外渡航にも制限があった時代に、貨物船に乗ってひとりニューカレドニアへ渡った。その旅の記録が『天国にいちばん近い島』である。旅先で盲腸になった彼女を助けたのは、日本人と現地の人とのあいだに生まれ、どこの国籍も持てずにいた男性だった。大林宣彦は1984年、原田知世の主演でこれを映画にした。前田先生の note によれば、映画には原作にない、近海で沈んだ日本の潜水艦の慰霊碑を訪ねる未亡人の挿話がさりげなく置かれている。亡き父の言った「天国にいちばん近い島」は、地図の上の場所ではなく、人のこころの在りかだった。原作が見つけたその答えに、映画はもう一つ、戦争の記憶という層を重ねている。","url":"https://beautifulcontext.com/c/tengoku-film--tengoku-book/","image":"https://beautifulcontext.com/img/works/tengoku-film.jpg"}</script>
+<script type="application/ld+json" id="ld">{"@context":"https://schema.org","@type":"Article","headline":"天国は、場所ではなかった。","alternativeHeadline":"原作から映画へ","about":[{"@type":"Movie","name":"天国にいちばん近い島","description":"亡き父から聞いた「天国にいちばん近い島」を探して、ニューカレドニアへ旅立つ少女の物語。主演は原田知世。","creator":{"@type":"Person","name":"大林宣彦監督"}},{"@type":"Book","name":"天国にいちばん近い島","description":"1964年、貨物船に乗ってひとりニューカレドニアへ渡った著者の旅の記録。ベストセラーになった。","creator":{"@type":"Person","name":"森村桂"}}],"author":{"@type":"Person","name":"生成AI（初稿）"},"datePublished":"2026-09-14T08:30:00.000Z","dateModified":"2026-09-14T08:30:00.000Z","inLanguage":"ja","articleBody":"若い女性の実体験の旅が、映画になった。森村桂は1964年、1ドルが360円で海外渡航にも制限があった時代に、貨物船に乗ってひとりニューカレドニアへ渡った。その旅の記録が『天国にいちばん近い島』である。旅先で盲腸になった彼女を助けたのは、日本人と現地の人とのあいだに生まれ、どこの国籍も持てずにいた男性だった。大林宣彦は1984年、原田知世の主演でこれを映画にした。前田先生の note によれば、映画には原作にない、近海で沈んだ日本の潜水艦の慰霊碑を訪ねる未亡人の挿話がさりげなく置かれている。亡き父の言った「天国にいちばん近い島」は、地図の上の場所ではなく、人のこころの在りかだった。原作が見つけたその答えに、映画はもう一つ、戦争の記憶という層を重ねている。","url":"https://beautifulcontext.com/c/tengoku-film--tengoku-book/","citation":[{"@type":"CreativeWork","name":"森村桂 - Wikipedia","url":"https://ja.wikipedia.org/wiki/%E6%A3%AE%E6%9D%91%E6%A1%82","publisher":{"@type":"Organization","name":"Wikipedia"}},{"@type":"CreativeWork","name":"天国にいちばん近い島 - Wikipedia","url":"https://ja.wikipedia.org/wiki/%E5%A4%A9%E5%9B%BD%E3%81%AB%E3%81%84%E3%81%A1%E3%81%B0%E3%82%93%E8%BF%91%E3%81%84%E5%B3%B6","publisher":{"@type":"Organization","name":"Wikipedia"}},{"@type":"CreativeWork","name":"天国にいちばん近い島 : 作品情報・キャスト・あらすじ - 映画.com","url":"https://eiga.com/movie/37981/","publisher":{"@type":"Organization","name":"映画.com"}},{"@type":"CreativeWork","name":"海外旅行 - Wikipedia","url":"https://ja.wikipedia.org/wiki/%E6%B5%B7%E5%A4%96%E6%97%85%E8%A1%8C","publisher":{"@type":"Organization","name":"Wikipedia"}},{"@type":"CreativeWork","name":"円 (通貨) - Wikipedia","url":"https://ja.wikipedia.org/wiki/%E5%86%86_%28%E9%80%9A%E8%B2%A8%29","publisher":{"@type":"Organization","name":"Wikipedia"}}],"image":"https://beautifulcontext.com/img/works/tengoku-film.jpg"}</script>
 
-<script src="js/config.js?v=138"></script>
-<script src="js/seed.js?v=138"></script>
-<script src="js/backend.js?v=138"></script>
-<script src="js/store.js?v=138"></script>
-<script src="js/social.js?v=138"></script>
-<script src="js/render.js?v=138"></script>
-<script src="js/login.js?v=138"></script>
-<script src="js/report.js?v=138"></script>
-<script src="js/transition.js?v=138"></script>
-<script src="js/app.js?v=138"></script>
+<script src="js/config.js?v=139"></script>
+<script src="js/seed.js?v=139"></script>
+<script src="js/sources.js?v=139"></script>
+<script src="js/backend.js?v=139"></script>
+<script src="js/store.js?v=139"></script>
+<script src="js/social.js?v=139"></script>
+<script src="js/render.js?v=139"></script>
+<script src="js/login.js?v=139"></script>
+<script src="js/report.js?v=139"></script>
+<script src="js/transition.js?v=139"></script>
+<script src="js/app.js?v=139"></script>
 </body>
 </html>

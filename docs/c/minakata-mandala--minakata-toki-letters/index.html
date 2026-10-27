@@ -41,9 +41,9 @@ try { if (sessionStorage.getItem('bc-resume')) document.documentElement.classLis
 <link rel="preload" as="image" href="img/logo-layer-words.png">
 <!-- 台本も先に取りに行く（静的なページは台本より先に本文が描かれる。遅い回線で、触れて動くまでの間を縮める）。
      src と同じアドレス（?v= まで）でないと、二度取りに行く -->
-<link rel="preload" as="script" href="js/seed.js?v=138">
-<link rel="preload" as="script" href="js/app.js?v=138">
-<link rel="manifest" href="manifest.webmanifest?v=138">
+<link rel="preload" as="script" href="js/seed.js?v=139">
+<link rel="preload" as="script" href="js/app.js?v=139">
+<link rel="manifest" href="manifest.webmanifest?v=139">
 <link rel="apple-touch-icon" href="icon-180.png">
 <!-- タブと検索結果に出る小さな印。アプリの印（ホーム画面のアイコン）と同じ形 -->
 <link rel="icon" href="favicon.ico" sizes="16x16 32x32 48x48">
@@ -72,11 +72,11 @@ if (location.hostname === 'beautifulcontext.com'){
   document.head.appendChild(ga);
 }
 </script>
-<script src="js/theme.js?v=138"></script>
-<link rel="stylesheet" href="app.css?v=138">
+<script src="js/theme.js?v=139"></script>
+<link rel="stylesheet" href="app.css?v=139">
 <!-- 読む画面の使い勝手（2026.10.24）。app.css のすぐあと -->
-<link rel="stylesheet" href="ux.css?v=138">
-<link rel="stylesheet" href="fade.css?v=138">
+<link rel="stylesheet" href="ux.css?v=139">
+<link rel="stylesheet" href="fade.css?v=139">
 <!-- 台本（js）が揃うまで：まだ押しても動かないもの（‹・絵の横の ‹ ›・つながりを辿る）を少し薄くし、下の帯の上の縁に細い金の線を走らせる。
      app.js が最後に body.app-ready を付けて外す。すぐ揃うときは何も見せない（0.3 秒待ってから出す） -->
 <style>
@@ -206,6 +206,11 @@ document.addEventListener('click', function (e) {
         <dl class="ax"><div><dt>意外性</dt><dd aria-label="3 / 5"><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i></dd></div><div><dt>共感度</dt><dd aria-label="4 / 5"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i></dd></div><div><dt>コンテンツ性</dt><dd aria-label="5 / 5"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i></dd></div><div><dt>世界観近似性</dt><dd aria-label="5 / 5"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i></dd></div></dl>
       </section>
           
+          
+          <section class="refs" aria-label="参考・出典">
+            <p class="meta">参考・出典</p>
+            <ol><li><a href="https://www.minakatakumagusu-kinenkan.jp/exhibition-guide/corner2/corner2-4" target="_blank" rel="noopener">土宜法龍と南方熊楠</a><small>公益財団法人 南方熊楠記念館</small></li><li><a href="https://www.minakatakumagusu-kinenkan.jp/kumagusu/lifemap" target="_blank" rel="noopener">熊楠の歩んだ道</a><small>公益財団法人 南方熊楠記念館</small></li><li><a href="https://ndlsearch.ndl.go.jp/books/R100000002-I000002120054" target="_blank" rel="noopener">南方熊楠土宜法竜往復書簡</a><small>国立国会図書館サーチ</small></li><li><a href="https://ja.wikipedia.org/wiki/%E5%8D%97%E6%96%B9%E3%83%9E%E3%83%B3%E3%83%80%E3%83%A9" target="_blank" rel="noopener">南方マンダラ</a><small>Wikipedia</small></li><li><a href="https://ja.wikipedia.org/wiki/%E5%9C%9F%E5%AE%9C%E6%B3%95%E9%BE%8D" target="_blank" rel="noopener">土宜法龍</a><small>Wikipedia</small></li></ol>
+          </section>
           <p class="byline">BC 編集部　·　2026/9/14</p>
           
       <section class="comments" id="comments" data-ctx="seed-minakata-mandala--minakata-toki-letters">
@@ -381,17 +386,18 @@ document.addEventListener('click', function (e) {
 <div class="edge-back" id="edgeBack" aria-hidden="true"></div>
 
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
-<script type="application/ld+json" id="ld">{"@context":"https://schema.org","@type":"Article","headline":"その図は、手紙に描かれていた。","alternativeHeadline":"手紙の中の曼荼羅","about":[{"@type":"CreativeWork","name":"南方曼荼羅","description":"南方熊楠が、世界の出来事が因果と偶然で絡み合うさまを一枚の図に描いたもの。真言宗の僧・土宜法竜への手紙に記された。","creator":{"@type":"Person","name":"南方熊楠"}},{"@type":"Book","name":"南方熊楠 土宜法竜 往復書簡","description":"ロンドンで出会った南方熊楠と、真言宗の僧・土宜法竜が交わした手紙をまとめたもの。二人は仏教と科学をめぐって長い議論を交わした。","creator":{"@type":"Person","name":"南方熊楠・土宜法竜"}}],"author":{"@type":"Person","name":"生成AI（初稿）"},"datePublished":"2026-09-14T03:00:00.000Z","dateModified":"2026-09-14T03:00:00.000Z","inLanguage":"ja","articleBody":"曼荼羅は、ひとりの僧への返事として生まれた。南方熊楠と土宜法竜は、1893年にロンドンで出会い、その後も長く手紙を交わした。仏教と西洋の科学、因果と偶然をめぐる議論のなかで、熊楠は自分の考えを一枚の図にして法竜に送った。往復書簡を読むと、南方曼荼羅は完成した理論ではなく、対話の途中で生まれた思考の形だったことがわかる。","url":"https://beautifulcontext.com/c/minakata-mandala--minakata-toki-letters/","image":"https://beautifulcontext.com/img/works/minakata-mandala.jpg"}</script>
+<script type="application/ld+json" id="ld">{"@context":"https://schema.org","@type":"Article","headline":"その図は、手紙に描かれていた。","alternativeHeadline":"手紙の中の曼荼羅","about":[{"@type":"CreativeWork","name":"南方曼荼羅","description":"南方熊楠が、世界の出来事が因果と偶然で絡み合うさまを一枚の図に描いたもの。真言宗の僧・土宜法竜への手紙に記された。","creator":{"@type":"Person","name":"南方熊楠"}},{"@type":"Book","name":"南方熊楠 土宜法竜 往復書簡","description":"ロンドンで出会った南方熊楠と、真言宗の僧・土宜法竜が交わした手紙をまとめたもの。二人は仏教と科学をめぐって長い議論を交わした。","creator":{"@type":"Person","name":"南方熊楠・土宜法竜"}}],"author":{"@type":"Person","name":"生成AI（初稿）"},"datePublished":"2026-09-14T03:00:00.000Z","dateModified":"2026-09-14T03:00:00.000Z","inLanguage":"ja","articleBody":"曼荼羅は、ひとりの僧への返事として生まれた。南方熊楠と土宜法竜は、1893年にロンドンで出会い、その後も長く手紙を交わした。仏教と西洋の科学、因果と偶然をめぐる議論のなかで、熊楠は自分の考えを一枚の図にして法竜に送った。往復書簡を読むと、南方曼荼羅は完成した理論ではなく、対話の途中で生まれた思考の形だったことがわかる。","url":"https://beautifulcontext.com/c/minakata-mandala--minakata-toki-letters/","citation":[{"@type":"CreativeWork","name":"土宜法龍と南方熊楠","url":"https://www.minakatakumagusu-kinenkan.jp/exhibition-guide/corner2/corner2-4","publisher":{"@type":"Organization","name":"公益財団法人 南方熊楠記念館"}},{"@type":"CreativeWork","name":"熊楠の歩んだ道","url":"https://www.minakatakumagusu-kinenkan.jp/kumagusu/lifemap","publisher":{"@type":"Organization","name":"公益財団法人 南方熊楠記念館"}},{"@type":"CreativeWork","name":"南方熊楠土宜法竜往復書簡","url":"https://ndlsearch.ndl.go.jp/books/R100000002-I000002120054","publisher":{"@type":"Organization","name":"国立国会図書館サーチ"}},{"@type":"CreativeWork","name":"南方マンダラ","url":"https://ja.wikipedia.org/wiki/%E5%8D%97%E6%96%B9%E3%83%9E%E3%83%B3%E3%83%80%E3%83%A9","publisher":{"@type":"Organization","name":"Wikipedia"}},{"@type":"CreativeWork","name":"土宜法龍","url":"https://ja.wikipedia.org/wiki/%E5%9C%9F%E5%AE%9C%E6%B3%95%E9%BE%8D","publisher":{"@type":"Organization","name":"Wikipedia"}}],"image":"https://beautifulcontext.com/img/works/minakata-mandala.jpg"}</script>
 
-<script src="js/config.js?v=138"></script>
-<script src="js/seed.js?v=138"></script>
-<script src="js/backend.js?v=138"></script>
-<script src="js/store.js?v=138"></script>
-<script src="js/social.js?v=138"></script>
-<script src="js/render.js?v=138"></script>
-<script src="js/login.js?v=138"></script>
-<script src="js/report.js?v=138"></script>
-<script src="js/transition.js?v=138"></script>
-<script src="js/app.js?v=138"></script>
+<script src="js/config.js?v=139"></script>
+<script src="js/seed.js?v=139"></script>
+<script src="js/sources.js?v=139"></script>
+<script src="js/backend.js?v=139"></script>
+<script src="js/store.js?v=139"></script>
+<script src="js/social.js?v=139"></script>
+<script src="js/render.js?v=139"></script>
+<script src="js/login.js?v=139"></script>
+<script src="js/report.js?v=139"></script>
+<script src="js/transition.js?v=139"></script>
+<script src="js/app.js?v=139"></script>
 </body>
 </html>

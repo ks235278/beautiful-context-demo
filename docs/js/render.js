@@ -273,6 +273,19 @@
      today があれば「Today's Editor's Choice」：上の帯に題名と Login、‹ › で今日のほかの Choice へ。
      戻る印は出さない（ここが最初の画面）。
      rail があれば、読み終わりの下に「この先のつながり」の路線を続ける（下へ読み進めるほど、駅が足されていく） */
+  /* 参考・出典（先生 2026.10.26・27：コンテクストの末尾に参考URL）。本文の事実を確かめた先の一覧。
+     見本の出典は sources.js（区間の slug ごと）。読み手が確かめに行けるよう、外への普通のリンクにする */
+  const refsOf = (c) => (Array.isArray(c.sources) && c.sources.length ? c.sources : ((window.BC_SOURCES || {})[c.slug] || []))
+    .filter(s => s && safeUrl(s.url));
+  function refs(c){
+    const list = refsOf(c);
+    if (!list.length) return '';
+    return `
+          <section class="refs" aria-label="参考・出典">
+            <p class="meta">参考・出典</p>
+            <ol>${list.map(s => `<li><a href="${attr(safeUrl(s.url))}" target="_blank" rel="noopener">${esc(s.title || s.url)}</a>${s.site ? `<small>${esc(s.site)}</small>` : ''}</li>`).join('')}</ol>
+          </section>`;
+  }
   function contextPage(e, adItem, o){
     o = o || {};
     const c = e.context, td = o.today;
@@ -311,6 +324,7 @@
           ${story}
           ${axes(c)}
           ${ai ? `<p class="source">この解説は生成AIの出力をもとにしています<a href="${attr(ai)}" target="_blank" rel="noopener nofollow">${esc(ai)}</a></p>` : ''}
+          ${refs(c)}
           <p class="byline">${esc(o.editor ? o.editor.name : c.author)}　·　${esc(new Date(e.updatedAt).toLocaleDateString('ja-JP'))}</p>
           ${comments(e, o.comments || S.visibleComments(e), o.mine, o.me)}
           ${rel.length ? `<p class="meta more-label">同じルーツのコンテクスト</p>${roots(e, rel)}` : ''}
@@ -623,6 +637,8 @@
     };
     const ai = safeUrl(e.context.aiUrl);
     if (ai) o.isBasedOn = ai;
+    const cite = refsOf(e.context).map(s => ({ '@type': 'CreativeWork', name: s.title || s.url, url: safeUrl(s.url), publisher: s.site ? { '@type': 'Organization', name: s.site } : undefined }));
+    if (cite.length) o.citation = cite;
     const pic = safeImg(e.a.image);
     if (pic && !pic.startsWith('data:')) o.image = new URL(pic, document.baseURI).href;
     return o;

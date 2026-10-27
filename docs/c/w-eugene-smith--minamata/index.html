@@ -41,9 +41,9 @@ try { if (sessionStorage.getItem('bc-resume')) document.documentElement.classLis
 <link rel="preload" as="image" href="img/logo-layer-words.png">
 <!-- 台本も先に取りに行く（静的なページは台本より先に本文が描かれる。遅い回線で、触れて動くまでの間を縮める）。
      src と同じアドレス（?v= まで）でないと、二度取りに行く -->
-<link rel="preload" as="script" href="js/seed.js?v=138">
-<link rel="preload" as="script" href="js/app.js?v=138">
-<link rel="manifest" href="manifest.webmanifest?v=138">
+<link rel="preload" as="script" href="js/seed.js?v=139">
+<link rel="preload" as="script" href="js/app.js?v=139">
+<link rel="manifest" href="manifest.webmanifest?v=139">
 <link rel="apple-touch-icon" href="icon-180.png">
 <!-- タブと検索結果に出る小さな印。アプリの印（ホーム画面のアイコン）と同じ形 -->
 <link rel="icon" href="favicon.ico" sizes="16x16 32x32 48x48">
@@ -72,11 +72,11 @@ if (location.hostname === 'beautifulcontext.com'){
   document.head.appendChild(ga);
 }
 </script>
-<script src="js/theme.js?v=138"></script>
-<link rel="stylesheet" href="app.css?v=138">
+<script src="js/theme.js?v=139"></script>
+<link rel="stylesheet" href="app.css?v=139">
 <!-- 読む画面の使い勝手（2026.10.24）。app.css のすぐあと -->
-<link rel="stylesheet" href="ux.css?v=138">
-<link rel="stylesheet" href="fade.css?v=138">
+<link rel="stylesheet" href="ux.css?v=139">
+<link rel="stylesheet" href="fade.css?v=139">
 <!-- 台本（js）が揃うまで：まだ押しても動かないもの（‹・絵の横の ‹ ›・つながりを辿る）を少し薄くし、下の帯の上の縁に細い金の線を走らせる。
      app.js が最後に body.app-ready を付けて外す。すぐ揃うときは何も見せない（0.3 秒待ってから出す） -->
 <style>
@@ -206,6 +206,11 @@ document.addEventListener('click', function (e) {
         <dl class="ax"><div><dt>意外性</dt><dd aria-label="2 / 5"><i class="on"></i><i class="on"></i><i></i><i></i><i></i></dd></div><div><dt>共感度</dt><dd aria-label="5 / 5"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i></dd></div><div><dt>コンテンツ性</dt><dd aria-label="5 / 5"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i></dd></div><div><dt>世界観近似性</dt><dd aria-label="5 / 5"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i></dd></div></dl>
       </section>
           
+          
+          <section class="refs" aria-label="参考・出典">
+            <p class="meta">参考・出典</p>
+            <ol><li><a href="https://fujifilmsquare.jp/en/exhibition/211105_01.html" target="_blank" rel="noopener">W. Eugene Smith: Through the Eyes of a Photojournalist —— Truths Revealed in Photographs</a><small>FUJIFILM SQUARE</small></li><li><a href="https://www.berlinale.de/en/2020/programme/202007041.html" target="_blank" rel="noopener">Minamata</a><small>Berlinale（ベルリン国際映画祭）</small></li><li><a href="https://www.rencontres-arles.com/en/artistes/view/1328/william-eugene-smith" target="_blank" rel="noopener">William Eugene Smith</a><small>Les Rencontres d'Arles</small></li><li><a href="https://en.wikipedia.org/wiki/Tomoko_and_Mother_in_the_Bath" target="_blank" rel="noopener">Tomoko and Mother in the Bath</a><small>Wikipedia</small></li><li><a href="https://en.wikipedia.org/wiki/W._Eugene_Smith" target="_blank" rel="noopener">W. Eugene Smith</a><small>Wikipedia</small></li></ol>
+          </section>
           <p class="byline">BC 編集部　·　2026/9/15</p>
           
       <section class="comments" id="comments" data-ctx="seed-w-eugene-smith--minamata">
@@ -384,17 +389,18 @@ document.addEventListener('click', function (e) {
 <div class="edge-back" id="edgeBack" aria-hidden="true"></div>
 
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
-<script type="application/ld+json" id="ld">{"@context":"https://schema.org","@type":"Article","headline":"写真が、世界に水俣を伝えた。","alternativeHeadline":"水俣を撮った人","about":[{"@type":"Person","name":"W・ユージン・スミス","description":"アメリカの写真家。「ライフ」誌のフォトエッセイで知られ、1970年代には熊本県水俣に移り住んで水俣病を撮った。"},{"@type":"Movie","name":"MINAMATA","description":"水俣病を世界に伝えた写真家W・ユージン・スミスと、アイリーン・美緒子・スミスの水俣での日々を描いた映画。音楽は坂本龍一。","creator":{"@type":"Person","name":"アンドリュー・レヴィタス監督"}}],"author":{"@type":"Person","name":"生成AI（初稿）"},"datePublished":"2026-09-15T02:20:00.000Z","dateModified":"2026-09-15T02:20:00.000Z","inLanguage":"ja","articleBody":"映画の主人公は、実在の写真家である。W・ユージン・スミスは1971年から、妻アイリーン・美緒子・スミスとともに熊本県水俣市に暮らし、水俣病の患者と家族を撮り続けた。その写真は「ライフ」誌などに発表され、写真集『MINAMATA』として世界に知られた。映画『MINAMATA』は、その日々を描いている。音楽は坂本龍一が手がけた。写真と映画という二つのかたちで、同じ土地の出来事が語り継がれている。","url":"https://beautifulcontext.com/c/w-eugene-smith--minamata/","image":"https://beautifulcontext.com/img/works/w-eugene-smith.jpg"}</script>
+<script type="application/ld+json" id="ld">{"@context":"https://schema.org","@type":"Article","headline":"写真が、世界に水俣を伝えた。","alternativeHeadline":"水俣を撮った人","about":[{"@type":"Person","name":"W・ユージン・スミス","description":"アメリカの写真家。「ライフ」誌のフォトエッセイで知られ、1970年代には熊本県水俣に移り住んで水俣病を撮った。"},{"@type":"Movie","name":"MINAMATA","description":"水俣病を世界に伝えた写真家W・ユージン・スミスと、アイリーン・美緒子・スミスの水俣での日々を描いた映画。音楽は坂本龍一。","creator":{"@type":"Person","name":"アンドリュー・レヴィタス監督"}}],"author":{"@type":"Person","name":"生成AI（初稿）"},"datePublished":"2026-09-15T02:20:00.000Z","dateModified":"2026-09-15T02:20:00.000Z","inLanguage":"ja","articleBody":"映画の主人公は、実在の写真家である。W・ユージン・スミスは1971年から、妻アイリーン・美緒子・スミスとともに熊本県水俣市に暮らし、水俣病の患者と家族を撮り続けた。その写真は「ライフ」誌などに発表され、写真集『MINAMATA』として世界に知られた。映画『MINAMATA』は、その日々を描いている。音楽は坂本龍一が手がけた。写真と映画という二つのかたちで、同じ土地の出来事が語り継がれている。","url":"https://beautifulcontext.com/c/w-eugene-smith--minamata/","citation":[{"@type":"CreativeWork","name":"W. Eugene Smith: Through the Eyes of a Photojournalist —— Truths Revealed in Photographs","url":"https://fujifilmsquare.jp/en/exhibition/211105_01.html","publisher":{"@type":"Organization","name":"FUJIFILM SQUARE"}},{"@type":"CreativeWork","name":"Minamata","url":"https://www.berlinale.de/en/2020/programme/202007041.html","publisher":{"@type":"Organization","name":"Berlinale（ベルリン国際映画祭）"}},{"@type":"CreativeWork","name":"William Eugene Smith","url":"https://www.rencontres-arles.com/en/artistes/view/1328/william-eugene-smith","publisher":{"@type":"Organization","name":"Les Rencontres d'Arles"}},{"@type":"CreativeWork","name":"Tomoko and Mother in the Bath","url":"https://en.wikipedia.org/wiki/Tomoko_and_Mother_in_the_Bath","publisher":{"@type":"Organization","name":"Wikipedia"}},{"@type":"CreativeWork","name":"W. Eugene Smith","url":"https://en.wikipedia.org/wiki/W._Eugene_Smith","publisher":{"@type":"Organization","name":"Wikipedia"}}],"image":"https://beautifulcontext.com/img/works/w-eugene-smith.jpg"}</script>
 
-<script src="js/config.js?v=138"></script>
-<script src="js/seed.js?v=138"></script>
-<script src="js/backend.js?v=138"></script>
-<script src="js/store.js?v=138"></script>
-<script src="js/social.js?v=138"></script>
-<script src="js/render.js?v=138"></script>
-<script src="js/login.js?v=138"></script>
-<script src="js/report.js?v=138"></script>
-<script src="js/transition.js?v=138"></script>
-<script src="js/app.js?v=138"></script>
+<script src="js/config.js?v=139"></script>
+<script src="js/seed.js?v=139"></script>
+<script src="js/sources.js?v=139"></script>
+<script src="js/backend.js?v=139"></script>
+<script src="js/store.js?v=139"></script>
+<script src="js/social.js?v=139"></script>
+<script src="js/render.js?v=139"></script>
+<script src="js/login.js?v=139"></script>
+<script src="js/report.js?v=139"></script>
+<script src="js/transition.js?v=139"></script>
+<script src="js/app.js?v=139"></script>
 </body>
 </html>

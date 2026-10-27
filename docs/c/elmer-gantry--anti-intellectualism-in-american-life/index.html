@@ -41,9 +41,9 @@ try { if (sessionStorage.getItem('bc-resume')) document.documentElement.classLis
 <link rel="preload" as="image" href="img/logo-layer-words.png">
 <!-- 台本も先に取りに行く（静的なページは台本より先に本文が描かれる。遅い回線で、触れて動くまでの間を縮める）。
      src と同じアドレス（?v= まで）でないと、二度取りに行く -->
-<link rel="preload" as="script" href="js/seed.js?v=138">
-<link rel="preload" as="script" href="js/app.js?v=138">
-<link rel="manifest" href="manifest.webmanifest?v=138">
+<link rel="preload" as="script" href="js/seed.js?v=139">
+<link rel="preload" as="script" href="js/app.js?v=139">
+<link rel="manifest" href="manifest.webmanifest?v=139">
 <link rel="apple-touch-icon" href="icon-180.png">
 <!-- タブと検索結果に出る小さな印。アプリの印（ホーム画面のアイコン）と同じ形 -->
 <link rel="icon" href="favicon.ico" sizes="16x16 32x32 48x48">
@@ -72,11 +72,11 @@ if (location.hostname === 'beautifulcontext.com'){
   document.head.appendChild(ga);
 }
 </script>
-<script src="js/theme.js?v=138"></script>
-<link rel="stylesheet" href="app.css?v=138">
+<script src="js/theme.js?v=139"></script>
+<link rel="stylesheet" href="app.css?v=139">
 <!-- 読む画面の使い勝手（2026.10.24）。app.css のすぐあと -->
-<link rel="stylesheet" href="ux.css?v=138">
-<link rel="stylesheet" href="fade.css?v=138">
+<link rel="stylesheet" href="ux.css?v=139">
+<link rel="stylesheet" href="fade.css?v=139">
 <!-- 台本（js）が揃うまで：まだ押しても動かないもの（‹・絵の横の ‹ ›・つながりを辿る）を少し薄くし、下の帯の上の縁に細い金の線を走らせる。
      app.js が最後に body.app-ready を付けて外す。すぐ揃うときは何も見せない（0.3 秒待ってから出す） -->
 <style>
@@ -206,6 +206,11 @@ document.addEventListener('click', function (e) {
         <dl class="ax"><div><dt>意外性</dt><dd aria-label="4 / 5"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i></dd></div><div><dt>共感度</dt><dd aria-label="3 / 5"><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i></dd></div><div><dt>コンテンツ性</dt><dd aria-label="4 / 5"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i></dd></div><div><dt>世界観近似性</dt><dd aria-label="5 / 5"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i></dd></div></dl>
       </section>
           
+          
+          <section class="refs" aria-label="参考・出典">
+            <p class="meta">参考・出典</p>
+            <ol><li><a href="https://www.oscars.org/oscars/ceremonies/1961" target="_blank" rel="noopener">The 33rd Academy Awards | 1961</a><small>Academy of Motion Picture Arts and Sciences (Oscars.org)</small></li><li><a href="https://en.wikipedia.org/wiki/Elmer_Gantry" target="_blank" rel="noopener">Elmer Gantry</a><small>Wikipedia</small></li><li><a href="https://en.wikipedia.org/wiki/Anti-Intellectualism_in_American_Life" target="_blank" rel="noopener">Anti-Intellectualism in American Life</a><small>Wikipedia</small></li></ol>
+          </section>
           <p class="byline">BC 編集部　·　2026/9/30</p>
           
       <section class="comments" id="comments" data-ctx="seed-elmer-gantry--anti-intellectualism-in-american-life">
@@ -381,17 +386,18 @@ document.addEventListener('click', function (e) {
 <div class="edge-back" id="edgeBack" aria-hidden="true"></div>
 
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
-<script type="application/ld+json" id="ld">{"@context":"https://schema.org","@type":"Article","headline":"熱狂させる伝道者を、歴史家は分析した。","alternativeHeadline":"信仰復興運動","about":[{"@type":"CreativeWork","name":"映画「エルマー・ガントリー」","description":"シンクレア・ルイスの小説をもとに、口のうまい男が信仰復興運動の伝道者として成り上がっていく姿を描いた映画。","creator":{"@type":"Person","name":"リチャード・ブルックス監督"}},{"@type":"Book","name":"アメリカの反知性主義","description":"アメリカ社会に根づく知性への反発を、宗教・政治・ビジネス・教育の歴史からたどった本。ピュリッツァー賞を受賞した。","creator":{"@type":"Person","name":"リチャード・ホーフスタッター（田村哲夫 訳）"}}],"author":{"@type":"Person","name":"生成AI（初稿）"},"datePublished":"2026-09-30T05:30:00.000Z","dateModified":"2026-09-30T05:30:00.000Z","inLanguage":"ja","articleBody":"同じアメリカの風景を、物語と歴史書が描いている。「エルマー・ガントリー」の主人公は、巧みな弁舌で人々を熱狂させる信仰復興運動の伝道者だ。ホーフスタッター『アメリカの反知性主義』は、こうした信仰復興運動を、アメリカで知性への不信が育った源流の一つとして取り上げている。映画が一人の男の物語として描いたものを、歴史書は社会全体の流れとして描いた。","url":"https://beautifulcontext.com/c/elmer-gantry--anti-intellectualism-in-american-life/","image":"https://beautifulcontext.com/img/works/elmer-gantry.jpg"}</script>
+<script type="application/ld+json" id="ld">{"@context":"https://schema.org","@type":"Article","headline":"熱狂させる伝道者を、歴史家は分析した。","alternativeHeadline":"信仰復興運動","about":[{"@type":"CreativeWork","name":"映画「エルマー・ガントリー」","description":"シンクレア・ルイスの小説をもとに、口のうまい男が信仰復興運動の伝道者として成り上がっていく姿を描いた映画。","creator":{"@type":"Person","name":"リチャード・ブルックス監督"}},{"@type":"Book","name":"アメリカの反知性主義","description":"アメリカ社会に根づく知性への反発を、宗教・政治・ビジネス・教育の歴史からたどった本。ピュリッツァー賞を受賞した。","creator":{"@type":"Person","name":"リチャード・ホーフスタッター（田村哲夫 訳）"}}],"author":{"@type":"Person","name":"生成AI（初稿）"},"datePublished":"2026-09-30T05:30:00.000Z","dateModified":"2026-09-30T05:30:00.000Z","inLanguage":"ja","articleBody":"同じアメリカの風景を、物語と歴史書が描いている。「エルマー・ガントリー」の主人公は、巧みな弁舌で人々を熱狂させる信仰復興運動の伝道者だ。ホーフスタッター『アメリカの反知性主義』は、こうした信仰復興運動を、アメリカで知性への不信が育った源流の一つとして取り上げている。映画が一人の男の物語として描いたものを、歴史書は社会全体の流れとして描いた。","url":"https://beautifulcontext.com/c/elmer-gantry--anti-intellectualism-in-american-life/","citation":[{"@type":"CreativeWork","name":"The 33rd Academy Awards | 1961","url":"https://www.oscars.org/oscars/ceremonies/1961","publisher":{"@type":"Organization","name":"Academy of Motion Picture Arts and Sciences (Oscars.org)"}},{"@type":"CreativeWork","name":"Elmer Gantry","url":"https://en.wikipedia.org/wiki/Elmer_Gantry","publisher":{"@type":"Organization","name":"Wikipedia"}},{"@type":"CreativeWork","name":"Anti-Intellectualism in American Life","url":"https://en.wikipedia.org/wiki/Anti-Intellectualism_in_American_Life","publisher":{"@type":"Organization","name":"Wikipedia"}}],"image":"https://beautifulcontext.com/img/works/elmer-gantry.jpg"}</script>
 
-<script src="js/config.js?v=138"></script>
-<script src="js/seed.js?v=138"></script>
-<script src="js/backend.js?v=138"></script>
-<script src="js/store.js?v=138"></script>
-<script src="js/social.js?v=138"></script>
-<script src="js/render.js?v=138"></script>
-<script src="js/login.js?v=138"></script>
-<script src="js/report.js?v=138"></script>
-<script src="js/transition.js?v=138"></script>
-<script src="js/app.js?v=138"></script>
+<script src="js/config.js?v=139"></script>
+<script src="js/seed.js?v=139"></script>
+<script src="js/sources.js?v=139"></script>
+<script src="js/backend.js?v=139"></script>
+<script src="js/store.js?v=139"></script>
+<script src="js/social.js?v=139"></script>
+<script src="js/render.js?v=139"></script>
+<script src="js/login.js?v=139"></script>
+<script src="js/report.js?v=139"></script>
+<script src="js/transition.js?v=139"></script>
+<script src="js/app.js?v=139"></script>
 </body>
 </html>

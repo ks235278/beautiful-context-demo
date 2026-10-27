@@ -41,9 +41,9 @@ try { if (sessionStorage.getItem('bc-resume')) document.documentElement.classLis
 <link rel="preload" as="image" href="img/logo-layer-words.png">
 <!-- 台本も先に取りに行く（静的なページは台本より先に本文が描かれる。遅い回線で、触れて動くまでの間を縮める）。
      src と同じアドレス（?v= まで）でないと、二度取りに行く -->
-<link rel="preload" as="script" href="js/seed.js?v=138">
-<link rel="preload" as="script" href="js/app.js?v=138">
-<link rel="manifest" href="manifest.webmanifest?v=138">
+<link rel="preload" as="script" href="js/seed.js?v=139">
+<link rel="preload" as="script" href="js/app.js?v=139">
+<link rel="manifest" href="manifest.webmanifest?v=139">
 <link rel="apple-touch-icon" href="icon-180.png">
 <!-- タブと検索結果に出る小さな印。アプリの印（ホーム画面のアイコン）と同じ形 -->
 <link rel="icon" href="favicon.ico" sizes="16x16 32x32 48x48">
@@ -72,11 +72,11 @@ if (location.hostname === 'beautifulcontext.com'){
   document.head.appendChild(ga);
 }
 </script>
-<script src="js/theme.js?v=138"></script>
-<link rel="stylesheet" href="app.css?v=138">
+<script src="js/theme.js?v=139"></script>
+<link rel="stylesheet" href="app.css?v=139">
 <!-- 読む画面の使い勝手（2026.10.24）。app.css のすぐあと -->
-<link rel="stylesheet" href="ux.css?v=138">
-<link rel="stylesheet" href="fade.css?v=138">
+<link rel="stylesheet" href="ux.css?v=139">
+<link rel="stylesheet" href="fade.css?v=139">
 <!-- 台本（js）が揃うまで：まだ押しても動かないもの（‹・絵の横の ‹ ›・つながりを辿る）を少し薄くし、下の帯の上の縁に細い金の線を走らせる。
      app.js が最後に body.app-ready を付けて外す。すぐ揃うときは何も見せない（0.3 秒待ってから出す） -->
 <style>
@@ -206,6 +206,11 @@ document.addEventListener('click', function (e) {
         <dl class="ax"><div><dt>意外性</dt><dd aria-label="3 / 5"><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i></dd></div><div><dt>共感度</dt><dd aria-label="4 / 5"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i></dd></div><div><dt>コンテンツ性</dt><dd aria-label="5 / 5"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i></dd></div><div><dt>世界観近似性</dt><dd aria-label="5 / 5"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i></dd></div></dl>
       </section>
           
+          
+          <section class="refs" aria-label="参考・出典">
+            <p class="meta">参考・出典</p>
+            <ol><li><a href="https://www.gutenberg.org/files/2554/2554-h/2554-h.htm" target="_blank" rel="noopener">Crime and Punishment</a><small>Project Gutenberg</small></li><li><a href="https://en.wikipedia.org/wiki/Crime_and_Punishment" target="_blank" rel="noopener">Crime and Punishment</a><small>Wikipedia</small></li><li><a href="https://ja.wikipedia.org/wiki/%E7%BD%AA%E3%81%A8%E7%BD%B0" target="_blank" rel="noopener">罪と罰</a><small>Wikipedia</small></li><li><a href="https://en.wikipedia.org/wiki/Fyodor_Dostoevsky" target="_blank" rel="noopener">Fyodor Dostoevsky</a><small>Wikipedia</small></li></ol>
+          </section>
           <p class="byline">BC 編集部　·　2026/9/30</p>
           
       <section class="comments" id="comments" data-ctx="seed-crime-and-punishment--fyodor-dostoevsky">
@@ -384,17 +389,18 @@ document.addEventListener('click', function (e) {
 <div class="edge-back" id="edgeBack" aria-hidden="true"></div>
 
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
-<script type="application/ld+json" id="ld">{"@context":"https://schema.org","@type":"Article","headline":"理屈で殺した青年は、良心に追いつめられる。","alternativeHeadline":"作家と作品","about":[{"@type":"Book","name":"罪と罰","description":"貧しい元学生ラスコーリニコフが、自分の理屈で老婆を殺し、罪の意識に追いつめられていく長編小説。","creator":{"@type":"Person","name":"ドストエフスキー"}},{"@type":"Person","name":"ドストエフスキー","description":"ロシアの作家。『罪と罰』『カラマーゾフの兄弟』などで、人間の内面と信仰を深く描いた。"}],"author":{"@type":"Person","name":"生成AI（初稿）"},"datePublished":"2026-09-30T05:00:00.000Z","dateModified":"2026-09-30T05:00:00.000Z","inLanguage":"ja","articleBody":"罪は、法よりも先に心を裁く。『罪と罰』は1866年に発表された。主人公ラスコーリニコフは、「非凡な人間は踏み越えてよい」という自分の理屈で老婆を殺す。しかし罪の意識は、捜査官よりも早く彼を追いつめていく。ドストエフスキーは、人間の内面の揺れを、推理小説のような緊張感で描いた。","url":"https://beautifulcontext.com/c/crime-and-punishment--fyodor-dostoevsky/","image":"https://beautifulcontext.com/img/works/crime-and-punishment.jpg"}</script>
+<script type="application/ld+json" id="ld">{"@context":"https://schema.org","@type":"Article","headline":"理屈で殺した青年は、良心に追いつめられる。","alternativeHeadline":"作家と作品","about":[{"@type":"Book","name":"罪と罰","description":"貧しい元学生ラスコーリニコフが、自分の理屈で老婆を殺し、罪の意識に追いつめられていく長編小説。","creator":{"@type":"Person","name":"ドストエフスキー"}},{"@type":"Person","name":"ドストエフスキー","description":"ロシアの作家。『罪と罰』『カラマーゾフの兄弟』などで、人間の内面と信仰を深く描いた。"}],"author":{"@type":"Person","name":"生成AI（初稿）"},"datePublished":"2026-09-30T05:00:00.000Z","dateModified":"2026-09-30T05:00:00.000Z","inLanguage":"ja","articleBody":"罪は、法よりも先に心を裁く。『罪と罰』は1866年に発表された。主人公ラスコーリニコフは、「非凡な人間は踏み越えてよい」という自分の理屈で老婆を殺す。しかし罪の意識は、捜査官よりも早く彼を追いつめていく。ドストエフスキーは、人間の内面の揺れを、推理小説のような緊張感で描いた。","url":"https://beautifulcontext.com/c/crime-and-punishment--fyodor-dostoevsky/","citation":[{"@type":"CreativeWork","name":"Crime and Punishment","url":"https://www.gutenberg.org/files/2554/2554-h/2554-h.htm","publisher":{"@type":"Organization","name":"Project Gutenberg"}},{"@type":"CreativeWork","name":"Crime and Punishment","url":"https://en.wikipedia.org/wiki/Crime_and_Punishment","publisher":{"@type":"Organization","name":"Wikipedia"}},{"@type":"CreativeWork","name":"罪と罰","url":"https://ja.wikipedia.org/wiki/%E7%BD%AA%E3%81%A8%E7%BD%B0","publisher":{"@type":"Organization","name":"Wikipedia"}},{"@type":"CreativeWork","name":"Fyodor Dostoevsky","url":"https://en.wikipedia.org/wiki/Fyodor_Dostoevsky","publisher":{"@type":"Organization","name":"Wikipedia"}}],"image":"https://beautifulcontext.com/img/works/crime-and-punishment.jpg"}</script>
 
-<script src="js/config.js?v=138"></script>
-<script src="js/seed.js?v=138"></script>
-<script src="js/backend.js?v=138"></script>
-<script src="js/store.js?v=138"></script>
-<script src="js/social.js?v=138"></script>
-<script src="js/render.js?v=138"></script>
-<script src="js/login.js?v=138"></script>
-<script src="js/report.js?v=138"></script>
-<script src="js/transition.js?v=138"></script>
-<script src="js/app.js?v=138"></script>
+<script src="js/config.js?v=139"></script>
+<script src="js/seed.js?v=139"></script>
+<script src="js/sources.js?v=139"></script>
+<script src="js/backend.js?v=139"></script>
+<script src="js/store.js?v=139"></script>
+<script src="js/social.js?v=139"></script>
+<script src="js/render.js?v=139"></script>
+<script src="js/login.js?v=139"></script>
+<script src="js/report.js?v=139"></script>
+<script src="js/transition.js?v=139"></script>
+<script src="js/app.js?v=139"></script>
 </body>
 </html>

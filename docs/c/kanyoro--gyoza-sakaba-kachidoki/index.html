@@ -41,9 +41,9 @@ try { if (sessionStorage.getItem('bc-resume')) document.documentElement.classLis
 <link rel="preload" as="image" href="img/logo-layer-words.png">
 <!-- 台本も先に取りに行く（静的なページは台本より先に本文が描かれる。遅い回線で、触れて動くまでの間を縮める）。
      src と同じアドレス（?v= まで）でないと、二度取りに行く -->
-<link rel="preload" as="script" href="js/seed.js?v=138">
-<link rel="preload" as="script" href="js/app.js?v=138">
-<link rel="manifest" href="manifest.webmanifest?v=138">
+<link rel="preload" as="script" href="js/seed.js?v=139">
+<link rel="preload" as="script" href="js/app.js?v=139">
+<link rel="manifest" href="manifest.webmanifest?v=139">
 <link rel="apple-touch-icon" href="icon-180.png">
 <!-- タブと検索結果に出る小さな印。アプリの印（ホーム画面のアイコン）と同じ形 -->
 <link rel="icon" href="favicon.ico" sizes="16x16 32x32 48x48">
@@ -72,11 +72,11 @@ if (location.hostname === 'beautifulcontext.com'){
   document.head.appendChild(ga);
 }
 </script>
-<script src="js/theme.js?v=138"></script>
-<link rel="stylesheet" href="app.css?v=138">
+<script src="js/theme.js?v=139"></script>
+<link rel="stylesheet" href="app.css?v=139">
 <!-- 読む画面の使い勝手（2026.10.24）。app.css のすぐあと -->
-<link rel="stylesheet" href="ux.css?v=138">
-<link rel="stylesheet" href="fade.css?v=138">
+<link rel="stylesheet" href="ux.css?v=139">
+<link rel="stylesheet" href="fade.css?v=139">
 <!-- 台本（js）が揃うまで：まだ押しても動かないもの（‹・絵の横の ‹ ›・つながりを辿る）を少し薄くし、下の帯の上の縁に細い金の線を走らせる。
      app.js が最後に body.app-ready を付けて外す。すぐ揃うときは何も見せない（0.3 秒待ってから出す） -->
 <style>
@@ -206,6 +206,11 @@ document.addEventListener('click', function (e) {
         <dl class="ax"><div><dt>意外性</dt><dd aria-label="3 / 5"><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i></dd></div><div><dt>共感度</dt><dd aria-label="4 / 5"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i></dd></div><div><dt>コンテンツ性</dt><dd aria-label="4 / 5"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i></dd></div><div><dt>世界観近似性</dt><dd aria-label="3 / 5"><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i></dd></div></dl>
       </section>
           
+          
+          <section class="refs" aria-label="参考・出典">
+            <p class="meta">参考・出典</p>
+            <ol><li><a href="https://www.tv-tokyo.co.jp/adomachi/backnumber/20220319/142623.html" target="_blank" rel="noopener">揚子江菜館&amp;漢陽楼｜2022年3月19日｜出没！アド街ック天国：テレビ東京</a><small>テレビ東京</small></li><li><a href="https://dime.jp/genre/2080564/" target="_blank" rel="noopener">世界一クールな街・神保町は中華の街だった！中国人留学生が腹を満たした「漢陽楼」の日中友好秘話</a><small>@DIME（小学館）</small></li><li><a href="https://news.mynavi.jp/article/20171106-kanyoro/" target="_blank" rel="noopener">中国首相も来た「中国名菜 漢陽楼」でキノコたっぷり料理を味わった</a><small>マイナビニュース</small></li><li><a href="https://www.travelvoice.jp/20211021-149792" target="_blank" rel="noopener">東京・千代田区観光協会、知られていない地域の魅力紹介、中華街としての「神保町」</a><small>トラベルボイス</small></li><li><a href="https://r.gnavi.co.jp/5vaa01v90000/" target="_blank" rel="noopener">餃子酒場 勝どき店（晴海/居酒屋） - 楽天ぐるなび</a><small>楽天ぐるなび</small></li></ol>
+          </section>
           <p class="byline">BC 編集部　·　2026/9/15</p>
           
       <section class="comments" id="comments" data-ctx="seed-kanyoro--gyoza-sakaba-kachidoki">
@@ -381,17 +386,18 @@ document.addEventListener('click', function (e) {
 <div class="edge-back" id="edgeBack" aria-hidden="true"></div>
 
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
-<script type="application/ld+json" id="ld">{"@context":"https://schema.org","@type":"Article","headline":"明治の中華料理店から、駅前の餃子酒場まで。","alternativeHeadline":"東京の中華、百年","about":[{"@type":"Restaurant","name":"漢陽楼","description":"明治四十四年創業を掲げる、東京・神田の中国料理店。"},{"@type":"Restaurant","name":"餃子酒場（勝どき店）","description":"勝どき駅前の、焼き餃子と酒の店。"}],"author":{"@type":"Person","name":"生成AI（初稿）"},"datePublished":"2026-09-15T05:20:00.000Z","dateModified":"2026-09-15T05:20:00.000Z","inLanguage":"ja","articleBody":"意味の上での近さから結ばれた区間。神田の漢陽楼は明治四十四年創業を掲げ、中国からの留学生が集った時代の空気を今に伝える。勝どきの駅前には、焼き餃子と酒を気軽に楽しむ店がある。留学生の郷愁を支えた中華料理は、百年のあいだに、仕事帰りの一皿として東京の暮らしに溶け込んだ。二つの店を続けて訪ねると、東京の中華の百年を歩くことになる。","url":"https://beautifulcontext.com/c/kanyoro--gyoza-sakaba-kachidoki/","image":"https://beautifulcontext.com/img/kanyoro.jpg"}</script>
+<script type="application/ld+json" id="ld">{"@context":"https://schema.org","@type":"Article","headline":"明治の中華料理店から、駅前の餃子酒場まで。","alternativeHeadline":"東京の中華、百年","about":[{"@type":"Restaurant","name":"漢陽楼","description":"明治四十四年創業を掲げる、東京・神田の中国料理店。"},{"@type":"Restaurant","name":"餃子酒場（勝どき店）","description":"勝どき駅前の、焼き餃子と酒の店。"}],"author":{"@type":"Person","name":"生成AI（初稿）"},"datePublished":"2026-09-15T05:20:00.000Z","dateModified":"2026-09-15T05:20:00.000Z","inLanguage":"ja","articleBody":"意味の上での近さから結ばれた区間。神田の漢陽楼は明治四十四年創業を掲げ、中国からの留学生が集った時代の空気を今に伝える。勝どきの駅前には、焼き餃子と酒を気軽に楽しむ店がある。留学生の郷愁を支えた中華料理は、百年のあいだに、仕事帰りの一皿として東京の暮らしに溶け込んだ。二つの店を続けて訪ねると、東京の中華の百年を歩くことになる。","url":"https://beautifulcontext.com/c/kanyoro--gyoza-sakaba-kachidoki/","citation":[{"@type":"CreativeWork","name":"揚子江菜館&漢陽楼｜2022年3月19日｜出没！アド街ック天国：テレビ東京","url":"https://www.tv-tokyo.co.jp/adomachi/backnumber/20220319/142623.html","publisher":{"@type":"Organization","name":"テレビ東京"}},{"@type":"CreativeWork","name":"世界一クールな街・神保町は中華の街だった！中国人留学生が腹を満たした「漢陽楼」の日中友好秘話","url":"https://dime.jp/genre/2080564/","publisher":{"@type":"Organization","name":"@DIME（小学館）"}},{"@type":"CreativeWork","name":"中国首相も来た「中国名菜 漢陽楼」でキノコたっぷり料理を味わった","url":"https://news.mynavi.jp/article/20171106-kanyoro/","publisher":{"@type":"Organization","name":"マイナビニュース"}},{"@type":"CreativeWork","name":"東京・千代田区観光協会、知られていない地域の魅力紹介、中華街としての「神保町」","url":"https://www.travelvoice.jp/20211021-149792","publisher":{"@type":"Organization","name":"トラベルボイス"}},{"@type":"CreativeWork","name":"餃子酒場 勝どき店（晴海/居酒屋） - 楽天ぐるなび","url":"https://r.gnavi.co.jp/5vaa01v90000/","publisher":{"@type":"Organization","name":"楽天ぐるなび"}}],"image":"https://beautifulcontext.com/img/kanyoro.jpg"}</script>
 
-<script src="js/config.js?v=138"></script>
-<script src="js/seed.js?v=138"></script>
-<script src="js/backend.js?v=138"></script>
-<script src="js/store.js?v=138"></script>
-<script src="js/social.js?v=138"></script>
-<script src="js/render.js?v=138"></script>
-<script src="js/login.js?v=138"></script>
-<script src="js/report.js?v=138"></script>
-<script src="js/transition.js?v=138"></script>
-<script src="js/app.js?v=138"></script>
+<script src="js/config.js?v=139"></script>
+<script src="js/seed.js?v=139"></script>
+<script src="js/sources.js?v=139"></script>
+<script src="js/backend.js?v=139"></script>
+<script src="js/store.js?v=139"></script>
+<script src="js/social.js?v=139"></script>
+<script src="js/render.js?v=139"></script>
+<script src="js/login.js?v=139"></script>
+<script src="js/report.js?v=139"></script>
+<script src="js/transition.js?v=139"></script>
+<script src="js/app.js?v=139"></script>
 </body>
 </html>

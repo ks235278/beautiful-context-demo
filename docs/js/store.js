@@ -75,6 +75,10 @@
     e.context.slug = e.context.slug || slugify(e.context.routeName) || e.id;
     e.context.author = e.context.author || '編集部';
     e.context.aiUrl = e.context.aiUrl || '';
+    /* 参考・出典（コンテクストの末尾に出す）。まだ無い区間には、見本の出典（sources.js）を入れる */
+    if (!Array.isArray(e.context.sources) || !e.context.sources.length) {
+      e.context.sources = clone(((window.BC_SOURCES || {})[e.context.slug]) || []);
+    }
     e.context.line = e.context.line || {};
     e.a.slug = e.a.slug || slugify(e.a.title);
     e.b.slug = e.b.slug || slugify(e.b.title);

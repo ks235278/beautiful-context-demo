@@ -41,9 +41,9 @@ try { if (sessionStorage.getItem('bc-resume')) document.documentElement.classLis
 <link rel="preload" as="image" href="img/logo-layer-words.png">
 <!-- 台本も先に取りに行く（静的なページは台本より先に本文が描かれる。遅い回線で、触れて動くまでの間を縮める）。
      src と同じアドレス（?v= まで）でないと、二度取りに行く -->
-<link rel="preload" as="script" href="js/seed.js?v=138">
-<link rel="preload" as="script" href="js/app.js?v=138">
-<link rel="manifest" href="manifest.webmanifest?v=138">
+<link rel="preload" as="script" href="js/seed.js?v=139">
+<link rel="preload" as="script" href="js/app.js?v=139">
+<link rel="manifest" href="manifest.webmanifest?v=139">
 <link rel="apple-touch-icon" href="icon-180.png">
 <!-- タブと検索結果に出る小さな印。アプリの印（ホーム画面のアイコン）と同じ形 -->
 <link rel="icon" href="favicon.ico" sizes="16x16 32x32 48x48">
@@ -72,11 +72,11 @@ if (location.hostname === 'beautifulcontext.com'){
   document.head.appendChild(ga);
 }
 </script>
-<script src="js/theme.js?v=138"></script>
-<link rel="stylesheet" href="app.css?v=138">
+<script src="js/theme.js?v=139"></script>
+<link rel="stylesheet" href="app.css?v=139">
 <!-- 読む画面の使い勝手（2026.10.24）。app.css のすぐあと -->
-<link rel="stylesheet" href="ux.css?v=138">
-<link rel="stylesheet" href="fade.css?v=138">
+<link rel="stylesheet" href="ux.css?v=139">
+<link rel="stylesheet" href="fade.css?v=139">
 <!-- 台本（js）が揃うまで：まだ押しても動かないもの（‹・絵の横の ‹ ›・つながりを辿る）を少し薄くし、下の帯の上の縁に細い金の線を走らせる。
      app.js が最後に body.app-ready を付けて外す。すぐ揃うときは何も見せない（0.3 秒待ってから出す） -->
 <style>
@@ -206,6 +206,11 @@ document.addEventListener('click', function (e) {
         <dl class="ax"><div><dt>意外性</dt><dd aria-label="2 / 5"><i class="on"></i><i class="on"></i><i></i><i></i><i></i></dd></div><div><dt>共感度</dt><dd aria-label="4 / 5"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i></dd></div><div><dt>コンテンツ性</dt><dd aria-label="4 / 5"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i></dd></div><div><dt>世界観近似性</dt><dd aria-label="5 / 5"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i></dd></div></dl>
       </section>
           
+          
+          <section class="refs" aria-label="参考・出典">
+            <p class="meta">参考・出典</p>
+            <ol><li><a href="https://www.cbsnews.com/news/terry-gilliam-calculates-the-zero-theorem/" target="_blank" rel="noopener">Terry Gilliam calculates "The Zero Theorem" - CBS News</a><small>CBS News</small></li><li><a href="https://www.irishtimes.com/culture/film/terry-gilliam-the-poetry-of-cinema-has-been-replaced-by-the-dan-brown-prose-of-cinema-1.1723902?page=2" target="_blank" rel="noopener">Terry Gilliam: “The poetry of cinema has been replaced by the Dan Brown prose of cinema” – The Irish Times</a><small>The Irish Times</small></li><li><a href="https://ja.wikipedia.org/wiki/ゼロの未来" target="_blank" rel="noopener">ゼロの未来 - Wikipedia</a><small>Wikipedia</small></li><li><a href="https://en.wikipedia.org/wiki/The_Zero_Theorem" target="_blank" rel="noopener">The Zero Theorem - Wikipedia</a><small>Wikipedia</small></li></ol>
+          </section>
           <p class="byline">BC 編集部　·　2026/9/14</p>
           
       <section class="comments" id="comments" data-ctx="seed-terry-gilliam--the-zero-theorem">
@@ -384,17 +389,18 @@ document.addEventListener('click', function (e) {
 <div class="edge-back" id="edgeBack" aria-hidden="true"></div>
 
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
-<script type="application/ld+json" id="ld">{"@context":"https://schema.org","@type":"Article","headline":"管理社会の三作目。","alternativeHeadline":"監督と作品","about":[{"@type":"Person","name":"テリー・ギリアム","description":"アメリカ生まれで、英国を拠点にする映画監督。モンティ・パイソンのアニメーションを手がけ、『未来世紀ブラジル』『12モンキーズ』『ゼロの未来』を撮った。"},{"@type":"Movie","name":"ゼロの未来","description":"巨大企業の管理のもとで、「ゼロの定理」の証明に取り組まされる孤独なプログラマーを描いた映画。主演はクリストフ・ヴァルツ。","creator":{"@type":"Person","name":"テリー・ギリアム監督"}}],"author":{"@type":"Person","name":"生成AI（初稿）"},"datePublished":"2026-09-14T04:50:00.000Z","dateModified":"2026-09-14T04:50:00.000Z","inLanguage":"ja","articleBody":"『未来世紀ブラジル』『12モンキーズ』に続くディストピア。『ゼロの未来』は、巨大企業の管理のもとで「ゼロの定理」の証明を命じられた孤独なプログラマーの物語で、『未来世紀ブラジル』『12モンキーズ』と並べて、ギリアムのディストピア三部作と呼ばれることがある。書類の社会から、画面とネットワークの社会へ。30年を隔てて、ギリアムは同じ悪夢を、時代の道具に合わせて描き直した。","url":"https://beautifulcontext.com/c/terry-gilliam--the-zero-theorem/","image":"https://beautifulcontext.com/img/works/terry-gilliam.jpg"}</script>
+<script type="application/ld+json" id="ld">{"@context":"https://schema.org","@type":"Article","headline":"管理社会の三作目。","alternativeHeadline":"監督と作品","about":[{"@type":"Person","name":"テリー・ギリアム","description":"アメリカ生まれで、英国を拠点にする映画監督。モンティ・パイソンのアニメーションを手がけ、『未来世紀ブラジル』『12モンキーズ』『ゼロの未来』を撮った。"},{"@type":"Movie","name":"ゼロの未来","description":"巨大企業の管理のもとで、「ゼロの定理」の証明に取り組まされる孤独なプログラマーを描いた映画。主演はクリストフ・ヴァルツ。","creator":{"@type":"Person","name":"テリー・ギリアム監督"}}],"author":{"@type":"Person","name":"生成AI（初稿）"},"datePublished":"2026-09-14T04:50:00.000Z","dateModified":"2026-09-14T04:50:00.000Z","inLanguage":"ja","articleBody":"『未来世紀ブラジル』『12モンキーズ』に続くディストピア。『ゼロの未来』は、巨大企業の管理のもとで「ゼロの定理」の証明を命じられた孤独なプログラマーの物語で、『未来世紀ブラジル』『12モンキーズ』と並べて、ギリアムのディストピア三部作と呼ばれることがある。書類の社会から、画面とネットワークの社会へ。30年を隔てて、ギリアムは同じ悪夢を、時代の道具に合わせて描き直した。","url":"https://beautifulcontext.com/c/terry-gilliam--the-zero-theorem/","citation":[{"@type":"CreativeWork","name":"Terry Gilliam calculates \"The Zero Theorem\" - CBS News","url":"https://www.cbsnews.com/news/terry-gilliam-calculates-the-zero-theorem/","publisher":{"@type":"Organization","name":"CBS News"}},{"@type":"CreativeWork","name":"Terry Gilliam: “The poetry of cinema has been replaced by the Dan Brown prose of cinema” – The Irish Times","url":"https://www.irishtimes.com/culture/film/terry-gilliam-the-poetry-of-cinema-has-been-replaced-by-the-dan-brown-prose-of-cinema-1.1723902?page=2","publisher":{"@type":"Organization","name":"The Irish Times"}},{"@type":"CreativeWork","name":"ゼロの未来 - Wikipedia","url":"https://ja.wikipedia.org/wiki/ゼロの未来","publisher":{"@type":"Organization","name":"Wikipedia"}},{"@type":"CreativeWork","name":"The Zero Theorem - Wikipedia","url":"https://en.wikipedia.org/wiki/The_Zero_Theorem","publisher":{"@type":"Organization","name":"Wikipedia"}}],"image":"https://beautifulcontext.com/img/works/terry-gilliam.jpg"}</script>
 
-<script src="js/config.js?v=138"></script>
-<script src="js/seed.js?v=138"></script>
-<script src="js/backend.js?v=138"></script>
-<script src="js/store.js?v=138"></script>
-<script src="js/social.js?v=138"></script>
-<script src="js/render.js?v=138"></script>
-<script src="js/login.js?v=138"></script>
-<script src="js/report.js?v=138"></script>
-<script src="js/transition.js?v=138"></script>
-<script src="js/app.js?v=138"></script>
+<script src="js/config.js?v=139"></script>
+<script src="js/seed.js?v=139"></script>
+<script src="js/sources.js?v=139"></script>
+<script src="js/backend.js?v=139"></script>
+<script src="js/store.js?v=139"></script>
+<script src="js/social.js?v=139"></script>
+<script src="js/render.js?v=139"></script>
+<script src="js/login.js?v=139"></script>
+<script src="js/report.js?v=139"></script>
+<script src="js/transition.js?v=139"></script>
+<script src="js/app.js?v=139"></script>
 </body>
 </html>

@@ -382,6 +382,12 @@ body.viewing.peek #bg{visibility:visible}
 .ax i.on{background:var(--gold)}
 .source{margin:22px 0 0 !important;padding-top:12px;border-top:1px solid var(--rule-p);color:var(--muted);font:11px/1.6 var(--gothic) !important}
 .source a{display:block;margin-top:3px;color:#555;word-break:break-all}
+/* 参考・出典：本文の事実を確かめた先。本文より小さく、出典の札（img-credit）と同じ調子で */
+.refs{margin:22px 0 0;padding-top:12px;border-top:1px solid var(--rule-p)}
+.context-body .refs ol{margin:0;padding-left:1.4em;color:var(--muted);font:11px/1.7 var(--gothic)}
+.refs li{margin:0 0 6px}
+.refs a{color:#555;word-break:break-word}
+.refs small{display:block;color:var(--muted);font-size:10px;letter-spacing:.02em}
 .byline{margin:26px 0 0 !important;color:var(--muted);font:10.5px/1.6 var(--gothic) !important;letter-spacing:.06em}
 .img-credit{margin:12px 0 0 !important;color:var(--muted);font:10.5px/1.6 var(--gothic) !important;word-break:break-word;text-align:left !important}
 .img-credit a{color:#555}
