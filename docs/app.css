@@ -724,10 +724,10 @@ html[data-theme="white"] .to-today{color:var(--gold-ink)}
   .uni-list{width:min(820px,100%);margin:0 auto}
   .tag{font-size:30px}
   .view{background:color-mix(in srgb,var(--ground) 62%,transparent);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px)}
-  /* PC 版の背景（前田先生 2026.10.22）：ページを読んでいるあいだ、紙の列の左右に地球。UniverseIt! は墨の山のまま。
-     絵は --side-img 一つで替わる。墨の山の紺（img/ink-side.jpg）に替えるかは先生のご判断待ち。
-     それまでは地球のまま（替えるときは --side-img:url(img/ink-side.jpg) と flow.css の .earth の二か所） */
-  body.viewing #bg{background:#04070d var(--side-img,url(img/bg-earth.jpg)) center/cover no-repeat}
+  /* PC 版の背景（前田先生 2026.10.22）：ページを読んでいるあいだ、紙の列の左右に黒地の絵。UniverseIt! は墨の山のまま。
+     絵は --side-img 一つで替わる。いまは墨の山の紺（ink-side。黒地はそのまま、肌だけ紙・墨・金に合わせた）。
+     地球に戻すときは --side-img:url(img/bg-earth.jpg)（絵は残してある。flow.css の .earth も同じ変数） */
+  body.viewing #bg{background:#071a30 var(--side-img,url(img/ink-side.jpg)) center/cover no-repeat}
   body.viewing #bg .pcb,body.viewing #bg .veil{display:none}
   body.viewing .view{background:rgba(4,8,16,.18);-webkit-backdrop-filter:none;backdrop-filter:none}
   .view-in{box-shadow:0 0 60px #0006}
@@ -910,7 +910,7 @@ html[data-theme="white"] .tag,html[data-theme="white"] .uni-title{text-shadow:0 
    数字は下の :root の変数だけで調整できる（ほかの行を読まなくてよい）。
    ・パソコン：絵の面を黒い板でなく、地球の上に掛けた薄い暗幕にする。紙の列の左右に見えている地球が、
      二枚の絵の後ろにも続く（前田先生 2026.10.22 の「読んでいるあいだは地球、UniverseIt! は回路」の組み立てはそのまま。
-     UniverseIt! の回路はいま墨の山の絵。地球は先生のご判断まで残す：--side-img）
+     地球はいま墨の山の紺 ink-side に替えてある：--side-img。UniverseIt! の回路も墨の山の絵）
    ・携帯・タブレット：絵の地は暗いままだが、真っ黒でなく炭の地（--ground）に寄せた濃い紺。紙との境は影で和らげる
    ・表紙・UniverseIt!（背景の絵・veil）には触れない。地球の回転は後回し（会議の決め） */
 :root{

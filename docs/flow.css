@@ -172,8 +172,8 @@ img{display:block}
 /* ---------- パソコン（幅 1100px から）：地球の上に、縦の舞台を一つ ---------- */
 @media (min-width:1100px){
   body{background:#04070d}
-  /* 地は index と同じ --side-img。先生のご判断まで地球のまま（墨の山の紺にするときは url(img/ink-side.jpg)） */
-  .earth{display:block;position:fixed;inset:0;background:#04070d var(--side-img,url(img/bg-earth.jpg)) center/cover no-repeat}
+  /* 地は index と同じ --side-img（いまは墨の山の紺 ink-side。地球に戻すときは url(img/bg-earth.jpg)） */
+  .earth{display:block;position:fixed;inset:0;background:#071a30 var(--side-img,url(img/ink-side.jpg)) center/cover no-repeat}
   .earth::after{content:"";position:absolute;inset:0;background:rgba(3,8,18,.36)}
   .pc-logo{display:block;position:fixed;z-index:2;left:34px;top:30px}
   .pc-logo img{height:26px;width:auto;opacity:.92}
