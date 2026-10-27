@@ -5,7 +5,9 @@
    store.js を待たずに head の中で同期的に走らせるので、ここだけで完結させる。 */
 (() => {
   const KEY = 'beautiful-context-store-v2';
-  const GROUND = { charcoal: '#061629', white: '#ffffff' };
+  /* 地の色：炭は墨の山の絵（紺）、白は和紙の絵の地 */
+  const GROUND = { charcoal: '#071a30', white: '#f8f4eb' };
+  const PAPER = '#faf7f1';   /* 読むページの紙（app.css の --paper） */
   let s = {};
   try { s = (JSON.parse(localStorage.getItem(KEY)) || {}).settings || {}; } catch (e) {}
 
@@ -21,7 +23,10 @@
   } catch (e) { root.classList.add('cold'); }
   root.dataset.theme = theme;
   root.style.setProperty('--accent', accent);
-  root.style.setProperty('--veil', GROUND[theme]);
+  /* 入るときの幕（fade.css）は、開いた画面の地の色で。紙のページ（c/・w/・e/・about/ の静的なページ、
+     または #/today などの道筋）に入るときは紙の色。表紙・UniverseIt! のときは地の色（紙の上で紺が瞬かないように） */
+  const onPaper = /\/(c|w|e|about)\//.test(location.pathname) || (location.hash.startsWith('#/') && location.hash !== '#/');
+  root.style.setProperty('--veil', onPaper ? PAPER : GROUND[theme]);
 
   const meta = document.querySelector('meta[name="theme-color"]');
   if (meta) meta.content = GROUND[theme];

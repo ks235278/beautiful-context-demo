@@ -1,38 +1,52 @@
 /* Beautiful Context — 読者の画面
    前田先生の構成図 flow0921-2 と demo-1.html のとおりに組む。
 
-     表紙 ………… 回路の絵（先生の構成図の画像そのもの）に BEAUTIFUL CONTEXT
-     UniverseIt! … 同じ回路の上に、「# 言葉」を横に並べて折り返す。
+     表紙 ………… 墨の山の絵（紺）に BEAUTIFUL CONTEXT
+     UniverseIt! … 同じ絵の上に、「# 言葉」を横に並べて折り返す。
                    下に BEAUTIFUL CONTEXT と、橙「つながりを創る」紺「つながりを辿る」
      作品ページ …… demo-1。黒地に絵、紙の地に明朝の解説、下に路線図
      コンテクスト … demo-1。黒地に二枚の絵と ↔、紙の地に見出しと本文
 
-   寸法と色は demo-1.html の値をそのまま使う。 */
+   寸法は demo-1.html の値をそのまま使う。色は紙・墨・金（editorial-ink, 2026.10.27）。
+   以前の回路の絵（構成図の画像）は、墨の山（炭）と和紙（白）の絵に替えた。 */
 
 :root{
-  --paper:#f7f4ed; --ink:#121212; --gold:#a97717; --muted:#6b6b67; --rule-p:#d1ccc3;
-  --ground:#061629;                       /* 回路の地（構成図の画像から測った値） */
-  --accent:#ee8232; --navy:#1a2f5a;       /* 橙と紺（構成図の画像から測った値） */
+  /* 紙と墨 */
+  --paper:#faf7f1;                        /* 紙：読むページ・シート・携帯のメニュー */
+  --paper-card:#fdfbf7;                   /* 札（紙の上に一段浮かぶもの） */
+  --gold-wash:#f7f2e7;                    /* 紙の上で選んでいるもの */
+  --ink:#06142b;                          /* 見出しと本文（紙の上で 17:1） */
+  --ink-2:#2a3548;                        /* 札の説明・副の太字 */
+  --muted:#5b626d;                        /* 日付・注・副題 */
+  --placeholder:#6d717c;
+  /* 紺 */
+  --navy:#0a1f3a; --navy-hover:#16365f;   /* 主のボタン・紙の上の ≡ ‹ */
+  --navy-side:#031a30;                    /* パソコンの左の列・右の路線図 */
+  --ground:#071a30;                       /* 炭の地（墨の山の絵の地の色） */
+  /* 金。細い線・◆・点・22px 以上の数字だけ。紙の上の小さな文字は --gold-ink */
+  --gold:#a97717; --gold-ink:#8a5f10; --gold-lite:#efb02f; --gold-btn:#9c6e1c;
+  --accent:#ee8232;                       /* 橙（構成図の色）。ReMixIt! のまとまりだけ */
+  /* 罫と影 */
+  --rule-p:#d1ccc3; --hair:#e0d6c5; --rule-field:#b9bbbf; --rule-gold-soft:#d7b37a;
+  --card-shadow:0 1px 4px rgba(90,70,30,.10);
   --uni-ink:#fff; --uni-dim:rgba(255,255,255,.7); --uni-hash:rgba(255,255,255,.62);
   --uni-rule:rgba(255,255,255,.3);
-  --pcb:url(img/pcb-charcoal.jpg);
   --dockh:128px; --col:100%;
-  --mincho:"Yu Mincho","YuMincho","Hiragino Mincho ProN","Noto Serif JP",serif;
+  --mincho:"Hiragino Mincho ProN","Yu Mincho","YuMincho","Noto Serif JP",serif;
   --gothic:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Hiragino Kaku Gothic ProN","Yu Gothic","Noto Sans JP",sans-serif;
 }
-/* A / WHITE。白地に青い回路の版 */
+/* A / WHITE。和紙に墨の山の版。言葉は墨の色 */
 html[data-theme="white"]{
-  --ground:#ffffff;
-  --uni-ink:#0f1722; --uni-dim:rgba(15,23,34,.62); --uni-hash:rgba(15,23,34,.42);
-  --uni-rule:rgba(15,23,34,.2);
-  --pcb:url(img/pcb-white.jpg);
+  --ground:#f8f4eb;
+  --uni-ink:#06142b; --uni-dim:rgba(6,20,43,.70); --uni-hash:rgba(6,20,43,.45);
+  --uni-rule:rgba(6,20,43,.2);
 }
 
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 /* 画面の下の帯（ホーム画面から開いた iOS）。
    ページを 100% の高さに固定してスクロールを止めると、iOS はページを画面より
    ステータスバーぶん短く置き、下に body の背景色だけの帯（実機で 66pt）が出る。
-   以前の版はページ全体がスクロールする作りで、回路が画面の下端まで届いていた。
+   以前の版はページ全体がスクロールする作りで、背景の絵が画面の下端まで届いていた。
    同じく、ページ全体をスクロールさせる（UniverseIt! の言葉の一覧がそのまま流れる）。 */
 body{margin:0;background:var(--ground);color:var(--uni-ink);font-family:"Lato",var(--gothic)}
 /* ページを開いているときも、スクロールするのは文書そのもの（一本のスクロール）。
@@ -43,22 +57,31 @@ a{color:inherit}
 
 /* ---------- 背景 ---------- */
 #bg{position:fixed;inset:0;z-index:0;background:var(--ground)}
-/* 左右に並ぶ二枚の回路：左が A / WHITE（ReMixIt!）、右が B / CHARCOAL（UniverseIt!）。
-   いま見ている方が画面にあり、もう一方は隣（画面の外）に控えている */
+/* 左右に並ぶ二枚の絵：左が A / WHITE（ReMixIt!・和紙）、右が B / CHARCOAL（UniverseIt!・墨の山）。
+   いま見ている方が画面にあり、もう一方は隣（画面の外）に控えている。
+   （class の pcb は回路だったころの名前。スライドの台本（app.js）が同じ名前で探すので、そのまま） */
 #bg .pcb,.uni-frame .fr{position:absolute;inset:0;background-position:center;background-size:cover;background-repeat:no-repeat}
 /* 画面いっぱいの絵を、いつも GPU に持たせない。iPhone（3 倍の解像度）では一枚で約 15MB になり、
    持ちすぎると iOS が層を捨て、UniverseIt! の地が黒く抜けていた。
-   ・隣（画面の外）に控えている方の回路は描かない（スライドしているあいだだけ描く）
-   ・GPU に乗せるのも、指で動かしているあいだだけ */
+   ・隣（画面の外）に控えている方の絵は描かない（スライドしているあいだだけ描く）
+   ・GPU に乗せるのも、指で動かしているあいだだけ
+   ・携帯の絵は、以前の回路と同じ大きさ（992×1776）に縦に切り出したもの。重さを以前より増やさない */
 html:not([data-theme="white"]) body:not(.swiping):not(.settling) :is(#bg .pcb-w,.uni-frame .fr-w),
 html[data-theme="white"] body:not(.swiping):not(.settling) :is(#bg .pcb-c,.uni-frame .fr-c){visibility:hidden}
 body.swiping :is(#bg .pcb,.uni-frame .fr),body.settling :is(#bg .pcb,.uni-frame .fr){will-change:transform}
-#bg .pcb-c,.uni-frame .fr-c{background-color:#061629;background-image:url(img/pcb-charcoal.jpg)}
-#bg .pcb-w,.uni-frame .fr-w{background-color:#fff;background-image:url(img/pcb-white.jpg);transform:translate3d(-100%,0,0)}
+#bg .pcb-c,.uni-frame .fr-c{background-color:#071a30;background-image:url(img/ink-navy.jpg)}
+#bg .pcb-w,.uni-frame .fr-w{background-color:#f8f4eb;background-image:url(img/ink-paper.jpg);transform:translate3d(-100%,0,0)}
 html[data-theme="white"] #bg .pcb-c,html[data-theme="white"] .uni-frame .fr-c{transform:translate3d(100%,0,0)}
 html[data-theme="white"] #bg .pcb-w,html[data-theme="white"] .uni-frame .fr-w{transform:none}
-.uni-frame .fr-c{background-image:linear-gradient(rgba(6,22,41,.14),rgba(6,22,41,.14)),url(img/pcb-charcoal.jpg)}
-.uni-frame .fr-w{background-image:linear-gradient(rgba(255,255,255,.14),rgba(255,255,255,.14)),url(img/pcb-white.jpg)}
+.uni-frame .fr-c{background-image:linear-gradient(rgba(7,26,48,.14),rgba(7,26,48,.14)),url(img/ink-navy.jpg)}
+.uni-frame .fr-w{background-image:linear-gradient(rgba(248,244,235,.14),rgba(248,244,235,.14)),url(img/ink-paper.jpg)}
+/* タブレット・パソコン（横に広い画面）は横長の絵（1920×1280）。携帯は横長の方を読まない */
+@media (min-width:760px){
+  #bg .pcb-c{background-image:url(img/ink-navy-wide.jpg)}
+  #bg .pcb-w{background-image:url(img/ink-paper-wide.jpg)}
+  .uni-frame .fr-c{background-image:linear-gradient(rgba(7,26,48,.14),rgba(7,26,48,.14)),url(img/ink-navy-wide.jpg)}
+  .uni-frame .fr-w{background-image:linear-gradient(rgba(248,244,235,.14),rgba(248,244,235,.14)),url(img/ink-paper-wide.jpg)}
+}
 #bg .veil{position:absolute;inset:0;background:var(--ground);opacity:0;transition:opacity .9s ease}
 body:not(.stage-intro) #bg .veil{opacity:.14}   /* 構成図の UniverseIt! は表紙とほぼ同じ明るさ。文字が読める分だけ落とす */
 
@@ -101,12 +124,15 @@ body.viewing .menu-btn{opacity:0;visibility:hidden;transition:opacity .3s ease,v
 .wordmark{display:flex;align-items:center;gap:.2em;white-space:nowrap}
 .wordmark .mark{display:block;height:1.02em;width:auto;margin-top:-.04em}
 /* ロゴは二枚重ね：文字（BEAUTIFUL・CONTEXT）と丸いマーク。開くとき、マークは最初からそこにあり、
-   回路と文字がまわりに灯る */
+   墨の山と文字がまわりに灯る */
 .wordmark .lockup{position:relative;display:block;width:min(84vw,640px)}
 .wordmark .lockup img{display:block;width:100%;height:auto}
 .wordmark .lockup .markl{position:absolute;left:0;top:0}
-/* 白い地（ReMixIt!）の表紙では、ロゴを反転して読めるようにする */
-html[data-theme="white"] .wordmark .lockup{filter:invert(1) hue-rotate(180deg)}
+/* 和紙の地（ReMixIt! の白）の表紙では、紺のロゴ（同じ形・同じ位置）に替える。
+   紺の二枚は白のときだけ出す（炭のときは読み込まない：loading="lazy" と display:none） */
+.wordmark .lockup .words-n,.wordmark .lockup .markl-n{display:none;position:absolute;left:0;top:0}
+html[data-theme="white"] .wordmark .lockup :is(.words-n,.markl-n){display:block}
+html[data-theme="white"] .wordmark .lockup :is(.words,.markl){visibility:hidden}
 .wordmark{margin:0 0 calc(var(--sh,100vh) * .04);color:var(--uni-ink);font:400 clamp(42px,11.3vw,88px)/1 "Bebas Neue","Oswald","Arial Narrow",sans-serif;
   letter-spacing:.01em;text-align:center;transition:transform .8s cubic-bezier(.2,.7,.2,1)}
 body:not(.stage-intro) .intro{opacity:0;visibility:hidden;pointer-events:none;transition:opacity .6s ease,visibility 0s linear .6s}
@@ -119,7 +145,7 @@ body:not(.stage-intro) .wordmark{transform:scale(1.06)}
 body.stage-uni .uni{opacity:1;visibility:visible;transition:opacity .6s ease .1s,visibility 0s linear 0s}
 /* 見出しは上に留め、言葉はその下を通る */
 .uni-head{position:fixed;z-index:4;top:0;left:0;right:0;margin:0 auto;padding:calc(env(safe-area-inset-top) + 76px) 26px 6px}
-/* 見出しの下と、下の帯の後ろだけ、背景とぴったり重なる回路の写しで覆う。
+/* 見出しの下と、下の帯の後ろだけ、背景とぴったり重なる絵の写しで覆う。
    以前の「一覧の枠の中だけが流れる」見え方を、ページ全体のスクロールのまま保つ */
 .uni-frame{position:fixed;z-index:3;inset:0;pointer-events:none;overflow:hidden;
   -webkit-mask-image:linear-gradient(to bottom,#000 0,#000 calc(var(--headh,190px) - 20px),transparent var(--headh,190px),
@@ -169,7 +195,7 @@ body.uni-enter .tag{animation:rise .6s cubic-bezier(.2,.7,.2,1) both;animation-d
 @keyframes rise{from{opacity:0;transform:translateY(14px)}}
 
 /* ---------- 下の帯 ----------
-   UniverseIt! では回路の上に直接、BEAUTIFUL CONTEXT と二つのボタン。
+   UniverseIt! では墨の山の絵の上に直接、BEAUTIFUL CONTEXT と二つのボタン。
    作品・コンテクストのページでは demo-1 の紙の帯に、路線図を足す。 */
 .dock{position:fixed;z-index:40;left:0;right:0;bottom:0;width:100%;max-width:var(--col);margin:0 auto;
   padding:0 12px calc(10px + env(safe-area-inset-bottom));
@@ -247,7 +273,7 @@ body.viewing .dock-brand{display:none}
    ページは UniverseIt! の上に重ねる別の枠ではなく、文書の中に置く。開いているあいだ UniverseIt! は
    しまっておき（スクロールの位置は覚えておく）、閉じたら元の位置に戻す */
 body.viewing .uni{display:none}
-/* 携帯では、ページの後ろに回路の絵を残さない。iPhone は触れている間やスクロール中に
+/* 携帯では、ページの後ろに背景の絵を残さない。iPhone は触れている間やスクロール中に
    描き終わっていない所から、後ろの固定した層を一瞬見せることがあるため、見せる物自体を置かない */
 @media (max-width:759px){body.viewing #bg{visibility:hidden}}
 .view{display:none;position:relative;z-index:35;min-height:100vh;background:var(--paper);color:var(--ink)}
@@ -314,7 +340,6 @@ body.viewing .uni{display:none}
 .c-logo img{display:block;height:24px;width:auto}
 .c-logo:active{opacity:.7}
 .c-logo.on-paper{top:calc(env(safe-area-inset-top) + 16px)}
-.c-logo.on-paper img{filter:invert(1) hue-rotate(180deg)}
 .duo{position:relative;display:grid;grid-template-columns:1fr 1fr;gap:7px}
 .duo .art{aspect-ratio:3/4.08}
 .duo-go{display:block;padding:0;border:0;background:none;cursor:pointer;-webkit-tap-highlight-color:transparent;touch-action:manipulation}
@@ -662,7 +687,7 @@ body.on-list .view-in{background:#000;padding-bottom:0}
 
 /* ---------- 大きな画面 ----------
    構成図はどれも携帯の画面。パソコンでは、UniverseIt! は中央の広い一列に、
-   ページは携帯の幅の紙を中央に置き、左右には回路の地が見える。 */
+   ページは携帯の幅の紙を中央に置き、左右には背景の地が見える。 */
 @media (min-width:760px){
   :root{--col:460px}
   .uni-head{padding-top:96px;width:min(820px,100%)}
@@ -670,8 +695,9 @@ body.on-list .view-in{background:#000;padding-bottom:0}
   .uni-list{width:min(820px,100%);margin:0 auto}
   .tag{font-size:30px}
   .view{background:color-mix(in srgb,var(--ground) 62%,transparent);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px)}
-  /* PC 版の背景（前田先生 2026.10.22）：ページを読んでいるあいだ、紙の列の左右に地球。UniverseIt! は回路のまま */
-  body.viewing #bg{background:#04070d url(img/bg-earth.jpg) center/cover no-repeat}
+  /* PC 版の背景（前田先生 2026.10.22）：ページを読んでいるあいだ、紙の列の左右に黒地の絵。UniverseIt! は墨の山のまま。
+     絵は --side-img 一つで替わる。いまは墨の山の紺（ink-side）。地球に戻すときは --side-img:url(img/bg-earth.jpg)（絵は残してある） */
+  body.viewing #bg{background:#071a30 var(--side-img,url(img/ink-side.jpg)) center/cover no-repeat}
   body.viewing #bg .pcb,body.viewing #bg .veil{display:none}
   body.viewing .view{background:rgba(4,8,16,.18);-webkit-backdrop-filter:none;backdrop-filter:none}
   .view-in{box-shadow:0 0 60px #0006}
@@ -691,12 +717,14 @@ body.on-list .view-in{background:#000;padding-bottom:0}
   :root{--side:248px;--col:min(1120px,calc(100vw - var(--side) - 64px))}
   /* 左の列 */
   .menu-btn,body.viewing.at-root .menu-btn{display:none}
+  /* 左の列は、炭でも白でもいつも紺（文字は白）。ロゴは白いまま読める（以前の白の地での反転は要らない） */
   .menu{width:var(--side);transform:none;transition:none;box-shadow:none;padding:26px 22px 24px;
-    background:color-mix(in srgb,var(--ground) 86%,transparent);border-right:1px solid var(--uni-rule)}
+    --uni-ink:#fff;--uni-dim:rgba(255,255,255,.72);--uni-rule:rgba(255,255,255,.3);
+    background:var(--navy-side);-webkit-backdrop-filter:none;backdrop-filter:none;border-right:1px solid rgba(255,255,255,.10)}
+  .menu .theme-pick button[aria-pressed="true"]{color:var(--navy-side)}
   body.stage-intro .menu{visibility:hidden}
   .menu .menu-logo{display:block;margin:2px 0 18px;padding:0;border:0}
   .menu-logo img{display:block;width:100%;max-width:200px;height:auto}
-  html[data-theme="white"] .menu-logo img{filter:invert(1) hue-rotate(180deg)}
   .menu a{padding:11px 0;font-size:15px}
   .menu a[aria-current="page"]{color:var(--gold)}
   .menu a[aria-current="page"] small{color:var(--gold)}
@@ -834,9 +862,10 @@ html[data-theme="white"] .tag,html[data-theme="white"] .uni-title{text-shadow:0 
    「背景画像の見える範囲を広げる」「黒背景が強すぎる部分を調整する」「ベージュを使った従来のデザインとの釣り合い」。
    数字は下の :root の変数だけで調整できる（ほかの行を読まなくてよい）。
    ・パソコン：絵の面を黒い板でなく、地球の上に掛けた薄い暗幕にする。紙の列の左右に見えている地球が、
-     二枚の絵の後ろにも続く（前田先生 2026.10.22 の「読んでいるあいだは地球、UniverseIt! は回路」はそのまま）
-   ・携帯・タブレット：絵の地は暗いままだが、真っ黒でなく回路の地（--ground）に寄せた濃い紺。紙との境は影で和らげる
-   ・表紙・UniverseIt!（回路・veil）には触れない。地球の回転は後回し（会議の決め） */
+     二枚の絵の後ろにも続く（前田先生 2026.10.22 の「読んでいるあいだは地球、UniverseIt! は回路」の組み立てはそのまま。
+     地球はいま墨の山の紺 ink-side に替えてある：--side-img）
+   ・携帯・タブレット：絵の地は暗いままだが、真っ黒でなく炭の地（--ground）に寄せた濃い紺。紙との境は影で和らげる
+   ・表紙・UniverseIt!（背景の絵・veil）には触れない。地球の回転は後回し（会議の決め） */
 :root{
   --hero-pc-top:rgba(4,8,16,.72);        /* パソコン：絵の面に掛ける暗幕、上端の濃さ（1 で真っ黒・0 で地球そのまま） */
   --hero-pc-bottom:rgba(4,8,16,.5);      /* 同、下端の濃さ */

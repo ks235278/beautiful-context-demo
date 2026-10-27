@@ -108,8 +108,8 @@
 
   /* demo-1 には戻る印が無い。ページを重ねて開くので、絵の上に小さな丸だけ置く */
   const backTop = () => `<button type="button" class="back-close" data-close aria-label="戻る">${ICON.back}</button>`;
-  /* TOP へ戻るロゴ（作品・コンテクストは絵の上、ほかのページは紙の上） */
-  const topLogo = (cls) => `<a class="c-logo${cls ? ' ' + cls : ''}" href="#/" data-top aria-label="BEAUTIFUL CONTEXT（TOP へ戻る）"><img src="img/logo.png" alt=""></a>`;
+  /* TOP へ戻るロゴ（作品・コンテクストは絵の上、ほかのページは紙の上）。紙の上では紺のロゴ */
+  const topLogo = (cls) => `<a class="c-logo${cls ? ' ' + cls : ''}" href="#/" data-top aria-label="BEAUTIFUL CONTEXT（TOP へ戻る）"><img src="img/${(cls || '').split(' ').includes('on-paper') ? 'logo-navy' : 'logo'}.png" alt=""></a>`;
 
   /* ほかの区間への導線。demo-1 の「〜とのコンテクストを見る ›」と同じ形 */
   function tease(href, text, step){
@@ -543,7 +543,7 @@
           <small>${esc(w.credit)}${safeUrl(w.creditUrl) ? `　<a href="${attr(safeUrl(w.creditUrl))}" target="_blank" rel="noopener nofollow">出典</a>` : ''}</small></li>`).join('');
       return shell('画像の出典', `
         <p class="lead">作品の画像は、作品紹介のための引用、または自由な利用が許された写真です。著作権は各権利者に帰属します。</p>
-        <p>クリエイティブ・コモンズ（CC BY／CC BY-SA）の写真は、撮影者と条件をここに記しています。ポスター・表紙・キービジュアルは、デモでの作品紹介のために掲載しています。公開の前に権利を確かめ、必要なものは差し替えます。背景の回路の絵は、前田先生の構成図（flow0921-2）のものです。</p>
+        <p>クリエイティブ・コモンズ（CC BY／CC BY-SA）の写真は、撮影者と条件をここに記しています。ポスター・表紙・キービジュアルは、デモでの作品紹介のために掲載しています。公開の前に権利を確かめ、必要なものは差し替えます。背景の墨と和紙の絵は、Beautiful Context のために制作したものです。</p>
         <ul class="credits">${rows}</ul>`);
     }
     if (name === 'ad') return shell('広告枠のご案内', `

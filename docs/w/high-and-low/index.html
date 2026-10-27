@@ -13,7 +13,7 @@ try { if (sessionStorage.getItem('bc-resume')) document.documentElement.classLis
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,viewport-fit=cover">
 <title>黒澤明『天国と地獄』｜Beautiful Context</title>
 <meta name="description" content="黒澤明『天国と地獄』（映画・1963年）。エド・マクベインの小説『King’s Ransom』を原作に、誘拐事件を通じて企業家の倫理と社会の格差を描いた作品。 つながる作品：『HIGHEST 2 LOWEST』、エド・マクベイン『キングの身代金』、フランシス・フォード・コッポラ">
-<meta name="theme-color" content="#061629">
+<meta name="theme-color" content="#071a30">
 <link rel="canonical" href="https://beautifulcontext.com/w/high-and-low/">
 <meta property="og:type" content="profile">
 <meta property="og:url" content="https://beautifulcontext.com/w/high-and-low/">
@@ -34,8 +34,10 @@ try { if (sessionStorage.getItem('bc-resume')) document.documentElement.classLis
 <link rel="apple-touch-startup-image" media="(device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="img/launch/414x896@3.png">
 <link rel="apple-touch-startup-image" media="(device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" href="img/launch/414x896@2.png">
 <link rel="apple-touch-startup-image" media="(device-width: 375px) and (device-height: 667px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" href="img/launch/375x667@2.png">
-<!-- 表紙に最初から出すもの（回路とロゴ）は先に読む。描くときに待たせない -->
-<link rel="preload" as="image" href="img/pcb-charcoal.jpg">
+<!-- 表紙に最初から出すもの（墨の山の絵とロゴ）は先に読む。描くときに待たせない。
+     絵は携帯（縦長に切り出した絵）とタブレット・パソコン（横長の絵）で別。app.css の 760px の境と同じ -->
+<link rel="preload" as="image" href="img/ink-navy.jpg" media="(max-width:759px)">
+<link rel="preload" as="image" href="img/ink-navy-wide.jpg" media="(min-width:760px)">
 <link rel="preload" as="image" href="img/logo-layer-mark.png">
 <link rel="preload" as="image" href="img/logo-layer-words.png">
 <!-- 台本も先に取りに行く（静的なページは台本より先に本文が描かれる。遅い回線で、触れて動くまでの間を縮める）。
@@ -109,15 +111,16 @@ document.addEventListener('click', function (e) {
 }, true);
 </script>
 
-<!-- 背景は先生の構成図（flow0921-2）の回路の絵そのもの。
-     表紙では原寸の濃さ、UniverseIt! からは 50% に落とす（構成図のプロンプトどおり）。 -->
+<!-- 背景は墨の山（炭）と和紙（白）の絵（以前は先生の構成図 flow0921-2 の回路の絵）。
+     表紙では原寸の濃さ、UniverseIt! からは少しだけ落とす（文字が読める分だけ）。 -->
 <!-- 二つの画面が左右に並ぶ：左 ReMixIt!（A / WHITE）、右 UniverseIt!（B / CHARCOAL）。左右にスライドして入れ替わる -->
 <div id="bg" aria-hidden="true"><div class="pcb pcb-c"></div><div class="pcb pcb-w"></div><div class="veil"></div></div>
 
 <button class="menu-btn" id="menuBtn" type="button" aria-label="メニュー" aria-expanded="false" aria-controls="menu"><i></i><i></i><i></i></button>
 
 <section class="intro" id="intro" aria-label="表紙">
-  <h1 class="wordmark" id="wordmark" aria-label="BEAUTIFUL CONTEXT"><span class="lockup"><img class="words" src="img/logo-layer-words.png" alt="" decoding="sync"><img class="markl" src="img/logo-layer-mark.png" alt="" decoding="sync"></span></h1>
+  <!-- 白（和紙の地）のときは紺のロゴ二枚（words-n・markl-n）に替える。炭のときは読み込まない -->
+  <h1 class="wordmark" id="wordmark" aria-label="BEAUTIFUL CONTEXT"><span class="lockup"><img class="words" src="img/logo-layer-words.png" alt="" decoding="sync"><img class="markl" src="img/logo-layer-mark.png" alt="" decoding="sync"><img class="words-n" src="img/logo-words-navy.png" alt="" loading="lazy"><img class="markl-n" src="img/logo-layer-mark-navy.png" alt="" loading="lazy"></span></h1>
 </section>
 
 <main class="uni" id="uni" aria-label="UniverseIt!">

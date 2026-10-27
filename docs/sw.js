@@ -9,7 +9,10 @@
      見えないところで読み直し、いまの画面とスクロール位置のまま戻す（app.js）。 */
 const CACHE = 'bc-shell';
 const PAGES = ['./index.html', './editor.html', './manage.html'];
-const STATIC = ['./img/pcb-charcoal.jpg', './img/pcb-white.jpg', './img/logo.png', './img/logo-mark.png', './img/logo-layer-mark.png', './img/logo-layer-words.png', './icon-512.png',
+/* 背景は墨の山（炭）と和紙（白）の絵。携帯の縦の絵と、タブレット・パソコンの横の絵。白の表紙・紙の上の紺のロゴも */
+const STATIC = ['./img/ink-navy.jpg', './img/ink-paper.jpg', './img/ink-navy-wide.jpg', './img/ink-paper-wide.jpg',
+  './img/logo.png', './img/logo-mark.png', './img/logo-layer-mark.png', './img/logo-layer-words.png',
+  './img/logo-navy.png', './img/logo-words-navy.png', './img/logo-layer-mark-navy.png', './icon-512.png',
   './icon-180.png', './icon-192.png', './manifest.webmanifest'];
 
 /* ページが使う同じサイトの CSS・JS（?v= 付き）と、表紙の絵 */
@@ -17,7 +20,7 @@ function assetsOf(html, base){
   const out = new Set();
   html.replace(/(?:src|href)="([^"]+)"/g, (_, u) => {
     if (/^(https?:)?\/\//.test(u) || u.startsWith('#') || u.startsWith('data:')) return;
-    if (/\.(css|js)(\?|$)/.test(u) || /img\/(pcb-|logo)/.test(u)) out.add(new URL(u, base).href);
+    if (/\.(css|js)(\?|$)/.test(u) || /img\/(ink-|logo)/.test(u)) out.add(new URL(u, base).href);
   });
   return [...out];
 }

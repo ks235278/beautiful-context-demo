@@ -154,9 +154,11 @@
   /* A / WHITE（ReMixIt!）と B / CHARCOAL（UniverseIt!）。左右に並ぶ二つの画面 */
   function setTheme(theme){
     document.documentElement.dataset.theme = theme;
+    /* 地の色は theme.js と同じ値（炭は墨の山の紺、白は和紙） */
+    const ground = window.BCTheme.GROUND[theme === 'white' ? 'white' : 'charcoal'];
     const meta = document.querySelector('meta[name="theme-color"]');
-    if (meta) meta.content = theme === 'white' ? '#ffffff' : '#061629';
-    document.documentElement.style.setProperty('--veil', theme === 'white' ? '#ffffff' : '#061629');
+    if (meta) meta.content = ground;
+    document.documentElement.style.setProperty('--veil', ground);
     markTheme();
     if (typeof paintSelection === 'function') paintSelection();
   }
