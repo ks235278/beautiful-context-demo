@@ -123,7 +123,12 @@ function page(s, got){
   h = h.replace(/<title>[^<]*<\/title>/, () => `<title>${esc(got.title)}</title>`);
   h = h.replace(/<meta name="description" content="[^"]*">/, () => `<meta name="description" content="${esc(got.desc)}">`);
   h = h.replace(/<link rel="canonical" href="[^"]*">/, () => `<link rel="canonical" href="${esc(url)}">`);
-  h = h.replace(/<meta property="og:type" content="[^"]*">/, () => `<meta property="og:type" content="${s.og}">\n<meta property="og:url" content="${esc(url)}">`);
+  h = h.replace(/<meta property="og:type" content="[^"]*">/, () => `<meta property="og:type" content="${s.og}">`);
+  swap('<meta property="og:url" content="https://beautifulcontext.com/">', `<meta property="og:url" content="${esc(url)}">`);
+  /* サイト名とロゴの構造化データ（WebSite・Organization）はトップだけのもの。写したページでは外す */
+  const SITE_LD = /<!-- サイトそのものの構造化データ[\s\S]*?<script type="application\/ld\+json" id="ld-site">[\s\S]*?<\/script>\n?/;
+  if (!SITE_LD.test(h)) throw new Error('index.html の形が変わっています：#ld-site');
+  h = h.replace(SITE_LD, '');
   h = h.replace(/<meta property="og:title" content="[^"]*">/, () => `<meta property="og:title" content="${esc(got.title)}">`);
   h = h.replace(/<meta property="og:description" content="[^"]*">/, () => `<meta property="og:description" content="${esc(got.desc)}">`);
   if (got.image) h = h.replace(/<meta property="og:image" content="[^"]*">/, () => `<meta property="og:image" content="${esc(got.image)}">`);

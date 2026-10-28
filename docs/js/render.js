@@ -273,6 +273,19 @@
      today があれば「Today's Editor's Choice」：上の帯に題名と Login、‹ › で今日のほかの Choice へ。
      戻る印は出さない（ここが最初の画面）。
      rail があれば、読み終わりの下に「この先のつながり」の路線を続ける（下へ読み進めるほど、駅が足されていく） */
+  /* 参考・出典（先生 2026.10.26・27：コンテクストの末尾に参考URL）。本文の事実を確かめた先の一覧。
+     見本の出典は sources.js（区間の slug ごと）。読み手が確かめに行けるよう、外への普通のリンクにする */
+  const refsOf = (c) => (Array.isArray(c.sources) && c.sources.length ? c.sources : ((window.BC_SOURCES || {})[c.slug] || []))
+    .filter(s => s && safeUrl(s.url));
+  function refs(c){
+    const list = refsOf(c);
+    if (!list.length) return '';
+    return `
+          <section class="refs" aria-label="参考・出典">
+            <p class="meta">参考・出典</p>
+            <ol>${list.map(s => `<li><a href="${attr(safeUrl(s.url))}" target="_blank" rel="noopener">${esc(s.title || s.url)}</a>${s.site ? `<small>${esc(s.site)}</small>` : ''}</li>`).join('')}</ol>
+          </section>`;
+  }
   function contextPage(e, adItem, o){
     o = o || {};
     const c = e.context, td = o.today;
@@ -311,6 +324,7 @@
           ${story}
           ${axes(c)}
           ${ai ? `<p class="source">この解説は生成AIの出力をもとにしています<a href="${attr(ai)}" target="_blank" rel="noopener nofollow">${esc(ai)}</a></p>` : ''}
+          ${refs(c)}
           <p class="byline">${esc(o.editor ? o.editor.name : c.author)}　·　${esc(new Date(e.updatedAt).toLocaleDateString('ja-JP'))}</p>
           ${comments(e, o.comments || S.visibleComments(e), o.mine, o.me)}
           ${rel.length ? `<p class="meta more-label">同じルーツのコンテクスト</p>${roots(e, rel)}` : ''}
@@ -475,7 +489,7 @@
 
   /* ---------- 読み物のページ ---------- */
   /* 「Beautiful Context とは」の説明文（検索結果の説明と、構造化データで同じものを使う） */
-  const ABOUT_DESC = 'Beautiful Context（ビューティフル・コンテクスト）は、映画・本・音楽・人物・場所など、二つの作品のあいだにある意外なつながりを、編集者が一本の「コンテクスト」として届けるメディアです。読み方、編集の方針、運営について。';
+  const ABOUT_DESC = 'Beautiful Context（ビューティフル・コンテクスト）は、映画・本・音楽・人物・場所など、二つの作品のあいだにある意外なつながりを、編集者が一本の「コンテクスト」として届けるメディアです。読み方、生成AIの初稿の扱いを含む編集の方針、運営について。';
   function page(name){
     const shell = (title, body) => `
       <article class="page text-page">
@@ -497,7 +511,7 @@
       </ul>
       <h3>編集者について</h3>
       <p>コンテクストを選び、書くのは、編集の経験をもつ編集者です。真・善・美──確かめられる事実に立ち、作品への敬意を保ち、読んで美しいと感じられる一本だけを公開します。</p>
-      <p>下書きに生成AIを使うことがあります。生成AIの初稿は、編集者が事実と出典を確かめてから公開します。公開されたコンテクストには、選んだ編集者の名前を記しています。</p>
+      <p>いま公開しているコンテクストの多くは、生成AIが書いた初稿です。各ページに「生成AIの初稿・編集者の確認前」と記し、編集者が事実と出典を確かめたものは「確認済み」に変わります。公開されたコンテクストには、選んだ編集者の名前を記しています。</p>
       <h3>つくる人へ</h3>
       <p>「ReMixIt!」では、どなたでも二つの作品のあいだにあるつながりを提案できます。長い解説は要りません。大切なのは文章の量ではなく、つながりを見つける感覚です。二つを結びつけ、その関係の面白さが短く伝われば、それで一本になります。</p>
       <p>編集者のアカウントは、いまのところ招待制です。</p>
@@ -623,6 +637,8 @@
     };
     const ai = safeUrl(e.context.aiUrl);
     if (ai) o.isBasedOn = ai;
+    const cite = refsOf(e.context).map(s => ({ '@type': 'CreativeWork', name: s.title || s.url, url: safeUrl(s.url), publisher: s.site ? { '@type': 'Organization', name: s.site } : undefined }));
+    if (cite.length) o.citation = cite;
     const pic = safeImg(e.a.image);
     if (pic && !pic.startsWith('data:')) o.image = new URL(pic, document.baseURI).href;
     return o;
