@@ -493,10 +493,10 @@ body.viewing.peek #bg{visibility:visible}
 .chip{padding:6px 12px;border:1px solid var(--rule-p);border-radius:999px;background:var(--paper-card);color:var(--ink);text-decoration:none;font:13px/1.4 var(--gothic)}
 .chip .h{margin-right:2px;color:var(--gold-ink)}
 .steps{padding-left:1.4em}
-.steps b{display:inline-block;min-width:3.5em;color:var(--gold)}
-.motto{margin:26px 0 8px;color:var(--gold);font:700 12px/1.6 var(--gothic) !important;letter-spacing:.2em}
+.steps b{display:inline-block;min-width:3.5em;color:var(--gold-ink)}
+.motto{margin:26px 0 8px;color:var(--gold-ink);font:700 12px/1.6 "Lato",var(--gothic) !important;letter-spacing:.16em}
 .credits{margin:20px 0 0;padding:0;list-style:none}
-.credits li{padding:10px 0;border-top:1px solid var(--rule-p);font-size:13px;line-height:1.6;text-align:left}
+.credits li{padding:10px 0;border-top:1px solid var(--hair);font-size:13px;line-height:1.6;text-align:left}
 .credits li > a{font-weight:700;text-decoration:none}
 .credits small{display:block;margin-top:2px;color:var(--muted);font:11px/1.6 var(--gothic);word-break:break-word}
 
