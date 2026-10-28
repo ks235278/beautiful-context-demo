@@ -25,6 +25,7 @@
 /* ---------- 携帯のメニュー（紙）：いまいる所に、左の余白へ金の ◆ ---------- */
 @media (max-width:1099px){
   .menu a[aria-current="page"]{position:relative}
-  .menu a[aria-current="page"]::before{content:"";position:absolute;left:-16px;top:calc(14px + 12px - 4.5px);width:6px;height:9px;background:var(--diamond) center/6px 9px no-repeat}
+  /* 題の一行（17px × 1.25）の真ん中に */
+  .menu a[aria-current="page"]::before{content:"";position:absolute;left:-16px;top:calc(14px + 17px * 1.25 / 2 - 4.5px);width:6px;height:9px;background:var(--diamond) center/6px 9px no-repeat}
   .menu .menu-foot a[aria-current="page"]::before{top:calc(50% - 4.5px)}
 }
