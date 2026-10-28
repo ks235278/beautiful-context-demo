@@ -332,10 +332,12 @@ body.viewing .uni{display:none}
 
 /* 作品ページ */
 .hero{padding:calc(env(safe-area-inset-top) + 54px) 18px 0;background:#070707}
-.content{padding:24px 23px 34px;background:linear-gradient(#faf9f5,#f2efe7)}
+/* 紙は平らに（以前の上から下へのうすいにじみは外した。紙の色は .view-in の --paper） */
+.content{padding:24px 23px 34px;background:none}
 /* 金の小さな見出し（大文字の英字）。紙の上の小さな文字は --gold-ink（--gold は細線・◆・点だけ） */
 .meta{margin:0 0 8px;color:var(--gold-ink);font:700 11px/14px "Lato",var(--gothic);letter-spacing:.16em}   /* 行の高さは以前（10px）と同じ 14px。下が動かない */
 .content h2{margin:0 0 14px;font-size:23px;line-height:1.42}
+.wpage .content h2{font-size:26px;line-height:1.3}   /* 作品（駅）の名前は一回り大きく */
 .content h3{margin:22px 0 8px;font-size:17px}
 .content p,.content li{margin:0 0 12px;font-size:13px;line-height:1.9;text-align:justify}
 .content .by{margin-top:-8px;color:var(--muted);font-size:12px}
@@ -354,7 +356,7 @@ body.viewing .uni{display:none}
 .more-label{margin-top:28px !important}
 
 /* コンテクストページ */
-.duo-hero{padding:calc(env(safe-area-inset-top) + 54px) 14px 0;background:#080808}
+.duo-hero{padding:calc(env(safe-area-inset-top) + 54px) 14px 0;background:#06142b}   /* 絵の地は紺の墨（携帯は下の --hero-m-* の段階） */
 /* コンテクスト詳細の上のロゴ。触れると TOP（UniverseIt! のすべての言葉）へ戻る（flow1002） */
 .duo-hero,.hero{position:relative}
 .c-logo{position:absolute;z-index:7;left:50%;top:calc(env(safe-area-inset-top) + 15px);transform:translateX(-50%);display:flex;align-items:center;gap:.22em;
@@ -369,12 +371,13 @@ body.viewing .uni{display:none}
 /* 二枚の絵は指に付いてくる帯。縦はスクロール、横は指で運ぶ */
 .cpage .duo-hero,.wpage .duo-hero{overflow:hidden}
 .cpage .duo,.wpage .duo{touch-action:pan-y;will-change:transform}
-/* 作品ページの右の席：まだ誰も結んでいない。＋ でエディターへ（この作品から新しいつながりを創る） */
-.duo-add{display:grid;place-content:center;justify-items:center;gap:10px;aspect-ratio:3/4.08;background:#050505;color:#f3e7cf;text-decoration:none}
-.duo-add span{display:grid;place-items:center;width:64px;height:64px;border-radius:50%;background:#1d1b18;box-shadow:0 0 0 1px #3a352c;
+/* 作品ページの右の席：まだ誰も結んでいない。＋ でエディターへ（この作品から新しいつながりを創る）。
+   紺の墨の帯の上に、金の点線で縁取った空いた席。＋ は白い縁の丸（縁は内側に引くので、隣の絵と同じ大きさのまま） */
+.duo-add{display:grid;place-content:center;justify-items:center;gap:10px;aspect-ratio:3/4.08;border:1px dashed rgba(239,176,47,.6);background:#0a1f3a;color:#fff;text-decoration:none}
+.duo-add span{display:grid;place-items:center;width:64px;height:64px;border-radius:50%;background:rgba(255,255,255,.04);box-shadow:0 0 0 1.5px rgba(255,255,255,.85);
   font:300 36px/1 "Lato",sans-serif;transition:transform .2s ease,background-color .2s}
-.duo-add small{color:rgba(243,231,207,.7);font:700 10px/1.4 var(--gothic);letter-spacing:.12em}
-.duo-add:active span{transform:scale(.92);background:#2a2620}
+.duo-add small{color:rgba(255,255,255,.78);font:700 10px/1.4 var(--gothic);letter-spacing:.12em}
+.duo-add:active span{transform:scale(.92);background:rgba(255,255,255,.14)}
 /* 絵を持ち上げているあいだ、後ろに UniverseIt! を透かす（閉じる前と同じ位置に留めて置く） */
 body.viewing.peek .uni{display:block;position:fixed;left:0;right:0;z-index:1;pointer-events:none}
 body.viewing.peek #bg{visibility:visible}
@@ -385,21 +388,23 @@ body.viewing.peek #bg{visibility:visible}
 .swap{position:absolute;z-index:8;left:50%;top:50%;transform:translate(-50%,-50%);display:grid;place-items:center;
   width:34px;height:34px;border-radius:50%;background:var(--paper-card);color:var(--navy);font:700 14px/1 var(--gothic);font-style:normal;
   box-shadow:0 2px 10px rgba(11,33,61,.22)}
-.context-lead{padding:24px 22px 25px;background:linear-gradient(#faf9f5,#f1eee6);text-align:center}
+.context-lead{padding:24px 22px 25px;background:none;text-align:center}   /* 紙は平らに */
 .route-label{margin:0 0 9px;color:var(--gold-ink);font:700 11px/14px "Lato",var(--gothic);letter-spacing:.16em}
 .context-lead h2{margin:0 auto 12px;max-width:12em;font-size:24px;line-height:1.48}
-.pair{display:grid;gap:3px;padding-top:11px;border-top:1px solid #aaa;font-size:12px;line-height:1.45}
+/* 二つの作品の名前。上の罫は灰色の線から金の ◆ の罫に（ink.css。文字の位置は以前の線＋余白と同じ 12px 下） */
+.pair{position:relative;display:grid;gap:3px;padding-top:12px;color:var(--ink-2);font-size:12px;line-height:1.45}
 /* 主のボタン：紺の丸い棒（高さ 44） */
 .read{width:100%;height:44px;margin-top:15px;padding:0 18px;border:0;border-radius:999px;background:var(--navy);color:#fff;cursor:pointer;
   font:700 13px/1.4 var(--gothic)}
 .read span{float:right;font-size:18px;line-height:.9}
-.context-body{scroll-margin-top:10px;padding:28px 23px 34px;background:linear-gradient(#faf9f5,#f1eee6);border-top:1px solid var(--rule-p)}
+/* 本文：紙は平らに。札（lead）との境は灰色の線をやめ、端から端までの金の ◆ の罫（ink.css） */
+.context-body{position:relative;scroll-margin-top:10px;padding:28px 23px 34px;background:none}
 .context-body h2{margin:0 0 15px;font-size:22px;line-height:1.48}
 .context-body h3{margin:22px 0 8px;font-size:17px}
 .context-body p{margin:0 0 13px;font-size:13px;line-height:1.95;text-align:justify}
 .context-body ul,.context-body ol{margin:0 0 13px;padding-left:1.3em;font-size:13px;line-height:1.95}
-.context-body blockquote{margin:0 0 13px;padding-left:12px;border-left:2px solid var(--gold);color:#444}
-.back-state{margin:0 0 14px;padding:8px 10px;border:1px dashed var(--gold);border-radius:4px;color:var(--gold);font:12px/1.5 var(--gothic)}
+.context-body blockquote{margin:0 0 13px;padding-left:12px;border-left:2px solid var(--gold);color:var(--ink-2)}
+.back-state{margin:0 0 14px;padding:8px 10px;border:1px dashed var(--gold);border-radius:4px;color:var(--gold-ink);font:12px/1.5 var(--gothic)}
 /* 札から本文へ誘う（開発会議 2026.10.23 §3.2）。札だけ見て終わる人が多いので、
    読む時間はボタンの中に小さく（主役にしない）、↓ はゆっくり息をするように上下し、
    ボタンの下の金の細い線（.story-cue）が本文の罫線を少し越えて、CONTEXT STORY へ流れる。
@@ -416,7 +421,7 @@ body.viewing.peek #bg{visibility:visible}
 @media (prefers-reduced-motion:reduce){.story-cue::after{animation:none}}
 
 /* 読み終わり：型と四軸・出典・同じルーツ・広告・書き手 */
-.axes{margin-top:26px;padding-top:14px;border-top:1px solid var(--rule-p)}
+.axes{margin-top:26px;padding-top:14px;border-top:1px solid var(--hair)}
 .axes .meta{display:flex;flex-wrap:wrap;align-items:center;gap:6px 10px}
 .agm{padding:2px 8px;border:1px dashed var(--gold);border-radius:10px;font-size:.9em;letter-spacing:.04em}
 .agm.ok{border-style:solid}
@@ -428,23 +433,21 @@ body.viewing.peek #bg{visibility:visible}
 .ax dd{display:flex;gap:4px;margin:0}
 .ax i{width:7px;height:7px;border-radius:50%;border:1px solid var(--gold)}
 .ax i.on{background:var(--gold)}
-.source{margin:22px 0 0 !important;padding-top:12px;border-top:1px solid var(--rule-p);color:var(--muted);font:11px/1.6 var(--gothic) !important}
-.source a{display:block;margin-top:3px;color:#555;word-break:break-all}
-/* 参考・出典：本文の事実を確かめた先。本文より小さく、出典の札（img-credit）と同じ調子で */
-.refs{margin:22px 0 0;padding-top:12px;border-top:1px solid var(--rule-p)}
-.context-body .refs ol{margin:0;padding-left:1.4em;color:var(--muted);font:11px/1.7 var(--gothic)}
-.refs li{margin:0 0 6px}
-.refs a{color:#555;word-break:break-word}
-.refs small{display:block;color:var(--muted);font-size:10px;letter-spacing:.02em}
+.source{margin:22px 0 0 !important;padding-top:12px;border-top:1px solid var(--hair);color:var(--muted);font:11px/1.6 var(--gothic) !important}
+/* 外へのリンク（出典の URL・画像の出典）：墨の字に、金のうすい細い下線 */
+.source a{display:block;margin-top:3px;color:var(--ink-2);word-break:break-all;text-decoration-color:rgba(169,119,23,.5);text-underline-offset:2px}
+/* 参考・出典（.refs）の形は ink.css（第3段）。.source と同じ罫と間合いの、小さな字の一覧 */
 .byline{margin:26px 0 0 !important;color:var(--muted);font:10.5px/1.6 var(--gothic) !important;letter-spacing:.06em}
 .img-credit{margin:12px 0 0 !important;color:var(--muted);font:10.5px/1.6 var(--gothic) !important;word-break:break-word;text-align:left !important}
-.img-credit a{color:#555}
+.img-credit a{color:var(--ink-2);text-decoration-color:rgba(169,119,23,.5);text-underline-offset:2px}
 .img-credit + .img-credit{margin-top:4px !important}
 .c-ad{margin:30px 0 0}
-.c-ad a{position:relative;display:block;aspect-ratio:4/3;overflow:hidden;text-decoration:none;background:#000}
+.c-ad a{position:relative;display:block;aspect-ratio:4/3;overflow:hidden;border-radius:6px;text-decoration:none;background:#000}
 .c-ad-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 42%}
-.ad-mark{position:absolute;right:12px;top:12px;z-index:2;padding:3px 7px;border:1px solid #fff9;border-radius:3px;color:#fff;font:700 9px/1 sans-serif;letter-spacing:.14em}
-.ad-copy{position:absolute;left:0;right:0;bottom:0;z-index:2;padding:14px 16px 16px;text-align:center}
+.ad-mark{position:absolute;right:12px;top:12px;z-index:2;padding:3px 7px;border:1px solid #fff9;border-radius:3px;background:rgba(6,20,43,.55);color:#fff;font:700 9px/1 sans-serif;letter-spacing:.14em}
+/* 広告の文字は絵の上に載るので、下から紺の墨のうすいぼかしを敷いて、どんな絵でも読めるように */
+.ad-copy{position:absolute;left:0;right:0;bottom:0;z-index:2;padding:40px 16px 16px;text-align:center;
+  background:linear-gradient(rgba(6,20,43,0),rgba(6,20,43,.72) 42%,rgba(6,20,43,.82))}
 .ad-copy b{display:block;font:500 16px/1.5 var(--mincho);color:#fff}
 .ad-copy small{display:block;margin-top:4px;color:#d9d3c7;font-size:10.5px;letter-spacing:.06em}
 
@@ -455,33 +458,39 @@ body.viewing.peek #bg{visibility:visible}
 .stop .fstop{position:relative;display:grid;grid-template-columns:92px 1fr;gap:14px;align-items:start;padding:10px 0 14px;
   color:var(--ink);text-decoration:none}
 .stop .fstop::before{content:"";position:absolute;left:-26px;top:22px;width:10px;height:10px;border:3px solid var(--gold);
-  border-radius:50%;background:#fff;box-sizing:content-box;transform:translateX(0)}
-.st-img{position:relative;display:block;aspect-ratio:2/3;overflow:hidden;background:#101010;box-shadow:0 10px 22px -12px rgba(0,0,0,.55)}
+  border-radius:50%;background:var(--paper);box-sizing:content-box;transform:translateX(0)}
+/* 駅の絵：紙の上に、角を少し丸め、紺のうすい影と髪の毛ほどの縁（白い絵が紙に溶けないように） */
+.st-img{position:relative;display:block;aspect-ratio:2/3;overflow:hidden;border-radius:4px;background:var(--navy);
+  box-shadow:0 8px 18px -10px rgba(6,20,43,.45),0 0 0 1px rgba(6,20,43,.08)}
 .landing{background:transparent !important;box-shadow:none !important}
 .st-img img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 45%}
-.st-img .ph{position:absolute;inset:0;display:grid;place-items:center;color:var(--gold);font:28px/1 var(--mincho)}
+.st-img .ph{position:absolute;inset:0;display:grid;place-items:center;color:var(--gold-lite);font:28px/1 var(--mincho)}
 .st-txt{display:grid;gap:3px;min-width:0}
-.st-txt small{color:var(--gold);font:700 10px/1.4 var(--gothic);letter-spacing:.1em}
-.st-txt b{font:700 16px/1.45 var(--mincho)}
-.st-txt span{color:#3b3a37;font:13px/1.75 var(--mincho);display:-webkit-box;-webkit-line-clamp:4;-webkit-box-orient:vertical;overflow:hidden}
+.st-txt small{color:var(--gold-ink);font:700 10px/1.4 var(--gothic);letter-spacing:.1em}
+.st-txt b{font:700 17px/1.45 var(--mincho)}
+.st-txt span{color:var(--ink-2);font:13px/1.75 var(--mincho);display:-webkit-box;-webkit-line-clamp:4;-webkit-box-orient:vertical;overflow:hidden}
 .stop.first .fstop{grid-template-columns:1fr;gap:12px}
 .stop.first .st-img{width:min(64%,300px)}
 .stop.first .st-txt b{font-size:20px}
 .stop.first .st-txt span{-webkit-line-clamp:6}
-.seg{display:block;margin:2px 0 0;padding:10px 12px;border-left:3px solid transparent;background:#fff9;border-radius:0 8px 8px 0;
-  color:var(--ink);text-decoration:none;box-shadow:0 1px 0 rgba(0,0,0,.04)}
-.seg small{display:block;color:var(--gold);font:700 10px/1.5 var(--gothic);letter-spacing:.06em}
-.seg b{display:block;margin-top:2px;font:600 14px/1.6 var(--mincho)}
-/* 見出しから、そのままコンテクストへ：下線と「››」で先があることを示す */
+/* 区間：紙の上に一段浮かぶ札。左の縁は路線と同じ金 */
+.seg{display:block;margin:2px 0 0;padding:10px 12px;border-left:3px solid var(--gold);background:var(--paper-card);border-radius:0 6px 6px 0;
+  color:var(--ink);text-decoration:none;box-shadow:var(--card-shadow)}
+.seg small{display:block;color:var(--gold-ink);font:700 10px/1.5 var(--gothic);letter-spacing:.06em}
+/* 右の 20px は、見出しの最後の行に付く「››」の丸の置き場（丸だけが次の行へ落ちないように。札の右の余白と合わせて丸が収まる） */
+.seg b{display:block;margin-top:2px;padding-right:20px;font:600 14px/1.6 var(--mincho)}
+/* 見出しから、そのままコンテクストへ：下線と「››」で先があることを示す。
+   「››」は紺の小さな丸（22px）。丸の幅ぶんを右の余白で打ち消して（margin-right）、見出しの最後の字のすぐ後ろに必ず並べる */
 .seg-copy{text-decoration:underline;text-decoration-color:rgba(176,122,28,.45);text-decoration-thickness:1px;text-underline-offset:4px}
-.seg-go{display:inline-block;margin-left:6px;color:var(--gold);font:700 14px/1 "Lato",sans-serif;transition:transform .2s}
+.seg-go{display:inline-grid;place-items:center;width:22px;height:22px;margin:0 -28px 0 6px;border-radius:50%;background:var(--navy);color:#fff;
+  font:700 11px/1 "Lato",sans-serif;letter-spacing:-1px;vertical-align:-1px;white-space:nowrap;transition:transform .2s}
 .seg:active .seg-go{transform:translateX(3px)}
-.seg-from{display:inline-block;margin-bottom:4px;padding:1px 8px;border:1px solid var(--gold);border-radius:10px;color:var(--gold);
+.seg-from{display:inline-block;margin-bottom:4px;padding:1px 8px;border:1px solid var(--gold);border-radius:10px;background:var(--paper);color:var(--gold-ink);
   font:700 10px/1.5 var(--gothic);letter-spacing:.04em}
 .stop.branch .seg{position:relative}
 .stop.branch .seg::before{content:"";position:absolute;left:-22px;top:16px;width:15px;height:3px;background:var(--gold)}
 .transfer{position:relative;margin:18px 0 10px;text-align:center}
-.transfer span{position:relative;z-index:1;padding:3px 12px;border:1px solid #bbb;border-radius:12px;background:var(--paper);color:var(--muted);
+.transfer span{position:relative;z-index:1;padding:3px 12px;border:1px solid var(--gold);border-radius:12px;background:var(--paper);color:var(--muted);
   font:700 10.5px/1.5 var(--gothic);letter-spacing:.1em}
 .rail-more{height:1px}
 @media (hover:hover) and (pointer:fine){
@@ -537,8 +546,9 @@ body.edging .underlay{will-change:transform}
 .ctx-rail .stop.first .st-img{width:auto}
 .ctx-rail .stop.first .st-txt b{font-size:inherit}
 .ctx-rail .stop.first .st-txt span{-webkit-line-clamp:3}
-.ctx-rail .stop.first .fstop::after{content:"いまここ";position:absolute;left:-2px;top:-9px;padding:1px 7px;border-radius:9px;background:var(--gold);color:#fff;
-  font:700 9px/1.6 var(--gothic);letter-spacing:.08em}
+/* 「いまここ」の札：白い字が読める濃い金（--gold-ink、5.6:1。以前の --gold では 3.9:1）。字は札の最小の 10px */
+.ctx-rail .stop.first .fstop::after{content:"いまここ";position:absolute;left:-2px;top:-9px;padding:1px 7px;border-radius:9px;background:var(--gold-ink);color:#fff;
+  font:700 10px/1.6 var(--gothic);letter-spacing:.08em}
 
 /* ---------- Today's Editor's Choice ---------- */
 /* 最初の画面だけ、左上にメニュー（ほかのページでは ‹ が来る場所） */
@@ -589,38 +599,40 @@ body.at-root .ctx-nav.prev{display:none}
 .follow.on{background:var(--navy);color:#fff}
 
 /* コメント欄：つながりの下に、読んだ人が思ったことを置く */
-.comments{margin-top:30px;padding-top:16px;border-top:1px solid var(--rule-p);text-align:left}
+.comments{margin-top:30px;padding-top:16px;border-top:1px solid var(--hair);text-align:left}
 .comments .meta{display:flex;align-items:center;gap:8px}
-.cm-n{min-width:18px;padding:1px 6px;border-radius:9px;background:#efe7d6;color:var(--gold);text-align:center}
+.cm-n{min-width:18px;padding:1px 6px;border-radius:9px;background:var(--gold-wash);color:var(--gold-ink);text-align:center}
 .cm-list{margin:4px 0 0;padding:0;list-style:none}
-.cm{display:flex;gap:10px;padding:12px 0;border-bottom:1px solid #e3ddd1}
+.cm{display:flex;gap:10px;padding:12px 0;border-bottom:1px solid var(--hair)}
 .cm .ava{width:28px;height:28px;font-size:12px}
 .cm>div{min-width:0;flex:1}
 .cm-h{display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 8px;margin:0 0 3px !important;font:12px/1.4 var(--gothic) !important}
 .cm-h time{color:var(--muted);font-size:10.5px}
 .cm-t{margin:0 !important;font-size:13px !important;line-height:1.8 !important;white-space:pre-wrap;word-break:break-word}
 .cm.pending{opacity:.62}
-.cm-wait{padding:1px 7px;border:1px dashed var(--gold);border-radius:9px;color:var(--gold);font-size:10px}
+.cm-wait{padding:1px 7px;border:1px dashed var(--gold);border-radius:9px;color:var(--gold-ink);font-size:10px}
 .cm-empty{margin:6px 0 0 !important;color:var(--muted);font:12px/1.7 var(--gothic) !important}
 .cm-form{display:flex;align-items:flex-end;gap:8px;margin-top:14px}
-.cm-form textarea{flex:1;min-width:0;min-height:44px;max-height:160px;padding:11px 12px;border:1px solid #c9c4ba;border-radius:10px;background:#fff;
+/* 書く欄は紙の札（縁は欄の灰、選ぶと紺）。送るは紺の丸い棒（高さ 44） */
+.cm-form textarea{flex:1;min-width:0;min-height:44px;max-height:160px;padding:11px 12px;border:1px solid var(--rule-field);border-radius:6px;background:var(--paper-card);
   color:var(--ink);font:16px/1.5 var(--gothic);resize:vertical;outline:none;-webkit-appearance:none;appearance:none}
-.cm-form textarea:focus{border-color:var(--ink)}
-.cm-form button{flex:0 0 auto;height:44px;padding:0 16px;border:0;border-radius:10px;background:var(--ink);color:#fff;cursor:pointer;
+.cm-form textarea::placeholder{color:var(--placeholder)}
+.cm-form textarea:focus{border-color:var(--navy)}
+.cm-form button{flex:0 0 auto;height:44px;padding:0 18px;border:0;border-radius:999px;background:var(--navy);color:#fff;cursor:pointer;
   font:700 12px/1 var(--gothic);transition:transform .2s ease}
 .cm-form button:active{transform:scale(.95)}
 .cm-note{margin:8px 0 0 !important;color:var(--muted);font:10.5px/1.6 var(--gothic) !important}
 
 /* 編集者のページ（マイページ）：上に写真を大きく、その下に「〇〇の BEAUTIFUL CONTEXT」 */
 .editor-page .ed-cover{position:relative;display:grid;place-items:center;aspect-ratio:16/10;margin-top:calc(env(safe-area-inset-top) + 58px);
-  overflow:hidden;background:#0b0b0b}
+  overflow:hidden;background:#06142b}   /* 写真が来るまでの地は紺の墨 */
 .editor-page .ed-cover img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 30%}
 .editor-page .ed-cover.empty .ava.big{width:96px;height:96px;font-size:40px;background:#1d1b18;box-shadow:0 0 0 1px #3a352c}
 /* 下へ読み進められる印 */
 .ed-down{position:absolute;left:50%;bottom:10px;width:12px;height:12px;margin-left:-6px;border-right:2px solid rgba(255,255,255,.7);
   border-bottom:2px solid rgba(255,255,255,.7);transform:rotate(45deg)}
 .editor-page .content{padding-top:20px}
-.ed-head{display:grid;justify-items:center;gap:6px;padding:0 0 20px;border-bottom:1px solid var(--rule-p);text-align:center}
+.ed-head{display:grid;justify-items:center;gap:6px;padding:0 0 20px;border-bottom:1px solid var(--hair);text-align:center}
 .ed-title{display:flex;flex-wrap:wrap;align-items:baseline;justify-content:center;gap:0 .3em;margin:0 !important;line-height:1.3 !important}
 .ed-title span{font:600 20px/1.3 var(--mincho)}
 .ed-title b{font:400 25px/1.1 "Bebas Neue","Oswald","Arial Narrow",sans-serif;letter-spacing:.02em}
@@ -635,55 +647,63 @@ body.at-root .ctx-nav.prev{display:none}
   color:var(--navy);text-decoration:none;font:11px var(--gothic)}
 .note-link b{font:800 14px/1 "Lato",sans-serif;letter-spacing:.06em}
 .note-link span{color:var(--muted)}
-.ed-chose{margin:24px 0 12px !important;font:700 16px/1.5 var(--gothic) !important;text-align:left}
-.ed-chose small{display:block;color:var(--gold);font:700 11px/1.6 var(--gothic);letter-spacing:.08em}
-.ed-list{display:grid;gap:10px}
-.ed-item{display:flex;gap:12px;padding:10px;border:1px solid #d6d0c5;background:#fff9;color:var(--ink);text-decoration:none;transition:transform .2s ease}
+/* 選んだつながりの見出し：明朝の太字に、左へ金の細い縦線 */
+.ed-chose{margin:24px 0 12px !important;padding-left:10px;border-left:2px solid var(--gold);font:700 17px/1.5 var(--mincho) !important;text-align:left}
+.ed-chose small{display:block;color:var(--gold-ink);font:700 11px/1.6 var(--gothic);letter-spacing:.08em}
+/* 一行ずつ、細い罫で区切る（札の枠は外した）。二枚の絵は少し大きく、角を少し丸める */
+.ed-list{display:grid;gap:0}
+.ed-item{display:flex;gap:12px;padding:14px 0;border-bottom:1px solid var(--hair);color:var(--ink);text-decoration:none;transition:transform .2s ease}
 .ed-item:active{transform:scale(.98)}
 .ed-thumbs{flex:0 0 auto;display:flex;gap:3px}
-.ed-thumbs img,.ed-thumbs .ph{display:grid;place-items:center;width:38px;height:52px;object-fit:cover;background:#111;color:var(--gold);font:16px var(--mincho)}
+.ed-thumbs img,.ed-thumbs .ph{display:grid;place-items:center;width:38px;height:52px;object-fit:cover;background:var(--navy);color:var(--gold-lite);font:16px var(--mincho)}
+.editor-page .ed-thumbs{gap:4px}
+.editor-page .ed-thumbs img,.editor-page .ed-thumbs .ph{width:44px;height:60px;border-radius:3px}
 .ed-txt{display:grid;gap:3px;min-width:0}
-.ed-txt small{color:var(--gold);font:700 10px/1.4 var(--gothic)}
+.ed-txt small{color:var(--gold-ink);font:700 10px/1.4 var(--gothic)}
 .ed-txt b{font:600 13.5px/1.5 var(--mincho)}
 .ed-txt span{color:var(--muted);font:11px/1.5 var(--gothic);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 
 /* 一覧（BC修正要望 2026.10.22）：黒地に、つながりを辿る順の番号・二枚の絵・路線名・見出し。
-   読んだものと「いまここ」に印。つながりを辿るの帯は出さず、下に種類の札と探す欄（指の届くところ） */
+   読んだものと「いまここ」に印。つながりを辿るの帯は出さず、下に種類の札と探す欄（指の届くところ）。
+   黒地は紺の墨（#06142b）、札は一段明るい紺。金の字は紺の上で読める明るい金（--gold-lite）。
+   ‹ と ≡ は、ほかの暗い帯の上と同じ半透明の紺に白い細い縁（app.css .back-close・ux.css）。
+   左右の余白は 20px：左の端の 18px は右へ払って戻る帯（.edge-back）なので、札や「すべて」をそこに掛けない */
 body.on-list .dock{display:none}
-body.on-list .view-in{background:#000;padding-bottom:0}
-.list-page{display:flex;flex-direction:column;min-height:100vh;background:#000;color:#ece7dc}
-.list-page .back-close{background:#ffffff1f}
-.list-page .content{flex:1;padding:calc(env(safe-area-inset-top) + 64px) 16px 18px;background:none}
-.list-page .meta{color:var(--gold)}
-.list-page h2{margin:.15em 0 .2em;color:#fff;font:600 22px/1.4 var(--mincho)}
-.ls-count{margin:0 0 16px;color:#8d877c;font:12px/1.6 var(--gothic)}
+body.on-list .view-in{background:#06142b;padding-bottom:0}
+.list-page{display:flex;flex-direction:column;min-height:100vh;background:#06142b;color:#f4efe4}
+.list-page .content{flex:1;padding:calc(env(safe-area-inset-top) + 64px) 20px 18px;background:none}
+.list-page .meta{color:var(--gold-lite)}
+.list-page h2{margin:.15em 0 .2em;color:#f4efe4;font:600 22px/1.4 var(--mincho)}
+.ls-count{margin:0 0 16px;color:#b5b3ad;font:12px/1.6 var(--gothic)}
 .ls{display:grid;gap:8px;margin:0;padding:0;list-style:none}
 .ls-row[hidden],.ls-sep[hidden]{display:none}
-.ls-item{display:flex;align-items:center;gap:10px;padding:9px 10px;border:1px solid #262626;border-radius:6px;background:#0c0c0c;
-  color:#ece7dc;text-decoration:none;transition:transform .2s ease}
+.ls-item{display:flex;align-items:center;gap:10px;padding:9px 10px;border:1px solid #1c3454;border-radius:6px;background:#0a1f3a;
+  color:#f4efe4;text-decoration:none;transition:transform .2s ease}
 .ls-item:active{transform:scale(.98);transition-duration:.06s}
-.ls-no{flex:0 0 24px;color:#6f6a62;font:700 10.5px/1 "Lato",sans-serif;letter-spacing:.04em;text-align:right}
+.ls-no{flex:0 0 24px;color:#b5b3ad;font:700 10.5px/1 "Lato",sans-serif;letter-spacing:.04em;text-align:right}
+/* 灰の字（#b5b3ad）は、読んだ札（薄く .7）でも紺の上で 4.5:1 を保つ明るさ */
 .ls-item .ed-txt b{color:#f4efe4}
-.ls-item .ed-txt span{color:#8d877c}
+.ls-item .ed-txt span{color:#b5b3ad}
+.list-page .ed-txt small{color:var(--gold-lite)}
 .ls-row.done .ls-item{opacity:.7}
-.ls-row.now .ls-item{opacity:1;border-color:var(--gold);box-shadow:inset 0 0 0 1px var(--gold)}
-.ls-mark{margin-left:.6em;padding:0 .5em;border:1px solid #555;border-radius:8px;color:#aaa;font:700 9.5px/1.6 var(--gothic);font-style:normal}
-.ls-mark.now{border-color:var(--gold);background:var(--gold);color:#000}
+.ls-row.now .ls-item{opacity:1;border-color:var(--gold-lite);box-shadow:inset 0 0 0 1px var(--gold-lite)}
+.ls-mark{margin-left:.6em;padding:0 .5em;border:1px solid #4a5870;border-radius:8px;color:#b5b3ad;font:700 9.5px/1.6 var(--gothic);font-style:normal}
+.ls-mark.now{border-color:var(--gold-lite);background:var(--gold-lite);color:#06142b}
 .ls-sep{margin:10px 0 2px;text-align:center}
-.ls-sep span{padding:2px 12px;border:1px solid #333;border-radius:12px;color:#77726a;font:700 10px/1.5 var(--gothic);letter-spacing:.1em}
-.ls-none{color:#8d877c;font:13px/1.7 var(--gothic)}
-.ls-bar{position:sticky;z-index:8;bottom:0;padding:10px 12px calc(10px + env(safe-area-inset-bottom));border-top:1px solid #222;
-  background:#000000e0;-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px)}
-.ls-cats{display:flex;gap:6px;margin:0 -12px 8px;padding:0 12px;overflow-x:auto;scrollbar-width:none}
+.ls-sep span{padding:2px 12px;border:1px solid #2a4468;border-radius:12px;color:#b5b3ad;font:700 10px/1.5 var(--gothic);letter-spacing:.1em}
+.ls-none{color:#b5b3ad;font:13px/1.7 var(--gothic)}
+.ls-bar{position:sticky;z-index:8;bottom:0;padding:10px 20px calc(10px + env(safe-area-inset-bottom));border-top:1px solid #1c3454;
+  background:rgba(6,20,43,.92);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px)}
+.ls-cats{display:flex;gap:6px;margin:0 -20px 8px;padding:0 20px;overflow-x:auto;scrollbar-width:none}
 .ls-cats::-webkit-scrollbar{display:none}
-.ls-cats button{flex:0 0 auto;height:32px;padding:0 13px;border:1px solid #3a3a3a;border-radius:16px;background:none;color:#cfc9bd;
+.ls-cats button{flex:0 0 auto;height:32px;padding:0 13px;border:1px solid #2a4468;border-radius:999px;background:none;color:#e9e4da;
   font:700 12px/1 var(--gothic);cursor:pointer;transition:transform .2s ease}
 .ls-cats button:active{transform:scale(.95);transition-duration:.06s}
-.ls-cats button.on{border-color:var(--gold);background:var(--gold);color:#000}
-.ls-seek{display:flex;align-items:center;gap:8px;height:42px;padding:0 12px;border-radius:10px;background:#1a1a1a}
-.ls-seek svg{flex:0 0 18px;width:18px;height:18px;fill:none;stroke:#8d877c;stroke-width:2;stroke-linecap:round}
+.ls-cats button.on{border-color:var(--gold-lite);background:var(--gold-lite);color:#06142b}
+.ls-seek{display:flex;align-items:center;gap:8px;height:42px;padding:0 14px;border:1px solid #2a4468;border-radius:999px;background:#0a1f3a}
+.ls-seek svg{flex:0 0 18px;width:18px;height:18px;fill:none;stroke:#b5b3ad;stroke-width:2;stroke-linecap:round}
 .ls-seek input{flex:1;min-width:0;border:0;background:none;color:#fff;font:16px var(--gothic);outline:none;-webkit-appearance:none;appearance:none}
-.ls-seek input::placeholder{color:#77726a}
+.ls-seek input::placeholder{color:#b5b3ad}
 
 /* ログインのシート（下から出る）と、一度だけのアカウントのおすすめ */
 .sheet{position:fixed;z-index:70;inset:0;display:flex;align-items:flex-end;justify-content:center;background:rgba(0,0,0,0);transition:background-color .28s ease}
@@ -798,7 +818,7 @@ html[data-theme="white"] .to-today{color:var(--gold-ink)}
   .context-lead h2{font-size:28px}
   .context-body h2{font-size:24px}
   .context-body p,.context-body ul,.context-body ol,.wpage .content p{font-size:15px;line-height:2}
-  .wpage .content h2{font-size:27px}
+  .wpage .content h2{font-size:32px}
   .pair{font-size:13px}
   .read{height:46px}
 
@@ -809,14 +829,21 @@ html[data-theme="white"] .to-today{color:var(--gold-ink)}
   body.viewing .dock .actions{grid-column:3}
   body.viewing .sel-hint{display:none}
 
-  /* 読み物（マイページ・路線・検索・案内） */
+  /* 読み物（マイページ・路線・検索・案内）。紙は平らに */
   .text-page .content{max-width:760px;margin:0 auto;background:none}
-  .text-page{background:linear-gradient(#faf9f5,#f2efe7)}
+  .text-page{background:var(--paper)}
   .editor-page .ed-cover{aspect-ratio:auto;height:min(46vh,440px)}
   .content p,.content li{font-size:14px}
+  /* 編集者のページ：選んだつながりは二列に（列は 920px まで広げる） */
+  .editor-page .content{max-width:920px}
+  .ed-list{grid-template-columns:repeat(2,minmax(0,1fr));column-gap:28px}
+  /* 路線：駅の絵を少し大きく、題も一回り大きく（最初の駅はそのまま） */
+  .feed-page .stop:not(.first) .fstop{grid-template-columns:108px 1fr}
+  .feed-page .st-txt b{font-size:18px}
 
   /* 一覧：札を何列にも */
   .list-page .content{padding:64px 32px 22px}
+  .list-page h2{font-size:36px;line-height:1.25}
   .ls{grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:10px}
   .ls-sep{grid-column:1/-1}
   .ls-bar{padding:12px 32px 14px}
@@ -890,12 +917,12 @@ html[data-theme="white"] .to-today{color:var(--gold-ink)}
   .rm a:hover span{color:#fff}
   /* 左の列：触れる前に金に（いま見ている所と同じ色） */
   #menu a:hover,#menu .menu-account:hover{color:var(--gold-lite)}
-  .ls-item:hover{border-color:#4a4a4a;background:#141414}
-  .ed-item:hover{background:#fff;border-color:#bdb6a9}
+  .ls-item:hover{border-color:#2a4468;background:#0e2744}
+  .ed-item:hover b{text-decoration:underline;text-underline-offset:3px;text-decoration-color:rgba(169,119,23,.6)}
   .duo-go:hover .art{opacity:.9}
-  .duo-add:hover span{background:#2a2620}
+  .duo-add:hover span{background:rgba(255,255,255,.14)}
   .act.uni-btn:hover{filter:brightness(1.18)}
-  .ls-cats button:hover{border-color:#777}
+  .ls-cats button:hover{border-color:#4a6a96}
   .read:hover{background:var(--navy-hover)}
   .seg:hover{background:#fff}
 }
@@ -926,9 +953,9 @@ html[data-theme="white"] .tag,html[data-theme="white"] .uni-title{text-shadow:0 
   --hero-pc-bottom:rgba(4,8,16,.5);      /* 同、下端の濃さ */
   --hero-pc-edge:rgba(247,244,237,.16);  /* 暗幕と紙の境に添える、紙色のうすい縁 */
   --view-dim:rgba(4,8,16,.08);           /* パソコン・タブレット：紙の列のまわりの地球に掛ける暗さ（以前は .18） */
-  --hero-m-top:#0b1324;                  /* 携帯・タブレット：絵の面の上端の色（紺に寄せた黒。以前は #080808） */
-  --hero-m-bottom:#060c17;               /* 同、下端の色 */
-  --hero-join:0 10px 18px -6px rgba(6,12,23,.45);   /* 絵の面から紙へ落ちる影（硬い境を和らげる） */
+  --hero-m-top:#0a1f3a;                  /* 携帯・タブレット：絵の面の上端の色（紺の墨。editorial-ink の案 D。以前は #0b1324） */
+  --hero-m-bottom:#06142b;               /* 同、下端の色（墨の紺。以前は #060c17） */
+  --hero-join:0 4px 8px -4px rgba(6,20,43,.3);    /* 絵の面から紙へ落ちる影（硬い境を和らげる。紙は平らに見せたいので、影は紺のごく短いものに。以前は 0 10px 18px -6px） */
 }
 /* 携帯・タブレット：絵の面は紺寄りの暗い段階、下の紙に短い影 */
 @media (max-width:1099px){

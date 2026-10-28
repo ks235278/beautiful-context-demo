@@ -14,6 +14,42 @@
 }
 .rule-d{display:block;height:9px;margin:0;padding:0;border:0;background:var(--rule-d)}
 
+/* ---- 第3段：読む画面・作品の画面 ---- */
+/* Today・コンテクスト・作品（駅）・編集者・一覧・検索・路線。並びと名前はそのまま、肌だけ紙・墨・金に。
+   色の入れ替え（紺の墨の帯・平らな紙・札の縁・一覧の紺）は app.css のその場で。ここには新しく足した罫と印だけを置く */
+
+/* 二つの作品の名前の上：灰色の線をやめて、金の ◆ の罫（罫の高さは以前の灰色の線と同じ所） */
+.pair::before{content:"";position:absolute;left:0;right:0;top:-4px;height:9px;background:var(--rule-d);pointer-events:none}
+
+/* 札（見出し）と本文（CONTEXT STORY）の境：端から端までの ◆ の罫（以前の灰色の線の代わり）。
+   ボタンの下から降りる金の細い線（.story-cue）は、この ◆ を抜けて本文へ流れる */
+.context-body::before{content:"";position:absolute;left:0;right:0;top:-4px;height:9px;background:var(--rule-d);pointer-events:none}
+
+/* 本文の小見出し：右へ金の細い線が薄れながら伸びる（線は余った幅だけ。見出しが長いときは線が消え、字の幅は以前のまま）。
+   見出しの中に太字などの印があるときは、字の並びを崩さないよう線は引かない（:has を知らない古いブラウザも線なし） */
+.context-body h3:not(:has(*)){display:flex;align-items:center;gap:10px}
+.context-body h3:not(:has(*))::after{content:"";flex:1 1 0;height:1px;background:linear-gradient(90deg,rgba(169,119,23,.75),rgba(169,119,23,.12))}
+
+/* 小さな金の見出し（この駅から延びるほかの区間・同じルーツ・この先のつながり・検索の「作品」）：左に金の縦線、右へ金の細い線。
+   線は余った幅だけ（パソコンの 15px の見出しが二行に割れないように） */
+.more-label{display:flex;align-items:center;gap:10px;padding-left:10px;border-left:2px solid var(--gold)}
+.more-label::after{content:"";flex:1 1 0;height:1px;background:linear-gradient(90deg,rgba(169,119,23,.75),rgba(169,119,23,.12))}
+
+/* 路線の最初の駅（路線の起点・コンテクストの読み終わりの「いまここ」）：金の丸に、うすい金の輪 */
+.stop.first .fstop::before{background:var(--gold);box-shadow:0 0 0 4px rgba(169,119,23,.2)}
+
+/* 参考・出典（render.js の refs()：本文の事実を確かめた先）。出典（.source）と同じ罫・同じ間合いの、小さな字の段。
+   金の小さな見出しは、ほかの .meta と同じ Lato 11px（本文の p の 13・15px を受け継がない）。
+   番号と載っている所は灰、題は墨の字に金のうすい細い下線（触れると紺） */
+.refs{margin:22px 0 0;padding-top:12px;border-top:1px solid var(--hair)}
+.context-body .refs p.meta{margin:0 0 8px;font-size:11px;line-height:14px;letter-spacing:.16em;text-align:left}
+.context-body .refs ol{margin:0;padding-left:1.5em;color:var(--muted);font:12px/1.7 var(--gothic)}
+.refs li{margin:0 0 8px}
+.refs li:last-child{margin-bottom:0}
+.refs a{color:var(--ink);overflow-wrap:anywhere;text-decoration:underline;text-decoration-thickness:1px;text-decoration-color:rgba(169,119,23,.5);text-underline-offset:3px}
+.refs small{display:block;margin-top:1px;color:var(--muted);font:11px/1.5 var(--gothic);letter-spacing:.02em}
+@media (hover:hover) and (pointer:fine){.refs a:hover{color:var(--navy);text-decoration-color:var(--navy)}}
+
 /* ---------- 紙の上の ≡（携帯・タブレット） ----------
    読み物（.text-page：About・案内・検索・路線・編集者・404）では、右上の ≡ は絵ではなく紙の上に浮かぶ。
    紺の丸に白い線（‹ と同じ。ぼかしは要らない）。絵や暗い帯の上では app.css / ux.css の半透明の紺のまま。
