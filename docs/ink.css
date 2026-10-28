@@ -39,10 +39,10 @@
 .stop.first .fstop::before{background:var(--gold);box-shadow:0 0 0 4px rgba(169,119,23,.2)}
 
 /* 参考・出典（render.js の refs()：本文の事実を確かめた先）。出典（.source）と同じ罫・同じ間合いの、小さな字の段。
-   金の小さな見出しは、ほかの .meta と同じ Lato 11px（本文の p の 13・15px を受け継がない）。
-   番号と載っている所は灰、題は墨の字に金のうすい細い下線（触れると紺） */
+   金の見出し「参考・出典」は、本文のほかの見出し（CONTEXT STORY・このつながり・COMMENTS）と同じ大きさと間合い
+   （本文の p の 13・15px のまま。ここだけ小さくすると、すぐ上の「このつながり」と段が違って見える）。
+   一覧の番号と載っている所は灰、題は墨の字に金のうすい細い下線（触れると紺） */
 .refs{margin:22px 0 0;padding-top:12px;border-top:1px solid var(--hair)}
-.context-body .refs p.meta{margin:0 0 8px;font-size:11px;line-height:14px;letter-spacing:.16em;text-align:left}
 .context-body .refs ol{margin:0;padding-left:1.5em;color:var(--muted);font:12px/1.7 var(--gothic)}
 .refs li{margin:0 0 8px}
 .refs li:last-child{margin-bottom:0}

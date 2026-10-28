@@ -687,7 +687,8 @@ body.on-list .view-in{background:#06142b;padding-bottom:0}
 .list-page .ed-txt small{color:var(--gold-lite)}
 .ls-row.done .ls-item{opacity:.7}
 .ls-row.now .ls-item{opacity:1;border-color:var(--gold-lite);box-shadow:inset 0 0 0 1px var(--gold-lite)}
-.ls-mark{margin-left:.6em;padding:0 .5em;border:1px solid #4a5870;border-radius:8px;color:#b5b3ad;font:700 9.5px/1.6 var(--gothic);font-style:normal}
+/* 「読んだ」の印は 9.5px といちばん小さいので、灰を一段明るく（読んだ札の .7 の薄さの上で 5.8:1。#b5b3ad だと 4.6:1 で際どい） */
+.ls-mark{margin-left:.6em;padding:0 .5em;border:1px solid #4a5870;border-radius:8px;color:#cfcdc6;font:700 9.5px/1.6 var(--gothic);font-style:normal}
 .ls-mark.now{border-color:var(--gold-lite);background:var(--gold-lite);color:#06142b}
 .ls-sep{margin:10px 0 2px;text-align:center}
 .ls-sep span{padding:2px 12px;border:1px solid #2a4468;border-radius:12px;color:#b5b3ad;font:700 10px/1.5 var(--gothic);letter-spacing:.1em}
