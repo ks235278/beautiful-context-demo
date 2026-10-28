@@ -16,9 +16,9 @@
   --gold:#a97717; --gold-ink:#8a5f10; --gold-btn:#9c6e1c;
   --ground:#faf7f1;     /* 舞台の地 = 紙 */
   --rule-p:#d1ccc3; --rule-field:#b9bbbf;
-  /* パソコンで舞台の外に敷く絵（index の --side-img と同じ名前）。先生のご判断まで地球のまま。
-     墨の山の紺にするときは、この一行を url(img/ink-side.jpg) に替えるだけ */
-  --side-img:url(img/bg-earth.jpg);
+  /* パソコンで舞台の外に敷く絵（index の --side-img と同じ名前）。いまは墨の山の紺（ink-side、2026.10.27 の決め）。
+     地球に戻すときは、この一行を url(img/bg-earth.jpg) に替えるだけ（絵は残してある） */
+  --side-img:url(img/ink-side.jpg);
   --mincho:"Hiragino Mincho ProN","Yu Mincho","YuMincho","Noto Serif JP",serif;
   --gothic:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Hiragino Kaku Gothic ProN","Yu Gothic","Noto Sans JP",sans-serif;
   --sat:env(safe-area-inset-top,0px); --sab:env(safe-area-inset-bottom,0px);
@@ -178,17 +178,17 @@ img{display:block}
   transition:opacity .3s ease,transform .3s ease,visibility 0s linear .3s}
 .toast.show{opacity:1;visibility:visible;transform:translate(-50%,0);transition-delay:0s}
 
-/* ---------- パソコン（幅 1100px から）：地球の上に、縦の舞台（紙）を一つ ---------- */
+/* ---------- パソコン（幅 1100px から）：墨の山の紺の上に、縦の舞台（紙）を一つ ---------- */
 @media (min-width:1100px){
   body{background:#04070d}
-  /* 地は上の :root の --side-img 一つで替わる（index と同じ名前）。先生のご判断まで地球のまま */
-  .earth{display:block;position:fixed;inset:0;background:#04070d var(--side-img) center/cover no-repeat}
+  /* 地は index と同じ --side-img（いまは墨の山の紺 ink-side。地球に戻すときは url(img/bg-earth.jpg)） */
+  .earth{display:block;position:fixed;inset:0;background:#071a30 var(--side-img,url(img/ink-side.jpg)) center/cover no-repeat}
   .earth::after{content:"";position:absolute;inset:0;background:rgba(3,8,18,.36)}
   .pc-logo{display:block;position:fixed;z-index:2;left:34px;top:30px}
   .pc-logo img{height:26px;width:auto;opacity:.92}
   .pc-keys{display:block;position:fixed;z-index:2;left:36px;bottom:28px;margin:0;color:rgba(255,255,255,.55);
     font:11px/1.5 "Lato",sans-serif;letter-spacing:.2em}
-  /* 舞台は角を丸め、中身（流れ・幕）だけを切り抜く。右の列は舞台の外、地球の上に浮かべる（文字の幅を狭めない） */
+  /* 舞台は角を丸め、中身（流れ・幕）だけを切り抜く。右の列は舞台の外、地の絵の上に浮かべる（文字の幅を狭めない） */
   .stage{left:50%;top:50%;right:auto;bottom:auto;width:440px;height:min(100vh - 64px,900px);transform:translate(-50%,-50%);
     overflow:visible;border-radius:16px;box-shadow:0 30px 80px rgba(0,0,0,.45),0 0 0 1px rgba(250,247,241,.12)}
   .stage{--sat:0px;--sab:0px}
@@ -197,9 +197,8 @@ img{display:block}
   .top{border-radius:16px 16px 0 0}
   .panel{border-radius:16px 16px 0 0}
   /* 右の列は舞台の外、地の絵の上：白のまま（紺だと暗い地に沈む）。
-     地球の雲の上でも読めるよう、絵の上のボタンと同じ紺の薄い地を敷く（印の位置は前と同じ：外へ 82px・下から 28px） */
-  .rail{right:-88px;bottom:16px;gap:16px;padding:12px 6px;border-radius:31px;
-    background:rgba(10,31,58,.6);box-shadow:inset 0 0 0 1px rgba(255,255,255,.18)}
+     地が墨の山の紺になったので、地球の雲よけに敷いていた紺の薄い地は外した（白い印は地に対して 13:1 以上。印の位置は前と同じ） */
+  .rail{right:-82px;bottom:28px;gap:16px}
   .rb{color:#fff}
   .rb svg{stroke:#fff;filter:drop-shadow(0 1px 6px rgba(0,0,0,.55))}
   .rb small{color:rgba(255,255,255,.82);text-shadow:0 1px 6px rgba(0,0,0,.6)}

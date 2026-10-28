@@ -26,8 +26,9 @@
     --rule-p:#d1ccc3; --rule-field:#b9bbbf; --rule-gold-soft:#d7b37a;
     --field:#fcfaf6; --tab-off:#f3f0ea; --placeholder:#6d717c;
     --nav:#0a1f3a; --navy:#0a1f3a;
-    /* 金。線と点だけ。紙の上の小さな文字は --gold-ink、白い字をのせるのは --gold-btn（4.51:1）。橙は ReMixIt! だけの色なので、ここでは使わない */
-    --gold:#a97717; --gold-ink:#8a5f10; --gold-btn:#9c6e1c; --gold-wash:#f7f2e7;
+    /* 金。線と点だけ。紙の上の小さな文字は --gold-ink、白い字をのせるのは --gold-btn（4.51:1）。橙は ReMixIt! だけの色なので、ここでは使わない。
+       紺の帯の上の金は --gold-lite（字は紺、8.6:1。エディターの「公開する」と同じ） */
+    --gold:#a97717; --gold-ink:#8a5f10; --gold-btn:#9c6e1c; --gold-wash:#f7f2e7; --gold-lite:#efb02f;
     /* 状態：公開（緑）・非公開（灰紺）・一時非表示（赤） */
     --green:#15703a; --red:#b23a2e; --blue:#464e5e;
     --veil:var(--canvas);
@@ -47,7 +48,9 @@
   .top h1 small{display:block;color:rgba(255,255,255,.62);font-weight:400;font-size:10.5px}
   .top nav{margin-left:auto;display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end}
   .top nav a{padding:7px 12px;border:1px solid rgba(255,255,255,.4);border-radius:18px;text-decoration:none;font-size:12px;white-space:nowrap}
-  .top nav a.primary{background:var(--gold-btn);border-color:var(--gold-btn);font-weight:700}
+  /* 帯のいちばんのボタンは、エディターの「公開する」と同じ形：紺の上の金に紺の字（字も地との差も 8.6:1。
+     白い字の --gold-btn だと紺の帯との差が 3.7:1 で沈む） */
+  .top nav a.primary{background:var(--gold-lite);border-color:var(--gold-lite);color:var(--navy);font-weight:700}
 
   .shell{display:grid;grid-template-columns:210px 1fr;gap:24px;max-width:1240px;margin:0 auto;padding:24px 20px 80px}
   .tabs{position:sticky;top:84px;align-self:start;display:grid;gap:3px}
@@ -104,6 +107,15 @@
   select.status.hidden{color:var(--red);border-color:#e7c3bd}
   .noteline{grid-column:2 / -1;display:flex;gap:8px;align-items:center}
   .noteline input{flex:1;padding:7px 10px;border:1px dashed #e0b4ad;border-radius:8px;background:#fffaf9;font-size:12px}
+  /* 指で触る端末：字が 16px になると、状態の札（37）だけが隣のボタン（32.6）より高く、どちらも指には低かった。
+     欄・札・色の欄は高さ 44 に。札と同じ行のボタンも 44 の丸にそろえる。チェックの欄は、文字ごと押せる行を 44 に */
+  @media (hover:none){
+    select,textarea,input:not([type=checkbox]):not([type=radio]){min-height:44px}
+    select.status,.ops>a,.ops>button,.ops>label.btn{min-height:44px;border-radius:999px}
+    .ops>a,.ops>button,.ops>label.btn{min-width:58px}   /* 二文字のボタンが丸い粒にならないよう（長いボタンの幅は変えない） */
+    .ops>a,.ops>label.btn{display:inline-flex;align-items:center;justify-content:center}
+    .toggle{min-height:44px}
+  }
 
   .field{display:grid;gap:5px;margin-bottom:14px}
   .field label{font-size:12px;font-weight:700}

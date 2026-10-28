@@ -64,7 +64,7 @@
     .btn{border:1px solid transparent;border-radius:999px;padding:9px 16px;font-size:.84rem;font-weight:700;background:#fff;transition:.18s ease}
     .btn:hover{transform:translateY(-1px)}
     .btn.ghost{background:transparent;color:#fff;border-color:rgba(255,255,255,.4)}
-    /* 先へ進むボタンは紺。上の帯の「公開する」だけ金（紺の上の金、8.6:1） */
+    /* 先へ進むボタンは紺。上の帯の「公開する」だけ金（紺の上の金、8.6:1）。運営者メニューの帯の「＋ 新しいコンテクスト」も同じ形 */
     .btn.primary{background:var(--navy);color:#fff}
     .topbar .btn.primary{background:var(--gold-lite);color:var(--navy)}
     .next-step-row{display:flex;justify-content:flex-end;padding:0 22px 22px}
@@ -105,7 +105,7 @@
     .field.full{grid-column:1/-1}
     label,.label{font-size:.75rem;font-weight:700;color:var(--ink)}
     .req:after{content:" 必須";color:#a04b34;font-weight:600;font-size:.61rem;margin-left:4px}
-    input[type="text"],input[type="number"],input[type="url"],select,textarea{width:100%;border:1px solid var(--rule-field);border-radius:6px;background:var(--field);padding:10px 11px;min-height:43px;transition:border .16s,box-shadow .16s}
+    input[type="text"],input[type="number"],input[type="url"],select,textarea{width:100%;border:1px solid var(--rule-field);border-radius:6px;background:var(--field);padding:10px 11px;min-height:44px;transition:border .16s,box-shadow .16s}
     input:focus,select:focus,textarea:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(169,119,23,.16);outline:none}
     ::placeholder{color:var(--placeholder)}
     textarea{resize:vertical;min-height:104px;line-height:1.7}
@@ -222,6 +222,8 @@
     .status-pick label{display:flex;gap:7px;align-items:center;padding:8px 13px;border:1px solid var(--line);border-radius:8px;background:var(--surface);font-size:.8rem;cursor:pointer}
     .status-pick label:has(input:checked){border-color:var(--gold);background:var(--gold-soft);box-shadow:0 0 0 1px var(--gold)}
     .status-pick input{accent-color:var(--gold-btn)}
+    /* 指で触る端末：公開設定の札（丸い印と文字）は、ほかの欄と同じ高さ 44 で押せるように */
+    @media (hover:none){.status-pick label{min-height:44px}}
     .line-pick{display:flex;flex-wrap:wrap;gap:9px;align-items:center}
     .line-pick button{width:30px;height:30px;border-radius:50%;border:3px solid #fff;box-shadow:0 0 0 1px var(--line);cursor:pointer;padding:0}
     .line-pick button.on{box-shadow:0 0 0 2px var(--navy)}
