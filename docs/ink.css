@@ -132,3 +132,59 @@
   .info-page .content .credits li:nth-child(2){border-top:0}
   .info-page .content .credits li:nth-child(odd){border-right:1px solid var(--hair)}
 }
+
+/* ---- 第6段：飾り ---- */
+/* 金の筆（img/deco/brush-gold.png）と墨の山（img/deco/mist.png）を、紙の隅に一つ二つ。動かない絵（アニメーションは足さない）。
+   置くのは、読み物（About・Our Mission・利用規約・画像の出典・広告枠のご案内・見つからないページ）・編集者・一覧・検索・路線・
+   携帯のメニュー・ログインのシートだけ。Today・コンテクスト・作品（絵と帯でいっぱい。ページを動かすときに写しも作る）と、
+   エディター・運営者メニュー・流れで観るには置かない。
+   決まり
+   ・飾りは中身の箱の中の position:absolute。触れない（pointer-events:none）。字の後ろ（箱に z-index:0、飾りは -1。札や欄は飾りの上）
+   ・fixed・will-change は使わない。.page に overflow:hidden を掛けない（‹ が上に留まらなくなる）
+   ・箱の外へはみ出さない（ページの長さも横幅も以前のまま）。上の ‹ TODAY・ロゴ・≡ の帯（上から 56px）には掛けない
+   ・字と重なる所は、字と飾りのいちばん濃い点で 4.5:1 以上。紙の上の小さな金や灰の字（見出しの英字・数など）の後ろには、濃い所を置かない
+   ・絵はいつも一枚まるごと見せる（切り抜かない）。いまの絵は仮のもの。同じ名前・同じ縦横比の絵に差し替えれば、ここは直さずに済む
+     （金の筆 1400×520：左の端から入って弧を描き、右で細く消える。墨の山 1600×640：右に寄せた山が、左と下へ消える） */
+.info-page .content,.editor-page .content,.search-page .content,.feed-page .content,.list-page .content{position:relative;z-index:0}
+
+/* 読み物：見出しの下の ◆ の罫の左の端に、金の筆の弧（左の端から入り、罫を越えて罫に降りる）。罫について動くので、見出しが二行になっても同じ所 */
+.info-page .content h2{position:relative}
+.info-page .content h2::before{content:"";position:absolute;z-index:-1;left:-23px;bottom:-22px;width:150px;height:56px;pointer-events:none;
+  background:url(img/deco/brush-gold.png) 0 0/100% 100% no-repeat;opacity:.85}
+/* 読み物・編集者・検索・路線：見出しの帯の右に、墨の山（左へ薄れる）。見出しの墨の字は山の濃い所でも 7:1 */
+.info-page .content::after,.editor-page .content::after,.search-page .content::after,.feed-page .content::after{content:"";position:absolute;z-index:-1;
+  right:0;top:56px;width:230px;height:92px;pointer-events:none;
+  background:url(img/deco/mist.png) 0 0/100% 100% no-repeat;opacity:.45;
+  -webkit-mask-image:linear-gradient(to right,transparent,#000 60%);mask-image:linear-gradient(to right,transparent,#000 60%)}
+.editor-page .content::after{top:0;width:200px;height:80px}   /* 編集者：写真のすぐ下、名前の右 */
+.search-page .content::after{width:170px;height:68px}         /* 検索：探す欄の上に山の頭だけ（裾は欄の後ろ） */
+.feed-page .content::after{width:200px;height:80px}
+/* 一覧（紺の地）：同じ山を明るく、うすく（墨の山の形だけを借りて、紙の色で描く） */
+.list-page .content::after{content:"";position:absolute;z-index:-1;right:0;top:56px;width:200px;height:80px;pointer-events:none;
+  background:var(--paper);opacity:.25;
+  -webkit-mask:url(img/deco/mist.png) 0 0/100% 100% no-repeat;mask:url(img/deco/mist.png) 0 0/100% 100% no-repeat}
+
+/* 携帯のメニュー（紙）：いちばん下（案内と運営のまとまり）の右に、墨の山。左へ薄れるので、左に並ぶ字の後ろはほぼ紙のまま。
+   メニューの中身の終わりに付けるので、メニューを下まで送っても山はいちばん下にある（長さは以前のまま） */
+@media (max-width:1099px){
+  .menu .menu-foot{position:relative;z-index:0}
+  .menu .menu-foot::after{content:"";position:absolute;z-index:-1;right:-26px;bottom:calc(-30px - env(safe-area-inset-bottom));width:330px;height:160px;pointer-events:none;
+    background:url(img/deco/mist.png) right bottom/auto 100% no-repeat;opacity:.35;
+    -webkit-mask-image:linear-gradient(to right,transparent,#000 55%);mask-image:linear-gradient(to right,transparent,#000 55%)}
+}
+
+/* ログインのシート：右上の角に、金の筆の弧（左右を返して、太い入りをシートの右の端に）。字の無い所だけ。
+   シートは ReMixIt!・アカウント・通報でも使うので、ログイン（aria-label。login.js・app.js の openLogin）だけに */
+.sheet[aria-label="ログイン"] .sheet-in{position:relative;z-index:0}
+.sheet[aria-label="ログイン"] .sheet-in::before{content:"";position:absolute;z-index:-1;right:0;top:12px;width:128px;height:47.5px;pointer-events:none;
+  background:url(img/deco/brush-gold.png) 0 0/100% 100% no-repeat;opacity:.85;transform:scaleX(-1)}
+
+/* パソコン：紙の列（760px）の中のまま、少し大きく。列の端は絵の切れ目にならないので、筆の入りと山の両端を薄くする */
+@media (min-width:1100px){
+  .info-page .content h2::before{bottom:-23px;width:160px;height:59.4px;
+    -webkit-mask-image:linear-gradient(to right,transparent,#000 30%);mask-image:linear-gradient(to right,transparent,#000 30%)}
+  .info-page .content::after,.editor-page .content::after,.search-page .content::after,.feed-page .content::after{width:300px;height:120px;
+    -webkit-mask-image:linear-gradient(to right,transparent,#000 55%,#000 75%,transparent);mask-image:linear-gradient(to right,transparent,#000 55%,#000 75%,transparent)}
+  .search-page .content::after{width:220px;height:88px}
+  .list-page .content::after{width:300px;height:120px}   /* 一覧は紙の列いっぱいの箱なので、右は列の端（切れ目）まで */
+}

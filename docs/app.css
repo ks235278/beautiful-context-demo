@@ -364,6 +364,13 @@ body.viewing .uni{display:none}
 .c-logo img{display:block;height:24px;width:auto}
 .c-logo:active{opacity:.7}
 .c-logo.on-paper{top:calc(env(safe-area-inset-top) + 16px)}
+/* 幅の狭い携帯（375px 未満）で ‹ に TODAY を添えたとき（ux.css の body.direct ほか）：ロゴを少しだけ小さくして、‹ TODAY とのあいだを 9px あける。
+   以前は 360px で 1px しかなく紺の二つが付いて見え、320px では重なっていた。ロゴは真ん中のまま。
+   7.35 はロゴの横と縦の比（2205×300）、199px は左右それぞれ「‹ TODAY の右の端（90.5px）＋あいだ 9px」。375px で元の 24px に戻る。
+   375px 以上と、‹ が丸だけのときは以前のまま */
+@media (max-width:374px){
+  body.direct .c-logo img,body[data-route]:not(.app-ready) .c-logo img{height:clamp(16px,calc((100vw - 199px) / 7.35),24px)}
+}
 .duo{position:relative;display:grid;grid-template-columns:1fr 1fr;gap:7px}
 .duo .art{aspect-ratio:3/4.08}
 .duo-go{display:block;padding:0;border:0;background:none;cursor:pointer;-webkit-tap-highlight-color:transparent;touch-action:manipulation}
