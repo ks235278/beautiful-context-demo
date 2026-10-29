@@ -41,9 +41,9 @@ try { if (sessionStorage.getItem('bc-resume')) document.documentElement.classLis
 <link rel="preload" as="image" href="img/logo-layer-words.png">
 <!-- 台本も先に取りに行く（静的なページは台本より先に本文が描かれる。遅い回線で、触れて動くまでの間を縮める）。
      src と同じアドレス（?v= まで）でないと、二度取りに行く -->
-<link rel="preload" as="script" href="js/seed.js?v=140">
-<link rel="preload" as="script" href="js/app.js?v=140">
-<link rel="manifest" href="manifest.webmanifest?v=140">
+<link rel="preload" as="script" href="js/seed.js?v=141">
+<link rel="preload" as="script" href="js/app.js?v=141">
+<link rel="manifest" href="manifest.webmanifest?v=141">
 <link rel="apple-touch-icon" href="icon-180.png">
 <!-- タブと検索結果に出る小さな印。アプリの印（ホーム画面のアイコン）と同じ形 -->
 <link rel="icon" href="favicon.ico" sizes="16x16 32x32 48x48">
@@ -72,11 +72,11 @@ if (location.hostname === 'beautifulcontext.com'){
   document.head.appendChild(ga);
 }
 </script>
-<script src="js/theme.js?v=140"></script>
-<link rel="stylesheet" href="app.css?v=140">
+<script src="js/theme.js?v=141"></script>
+<link rel="stylesheet" href="app.css?v=141">
 <!-- 読む画面の使い勝手（2026.10.24）。app.css のすぐあと -->
-<link rel="stylesheet" href="ux.css?v=140">
-<link rel="stylesheet" href="fade.css?v=140">
+<link rel="stylesheet" href="ux.css?v=141">
+<link rel="stylesheet" href="fade.css?v=141">
 <!-- 台本（js）が揃うまで：まだ押しても動かないもの（‹・絵の横の ‹ ›・つながりを辿る）を少し薄くし、下の帯の上の縁に細い金の線を走らせる。
      app.js が最後に body.app-ready を付けて外す。すぐ揃うときは何も見せない（0.3 秒待ってから出す） -->
 <style>
@@ -181,7 +181,7 @@ document.addEventListener('click', function (e) {
 <nav class="route-mini" id="routeMini" aria-label="路線図"></nav>
 
 <div class="view on" id="view" role="dialog" aria-modal="true" aria-label="森村桂『天国にいちばん近い島』 ＋ 映画『裏切りの戦場 葬られた誓い』">
-  <div class="view-in" id="viewIn">
+  <div class="view-in" id="viewIn"><!--bc-body-->
       <article class="page cpage">
         <button type="button" class="back-close" data-close="" aria-label="Today's Editor's Choice へ戻る" title="Today's Editor's Choice へ"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 4.5 7.5 12l7.5 7.5"></path></svg></button>
         <div class="duo-hero"><a class="c-logo" href="#/" data-top="" aria-label="BEAUTIFUL CONTEXT（TOP へ戻る）"><img src="img/logo.png" alt=""></a><div class="duo"><button type="button" class="duo-go" data-step="0" aria-label="森村桂『天国にいちばん近い島』の作品ページへ"><div class="art"><img src="img/works/tengoku-book.jpg" alt="森村桂『天国にいちばん近い島』" data-k="tengoku-book" decoding="async" fetchpriority="low"></div></button><button type="button" class="duo-go" data-step="2" aria-label="映画『裏切りの戦場 葬られた誓い』の作品ページへ"><div class="art"><img src="img/works/rebellion-ordre-et-morale.jpg" alt="映画『裏切りの戦場 葬られた誓い』" data-k="rebellion-ordre-et-morale" decoding="async" fetchpriority="low"></div></button><i class="swap" aria-hidden="true">↔</i></div><button type="button" class="ctx-nav prev" data-ctx-go="-1" aria-label="一つ前のつながりへ">‹</button><button type="button" class="ctx-nav next" data-ctx-go="1" aria-label="次のつながりへ">›</button></div>
@@ -377,7 +377,7 @@ document.addEventListener('click', function (e) {
           
           <nav class="c-foot" aria-label="Beautiful Context の案内"><span><a href="about/">Beautiful Context とは</a> ·</span> <span><a href="#/today" data-home="">Today's Editor's Choice</a> ·</span> <span><a href="#/list">つながりの一覧</a> ·</span> <span><a href="#/search">言葉で辿る</a></span></nav>
         </article>
-      </article></div>
+      </article><!--/bc-body--></div>
 </div>
 <!-- 左の端：ここから右へ払うと、ひとつ前の画面へ戻る（指に付いてページが動く） -->
 <div class="edge-back" id="edgeBack" aria-hidden="true"></div>
@@ -385,16 +385,16 @@ document.addEventListener('click', function (e) {
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 <script type="application/ld+json" id="ld">{"@context":"https://schema.org","@type":"Article","headline":"天国にいちばん近い島は人質事件の島でもある。","alternativeHeadline":"天国の島の裏側","about":[{"@type":"Book","name":"天国にいちばん近い島","description":"1964年、ひとりでニューカレドニアへ旅立った著者の旅行記。ベストセラーになった。","creator":{"@type":"Person","name":"森村桂"}},{"@type":"Movie","name":"裏切りの戦場 葬られた誓い","description":"1988年、フランス領ニューカレドニアのウベア島で起きた人質事件を、交渉にあたった国家憲兵隊の特殊部隊の隊長の視点から描いた。","creator":{"@type":"Person","name":"マチュー・カソヴィッツ監督"}}],"author":{"@type":"Person","name":"生成AI（初稿）"},"datePublished":"2026-09-14T08:20:00.000Z","dateModified":"2026-09-14T08:20:00.000Z","inLanguage":"ja","articleBody":"ハブはニューカレドニア。同じ土地の、光と影。ニューカレドニアはフランスの海外領土で、世界有数のニッケルの産地である。明治の半ばから多くの日本人が鉱山の労働者として渡り、現地の女性と所帯を持って暮らす人も少なくなかった。しかし太平洋戦争が始まると、日本人移民の多くは「敵性外国人」としてオーストラリアなどへ強制移送された。妻子を現地に残したまま、戦後に日本へ送還された人もいた。森村桂の『天国にいちばん近い島』は、そんな歴史を背負う土地の、穏やかでやさしい顔を描いた旅行記と読める。前田先生の note によれば、本に登場する実在の人物ムッシュ・ワタナベは、フランス国籍を得られず差別された無国籍の人びとの一人だった。一方、映画『裏切りの戦場 葬られた誓い』が描くのは、1988年、独立を求めるカナックの人々がウベア島で憲兵を人質にとった事件である。ウベア島は、森村桂の本と、同じ題名の映画（1984年）に導かれて日本人が多く訪れるようになった島でもある。前田先生は、この土地について note の冒頭に「ニューカレドニアは、天国に近い島は植民地で、戦場であり続ける」と書いている。二つの作品は、その土地を反対の側から照らしている。","url":"https://beautifulcontext.com/c/tengoku-book--rebellion-ordre-et-morale/","citation":[{"@type":"CreativeWork","name":"天国にいちばん近い島 | NDLサーチ | 国立国会図書館","url":"https://ndlsearch.ndl.go.jp/books/R100000002-I000001084985","publisher":{"@type":"Organization","name":"国立国会図書館（NDLサーチ）"}},{"@type":"CreativeWork","name":"『天国に近い島』という蜃気楼","url":"https://note.com/mdkh/n/ndb1c39d07e16","publisher":{"@type":"Organization","name":"note（前田邦宏）"}},{"@type":"CreativeWork","name":"FEU NOS PERES ニューカレドニアの日系人","url":"https://www.ritsumei.ac.jp/mng/er/wp-museum/event/backnumber/s070609/index.html","publisher":{"@type":"Organization","name":"立命館大学国際平和ミュージアム"}},{"@type":"CreativeWork","name":"ニューカレドニア - Wikipedia","url":"https://ja.wikipedia.org/wiki/%E3%83%8B%E3%83%A5%E3%83%BC%E3%82%AB%E3%83%AC%E3%83%89%E3%83%8B%E3%82%A2","publisher":{"@type":"Organization","name":"Wikipedia"}},{"@type":"CreativeWork","name":"ウベア島 (ニューカレドニア) - Wikipedia","url":"https://ja.wikipedia.org/wiki/%E3%82%A6%E3%83%99%E3%82%A2%E5%B3%B6_%28%E3%83%8B%E3%83%A5%E3%83%BC%E3%82%AB%E3%83%AC%E3%83%89%E3%83%8B%E3%82%A2%29","publisher":{"@type":"Organization","name":"Wikipedia"}},{"@type":"CreativeWork","name":"裏切りの戦場 葬られた誓い : 作品情報・キャスト・あらすじ・動画 - 映画.com","url":"https://eiga.com/movie/77285/","publisher":{"@type":"Organization","name":"映画.com"}},{"@type":"CreativeWork","name":"Ouvéa cave hostage taking - Wikipedia","url":"https://en.wikipedia.org/wiki/Ouv%C3%A9a_cave_hostage_taking","publisher":{"@type":"Organization","name":"Wikipedia"}},{"@type":"CreativeWork","name":"Japanese settlement in New Caledonia - Wikipedia","url":"https://en.wikipedia.org/wiki/Japanese_settlement_in_New_Caledonia","publisher":{"@type":"Organization","name":"Wikipedia"}},{"@type":"CreativeWork","name":"天国にいちばん近い島 - Wikipedia","url":"https://ja.wikipedia.org/wiki/%E5%A4%A9%E5%9B%BD%E3%81%AB%E3%81%84%E3%81%A1%E3%81%B0%E3%82%93%E8%BF%91%E3%81%84%E5%B3%B6","publisher":{"@type":"Organization","name":"Wikipedia"}},{"@type":"CreativeWork","name":"「天国にいちばん近い島」で起きた事件を映画化 監督に聞く - 日本経済新聞","url":"https://www.nikkei.com/article/DGXNASFK20016_Q2A121C1I00000/","publisher":{"@type":"Organization","name":"日本経済新聞"}},{"@type":"CreativeWork","name":"＜関学研究室から～神戸三田キャンパス＞ニューカレドニア 総合政策学部・津田睦美教授","url":"https://www.kobe-np.co.jp/news/sanda/202206/0015523618.shtml","publisher":{"@type":"Organization","name":"神戸新聞NEXT"}}],"image":"https://beautifulcontext.com/img/works/tengoku-book.jpg"}</script>
 
-<script src="js/config.js?v=140"></script>
-<script src="js/seed.js?v=140"></script>
-<script src="js/sources.js?v=140"></script>
-<script src="js/backend.js?v=140"></script>
-<script src="js/store.js?v=140"></script>
-<script src="js/social.js?v=140"></script>
-<script src="js/render.js?v=140"></script>
-<script src="js/login.js?v=140"></script>
-<script src="js/report.js?v=140"></script>
-<script src="js/transition.js?v=140"></script>
-<script src="js/app.js?v=140"></script>
+<script src="js/config.js?v=141"></script>
+<script src="js/seed.js?v=141"></script>
+<script src="js/sources.js?v=141"></script>
+<script src="js/backend.js?v=141"></script>
+<script src="js/store.js?v=141"></script>
+<script src="js/social.js?v=141"></script>
+<script src="js/render.js?v=141"></script>
+<script src="js/login.js?v=141"></script>
+<script src="js/report.js?v=141"></script>
+<script src="js/transition.js?v=141"></script>
+<script src="js/app.js?v=141"></script>
 </body>
 </html>

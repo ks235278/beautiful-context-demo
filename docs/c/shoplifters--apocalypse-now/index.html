@@ -41,9 +41,9 @@ try { if (sessionStorage.getItem('bc-resume')) document.documentElement.classLis
 <link rel="preload" as="image" href="img/logo-layer-words.png">
 <!-- 台本も先に取りに行く（静的なページは台本より先に本文が描かれる。遅い回線で、触れて動くまでの間を縮める）。
      src と同じアドレス（?v= まで）でないと、二度取りに行く -->
-<link rel="preload" as="script" href="js/seed.js?v=140">
-<link rel="preload" as="script" href="js/app.js?v=140">
-<link rel="manifest" href="manifest.webmanifest?v=140">
+<link rel="preload" as="script" href="js/seed.js?v=141">
+<link rel="preload" as="script" href="js/app.js?v=141">
+<link rel="manifest" href="manifest.webmanifest?v=141">
 <link rel="apple-touch-icon" href="icon-180.png">
 <!-- タブと検索結果に出る小さな印。アプリの印（ホーム画面のアイコン）と同じ形 -->
 <link rel="icon" href="favicon.ico" sizes="16x16 32x32 48x48">
@@ -72,11 +72,11 @@ if (location.hostname === 'beautifulcontext.com'){
   document.head.appendChild(ga);
 }
 </script>
-<script src="js/theme.js?v=140"></script>
-<link rel="stylesheet" href="app.css?v=140">
+<script src="js/theme.js?v=141"></script>
+<link rel="stylesheet" href="app.css?v=141">
 <!-- 読む画面の使い勝手（2026.10.24）。app.css のすぐあと -->
-<link rel="stylesheet" href="ux.css?v=140">
-<link rel="stylesheet" href="fade.css?v=140">
+<link rel="stylesheet" href="ux.css?v=141">
+<link rel="stylesheet" href="fade.css?v=141">
 <!-- 台本（js）が揃うまで：まだ押しても動かないもの（‹・絵の横の ‹ ›・つながりを辿る）を少し薄くし、下の帯の上の縁に細い金の線を走らせる。
      app.js が最後に body.app-ready を付けて外す。すぐ揃うときは何も見せない（0.3 秒待ってから出す） -->
 <style>
@@ -181,7 +181,7 @@ document.addEventListener('click', function (e) {
 <nav class="route-mini" id="routeMini" aria-label="路線図"></nav>
 
 <div class="view on" id="view" role="dialog" aria-modal="true" aria-label="是枝裕和『万引き家族』 ＋ コッポラ『地獄の黙示録』">
-  <div class="view-in" id="viewIn">
+  <div class="view-in" id="viewIn"><!--bc-body-->
       <article class="page cpage">
         <button type="button" class="back-close" data-close="" aria-label="Today's Editor's Choice へ戻る" title="Today's Editor's Choice へ"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 4.5 7.5 12l7.5 7.5"></path></svg></button>
         <div class="duo-hero"><a class="c-logo" href="#/" data-top="" aria-label="BEAUTIFUL CONTEXT（TOP へ戻る）"><img src="img/logo.png" alt=""></a><div class="duo"><button type="button" class="duo-go" data-step="0" aria-label="是枝裕和『万引き家族』の作品ページへ"><div class="art"><img src="img/works/shoplifters.jpg" alt="是枝裕和『万引き家族』" data-k="shoplifters" decoding="async" fetchpriority="low"></div></button><button type="button" class="duo-go" data-step="2" aria-label="コッポラ『地獄の黙示録』の作品ページへ"><div class="art"><img src="img/works/apocalypse-now.jpg" alt="コッポラ『地獄の黙示録』" data-k="apocalypse-now" decoding="async" fetchpriority="low"></div></button><i class="swap" aria-hidden="true">↔</i></div><button type="button" class="ctx-nav prev" data-ctx-go="-1" aria-label="一つ前のつながりへ">‹</button><button type="button" class="ctx-nav next" data-ctx-go="1" aria-label="次のつながりへ">›</button></div>
@@ -383,7 +383,7 @@ document.addEventListener('click', function (e) {
           
           <nav class="c-foot" aria-label="Beautiful Context の案内"><span><a href="about/">Beautiful Context とは</a> ·</span> <span><a href="#/today" data-home="">Today's Editor's Choice</a> ·</span> <span><a href="#/list">つながりの一覧</a> ·</span> <span><a href="#/search">言葉で辿る</a></span></nav>
         </article>
-      </article></div>
+      </article><!--/bc-body--></div>
 </div>
 <!-- 左の端：ここから右へ払うと、ひとつ前の画面へ戻る（指に付いてページが動く） -->
 <div class="edge-back" id="edgeBack" aria-hidden="true"></div>
@@ -391,16 +391,16 @@ document.addEventListener('click', function (e) {
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 <script type="application/ld+json" id="ld">{"@context":"https://schema.org","@type":"Article","headline":"ジャングルの奥の戦争と東京の片隅の家族。","alternativeHeadline":"パルム・ドールの系譜","about":[{"@type":"Movie","name":"万引き家族","description":"万引きで暮らしを補う一家と、彼らに拾われた少女を描いた映画。2018年のカンヌ国際映画祭でパルム・ドールを受けた。","creator":{"@type":"Person","name":"是枝裕和監督"}},{"@type":"Movie","name":"地獄の黙示録","description":"ベトナム戦争のさなか、軍を離れて奥地に王国を築いたカーツ大佐の暗殺を命じられた大尉の旅。1979年のカンヌ国際映画祭でパルム・ドールを受けた。","creator":{"@type":"Person","name":"フランシス・フォード・コッポラ監督"}}],"author":{"@type":"Person","name":"生成AI（初稿）"},"datePublished":"2026-09-15T06:00:00.000Z","dateModified":"2026-09-15T06:00:00.000Z","inLanguage":"ja","articleBody":"ハブはカンヌ国際映画祭の最高賞。まったく違う二本が、同じ賞でつながる。コッポラの『地獄の黙示録』は1979年のパルム・ドールを受けた（『ブリキの太鼓』と同時受賞）。予算は倍増して2,500万ドルを超え、撮影も1年以上に延びた末に完成した、ベトナム戦争を舞台にした大作である。39年後の2018年、日本映画として21年ぶりに同じ賞を受けたのは、東京で貧しさのなか身を寄せ合って暮らす一家を描いた『万引き家族』だった。国家の戦争と、社会の片隅の暮らし。題材も規模も遠く離れた二本が、同じ賞を受けている。","url":"https://beautifulcontext.com/c/shoplifters--apocalypse-now/","citation":[{"@type":"CreativeWork","name":"Professor Hirokazu Kore-eda’s “Shoplifters” wins Palme d’Or at Cannes Film Festival – Waseda University","url":"https://www.waseda.jp/top/en-news/59255","publisher":{"@type":"Organization","name":"早稲田大学"}},{"@type":"CreativeWork","name":"1979 Cannes Film Festival - Wikipedia","url":"https://en.wikipedia.org/wiki/1979_Cannes_Film_Festival","publisher":{"@type":"Organization","name":"Wikipedia"}},{"@type":"CreativeWork","name":"Apocalypse Now - Wikipedia","url":"https://en.wikipedia.org/wiki/Apocalypse_Now","publisher":{"@type":"Organization","name":"Wikipedia"}},{"@type":"CreativeWork","name":"2018 Cannes Film Festival - Wikipedia","url":"https://en.wikipedia.org/wiki/2018_Cannes_Film_Festival","publisher":{"@type":"Organization","name":"Wikipedia"}}],"image":"https://beautifulcontext.com/img/works/shoplifters.jpg"}</script>
 
-<script src="js/config.js?v=140"></script>
-<script src="js/seed.js?v=140"></script>
-<script src="js/sources.js?v=140"></script>
-<script src="js/backend.js?v=140"></script>
-<script src="js/store.js?v=140"></script>
-<script src="js/social.js?v=140"></script>
-<script src="js/render.js?v=140"></script>
-<script src="js/login.js?v=140"></script>
-<script src="js/report.js?v=140"></script>
-<script src="js/transition.js?v=140"></script>
-<script src="js/app.js?v=140"></script>
+<script src="js/config.js?v=141"></script>
+<script src="js/seed.js?v=141"></script>
+<script src="js/sources.js?v=141"></script>
+<script src="js/backend.js?v=141"></script>
+<script src="js/store.js?v=141"></script>
+<script src="js/social.js?v=141"></script>
+<script src="js/render.js?v=141"></script>
+<script src="js/login.js?v=141"></script>
+<script src="js/report.js?v=141"></script>
+<script src="js/transition.js?v=141"></script>
+<script src="js/app.js?v=141"></script>
 </body>
 </html>

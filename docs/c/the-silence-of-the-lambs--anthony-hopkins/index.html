@@ -41,9 +41,9 @@ try { if (sessionStorage.getItem('bc-resume')) document.documentElement.classLis
 <link rel="preload" as="image" href="img/logo-layer-words.png">
 <!-- 台本も先に取りに行く（静的なページは台本より先に本文が描かれる。遅い回線で、触れて動くまでの間を縮める）。
      src と同じアドレス（?v= まで）でないと、二度取りに行く -->
-<link rel="preload" as="script" href="js/seed.js?v=140">
-<link rel="preload" as="script" href="js/app.js?v=140">
-<link rel="manifest" href="manifest.webmanifest?v=140">
+<link rel="preload" as="script" href="js/seed.js?v=141">
+<link rel="preload" as="script" href="js/app.js?v=141">
+<link rel="manifest" href="manifest.webmanifest?v=141">
 <link rel="apple-touch-icon" href="icon-180.png">
 <!-- タブと検索結果に出る小さな印。アプリの印（ホーム画面のアイコン）と同じ形 -->
 <link rel="icon" href="favicon.ico" sizes="16x16 32x32 48x48">
@@ -72,11 +72,11 @@ if (location.hostname === 'beautifulcontext.com'){
   document.head.appendChild(ga);
 }
 </script>
-<script src="js/theme.js?v=140"></script>
-<link rel="stylesheet" href="app.css?v=140">
+<script src="js/theme.js?v=141"></script>
+<link rel="stylesheet" href="app.css?v=141">
 <!-- 読む画面の使い勝手（2026.10.24）。app.css のすぐあと -->
-<link rel="stylesheet" href="ux.css?v=140">
-<link rel="stylesheet" href="fade.css?v=140">
+<link rel="stylesheet" href="ux.css?v=141">
+<link rel="stylesheet" href="fade.css?v=141">
 <!-- 台本（js）が揃うまで：まだ押しても動かないもの（‹・絵の横の ‹ ›・つながりを辿る）を少し薄くし、下の帯の上の縁に細い金の線を走らせる。
      app.js が最後に body.app-ready を付けて外す。すぐ揃うときは何も見せない（0.3 秒待ってから出す） -->
 <style>
@@ -181,7 +181,7 @@ document.addEventListener('click', function (e) {
 <nav class="route-mini" id="routeMini" aria-label="路線図"></nav>
 
 <div class="view on" id="view" role="dialog" aria-modal="true" aria-label="映画『羊たちの沈黙』 ＋ アンソニー・ホプキンス">
-  <div class="view-in" id="viewIn">
+  <div class="view-in" id="viewIn"><!--bc-body-->
       <article class="page cpage">
         <button type="button" class="back-close" data-close="" aria-label="Today's Editor's Choice へ戻る" title="Today's Editor's Choice へ"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 4.5 7.5 12l7.5 7.5"></path></svg></button>
         <div class="duo-hero"><a class="c-logo" href="#/" data-top="" aria-label="BEAUTIFUL CONTEXT（TOP へ戻る）"><img src="img/logo.png" alt=""></a><div class="duo"><button type="button" class="duo-go" data-step="0" aria-label="映画『羊たちの沈黙』の作品ページへ"><div class="art"><img src="img/works/the-silence-of-the-lambs.jpg" alt="映画『羊たちの沈黙』" data-k="the-silence-of-the-lambs" decoding="async" fetchpriority="low"></div></button><button type="button" class="duo-go" data-step="2" aria-label="アンソニー・ホプキンスの作品ページへ"><div class="art"><img src="img/works/anthony-hopkins.jpg" alt="アンソニー・ホプキンス" data-k="anthony-hopkins" decoding="async" fetchpriority="low"></div></button><i class="swap" aria-hidden="true">↔</i></div><button type="button" class="ctx-nav prev" data-ctx-go="-1" aria-label="一つ前のつながりへ">‹</button><button type="button" class="ctx-nav next" data-ctx-go="1" aria-label="次のつながりへ">›</button></div>
@@ -383,7 +383,7 @@ document.addEventListener('click', function (e) {
           
           <nav class="c-foot" aria-label="Beautiful Context の案内"><span><a href="about/">Beautiful Context とは</a> ·</span> <span><a href="#/today" data-home="">Today's Editor's Choice</a> ·</span> <span><a href="#/list">つながりの一覧</a> ·</span> <span><a href="#/search">言葉で辿る</a></span></nav>
         </article>
-      </article></div>
+      </article><!--/bc-body--></div>
 </div>
 <!-- 左の端：ここから右へ払うと、ひとつ前の画面へ戻る（指に付いてページが動く） -->
 <div class="edge-back" id="edgeBack" aria-hidden="true"></div>
@@ -391,16 +391,16 @@ document.addEventListener('click', function (e) {
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 <script type="application/ld+json" id="ld">{"@context":"https://schema.org","@type":"Article","headline":"16分ほどの出演で、主演男優賞をとった。","alternativeHeadline":"レクター博士","about":[{"@type":"CreativeWork","name":"羊たちの沈黙","description":"FBI訓練生クラリスが、収監中の精神科医ハンニバル・レクターの助言を得て連続殺人犯を追うサスペンス。アカデミー賞の主要5部門を受賞した。","creator":{"@type":"Person","name":"ジョナサン・デミ監督"}},{"@type":"Person","name":"アンソニー・ホプキンス","description":"英国ウェールズ出身の俳優。『羊たちの沈黙』のハンニバル・レクター役でアカデミー主演男優賞を受賞した。"}],"author":{"@type":"Person","name":"生成AI（初稿）"},"datePublished":"2026-09-30T08:10:00.000Z","dateModified":"2026-09-30T08:10:00.000Z","inLanguage":"ja","articleBody":"出番の短さは、役の評価を妨げなかった。ギネス世界記録によると、アンソニー・ホプキンスが演じたハンニバル・レクターが画面に登場する時間は、16分あまり。それでも彼はアカデミー主演男優賞を受け、主演男優賞の受賞者のなかで最も出演時間が短い例として記録されている。ホプキンスは、2021年の英国版『GQ』のインタビューで、監督のジョナサン・デミに演じ方を聞かれ、「ほとんど動かない人物だと思う」と答えたと振り返っている。収監中の身でありながら、レクターは見返りを求め、会話の主導権を握る。その静けさが、短い出演時間を濃くしているとも言える。","url":"https://beautifulcontext.com/c/the-silence-of-the-lambs--anthony-hopkins/","citation":[{"@type":"CreativeWork","name":"The 64th Academy Awards | 1992","url":"https://www.oscars.org/oscars/ceremonies/1992","publisher":{"@type":"Organization","name":"Academy of Motion Picture Arts and Sciences"}},{"@type":"CreativeWork","name":"The Silence of the Lambs (1991)","url":"https://catalog.afi.com/Catalog/moviedetails/55200","publisher":{"@type":"Organization","name":"AFI Catalog of Feature Films"}},{"@type":"CreativeWork","name":"Shortest screen time for a Best Actor Oscar win","url":"https://www.guinnessworldrecords.com/world-records/91205-shortest-screen-time-for-a-best-actor-oscar-win","publisher":{"@type":"Organization","name":"Guinness World Records"}},{"@type":"CreativeWork","name":"Sir Anthony Hopkins: ‘Where are the awards for nurses, surgeons and caregivers?’","url":"https://www.gq-magazine.co.uk/culture/article/anthony-hopkins-interview","publisher":{"@type":"Organization","name":"British GQ"}}],"image":"https://beautifulcontext.com/img/works/the-silence-of-the-lambs.jpg"}</script>
 
-<script src="js/config.js?v=140"></script>
-<script src="js/seed.js?v=140"></script>
-<script src="js/sources.js?v=140"></script>
-<script src="js/backend.js?v=140"></script>
-<script src="js/store.js?v=140"></script>
-<script src="js/social.js?v=140"></script>
-<script src="js/render.js?v=140"></script>
-<script src="js/login.js?v=140"></script>
-<script src="js/report.js?v=140"></script>
-<script src="js/transition.js?v=140"></script>
-<script src="js/app.js?v=140"></script>
+<script src="js/config.js?v=141"></script>
+<script src="js/seed.js?v=141"></script>
+<script src="js/sources.js?v=141"></script>
+<script src="js/backend.js?v=141"></script>
+<script src="js/store.js?v=141"></script>
+<script src="js/social.js?v=141"></script>
+<script src="js/render.js?v=141"></script>
+<script src="js/login.js?v=141"></script>
+<script src="js/report.js?v=141"></script>
+<script src="js/transition.js?v=141"></script>
+<script src="js/app.js?v=141"></script>
 </body>
 </html>

@@ -41,9 +41,9 @@ try { if (sessionStorage.getItem('bc-resume')) document.documentElement.classLis
 <link rel="preload" as="image" href="img/logo-layer-words.png">
 <!-- 台本も先に取りに行く（静的なページは台本より先に本文が描かれる。遅い回線で、触れて動くまでの間を縮める）。
      src と同じアドレス（?v= まで）でないと、二度取りに行く -->
-<link rel="preload" as="script" href="js/seed.js?v=140">
-<link rel="preload" as="script" href="js/app.js?v=140">
-<link rel="manifest" href="manifest.webmanifest?v=140">
+<link rel="preload" as="script" href="js/seed.js?v=141">
+<link rel="preload" as="script" href="js/app.js?v=141">
+<link rel="manifest" href="manifest.webmanifest?v=141">
 <link rel="apple-touch-icon" href="icon-180.png">
 <!-- タブと検索結果に出る小さな印。アプリの印（ホーム画面のアイコン）と同じ形 -->
 <link rel="icon" href="favicon.ico" sizes="16x16 32x32 48x48">
@@ -72,11 +72,11 @@ if (location.hostname === 'beautifulcontext.com'){
   document.head.appendChild(ga);
 }
 </script>
-<script src="js/theme.js?v=140"></script>
-<link rel="stylesheet" href="app.css?v=140">
+<script src="js/theme.js?v=141"></script>
+<link rel="stylesheet" href="app.css?v=141">
 <!-- 読む画面の使い勝手（2026.10.24）。app.css のすぐあと -->
-<link rel="stylesheet" href="ux.css?v=140">
-<link rel="stylesheet" href="fade.css?v=140">
+<link rel="stylesheet" href="ux.css?v=141">
+<link rel="stylesheet" href="fade.css?v=141">
 <!-- 台本（js）が揃うまで：まだ押しても動かないもの（‹・絵の横の ‹ ›・つながりを辿る）を少し薄くし、下の帯の上の縁に細い金の線を走らせる。
      app.js が最後に body.app-ready を付けて外す。すぐ揃うときは何も見せない（0.3 秒待ってから出す） -->
 <style>
@@ -181,7 +181,7 @@ document.addEventListener('click', function (e) {
 <nav class="route-mini" id="routeMini" aria-label="路線図"></nav>
 
 <div class="view on" id="view" role="dialog" aria-modal="true" aria-label="徳島県「そば米汁」 ＋ ロシア「そばの実（グレーチカ）」">
-  <div class="view-in" id="viewIn">
+  <div class="view-in" id="viewIn"><!--bc-body-->
       <article class="page cpage">
         <button type="button" class="back-close" data-close="" aria-label="Today's Editor's Choice へ戻る" title="Today's Editor's Choice へ"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 4.5 7.5 12l7.5 7.5"></path></svg></button>
         <div class="duo-hero"><a class="c-logo" href="#/" data-top="" aria-label="BEAUTIFUL CONTEXT（TOP へ戻る）"><img src="img/logo.png" alt=""></a><div class="duo"><button type="button" class="duo-go" data-step="0" aria-label="徳島県「そば米汁」の作品ページへ"><div class="art"><img src="img/works/sobagome-jiru.jpg" alt="徳島県「そば米汁」" data-k="sobagome-jiru" decoding="async" fetchpriority="low"></div></button><button type="button" class="duo-go" data-step="2" aria-label="ロシア「そばの実（グレーチカ）」の作品ページへ"><div class="art"><img src="img/works/grechka.jpg" alt="ロシア「そばの実（グレーチカ）」" data-k="grechka" decoding="async" fetchpriority="low"></div></button><i class="swap" aria-hidden="true">↔</i></div><button type="button" class="ctx-nav prev" data-ctx-go="-1" aria-label="一つ前のつながりへ">‹</button><button type="button" class="ctx-nav next" data-ctx-go="1" aria-label="次のつながりへ">›</button></div>
@@ -380,7 +380,7 @@ document.addEventListener('click', function (e) {
           
           <nav class="c-foot" aria-label="Beautiful Context の案内"><span><a href="about/">Beautiful Context とは</a> ·</span> <span><a href="#/today" data-home="">Today's Editor's Choice</a> ·</span> <span><a href="#/list">つながりの一覧</a> ·</span> <span><a href="#/search">言葉で辿る</a></span></nav>
         </article>
-      </article></div>
+      </article><!--/bc-body--></div>
 </div>
 <!-- 左の端：ここから右へ払うと、ひとつ前の画面へ戻る（指に付いてページが動く） -->
 <div class="edge-back" id="edgeBack" aria-hidden="true"></div>
@@ -388,16 +388,16 @@ document.addEventListener('click', function (e) {
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 <script type="application/ld+json" id="ld">{"@context":"https://schema.org","@type":"Article","headline":"麺にしないそばを、祖谷もロシアも食べる。","alternativeHeadline":"そばの実","about":[{"@type":"CreativeWork","name":"徳島県「そば米汁」","description":"塩ゆでして乾かしたそばの実（そば米）を、鶏肉や野菜と煮込む、徳島県祖谷地方の郷土料理。","creator":{"@type":"Person","name":"徳島県・祖谷"}},{"@type":"CreativeWork","name":"ロシア「そばの実（グレーチカ）」","description":"ロシアで粥（カーシャ）にして食べられる、そばの実。ロシア語ではグレーチカと呼ぶ。","creator":{"@type":"Person","name":"ロシア・東欧"}}],"author":{"@type":"Person","name":"生成AI（初稿）"},"datePublished":"2026-09-14T00:30:00.000Z","dateModified":"2026-09-14T00:30:00.000Z","inLanguage":"ja","articleBody":"ハブはそばの実。日本でそばといえば麺だが、徳島県の山深い祖谷地方では、そばの実を塩ゆでして乾かした「そば米」を、鶏肉や野菜と煮込んだ汁にして食べてきた。「そば米雑炊」の名でも知られ、農林水産省の「うちの郷土料理」も、祖谷地域でよく食べられる郷土料理として挙げている。ロシアでは、そばの実は「グレーチカ」と呼ばれ、粥（カーシャ）にして食べられる。カーシャは、穀物や豆などを煮た粥の総称だ。「シチーとカーシャ、日々の糧」ということわざは、日本でいう飯と味噌汁にあたる組み合わせを表すという。祖谷は高い山に囲まれ、米が育ちにくい土地だった。ヒエやムギとともにそばが育てられ、そばを主食とする文化が根づいたという。ロシアは、世界最大のそばの生産国でもある。遠く離れた二つの土地の料理が、同じ一粒でつながっている。","url":"https://beautifulcontext.com/c/sobagome-jiru--grechka/","citation":[{"@type":"CreativeWork","name":"四国地方 徳島県 | うちの郷土料理：農林水産省","url":"https://www.maff.go.jp/j/keikaku/syokubunka/k_ryouri/area_stories/tokushima.html","publisher":{"@type":"Organization","name":"農林水産省"}},{"@type":"CreativeWork","name":"そば米汁","url":"https://ja.wikipedia.org/wiki/%E3%81%9D%E3%81%B0%E7%B1%B3%E9%9B%91%E7%82%8A","publisher":{"@type":"Organization","name":"Wikipedia"}},{"@type":"CreativeWork","name":"そば米汁 | 佐那のごちそう便り","url":"https://sanagochi.jp/recipe/sobagomejiru","publisher":{"@type":"Organization","name":"佐那のごちそう便り（一般財団法人さなごうち）"}},{"@type":"CreativeWork","name":"カーシャ","url":"https://ja.wikipedia.org/wiki/%E3%82%AB%E3%83%BC%E3%82%B7%E3%83%A3","publisher":{"@type":"Organization","name":"Wikipedia"}},{"@type":"CreativeWork","name":"Kasha","url":"https://en.wikipedia.org/wiki/Kasha","publisher":{"@type":"Organization","name":"Wikipedia"}},{"@type":"CreativeWork","name":"гречка","url":"https://en.wiktionary.org/wiki/гречка","publisher":{"@type":"Organization","name":"Wiktionary"}},{"@type":"CreativeWork","name":"Buckwheat","url":"https://en.wikipedia.org/wiki/Buckwheat","publisher":{"@type":"Organization","name":"Wikipedia"}}],"image":"https://beautifulcontext.com/img/works/sobagome-jiru.jpg"}</script>
 
-<script src="js/config.js?v=140"></script>
-<script src="js/seed.js?v=140"></script>
-<script src="js/sources.js?v=140"></script>
-<script src="js/backend.js?v=140"></script>
-<script src="js/store.js?v=140"></script>
-<script src="js/social.js?v=140"></script>
-<script src="js/render.js?v=140"></script>
-<script src="js/login.js?v=140"></script>
-<script src="js/report.js?v=140"></script>
-<script src="js/transition.js?v=140"></script>
-<script src="js/app.js?v=140"></script>
+<script src="js/config.js?v=141"></script>
+<script src="js/seed.js?v=141"></script>
+<script src="js/sources.js?v=141"></script>
+<script src="js/backend.js?v=141"></script>
+<script src="js/store.js?v=141"></script>
+<script src="js/social.js?v=141"></script>
+<script src="js/render.js?v=141"></script>
+<script src="js/login.js?v=141"></script>
+<script src="js/report.js?v=141"></script>
+<script src="js/transition.js?v=141"></script>
+<script src="js/app.js?v=141"></script>
 </body>
 </html>

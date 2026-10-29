@@ -41,9 +41,9 @@ try { if (sessionStorage.getItem('bc-resume')) document.documentElement.classLis
 <link rel="preload" as="image" href="img/logo-layer-words.png">
 <!-- 台本も先に取りに行く（静的なページは台本より先に本文が描かれる。遅い回線で、触れて動くまでの間を縮める）。
      src と同じアドレス（?v= まで）でないと、二度取りに行く -->
-<link rel="preload" as="script" href="js/seed.js?v=140">
-<link rel="preload" as="script" href="js/app.js?v=140">
-<link rel="manifest" href="manifest.webmanifest?v=140">
+<link rel="preload" as="script" href="js/seed.js?v=141">
+<link rel="preload" as="script" href="js/app.js?v=141">
+<link rel="manifest" href="manifest.webmanifest?v=141">
 <link rel="apple-touch-icon" href="icon-180.png">
 <!-- タブと検索結果に出る小さな印。アプリの印（ホーム画面のアイコン）と同じ形 -->
 <link rel="icon" href="favicon.ico" sizes="16x16 32x32 48x48">
@@ -72,11 +72,11 @@ if (location.hostname === 'beautifulcontext.com'){
   document.head.appendChild(ga);
 }
 </script>
-<script src="js/theme.js?v=140"></script>
-<link rel="stylesheet" href="app.css?v=140">
+<script src="js/theme.js?v=141"></script>
+<link rel="stylesheet" href="app.css?v=141">
 <!-- 読む画面の使い勝手（2026.10.24）。app.css のすぐあと -->
-<link rel="stylesheet" href="ux.css?v=140">
-<link rel="stylesheet" href="fade.css?v=140">
+<link rel="stylesheet" href="ux.css?v=141">
+<link rel="stylesheet" href="fade.css?v=141">
 <!-- 台本（js）が揃うまで：まだ押しても動かないもの（‹・絵の横の ‹ ›・つながりを辿る）を少し薄くし、下の帯の上の縁に細い金の線を走らせる。
      app.js が最後に body.app-ready を付けて外す。すぐ揃うときは何も見せない（0.3 秒待ってから出す） -->
 <style>
@@ -181,7 +181,7 @@ document.addEventListener('click', function (e) {
 <nav class="route-mini" id="routeMini" aria-label="路線図"></nav>
 
 <div class="view on" id="view" role="dialog" aria-modal="true" aria-label="テレビ映画『ザ・バンカー』 ＋ 映画『ヒトラー〜最期の12日間〜』">
-  <div class="view-in" id="viewIn">
+  <div class="view-in" id="viewIn"><!--bc-body-->
       <article class="page cpage">
         <button type="button" class="back-close" data-close="" aria-label="Today's Editor's Choice へ戻る" title="Today's Editor's Choice へ"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 4.5 7.5 12l7.5 7.5"></path></svg></button>
         <div class="duo-hero"><a class="c-logo" href="#/" data-top="" aria-label="BEAUTIFUL CONTEXT（TOP へ戻る）"><img src="img/logo.png" alt=""></a><div class="duo"><button type="button" class="duo-go" data-step="0" aria-label="テレビ映画『ザ・バンカー』の作品ページへ"><div class="art"><span class="ph">ザ<small>映画・ドラマ</small></span></div></button><button type="button" class="duo-go" data-step="2" aria-label="映画『ヒトラー〜最期の12日間〜』の作品ページへ"><div class="art"><img src="img/works/downfall.jpg" alt="映画『ヒトラー〜最期の12日間〜』" data-k="downfall" decoding="async" fetchpriority="low"></div></button><i class="swap" aria-hidden="true">↔</i></div><button type="button" class="ctx-nav prev" data-ctx-go="-1" aria-label="一つ前のつながりへ">‹</button><button type="button" class="ctx-nav next" data-ctx-go="1" aria-label="次のつながりへ">›</button></div>
@@ -383,7 +383,7 @@ document.addEventListener('click', function (e) {
           
           <nav class="c-foot" aria-label="Beautiful Context の案内"><span><a href="about/">Beautiful Context とは</a> ·</span> <span><a href="#/today" data-home="">Today's Editor's Choice</a> ·</span> <span><a href="#/list">つながりの一覧</a> ·</span> <span><a href="#/search">言葉で辿る</a></span></nav>
         </article>
-      </article></div>
+      </article><!--/bc-body--></div>
 </div>
 <!-- 左の端：ここから右へ払うと、ひとつ前の画面へ戻る（指に付いてページが動く） -->
 <div class="edge-back" id="edgeBack" aria-hidden="true"></div>
@@ -391,16 +391,16 @@ document.addEventListener('click', function (e) {
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 <script type="application/ld+json" id="ld">{"@context":"https://schema.org","@type":"Article","headline":"地下壕の最後の日々を、二本の映画が描いた。","alternativeHeadline":"同じ地下壕","about":[{"@type":"CreativeWork","name":"ザ・バンカー","description":"ベルリンの総統地下壕で過ごしたヒトラーの最後の日々を、ジェームズ・P・オドネルの著書をもとに描いたアメリカのテレビ映画。アンソニー・ホプキンスがヒトラーを演じ、エミー賞（主演男優賞）を受けた。","creator":{"@type":"Person","name":"ジョージ・シェーファー監督（米 CBS）"}},{"@type":"CreativeWork","name":"ヒトラー〜最期の12日間〜","description":"ベルリン陥落直前、総統地下壕で過ごしたヒトラーの最期の日々を、秘書の証言などをもとに描いたドイツ映画。","creator":{"@type":"Person","name":"オリヴァー・ヒルシュビーゲル監督"}}],"author":{"@type":"Person","name":"生成AI（初稿）"},"datePublished":"2026-10-22T09:30:00.000Z","dateModified":"2026-10-22T09:30:00.000Z","inLanguage":"ja","articleBody":"同じ地下壕のヒトラーを、二人の俳優が演じている。『ザ・バンカー』（1981）と『ヒトラー〜最期の12日間〜』（2004）は、どちらもベルリン陥落直前の総統地下壕を舞台に、ヒトラーの最後の日々を描いている。前者でヒトラーを演じたのはアンソニー・ホプキンス、後者はブルーノ・ガンツ。アメリカのテレビ映画と、ドイツの劇場映画。同じ地下の閉ざされた空間を、二十三年をへだてて、ちがう国の作り手が、それぞれ別の資料をもとに描いた。","url":"https://beautifulcontext.com/c/the-bunker--downfall/","citation":[{"@type":"CreativeWork","name":"The Bunker | Emmy Awards and Nominations | Television Academy","url":"https://www.televisionacademy.com/shows/bunker","publisher":{"@type":"Organization","name":"Television Academy"}},{"@type":"CreativeWork","name":"Film showing Hitler's soft side stirs controversy","url":"https://www.nbcnews.com/id/wbna6019248","publisher":{"@type":"Organization","name":"NBC News"}},{"@type":"CreativeWork","name":"ヒトラー 〜最期の12日間〜","url":"https://ja.wikipedia.org/wiki/%E3%83%92%E3%83%88%E3%83%A9%E3%83%BC_%E3%80%9C%E6%9C%80%E6%9C%9F%E3%81%AE12%E6%97%A5%E9%96%93%E3%80%9C","publisher":{"@type":"Organization","name":"Wikipedia"}}]}</script>
 
-<script src="js/config.js?v=140"></script>
-<script src="js/seed.js?v=140"></script>
-<script src="js/sources.js?v=140"></script>
-<script src="js/backend.js?v=140"></script>
-<script src="js/store.js?v=140"></script>
-<script src="js/social.js?v=140"></script>
-<script src="js/render.js?v=140"></script>
-<script src="js/login.js?v=140"></script>
-<script src="js/report.js?v=140"></script>
-<script src="js/transition.js?v=140"></script>
-<script src="js/app.js?v=140"></script>
+<script src="js/config.js?v=141"></script>
+<script src="js/seed.js?v=141"></script>
+<script src="js/sources.js?v=141"></script>
+<script src="js/backend.js?v=141"></script>
+<script src="js/store.js?v=141"></script>
+<script src="js/social.js?v=141"></script>
+<script src="js/render.js?v=141"></script>
+<script src="js/login.js?v=141"></script>
+<script src="js/report.js?v=141"></script>
+<script src="js/transition.js?v=141"></script>
+<script src="js/app.js?v=141"></script>
 </body>
 </html>

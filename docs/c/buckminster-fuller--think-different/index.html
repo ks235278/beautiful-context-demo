@@ -41,9 +41,9 @@ try { if (sessionStorage.getItem('bc-resume')) document.documentElement.classLis
 <link rel="preload" as="image" href="img/logo-layer-words.png">
 <!-- 台本も先に取りに行く（静的なページは台本より先に本文が描かれる。遅い回線で、触れて動くまでの間を縮める）。
      src と同じアドレス（?v= まで）でないと、二度取りに行く -->
-<link rel="preload" as="script" href="js/seed.js?v=140">
-<link rel="preload" as="script" href="js/app.js?v=140">
-<link rel="manifest" href="manifest.webmanifest?v=140">
+<link rel="preload" as="script" href="js/seed.js?v=141">
+<link rel="preload" as="script" href="js/app.js?v=141">
+<link rel="manifest" href="manifest.webmanifest?v=141">
 <link rel="apple-touch-icon" href="icon-180.png">
 <!-- タブと検索結果に出る小さな印。アプリの印（ホーム画面のアイコン）と同じ形 -->
 <link rel="icon" href="favicon.ico" sizes="16x16 32x32 48x48">
@@ -72,11 +72,11 @@ if (location.hostname === 'beautifulcontext.com'){
   document.head.appendChild(ga);
 }
 </script>
-<script src="js/theme.js?v=140"></script>
-<link rel="stylesheet" href="app.css?v=140">
+<script src="js/theme.js?v=141"></script>
+<link rel="stylesheet" href="app.css?v=141">
 <!-- 読む画面の使い勝手（2026.10.24）。app.css のすぐあと -->
-<link rel="stylesheet" href="ux.css?v=140">
-<link rel="stylesheet" href="fade.css?v=140">
+<link rel="stylesheet" href="ux.css?v=141">
+<link rel="stylesheet" href="fade.css?v=141">
 <!-- 台本（js）が揃うまで：まだ押しても動かないもの（‹・絵の横の ‹ ›・つながりを辿る）を少し薄くし、下の帯の上の縁に細い金の線を走らせる。
      app.js が最後に body.app-ready を付けて外す。すぐ揃うときは何も見せない（0.3 秒待ってから出す） -->
 <style>
@@ -181,7 +181,7 @@ document.addEventListener('click', function (e) {
 <nav class="route-mini" id="routeMini" aria-label="路線図"></nav>
 
 <div class="view on" id="view" role="dialog" aria-modal="true" aria-label="バックミンスター・フラー ＋ アップル「Think Different」">
-  <div class="view-in" id="viewIn">
+  <div class="view-in" id="viewIn"><!--bc-body-->
       <article class="page cpage">
         <button type="button" class="back-close" data-close="" aria-label="Today's Editor's Choice へ戻る" title="Today's Editor's Choice へ"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 4.5 7.5 12l7.5 7.5"></path></svg></button>
         <div class="duo-hero"><a class="c-logo" href="#/" data-top="" aria-label="BEAUTIFUL CONTEXT（TOP へ戻る）"><img src="img/logo.png" alt=""></a><div class="duo"><button type="button" class="duo-go" data-step="0" aria-label="バックミンスター・フラーの作品ページへ"><div class="art"><img src="img/works/buckminster-fuller.jpg" alt="バックミンスター・フラー" data-k="buckminster-fuller" decoding="async" fetchpriority="low"></div></button><button type="button" class="duo-go" data-step="2" aria-label="アップル「Think Different」の作品ページへ"><div class="art"><img src="img/works/think-different.jpg" alt="アップル「Think Different」" data-k="think-different" decoding="async" fetchpriority="low"></div></button><i class="swap" aria-hidden="true">↔</i></div><button type="button" class="ctx-nav prev" data-ctx-go="-1" aria-label="一つ前のつながりへ">‹</button><button type="button" class="ctx-nav next" data-ctx-go="1" aria-label="次のつながりへ">›</button></div>
@@ -383,7 +383,7 @@ document.addEventListener('click', function (e) {
           
           <nav class="c-foot" aria-label="Beautiful Context の案内"><span><a href="about/">Beautiful Context とは</a> ·</span> <span><a href="#/today" data-home="">Today's Editor's Choice</a> ·</span> <span><a href="#/list">つながりの一覧</a> ·</span> <span><a href="#/search">言葉で辿る</a></span></nav>
         </article>
-      </article></div>
+      </article><!--/bc-body--></div>
 </div>
 <!-- 左の端：ここから右へ払うと、ひとつ前の画面へ戻る（指に付いてページが動く） -->
 <div class="edge-back" id="edgeBack" aria-hidden="true"></div>
@@ -391,16 +391,16 @@ document.addEventListener('click', function (e) {
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 <script type="application/ld+json" id="ld">{"@context":"https://schema.org","@type":"Article","headline":"世界を変えられると本気で信じる一人。","alternativeHeadline":"クレイジーな人たち","about":[{"@type":"Person","name":"バックミンスター・フラー","description":"ジオデシック・ドームで知られるアメリカの思想家・建築家。「宇宙船地球号」という言葉を広めた。"},{"@type":"CreativeWork","name":"アップル「Think Different」","description":"1997年にアップルが始めた広告キャンペーン。アインシュタイン、ガンディー、ピカソら、世界を変えた「クレイジーな人たち」への賛辞を掲げた。","creator":{"@type":"Person","name":"アップル"}}],"author":{"@type":"Person","name":"生成AI（初稿）"},"datePublished":"2026-09-14T01:40:00.000Z","dateModified":"2026-09-14T01:40:00.000Z","inLanguage":"ja","articleBody":"広告に登場した一人。1997年のアップルの「Think Different」のテレビ広告（60秒版）には、アインシュタイン、キング牧師、ガンディー、ピカソらとともに、バックミンスター・フラーの姿が映る。フラーの肩書きは、思想家、建築家、発明家、詩人など、ひとつに収まらない。広告は、自分が世界を変えられると本気で信じる人たちこそが、実際に世界を変えている、と語りかける。フラーは、その「クレイジーな人たち」の一人として登場する。","url":"https://beautifulcontext.com/c/buckminster-fuller--think-different/","citation":[{"@type":"CreativeWork","name":"Biography","url":"https://www.bfi.org/about-fuller/biography/","publisher":{"@type":"Organization","name":"Buckminster Fuller Institute"}},{"@type":"CreativeWork","name":"What Steve Jobs learned from Buckminster Fuller during their only meeting","url":"https://fastcompanyme.com/co-design/what-steve-jobs-learned-from-buckminster-fuller-during-their-only-meeting/","publisher":{"@type":"Organization","name":"Fast Company Middle East（Alec Nevala-Lee『Inventor of the Future』抜粋）"}},{"@type":"CreativeWork","name":"Apple Launches Brand Advertising Campaign","url":"https://www.mactech.com/1997/09/27/md1-apple-launches-brand-advertising-campaign/","publisher":{"@type":"Organization","name":"Apple Computer, Inc. 報道発表（1997年9月26日付、MacTech に再掲）"}},{"@type":"CreativeWork","name":"Introduction to Buckminster Fuller","url":"https://www.bfi.org/about-fuller/biography/introduction-to-buckminster-fuller/","publisher":{"@type":"Organization","name":"Buckminster Fuller Institute"}},{"@type":"CreativeWork","name":"Think different","url":"https://en.wikipedia.org/wiki/Think_different","publisher":{"@type":"Organization","name":"Wikipedia"}},{"@type":"CreativeWork","name":"Think different","url":"https://ja.wikipedia.org/wiki/Think_different","publisher":{"@type":"Organization","name":"Wikipedia（日本語版）"}},{"@type":"CreativeWork","name":"バックミンスター・フラー","url":"https://ja.wikipedia.org/wiki/バックミンスター・フラー","publisher":{"@type":"Organization","name":"Wikipedia（日本語版）"}},{"@type":"CreativeWork","name":"Buckminster Fuller's Greatest Invention","url":"https://newrepublic.com/article/167229/buckminster-fullers-greatest-invention","publisher":{"@type":"Organization","name":"The New Republic"}},{"@type":"CreativeWork","name":"Video: Steve Jobs narrating the 1997 ‘Think Different’ TV ad","url":"https://fortune.com/2011/10/06/video-steve-jobs-narrating-the-1997-think-different-tv-ad","publisher":{"@type":"Organization","name":"Fortune（Philip Elmer-DeWitt、2011年10月6日）"}}],"image":"https://beautifulcontext.com/img/works/buckminster-fuller.jpg"}</script>
 
-<script src="js/config.js?v=140"></script>
-<script src="js/seed.js?v=140"></script>
-<script src="js/sources.js?v=140"></script>
-<script src="js/backend.js?v=140"></script>
-<script src="js/store.js?v=140"></script>
-<script src="js/social.js?v=140"></script>
-<script src="js/render.js?v=140"></script>
-<script src="js/login.js?v=140"></script>
-<script src="js/report.js?v=140"></script>
-<script src="js/transition.js?v=140"></script>
-<script src="js/app.js?v=140"></script>
+<script src="js/config.js?v=141"></script>
+<script src="js/seed.js?v=141"></script>
+<script src="js/sources.js?v=141"></script>
+<script src="js/backend.js?v=141"></script>
+<script src="js/store.js?v=141"></script>
+<script src="js/social.js?v=141"></script>
+<script src="js/render.js?v=141"></script>
+<script src="js/login.js?v=141"></script>
+<script src="js/report.js?v=141"></script>
+<script src="js/transition.js?v=141"></script>
+<script src="js/app.js?v=141"></script>
 </body>
 </html>

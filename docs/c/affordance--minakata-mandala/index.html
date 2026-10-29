@@ -41,9 +41,9 @@ try { if (sessionStorage.getItem('bc-resume')) document.documentElement.classLis
 <link rel="preload" as="image" href="img/logo-layer-words.png">
 <!-- 台本も先に取りに行く（静的なページは台本より先に本文が描かれる。遅い回線で、触れて動くまでの間を縮める）。
      src と同じアドレス（?v= まで）でないと、二度取りに行く -->
-<link rel="preload" as="script" href="js/seed.js?v=140">
-<link rel="preload" as="script" href="js/app.js?v=140">
-<link rel="manifest" href="manifest.webmanifest?v=140">
+<link rel="preload" as="script" href="js/seed.js?v=141">
+<link rel="preload" as="script" href="js/app.js?v=141">
+<link rel="manifest" href="manifest.webmanifest?v=141">
 <link rel="apple-touch-icon" href="icon-180.png">
 <!-- タブと検索結果に出る小さな印。アプリの印（ホーム画面のアイコン）と同じ形 -->
 <link rel="icon" href="favicon.ico" sizes="16x16 32x32 48x48">
@@ -72,11 +72,11 @@ if (location.hostname === 'beautifulcontext.com'){
   document.head.appendChild(ga);
 }
 </script>
-<script src="js/theme.js?v=140"></script>
-<link rel="stylesheet" href="app.css?v=140">
+<script src="js/theme.js?v=141"></script>
+<link rel="stylesheet" href="app.css?v=141">
 <!-- 読む画面の使い勝手（2026.10.24）。app.css のすぐあと -->
-<link rel="stylesheet" href="ux.css?v=140">
-<link rel="stylesheet" href="fade.css?v=140">
+<link rel="stylesheet" href="ux.css?v=141">
+<link rel="stylesheet" href="fade.css?v=141">
 <!-- 台本（js）が揃うまで：まだ押しても動かないもの（‹・絵の横の ‹ ›・つながりを辿る）を少し薄くし、下の帯の上の縁に細い金の線を走らせる。
      app.js が最後に body.app-ready を付けて外す。すぐ揃うときは何も見せない（0.3 秒待ってから出す） -->
 <style>
@@ -181,7 +181,7 @@ document.addEventListener('click', function (e) {
 <nav class="route-mini" id="routeMini" aria-label="路線図"></nav>
 
 <div class="view on" id="view" role="dialog" aria-modal="true" aria-label="アフォーダンス ＋ 南方曼荼羅">
-  <div class="view-in" id="viewIn">
+  <div class="view-in" id="viewIn"><!--bc-body-->
       <article class="page cpage">
         <button type="button" class="back-close" data-close="" aria-label="Today's Editor's Choice へ戻る" title="Today's Editor's Choice へ"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 4.5 7.5 12l7.5 7.5"></path></svg></button>
         <div class="duo-hero"><a class="c-logo" href="#/" data-top="" aria-label="BEAUTIFUL CONTEXT（TOP へ戻る）"><img src="img/logo.png" alt=""></a><div class="duo"><button type="button" class="duo-go" data-step="0" aria-label="アフォーダンスの作品ページへ"><div class="art"><img src="img/works/affordance.jpg" alt="アフォーダンス" data-k="affordance" decoding="async" fetchpriority="low"></div></button><button type="button" class="duo-go" data-step="2" aria-label="南方曼荼羅の作品ページへ"><div class="art"><img src="img/works/minakata-mandala.jpg" alt="南方曼荼羅" data-k="minakata-mandala" decoding="async" fetchpriority="low"></div></button><i class="swap" aria-hidden="true">↔</i></div><button type="button" class="ctx-nav prev" data-ctx-go="-1" aria-label="一つ前のつながりへ">‹</button><button type="button" class="ctx-nav next" data-ctx-go="1" aria-label="次のつながりへ">›</button></div>
@@ -383,7 +383,7 @@ document.addEventListener('click', function (e) {
           
           <nav class="c-foot" aria-label="Beautiful Context の案内"><span><a href="about/">Beautiful Context とは</a> ·</span> <span><a href="#/today" data-home="">Today's Editor's Choice</a> ·</span> <span><a href="#/list">つながりの一覧</a> ·</span> <span><a href="#/search">言葉で辿る</a></span></nav>
         </article>
-      </article></div>
+      </article><!--/bc-body--></div>
 </div>
 <!-- 左の端：ここから右へ払うと、ひとつ前の画面へ戻る（指に付いてページが動く） -->
 <div class="edge-back" id="edgeBack" aria-hidden="true"></div>
@@ -391,16 +391,16 @@ document.addEventListener('click', function (e) {
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 <script type="application/ld+json" id="ld">{"@context":"https://schema.org","@type":"Article","headline":"物との関わりを、二人は「飲む」を例に書いた。","alternativeHeadline":"見て、飲む","about":[{"@type":"CreativeWork","name":"アフォーダンス","description":"環境が動物に与える、行為の可能性。椅子は「座る」ことを、取っ手は「つかむ」ことをアフォードする。ギブソンの造語。","creator":{"@type":"Person","name":"ジェームズ・J・ギブソン"}},{"@type":"CreativeWork","name":"南方曼荼羅","description":"南方熊楠が、世界の因果関係が交錯し連鎖するさまを一枚の図に描いたもの。真言宗の僧・土宜法龍への手紙に記された。","creator":{"@type":"Person","name":"南方熊楠"}}],"author":{"@type":"Person","name":"生成AI（初稿）"},"datePublished":"2026-09-14T02:20:00.000Z","dateModified":"2026-09-14T02:20:00.000Z","inLanguage":"ja","articleBody":"ものとの関わりを説くのに、二つの文章は「飲む」を例にした。1903年8月8日、那智の南方熊楠は、真言宗の僧・土宜法龍に宛てた手紙で自分の曼荼羅を説いた。心と物が反応して事が生じる、という考えである。例に引いたのは酒だ。熊楠（心）が酒（物）を見る。酒のよさを人から聞いたことを思い出し、飲む。ジェームズ・J・ギブソンは、1979年の『生態学的視覚論』第8章で、アフォーダンスを「環境が動物に差し出すもの」と定義した。辞書にない自分の造語だと断り、動物と環境が補い合うことを含む、と書いた。同じ章でギブソンは、ゲシュタルト心理学者コフカ（1935年）の一節も引く。果物は「私を食べろ」と言い、水は「私を飲め」と言う。ここで結ぶのは影響関係ではなく、同じ「飲む」という例である。76年を隔てた二つの文章は、説明の道すじが違う。熊楠の例には、人から聞いた話を思い出す一段が入る。ギブソンは、ものの価値や意味は直接知覚できる、という仮説を立てた。","url":"https://beautifulcontext.com/c/affordance--minakata-mandala/","citation":[{"@type":"CreativeWork","name":"土宜法龍宛書簡（南方マンダラほか）","url":"https://www.minakata.org/facility/collections/minakatamandala/","publisher":{"@type":"Organization","name":"南方熊楠顕彰館（南方熊楠邸）"}},{"@type":"CreativeWork","name":"The Ecological Approach to Visual Perception: Classic Edition","url":"https://www.routledge.com/The-Ecological-Approach-to-Visual-Perception-Classic-Edition/Gibson/p/book/9781848725782","publisher":{"@type":"Organization","name":"Routledge / Psychology Press"}},{"@type":"CreativeWork","name":"南方熊楠略年譜","url":"https://www.minakata.org/minakatakumagusu/lifetime13/","publisher":{"@type":"Organization","name":"南方熊楠顕彰館（南方熊楠邸）"}},{"@type":"CreativeWork","name":"南方マンダラ","url":"https://ja.wikipedia.org/wiki/%E5%8D%97%E6%96%B9%E3%83%9E%E3%83%B3%E3%83%80%E3%83%A9","publisher":{"@type":"Organization","name":"Wikipedia（日本語版）"}},{"@type":"CreativeWork","name":"第二話 『南方熊楠・土宜法竜 往復書簡』 物／事／心／理と言葉","url":"https://uedanobutaka.com/minakata-kumagusu-and-toki-horyu-the-letters-of-exchange/","publisher":{"@type":"Organization","name":"植田信隆 公式サイト"}},{"@type":"CreativeWork","name":"アフォーダンス","url":"https://ja.wikipedia.org/wiki/%E3%82%A2%E3%83%95%E3%82%A9%E3%83%BC%E3%83%80%E3%83%B3%E3%82%B9","publisher":{"@type":"Organization","name":"Wikipedia（日本語版）"}},{"@type":"CreativeWork","name":"In Defense of Introspective Affordances（David Miguel Gray）","url":"https://link.springer.com/article/10.1007/s13164-024-00734-z","publisher":{"@type":"Organization","name":"Review of Philosophy and Psychology（Springer, 2025／オープンアクセス）"}},{"@type":"CreativeWork","name":"Designing Smart Objects to Support Affording Situations: Exploiting Affordance Through an Understanding of Forms of Engagement（Chris Baber）","url":"https://www.frontiersin.org/journals/psychology/articles/10.3389/fpsyg.2018.00292/full","publisher":{"@type":"Organization","name":"Frontiers in Psychology（2018）"}},{"@type":"CreativeWork","name":"James J. Gibson’s Affordance Examples（Edward Baggs）","url":"https://www.ovid.com/journals/hipsy/fulltext/10.1037/hop0000295~james-j-gibsons-affordance-examples","publisher":{"@type":"Organization","name":"History of Psychology（APA, 29(2), 2026）"}}],"image":"https://beautifulcontext.com/img/works/affordance.jpg"}</script>
 
-<script src="js/config.js?v=140"></script>
-<script src="js/seed.js?v=140"></script>
-<script src="js/sources.js?v=140"></script>
-<script src="js/backend.js?v=140"></script>
-<script src="js/store.js?v=140"></script>
-<script src="js/social.js?v=140"></script>
-<script src="js/render.js?v=140"></script>
-<script src="js/login.js?v=140"></script>
-<script src="js/report.js?v=140"></script>
-<script src="js/transition.js?v=140"></script>
-<script src="js/app.js?v=140"></script>
+<script src="js/config.js?v=141"></script>
+<script src="js/seed.js?v=141"></script>
+<script src="js/sources.js?v=141"></script>
+<script src="js/backend.js?v=141"></script>
+<script src="js/store.js?v=141"></script>
+<script src="js/social.js?v=141"></script>
+<script src="js/render.js?v=141"></script>
+<script src="js/login.js?v=141"></script>
+<script src="js/report.js?v=141"></script>
+<script src="js/transition.js?v=141"></script>
+<script src="js/app.js?v=141"></script>
 </body>
 </html>

@@ -41,9 +41,9 @@ try { if (sessionStorage.getItem('bc-resume')) document.documentElement.classLis
 <link rel="preload" as="image" href="img/logo-layer-words.png">
 <!-- 台本も先に取りに行く（静的なページは台本より先に本文が描かれる。遅い回線で、触れて動くまでの間を縮める）。
      src と同じアドレス（?v= まで）でないと、二度取りに行く -->
-<link rel="preload" as="script" href="js/seed.js?v=140">
-<link rel="preload" as="script" href="js/app.js?v=140">
-<link rel="manifest" href="manifest.webmanifest?v=140">
+<link rel="preload" as="script" href="js/seed.js?v=141">
+<link rel="preload" as="script" href="js/app.js?v=141">
+<link rel="manifest" href="manifest.webmanifest?v=141">
 <link rel="apple-touch-icon" href="icon-180.png">
 <!-- タブと検索結果に出る小さな印。アプリの印（ホーム画面のアイコン）と同じ形 -->
 <link rel="icon" href="favicon.ico" sizes="16x16 32x32 48x48">
@@ -72,11 +72,11 @@ if (location.hostname === 'beautifulcontext.com'){
   document.head.appendChild(ga);
 }
 </script>
-<script src="js/theme.js?v=140"></script>
-<link rel="stylesheet" href="app.css?v=140">
+<script src="js/theme.js?v=141"></script>
+<link rel="stylesheet" href="app.css?v=141">
 <!-- 読む画面の使い勝手（2026.10.24）。app.css のすぐあと -->
-<link rel="stylesheet" href="ux.css?v=140">
-<link rel="stylesheet" href="fade.css?v=140">
+<link rel="stylesheet" href="ux.css?v=141">
+<link rel="stylesheet" href="fade.css?v=141">
 <!-- 台本（js）が揃うまで：まだ押しても動かないもの（‹・絵の横の ‹ ›・つながりを辿る）を少し薄くし、下の帯の上の縁に細い金の線を走らせる。
      app.js が最後に body.app-ready を付けて外す。すぐ揃うときは何も見せない（0.3 秒待ってから出す） -->
 <style>
@@ -181,7 +181,7 @@ document.addEventListener('click', function (e) {
 <nav class="route-mini" id="routeMini" aria-label="路線図"></nav>
 
 <div class="view on" id="view" role="dialog" aria-modal="true" aria-label="映画『マッド・ドライヴ』（原題 Kill Your Friends） ＋ フリーダ・サンデモ">
-  <div class="view-in" id="viewIn">
+  <div class="view-in" id="viewIn"><!--bc-body-->
       <article class="page cpage">
         <button type="button" class="back-close" data-close="" aria-label="Today's Editor's Choice へ戻る" title="Today's Editor's Choice へ"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 4.5 7.5 12l7.5 7.5"></path></svg></button>
         <div class="duo-hero"><a class="c-logo" href="#/" data-top="" aria-label="BEAUTIFUL CONTEXT（TOP へ戻る）"><img src="img/logo.png" alt=""></a><div class="duo"><button type="button" class="duo-go" data-step="0" aria-label="映画『マッド・ドライヴ』（原題 Kill Your Friends）の作品ページへ"><div class="art"><img src="img/works/kill-your-friends.jpg" alt="映画『マッド・ドライヴ』（原題 Kill Your Friends）" data-k="kill-your-friends" decoding="async" fetchpriority="low"></div></button><button type="button" class="duo-go" data-step="2" aria-label="フリーダ・サンデモの作品ページへ"><div class="art"><img src="img/works/frida-sundemo.jpg" alt="フリーダ・サンデモ" data-k="frida-sundemo" decoding="async" fetchpriority="low"></div></button><i class="swap" aria-hidden="true">↔</i></div><button type="button" class="ctx-nav prev" data-ctx-go="-1" aria-label="一つ前のつながりへ">‹</button><button type="button" class="ctx-nav next" data-ctx-go="1" aria-label="次のつながりへ">›</button></div>
@@ -380,7 +380,7 @@ document.addEventListener('click', function (e) {
           
           <nav class="c-foot" aria-label="Beautiful Context の案内"><span><a href="about/">Beautiful Context とは</a> ·</span> <span><a href="#/today" data-home="">Today's Editor's Choice</a> ·</span> <span><a href="#/list">つながりの一覧</a> ·</span> <span><a href="#/search">言葉で辿る</a></span></nav>
         </article>
-      </article></div>
+      </article><!--/bc-body--></div>
 </div>
 <!-- 左の端：ここから右へ払うと、ひとつ前の画面へ戻る（指に付いてページが動く） -->
 <div class="edge-back" id="edgeBack" aria-hidden="true"></div>
@@ -388,16 +388,16 @@ document.addEventListener('click', function (e) {
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 <script type="application/ld+json" id="ld">{"@context":"https://schema.org","@type":"Article","headline":"新人バンドの契約を、野心家の男が狙う。","alternativeHeadline":"争奪戦の新人バンド","about":[{"@type":"Movie","name":"マッド・ドライヴ","description":"1990年代、ブリットポップ全盛の英国の音楽業界で、成り上がるために道を踏み外していくレコード会社の男を描いたブラックコメディ。主演はニコラス・ホルト。","creator":{"@type":"Person","name":"オーウェン・ハリス監督（原作 ジョン・ニヴン）"}},{"@type":"MusicRecording","name":"フリーダ・サンデモ","description":"スウェーデンのシンガーソングライター。オルタナティブ・ポップの歌い手として紹介され、映画『マッド・ドライヴ』で映画デビューを果たした。","creator":{"@type":"Person","name":"スウェーデンのシンガーソングライター"}}],"author":{"@type":"Person","name":"生成AI（初稿）"},"datePublished":"2026-09-14T09:00:00.000Z","dateModified":"2026-09-14T09:00:00.000Z","inLanguage":"ja","articleBody":"映画の中の新人バンドのボーカルを、スウェーデンのシンガーソングライターが演じている。『マッド・ドライヴ』の原題は、ジョン・ニヴンの原作小説と同じ『Kill Your Friends』。1990年代のブリットポップに沸く英国で、レコード会社のA&R担当ステルフォックスが、成り上がるために道を踏み外していく。ある英国の映画評は、主人公が音楽も仕事も人生も憎んでいると書いた。作中には、業界が競って契約を狙う、前評判の高い架空の新人バンド「レイジーズ」（The Lazies）が登場する。ステルフォックスも、同業のA&R担当と契約を競い合う。そのボーカルを演じるのが、フリーダ・サンデモである。本人は、その歌手役を「映画の中でほぼ唯一のいい人」と冗談めかして語っている。前田先生は note で、この映画の鍵は「あえて目立たないよう配置されたアーティスト」、つまり彼女にあると書いた。先生によれば、主人公は、音楽を商売にする者に好みを聞くのは、投資家に銘柄を聞くのと同じで無意味だ、と嘯く。その直後、ライブハウスで彼女自身の曲が流れ、主人公は不用意にその音楽性に触れて、うろたえるという。先生は、彼女の仕草や歌いぶりに、本人か監督のノスタルジーが強く表れていると見て、「同年代の私もホロリときてしまった」と書く。彼女の活躍と賞賛を、それまでに多大な努力をしたA&Rの人間への「手向けの花」と読んでいる。","url":"https://beautifulcontext.com/c/kill-your-friends--frida-sundemo/","citation":[{"@type":"CreativeWork","name":"SWEDE IN A BRITFLICK – Frida Sundemo on her role in new visceral black comedy Kill Your Friends","url":"https://essentiallypop.com/epop/2015/11/swede-in-a-britflick-frida-sundemo-on-her-role-in-new-visceral-black-comedy-kill-your-friends/","publisher":{"@type":"Organization","name":"Essentially Pop（本人インタビュー）"}},{"@type":"CreativeWork","name":"映画『マッドドライヴ』とフリーダ・サンデモ","url":"https://note.com/mdkh/n/nd8aae37ea947","publisher":{"@type":"Organization","name":"note（前田邦宏）"}},{"@type":"CreativeWork","name":"映画『Kill your friends』とフリーダ・サンデモ","url":"https://note.com/mdkh/n/n28788452c56f","publisher":{"@type":"Organization","name":"note（前田邦宏）"}},{"@type":"CreativeWork","name":"マッド・ドライヴ","url":"https://ja.wikipedia.org/wiki/マッド・ドライヴ","publisher":{"@type":"Organization","name":"Wikipedia"}},{"@type":"CreativeWork","name":"'Kill Your Friends': Review","url":"https://www.screendaily.com/reviews/kill-your-friends-review/5092260.article","publisher":{"@type":"Organization","name":"Screen Daily"}},{"@type":"CreativeWork","name":"Kill Your Friends (2015) - Film Review","url":"https://www.eyeforfilm.co.uk/review/kill-your-friends-2015-film-review-by-angus-wolfe-murray","publisher":{"@type":"Organization","name":"Eye For Film"}},{"@type":"CreativeWork","name":"Frida Sundemo - Wikipedia","url":"https://sv.wikipedia.org/wiki/Frida_Sundemo","publisher":{"@type":"Organization","name":"Wikipedia（スウェーデン語版）"}}],"image":"https://beautifulcontext.com/img/works/kill-your-friends.jpg"}</script>
 
-<script src="js/config.js?v=140"></script>
-<script src="js/seed.js?v=140"></script>
-<script src="js/sources.js?v=140"></script>
-<script src="js/backend.js?v=140"></script>
-<script src="js/store.js?v=140"></script>
-<script src="js/social.js?v=140"></script>
-<script src="js/render.js?v=140"></script>
-<script src="js/login.js?v=140"></script>
-<script src="js/report.js?v=140"></script>
-<script src="js/transition.js?v=140"></script>
-<script src="js/app.js?v=140"></script>
+<script src="js/config.js?v=141"></script>
+<script src="js/seed.js?v=141"></script>
+<script src="js/sources.js?v=141"></script>
+<script src="js/backend.js?v=141"></script>
+<script src="js/store.js?v=141"></script>
+<script src="js/social.js?v=141"></script>
+<script src="js/render.js?v=141"></script>
+<script src="js/login.js?v=141"></script>
+<script src="js/report.js?v=141"></script>
+<script src="js/transition.js?v=141"></script>
+<script src="js/app.js?v=141"></script>
 </body>
 </html>

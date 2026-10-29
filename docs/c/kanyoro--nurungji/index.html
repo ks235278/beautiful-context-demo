@@ -41,9 +41,9 @@ try { if (sessionStorage.getItem('bc-resume')) document.documentElement.classLis
 <link rel="preload" as="image" href="img/logo-layer-words.png">
 <!-- 台本も先に取りに行く（静的なページは台本より先に本文が描かれる。遅い回線で、触れて動くまでの間を縮める）。
      src と同じアドレス（?v= まで）でないと、二度取りに行く -->
-<link rel="preload" as="script" href="js/seed.js?v=140">
-<link rel="preload" as="script" href="js/app.js?v=140">
-<link rel="manifest" href="manifest.webmanifest?v=140">
+<link rel="preload" as="script" href="js/seed.js?v=141">
+<link rel="preload" as="script" href="js/app.js?v=141">
+<link rel="manifest" href="manifest.webmanifest?v=141">
 <link rel="apple-touch-icon" href="icon-180.png">
 <!-- タブと検索結果に出る小さな印。アプリの印（ホーム画面のアイコン）と同じ形 -->
 <link rel="icon" href="favicon.ico" sizes="16x16 32x32 48x48">
@@ -72,11 +72,11 @@ if (location.hostname === 'beautifulcontext.com'){
   document.head.appendChild(ga);
 }
 </script>
-<script src="js/theme.js?v=140"></script>
-<link rel="stylesheet" href="app.css?v=140">
+<script src="js/theme.js?v=141"></script>
+<link rel="stylesheet" href="app.css?v=141">
 <!-- 読む画面の使い勝手（2026.10.24）。app.css のすぐあと -->
-<link rel="stylesheet" href="ux.css?v=140">
-<link rel="stylesheet" href="fade.css?v=140">
+<link rel="stylesheet" href="ux.css?v=141">
+<link rel="stylesheet" href="fade.css?v=141">
 <!-- 台本（js）が揃うまで：まだ押しても動かないもの（‹・絵の横の ‹ ›・つながりを辿る）を少し薄くし、下の帯の上の縁に細い金の線を走らせる。
      app.js が最後に body.app-ready を付けて外す。すぐ揃うときは何も見せない（0.3 秒待ってから出す） -->
 <style>
@@ -181,7 +181,7 @@ document.addEventListener('click', function (e) {
 <nav class="route-mini" id="routeMini" aria-label="路線図"></nav>
 
 <div class="view on" id="view" role="dialog" aria-modal="true" aria-label="中国名菜『漢陽楼』 ＋ ヌルンジ（赤坂）">
-  <div class="view-in" id="viewIn">
+  <div class="view-in" id="viewIn"><!--bc-body-->
       <article class="page cpage">
         <button type="button" class="back-close" data-close="" aria-label="Today's Editor's Choice へ戻る" title="Today's Editor's Choice へ"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 4.5 7.5 12l7.5 7.5"></path></svg></button>
         <div class="duo-hero"><a class="c-logo" href="#/" data-top="" aria-label="BEAUTIFUL CONTEXT（TOP へ戻る）"><img src="img/logo.png" alt=""></a><div class="duo"><button type="button" class="duo-go" data-step="0" aria-label="中国名菜『漢陽楼』の作品ページへ"><div class="art"><img src="img/kanyoro.jpg" alt="中国名菜『漢陽楼』" data-k="kanyoro" decoding="async" fetchpriority="low"></div></button><button type="button" class="duo-go" data-step="2" aria-label="ヌルンジ（赤坂）の作品ページへ"><div class="art"><img src="img/works/nurungji.jpg" alt="ヌルンジ（赤坂）" data-k="nurungji" decoding="async" fetchpriority="low"></div></button><i class="swap" aria-hidden="true">↔</i></div><button type="button" class="ctx-nav prev" data-ctx-go="-1" aria-label="一つ前のつながりへ">‹</button><button type="button" class="ctx-nav next" data-ctx-go="1" aria-label="次のつながりへ">›</button></div>
@@ -380,7 +380,7 @@ document.addEventListener('click', function (e) {
           
           <nav class="c-foot" aria-label="Beautiful Context の案内"><span><a href="about/">Beautiful Context とは</a> ·</span> <span><a href="#/today" data-home="">Today's Editor's Choice</a> ·</span> <span><a href="#/list">つながりの一覧</a> ·</span> <span><a href="#/search">言葉で辿る</a></span></nav>
         </article>
-      </article></div>
+      </article><!--/bc-body--></div>
 </div>
 <!-- 左の端：ここから右へ払うと、ひとつ前の画面へ戻る（指に付いてページが動く） -->
 <div class="edge-back" id="edgeBack" aria-hidden="true"></div>
@@ -388,16 +388,16 @@ document.addEventListener('click', function (e) {
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 <script type="application/ld+json" id="ld">{"@context":"https://schema.org","@type":"Article","headline":"神田の中国料理と、赤坂の韓国料理。","alternativeHeadline":"東京の中の隣国","about":[{"@type":"Restaurant","name":"漢陽楼","description":"明治四十四年創業を掲げる、東京・神田の中国料理店。"},{"@type":"Restaurant","name":"ヌルンジ（赤坂）","description":"東京・赤坂の韓国料理店。店名の「ヌルンジ」は韓国語で、釜の底にできるおこげのこと。"}],"author":{"@type":"Person","name":"生成AI（初稿）"},"datePublished":"2026-09-28T08:50:00.000Z","dateModified":"2026-09-28T08:50:00.000Z","inLanguage":"ja","articleBody":"東京には、隣の国の台所がいくつもある。神田の「漢陽楼」は、明治四十四年創業を掲げる中国料理店。中国からの留学生が集った店で、その中に若き周恩来もいたと伝えられている。赤坂の「ヌルンジ」は韓国料理店。2019年1月に放送されたテレビ東京『出没！アド街ック天国』は、赤坂を「韓国料理密集地帯」として取り上げ、その一軒としてこの店を紹介した。店名と同じ「ヌルンジ」は、釜の底にできるおこげを指す韓国語である。百年以上前、留学生たちは神田の漢陽楼に集った。故郷の味を出す店は、遠い国とこの街をつなぐ場所のひとつなのかもしれない。赤坂のヌルンジも、そんな場所のひとつとして読むことができる。","url":"https://beautifulcontext.com/c/kanyoro--nurungji/","citation":[{"@type":"CreativeWork","name":"漢陽楼について | 周恩来ゆかりの店 中国名菜 漢陽楼","url":"https://www.kanyoro.com/about.html","publisher":{"@type":"Organization","name":"漢陽楼（公式サイト）"}},{"@type":"CreativeWork","name":"周恩来との縁・漢陽楼ギャラリー | 周恩来ゆかりの店 中国名菜 漢陽楼","url":"https://www.kanyoro.com/zhou-enlai.html","publisher":{"@type":"Organization","name":"漢陽楼（公式サイト）"}},{"@type":"CreativeWork","name":"周恩来ゆかりの店 中国名菜 漢陽楼 | 東京都千代田区小川町・神保町","url":"https://www.kanyoro.com/","publisher":{"@type":"Organization","name":"漢陽楼（公式サイト）"}},{"@type":"CreativeWork","name":"韓国料理密集地帯｜2019年1月19日｜出没！アド街ック天国：テレビ東京","url":"https://www.tv-tokyo.co.jp/adomachi/backnumber/20190119/138757.html","publisher":{"@type":"Organization","name":"テレビ東京"}},{"@type":"CreativeWork","name":"お焦げ","url":"https://ja.wikipedia.org/wiki/%E3%81%8A%E7%84%A6%E3%81%92","publisher":{"@type":"Organization","name":"Wikipedia"}},{"@type":"CreativeWork","name":"世界一クールな街・神保町は中華の街だった！中国人留学生が腹を満たした「漢陽楼」の日中友好秘話","url":"https://dime.jp/genre/2080564/","publisher":{"@type":"Organization","name":"@DIME アットダイム"}},{"@type":"CreativeWork","name":"口コミ一覧 : ヌルンジ - 赤坂/韓国料理 [食べログ]","url":"https://tabelog.com/tokyo/A1308/A130801/13023175/dtlrvwlst/","publisher":{"@type":"Organization","name":"食べログ"}}],"image":"https://beautifulcontext.com/img/kanyoro.jpg"}</script>
 
-<script src="js/config.js?v=140"></script>
-<script src="js/seed.js?v=140"></script>
-<script src="js/sources.js?v=140"></script>
-<script src="js/backend.js?v=140"></script>
-<script src="js/store.js?v=140"></script>
-<script src="js/social.js?v=140"></script>
-<script src="js/render.js?v=140"></script>
-<script src="js/login.js?v=140"></script>
-<script src="js/report.js?v=140"></script>
-<script src="js/transition.js?v=140"></script>
-<script src="js/app.js?v=140"></script>
+<script src="js/config.js?v=141"></script>
+<script src="js/seed.js?v=141"></script>
+<script src="js/sources.js?v=141"></script>
+<script src="js/backend.js?v=141"></script>
+<script src="js/store.js?v=141"></script>
+<script src="js/social.js?v=141"></script>
+<script src="js/render.js?v=141"></script>
+<script src="js/login.js?v=141"></script>
+<script src="js/report.js?v=141"></script>
+<script src="js/transition.js?v=141"></script>
+<script src="js/app.js?v=141"></script>
 </body>
 </html>

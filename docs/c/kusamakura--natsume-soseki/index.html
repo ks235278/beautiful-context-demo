@@ -41,9 +41,9 @@ try { if (sessionStorage.getItem('bc-resume')) document.documentElement.classLis
 <link rel="preload" as="image" href="img/logo-layer-words.png">
 <!-- 台本も先に取りに行く（静的なページは台本より先に本文が描かれる。遅い回線で、触れて動くまでの間を縮める）。
      src と同じアドレス（?v= まで）でないと、二度取りに行く -->
-<link rel="preload" as="script" href="js/seed.js?v=140">
-<link rel="preload" as="script" href="js/app.js?v=140">
-<link rel="manifest" href="manifest.webmanifest?v=140">
+<link rel="preload" as="script" href="js/seed.js?v=141">
+<link rel="preload" as="script" href="js/app.js?v=141">
+<link rel="manifest" href="manifest.webmanifest?v=141">
 <link rel="apple-touch-icon" href="icon-180.png">
 <!-- タブと検索結果に出る小さな印。アプリの印（ホーム画面のアイコン）と同じ形 -->
 <link rel="icon" href="favicon.ico" sizes="16x16 32x32 48x48">
@@ -72,11 +72,11 @@ if (location.hostname === 'beautifulcontext.com'){
   document.head.appendChild(ga);
 }
 </script>
-<script src="js/theme.js?v=140"></script>
-<link rel="stylesheet" href="app.css?v=140">
+<script src="js/theme.js?v=141"></script>
+<link rel="stylesheet" href="app.css?v=141">
 <!-- 読む画面の使い勝手（2026.10.24）。app.css のすぐあと -->
-<link rel="stylesheet" href="ux.css?v=140">
-<link rel="stylesheet" href="fade.css?v=140">
+<link rel="stylesheet" href="ux.css?v=141">
+<link rel="stylesheet" href="fade.css?v=141">
 <!-- 台本（js）が揃うまで：まだ押しても動かないもの（‹・絵の横の ‹ ›・つながりを辿る）を少し薄くし、下の帯の上の縁に細い金の線を走らせる。
      app.js が最後に body.app-ready を付けて外す。すぐ揃うときは何も見せない（0.3 秒待ってから出す） -->
 <style>
@@ -181,7 +181,7 @@ document.addEventListener('click', function (e) {
 <nav class="route-mini" id="routeMini" aria-label="路線図"></nav>
 
 <div class="view on" id="view" role="dialog" aria-modal="true" aria-label="夏目漱石『草枕』 ＋ 夏目漱石">
-  <div class="view-in" id="viewIn">
+  <div class="view-in" id="viewIn"><!--bc-body-->
       <article class="page cpage">
         <button type="button" class="back-close" data-close="" aria-label="Today's Editor's Choice へ戻る" title="Today's Editor's Choice へ"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 4.5 7.5 12l7.5 7.5"></path></svg></button>
         <div class="duo-hero"><a class="c-logo" href="#/" data-top="" aria-label="BEAUTIFUL CONTEXT（TOP へ戻る）"><img src="img/logo.png" alt=""></a><div class="duo"><button type="button" class="duo-go" data-step="0" aria-label="夏目漱石『草枕』の作品ページへ"><div class="art"><img src="img/kusamakura.jpg" alt="夏目漱石『草枕』" data-k="kusamakura" decoding="async" fetchpriority="low"></div></button><button type="button" class="duo-go" data-step="2" aria-label="夏目漱石の作品ページへ"><div class="art"><img src="img/works/natsume-soseki.jpg" alt="夏目漱石" data-k="natsume-soseki" decoding="async" fetchpriority="low"></div></button><i class="swap" aria-hidden="true">↔</i></div><button type="button" class="ctx-nav prev" data-ctx-go="-1" aria-label="一つ前のつながりへ">‹</button><button type="button" class="ctx-nav next" data-ctx-go="1" aria-label="次のつながりへ">›</button></div>
@@ -383,7 +383,7 @@ document.addEventListener('click', function (e) {
           
           <nav class="c-foot" aria-label="Beautiful Context の案内"><span><a href="about/">Beautiful Context とは</a> ·</span> <span><a href="#/today" data-home="">Today's Editor's Choice</a> ·</span> <span><a href="#/list">つながりの一覧</a> ·</span> <span><a href="#/search">言葉で辿る</a></span></nav>
         </article>
-      </article></div>
+      </article><!--/bc-body--></div>
 </div>
 <!-- 左の端：ここから右へ払うと、ひとつ前の画面へ戻る（指に付いてページが動く） -->
 <div class="edge-back" id="edgeBack" aria-hidden="true"></div>
@@ -391,16 +391,16 @@ document.addEventListener('click', function (e) {
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 <script type="application/ld+json" id="ld">{"@context":"https://schema.org","@type":"Article","headline":"「非人情」の小説には、漱石の芸術論が表れた。","alternativeHeadline":"旅が生んだ『草枕』","about":[{"@type":"Book","name":"草枕","description":"「智に働けば角が立つ。情に棹させば流される。」で始まる、画工が非人情の世界を求めて旅する小説。","creator":{"@type":"Person","name":"夏目漱石"}},{"@type":"Person","name":"夏目漱石","description":"『吾輩は猫である』『坊っちゃん』『草枕』『こころ』の作家。熊本の第五高等学校で教えたのち、1900年から英国に留学した。"}],"author":{"@type":"Person","name":"生成AI（初稿）"},"datePublished":"2026-09-15T08:30:00.000Z","dateModified":"2026-09-15T08:30:00.000Z","inLanguage":"ja","articleBody":"『草枕』には、漱石自身の旅と芸術論が刻まれている。『草枕』は1906年（明治39年）9月、雑誌『新小説』に発表された。冒頭は「智に働けば角が立つ。情に棹させば流される。意地を通せば窮屈だ。」。一切の人間の事象を無私の目で見つめる「非人情」の美学をもとに書かれ、漱石自身の芸術論が色濃くあらわれた作品と紹介されている。漱石は1896年4月に熊本の第五高等学校の講師となり、1897年の年末から年明けにかけて、同僚と小天温泉を旅した。宿は土地の名士、前田案山子の別邸である。この旅で出会った案山子と娘の卓が、小説の登場人物のモデルになったと、玉名市は紹介している。作家の暮らしと小説のあいだにも、一本の区間がある。","url":"https://beautifulcontext.com/c/kusamakura--natsume-soseki/","citation":[{"@type":"CreativeWork","name":"図書カード：草枕","url":"https://www.aozora.gr.jp/cards/000148/card776.html","publisher":{"@type":"Organization","name":"青空文庫"}},{"@type":"CreativeWork","name":"「草枕・二百十日」夏目漱石 [角川文庫]","url":"https://www.kadokawa.co.jp/product/199999100104/","publisher":{"@type":"Organization","name":"KADOKAWA"}},{"@type":"CreativeWork","name":"漱石と、玉名｜玉名市","url":"https://www.city.tamana.lg.jp/q/aview/398/12886.html","publisher":{"@type":"Organization","name":"玉名市"}},{"@type":"CreativeWork","name":"夏目漱石 草枕","url":"https://www.aozora.gr.jp/cards/000148/files/776_14941.html","publisher":{"@type":"Organization","name":"青空文庫"}}],"image":"https://beautifulcontext.com/img/kusamakura.jpg"}</script>
 
-<script src="js/config.js?v=140"></script>
-<script src="js/seed.js?v=140"></script>
-<script src="js/sources.js?v=140"></script>
-<script src="js/backend.js?v=140"></script>
-<script src="js/store.js?v=140"></script>
-<script src="js/social.js?v=140"></script>
-<script src="js/render.js?v=140"></script>
-<script src="js/login.js?v=140"></script>
-<script src="js/report.js?v=140"></script>
-<script src="js/transition.js?v=140"></script>
-<script src="js/app.js?v=140"></script>
+<script src="js/config.js?v=141"></script>
+<script src="js/seed.js?v=141"></script>
+<script src="js/sources.js?v=141"></script>
+<script src="js/backend.js?v=141"></script>
+<script src="js/store.js?v=141"></script>
+<script src="js/social.js?v=141"></script>
+<script src="js/render.js?v=141"></script>
+<script src="js/login.js?v=141"></script>
+<script src="js/report.js?v=141"></script>
+<script src="js/transition.js?v=141"></script>
+<script src="js/app.js?v=141"></script>
 </body>
 </html>

@@ -41,9 +41,9 @@ try { if (sessionStorage.getItem('bc-resume')) document.documentElement.classLis
 <link rel="preload" as="image" href="img/logo-layer-words.png">
 <!-- 台本も先に取りに行く（静的なページは台本より先に本文が描かれる。遅い回線で、触れて動くまでの間を縮める）。
      src と同じアドレス（?v= まで）でないと、二度取りに行く -->
-<link rel="preload" as="script" href="js/seed.js?v=140">
-<link rel="preload" as="script" href="js/app.js?v=140">
-<link rel="manifest" href="manifest.webmanifest?v=140">
+<link rel="preload" as="script" href="js/seed.js?v=141">
+<link rel="preload" as="script" href="js/app.js?v=141">
+<link rel="manifest" href="manifest.webmanifest?v=141">
 <link rel="apple-touch-icon" href="icon-180.png">
 <!-- タブと検索結果に出る小さな印。アプリの印（ホーム画面のアイコン）と同じ形 -->
 <link rel="icon" href="favicon.ico" sizes="16x16 32x32 48x48">
@@ -72,11 +72,11 @@ if (location.hostname === 'beautifulcontext.com'){
   document.head.appendChild(ga);
 }
 </script>
-<script src="js/theme.js?v=140"></script>
-<link rel="stylesheet" href="app.css?v=140">
+<script src="js/theme.js?v=141"></script>
+<link rel="stylesheet" href="app.css?v=141">
 <!-- 読む画面の使い勝手（2026.10.24）。app.css のすぐあと -->
-<link rel="stylesheet" href="ux.css?v=140">
-<link rel="stylesheet" href="fade.css?v=140">
+<link rel="stylesheet" href="ux.css?v=141">
+<link rel="stylesheet" href="fade.css?v=141">
 <!-- 台本（js）が揃うまで：まだ押しても動かないもの（‹・絵の横の ‹ ›・つながりを辿る）を少し薄くし、下の帯の上の縁に細い金の線を走らせる。
      app.js が最後に body.app-ready を付けて外す。すぐ揃うときは何も見せない（0.3 秒待ってから出す） -->
 <style>
@@ -181,7 +181,7 @@ document.addEventListener('click', function (e) {
 <nav class="route-mini" id="routeMini" aria-label="路線図"></nav>
 
 <div class="view on" id="view" role="dialog" aria-modal="true" aria-label="芋焼酎『だいやめ DAIYAME』 ＋ ドメーヌ・テッタ">
-  <div class="view-in" id="viewIn">
+  <div class="view-in" id="viewIn"><!--bc-body-->
       <article class="page cpage">
         <button type="button" class="back-close" data-close="" aria-label="Today's Editor's Choice へ戻る" title="Today's Editor's Choice へ"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 4.5 7.5 12l7.5 7.5"></path></svg></button>
         <div class="duo-hero"><a class="c-logo" href="#/" data-top="" aria-label="BEAUTIFUL CONTEXT（TOP へ戻る）"><img src="img/logo.png" alt=""></a><div class="duo"><button type="button" class="duo-go" data-step="0" aria-label="芋焼酎『だいやめ DAIYAME』の作品ページへ"><div class="art"><img src="img/works/daiyame.jpg" alt="芋焼酎『だいやめ DAIYAME』" data-k="daiyame" decoding="async" fetchpriority="low"></div></button><button type="button" class="duo-go" data-step="2" aria-label="ドメーヌ・テッタの作品ページへ"><div class="art"><img src="img/works/domaine-tetta.jpg" alt="ドメーヌ・テッタ" data-k="domaine-tetta" decoding="async" fetchpriority="low"></div></button><i class="swap" aria-hidden="true">↔</i></div><button type="button" class="ctx-nav prev" data-ctx-go="-1" aria-label="一つ前のつながりへ">‹</button><button type="button" class="ctx-nav next" data-ctx-go="1" aria-label="次のつながりへ">›</button></div>
@@ -380,7 +380,7 @@ document.addEventListener('click', function (e) {
           
           <nav class="c-foot" aria-label="Beautiful Context の案内"><span><a href="about/">Beautiful Context とは</a> ·</span> <span><a href="#/today" data-home="">Today's Editor's Choice</a> ·</span> <span><a href="#/list">つながりの一覧</a> ·</span> <span><a href="#/search">言葉で辿る</a></span></nav>
         </article>
-      </article></div>
+      </article><!--/bc-body--></div>
 </div>
 <!-- 左の端：ここから右へ払うと、ひとつ前の画面へ戻る（指に付いてページが動く） -->
 <div class="edge-back" id="edgeBack" aria-hidden="true"></div>
@@ -388,16 +388,16 @@ document.addEventListener('click', function (e) {
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 <script type="application/ld+json" id="ld">{"@context":"https://schema.org","@type":"Article","headline":"焼酎の名は晩酌の言葉、ワイナリーの名は地名。","alternativeHeadline":"名前が語る産地","about":[{"@type":"CreativeWork","name":"だいやめ DAIYAME","description":"鹿児島の芋焼酎。ライチを思わせる香りで知られる。名前は、一日の疲れを癒やす晩酌を表す鹿児島の言葉から。","creator":{"@type":"Person","name":"濵田酒造（鹿児島）"}},{"@type":"CreativeWork","name":"ドメーヌ・テッタ","description":"岡山県新見市哲多町でぶどうを育て、ワインを造るワイナリー。名前は土地の名から。","creator":{"@type":"Person","name":"岡山県新見市"}}],"author":{"@type":"Person","name":"生成AI（初稿）"},"datePublished":"2026-09-15T05:50:00.000Z","dateModified":"2026-09-15T05:50:00.000Z","inLanguage":"ja","articleBody":"意味の上での近さから結ばれた区間。芋焼酎『だいやめ DAIYAME』の名は、晩酌して疲れを癒やすことを表す鹿児島の言葉から取られている。ドメーヌ・テッタの「テッタ」は、ぶどう畑のある岡山県新見市哲多町の名である。ひとつは暮らしの言葉から、ひとつは土地の名から。どちらも、名前をたどると生まれた場所に行き着く。南九州の蒸留酒と岡山のワインという遠い二本を、名前が結んでいる。","url":"https://beautifulcontext.com/c/daiyame--domaine-tetta/","citation":[{"@type":"CreativeWork","name":"だいやめ～DAIYAME～特設サイト | 濵田酒造","url":"https://www.hamadasyuzou.co.jp/daiyame_brand/","publisher":{"@type":"Organization","name":"濵田酒造"}},{"@type":"CreativeWork","name":"domaine tetta／高橋竜太さん｜岡山観光WEB【公式】- 岡山県の観光・旅行情報ならココ！","url":"https://www.okayama-kanko.jp/feature/kourousya/04","publisher":{"@type":"Organization","name":"岡山県観光連盟"}},{"@type":"CreativeWork","name":"\"Domaine tetta\" produces terroir-inspired wines from abandoned farmland / Niimi, Okayama Prefecture","url":"https://nihonmono.jp/en/?p=53301","publisher":{"@type":"Organization","name":"NIHONMONO"}},{"@type":"CreativeWork","name":"新見市 - Wikipedia","url":"https://ja.wikipedia.org/wiki/%E6%96%B0%E8%A6%8B%E5%B8%82","publisher":{"@type":"Organization","name":"Wikipedia"}}],"image":"https://beautifulcontext.com/img/works/daiyame.jpg"}</script>
 
-<script src="js/config.js?v=140"></script>
-<script src="js/seed.js?v=140"></script>
-<script src="js/sources.js?v=140"></script>
-<script src="js/backend.js?v=140"></script>
-<script src="js/store.js?v=140"></script>
-<script src="js/social.js?v=140"></script>
-<script src="js/render.js?v=140"></script>
-<script src="js/login.js?v=140"></script>
-<script src="js/report.js?v=140"></script>
-<script src="js/transition.js?v=140"></script>
-<script src="js/app.js?v=140"></script>
+<script src="js/config.js?v=141"></script>
+<script src="js/seed.js?v=141"></script>
+<script src="js/sources.js?v=141"></script>
+<script src="js/backend.js?v=141"></script>
+<script src="js/store.js?v=141"></script>
+<script src="js/social.js?v=141"></script>
+<script src="js/render.js?v=141"></script>
+<script src="js/login.js?v=141"></script>
+<script src="js/report.js?v=141"></script>
+<script src="js/transition.js?v=141"></script>
+<script src="js/app.js?v=141"></script>
 </body>
 </html>

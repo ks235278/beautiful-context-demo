@@ -41,9 +41,9 @@ try { if (sessionStorage.getItem('bc-resume')) document.documentElement.classLis
 <link rel="preload" as="image" href="img/logo-layer-words.png">
 <!-- 台本も先に取りに行く（静的なページは台本より先に本文が描かれる。遅い回線で、触れて動くまでの間を縮める）。
      src と同じアドレス（?v= まで）でないと、二度取りに行く -->
-<link rel="preload" as="script" href="js/seed.js?v=140">
-<link rel="preload" as="script" href="js/app.js?v=140">
-<link rel="manifest" href="manifest.webmanifest?v=140">
+<link rel="preload" as="script" href="js/seed.js?v=141">
+<link rel="preload" as="script" href="js/app.js?v=141">
+<link rel="manifest" href="manifest.webmanifest?v=141">
 <link rel="apple-touch-icon" href="icon-180.png">
 <!-- タブと検索結果に出る小さな印。アプリの印（ホーム画面のアイコン）と同じ形 -->
 <link rel="icon" href="favicon.ico" sizes="16x16 32x32 48x48">
@@ -72,11 +72,11 @@ if (location.hostname === 'beautifulcontext.com'){
   document.head.appendChild(ga);
 }
 </script>
-<script src="js/theme.js?v=140"></script>
-<link rel="stylesheet" href="app.css?v=140">
+<script src="js/theme.js?v=141"></script>
+<link rel="stylesheet" href="app.css?v=141">
 <!-- 読む画面の使い勝手（2026.10.24）。app.css のすぐあと -->
-<link rel="stylesheet" href="ux.css?v=140">
-<link rel="stylesheet" href="fade.css?v=140">
+<link rel="stylesheet" href="ux.css?v=141">
+<link rel="stylesheet" href="fade.css?v=141">
 <!-- 台本（js）が揃うまで：まだ押しても動かないもの（‹・絵の横の ‹ ›・つながりを辿る）を少し薄くし、下の帯の上の縁に細い金の線を走らせる。
      app.js が最後に body.app-ready を付けて外す。すぐ揃うときは何も見せない（0.3 秒待ってから出す） -->
 <style>
@@ -181,7 +181,7 @@ document.addEventListener('click', function (e) {
 <nav class="route-mini" id="routeMini" aria-label="路線図"></nav>
 
 <div class="view on" id="view" role="dialog" aria-modal="true" aria-label="ジョニー・デップ ＋ 『MINAMATA』">
-  <div class="view-in" id="viewIn">
+  <div class="view-in" id="viewIn"><!--bc-body-->
       <article class="page cpage">
         <button type="button" class="back-close" data-close="" aria-label="Today's Editor's Choice へ戻る" title="Today's Editor's Choice へ"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 4.5 7.5 12l7.5 7.5"></path></svg></button>
         <div class="duo-hero"><a class="c-logo" href="#/" data-top="" aria-label="BEAUTIFUL CONTEXT（TOP へ戻る）"><img src="img/logo.png" alt=""></a><div class="duo"><button type="button" class="duo-go" data-step="0" aria-label="ジョニー・デップの作品ページへ"><div class="art"><img src="img/works/johnny-depp.jpg" alt="ジョニー・デップ" data-k="johnny-depp" decoding="async" fetchpriority="low"></div></button><button type="button" class="duo-go" data-step="2" aria-label="『MINAMATA』の作品ページへ"><div class="art"><img src="img/works/minamata.jpg" alt="『MINAMATA』" data-k="minamata" decoding="async" fetchpriority="low"></div></button><i class="swap" aria-hidden="true">↔</i></div><button type="button" class="ctx-nav prev" data-ctx-go="-1" aria-label="一つ前のつながりへ">‹</button><button type="button" class="ctx-nav next" data-ctx-go="1" aria-label="次のつながりへ">›</button></div>
@@ -383,7 +383,7 @@ document.addEventListener('click', function (e) {
           
           <nav class="c-foot" aria-label="Beautiful Context の案内"><span><a href="about/">Beautiful Context とは</a> ·</span> <span><a href="#/today" data-home="">Today's Editor's Choice</a> ·</span> <span><a href="#/list">つながりの一覧</a> ·</span> <span><a href="#/search">言葉で辿る</a></span></nav>
         </article>
-      </article></div>
+      </article><!--/bc-body--></div>
 </div>
 <!-- 左の端：ここから右へ払うと、ひとつ前の画面へ戻る（指に付いてページが動く） -->
 <div class="edge-back" id="edgeBack" aria-hidden="true"></div>
@@ -391,16 +391,16 @@ document.addEventListener('click', function (e) {
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 <script type="application/ld+json" id="ld">{"@context":"https://schema.org","@type":"Article","headline":"海賊を演じた俳優が、水俣の写真家になった。","alternativeHeadline":"写真家を演じる","about":[{"@type":"Person","name":"ジョニー・デップ","description":"アメリカの俳優。ティム・バートン監督作に数多く出演し、テリー・ギリアムの作品にも出演した。『MINAMATA』では主演とともに製作にも加わった。"},{"@type":"Movie","name":"MINAMATA","description":"水俣病を世界に伝えた写真家W・ユージン・スミスと、アイリーン・美緒子・スミスの水俣での日々を描いた映画。音楽は坂本龍一。","creator":{"@type":"Person","name":"アンドリュー・レヴィタス監督"}}],"author":{"@type":"Person","name":"生成AI（初稿）"},"datePublished":"2026-09-15T02:30:00.000Z","dateModified":"2026-09-15T02:30:00.000Z","inLanguage":"ja","articleBody":"俳優が、自ら製作にも名乗りを上げて演じた役。『MINAMATA』でジョニー・デップは、写真家W・ユージン・スミスを演じた。デップは製作にも名を連ねている。『パイレーツ・オブ・カリビアン』のジャック・スパロウ役で知られる俳優が、かつて名を馳せながら隠遁していた写真家を演じる。映画が描くのは、熊本の水俣に移り住み、患者と家族の暮らしにカメラを向けたスミスの姿である。映画は2020年のベルリン国際映画祭でプレミア上映された。","url":"https://beautifulcontext.com/c/johnny-depp--minamata/","citation":[{"@type":"CreativeWork","name":"Minamata","url":"https://www.berlinale.de/en/2020/programme/202007041.html","publisher":{"@type":"Organization","name":"Berlinale（ベルリン国際映画祭）"}},{"@type":"CreativeWork","name":"ジョニー・デップが“闘い続ける男”に挑む 『MINAMATA―ミナマタ―』新場面写真公開","url":"https://realsound.jp/movie/2021/07/post-824390.html","publisher":{"@type":"Organization","name":"リアルサウンド 映画部"}},{"@type":"CreativeWork","name":"真田広之＆美波がにじませるジョニー・デップへの謝意 「MINAMATA」で再認識した日本人の“心”","url":"https://eiga.com/news/20200311/8/","publisher":{"@type":"Organization","name":"映画.com"}},{"@type":"CreativeWork","name":"ジョニー・デップ","url":"https://ja.wikipedia.org/wiki/ジョニー・デップ","publisher":{"@type":"Organization","name":"Wikipedia"}},{"@type":"CreativeWork","name":"ユージン・スミス","url":"https://ja.wikipedia.org/wiki/ユージン・スミス","publisher":{"@type":"Organization","name":"Wikipedia"}}],"image":"https://beautifulcontext.com/img/works/johnny-depp.jpg"}</script>
 
-<script src="js/config.js?v=140"></script>
-<script src="js/seed.js?v=140"></script>
-<script src="js/sources.js?v=140"></script>
-<script src="js/backend.js?v=140"></script>
-<script src="js/store.js?v=140"></script>
-<script src="js/social.js?v=140"></script>
-<script src="js/render.js?v=140"></script>
-<script src="js/login.js?v=140"></script>
-<script src="js/report.js?v=140"></script>
-<script src="js/transition.js?v=140"></script>
-<script src="js/app.js?v=140"></script>
+<script src="js/config.js?v=141"></script>
+<script src="js/seed.js?v=141"></script>
+<script src="js/sources.js?v=141"></script>
+<script src="js/backend.js?v=141"></script>
+<script src="js/store.js?v=141"></script>
+<script src="js/social.js?v=141"></script>
+<script src="js/render.js?v=141"></script>
+<script src="js/login.js?v=141"></script>
+<script src="js/report.js?v=141"></script>
+<script src="js/transition.js?v=141"></script>
+<script src="js/app.js?v=141"></script>
 </body>
 </html>
