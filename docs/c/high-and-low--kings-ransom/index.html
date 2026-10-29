@@ -41,9 +41,9 @@ try { if (sessionStorage.getItem('bc-resume')) document.documentElement.classLis
 <link rel="preload" as="image" href="img/logo-layer-words.png">
 <!-- 台本も先に取りに行く（静的なページは台本より先に本文が描かれる。遅い回線で、触れて動くまでの間を縮める）。
      src と同じアドレス（?v= まで）でないと、二度取りに行く -->
-<link rel="preload" as="script" href="js/seed.js?v=139">
-<link rel="preload" as="script" href="js/app.js?v=139">
-<link rel="manifest" href="manifest.webmanifest?v=139">
+<link rel="preload" as="script" href="js/seed.js?v=140">
+<link rel="preload" as="script" href="js/app.js?v=140">
+<link rel="manifest" href="manifest.webmanifest?v=140">
 <link rel="apple-touch-icon" href="icon-180.png">
 <!-- タブと検索結果に出る小さな印。アプリの印（ホーム画面のアイコン）と同じ形 -->
 <link rel="icon" href="favicon.ico" sizes="16x16 32x32 48x48">
@@ -72,11 +72,11 @@ if (location.hostname === 'beautifulcontext.com'){
   document.head.appendChild(ga);
 }
 </script>
-<script src="js/theme.js?v=139"></script>
-<link rel="stylesheet" href="app.css?v=139">
+<script src="js/theme.js?v=140"></script>
+<link rel="stylesheet" href="app.css?v=140">
 <!-- 読む画面の使い勝手（2026.10.24）。app.css のすぐあと -->
-<link rel="stylesheet" href="ux.css?v=139">
-<link rel="stylesheet" href="fade.css?v=139">
+<link rel="stylesheet" href="ux.css?v=140">
+<link rel="stylesheet" href="fade.css?v=140">
 <!-- 台本（js）が揃うまで：まだ押しても動かないもの（‹・絵の横の ‹ ›・つながりを辿る）を少し薄くし、下の帯の上の縁に細い金の線を走らせる。
      app.js が最後に body.app-ready を付けて外す。すぐ揃うときは何も見せない（0.3 秒待ってから出す） -->
 <style>
@@ -193,12 +193,12 @@ document.addEventListener('click', function (e) {
           <p class="route-label">CONTEXT　［小説から映画へ］</p>
           <h2>身代金の電話は、<br>横浜の高台で鳴った。</h2>
           <div class="pair"><span>エド・マクベイン『King’s Ransom』（1959）</span><span>黒澤明『天国と地獄』（1963）</span></div>
-          <button type="button" class="read" data-read="">このつながりを読む<small>約50秒</small><span aria-hidden="true">↓</span></button>
+          <button type="button" class="read" data-read="">このつながりを読む<small>約1分</small><span aria-hidden="true">↓</span></button>
           <i class="story-cue" aria-hidden="true"></i>
         </section>
         <article class="context-body" id="story">
           <p class="meta">CONTEXT STORY</p>
-          <h2>黒澤は、アメリカの警察小説を高度経済成長期の日本へ移した。</h2><p>『天国と地獄』は、まったくのオリジナル脚本ではない。原作は、エド・マクベインの〈87分署シリーズ〉の一作『King’s Ransom』（1959）である。</p><h3>取り違えられた子ども</h3><p>靴会社の重役のもとに「息子を誘拐した」という電話がかかる。ところが連れ去られたのは、彼の息子ではなく、運転手の息子だった。他人の子のために全財産を差し出すのか。物語の芯になるこの問いは、小説から映画へそのまま受け継がれている。</p><h3>移し替えられたもの</h3><p>黒澤は舞台を横浜に移し、誘拐サスペンスを、階級の格差と高度経済成長期の日本社会を描く映画へと大きく広げた。高台の邸宅と、それを見上げる下界。その高低差が、日本語の題名『天国と地獄』そのものになっている。</p><p>そして約60年後、スパイク・リーはこの同じ小説を企画の出発点に、物語をふたたびニューヨークへ戻すことになる。</p>
+          <h2>黒澤は、アメリカの警察小説を高度経済成長期の日本へ移した。</h2><p>『天国と地獄』は、まったくのオリジナル脚本ではない。原作は、エド・マクベインの〈87分署シリーズ〉の一作『King’s Ransom』（1959）である。</p><h3>取り違えられた子ども</h3><p>靴会社の重役のもとに「息子を誘拐した」という電話がかかる。ところが連れ去られたのは、彼の息子ではなく、運転手の息子だった。他人の子のために全財産を差し出すのか。物語の芯になるこの問いは、小説から映画へ受け継がれた。ただし小説のキングが支払いをぎりぎりまで渋るのに対し、映画の権藤は大金を支払い、その金はいったん犯人に奪われる。</p><h3>移し替えられたもの</h3><p>黒澤は舞台を横浜に移し、誘拐サスペンスを、階級の格差と高度経済成長期の日本社会を描く映画へと大きく広げた。高台の邸宅と、それを見上げる下界。その高低差が、日本語の題名『天国と地獄』そのものになっている。</p><p>そして約60年後、スパイク・リーは黒澤版を「再解釈」し、物語をふたたびアメリカへ、現代のニューヨークへと移した（『Highest 2 Lowest』、2025年）。リーは、この物語はまずアメリカの小説で、それを黒澤が映画にしたのだと語っている。</p>
           
       <section class="axes" aria-label="このつながりの型と評価">
         <p class="meta">このつながり</p>
@@ -251,7 +251,7 @@ document.addEventListener('click', function (e) {
           <a class="seg" href="c/highest-2-lowest--kings-ransom/">
             
             <small>［もう一本の源流］　事実</small>
-            <b><span class="seg-copy">始まりは黒澤ではなく、一冊の小説だった。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
+            <b><span class="seg-copy">黒澤の映画の前にも、一冊の小説があった。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
           <a class="fstop" href="w/highest-2-lowest/?c=highest-2-lowest--kings-ransom">
             <span class="st-img"><img src="img/highest.jpg" alt="『HIGHEST 2 LOWEST』" data-k="highest-2-lowest" loading="lazy" decoding="async"></span>
             <span class="st-txt"><small>映画・2025年</small>
@@ -275,7 +275,7 @@ document.addEventListener('click', function (e) {
           <a class="seg" href="c/francis-ford-coppola--high-and-low/">
             
             <small>［黒澤明を経由して］　ハブ</small>
-            <b><span class="seg-copy">コッポラは、黒澤の映画づくりを支えた。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
+            <b><span class="seg-copy">コッポラとルーカスが、黒澤の映画を支えた。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
           <a class="fstop" href="w/francis-ford-coppola/?c=francis-ford-coppola--high-and-low">
             <span class="st-img"><img src="img/works/francis-ford-coppola.jpg" alt="フランシス・フォード・コッポラ" data-k="francis-ford-coppola" loading="lazy" decoding="async"></span>
             <span class="st-txt"><small>人物・1939年</small>
@@ -299,7 +299,7 @@ document.addEventListener('click', function (e) {
           <a class="seg" href="c/shoplifters--apocalypse-now/">
             
             <small>［パルム・ドールの系譜］　ハブ</small>
-            <b><span class="seg-copy">ジャングルの奥の戦争と、東京の片隅の家族。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
+            <b><span class="seg-copy">ジャングルの奥の戦争と東京の片隅の家族。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
           <a class="fstop" href="w/shoplifters/?c=shoplifters--apocalypse-now">
             <span class="st-img"><img src="img/works/shoplifters.jpg" alt="是枝裕和『万引き家族』" data-k="shoplifters" loading="lazy" decoding="async"></span>
             <span class="st-txt"><small>映画・2018年</small>
@@ -311,7 +311,7 @@ document.addEventListener('click', function (e) {
           <a class="seg" href="c/koreeda-hirokazu--shoplifters/">
             
             <small>［家族とは何か］　作者と作品</small>
-            <b><span class="seg-copy">日本映画に21年ぶりのパルム・ドールをもたらした。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
+            <b><span class="seg-copy">日本映画が21年ぶりにパルム・ドールを得た。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
           <a class="fstop" href="w/koreeda-hirokazu/?c=koreeda-hirokazu--shoplifters">
             <span class="st-img"><img src="img/works/koreeda-hirokazu.jpg" alt="是枝裕和" data-k="koreeda-hirokazu" loading="lazy" decoding="async"></span>
             <span class="st-txt"><small>人物・1962年</small>
@@ -323,7 +323,7 @@ document.addEventListener('click', function (e) {
           <a class="seg" href="c/koreeda-hirokazu--nobody-knows/">
             
             <small>［見過ごされた子どもたち］　作者と作品</small>
-            <b><span class="seg-copy">14歳の少年が、カンヌで最年少の男優賞を得た。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
+            <b><span class="seg-copy">14歳が、カンヌで最年少の男優賞を得た。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
           <a class="fstop" href="w/nobody-knows/?c=koreeda-hirokazu--nobody-knows">
             <span class="st-img"><img src="img/works/nobody-knows.jpg" alt="是枝裕和『誰も知らない』" data-k="nobody-knows" loading="lazy" decoding="async"></span>
             <span class="st-txt"><small>映画・2004年</small>
@@ -375,7 +375,7 @@ document.addEventListener('click', function (e) {
           <a class="fstop" href="w/shooting-an-elephant/?c=shooting-an-elephant--heart-of-darkness">
             <span class="st-img"><img src="img/works/shooting-an-elephant.jpg" alt="ジョージ・オーウェル『象を撃つ』" data-k="shooting-an-elephant" loading="lazy" decoding="async"></span>
             <span class="st-txt"><small>書籍・1936年</small>
-              <b>ジョージ・オーウェル『象を撃つ』</b><span>英領ビルマで警官をしていた若いオーウェルが、暴れた象を、群衆の前で「撃たねばならなくなった」経験を書いたエッセイ。</span></span>
+              <b>ジョージ・オーウェル『象を撃つ』</b><span>英領ビルマの警官である語り手「私」が、暴れた象を、群衆の前で「撃たねばならなくなった」ことを書いたエッセイ。作者自身の体験に基づくとされる。</span></span>
           </a>
         </li></ol>
             <div class="rail-more" id="railMore" aria-hidden="true"></div>
@@ -389,18 +389,18 @@ document.addEventListener('click', function (e) {
 <div class="edge-back" id="edgeBack" aria-hidden="true"></div>
 
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
-<script type="application/ld+json" id="ld">{"@context":"https://schema.org","@type":"Article","headline":"身代金の電話は、横浜の高台で鳴った。","alternativeHeadline":"小説から映画へ","about":[{"@type":"Movie","name":"天国と地獄","description":"エド・マクベインの小説『King’s Ransom』を原作に、誘拐事件を通じて企業家の倫理と社会の格差を描いた作品。","creator":{"@type":"Person","name":"黒澤明監督"}},{"@type":"Book","name":"キングの身代金","description":"架空の街アイソラの87分署を舞台にした警察小説シリーズの一作。原題『King’s Ransom』。靴会社の重役のもとに、身代金を要求する電話がかかってくる。","creator":{"@type":"Person","name":"エド・マクベイン（87分署シリーズ）"}}],"author":{"@type":"Person","name":"編集部（見本）"},"datePublished":"2026-09-17T09:00:00.000Z","dateModified":"2026-09-17T09:00:00.000Z","inLanguage":"ja","articleBody":"黒澤は、アメリカの警察小説を高度経済成長期の日本へ移した。『天国と地獄』は、まったくのオリジナル脚本ではない。原作は、エド・マクベインの〈87分署シリーズ〉の一作『King’s Ransom』（1959）である。取り違えられた子ども靴会社の重役のもとに「息子を誘拐した」という電話がかかる。ところが連れ去られたのは、彼の息子ではなく、運転手の息子だった。他人の子のために全財産を差し出すのか。物語の芯になるこの問いは、小説から映画へそのまま受け継がれている。移し替えられたもの黒澤は舞台を横浜に移し、誘拐サスペンスを、階級の格差と高度経済成長期の日本社会を描く映画へと大きく広げた。高台の邸宅と、それを見上げる下界。その高低差が、日本語の題名『天国と地獄』そのものになっている。そして約60年後、スパイク・リーはこの同じ小説を企画の出発点に、物語をふたたびニューヨークへ戻すことになる。","url":"https://beautifulcontext.com/c/high-and-low--kings-ransom/","citation":[{"@type":"CreativeWork","name":"キングの身代金〔新訳版〕: 書籍- 早川書房オフィシャルサイト｜ミステリ・SF・海外文学・ノンフィクションの世界へ","url":"https://www.hayakawa-online.co.jp/shop/g/g0000041360/","publisher":{"@type":"Organization","name":"早川書房"}},{"@type":"CreativeWork","name":"A24 and Apple Original Films celebrate the New York premiere of “Highest 2 Lowest” with director Spike Lee and stars Denzel Washington, A$AP Rocky, Jeffrey Wright, Ilfenesh Hadera, Elijah Wright and more","url":"https://www.apple.com/au/tv-pr/news/2025/08/a24-and-apple-original-films-celebrate-the-new-york-premiere-of-highest-2-lowest-with-director-spike-lee-and-stars-denzel-washington-aap-rocky-jeffrey-wright-ilfenesh-hadera-elijah-wright-and-more","publisher":{"@type":"Organization","name":"Apple TV Press（Apple）"}},{"@type":"CreativeWork","name":"High and Low","url":"https://www.tcm.com/articles/290051/high-and-low","publisher":{"@type":"Organization","name":"Turner Classic Movies"}},{"@type":"CreativeWork","name":"Book versus film: How Akira Kurosawa's 'High and Low' relocates – and reimagines – 'King's Ransom'","url":"https://scroll.in/reel/1086305/book-versus-film-how-akira-kurosawas-high-and-low-relocates-and-reimagines-kings-ransom","publisher":{"@type":"Organization","name":"Scroll.in"}}],"image":"https://beautifulcontext.com/img/highlow.jpg"}</script>
+<script type="application/ld+json" id="ld">{"@context":"https://schema.org","@type":"Article","headline":"身代金の電話は、横浜の高台で鳴った。","alternativeHeadline":"小説から映画へ","about":[{"@type":"Movie","name":"天国と地獄","description":"エド・マクベインの小説『King’s Ransom』を原作に、誘拐事件を通じて企業家の倫理と社会の格差を描いた作品。","creator":{"@type":"Person","name":"黒澤明監督"}},{"@type":"Book","name":"キングの身代金","description":"架空の街アイソラの87分署を舞台にした警察小説シリーズの一作。原題『King’s Ransom』。靴会社の重役のもとに、身代金を要求する電話がかかってくる。","creator":{"@type":"Person","name":"エド・マクベイン（87分署シリーズ）"}}],"author":{"@type":"Person","name":"編集部（見本）"},"datePublished":"2026-09-17T09:00:00.000Z","dateModified":"2026-09-17T09:00:00.000Z","inLanguage":"ja","articleBody":"黒澤は、アメリカの警察小説を高度経済成長期の日本へ移した。『天国と地獄』は、まったくのオリジナル脚本ではない。原作は、エド・マクベインの〈87分署シリーズ〉の一作『King’s Ransom』（1959）である。取り違えられた子ども靴会社の重役のもとに「息子を誘拐した」という電話がかかる。ところが連れ去られたのは、彼の息子ではなく、運転手の息子だった。他人の子のために全財産を差し出すのか。物語の芯になるこの問いは、小説から映画へ受け継がれた。ただし小説のキングが支払いをぎりぎりまで渋るのに対し、映画の権藤は大金を支払い、その金はいったん犯人に奪われる。移し替えられたもの黒澤は舞台を横浜に移し、誘拐サスペンスを、階級の格差と高度経済成長期の日本社会を描く映画へと大きく広げた。高台の邸宅と、それを見上げる下界。その高低差が、日本語の題名『天国と地獄』そのものになっている。そして約60年後、スパイク・リーは黒澤版を「再解釈」し、物語をふたたびアメリカへ、現代のニューヨークへと移した（『Highest 2 Lowest』、2025年）。リーは、この物語はまずアメリカの小説で、それを黒澤が映画にしたのだと語っている。","url":"https://beautifulcontext.com/c/high-and-low--kings-ransom/","citation":[{"@type":"CreativeWork","name":"キングの身代金〔新訳版〕: 書籍- 早川書房オフィシャルサイト｜ミステリ・SF・海外文学・ノンフィクションの世界へ","url":"https://www.hayakawa-online.co.jp/shop/g/g0000041360/","publisher":{"@type":"Organization","name":"早川書房"}},{"@type":"CreativeWork","name":"A24 and Apple Original Films celebrate the New York premiere of “Highest 2 Lowest” with director Spike Lee and stars Denzel Washington, A$AP Rocky, Jeffrey Wright, Ilfenesh Hadera, Elijah Wright and more","url":"https://www.apple.com/au/tv-pr/news/2025/08/a24-and-apple-original-films-celebrate-the-new-york-premiere-of-highest-2-lowest-with-director-spike-lee-and-stars-denzel-washington-aap-rocky-jeffrey-wright-ilfenesh-hadera-elijah-wright-and-more","publisher":{"@type":"Organization","name":"Apple TV Press（Apple）"}},{"@type":"CreativeWork","name":"High and Low","url":"https://www.tcm.com/articles/290051/high-and-low","publisher":{"@type":"Organization","name":"Turner Classic Movies"}},{"@type":"CreativeWork","name":"Book versus film: How Akira Kurosawa's 'High and Low' relocates – and reimagines – 'King's Ransom'","url":"https://scroll.in/reel/1086305/book-versus-film-how-akira-kurosawas-high-and-low-relocates-and-reimagines-kings-ransom","publisher":{"@type":"Organization","name":"Scroll.in"}}],"image":"https://beautifulcontext.com/img/highlow.jpg"}</script>
 
-<script src="js/config.js?v=139"></script>
-<script src="js/seed.js?v=139"></script>
-<script src="js/sources.js?v=139"></script>
-<script src="js/backend.js?v=139"></script>
-<script src="js/store.js?v=139"></script>
-<script src="js/social.js?v=139"></script>
-<script src="js/render.js?v=139"></script>
-<script src="js/login.js?v=139"></script>
-<script src="js/report.js?v=139"></script>
-<script src="js/transition.js?v=139"></script>
-<script src="js/app.js?v=139"></script>
+<script src="js/config.js?v=140"></script>
+<script src="js/seed.js?v=140"></script>
+<script src="js/sources.js?v=140"></script>
+<script src="js/backend.js?v=140"></script>
+<script src="js/store.js?v=140"></script>
+<script src="js/social.js?v=140"></script>
+<script src="js/render.js?v=140"></script>
+<script src="js/login.js?v=140"></script>
+<script src="js/report.js?v=140"></script>
+<script src="js/transition.js?v=140"></script>
+<script src="js/app.js?v=140"></script>
 </body>
 </html>

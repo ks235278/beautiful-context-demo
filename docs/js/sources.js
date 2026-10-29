@@ -87,6 +87,24 @@ window.BC_SOURCES = {
    "primary": true
   },
   {
+   "title": "旅日日记（一九一八年一月一日——十二月二十三日）",
+   "site": "marxists.org",
+   "url": "https://www.marxists.org/chinese/pdf/chinese_marxists/zhou_enlai/16.pdf",
+   "primary": true
+  },
+  {
+   "title": "周恩来ゆかりの店 中国名菜 漢陽楼 | 東京都千代田区小川町・神保町",
+   "site": "漢陽楼（公式サイト）",
+   "url": "https://www.kanyoro.com/",
+   "primary": true
+  },
+  {
+   "title": "周恩来との縁・漢陽楼ギャラリー | 周恩来ゆかりの店 中国名菜 漢陽楼",
+   "site": "漢陽楼（公式サイト）",
+   "url": "https://www.kanyoro.com/zhou-enlai.html",
+   "primary": true
+  },
+  {
    "title": "中国首相も来た「中国名菜 漢陽楼」でキノコたっぷり料理を味わった",
    "site": "マイナビニュース",
    "url": "https://news.mynavi.jp/article/20171106-kanyoro/",
@@ -108,6 +126,18 @@ window.BC_SOURCES = {
    "title": "陈明远：周恩来留学日本遭遇的挫折_爱思想",
    "site": "爱思想（陳明遠の論考）",
    "url": "https://www.aisixiang.com/data/72638.html",
+   "primary": false
+  },
+  {
+   "title": "周恩来 - Wikipedia",
+   "site": "Wikipedia",
+   "url": "https://ja.wikipedia.org/wiki/周恩来",
+   "primary": false
+  },
+  {
+   "title": "口コミ一覧 : 漢陽楼（カンヨウロウ）- 神保町/中華料理 [食べログ]",
+   "site": "食べログ",
+   "url": "https://tabelog.com/tokyo/A1310/A131003/13000599/dtlrvwlst/",
    "primary": false
   }
  ],
@@ -140,6 +170,12 @@ window.BC_SOURCES = {
    "title": "Book versus film: How Akira Kurosawa's 'High and Low' relocates – and reimagines – 'King's Ransom'",
    "site": "Scroll.in",
    "url": "https://scroll.in/reel/1086305/book-versus-film-how-akira-kurosawas-high-and-low-relocates-and-reimagines-kings-ransom",
+   "primary": false
+  },
+  {
+   "title": "High and Low (1963 film)",
+   "site": "Wikipedia",
+   "url": "https://en.wikipedia.org/wiki/High_and_Low_(1963_film)",
    "primary": false
   }
  ],
@@ -271,6 +307,12 @@ window.BC_SOURCES = {
    "site": "玉名市",
    "url": "https://www.city.tamana.lg.jp/q/aview/398/12886.html",
    "primary": true
+  },
+  {
+   "title": "夏目漱石 草枕",
+   "site": "青空文庫",
+   "url": "https://www.aozora.gr.jp/cards/000148/files/776_14941.html",
+   "primary": true
   }
  ],
  "natsume-soseki--zhou-tokyo-diary": [
@@ -284,6 +326,12 @@ window.BC_SOURCES = {
    "title": "周恩来『十九歳の東京日記』 (小学館文庫) | NDLサーチ | 国立国会図書館",
    "site": "国立国会図書館",
    "url": "https://ndlsearch.ndl.go.jp/books/R100000002-I000002822397",
+   "primary": true
+  },
+  {
+   "title": "旅日日记（一九一八年一月一日——十二月二十三日）",
+   "site": "marxists.org",
+   "url": "https://www.marxists.org/chinese/pdf/chinese_marxists/zhou_enlai/16.pdf",
    "primary": true
   },
   {
@@ -303,6 +351,12 @@ window.BC_SOURCES = {
    "site": "爱思想（陳明遠の論考）",
    "url": "https://www.aisixiang.com/data/72638.html",
    "primary": false
+  },
+  {
+   "title": "周恩来（１）（世界史用語解説）",
+   "site": "Y-History 教材工房",
+   "url": "https://y-history.net/appendix/wh1601-094.html",
+   "primary": false
   }
  ],
  "zhou-enlai--zhou-tokyo-diary": [
@@ -310,6 +364,12 @@ window.BC_SOURCES = {
    "title": "周恩来『十九歳の東京日記』 (小学館文庫) | NDLサーチ | 国立国会図書館",
    "site": "国立国会図書館サーチ",
    "url": "https://ndlsearch.ndl.go.jp/books/R100000002-I000002822397",
+   "primary": true
+  },
+  {
+   "title": "旅日日记（一九一八年一月一日——十二月二十三日）",
+   "site": "marxists.org",
+   "url": "https://www.marxists.org/chinese/pdf/chinese_marxists/zhou_enlai/16.pdf",
    "primary": true
   },
   {
@@ -397,6 +457,12 @@ window.BC_SOURCES = {
    "primary": true
   },
   {
+   "title": "第4次フォークルのニューアルバム、誕生！「若い加藤和彦のように」3月30日発売決定！！ - UNIVERSAL MUSIC JAPAN",
+   "site": "UNIVERSAL MUSIC JAPAN",
+   "url": "https://www.universal-music.co.jp/the-folk-crusaders/news/2013-03-07/",
+   "primary": true
+  },
+  {
    "title": "(3ページ目)『君の名は。』『聲の形』『この世界の片隅に』ーー 最新アニメ映画の音楽、その傾向と問題点について｜Real Sound｜リアルサウンド 映画部",
    "site": "Real Sound（リアルサウンド）映画部",
    "url": "https://realsound.jp/movie/2016/09/post-2826_3.html",
@@ -440,6 +506,12 @@ window.BC_SOURCES = {
    "title": "この世界の片隅に【映画】",
    "site": "映画『この世界の片隅に』公式サイト",
    "url": "https://konosekai.jp/",
+   "primary": true
+  },
+  {
+   "title": "鳥皮みそ煮（缶詰）｜商品情報｜よしの味噌",
+   "site": "よしの味噌（広島県呉市）",
+   "url": "https://www.yoshinomiso.com/products.php?product_number=R-30",
    "primary": true
   },
   {
@@ -530,6 +602,12 @@ window.BC_SOURCES = {
    "title": "藤本タツキ - Wikipedia",
    "site": "Wikipedia",
    "url": "https://ja.wikipedia.org/wiki/藤本タツキ",
+   "primary": false
+  },
+  {
+   "title": "『チェンソーマン』第2部が次回で最終回。デンジに加え“三鷹アサ”などの新キャラも暴れ回った“学園編”。完結記念で49話分の無料公開も開始",
+   "site": "ファミ通.com",
+   "url": "https://www.famitsu.com/article/202603/68444",
    "primary": false
   }
  ],
@@ -679,6 +757,12 @@ window.BC_SOURCES = {
    "site": "Wikipedia",
    "url": "https://en.wikipedia.org/wiki/2018_Cannes_Film_Festival",
    "primary": false
+  },
+  {
+   "title": "Shoplifters (film) - Wikipedia",
+   "site": "Wikipedia",
+   "url": "https://en.wikipedia.org/wiki/Shoplifters_(film)",
+   "primary": false
   }
  ],
  "daiyame--domaine-tetta": [
@@ -727,6 +811,12 @@ window.BC_SOURCES = {
    "primary": true
   },
   {
+   "title": "Tanqueray No. TEN: Exceptional Ultra-Premium Gin | Tanqueray US",
+   "site": "Tanqueray（Diageo）",
+   "url": "https://www.tanqueray.com/en-us/no-ten-gin",
+   "primary": true
+  },
+  {
    "title": "Tanqueray No. TEN | Great British Brands by Country & Town House",
    "site": "Country & Town House",
    "url": "https://www.countryandtownhouse.com/brands-guide/tanqueray-no-ten/",
@@ -761,33 +851,51 @@ window.BC_SOURCES = {
  ],
  "kanyoro--gyoza-sakaba-kachidoki": [
   {
-   "title": "揚子江菜館&漢陽楼｜2022年3月19日｜出没！アド街ック天国：テレビ東京",
-   "site": "テレビ東京",
-   "url": "https://www.tv-tokyo.co.jp/adomachi/backnumber/20220319/142623.html",
+   "title": "中央区ホームページ／月島地区（現在の町名の由来）",
+   "site": "中央区",
+   "url": "https://www.city.chuo.lg.jp/kusei/syokai/tyomeiyurai/tsukishima/tsukishima.html",
    "primary": true
   },
   {
-   "title": "世界一クールな街・神保町は中華の街だった！中国人留学生が腹を満たした「漢陽楼」の日中友好秘話",
-   "site": "@DIME（小学館）",
-   "url": "https://dime.jp/genre/2080564/",
+   "title": "橋梁の写真｜歴史資料館｜東京都建設局",
+   "site": "東京都建設局",
+   "url": "https://www.kensetsu.metro.tokyo.lg.jp/jimusho/tech/03-jyouhou/shiryoukan/shashin_kyouryou",
    "primary": true
   },
   {
-   "title": "中国首相も来た「中国名菜 漢陽楼」でキノコたっぷり料理を味わった",
-   "site": "マイナビニュース",
-   "url": "https://news.mynavi.jp/article/20171106-kanyoro/",
-   "primary": false
+   "title": "勝鬨橋 - 昭和の文化財 - 近代の文化遺産の保存と活用",
+   "site": "文化庁",
+   "url": "https://www.bunka.go.jp/kindai/showa100th/05/index.html",
+   "primary": true
   },
   {
-   "title": "東京・千代田区観光協会、知られていない地域の魅力紹介、中華街としての「神保町」",
-   "site": "トラベルボイス",
-   "url": "https://www.travelvoice.jp/20211021-149792",
-   "primary": false
+   "title": "漢陽楼について | 周恩来ゆかりの店 中国名菜 漢陽楼",
+   "site": "漢陽楼（公式サイト）",
+   "url": "https://www.kanyoro.com/about.html",
+   "primary": true
+  },
+  {
+   "title": "周恩来との縁・漢陽楼ギャラリー｜周恩来ゆかりの店 中国名菜 漢陽楼",
+   "site": "漢陽楼（公式サイト）",
+   "url": "https://www.kanyoro.com/zhou-enlai.html",
+   "primary": true
+  },
+  {
+   "title": "餃子酒場 勝どき店【公式】",
+   "site": "餃子酒場 勝どき店（公式ホームページ）",
+   "url": "https://gyozasakabakachidokiten.owst.jp/",
+   "primary": true
   },
   {
    "title": "餃子酒場 勝どき店（晴海/居酒屋） - 楽天ぐるなび",
    "site": "楽天ぐるなび",
    "url": "https://r.gnavi.co.jp/5vaa01v90000/",
+   "primary": false
+  },
+  {
+   "title": "中国首相も来た「中国名菜 漢陽楼」でキノコたっぷり料理を味わった",
+   "site": "マイナビニュース",
+   "url": "https://news.mynavi.jp/article/20171106-kanyoro/",
    "primary": false
   }
  ],
@@ -854,6 +962,12 @@ window.BC_SOURCES = {
    "title": "Francis Ford Coppola's Apocalypse Now, Heart of Darkness, and the Vietnam War Redux",
    "site": "FILMHISTORIA Online（バルセロナ大学）",
    "url": "https://revistes.ub.edu/index.php/filmhistoria/article/view/33160",
+   "primary": true
+  },
+  {
+   "title": "映画『地獄の黙示録』が予兆し続ける『新しい戦争の《闇の奥》』",
+   "site": "note（前田邦宏）",
+   "url": "https://note.com/mdkh/n/n534c3156ce5a",
    "primary": true
   },
   {
@@ -1083,39 +1197,45 @@ window.BC_SOURCES = {
   {
    "title": "Pluribus (TV series)",
    "site": "Wikipedia",
-   "url": "https://en.wikipedia.org/wiki/Pluribus_(TV_series)",
+   "url": "https://en.wikipedia.org/wiki/Pluribus_(TV_series)#Premise",
    "primary": false
   }
  ],
- "pluribus--reacher": [
+ "war-of-the-worlds-2005--reacher": [
   {
-   "title": "The Hard Way",
-   "site": "Penguin Books",
-   "url": "https://www.penguin.co.uk/books/333830/the-hard-way-by-lee-child/9781846576102",
+   "title": "Lee Child - The Crime Writers' Association",
+   "site": "The Crime Writers' Association（CWA）",
+   "url": "https://thecwa.co.uk/past-winners/lee-child/",
    "primary": true
   },
   {
-   "title": "Apple TV debuts trailer for Vince Gilligan’s highly anticipated drama “Pluribus,” starring Emmy Award nominee Rhea Seehorn",
-   "site": "Apple TV Press",
-   "url": "https://www.apple.com/tv-pr/news/2025/10/apple-tv-debuts-trailer-for-vince-gilligans-highly-anticipated-drama-pluribus-starring-emmy-award-nominee-rhea-seehorn",
+   "title": "'Too short' Tom Cruise to be replaced for Jack Reacher reboot",
+   "site": "BBC News",
+   "url": "https://www.bbc.com/news/entertainment-arts-46207601",
    "primary": true
   },
   {
-   "title": "Reacher (TV series)",
+   "title": "War of the Worlds (2005 film)",
    "site": "Wikipedia",
-   "url": "https://en.wikipedia.org/wiki/Reacher_(TV_series)",
+   "url": "https://en.wikipedia.org/wiki/War_of_the_Worlds_(2005_film)",
    "primary": false
   },
   {
-   "title": "Prime Videoで『リーチャー 〜正義のアウトロー〜』シーズン4とスピンオフ『ニーグリー』の配信が決定",
-   "site": "マイナビニュース",
-   "url": "https://news.mynavi.jp/article/20260804-4774118/",
+   "title": "宇宙戦争 (2005年の映画)",
+   "site": "Wikipedia",
+   "url": "https://ja.wikipedia.org/wiki/%E5%AE%87%E5%AE%99%E6%88%A6%E4%BA%89_(2005%E5%B9%B4%E3%81%AE%E6%98%A0%E7%94%BB)",
    "primary": false
   },
   {
-   "title": "「“幸福”に満ちた新世界から取り残されて――「ブレイキング・バッド」生みの親が仕掛ける「プルリブス」は先が気になってしかたがない【ハリウッドコラムvol.369】」",
+   "title": "トム・クルーズ大喜び！「アウトロー」ジャパンプレミアに2700人結集",
    "site": "映画.com",
-   "url": "https://eiga.com/news/20251113/33/",
+   "url": "https://eiga.com/news/20130109/17/",
+   "primary": false
+  },
+  {
+   "title": "Jack Reacher",
+   "site": "Wikipedia",
+   "url": "https://en.wikipedia.org/wiki/Jack_Reacher",
    "primary": false
   }
  ],
@@ -1136,6 +1256,18 @@ window.BC_SOURCES = {
    "title": "Apple Original Films’ blockbuster feature “F1 The Movie,” from Joseph Kosinski, to make global streaming debut on Friday, December 12, 2025",
    "site": "Apple TV Press",
    "url": "https://www.apple.com/tv-pr/news/2025/10/apple-original-films-blockbuster-feature-f1-the-movie-from-joseph-kosinski-to-make-global-streaming-debut-on-friday-december-12-2025/",
+   "primary": true
+  },
+  {
+   "title": "天国と地獄 Highest 2 Lowestを視聴 - Apple TV",
+   "site": "Apple TV",
+   "url": "https://tv.apple.com/jp/movie/highest-2-lowest/umc.cmc.3rbg43tt2brl2cp5wwacfrmhx",
+   "primary": true
+  },
+  {
+   "title": "プルリブスを視聴 - Apple TV",
+   "site": "Apple TV",
+   "url": "https://tv.apple.com/jp/show/pluribus/umc.cmc.37axgovs2yozlyh3c2cmwzlza",
    "primary": true
   },
   {
@@ -1271,6 +1403,18 @@ window.BC_SOURCES = {
    "site": "The Advocate",
    "url": "https://advocate.com/news/daily-news/2009/12/22/colin-jude-and-johnny-honor-heath",
    "primary": false
+  },
+  {
+   "title": "The Imaginarium of Doctor Parnassus",
+   "site": "Wikipedia",
+   "url": "https://en.wikipedia.org/wiki/The_Imaginarium_of_Doctor_Parnassus",
+   "primary": false
+  },
+  {
+   "title": "Brazil (1985 film)",
+   "site": "Wikipedia",
+   "url": "https://en.wikipedia.org/wiki/Brazil_(1985_film)",
+   "primary": false
   }
  ],
  "johnny-depp--minamata": [
@@ -1302,6 +1446,12 @@ window.BC_SOURCES = {
    "title": "ジョニー・デップ",
    "site": "Wikipedia",
    "url": "https://ja.wikipedia.org/wiki/ジョニー・デップ",
+   "primary": false
+  },
+  {
+   "title": "ユージン・スミス",
+   "site": "Wikipedia",
+   "url": "https://ja.wikipedia.org/wiki/ユージン・スミス",
    "primary": false
   }
  ],
@@ -1435,6 +1585,18 @@ window.BC_SOURCES = {
    "primary": true
   },
   {
+   "title": "映画『マッドドライヴ』とフリーダ・サンデモ",
+   "site": "note（前田邦宏）",
+   "url": "https://note.com/mdkh/n/nd8aae37ea947",
+   "primary": true
+  },
+  {
+   "title": "映画『Kill your friends』とフリーダ・サンデモ",
+   "site": "note（前田邦宏）",
+   "url": "https://note.com/mdkh/n/n28788452c56f",
+   "primary": true
+  },
+  {
    "title": "マッド・ドライヴ",
    "site": "Wikipedia",
    "url": "https://ja.wikipedia.org/wiki/マッド・ドライヴ",
@@ -1457,9 +1619,27 @@ window.BC_SOURCES = {
    "site": "Eye For Film",
    "url": "https://www.eyeforfilm.co.uk/review/kill-your-friends-2015-film-review-by-angus-wolfe-murray",
    "primary": false
+  },
+  {
+   "title": "Frida Sundemo - Wikipedia",
+   "site": "Wikipedia（スウェーデン語版）",
+   "url": "https://sv.wikipedia.org/wiki/Frida_Sundemo",
+   "primary": false
   }
  ],
  "homme-less--happy-pharrell": [
+  {
+   "title": "屋根のない部屋で見る＜夢と現実＞",
+   "site": "note（前田邦宏）",
+   "url": "https://note.com/mdkh/n/n94e632a852df",
+   "primary": true
+  },
+  {
+   "title": "HOMME LESS - DOC NYC",
+   "site": "DOC NYC",
+   "url": "https://www.docnyc.net/film/homme-less/",
+   "primary": true
+  },
   {
    "title": "Pharrell Williams - Happy",
    "site": "24hoursofhappy.com（We Are From L.A. / Universal）",
@@ -1473,12 +1653,6 @@ window.BC_SOURCES = {
    "primary": false
   },
   {
-   "title": "ホームレス ニューヨークと寝た男 : 作品情報・キャスト・あらすじ・動画 - 映画.com",
-   "site": "映画.com",
-   "url": "https://eiga.com/movie/85785/",
-   "primary": false
-  },
-  {
    "title": "Mark Reay - Wikipedia",
    "site": "Wikipedia",
    "url": "https://en.wikipedia.org/wiki/Mark_Reay",
@@ -1489,6 +1663,18 @@ window.BC_SOURCES = {
    "site": "Wikipedia",
    "url": "https://en.wikipedia.org/wiki/Happy_(Pharrell_Williams_song)",
    "primary": false
+  },
+  {
+   "title": "ホームレス ニューヨークと寝た男 作品情報",
+   "site": "ジョルダン 映画",
+   "url": "https://movie.jorudan.co.jp/film/87408/",
+   "primary": false
+  },
+  {
+   "title": "ホームレス ニューヨークと寝た男 : 作品情報・キャスト・あらすじ・動画 - 映画.com",
+   "site": "映画.com",
+   "url": "https://eiga.com/movie/85785/",
+   "primary": false
   }
  ],
  "the-planets--the-war-of-the-worlds": [
@@ -1496,6 +1682,12 @@ window.BC_SOURCES = {
    "title": "The War of the Worlds | Project Gutenberg",
    "site": "Project Gutenberg",
    "url": "https://www.gutenberg.org/cache/epub/36/pg36-images.html",
+   "primary": true
+  },
+  {
+   "title": "『我は汝に誓う我が祖国よ』 I Vow To Thee, My Country",
+   "site": "note（前田邦宏）",
+   "url": "https://note.com/mdkh/n/na39e0726cfe9",
    "primary": true
   },
   {
@@ -1518,6 +1710,18 @@ window.BC_SOURCES = {
   }
  ],
  "tengoku-film--tengoku-book": [
+  {
+   "title": "天国にいちばん近い島 | NDLサーチ | 国立国会図書館",
+   "site": "国立国会図書館（NDLサーチ）",
+   "url": "https://ndlsearch.ndl.go.jp/books/R100000002-I000001084985",
+   "primary": true
+  },
+  {
+   "title": "『天国に近い島』という蜃気楼",
+   "site": "note（前田邦宏）",
+   "url": "https://note.com/mdkh/n/ndb1c39d07e16",
+   "primary": true
+  },
   {
    "title": "森村桂 - Wikipedia",
    "site": "Wikipedia",
@@ -1547,9 +1751,39 @@ window.BC_SOURCES = {
    "site": "Wikipedia",
    "url": "https://ja.wikipedia.org/wiki/%E5%86%86_%28%E9%80%9A%E8%B2%A8%29",
    "primary": false
+  },
+  {
+   "title": "天国にいちばん近い島 (映画) - Wikipedia",
+   "site": "Wikipedia",
+   "url": "https://ja.wikipedia.org/wiki/%E5%A4%A9%E5%9B%BD%E3%81%AB%E3%81%84%E3%81%A1%E3%81%B0%E3%82%93%E8%BF%91%E3%81%84%E5%B3%B6_%28%E6%98%A0%E7%94%BB%29",
+   "primary": false
+  },
+  {
+   "title": "The Island Closest to Heaven (天国にいちばん近い島, Nobuhiko Obayashi, 1984)",
+   "site": "Windows on Worlds",
+   "url": "https://windowsonworlds.com/2022/10/15/the-island-closest-to-heaven-%e5%a4%a9%e5%9b%bd%e3%81%ab%e3%81%84%e3%81%a1%e3%81%b0%e3%82%93%e8%bf%91%e3%81%84%e5%b3%b6-nobuhiko-obayashi-1984/",
+   "primary": false
   }
  ],
  "tengoku-book--rebellion-ordre-et-morale": [
+  {
+   "title": "天国にいちばん近い島 | NDLサーチ | 国立国会図書館",
+   "site": "国立国会図書館（NDLサーチ）",
+   "url": "https://ndlsearch.ndl.go.jp/books/R100000002-I000001084985",
+   "primary": true
+  },
+  {
+   "title": "『天国に近い島』という蜃気楼",
+   "site": "note（前田邦宏）",
+   "url": "https://note.com/mdkh/n/ndb1c39d07e16",
+   "primary": true
+  },
+  {
+   "title": "FEU NOS PERES ニューカレドニアの日系人",
+   "site": "立命館大学国際平和ミュージアム",
+   "url": "https://www.ritsumei.ac.jp/mng/er/wp-museum/event/backnumber/s070609/index.html",
+   "primary": true
+  },
   {
    "title": "ニューカレドニア - Wikipedia",
    "site": "Wikipedia",
@@ -1579,9 +1813,39 @@ window.BC_SOURCES = {
    "site": "Wikipedia",
    "url": "https://en.wikipedia.org/wiki/Japanese_settlement_in_New_Caledonia",
    "primary": false
+  },
+  {
+   "title": "天国にいちばん近い島 - Wikipedia",
+   "site": "Wikipedia",
+   "url": "https://ja.wikipedia.org/wiki/%E5%A4%A9%E5%9B%BD%E3%81%AB%E3%81%84%E3%81%A1%E3%81%B0%E3%82%93%E8%BF%91%E3%81%84%E5%B3%B6",
+   "primary": false
+  },
+  {
+   "title": "「天国にいちばん近い島」で起きた事件を映画化 監督に聞く - 日本経済新聞",
+   "site": "日本経済新聞",
+   "url": "https://www.nikkei.com/article/DGXNASFK20016_Q2A121C1I00000/",
+   "primary": false
+  },
+  {
+   "title": "＜関学研究室から～神戸三田キャンパス＞ニューカレドニア 総合政策学部・津田睦美教授",
+   "site": "神戸新聞NEXT",
+   "url": "https://www.kobe-np.co.jp/news/sanda/202206/0015523618.shtml",
+   "primary": false
   }
  ],
  "tengoku-film--harada-tomoyo": [
+  {
+   "title": "FILM | O3 Harada Tomoyo Official Site",
+   "site": "原田知世 公式サイト（O3 Harada Tomoyo Official Site）",
+   "url": "https://haradatomoyo.com/profile/film/",
+   "primary": true
+  },
+  {
+   "title": "『天国に近い島』という蜃気楼",
+   "site": "note（前田邦宏）",
+   "url": "https://note.com/mdkh/n/ndb1c39d07e16",
+   "primary": true
+  },
   {
    "title": "原田知世 - Wikipedia",
    "site": "Wikipedia",
@@ -1621,6 +1885,12 @@ window.BC_SOURCES = {
    "primary": true
   },
   {
+   "title": "ビルマからミャンマーへ, ラングーンからヤンゴンへ",
+   "site": "note（前田邦宏）",
+   "url": "https://note.com/mdkh/n/n4dec6741097a",
+   "primary": true
+  },
+  {
    "title": "Shooting an Elephant - Wikipedia",
    "site": "Wikipedia",
    "url": "https://en.wikipedia.org/wiki/Shooting_an_Elephant",
@@ -1643,6 +1913,24 @@ window.BC_SOURCES = {
    "site": "Wikipedia",
    "url": "https://en.wikipedia.org/wiki/Emma_Larkin",
    "primary": false
+  },
+  {
+   "title": "Big Brother’s Burmese Comeback",
+   "site": "Foreign Policy",
+   "url": "https://foreignpolicy.com/2014/02/15/big-brothers-burmese-comeback/",
+   "primary": false
+  },
+  {
+   "title": "Big Brother Is Watching",
+   "site": "Newsweek",
+   "url": "https://www.newsweek.com/big-brother-watching-121511",
+   "primary": false
+  },
+  {
+   "title": "Nineteen Eighty-Four - Wikipedia",
+   "site": "Wikipedia",
+   "url": "https://en.wikipedia.org/wiki/Nineteen_Eighty-Four",
+   "primary": false
   }
  ],
  "shooting-an-elephant--heart-of-darkness": [
@@ -1656,6 +1944,18 @@ window.BC_SOURCES = {
    "title": "Shooting an Elephant | The Orwell Foundation",
    "site": "The Orwell Foundation",
    "url": "https://www.orwellfoundation.com/the-orwell-foundation/orwell/essays-and-other-works/shooting-an-elephant/",
+   "primary": true
+  },
+  {
+   "title": "ビルマからミャンマーへ, ラングーンからヤンゴンへ",
+   "site": "note（前田邦宏）",
+   "url": "https://note.com/mdkh/n/n4dec6741097a",
+   "primary": true
+  },
+  {
+   "title": "映画『地獄の黙示録』が予兆し続ける『新しい戦争の《闇の奥》』",
+   "site": "note（前田邦宏）",
+   "url": "https://note.com/mdkh/n/n534c3156ce5a",
    "primary": true
   },
   {
@@ -1775,6 +2075,12 @@ window.BC_SOURCES = {
    "primary": true
   },
   {
+   "title": "大ヒットドラマ『Breaking Bad』以上のスピンオフ作品",
+   "site": "note（前田邦宏）",
+   "url": "https://note.com/mdkh/n/nf46da59e02f0",
+   "primary": true
+  },
+  {
    "title": "ベター・コール・ソウル",
    "site": "Wikipedia",
    "url": "https://ja.wikipedia.org/wiki/%E3%83%99%E3%82%BF%E3%83%BC%E3%83%BB%E3%82%B3%E3%83%BC%E3%83%AB%E3%83%BB%E3%82%BD%E3%82%A6%E3%83%AB",
@@ -1871,6 +2177,12 @@ window.BC_SOURCES = {
    "primary": true
   },
   {
+   "title": "映画『インターステラー』に見る、現代版『怒りの葡萄』とその背景",
+   "site": "note（前田邦宏）",
+   "url": "https://note.com/mdkh/n/n9aef3ef5e500",
+   "primary": true
+  },
+  {
    "title": "Interstellar (film)",
    "site": "Wikipedia",
    "url": "https://en.wikipedia.org/wiki/Interstellar_(film)",
@@ -1917,6 +2229,12 @@ window.BC_SOURCES = {
  ],
  "the-war-of-the-worlds--war-of-the-worlds-2005": [
   {
+   "title": "「市場の倫理」と「統治の倫理」の哲学的内戦",
+   "site": "note（前田邦宏）",
+   "url": "https://note.com/mdkh/n/neece827b39cc",
+   "primary": true
+  },
+  {
    "title": "The War of the Worlds",
    "site": "Project Gutenberg",
    "url": "https://www.gutenberg.org/cache/epub/36/pg36.txt",
@@ -1940,6 +2258,12 @@ window.BC_SOURCES = {
    "title": "If 'Interstellar' Were Made Today, What Would Be Different?",
    "site": "Science Friday",
    "url": "https://www.sciencefriday.com/segments/10-year-anniversary-interstellar/",
+   "primary": true
+  },
+  {
+   "title": "映画『インターステラー』に見る、現代版『怒りの葡萄』とその背景",
+   "site": "note（前田邦宏）",
+   "url": "https://note.com/mdkh/n/n9aef3ef5e500",
    "primary": true
   },
   {
@@ -1989,6 +2313,12 @@ window.BC_SOURCES = {
    "primary": true
   },
   {
+   "title": "『＜わたし＞と国家のあいだ』 鷲田清一",
+   "site": "note（前田邦宏）",
+   "url": "https://note.com/mdkh/n/n237fee5ec4bd",
+   "primary": true
+  },
+  {
    "title": "鷲田清一",
    "site": "Wikipedia",
    "url": "https://ja.wikipedia.org/wiki/%E9%B7%B2%E7%94%B0%E6%B8%85%E4%B8%80",
@@ -2006,6 +2336,12 @@ window.BC_SOURCES = {
    "title": "時代のきしみ : <わたし>と国家のあいだ",
    "site": "国立国会図書館サーチ",
    "url": "https://ndlsearch.ndl.go.jp/books/R100000002-I000003678639",
+   "primary": true
+  },
+  {
+   "title": "『＜わたし＞と国家のあいだ』 鷲田清一",
+   "site": "note（前田邦宏）",
+   "url": "https://note.com/mdkh/n/n237fee5ec4bd",
    "primary": true
   },
   {
@@ -2047,6 +2383,18 @@ window.BC_SOURCES = {
    "primary": true
   },
   {
+   "title": "美しきホームレス、マーク・レイがすべてを失わない理由【後編】",
+   "site": "AFPBB News",
+   "url": "https://www.afpbb.com/articles/-/3110205",
+   "primary": true
+  },
+  {
+   "title": "美しきホームレス、マーク・レイがそれでもNYを愛する理由【前編】",
+   "site": "AFPBB News（MODE PRESS）",
+   "url": "https://www.afpbb.com/articles/-/3110201",
+   "primary": true
+  },
+  {
    "title": "鷲田清一 - Wikipedia",
    "site": "Wikipedia",
    "url": "https://ja.wikipedia.org/wiki/鷲田清一",
@@ -2057,6 +2405,12 @@ window.BC_SOURCES = {
    "site": "Wikipedia",
    "url": "https://en.wikipedia.org/wiki/Homme_Less",
    "primary": false
+  },
+  {
+   "title": "ホームレス ニューヨークと寝た男 作品情報",
+   "site": "ジョルダン 映画",
+   "url": "https://movie.jorudan.co.jp/film/87408/",
+   "primary": false
   }
  ],
  "do-androids-dream--blade-runner": [
@@ -2064,6 +2418,18 @@ window.BC_SOURCES = {
    "title": "Blade Runner: anatomy of a classic | BFI",
    "site": "BFI（英国映画協会）",
    "url": "https://www.bfi.org.uk/features/blade-runner",
+   "primary": true
+  },
+  {
+   "title": "フィリップ・K・ディックの作品に見る自律運転タクシーの未来",
+   "site": "note（前田邦宏）",
+   "url": "https://note.com/mdkh/n/n79480c92b6a9",
+   "primary": true
+  },
+  {
+   "title": "去年を待ちながら : 新訳版",
+   "site": "国立国会図書館サーチ",
+   "url": "https://ndlsearch.ndl.go.jp/books/R100000002-I028498841",
    "primary": true
   },
   {
@@ -2089,6 +2455,12 @@ window.BC_SOURCES = {
    "site": "Wikipedia",
    "url": "https://ja.wikipedia.org/wiki/ブレードランナー",
    "primary": false
+  },
+  {
+   "title": "Now Wait for Last Year - Wikipedia",
+   "site": "Wikipedia",
+   "url": "https://en.wikipedia.org/wiki/Now_Wait_for_Last_Year",
+   "primary": false
   }
  ],
  "isaac-asimov--do-androids-dream": [
@@ -2096,6 +2468,24 @@ window.BC_SOURCES = {
    "title": "Blade Runner: anatomy of a classic | BFI",
    "site": "BFI（英国映画協会）",
    "url": "https://www.bfi.org.uk/features/blade-runner",
+   "primary": true
+  },
+  {
+   "title": "I, Robot by Isaac Asimov",
+   "site": "Penguin Random House（Del Rey）",
+   "url": "https://www.penguinrandomhouse.com/books/5681/i-robot-by-isaac-asimov/",
+   "primary": true
+  },
+  {
+   "title": "Runaround | Infinite Worlds: Science Fiction and the Future of Humanity",
+   "site": "ヴァンダービルト大学図書館（Jean and Alexander Heard Library）",
+   "url": "https://exhibitions.library.vanderbilt.edu/scifi/item/runaround/",
+   "primary": true
+  },
+  {
+   "title": "Do Androids Dream of Electric Sheep? by Philip K. Dick",
+   "site": "Penguin Random House（Del Rey）",
+   "url": "https://www.penguinrandomhouse.com/books/40617/do-androids-dream-of-electric-sheep-by-philip-k-dick/",
    "primary": true
   },
   {
@@ -2108,6 +2498,18 @@ window.BC_SOURCES = {
    "title": "Do Androids Dream of Electric Sheep? - Wikipedia",
    "site": "Wikipedia",
    "url": "https://en.wikipedia.org/wiki/Do_Androids_Dream_of_Electric_Sheep%3F",
+   "primary": false
+  },
+  {
+   "title": "Laws of Robotics",
+   "site": "The Encyclopedia of Science Fiction（SFE）",
+   "url": "https://sf-encyclopedia.com/entry/laws_of_robotics",
+   "primary": false
+  },
+  {
+   "title": "Life After Empathy: On Philip K. Dick and Blade Runner 2049",
+   "site": "The Paris Review（Paul Youngquist, 2017年10月23日）",
+   "url": "https://www.theparisreview.org/blog/2017/10/23/life-after-empathy-on-blade-runner-2049/",
    "primary": false
   }
  ],
@@ -2122,6 +2524,18 @@ window.BC_SOURCES = {
    "title": "Diaspora — Greg Egan",
    "site": "グレッグ・イーガン公式サイト",
    "url": "https://www.gregegan.net/DIASPORA/DIASPORA.html",
+   "primary": true
+  },
+  {
+   "title": "Blade Runner 2049 — Alcon Entertainment",
+   "site": "Alcon Entertainment（制作会社・公式）",
+   "url": "https://www.alconent.com/film/bladerunner2049",
+   "primary": true
+  },
+  {
+   "title": "Blade Runner 2049 review: the future’s still questionable",
+   "site": "BFI Sight and Sound（英国映画協会／Tim Hayes）",
+   "url": "https://www.bfi.org.uk/sight-and-sound/reviews/blade-runner-2049-review-futures-still-questionable",
    "primary": true
   },
   {
@@ -2140,6 +2554,24 @@ window.BC_SOURCES = {
    "title": "ブレードランナー 2049 - Wikipedia",
    "site": "Wikipedia",
    "url": "https://ja.wikipedia.org/wiki/ブレードランナー_2049",
+   "primary": false
+  },
+  {
+   "title": "Film Review: ‘Blade Runner 2049’",
+   "site": "Variety（Peter Debruge, 2017年9月29日）",
+   "url": "https://variety.com/2017/film/reviews/blade-runner-2049-review-1202576220/",
+   "primary": false
+  },
+  {
+   "title": "BLADE RUNNER 2049（制作ノート「Ana’s Memory Lab」）",
+   "site": "BUF Compagnie（VFXスタジオ）",
+   "url": "https://buf.com/films/blade-runner-2049/",
+   "primary": false
+  },
+  {
+   "title": "Egan, Greg",
+   "site": "The Encyclopedia of Science Fiction（SFE）",
+   "url": "https://sf-encyclopedia.com/entry/egan_greg",
    "primary": false
   }
  ],
@@ -2284,18 +2716,6 @@ window.BC_SOURCES = {
    "title": "So - PeterGabriel.com",
    "site": "PeterGabriel.com（公式）",
    "url": "https://petergabriel.com/release/so/",
-   "primary": true
-  },
-  {
-   "title": "Peter Gabriel & WOMAD | Womad.org",
-   "site": "WOMAD",
-   "url": "https://womad.org/peter-gabriel-womad/",
-   "primary": true
-  },
-  {
-   "title": "About - Real World Records",
-   "site": "Real World Records",
-   "url": "https://realworldrecords.com/about/",
    "primary": true
   },
   {
@@ -2489,6 +2909,12 @@ window.BC_SOURCES = {
    "site": "Wikipedia",
    "url": "https://ja.wikipedia.org/wiki/%E5%9C%9F%E5%AE%9C%E6%B3%95%E9%BE%8D",
    "primary": false
+  },
+  {
+   "title": "南方熊楠",
+   "site": "Wikipedia（日本語版）",
+   "url": "https://ja.wikipedia.org/wiki/%E5%8D%97%E6%96%B9%E7%86%8A%E6%A5%A0",
+   "primary": false
   }
  ],
  "minakata-kumagusu--natsume-soseki": [
@@ -2502,6 +2928,30 @@ window.BC_SOURCES = {
    "title": "大英博物館と知への挑戦（イギリス時代）",
    "site": "公益財団法人 南方熊楠記念館",
    "url": "https://www.minakatakumagusu-kinenkan.jp/exhibition-guide/corner2/corner2-2",
+   "primary": true
+  },
+  {
+   "title": "夏目漱石生い立ち：新宿区",
+   "site": "新宿区",
+   "url": "https://www.city.shinjuku.lg.jp/kanko/file03_01_00027.html",
+   "primary": true
+  },
+  {
+   "title": "南方熊楠略年譜",
+   "site": "南方熊楠顕彰館（南方熊楠邸）",
+   "url": "https://www.minakata.org/minakatakumagusu/lifetime13/",
+   "primary": true
+  },
+  {
+   "title": "資料でたどる夏目漱石略年譜",
+   "site": "県立神奈川近代文学館 夏目漱石資料デジタルアーカイブ",
+   "url": "https://www.kanabun.or.jp/souseki/nenfu.html",
+   "primary": true
+  },
+  {
+   "title": "漱石の生涯 英国留学時代",
+   "site": "東北大学附属図書館 夏目漱石ライブラリ",
+   "url": "https://www.library.tohoku.ac.jp/collection/collection/soseki/syogai-04.html",
    "primary": true
   },
   {
@@ -2563,6 +3013,12 @@ window.BC_SOURCES = {
    "primary": true
   },
   {
+   "title": "7. Affordance (Bewandtnis) — The Cambridge Heidegger Lexicon",
+   "site": "Cambridge University Press",
+   "url": "https://www.cambridge.org/core/books/abs/cambridge-heidegger-lexicon/affordance-bewandtnis/B3FBDBA3C4ECDA836FC4AD6ADB620A46",
+   "primary": true
+  },
+  {
    "title": "Martin Heidegger (Stanford Encyclopedia of Philosophy)",
    "site": "Stanford Encyclopedia of Philosophy",
    "url": "https://plato.stanford.edu/entries/heidegger/",
@@ -2589,33 +3045,63 @@ window.BC_SOURCES = {
  ],
  "affordance--minakata-mandala": [
   {
-   "title": "南方熊楠の研究生活",
-   "site": "公益財団法人 南方熊楠記念館",
-   "url": "https://www.minakatakumagusu-kinenkan.jp/exhibition-guide/corner5/corner5-1",
+   "title": "土宜法龍宛書簡（南方マンダラほか）",
+   "site": "南方熊楠顕彰館（南方熊楠邸）",
+   "url": "https://www.minakata.org/facility/collections/minakatamandala/",
    "primary": true
   },
   {
-   "title": "アフォーダンス",
-   "site": "Wikipedia",
-   "url": "https://ja.wikipedia.org/wiki/%E3%82%A2%E3%83%95%E3%82%A9%E3%83%BC%E3%83%80%E3%83%B3%E3%82%B9",
-   "primary": false
+   "title": "The Ecological Approach to Visual Perception: Classic Edition",
+   "site": "Routledge / Psychology Press",
+   "url": "https://www.routledge.com/The-Ecological-Approach-to-Visual-Perception-Classic-Edition/Gibson/p/book/9781848725782",
+   "primary": true
   },
   {
-   "title": "Affordance",
-   "site": "Wikipedia",
-   "url": "https://en.wikipedia.org/wiki/Affordance",
-   "primary": false
+   "title": "南方熊楠略年譜",
+   "site": "南方熊楠顕彰館（南方熊楠邸）",
+   "url": "https://www.minakata.org/minakatakumagusu/lifetime13/",
+   "primary": true
   },
   {
    "title": "南方マンダラ",
-   "site": "Wikipedia",
+   "site": "Wikipedia（日本語版）",
    "url": "https://ja.wikipedia.org/wiki/%E5%8D%97%E6%96%B9%E3%83%9E%E3%83%B3%E3%83%80%E3%83%A9",
    "primary": false
   },
   {
-   "title": "南方熊楠",
-   "site": "Wikipedia",
-   "url": "https://ja.wikipedia.org/wiki/%E5%8D%97%E6%96%B9%E7%86%8A%E6%A5%A0",
+   "title": "第二話 『南方熊楠・土宜法竜 往復書簡』 物／事／心／理と言葉",
+   "site": "植田信隆 公式サイト",
+   "url": "https://uedanobutaka.com/minakata-kumagusu-and-toki-horyu-the-letters-of-exchange/",
+   "primary": false
+  },
+  {
+   "title": "アフォーダンス",
+   "site": "Wikipedia（日本語版）",
+   "url": "https://ja.wikipedia.org/wiki/%E3%82%A2%E3%83%95%E3%82%A9%E3%83%BC%E3%83%80%E3%83%B3%E3%82%B9",
+   "primary": false
+  },
+  {
+   "title": "Gibson's affordances and Turing's theory of computation（A. J. Wells）",
+   "site": "LSE Research Online（ロンドン・スクール・オブ・エコノミクス／Ecological Psychology 14(3), 2002 の受理稿）",
+   "url": "https://researchonline.lse.ac.uk/id/eprint/2606/1/Affordances_and_Computation_APA_style_(LSERO).pdf",
+   "primary": false
+  },
+  {
+   "title": "In Defense of Introspective Affordances（David Miguel Gray）",
+   "site": "Review of Philosophy and Psychology（Springer, 2025／オープンアクセス）",
+   "url": "https://link.springer.com/article/10.1007/s13164-024-00734-z",
+   "primary": false
+  },
+  {
+   "title": "Designing Smart Objects to Support Affording Situations: Exploiting Affordance Through an Understanding of Forms of Engagement（Chris Baber）",
+   "site": "Frontiers in Psychology（2018）",
+   "url": "https://www.frontiersin.org/journals/psychology/articles/10.3389/fpsyg.2018.00292/full",
+   "primary": false
+  },
+  {
+   "title": "James J. Gibson’s Affordance Examples（Edward Baggs）",
+   "site": "History of Psychology（APA, 29(2), 2026）",
+   "url": "https://www.ovid.com/journals/hipsy/fulltext/10.1037/hop0000295~james-j-gibsons-affordance-examples",
    "primary": false
   }
  ],
@@ -2648,6 +3134,12 @@ window.BC_SOURCES = {
    "title": "Hannah Arendt",
    "site": "Wikipedia",
    "url": "https://en.wikipedia.org/wiki/Hannah_Arendt",
+   "primary": false
+  },
+  {
+   "title": "Hannah Arendt, David Farrell Krell and the early English translations of Heidegger",
+   "site": "Progressive Geographies（Stuart Elden）",
+   "url": "https://progressivegeographies.com/2025/03/16/hannah-arendt-david-farrell-krell-and-the-early-english-translations-of-heidegger/",
    "primary": false
   }
  ],
@@ -2691,6 +3183,24 @@ window.BC_SOURCES = {
    "primary": true
   },
   {
+   "title": "Whole Earth Catalog Fall 1968",
+   "site": "Internet Archive（Portola Institute 刊・創刊号の原本スキャン、提供 Stewart Brand）",
+   "url": "https://archive.org/details/wholeearthcatalo00unse_8",
+   "primary": true
+  },
+  {
+   "title": "The Last Whole Earth Catalog January 1, 1971",
+   "site": "Internet Archive（The Point Foundation 刊の原本スキャン）",
+   "url": "https://archive.org/details/lastwholeearthca00unse",
+   "primary": true
+  },
+  {
+   "title": "Interview with Stewart Brand（Bucky Conversations, M1915）",
+   "site": "Stanford Libraries（Stanford Digital Repository／Special Collections）",
+   "url": "https://purl.stanford.edu/fr963yt9378",
+   "primary": true
+  },
+  {
    "title": "Operating Manual for Spaceship Earth",
    "site": "Wikipedia",
    "url": "https://en.wikipedia.org/wiki/Operating_Manual_for_Spaceship_Earth",
@@ -2707,6 +3217,12 @@ window.BC_SOURCES = {
    "site": "Wikipedia",
    "url": "https://en.wikipedia.org/wiki/Whole_Earth_Catalog",
    "primary": false
+  },
+  {
+   "title": "Quote Origin: Spaceship Earth: No Instruction Book Came With It",
+   "site": "Quote Investigator",
+   "url": "https://quoteinvestigator.com/2022/07/17/spaceship-earth/",
+   "primary": false
   }
  ],
  "buckminster-fuller--think-different": [
@@ -2714,6 +3230,24 @@ window.BC_SOURCES = {
    "title": "Biography",
    "site": "Buckminster Fuller Institute",
    "url": "https://www.bfi.org/about-fuller/biography/",
+   "primary": true
+  },
+  {
+   "title": "What Steve Jobs learned from Buckminster Fuller during their only meeting",
+   "site": "Fast Company Middle East（Alec Nevala-Lee『Inventor of the Future』抜粋）",
+   "url": "https://fastcompanyme.com/co-design/what-steve-jobs-learned-from-buckminster-fuller-during-their-only-meeting/",
+   "primary": true
+  },
+  {
+   "title": "Apple Launches Brand Advertising Campaign",
+   "site": "Apple Computer, Inc. 報道発表（1997年9月26日付、MacTech に再掲）",
+   "url": "https://www.mactech.com/1997/09/27/md1-apple-launches-brand-advertising-campaign/",
+   "primary": true
+  },
+  {
+   "title": "Introduction to Buckminster Fuller",
+   "site": "Buckminster Fuller Institute",
+   "url": "https://www.bfi.org/about-fuller/biography/introduction-to-buckminster-fuller/",
    "primary": true
   },
   {
@@ -2732,6 +3266,18 @@ window.BC_SOURCES = {
    "title": "バックミンスター・フラー",
    "site": "Wikipedia（日本語版）",
    "url": "https://ja.wikipedia.org/wiki/バックミンスター・フラー",
+   "primary": false
+  },
+  {
+   "title": "Buckminster Fuller's Greatest Invention",
+   "site": "The New Republic",
+   "url": "https://newrepublic.com/article/167229/buckminster-fullers-greatest-invention",
+   "primary": false
+  },
+  {
+   "title": "Video: Steve Jobs narrating the 1997 ‘Think Different’ TV ad",
+   "site": "Fortune（Philip Elmer-DeWitt、2011年10月6日）",
+   "url": "https://fortune.com/2011/10/06/video-steve-jobs-narrating-the-1997-think-different-tv-ad",
    "primary": false
   }
  ],
@@ -2821,6 +3367,30 @@ window.BC_SOURCES = {
    "primary": true
   },
   {
+   "title": "「愛蔵版 機動戦士ガンダム THE ORIGIN V シャア・セイラ編」安彦良和［コミックス］",
+   "site": "KADOKAWA",
+   "url": "https://www.kadokawa.co.jp/product/200903000022/",
+   "primary": true
+  },
+  {
+   "title": "機動戦士ガンダム THE ORIGIN | GUNDAM Official Website",
+   "site": "GUNDAM Official Website（ガンダム情報の公式ポータル）",
+   "url": "https://gundam-official.com/news/i/special-series/gundam-works/01_7953",
+   "primary": true
+  },
+  {
+   "title": "機動戦士ガンダム THE ORIGIN｜作品紹介｜サンライズ",
+   "site": "サンライズ（作品紹介）",
+   "url": "https://www.sunrise-inc.co.jp/work/detail.php?cid=372",
+   "primary": true
+  },
+  {
+   "title": "機動戦士ガンダム｜作品紹介｜サンライズ",
+   "site": "サンライズ（作品紹介）",
+   "url": "https://www.sunrise-inc.co.jp/work/detail.php?cid=20",
+   "primary": true
+  },
+  {
    "title": "機動戦士ガンダム THE ORIGIN",
    "site": "Wikipedia（日本語版）",
    "url": "https://ja.wikipedia.org/wiki/機動戦士ガンダム_THE_ORIGIN",
@@ -2837,9 +3407,33 @@ window.BC_SOURCES = {
    "site": "Wikipedia",
    "url": "https://en.wikipedia.org/wiki/Mobile_Suit_Gundam:_The_Origin",
    "primary": false
+  },
+  {
+   "title": "『逆シャア』の名セリフに我が意を得た 『ガンダム THE ORIGIN』安彦良和インタビュー",
+   "site": "シネマトゥデイ（2016年11月20日）",
+   "url": "https://www.cinematoday.jp/news/N0087661",
+   "primary": false
+  },
+  {
+   "title": "シャア専用ザクの赤に込められた秘密から、視聴者に伝えたいメッセージとは―― 『機動戦士ガンダム THE ORIGIN』安彦良和総監督インタビュー",
+   "site": "アニメイトタイムズ（2018年5月3日）",
+   "url": "https://www.animatetimes.com/news/details.php?id=1525243147",
+   "primary": false
   }
  ],
  "yasuhiko-yoshikazu--niji-iro-no-trotsky": [
+  {
+   "title": "「満州」とは何だったのか――安彦良和×三浦英之",
+   "site": "imidas（集英社）",
+   "url": "https://imidas.jp/special/t-02-022-25-06-g241/",
+   "primary": true
+  },
+  {
+   "title": "虹色のトロツキー （1） - 安彦良和 | BOOK☆WALKER",
+   "site": "BOOK☆WALKER（潮出版社の紹介文を掲載）",
+   "url": "https://bookwalker.jp/de35478e47-5c3d-45e2-87cf-64f6a0a6867d/",
+   "primary": true
+  },
   {
    "title": "虹色のトロツキー",
    "site": "Wikipedia（日本語版）",
@@ -2887,6 +3481,12 @@ window.BC_SOURCES = {
  ],
  "sobagome-jiru--grechka": [
   {
+   "title": "四国地方 徳島県 | うちの郷土料理：農林水産省",
+   "site": "農林水産省",
+   "url": "https://www.maff.go.jp/j/keikaku/syokubunka/k_ryouri/area_stories/tokushima.html",
+   "primary": true
+  },
+  {
    "title": "そば米汁",
    "site": "Wikipedia",
    "url": "https://ja.wikipedia.org/wiki/%E3%81%9D%E3%81%B0%E7%B1%B3%E9%9B%91%E7%82%8A",
@@ -2915,31 +3515,43 @@ window.BC_SOURCES = {
    "site": "Wiktionary",
    "url": "https://en.wiktionary.org/wiki/гречка",
    "primary": false
+  },
+  {
+   "title": "Buckwheat",
+   "site": "Wikipedia",
+   "url": "https://en.wikipedia.org/wiki/Buckwheat",
+   "primary": false
   }
  ],
- "iris--nurungji": [
+ "iris--tsurunoyu": [
   {
-   "title": "숭늉 - 한국민족문화대백과사전",
-   "site": "韓国民族文化大百科事典（韓国学中央研究院）",
-   "url": "https://encykorea.aks.ac.kr/Article/E0032051",
+   "title": "人気韓流ドラマのパネル展開幕",
+   "site": "北秋田市",
+   "url": "https://www.city.kitaakita.akita.jp/archive/contents-3851",
    "primary": true
   },
   {
-   "title": "IRIS-アイリス-",
-   "site": "Wikipedia",
-   "url": "https://ja.wikipedia.org/wiki/IRIS-%E3%82%A2%E3%82%A4%E3%83%AA%E3%82%B9-",
+   "title": "IRIS 秋田ロケ地を巡る旅マップ（6 乳頭温泉郷 鶴の湯温泉）",
+   "site": "秋田県観光連盟「あきたファンドッとコム」（Internet Archive 保存・2011年8月12日）",
+   "url": "https://web.archive.org/web/20110812200212/http://www.akitafan.com/iris/senboku/mapmore/map_more06.html",
+   "primary": true
+  },
+  {
+   "title": "ご案内｜秋田県の秘湯、乳頭温泉郷の鶴の湯温泉",
+   "site": "鶴の湯温泉（公式）",
+   "url": "http://www.tsurunoyu.com/FONDMENT/t-annai.html",
+   "primary": true
+  },
+  {
+   "title": "겨울 설경과 온천, 그리고 휴식의 기행, 아키타(秋田)",
+   "site": "京郷新聞（韓国・2010年3月17日付）",
+   "url": "https://www.khan.co.kr/article/201003171612002",
    "primary": false
   },
   {
-   "title": "『ＩＲＩＳ-アイリス-』テレビドラマ史上初の試み！ “生”でドラマを見た人だけにマイレージポイントを発行！ 総額500万円相当の豪華賞品が当たる「ＩＲＩＳ裏ミッション\"ナマトク!\"キャンペーン」が始動!",
-   "site": "ASCII.jp",
-   "url": "https://ascii.jp/elem/000/000/521/521780/",
-   "primary": false
-  },
-  {
-   "title": "お焦げ",
-   "site": "Wikipedia",
-   "url": "https://ja.wikipedia.org/wiki/%E3%81%8A%E7%84%A6%E3%81%92",
+   "title": "우윳빛 보드라운 온천수 푸르러 고즈넉한 숲그늘",
+   "site": "Twig24（韓国・2013年9月12日付）",
+   "url": "https://www.twig24.com/news/travel-news/2013/09/12/20130912020001",
    "primary": false
   }
  ],
@@ -2963,9 +3575,27 @@ window.BC_SOURCES = {
    "primary": true
   },
   {
+   "title": "韓国料理密集地帯｜2019年1月19日｜出没！アド街ック天国：テレビ東京",
+   "site": "テレビ東京",
+   "url": "https://www.tv-tokyo.co.jp/adomachi/backnumber/20190119/138757.html",
+   "primary": true
+  },
+  {
    "title": "お焦げ",
    "site": "Wikipedia",
    "url": "https://ja.wikipedia.org/wiki/%E3%81%8A%E7%84%A6%E3%81%92",
+   "primary": false
+  },
+  {
+   "title": "世界一クールな街・神保町は中華の街だった！中国人留学生が腹を満たした「漢陽楼」の日中友好秘話",
+   "site": "@DIME アットダイム",
+   "url": "https://dime.jp/genre/2080564/",
+   "primary": false
+  },
+  {
+   "title": "口コミ一覧 : ヌルンジ - 赤坂/韓国料理 [食べログ]",
+   "site": "食べログ",
+   "url": "https://tabelog.com/tokyo/A1308/A130801/13023175/dtlrvwlst/",
    "primary": false
   }
  ],
@@ -3145,6 +3775,18 @@ window.BC_SOURCES = {
    "primary": true
   },
   {
+   "title": "Shortest screen time for a Best Actor Oscar win",
+   "site": "Guinness World Records",
+   "url": "https://www.guinnessworldrecords.com/world-records/91205-shortest-screen-time-for-a-best-actor-oscar-win",
+   "primary": true
+  },
+  {
+   "title": "Sir Anthony Hopkins: ‘Where are the awards for nurses, surgeons and caregivers?’",
+   "site": "British GQ",
+   "url": "https://www.gq-magazine.co.uk/culture/article/anthony-hopkins-interview",
+   "primary": true
+  },
+  {
    "title": "The Silence of the Lambs (film)",
    "site": "Wikipedia",
    "url": "https://en.wikipedia.org/wiki/The_Silence_of_the_Lambs_(film)",
@@ -3263,6 +3905,12 @@ window.BC_SOURCES = {
    "primary": true
   },
   {
+   "title": "Wings of Desire | Wim Wenders Stiftung",
+   "site": "Wim Wenders Stiftung",
+   "url": "http://wimwendersstiftung.de/en/film/wings-of-desire/",
+   "primary": true
+  },
+  {
    "title": "Outrage in Bosnia, Kosovo over Peter Handke's Nobel prize win",
    "site": "Al Jazeera",
    "url": "https://www.aljazeera.com/news/2019/10/outrage-bosnia-kosovo-peter-handke-nobel-prize-win-191010183645296.html",
@@ -3272,6 +3920,12 @@ window.BC_SOURCES = {
    "title": "2019 Nobel Prize in Literature - Wikipedia",
    "site": "Wikipedia",
    "url": "https://en.wikipedia.org/wiki/2019_Nobel_Prize_in_Literature",
+   "primary": false
+  },
+  {
+   "title": "Divisive Nobel Winner Peter Handke To Receive Prize Amid Boycotts, Controversy",
+   "site": "Radio Free Europe/Radio Liberty",
+   "url": "https://www.rferl.org/a/turkey-albania-kosovo-to-boycott-nobel-ceremony-in-protest-against-handke/30316416.html",
    "primary": false
   }
  ],
@@ -3379,6 +4033,18 @@ window.BC_SOURCES = {
    "primary": true
   },
   {
+   "title": "Grizabella - Anita Harris（Theatre and Performance Collection, S.517-1990）",
+   "site": "Victoria and Albert Museum（V&A）",
+   "url": "https://collections.vam.ac.uk/item/O135767/grizabella---anita-harris-print-margolis-mike/",
+   "primary": true
+  },
+  {
+   "title": "The Origins of CATS, Est. 1981 | Musical History & Original Show",
+   "site": "CATS the Musical（公式サイト）",
+   "url": "https://www.catsthemusical.com/origins",
+   "primary": true
+  },
+  {
    "title": "Cats (musical) - Wikipedia",
    "site": "Wikipedia",
    "url": "https://en.wikipedia.org/wiki/Cats_(musical)",
@@ -3394,6 +4060,12 @@ window.BC_SOURCES = {
    "title": "About T. S. Eliot | Academy of American Poets",
    "site": "Academy of American Poets",
    "url": "https://poets.org/poet/t-s-eliot",
+   "primary": false
+  },
+  {
+   "title": "Rhapsody on a Windy Night by T. S. Eliot",
+   "site": "Academy of American Poets",
+   "url": "https://poets.org/poem/rhapsody-windy-night",
    "primary": false
   }
  ],
@@ -3421,6 +4093,12 @@ window.BC_SOURCES = {
    "site": "Wikipedia",
    "url": "https://en.wikipedia.org/wiki/The_Waste_Land",
    "primary": false
+  },
+  {
+   "title": "荒地 (詩)",
+   "site": "Wikipedia（日本語版）",
+   "url": "https://ja.wikipedia.org/wiki/%E8%8D%92%E5%9C%B0_(%E8%A9%A9)",
+   "primary": false
   }
  ],
  "ezra-pound--the-waste-land": [
@@ -3428,6 +4106,12 @@ window.BC_SOURCES = {
    "title": "The Waste Land by T. S. Eliot",
    "site": "Academy of American Poets",
    "url": "https://poets.org/poem/waste-land",
+   "primary": true
+  },
+  {
+   "title": "The Waste Land (Eliot, 1922)",
+   "site": "Wikisource",
+   "url": "https://en.wikisource.org/wiki/The_Waste_Land_(Eliot,_1922)",
    "primary": true
   },
   {
@@ -3471,6 +4155,18 @@ window.BC_SOURCES = {
    "primary": true
   },
   {
+   "title": "The Waste Land (Eliot, 1922)",
+   "site": "Wikisource",
+   "url": "https://en.wikisource.org/wiki/The_Waste_Land_(Eliot,_1922)",
+   "primary": true
+  },
+  {
+   "title": "The waste land（Boni and Liveright, 1922）",
+   "site": "Internet Archive（Duke University Libraries 所蔵の初版本スキャン）",
+   "url": "https://archive.org/details/wasteland01elio",
+   "primary": true
+  },
+  {
    "title": "Apocalypse Now",
    "site": "Wikipedia",
    "url": "https://en.wikipedia.org/wiki/Apocalypse_Now",
@@ -3486,6 +4182,24 @@ window.BC_SOURCES = {
    "title": "The Hollow Men",
    "site": "Wikipedia",
    "url": "https://en.wikipedia.org/wiki/The_Hollow_Men",
+   "primary": false
+  },
+  {
+   "title": "Apocalypse Then",
+   "site": "Electric Sheep",
+   "url": "https://www.electricsheepmagazine.co.uk/features/2013/06/09/apocalypse-then/",
+   "primary": false
+  },
+  {
+   "title": "Bangs and Whimpers",
+   "site": "The New York Review of Books（Michael Wood、1979年10月11日）",
+   "url": "https://www.nybooks.com/articles/1979/10/11/bangs-and-whimpers/",
+   "primary": false
+  },
+  {
+   "title": "Apocalypse Now (1979)",
+   "site": "Routledge Encyclopedia of Modernism（Taylor & Francis、Rahul Sapra、2016）",
+   "url": "https://www.rem.routledge.com/articles/apocalypse-now-1979",
    "primary": false
   }
  ],
@@ -3545,6 +4259,12 @@ window.BC_SOURCES = {
    "site": "Wikipedia",
    "url": "https://en.wikipedia.org/wiki/Adrenoleukodystrophy",
    "primary": false
+  },
+  {
+   "title": "Augusto Odone, maker of 'Lorenzo's Oil,' dies",
+   "site": "NBC News",
+   "url": "https://www.nbcnews.com/healthmain/augusto-odone-maker-lorenzos-oil-dies-8C11469508",
+   "primary": false
   }
  ],
  "elmer-gantry--anti-intellectualism-in-american-life": [
@@ -3552,6 +4272,12 @@ window.BC_SOURCES = {
    "title": "The 33rd Academy Awards | 1961",
    "site": "Academy of Motion Picture Arts and Sciences (Oscars.org)",
    "url": "https://www.oscars.org/oscars/ceremonies/1961",
+   "primary": true
+  },
+  {
+   "title": "アメリカの反知性主義",
+   "site": "みすず書房",
+   "url": "https://www.msz.co.jp/book/detail/07066/",
    "primary": true
   },
   {
@@ -3570,6 +4296,12 @@ window.BC_SOURCES = {
    "title": "Anti-Intellectualism in American Life",
    "site": "Wikipedia",
    "url": "https://en.wikipedia.org/wiki/Anti-Intellectualism_in_American_Life",
+   "primary": false
+  },
+  {
+   "title": "Anti-intellectualism in American life（目次）",
+   "site": "UNICAT（ブルガリア大学図書館総合目録）",
+   "url": "https://unicat.nalis.bg/Record/AUBG.000218373/TOC",
    "primary": false
   }
  ],

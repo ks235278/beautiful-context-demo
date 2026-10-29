@@ -41,9 +41,9 @@ try { if (sessionStorage.getItem('bc-resume')) document.documentElement.classLis
 <link rel="preload" as="image" href="img/logo-layer-words.png">
 <!-- 台本も先に取りに行く（静的なページは台本より先に本文が描かれる。遅い回線で、触れて動くまでの間を縮める）。
      src と同じアドレス（?v= まで）でないと、二度取りに行く -->
-<link rel="preload" as="script" href="js/seed.js?v=139">
-<link rel="preload" as="script" href="js/app.js?v=139">
-<link rel="manifest" href="manifest.webmanifest?v=139">
+<link rel="preload" as="script" href="js/seed.js?v=140">
+<link rel="preload" as="script" href="js/app.js?v=140">
+<link rel="manifest" href="manifest.webmanifest?v=140">
 <link rel="apple-touch-icon" href="icon-180.png">
 <!-- タブと検索結果に出る小さな印。アプリの印（ホーム画面のアイコン）と同じ形 -->
 <link rel="icon" href="favicon.ico" sizes="16x16 32x32 48x48">
@@ -72,11 +72,11 @@ if (location.hostname === 'beautifulcontext.com'){
   document.head.appendChild(ga);
 }
 </script>
-<script src="js/theme.js?v=139"></script>
-<link rel="stylesheet" href="app.css?v=139">
+<script src="js/theme.js?v=140"></script>
+<link rel="stylesheet" href="app.css?v=140">
 <!-- 読む画面の使い勝手（2026.10.24）。app.css のすぐあと -->
-<link rel="stylesheet" href="ux.css?v=139">
-<link rel="stylesheet" href="fade.css?v=139">
+<link rel="stylesheet" href="ux.css?v=140">
+<link rel="stylesheet" href="fade.css?v=140">
 <!-- 台本（js）が揃うまで：まだ押しても動かないもの（‹・絵の横の ‹ ›・つながりを辿る）を少し薄くし、下の帯の上の縁に細い金の線を走らせる。
      app.js が最後に body.app-ready を付けて外す。すぐ揃うときは何も見せない（0.3 秒待ってから出す） -->
 <style>
@@ -209,7 +209,7 @@ document.addEventListener('click', function (e) {
           
           <section class="refs" aria-label="参考・出典">
             <p class="meta">参考・出典</p>
-            <ol><li><a href="https://cir.nii.ac.jp/crid/1130000794174560256?lang=en" target="_blank" rel="noopener">The three-cornered world</a><small>CiNii Research（国立情報学研究所）</small></li><li><a href="https://www.aozora.gr.jp/cards/000148/files/776_14941.html" target="_blank" rel="noopener">夏目漱石 草枕</a><small>青空文庫</small></li><li><a href="https://www.kadokawa.co.jp/product/199999100104/" target="_blank" rel="noopener">「草枕・二百十日」夏目漱石 [角川文庫]</a><small>KADOKAWA</small></li><li><a href="https://dajf.org.uk/?p=4600" target="_blank" rel="noopener">Glenn Gould and Natsume Soseki</a><small>Daiwa Anglo-Japanese Foundation（大和日英基金）</small></li><li><a href="https://ja.wikipedia.org/wiki/%E8%8D%89%E6%9E%95" target="_blank" rel="noopener">草枕</a><small>Wikipedia</small></li></ol>
+            <ol><li><a href="https://cir.nii.ac.jp/crid/1130000794174560256?lang=en" target="_blank" rel="noopener">The three-cornered world</a><small>CiNii Research（国立情報学研究所）</small></li><li><a href="https://www.aozora.gr.jp/cards/000148/files/776_14941.html" target="_blank" rel="noopener">夏目漱石 草枕</a><small>青空文庫</small></li><li><a href="https://www.kadokawa.co.jp/product/199999100104/" target="_blank" rel="noopener">「草枕・二百十日」夏目漱石 [角川文庫]</a><small>KADOKAWA</small></li><li><a href="https://dajf.org.uk/?p=4600" target="_blank" rel="noopener">Glenn Gould and Natsume Soseki</a><small>Daiwa Anglo-Japanese Foundation（大和日英基金）</small></li><li><a href="https://ja.wikipedia.org/wiki/%E8%8D%89%E6%9E%95" target="_blank" rel="noopener">草枕</a><small>Wikipedia</small></li><li><a href="https://en.wikipedia.org/wiki/Glenn_Gould" target="_blank" rel="noopener">Glenn Gould</a><small>Wikipedia</small></li></ol>
           </section>
           <p class="byline">眞江田國廣　·　2026/9/19</p>
           
@@ -250,8 +250,8 @@ document.addEventListener('click', function (e) {
           
           <a class="seg" href="c/kusamakura--natsume-soseki/">
             
-            <small>［画工の目、作家の目］　作者と作品</small>
-            <b><span class="seg-copy">「非人情」は、漱石自身の宿題だった。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
+            <small>［旅が生んだ『草枕』］　作者と作品</small>
+            <b><span class="seg-copy">「非人情」の小説には、漱石の芸術論が表れた。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
           <a class="fstop" href="w/natsume-soseki/?c=kusamakura--natsume-soseki">
             <span class="st-img"><img src="img/works/natsume-soseki.jpg" alt="夏目漱石" data-k="natsume-soseki" loading="lazy" decoding="async"></span>
             <span class="st-txt"><small>人物・1867年</small>
@@ -262,12 +262,12 @@ document.addEventListener('click', function (e) {
           
           <a class="seg" href="c/natsume-soseki--zhou-tokyo-diary/">
             
-            <small>［異国の都の日記］　似ている</small>
+            <small>［異国の都の記録］　似ている</small>
             <b><span class="seg-copy">漱石はロンドンで、周恩来は東京で書いた。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
           <a class="fstop" href="w/zhou-tokyo-diary/?c=natsume-soseki--zhou-tokyo-diary">
             <span class="st-img"><img src="img/zhou-diary.jpg" alt="周恩来『十九歳の東京日記』" data-k="zhou-tokyo-diary" loading="lazy" decoding="async"></span>
             <span class="st-txt"><small>書籍・1918年</small>
-              <b>周恩来『十九歳の東京日記』</b><span>日本に留学していた周恩来が、1918年の東京で書いた日記。神保町、早稲田、浅草、上野、日本橋――19歳の青年が見た百年前の東京が記されている。</span></span>
+              <b>周恩来『十九歳の東京日記』</b><span>日本に留学していた周恩来が、1918年の東京で書いた日記。日比谷公園、靖国神社、浅草など、19歳の青年が見て回った百年前の東京が記されている。</span></span>
           </a>
         </li>
         <li class="stop">
@@ -286,12 +286,12 @@ document.addEventListener('click', function (e) {
           
           <a class="seg" href="c/kanyoro--gyoza-sakaba-kachidoki/">
             
-            <small>［東京の中華、百年］　似ている</small>
-            <b><span class="seg-copy">明治の中華料理店から、駅前の餃子酒場まで。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
+            <small>［勝鬨と留学生］　ハブ</small>
+            <b><span class="seg-copy">勝どきの名も、漢陽楼も日露戦争とつながる。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
           <a class="fstop" href="w/gyoza-sakaba-kachidoki/?c=kanyoro--gyoza-sakaba-kachidoki">
             <span class="st-img"><img src="img/works/gyoza-sakaba-kachidoki.jpg" alt="餃子酒場（勝どき店）" data-k="gyoza-sakaba-kachidoki" loading="lazy" decoding="async"></span>
             <span class="st-txt"><small>店</small>
-              <b>餃子酒場（勝どき店）</b><span>勝どき駅前の、焼き餃子と酒の店。</span></span>
+              <b>餃子酒場（勝どき店）</b><span>勝どき駅近くの、焼き餃子と酒の店。</span></span>
           </a>
         </li>
         <li class="stop">
@@ -299,7 +299,7 @@ document.addEventListener('click', function (e) {
           <a class="seg" href="c/gyoza-sakaba-kachidoki--daiyame/">
             
             <small>［今夜のだいやめ］　似ている</small>
-            <b><span class="seg-copy">「だいやめ」とは、つまり今夜の一杯のこと。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
+            <b><span class="seg-copy">「だいやめ」とは、つまり今夜の一杯だ。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
           <a class="fstop" href="w/daiyame/?c=gyoza-sakaba-kachidoki--daiyame">
             <span class="st-img"><img src="img/works/daiyame.jpg" alt="芋焼酎『だいやめ DAIYAME』" data-k="daiyame" loading="lazy" decoding="async"></span>
             <span class="st-txt"><small>酒</small>
@@ -310,8 +310,8 @@ document.addEventListener('click', function (e) {
           
           <a class="seg" href="c/daiyame--domaine-tetta/">
             
-            <small>［土地の名を背負う酒］　似ている</small>
-            <b><span class="seg-copy">晩酌の言葉と、村の名前。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
+            <small>［名前が語る産地］　似ている</small>
+            <b><span class="seg-copy">焼酎の名は晩酌の言葉、ワイナリーの名は地名。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
           <a class="fstop" href="w/domaine-tetta/?c=daiyame--domaine-tetta">
             <span class="st-img"><img src="img/works/domaine-tetta.jpg" alt="ドメーヌ・テッタ" data-k="domaine-tetta" loading="lazy" decoding="async"></span>
             <span class="st-txt"><small>ワイナリー</small>
@@ -323,7 +323,7 @@ document.addEventListener('click', function (e) {
           <a class="seg" href="c/daiyame--tanqueray-no-ten/">
             <span class="seg-from">だいやめ DAIYAME から分岐</span>
             <small>［香りで選ぶ蒸留酒］　似ている</small>
-            <b><span class="seg-copy">ライチのような芋焼酎と、生の柑橘のジン。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
+            <b><span class="seg-copy">ライチのような芋焼酎と生の柑橘のジン。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
           <a class="fstop" href="w/tanqueray-no-ten/?c=daiyame--tanqueray-no-ten">
             <span class="st-img"><img src="img/works/tanqueray-no-ten.jpg" alt="タンカレー No.10" data-k="tanqueray-no-ten" loading="lazy" decoding="async"></span>
             <span class="st-txt"><small>酒</small>
@@ -342,40 +342,40 @@ document.addEventListener('click', function (e) {
               <b>ヌルンジ（赤坂）</b><span>東京・赤坂の韓国料理店。店名の「ヌルンジ」は韓国語で、釜の底にできるおこげのこと。</span></span>
           </a>
         </li>
-        <li class="stop">
+        <li class="stop branch">
           
-          <a class="seg" href="c/iris--nurungji/">
-            
-            <small>［ドラマから食卓へ］　ハブ</small>
-            <b><span class="seg-copy">画面で見た国の味を、赤坂の一皿で。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
-          <a class="fstop" href="w/iris/?c=iris--nurungji">
-            <span class="st-img"><img src="img/works/iris.jpg" alt="韓国ドラマ『アイリス』" data-k="iris" loading="lazy" decoding="async"></span>
-            <span class="st-txt"><small>ドラマ・2009年</small>
-              <b>韓国ドラマ『アイリス』</b><span>韓国の特殊工作員を主人公にしたアクション・ドラマ。秋田県でのロケが行われ、日本でも話題になった。</span></span>
+          <a class="seg" href="c/zhou-enlai--zhou-tokyo-diary/">
+            <span class="seg-from">十九歳の東京日記 から分岐</span>
+            <small>［書き手と日記］　作者と作品</small>
+            <b><span class="seg-copy">のちの総理は、十九歳で東京にいた。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
+          <a class="fstop" href="w/zhou-enlai/?c=zhou-enlai--zhou-tokyo-diary">
+            <span class="st-img"><img src="img/works/zhou-enlai.jpg" alt="周恩来" data-k="zhou-enlai" loading="lazy" decoding="async"></span>
+            <span class="st-txt"><small>人物・1898年</small>
+              <b>周恩来</b><span>1917年から1919年まで日本に留学し、帰国後は革命運動に加わった。1949年の建国から亡くなるまで、政務院総理、のち国務院総理を務めた。</span></span>
+          </a>
+        </li>
+        <li class="stop branch">
+          
+          <a class="seg" href="c/minakata-kumagusu--natsume-soseki/">
+            <span class="seg-from">夏目漱石 から分岐</span>
+            <small>［ロンドンの入れ違い］　事実</small>
+            <b><span class="seg-copy">同じ年生まれの二人は、ロンドンで入れ違った。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
+          <a class="fstop" href="w/minakata-kumagusu/?c=minakata-kumagusu--natsume-soseki">
+            <span class="st-img"><img src="img/works/minakata-kumagusu.jpg" alt="南方熊楠" data-k="minakata-kumagusu" loading="lazy" decoding="async"></span>
+            <span class="st-txt"><small>人物・1867年</small>
+              <b>南方熊楠</b><span>和歌山生まれの博物学者。粘菌の研究で知られ、若い頃はロンドンの大英博物館に通って学んだ。</span></span>
           </a>
         </li>
         <li class="stop">
           
-          <a class="seg" href="c/iris--tazawako/">
+          <a class="seg" href="c/minakata-kumagusu--minakata-mandala/">
             
-            <small>［ロケ地になった湖］　事実</small>
-            <b><span class="seg-copy">韓国ドラマの一場面が、秋田の湖畔で撮られた。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
-          <a class="fstop" href="w/tazawako/?c=iris--tazawako">
-            <span class="st-img"><img src="img/works/tazawako.jpg" alt="田沢湖" data-k="tazawako" loading="lazy" decoding="async"></span>
-            <span class="st-txt"><small>場所</small>
-              <b>田沢湖</b><span>秋田県仙北市の湖。水深は日本一で、湖畔には辰子の伝説が残る。</span></span>
-          </a>
-        </li>
-        <li class="stop">
-          
-          <a class="seg" href="c/tazawako--tsurunoyu/">
-            
-            <small>［仙北の湖と秘湯］　ハブ</small>
-            <b><span class="seg-copy">日本一深い湖から、山の奥の湯宿へ。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
-          <a class="fstop" href="w/tsurunoyu/?c=tazawako--tsurunoyu">
-            <span class="st-img"><img src="img/works/tsurunoyu.jpg" alt="乳頭温泉郷「鶴の湯」" data-k="tsurunoyu" loading="lazy" decoding="async"></span>
-            <span class="st-txt"><small>宿</small>
-              <b>乳頭温泉郷「鶴の湯」</b><span>秋田県の乳頭温泉郷でもっとも古いとされる湯宿。茅葺き屋根の長屋と白濁の湯で知られる。</span></span>
+            <small>［書き手と図］　作者と作品</small>
+            <b><span class="seg-copy">世界のつながりを、一枚の図に描いた。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
+          <a class="fstop" href="w/minakata-mandala/?c=minakata-kumagusu--minakata-mandala">
+            <span class="st-img"><img src="img/works/minakata-mandala.jpg" alt="南方曼荼羅" data-k="minakata-mandala" loading="lazy" decoding="async"></span>
+            <span class="st-txt"><small>思想・1903年</small>
+              <b>南方曼荼羅</b><span>南方熊楠が、世界の因果関係が交錯し連鎖するさまを一枚の図に描いたもの。真言宗の僧・土宜法龍への手紙に記された。</span></span>
           </a>
         </li></ol>
             <div class="rail-more" id="railMore" aria-hidden="true"></div>
@@ -389,18 +389,18 @@ document.addEventListener('click', function (e) {
 <div class="edge-back" id="edgeBack" aria-hidden="true"></div>
 
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
-<script type="application/ld+json" id="ld">{"@context":"https://schema.org","@type":"Article","headline":"枕元にあった二冊は、聖書と『草枕』だった。","alternativeHeadline":"非人情という共通言語","about":[{"@type":"Person","name":"グレン・グールド","description":"バッハ演奏で知られ、クラシック音楽における「演奏とは何か」という考え方そのものを変えた20世紀を代表するピアニスト。"},{"@type":"Book","name":"草枕","description":"「智に働けば角が立つ。情に棹させば流される。」で始まる、画工が非人情の世界を求めて旅する小説。","creator":{"@type":"Person","name":"夏目漱石"}}],"author":{"@type":"Person","name":"編集部（見本）"},"datePublished":"2026-09-19T09:00:00.000Z","dateModified":"2026-09-19T09:00:00.000Z","inLanguage":"ja","articleBody":"意味の上での近さはない。あるのは、検証された事実である。カナダのピアニストと明治の日本文学に、本来なら接点はない。二人をつないでいるのは一冊の翻訳書という事実だけである。出会いグールドが読んだのは、アラン・ターニーによる英訳 The Three-Cornered World（1965年）である。1967年ごろに出会い、その後15年ほど強く惹かれ続けた。『草枕』について37ページものノートを残し、英訳されていた漱石作品を次々に集め、最晩年には『草枕』をもとにしたラジオ作品まで構想していた。死去時、ベッドサイドにあった本が『聖書』と『草枕』だったとも伝えられている。非人情いちばん重要なのは「非人情」である。『草枕』の画工は、冒頭で「智に働けば角が立つ。情に棹させば流される。意地を通せば窮屈だ。」と語る。感情に流されず、しかし冷淡でもない場所から世界を眺めるという態度。演奏会という場を離れ、録音というかたちで音楽と向き合うことを選んだグールドにとって、この作品は単なる愛読書ではなく、自分自身の芸術観を言語化してくれたものに近かったと考えると、二人の関係がよく見えてくる。","url":"https://beautifulcontext.com/c/glenn-gould--kusamakura/","citation":[{"@type":"CreativeWork","name":"The three-cornered world","url":"https://cir.nii.ac.jp/crid/1130000794174560256?lang=en","publisher":{"@type":"Organization","name":"CiNii Research（国立情報学研究所）"}},{"@type":"CreativeWork","name":"夏目漱石 草枕","url":"https://www.aozora.gr.jp/cards/000148/files/776_14941.html","publisher":{"@type":"Organization","name":"青空文庫"}},{"@type":"CreativeWork","name":"「草枕・二百十日」夏目漱石 [角川文庫]","url":"https://www.kadokawa.co.jp/product/199999100104/","publisher":{"@type":"Organization","name":"KADOKAWA"}},{"@type":"CreativeWork","name":"Glenn Gould and Natsume Soseki","url":"https://dajf.org.uk/?p=4600","publisher":{"@type":"Organization","name":"Daiwa Anglo-Japanese Foundation（大和日英基金）"}},{"@type":"CreativeWork","name":"草枕","url":"https://ja.wikipedia.org/wiki/%E8%8D%89%E6%9E%95","publisher":{"@type":"Organization","name":"Wikipedia"}}],"image":"https://beautifulcontext.com/img/gould.jpg"}</script>
+<script type="application/ld+json" id="ld">{"@context":"https://schema.org","@type":"Article","headline":"枕元にあった二冊は、聖書と『草枕』だった。","alternativeHeadline":"非人情という共通言語","about":[{"@type":"Person","name":"グレン・グールド","description":"バッハ演奏で知られ、クラシック音楽における「演奏とは何か」という考え方そのものを変えた20世紀を代表するピアニスト。"},{"@type":"Book","name":"草枕","description":"「智に働けば角が立つ。情に棹させば流される。」で始まる、画工が非人情の世界を求めて旅する小説。","creator":{"@type":"Person","name":"夏目漱石"}}],"author":{"@type":"Person","name":"編集部（見本）"},"datePublished":"2026-09-19T09:00:00.000Z","dateModified":"2026-09-19T09:00:00.000Z","inLanguage":"ja","articleBody":"意味の上での近さはない。あるのは、検証された事実である。カナダのピアニストと明治の日本文学に、本来なら接点はない。二人をつないでいるのは一冊の翻訳書という事実だけである。出会いグールドが読んだのは、アラン・ターニーによる英訳 The Three-Cornered World（1965年）である。1967年ごろに出会い、その後15年ほど強く惹かれ続けた。『草枕』について37ページものノートを残し、英訳されていた漱石作品を次々に集め、最晩年には『草枕』をもとにしたラジオ作品まで構想していた。死去時、ベッドサイドにあった本が『聖書』と『草枕』だったとも伝えられている。非人情いちばん重要なのは「非人情」である。『草枕』の画工は、冒頭で「智に働けば角が立つ。情に棹させば流される。意地を通せば窮屈だ。」と語る。感情に流されず、しかし冷淡でもない場所から世界を眺めるという態度。演奏会という場を離れ、録音というかたちで音楽と向き合うことを選んだグールドにとって、この作品は単なる愛読書ではなく、自分自身の芸術観を言語化してくれたものに近かったと考えると、二人の関係がよく見えてくる。","url":"https://beautifulcontext.com/c/glenn-gould--kusamakura/","citation":[{"@type":"CreativeWork","name":"The three-cornered world","url":"https://cir.nii.ac.jp/crid/1130000794174560256?lang=en","publisher":{"@type":"Organization","name":"CiNii Research（国立情報学研究所）"}},{"@type":"CreativeWork","name":"夏目漱石 草枕","url":"https://www.aozora.gr.jp/cards/000148/files/776_14941.html","publisher":{"@type":"Organization","name":"青空文庫"}},{"@type":"CreativeWork","name":"「草枕・二百十日」夏目漱石 [角川文庫]","url":"https://www.kadokawa.co.jp/product/199999100104/","publisher":{"@type":"Organization","name":"KADOKAWA"}},{"@type":"CreativeWork","name":"Glenn Gould and Natsume Soseki","url":"https://dajf.org.uk/?p=4600","publisher":{"@type":"Organization","name":"Daiwa Anglo-Japanese Foundation（大和日英基金）"}},{"@type":"CreativeWork","name":"草枕","url":"https://ja.wikipedia.org/wiki/%E8%8D%89%E6%9E%95","publisher":{"@type":"Organization","name":"Wikipedia"}},{"@type":"CreativeWork","name":"Glenn Gould","url":"https://en.wikipedia.org/wiki/Glenn_Gould","publisher":{"@type":"Organization","name":"Wikipedia"}}],"image":"https://beautifulcontext.com/img/gould.jpg"}</script>
 
-<script src="js/config.js?v=139"></script>
-<script src="js/seed.js?v=139"></script>
-<script src="js/sources.js?v=139"></script>
-<script src="js/backend.js?v=139"></script>
-<script src="js/store.js?v=139"></script>
-<script src="js/social.js?v=139"></script>
-<script src="js/render.js?v=139"></script>
-<script src="js/login.js?v=139"></script>
-<script src="js/report.js?v=139"></script>
-<script src="js/transition.js?v=139"></script>
-<script src="js/app.js?v=139"></script>
+<script src="js/config.js?v=140"></script>
+<script src="js/seed.js?v=140"></script>
+<script src="js/sources.js?v=140"></script>
+<script src="js/backend.js?v=140"></script>
+<script src="js/store.js?v=140"></script>
+<script src="js/social.js?v=140"></script>
+<script src="js/render.js?v=140"></script>
+<script src="js/login.js?v=140"></script>
+<script src="js/report.js?v=140"></script>
+<script src="js/transition.js?v=140"></script>
+<script src="js/app.js?v=140"></script>
 </body>
 </html>

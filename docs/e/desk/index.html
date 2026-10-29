@@ -41,9 +41,9 @@ try { if (sessionStorage.getItem('bc-resume')) document.documentElement.classLis
 <link rel="preload" as="image" href="img/logo-layer-words.png">
 <!-- 台本も先に取りに行く（静的なページは台本より先に本文が描かれる。遅い回線で、触れて動くまでの間を縮める）。
      src と同じアドレス（?v= まで）でないと、二度取りに行く -->
-<link rel="preload" as="script" href="js/seed.js?v=139">
-<link rel="preload" as="script" href="js/app.js?v=139">
-<link rel="manifest" href="manifest.webmanifest?v=139">
+<link rel="preload" as="script" href="js/seed.js?v=140">
+<link rel="preload" as="script" href="js/app.js?v=140">
+<link rel="manifest" href="manifest.webmanifest?v=140">
 <link rel="apple-touch-icon" href="icon-180.png">
 <!-- タブと検索結果に出る小さな印。アプリの印（ホーム画面のアイコン）と同じ形 -->
 <link rel="icon" href="favicon.ico" sizes="16x16 32x32 48x48">
@@ -72,11 +72,11 @@ if (location.hostname === 'beautifulcontext.com'){
   document.head.appendChild(ga);
 }
 </script>
-<script src="js/theme.js?v=139"></script>
-<link rel="stylesheet" href="app.css?v=139">
+<script src="js/theme.js?v=140"></script>
+<link rel="stylesheet" href="app.css?v=140">
 <!-- 読む画面の使い勝手（2026.10.24）。app.css のすぐあと -->
-<link rel="stylesheet" href="ux.css?v=139">
-<link rel="stylesheet" href="fade.css?v=139">
+<link rel="stylesheet" href="ux.css?v=140">
+<link rel="stylesheet" href="fade.css?v=140">
 <!-- 台本（js）が揃うまで：まだ押しても動かないもの（‹・絵の横の ‹ ›・つながりを辿る）を少し薄くし、下の帯の上の縁に細い金の線を走らせる。
      app.js が最後に body.app-ready を付けて外す。すぐ揃うときは何も見せない（0.3 秒待ってから出す） -->
 <style>
@@ -196,15 +196,15 @@ document.addEventListener('click', function (e) {
           <div class="ed-list">
       <a class="ed-item" href="c/anthony-hopkins--the-bunker/">
         <span class="ed-thumbs"><img src="img/works/anthony-hopkins.jpg" alt="" loading="lazy" decoding="async"><span class="ph">ザ</span></span>
-        <span class="ed-txt"><small>［二人のヒトラー］</small><b>レクター博士も、ヒトラーを演じていた。</b>
+        <span class="ed-txt"><small>［ヒトラーとレクター］</small><b>レクター博士も、ヒトラーを演じていた。</b>
           <span>アンソニー・ホプキンス ＋ テレビ映画『ザ・バンカー』</span></span></a>
       <a class="ed-item" href="c/the-bunker--downfall/">
         <span class="ed-thumbs"><span class="ph">ザ</span><img src="img/works/downfall.jpg" alt="" loading="lazy" decoding="async"></span>
-        <span class="ed-txt"><small>［同じ地下壕］</small><b>同じ地下壕の最後の日々を、二本の映画が描いた。</b>
+        <span class="ed-txt"><small>［同じ地下壕］</small><b>地下壕の最後の日々を、二本の映画が描いた。</b>
           <span>テレビ映画『ザ・バンカー』 ＋ 映画『ヒトラー〜最期の12日間〜』</span></span></a>
       <a class="ed-item" href="c/think-different--uniqlock/">
         <span class="ed-thumbs"><img src="img/works/think-different.jpg" alt="" loading="lazy" decoding="async"><img src="img/works/uniqlock.jpg" alt="" loading="lazy" decoding="async"></span>
-        <span class="ed-txt"><small>［時代を刻んだ広告］</small><b>商品を映さずに、ブランドを語った。</b>
+        <span class="ed-txt"><small>［時代を刻んだ広告］</small><b>商品の説明をせず、ブランドを語った。</b>
           <span>アップル「Think Different」 ＋ UNIQLOCK</span></span></a>
       <a class="ed-item" href="c/downfall--bruno-ganz/">
         <span class="ed-thumbs"><img src="img/works/downfall.jpg" alt="" loading="lazy" decoding="async"><img src="img/works/bruno-ganz.jpg" alt="" loading="lazy" decoding="async"></span>
@@ -212,11 +212,11 @@ document.addEventListener('click', function (e) {
           <span>映画『ヒトラー〜最期の12日間〜』 ＋ ブルーノ・ガンツ</span></span></a>
       <a class="ed-item" href="c/bruno-ganz--wings-of-desire/">
         <span class="ed-thumbs"><img src="img/works/bruno-ganz.jpg" alt="" loading="lazy" decoding="async"><img src="img/works/wings-of-desire.jpg" alt="" loading="lazy" decoding="async"></span>
-        <span class="ed-txt"><small>［天使ダミエル］</small><b>人の心の声を聞く天使は、やがて人間になった。</b>
+        <span class="ed-txt"><small>［天使ダミエル］</small><b>人の心の声を聞く天使はやがて人間になった。</b>
           <span>ブルーノ・ガンツ ＋ 映画『ベルリン・天使の詩』</span></span></a>
       <a class="ed-item" href="c/the-silence-of-the-lambs--jonathan-demme/">
         <span class="ed-thumbs"><img src="img/works/the-silence-of-the-lambs.jpg" alt="" loading="lazy" decoding="async"><img src="img/works/jonathan-demme.jpg" alt="" loading="lazy" decoding="async"></span>
-        <span class="ed-txt"><small>［監督と作品］</small><b>ライブ映画の監督が、戦慄のサスペンスを撮った。</b>
+        <span class="ed-txt"><small>［監督と作品］</small><b>ライブ映画の監督が、サスペンスを撮った。</b>
           <span>映画『羊たちの沈黙』 ＋ ジョナサン・デミ</span></span></a>
       <a class="ed-item" href="c/the-silence-of-the-lambs--anthony-hopkins/">
         <span class="ed-thumbs"><img src="img/works/the-silence-of-the-lambs.jpg" alt="" loading="lazy" decoding="async"><img src="img/works/anthony-hopkins.jpg" alt="" loading="lazy" decoding="async"></span>
@@ -232,15 +232,15 @@ document.addEventListener('click', function (e) {
           <span>映画『ベルリン・天使の詩』 ＋ ヴィム・ヴェンダース</span></span></a>
       <a class="ed-item" href="c/wings-of-desire--peter-falk/">
         <span class="ed-thumbs"><img src="img/works/wings-of-desire.jpg" alt="" loading="lazy" decoding="async"><img src="img/works/peter-falk.jpg" alt="" loading="lazy" decoding="async"></span>
-        <span class="ed-txt"><small>［元天使］</small><b>コロンボ刑事は、かつて天使だった。</b>
+        <span class="ed-txt"><small>［本人役の元天使］</small><b>コロンボ役の俳優は、劇中では元天使だった。</b>
           <span>映画『ベルリン・天使の詩』 ＋ ピーター・フォーク</span></span></a>
       <a class="ed-item" href="c/wings-of-desire--peter-handke/">
         <span class="ed-thumbs"><img src="img/works/wings-of-desire.jpg" alt="" loading="lazy" decoding="async"><img src="img/works/peter-handke.jpg" alt="" loading="lazy" decoding="async"></span>
-        <span class="ed-txt"><small>［天使の言葉］</small><b>天使の言葉を書いたのは、のちのノーベル賞作家。</b>
+        <span class="ed-txt"><small>［天使の言葉］</small><b>劇中の詩を書いたのはのちのノーベル賞作家。</b>
           <span>映画『ベルリン・天使の詩』 ＋ ペーター・ハントケ</span></span></a>
       <a class="ed-item" href="c/peter-handke--nobel-literature-laureates/">
         <span class="ed-thumbs"><img src="img/works/peter-handke.jpg" alt="" loading="lazy" decoding="async"><img src="img/works/nobel-literature-laureates.jpg" alt="" loading="lazy" decoding="async"></span>
-        <span class="ed-txt"><small>［2019年の受賞］</small><b>天使の詩を書いた作家は、ノーベル文学賞を受けた。</b>
+        <span class="ed-txt"><small>［2019年の受賞］</small><b>『天使の詩』の脚本家がノーベル文学賞を得た。</b>
           <span>ペーター・ハントケ ＋ ノーベル文学賞受賞者</span></span></a>
       <a class="ed-item" href="c/t-s-eliot--nobel-literature-laureates/">
         <span class="ed-thumbs"><img src="img/works/t-s-eliot.jpg" alt="" loading="lazy" decoding="async"><img src="img/works/nobel-literature-laureates.jpg" alt="" loading="lazy" decoding="async"></span>
@@ -248,11 +248,11 @@ document.addEventListener('click', function (e) {
           <span>T・S・エリオット ＋ ノーベル文学賞受賞者</span></span></a>
       <a class="ed-item" href="c/the-grapes-of-wrath--nobel-literature-laureates/">
         <span class="ed-thumbs"><img src="img/works/the-grapes-of-wrath.jpg" alt="" loading="lazy" decoding="async"><img src="img/works/nobel-literature-laureates.jpg" alt="" loading="lazy" decoding="async"></span>
-        <span class="ed-txt"><small>［1962年の受賞］</small><b>砂嵐の時代を描いて、ノーベル賞へ。</b>
+        <span class="ed-txt"><small>［1962年の受賞］</small><b>砂嵐の時代を描く作家はノーベル文学賞を得た。</b>
           <span>ジョン・スタインベック『怒りの葡萄』 ＋ ノーベル文学賞受賞者</span></span></a>
       <a class="ed-item" href="c/elmer-gantry--nobel-literature-laureates/">
         <span class="ed-thumbs"><img src="img/works/elmer-gantry.jpg" alt="" loading="lazy" decoding="async"><img src="img/works/nobel-literature-laureates.jpg" alt="" loading="lazy" decoding="async"></span>
-        <span class="ed-txt"><small>［1930年の受賞］</small><b>伝道者を皮肉った作家は、アメリカ初の受賞者。</b>
+        <span class="ed-txt"><small>［1930年の受賞］</small><b>伝道者を皮肉る作家は、アメリカ初の受賞者。</b>
           <span>映画「エルマー・ガントリー」 ＋ ノーベル文学賞受賞者</span></span></a>
       <a class="ed-item" href="c/cats--t-s-eliot/">
         <span class="ed-thumbs"><img src="img/works/cats.jpg" alt="" loading="lazy" decoding="async"><img src="img/works/t-s-eliot.jpg" alt="" loading="lazy" decoding="async"></span>
@@ -264,7 +264,7 @@ document.addEventListener('click', function (e) {
           <span>T・S・エリオット ＋ 長編詩『荒地』The Waste Land</span></span></a>
       <a class="ed-item" href="c/ezra-pound--the-waste-land/">
         <span class="ed-thumbs"><img src="img/works/ezra-pound.jpg" alt="" loading="lazy" decoding="async"><img src="img/works/the-waste-land.jpg" alt="" loading="lazy" decoding="async"></span>
-        <span class="ed-txt"><small>［削った友人］</small><b>名作は、友人の赤ペンで生まれた。</b>
+        <span class="ed-txt"><small>［削った友人］</small><b>友人の赤ペンが、『荒地』を形にした。</b>
           <span>エズラ・パウンド ＋ 長編詩『荒地』The Waste Land</span></span></a>
       <a class="ed-item" href="c/t-s-eliot--the-hollow-men/">
         <span class="ed-thumbs"><img src="img/works/t-s-eliot.jpg" alt="" loading="lazy" decoding="async"><img src="img/works/the-hollow-men.jpg" alt="" loading="lazy" decoding="async"></span>
@@ -280,15 +280,15 @@ document.addEventListener('click', function (e) {
           <span>『うつろな人々』The Hollow Men ＋ ジョセフ・コンラッド『闇の奥』</span></span></a>
       <a class="ed-item" href="c/lorenzos-oil--adrenoleukodystrophy/">
         <span class="ed-thumbs"><img src="img/works/lorenzos-oil.jpg" alt="" loading="lazy" decoding="async"><img src="img/works/adrenoleukodystrophy.jpg" alt="" loading="lazy" decoding="async"></span>
-        <span class="ed-txt"><small>［実話の病］</small><b>息子の病に、両親は図書館で挑んだ。</b>
+        <span class="ed-txt"><small>［実話の病］</small><b>息子を救う方法を、両親は自ら探した。</b>
           <span>映画「ロレンツォのオイル」 ＋ 副腎白質ジストロフィー（ALD）</span></span></a>
       <a class="ed-item" href="c/elmer-gantry--anti-intellectualism-in-american-life/">
         <span class="ed-thumbs"><img src="img/works/elmer-gantry.jpg" alt="" loading="lazy" decoding="async"><img src="img/works/anti-intellectualism-in-american-life.jpg" alt="" loading="lazy" decoding="async"></span>
-        <span class="ed-txt"><small>［信仰復興運動］</small><b>熱狂させる伝道者を、歴史家は分析した。</b>
+        <span class="ed-txt"><small>［信仰復興運動］</small><b>熱狂させる伝道者を、映画も歴史書も描いた。</b>
           <span>映画「エルマー・ガントリー」 ＋ アメリカの反知性主義</span></span></a>
       <a class="ed-item" href="c/anti-intellectualism--anti-intellectualism-in-american-life/">
         <span class="ed-thumbs"><img src="img/works/anti-intellectualism.jpg" alt="" loading="lazy" decoding="async"><img src="img/works/anti-intellectualism-in-american-life.jpg" alt="" loading="lazy" decoding="async"></span>
-        <span class="ed-txt"><small>［言葉と本］</small><b>ひとつの言葉を、一冊の本が広めた。</b>
+        <span class="ed-txt"><small>［言葉と本］</small><b>ひとつの言葉を、一冊の本が論じた。</b>
           <span>反知性主義 ＋ アメリカの反知性主義</span></span></a>
       <a class="ed-item" href="c/anti-intellectualism-in-american-life--richard-hofstadter/">
         <span class="ed-thumbs"><img src="img/works/anti-intellectualism-in-american-life.jpg" alt="" loading="lazy" decoding="async"><img src="img/works/richard-hofstadter.jpg" alt="" loading="lazy" decoding="async"></span>
@@ -296,39 +296,39 @@ document.addEventListener('click', function (e) {
           <span>アメリカの反知性主義 ＋ リチャード・ホーフスタッター</span></span></a>
       <a class="ed-item" href="c/crime-and-punishment--fyodor-dostoevsky/">
         <span class="ed-thumbs"><img src="img/works/crime-and-punishment.jpg" alt="" loading="lazy" decoding="async"><img src="img/works/fyodor-dostoevsky.jpg" alt="" loading="lazy" decoding="async"></span>
-        <span class="ed-txt"><small>［作家と作品］</small><b>理屈で殺した青年は、良心に追いつめられる。</b>
+        <span class="ed-txt"><small>［作家と作品］</small><b>理屈で殺した青年を、罪の意識が追いつめる。</b>
           <span>罪と罰 ＋ ドストエフスキー</span></span></a>
       <a class="ed-item" href="c/the-outsider--fyodor-dostoevsky/">
         <span class="ed-thumbs"><img src="img/works/the-outsider.jpg" alt="" loading="lazy" decoding="async"><img src="img/works/fyodor-dostoevsky.jpg" alt="" loading="lazy" decoding="async"></span>
-        <span class="ed-txt"><small>［アウトサイダーの系譜］</small><b>社会の外に立つ人間の原型が、ここにいる。</b>
+        <span class="ed-txt"><small>［アウトサイダーの系譜］</small><b>着想の日の回想に、ラスコーリニコフの名。</b>
           <span>コリン・ウィルソン『アウトサイダー』 ＋ ドストエフスキー</span></span></a>
-      <a class="ed-item" href="c/iris--nurungji/">
-        <span class="ed-thumbs"><img src="img/works/iris.jpg" alt="" loading="lazy" decoding="async"><img src="img/works/nurungji.jpg" alt="" loading="lazy" decoding="async"></span>
-        <span class="ed-txt"><small>［ドラマから食卓へ］</small><b>画面で見た国の味を、赤坂の一皿で。</b>
-          <span>韓国ドラマ『アイリス』 ＋ ヌルンジ（赤坂）</span></span></a>
+      <a class="ed-item" href="c/iris--tsurunoyu/">
+        <span class="ed-thumbs"><img src="img/works/iris.jpg" alt="" loading="lazy" decoding="async"><img src="img/works/tsurunoyu.jpg" alt="" loading="lazy" decoding="async"></span>
+        <span class="ed-txt"><small>［画面の中の湯宿］</small><b>主役二人の温泉デートは秋田の湯宿で撮られた。</b>
+          <span>韓国ドラマ『アイリス』 ＋ 乳頭温泉郷「鶴の湯」</span></span></a>
       <a class="ed-item" href="c/kanyoro--nurungji/">
         <span class="ed-thumbs"><img src="img/kanyoro.jpg" alt="" loading="lazy" decoding="async"><img src="img/works/nurungji.jpg" alt="" loading="lazy" decoding="async"></span>
         <span class="ed-txt"><small>［東京の中の隣国］</small><b>神田の中国料理と、赤坂の韓国料理。</b>
           <span>中国名菜『漢陽楼』 ＋ ヌルンジ（赤坂）</span></span></a>
       <a class="ed-item" href="c/highest-2-lowest--kings-ransom/">
         <span class="ed-thumbs"><img src="img/highest.jpg" alt="" loading="lazy" decoding="async"><img src="img/kings-ransom.jpg" alt="" loading="lazy" decoding="async"></span>
-        <span class="ed-txt"><small>［もう一本の源流］</small><b>始まりは黒澤ではなく、一冊の小説だった。</b>
+        <span class="ed-txt"><small>［もう一本の源流］</small><b>黒澤の映画の前にも、一冊の小説があった。</b>
           <span>『HIGHEST 2 LOWEST』 ＋ エド・マクベイン『キングの身代金』</span></span></a>
       <a class="ed-item" href="c/glenn-gould--goldberg-variations/">
         <span class="ed-thumbs"><img src="img/gould.jpg" alt="" loading="lazy" decoding="async"><img src="img/works/goldberg-variations.jpg" alt="" loading="lazy" decoding="async"></span>
-        <span class="ed-txt"><small>［始まりと終わりの録音］</small><b>デビューも最後の録音も、同じ曲だった。</b>
+        <span class="ed-txt"><small>［デビューと再録音］</small><b>デビュー盤と同じ曲を、死の前年に録り直した。</b>
           <span>グレン・グールド ＋ バッハ『ゴールドベルク変奏曲』</span></span></a>
       <a class="ed-item" href="c/goldberg-variations--brad-mehldau/">
         <span class="ed-thumbs"><img src="img/works/goldberg-variations.jpg" alt="" loading="lazy" decoding="async"><img src="img/works/brad-mehldau.jpg" alt="" loading="lazy" decoding="async"></span>
-        <span class="ed-txt"><small>［バッハを経由して］</small><b>ジャズのピアニストも、バッハから始め直した。</b>
+        <span class="ed-txt"><small>［バッハを経由して］</small><b>ゴールドベルクの主題にジャズ奏者が応えた。</b>
           <span>バッハ『ゴールドベルク変奏曲』 ＋ ブラッド・メルドー</span></span></a>
       <a class="ed-item" href="c/kusamakura--natsume-soseki/">
         <span class="ed-thumbs"><img src="img/kusamakura.jpg" alt="" loading="lazy" decoding="async"><img src="img/works/natsume-soseki.jpg" alt="" loading="lazy" decoding="async"></span>
-        <span class="ed-txt"><small>［画工の目、作家の目］</small><b>「非人情」は、漱石自身の宿題だった。</b>
+        <span class="ed-txt"><small>［旅が生んだ『草枕』］</small><b>「非人情」の小説には、漱石の芸術論が表れた。</b>
           <span>夏目漱石『草枕』 ＋ 夏目漱石</span></span></a>
       <a class="ed-item" href="c/natsume-soseki--zhou-tokyo-diary/">
         <span class="ed-thumbs"><img src="img/works/natsume-soseki.jpg" alt="" loading="lazy" decoding="async"><img src="img/zhou-diary.jpg" alt="" loading="lazy" decoding="async"></span>
-        <span class="ed-txt"><small>［異国の都の日記］</small><b>漱石はロンドンで、周恩来は東京で書いた。</b>
+        <span class="ed-txt"><small>［異国の都の記録］</small><b>漱石はロンドンで、周恩来は東京で書いた。</b>
           <span>夏目漱石 ＋ 周恩来『十九歳の東京日記』</span></span></a>
       <a class="ed-item" href="c/zhou-enlai--zhou-tokyo-diary/">
         <span class="ed-thumbs"><img src="img/works/zhou-enlai.jpg" alt="" loading="lazy" decoding="async"><img src="img/zhou-diary.jpg" alt="" loading="lazy" decoding="async"></span>
@@ -336,11 +336,11 @@ document.addEventListener('click', function (e) {
           <span>周恩来 ＋ 周恩来『十九歳の東京日記』</span></span></a>
       <a class="ed-item" href="c/tanaka-isson--kusamakura/">
         <span class="ed-thumbs"><img src="img/works/tanaka-isson.jpg" alt="" loading="lazy" decoding="async"><img src="img/kusamakura.jpg" alt="" loading="lazy" decoding="async"></span>
-        <span class="ed-txt"><small>［世を離れて描く］</small><b>小説の画工を、生きてしまった画家がいる。</b>
+        <span class="ed-txt"><small>［世を離れて描く］</small><b>小説の画工を、生きたかのような画家。</b>
           <span>田中一村 ＋ 夏目漱石『草枕』</span></span></a>
       <a class="ed-item" href="c/kotringo--kanashikute-yarikirenai/">
         <span class="ed-thumbs"><img src="img/works/kotringo.jpg" alt="" loading="lazy" decoding="async"><img src="img/works/kanashikute-yarikirenai.jpg" alt="" loading="lazy" decoding="async"></span>
-        <span class="ed-txt"><small>［うたい直された歌］</small><b>1968年の歌を、静かな声がうたい直した。</b>
+        <span class="ed-txt"><small>［歌い直された歌］</small><b>1968年の歌を、静かな声が歌い直した。</b>
           <span>コトリンゴ ＋ 「悲しくてやりきれない」</span></span></a>
       <a class="ed-item" href="c/kanashikute-yarikirenai--kono-sekai-no-katasumi-ni/">
         <span class="ed-thumbs"><img src="img/works/kanashikute-yarikirenai.jpg" alt="" loading="lazy" decoding="async"><img src="img/works/kono-sekai-no-katasumi-ni.jpg" alt="" loading="lazy" decoding="async"></span>
@@ -352,11 +352,11 @@ document.addEventListener('click', function (e) {
           <span>『この世界の片隅に』 ＋ 広島県呉市</span></span></a>
       <a class="ed-item" href="c/kure--torikawa-misoni/">
         <span class="ed-thumbs"><img src="img/works/kure.jpg" alt="" loading="lazy" decoding="async"><img src="img/works/torikawa-misoni.jpg" alt="" loading="lazy" decoding="async"></span>
-        <span class="ed-txt"><small>［呉の一皿］</small><b>港町の居酒屋の味が、缶ひとつで旅をする。</b>
+        <span class="ed-txt"><small>［呉の一皿］</small><b>戦後の港町で生まれ、缶ひとつで旅をする味。</b>
           <span>広島県呉市 ＋ 鳥皮みそ煮</span></span></a>
       <a class="ed-item" href="c/kono-sekai-no-katasumi-ni--look-back/">
         <span class="ed-thumbs"><img src="img/works/kono-sekai-no-katasumi-ni.jpg" alt="" loading="lazy" decoding="async"><img src="img/works/look-back.jpg" alt="" loading="lazy" decoding="async"></span>
-        <span class="ed-txt"><small>［描く手］</small><b>描くことを奪われても、描いた日々は消えない。</b>
+        <span class="ed-txt"><small>［描く手］</small><b>描くことが好きな人が、喪失のあとを生きる。</b>
           <span>『この世界の片隅に』 ＋ 藤本タツキ『ルックバック』</span></span></a>
       <a class="ed-item" href="c/fujimoto-tatsuki--look-back/">
         <span class="ed-thumbs"><img src="img/works/fujimoto-tatsuki.jpg" alt="" loading="lazy" decoding="async"><img src="img/works/look-back.jpg" alt="" loading="lazy" decoding="async"></span>
@@ -364,7 +364,7 @@ document.addEventListener('click', function (e) {
           <span>藤本タツキ ＋ 藤本タツキ『ルックバック』</span></span></a>
       <a class="ed-item" href="c/fujimoto-tatsuki--chainsaw-man/">
         <span class="ed-thumbs"><img src="img/works/fujimoto-tatsuki.jpg" alt="" loading="lazy" decoding="async"><img src="img/works/chainsaw-man.jpg" alt="" loading="lazy" decoding="async"></span>
-        <span class="ed-txt"><small>［悪魔を狩る少年］</small><b>借金を背負った少年に、チェンソーの心臓が宿る。</b>
+        <span class="ed-txt"><small>［悪魔を狩る少年］</small><b>チェンソーの心臓が、借金を負う少年に宿る。</b>
           <span>藤本タツキ ＋ 藤本タツキ『チェンソーマン』</span></span></a>
       <a class="ed-item" href="c/chainsaw-man--parasyte/">
         <span class="ed-thumbs"><img src="img/works/chainsaw-man.jpg" alt="" loading="lazy" decoding="async"><img src="img/works/parasyte.jpg" alt="" loading="lazy" decoding="async"></span>
@@ -372,35 +372,35 @@ document.addEventListener('click', function (e) {
           <span>藤本タツキ『チェンソーマン』 ＋ 岩明均『寄生獣』</span></span></a>
       <a class="ed-item" href="c/koreeda-hirokazu--nobody-knows/">
         <span class="ed-thumbs"><img src="img/works/koreeda-hirokazu.jpg" alt="" loading="lazy" decoding="async"><img src="img/works/nobody-knows.jpg" alt="" loading="lazy" decoding="async"></span>
-        <span class="ed-txt"><small>［見過ごされた子どもたち］</small><b>14歳の少年が、カンヌで最年少の男優賞を得た。</b>
+        <span class="ed-txt"><small>［見過ごされた子どもたち］</small><b>14歳が、カンヌで最年少の男優賞を得た。</b>
           <span>是枝裕和 ＋ 是枝裕和『誰も知らない』</span></span></a>
       <a class="ed-item" href="c/koreeda-hirokazu--shoplifters/">
         <span class="ed-thumbs"><img src="img/works/koreeda-hirokazu.jpg" alt="" loading="lazy" decoding="async"><img src="img/works/shoplifters.jpg" alt="" loading="lazy" decoding="async"></span>
-        <span class="ed-txt"><small>［家族とは何か］</small><b>日本映画に21年ぶりのパルム・ドールをもたらした。</b>
+        <span class="ed-txt"><small>［家族とは何か］</small><b>日本映画が21年ぶりにパルム・ドールを得た。</b>
           <span>是枝裕和 ＋ 是枝裕和『万引き家族』</span></span></a>
       <a class="ed-item" href="c/nobody-knows--shoplifters/">
         <span class="ed-thumbs"><img src="img/works/nobody-knows.jpg" alt="" loading="lazy" decoding="async"><img src="img/works/shoplifters.jpg" alt="" loading="lazy" decoding="async"></span>
-        <span class="ed-txt"><small>［誰にも見えない家］</small><b>社会の外側で、子どもたちは暮らしていた。</b>
+        <span class="ed-txt"><small>［誰にも見えない家］</small><b>社会の外側で、子どもたちは暮らした。</b>
           <span>是枝裕和『誰も知らない』 ＋ 是枝裕和『万引き家族』</span></span></a>
       <a class="ed-item" href="c/shoplifters--apocalypse-now/">
         <span class="ed-thumbs"><img src="img/works/shoplifters.jpg" alt="" loading="lazy" decoding="async"><img src="img/works/apocalypse-now.jpg" alt="" loading="lazy" decoding="async"></span>
-        <span class="ed-txt"><small>［パルム・ドールの系譜］</small><b>ジャングルの奥の戦争と、東京の片隅の家族。</b>
+        <span class="ed-txt"><small>［パルム・ドールの系譜］</small><b>ジャングルの奥の戦争と東京の片隅の家族。</b>
           <span>是枝裕和『万引き家族』 ＋ コッポラ『地獄の黙示録』</span></span></a>
       <a class="ed-item" href="c/daiyame--domaine-tetta/">
         <span class="ed-thumbs"><img src="img/works/daiyame.jpg" alt="" loading="lazy" decoding="async"><img src="img/works/domaine-tetta.jpg" alt="" loading="lazy" decoding="async"></span>
-        <span class="ed-txt"><small>［土地の名を背負う酒］</small><b>晩酌の言葉と、村の名前。</b>
+        <span class="ed-txt"><small>［名前が語る産地］</small><b>焼酎の名は晩酌の言葉、ワイナリーの名は地名。</b>
           <span>芋焼酎『だいやめ DAIYAME』 ＋ ドメーヌ・テッタ</span></span></a>
       <a class="ed-item" href="c/daiyame--tanqueray-no-ten/">
         <span class="ed-thumbs"><img src="img/works/daiyame.jpg" alt="" loading="lazy" decoding="async"><img src="img/works/tanqueray-no-ten.jpg" alt="" loading="lazy" decoding="async"></span>
-        <span class="ed-txt"><small>［香りで選ぶ蒸留酒］</small><b>ライチのような芋焼酎と、生の柑橘のジン。</b>
+        <span class="ed-txt"><small>［香りで選ぶ蒸留酒］</small><b>ライチのような芋焼酎と生の柑橘のジン。</b>
           <span>芋焼酎『だいやめ DAIYAME』 ＋ タンカレー No.10</span></span></a>
       <a class="ed-item" href="c/gyoza-sakaba-kachidoki--daiyame/">
         <span class="ed-thumbs"><img src="img/works/gyoza-sakaba-kachidoki.jpg" alt="" loading="lazy" decoding="async"><img src="img/works/daiyame.jpg" alt="" loading="lazy" decoding="async"></span>
-        <span class="ed-txt"><small>［今夜のだいやめ］</small><b>「だいやめ」とは、つまり今夜の一杯のこと。</b>
+        <span class="ed-txt"><small>［今夜のだいやめ］</small><b>「だいやめ」とは、つまり今夜の一杯だ。</b>
           <span>餃子酒場（勝どき店） ＋ 芋焼酎『だいやめ DAIYAME』</span></span></a>
       <a class="ed-item" href="c/kanyoro--gyoza-sakaba-kachidoki/">
         <span class="ed-thumbs"><img src="img/kanyoro.jpg" alt="" loading="lazy" decoding="async"><img src="img/works/gyoza-sakaba-kachidoki.jpg" alt="" loading="lazy" decoding="async"></span>
-        <span class="ed-txt"><small>［東京の中華、百年］</small><b>明治の中華料理店から、駅前の餃子酒場まで。</b>
+        <span class="ed-txt"><small>［勝鬨と留学生］</small><b>勝どきの名も、漢陽楼も日露戦争とつながる。</b>
           <span>中国名菜『漢陽楼』 ＋ 餃子酒場（勝どき店）</span></span></a>
       <a class="ed-item" href="c/lumumba--heart-of-darkness/">
         <span class="ed-thumbs"><img src="img/works/lumumba.jpg" alt="" loading="lazy" decoding="async"><img src="img/works/heart-of-darkness.jpg" alt="" loading="lazy" decoding="async"></span>
@@ -420,11 +420,11 @@ document.addEventListener('click', function (e) {
           <span>コッポラ『地獄の黙示録』 ＋ フランシス・フォード・コッポラ</span></span></a>
       <a class="ed-item" href="c/francis-ford-coppola--high-and-low/">
         <span class="ed-thumbs"><img src="img/works/francis-ford-coppola.jpg" alt="" loading="lazy" decoding="async"><img src="img/highlow.jpg" alt="" loading="lazy" decoding="async"></span>
-        <span class="ed-txt"><small>［黒澤明を経由して］</small><b>コッポラは、黒澤の映画づくりを支えた。</b>
+        <span class="ed-txt"><small>［黒澤明を経由して］</small><b>コッポラとルーカスが、黒澤の映画を支えた。</b>
           <span>フランシス・フォード・コッポラ ＋ 黒澤明『天国と地獄』</span></span></a>
       <a class="ed-item" href="c/adan--tanaka-isson/">
         <span class="ed-thumbs"><img src="img/works/adan.jpg" alt="" loading="lazy" decoding="async"><img src="img/works/tanaka-isson.jpg" alt="" loading="lazy" decoding="async"></span>
-        <span class="ed-txt"><small>［奄美の海辺］</small><b>一村は、アダンの実を描き続けた。</b>
+        <span class="ed-txt"><small>［奄美の海辺］</small><b>アダンの海辺は、一村の「閻魔大王への土産」。</b>
           <span>アダン ＋ 田中一村</span></span></a>
       <a class="ed-item" href="c/tazawako--tsurunoyu/">
         <span class="ed-thumbs"><img src="img/works/tazawako.jpg" alt="" loading="lazy" decoding="async"><img src="img/works/tsurunoyu.jpg" alt="" loading="lazy" decoding="async"></span>
@@ -432,7 +432,7 @@ document.addEventListener('click', function (e) {
           <span>田沢湖 ＋ 乳頭温泉郷「鶴の湯」</span></span></a>
       <a class="ed-item" href="c/iris--tazawako/">
         <span class="ed-thumbs"><img src="img/works/iris.jpg" alt="" loading="lazy" decoding="async"><img src="img/works/tazawako.jpg" alt="" loading="lazy" decoding="async"></span>
-        <span class="ed-txt"><small>［ロケ地になった湖］</small><b>韓国ドラマの一場面が、秋田の湖畔で撮られた。</b>
+        <span class="ed-txt"><small>［ロケ地になった湖］</small><b>韓国ドラマのロケ地に、秋田の田沢湖もあった。</b>
           <span>韓国ドラマ『アイリス』 ＋ 田沢湖</span></span></a>
       <a class="ed-item" href="c/tsurunoyu--nakoikan/">
         <span class="ed-thumbs"><img src="img/works/tsurunoyu.jpg" alt="" loading="lazy" decoding="async"><img src="img/nakoikan.jpg" alt="" loading="lazy" decoding="async"></span>
@@ -442,10 +442,10 @@ document.addEventListener('click', function (e) {
         <span class="ed-thumbs"><img src="img/works/pluribus.jpg" alt="" loading="lazy" decoding="async"><img src="img/works/parasyte.jpg" alt="" loading="lazy" decoding="async"></span>
         <span class="ed-txt"><small>［内側から入れ替わる人類］</small><b>隣の人が、昨日までの人ではない。</b>
           <span>ヴィンス・ギリガン『プルリブス』 ＋ 岩明均『寄生獣』</span></span></a>
-      <a class="ed-item" href="c/pluribus--reacher/">
-        <span class="ed-thumbs"><img src="img/works/pluribus.jpg" alt="" loading="lazy" decoding="async"><img src="img/works/reacher.jpg" alt="" loading="lazy" decoding="async"></span>
-        <span class="ed-txt"><small>［たった一人で］</small><b>誰も味方がいなくても、一人で立つ。</b>
-          <span>ヴィンス・ギリガン『プルリブス』 ＋ 『リーチャー 正義のアウトロー』</span></span></a>
+      <a class="ed-item" href="c/war-of-the-worlds-2005--reacher/">
+        <span class="ed-thumbs"><img src="img/works/war-of-the-worlds-2005.jpg" alt="" loading="lazy" decoding="async"><img src="img/works/reacher.jpg" alt="" loading="lazy" decoding="async"></span>
+        <span class="ed-txt"><small>［クルーズを経由して］</small><b>『宇宙戦争』の主演は、リーチャーも演じた。</b>
+          <span>スピルバーグ『宇宙戦争』 ＋ 『リーチャー 正義のアウトロー』</span></span></a>
       <a class="ed-item" href="c/highest-2-lowest--pluribus/">
         <span class="ed-thumbs"><img src="img/highest.jpg" alt="" loading="lazy" decoding="async"><img src="img/works/pluribus.jpg" alt="" loading="lazy" decoding="async"></span>
         <span class="ed-txt"><small>［同じ配信の窓］</small><b>誘拐劇とSFが、同じ画面から届く。</b>
@@ -464,7 +464,7 @@ document.addEventListener('click', function (e) {
           <span>リドリー・スコット『ブレードランナー』 ＋ テリー・ギリアム『未来世紀ブラジル』</span></span></a>
       <a class="ed-item" href="c/brazil--johnny-depp/">
         <span class="ed-thumbs"><img src="img/works/brazil.jpg" alt="" loading="lazy" decoding="async"><img src="img/works/johnny-depp.jpg" alt="" loading="lazy" decoding="async"></span>
-        <span class="ed-txt"><small>［テリー・ギリアムを経由して］</small><b>夢に逃げる役人の監督と、夢を演じる俳優。</b>
+        <span class="ed-txt"><small>［テリー・ギリアムを経由して］</small><b>夢を演じる俳優と、夢に逃げる役人の監督。</b>
           <span>テリー・ギリアム『未来世紀ブラジル』 ＋ ジョニー・デップ</span></span></a>
       <a class="ed-item" href="c/johnny-depp--minamata/">
         <span class="ed-thumbs"><img src="img/works/johnny-depp.jpg" alt="" loading="lazy" decoding="async"><img src="img/works/minamata.jpg" alt="" loading="lazy" decoding="async"></span>
@@ -480,15 +480,15 @@ document.addEventListener('click', function (e) {
           <span>W・ユージン・スミス ＋ 『この世界の片隅に』</span></span></a>
       <a class="ed-item" href="c/iwaaki-hitoshi--parasyte/">
         <span class="ed-thumbs"><img src="img/works/iwaaki-hitoshi.jpg" alt="" loading="lazy" decoding="async"><img src="img/works/parasyte.jpg" alt="" loading="lazy" decoding="async"></span>
-        <span class="ed-txt"><small>［作者と代表作］</small><b>右手に寄生した生き物が、人間を問い直す。</b>
+        <span class="ed-txt"><small>［作者と代表作］</small><b>右手に寄生した生き物が人間を問い直す。</b>
           <span>岩明均 ＋ 岩明均『寄生獣』</span></span></a>
       <a class="ed-item" href="c/iwaaki-hitoshi--historie/">
         <span class="ed-thumbs"><img src="img/works/iwaaki-hitoshi.jpg" alt="" loading="lazy" decoding="async"><img src="img/works/historie.jpg" alt="" loading="lazy" decoding="async"></span>
-        <span class="ed-txt"><small>［古代を描く］</small><b>『寄生獣』の作者は、古代ギリシャへ向かった。</b>
+        <span class="ed-txt"><small>［古代を描く］</small><b>『寄生獣』の作者は、古代ギリシアを描いた。</b>
           <span>岩明均 ＋ 岩明均『ヒストリエ』</span></span></a>
       <a class="ed-item" href="c/kill-your-friends--frida-sundemo/">
         <span class="ed-thumbs"><img src="img/works/kill-your-friends.jpg" alt="" loading="lazy" decoding="async"><img src="img/works/frida-sundemo.jpg" alt="" loading="lazy" decoding="async"></span>
-        <span class="ed-txt"><small>［手向けの花］</small><b>音楽を憎んだ男の前で、ひとりの歌手が歌った。</b>
+        <span class="ed-txt"><small>［争奪戦の新人バンド］</small><b>新人バンドの契約を、野心家の男が狙う。</b>
           <span>映画『マッド・ドライヴ』（原題 Kill Your Friends） ＋ フリーダ・サンデモ</span></span></a>
       <a class="ed-item" href="c/homme-less--happy-pharrell/">
         <span class="ed-thumbs"><img src="img/works/homme-less.jpg" alt="" loading="lazy" decoding="async"><img src="img/works/happy-pharrell.jpg" alt="" loading="lazy" decoding="async"></span>
@@ -500,19 +500,19 @@ document.addEventListener('click', function (e) {
           <span>ホルスト『惑星』 ＋ H・G・ウェルズ『宇宙戦争』</span></span></a>
       <a class="ed-item" href="c/tengoku-film--tengoku-book/">
         <span class="ed-thumbs"><img src="img/works/tengoku-film.jpg" alt="" loading="lazy" decoding="async"><img src="img/works/tengoku-book.jpg" alt="" loading="lazy" decoding="async"></span>
-        <span class="ed-txt"><small>［原作から映画へ］</small><b>天国は、場所ではなかった。</b>
+        <span class="ed-txt"><small>［原作から映画へ］</small><b>父の語った島を探す旅は映画で別の物語になる。</b>
           <span>大林宣彦『天国にいちばん近い島』 ＋ 森村桂『天国にいちばん近い島』</span></span></a>
       <a class="ed-item" href="c/tengoku-book--rebellion-ordre-et-morale/">
         <span class="ed-thumbs"><img src="img/works/tengoku-book.jpg" alt="" loading="lazy" decoding="async"><img src="img/works/rebellion-ordre-et-morale.jpg" alt="" loading="lazy" decoding="async"></span>
-        <span class="ed-txt"><small>［天国の島の裏側］</small><b>天国に近い島は、植民地で、戦場だった。</b>
+        <span class="ed-txt"><small>［天国の島の裏側］</small><b>天国にいちばん近い島は人質事件の島でもある。</b>
           <span>森村桂『天国にいちばん近い島』 ＋ 映画『裏切りの戦場 葬られた誓い』</span></span></a>
       <a class="ed-item" href="c/tengoku-film--harada-tomoyo/">
         <span class="ed-thumbs"><img src="img/works/tengoku-film.jpg" alt="" loading="lazy" decoding="async"><img src="img/works/harada-tomoyo.jpg" alt="" loading="lazy" decoding="async"></span>
-        <span class="ed-txt"><small>［主演］</small><b>少女は、南の島へひとりで旅立つ。</b>
+        <span class="ed-txt"><small>［主演］</small><b>亡き父の言葉を頼りに、少女は南の島へ向かう。</b>
           <span>大林宣彦『天国にいちばん近い島』 ＋ 原田知世</span></span></a>
       <a class="ed-item" href="c/shooting-an-elephant--nineteen-eighty-four/">
         <span class="ed-thumbs"><img src="img/works/shooting-an-elephant.jpg" alt="" loading="lazy" decoding="async"><img src="img/works/nineteen-eighty-four.jpg" alt="" loading="lazy" decoding="async"></span>
-        <span class="ed-txt"><small>［ビルマから『1984年』へ］</small><b>象を撃った警官は、やがて監視国家を書いた。</b>
+        <span class="ed-txt"><small>［ビルマから『1984年』へ］</small><b>『象を撃つ』の作者は、後に監視国家を書いた。</b>
           <span>ジョージ・オーウェル『象を撃つ』 ＋ ジョージ・オーウェル『1984年』</span></span></a>
       <a class="ed-item" href="c/shooting-an-elephant--heart-of-darkness/">
         <span class="ed-thumbs"><img src="img/works/shooting-an-elephant.jpg" alt="" loading="lazy" decoding="async"><img src="img/works/heart-of-darkness.jpg" alt="" loading="lazy" decoding="async"></span>
@@ -524,7 +524,7 @@ document.addEventListener('click', function (e) {
           <span>ジョージ・オーウェル『1984年』 ＋ アップル「Think Different」</span></span></a>
       <a class="ed-item" href="c/nineteen-eighty-four--blade-runner/">
         <span class="ed-thumbs"><img src="img/works/nineteen-eighty-four.jpg" alt="" loading="lazy" decoding="async"><img src="img/works/blade-runner.jpg" alt="" loading="lazy" decoding="async"></span>
-        <span class="ed-txt"><small>［リドリー・スコットを経由して］</small><b>監督は、『1984年』の広告も撮っていた。</b>
+        <span class="ed-txt"><small>［リドリー・スコットを経由して］</small><b>広告「1984」も、スコットが撮っていた。</b>
           <span>ジョージ・オーウェル『1984年』 ＋ リドリー・スコット『ブレードランナー』</span></span></a>
       <a class="ed-item" href="c/nineteen-eighty-four--brazil/">
         <span class="ed-thumbs"><img src="img/works/nineteen-eighty-four.jpg" alt="" loading="lazy" decoding="async"><img src="img/works/brazil.jpg" alt="" loading="lazy" decoding="async"></span>
@@ -532,15 +532,15 @@ document.addEventListener('click', function (e) {
           <span>ジョージ・オーウェル『1984年』 ＋ テリー・ギリアム『未来世紀ブラジル』</span></span></a>
       <a class="ed-item" href="c/breaking-bad--better-call-saul/">
         <span class="ed-thumbs"><img src="img/works/breaking-bad.jpg" alt="" loading="lazy" decoding="async"><img src="img/works/better-call-saul.jpg" alt="" loading="lazy" decoding="async"></span>
-        <span class="ed-txt"><small>［スピンオフ］</small><b>悪徳弁護士には、まだ名前が違う頃があった。</b>
+        <span class="ed-txt"><small>［スピンオフ］</small><b>悪徳弁護士には、別の名前の頃があった。</b>
           <span>ドラマ『ブレイキング・バッド』 ＋ ドラマ『ベター・コール・ソウル』</span></span></a>
       <a class="ed-item" href="c/breaking-bad--pluribus/">
         <span class="ed-thumbs"><img src="img/works/breaking-bad.jpg" alt="" loading="lazy" decoding="async"><img src="img/works/pluribus.jpg" alt="" loading="lazy" decoding="async"></span>
-        <span class="ed-txt"><small>［ヴィンス・ギリガンを経由して］</small><b>化学教師の物語の作者が、次に描いたのは「私たち」。</b>
+        <span class="ed-txt"><small>［ヴィンス・ギリガンを経由して］</small><b>化学教師の物語の作者がのちに描く「私たち」。</b>
           <span>ドラマ『ブレイキング・バッド』 ＋ ヴィンス・ギリガン『プルリブス』</span></span></a>
       <a class="ed-item" href="c/better-call-saul--pluribus/">
         <span class="ed-thumbs"><img src="img/works/better-call-saul.jpg" alt="" loading="lazy" decoding="async"><img src="img/works/pluribus.jpg" alt="" loading="lazy" decoding="async"></span>
-        <span class="ed-txt"><small>［レイ・シーホーンを経由して］</small><b>キムを演じた人が、世界でただひとりになる。</b>
+        <span class="ed-txt"><small>［レイ・シーホーンを経由して］</small><b>13人の免疫者の一人をキム役の俳優が演じる。</b>
           <span>ドラマ『ベター・コール・ソウル』 ＋ ヴィンス・ギリガン『プルリブス』</span></span></a>
       <a class="ed-item" href="c/interstellar--the-grapes-of-wrath/">
         <span class="ed-thumbs"><img src="img/works/interstellar.jpg" alt="" loading="lazy" decoding="async"><img src="img/works/the-grapes-of-wrath.jpg" alt="" loading="lazy" decoding="async"></span>
@@ -548,19 +548,19 @@ document.addEventListener('click', function (e) {
           <span>クリストファー・ノーラン『インターステラー』 ＋ ジョン・スタインベック『怒りの葡萄』</span></span></a>
       <a class="ed-item" href="c/interstellar--christopher-nolan/">
         <span class="ed-thumbs"><img src="img/works/interstellar.jpg" alt="" loading="lazy" decoding="async"><img src="img/works/christopher-nolan.jpg" alt="" loading="lazy" decoding="async"></span>
-        <span class="ed-txt"><small>［監督と作品］</small><b>父は、本棚の向こうから娘を呼んだ。</b>
+        <span class="ed-txt"><small>［監督と作品］</small><b>父と娘の時間のずれを、兄弟で書いた。</b>
           <span>クリストファー・ノーラン『インターステラー』 ＋ クリストファー・ノーラン</span></span></a>
       <a class="ed-item" href="c/the-war-of-the-worlds--war-of-the-worlds-2005/">
         <span class="ed-thumbs"><img src="img/works/the-war-of-the-worlds.jpg" alt="" loading="lazy" decoding="async"><img src="img/works/war-of-the-worlds-2005.jpg" alt="" loading="lazy" decoding="async"></span>
-        <span class="ed-txt"><small>［小説から映画へ］</small><b>火星人の侵略は、父と子の逃避行になった。</b>
+        <span class="ed-txt"><small>［小説から映画へ］</small><b>異星人の侵略は、父と子の逃避行になる。</b>
           <span>H・G・ウェルズ『宇宙戦争』 ＋ スピルバーグ『宇宙戦争』</span></span></a>
       <a class="ed-item" href="c/war-of-the-worlds-2005--interstellar/">
         <span class="ed-thumbs"><img src="img/works/war-of-the-worlds-2005.jpg" alt="" loading="lazy" decoding="async"><img src="img/works/interstellar.jpg" alt="" loading="lazy" decoding="async"></span>
-        <span class="ed-txt"><small>［スピルバーグを経由して］</small><b>父と子の物語は、もう一人の監督へ渡った。</b>
+        <span class="ed-txt"><small>［スピルバーグを経由して］</small><b>守る父を撮った監督は、旅立つ父の企画にいた。</b>
           <span>スピルバーグ『宇宙戦争』 ＋ クリストファー・ノーラン『インターステラー』</span></span></a>
       <a class="ed-item" href="c/interstellar--spaceship-earth/">
         <span class="ed-thumbs"><img src="img/works/interstellar.jpg" alt="" loading="lazy" decoding="async"><img src="img/works/spaceship-earth.jpg" alt="" loading="lazy" decoding="async"></span>
-        <span class="ed-txt"><small>［地球という船］</small><b>人類は、船を乗り換えられるのか。</b>
+        <span class="ed-txt"><small>［地球という船］</small><b>人類は、船を乗り換えられるか。</b>
           <span>クリストファー・ノーラン『インターステラー』 ＋ バックミンスター・フラー『宇宙船地球号 操縦マニュアル』</span></span></a>
       <a class="ed-item" href="c/washida-kiyokazu--jidai-no-kishimi/">
         <span class="ed-thumbs"><img src="img/works/washida-kiyokazu.jpg" alt="" loading="lazy" decoding="async"><img src="img/works/jidai-no-kishimi.jpg" alt="" loading="lazy" decoding="async"></span>
@@ -580,23 +580,23 @@ document.addEventListener('click', function (e) {
           <span>フィリップ・K・ディック『アンドロイドは電気羊の夢を見るか？』 ＋ リドリー・スコット『ブレードランナー』</span></span></a>
       <a class="ed-item" href="c/isaac-asimov--do-androids-dream/">
         <span class="ed-thumbs"><img src="img/works/isaac-asimov.jpg" alt="" loading="lazy" decoding="async"><img src="img/works/do-androids-dream.jpg" alt="" loading="lazy" decoding="async"></span>
-        <span class="ed-txt"><small>［人に似せて作られたもの］</small><b>ロボットは三原則を守り、アンドロイドは嘘をつく。</b>
+        <span class="ed-txt"><small>［人に似せて作られたもの］</small><b>人に仕えるロボットと、紛れ込むアンドロイド。</b>
           <span>アイザック・アシモフ ＋ フィリップ・K・ディック『アンドロイドは電気羊の夢を見るか？』</span></span></a>
       <a class="ed-item" href="c/greg-egan--blade-runner-2049/">
         <span class="ed-thumbs"><img src="img/works/greg-egan.jpg" alt="" loading="lazy" decoding="async"><img src="img/works/blade-runner-2049.jpg" alt="" loading="lazy" decoding="async"></span>
-        <span class="ed-txt"><small>［記憶は誰のものか］</small><b>植えつけられた記憶でも、それは自分なのか。</b>
+        <span class="ed-txt"><small>［記憶は誰のものか］</small><b>植えつけられた記憶でもそれは自分なのか。</b>
           <span>グレッグ・イーガン ＋ ヴィルヌーヴ『ブレードランナー 2049』</span></span></a>
       <a class="ed-item" href="c/terry-gilliam--the-zero-theorem/">
         <span class="ed-thumbs"><img src="img/works/terry-gilliam.jpg" alt="" loading="lazy" decoding="async"><img src="img/works/the-zero-theorem.jpg" alt="" loading="lazy" decoding="async"></span>
-        <span class="ed-txt"><small>［監督と作品］</small><b>管理社会の三作目。</b>
+        <span class="ed-txt"><small>［監督と作品］</small><b>『ブラジル』の監督が、今の世界の一端を描く。</b>
           <span>テリー・ギリアム ＋ テリー・ギリアム『ゼロの未来』</span></span></a>
       <a class="ed-item" href="c/terry-gilliam--brazil/">
         <span class="ed-thumbs"><img src="img/works/terry-gilliam.jpg" alt="" loading="lazy" decoding="async"><img src="img/works/brazil.jpg" alt="" loading="lazy" decoding="async"></span>
-        <span class="ed-txt"><small>［監督と作品］</small><b>夢に逃げる役人を、監督は救わなかった。</b>
+        <span class="ed-txt"><small>［監督と作品］</small><b>夢に逃げ込む役人を、ブラックな笑いで描く。</b>
           <span>テリー・ギリアム ＋ テリー・ギリアム『未来世紀ブラジル』</span></span></a>
       <a class="ed-item" href="c/the-zero-theorem--brazil/">
         <span class="ed-thumbs"><img src="img/works/the-zero-theorem.jpg" alt="" loading="lazy" decoding="async"><img src="img/works/brazil.jpg" alt="" loading="lazy" decoding="async"></span>
-        <span class="ed-txt"><small>［30年後の管理社会］</small><b>書類の迷宮から、画面の迷宮へ。</b>
+        <span class="ed-txt"><small>［二つの管理社会］</small><b>書類の迷宮から、画面の迷宮へ。</b>
           <span>テリー・ギリアム『ゼロの未来』 ＋ テリー・ギリアム『未来世紀ブラジル』</span></span></a>
       <a class="ed-item" href="c/foundation--isaac-asimov/">
         <span class="ed-thumbs"><img src="img/works/foundation.jpg" alt="" loading="lazy" decoding="async"><img src="img/works/isaac-asimov.jpg" alt="" loading="lazy" decoding="async"></span>
@@ -604,19 +604,19 @@ document.addEventListener('click', function (e) {
           <span>アイザック・アシモフ『ファウンデーション』 ＋ アイザック・アシモフ</span></span></a>
       <a class="ed-item" href="c/foundation--pluribus/">
         <span class="ed-thumbs"><img src="img/works/foundation.jpg" alt="" loading="lazy" decoding="async"><img src="img/works/pluribus.jpg" alt="" loading="lazy" decoding="async"></span>
-        <span class="ed-txt"><small>［同じ配信の窓］</small><b>銀河の帝国と、ひとつになった人類。</b>
+        <span class="ed-txt"><small>［同じ配信の窓］</small><b>銀河の帝国と、ひとつになった世界。</b>
           <span>アイザック・アシモフ『ファウンデーション』 ＋ ヴィンス・ギリガン『プルリブス』</span></span></a>
       <a class="ed-item" href="c/youssou-ndour--peter-gabriel/">
         <span class="ed-thumbs"><img src="img/works/youssou-ndour.jpg" alt="" loading="lazy" decoding="async"><img src="img/works/peter-gabriel.jpg" alt="" loading="lazy" decoding="async"></span>
-        <span class="ed-txt"><small>［「イン・ユア・アイズ」］</small><b>セネガルの声が、英国の曲の最後を歌った。</b>
+        <span class="ed-txt"><small>［「イン・ユア・アイズ」］</small><b>セネガルの声が、英国の曲の最後を歌う。</b>
           <span>ユッスー・ンドゥール ＋ ピーター・ガブリエル</span></span></a>
       <a class="ed-item" href="c/peter-gabriel--david-bowie/">
         <span class="ed-thumbs"><img src="img/works/peter-gabriel.jpg" alt="" loading="lazy" decoding="async"><img src="img/works/david-bowie.jpg" alt="" loading="lazy" decoding="async"></span>
-        <span class="ed-txt"><small>［「ヒーローズ」］</small><b>ボウイの「ヒーローズ」を、ガブリエルが歌い直した。</b>
+        <span class="ed-txt"><small>［「ヒーローズ」］</small><b>ボウイ「ヒーローズ」をガブリエルが歌い直す。</b>
           <span>ピーター・ガブリエル ＋ デヴィッド・ボウイ</span></span></a>
       <a class="ed-item" href="c/david-bowie--merry-christmas-mr-lawrence/">
         <span class="ed-thumbs"><img src="img/works/david-bowie.jpg" alt="" loading="lazy" decoding="async"><img src="img/works/merry-christmas-mr-lawrence.jpg" alt="" loading="lazy" decoding="async"></span>
-        <span class="ed-txt"><small>［出演］</small><b>ロックスターは、捕虜収容所の少佐になった。</b>
+        <span class="ed-txt"><small>［出演］</small><b>ロックスターは、捕虜の少佐になった。</b>
           <span>デヴィッド・ボウイ ＋ 大島渚『戦場のメリークリスマス』</span></span></a>
       <a class="ed-item" href="c/merry-christmas-mr-lawrence--the-seed-and-the-sower/">
         <span class="ed-thumbs"><img src="img/works/merry-christmas-mr-lawrence.jpg" alt="" loading="lazy" decoding="async"><img src="img/works/the-seed-and-the-sower.jpg" alt="" loading="lazy" decoding="async"></span>
@@ -624,7 +624,7 @@ document.addEventListener('click', function (e) {
           <span>大島渚『戦場のメリークリスマス』 ＋ ヴァン・デル・ポスト『影の獄にて』</span></span></a>
       <a class="ed-item" href="c/merry-christmas-mr-lawrence--minamata/">
         <span class="ed-thumbs"><img src="img/works/merry-christmas-mr-lawrence.jpg" alt="" loading="lazy" decoding="async"><img src="img/works/minamata.jpg" alt="" loading="lazy" decoding="async"></span>
-        <span class="ed-txt"><small>［坂本龍一を経由して］</small><b>同じ作曲家が、40年を隔てて音楽をつけた。</b>
+        <span class="ed-txt"><small>［坂本龍一を経由して］</small><b>37年を隔てて、音楽は同じ作曲家だ。</b>
           <span>大島渚『戦場のメリークリスマス』 ＋ 『MINAMATA』</span></span></a>
       <a class="ed-item" href="c/minakata-kumagusu--minakata-mandala/">
         <span class="ed-thumbs"><img src="img/works/minakata-kumagusu.jpg" alt="" loading="lazy" decoding="async"><img src="img/works/minakata-mandala.jpg" alt="" loading="lazy" decoding="async"></span>
@@ -636,11 +636,11 @@ document.addEventListener('click', function (e) {
           <span>南方曼荼羅 ＋ 『南方熊楠 土宜法竜 往復書簡』</span></span></a>
       <a class="ed-item" href="c/minakata-kumagusu--natsume-soseki/">
         <span class="ed-thumbs"><img src="img/works/minakata-kumagusu.jpg" alt="" loading="lazy" decoding="async"><img src="img/works/natsume-soseki.jpg" alt="" loading="lazy" decoding="async"></span>
-        <span class="ed-txt"><small>［ロンドンですれ違う］</small><b>同じ年に生まれた二人は、ロンドンですれ違った。</b>
+        <span class="ed-txt"><small>［ロンドンの入れ違い］</small><b>同じ年生まれの二人は、ロンドンで入れ違った。</b>
           <span>南方熊楠 ＋ 夏目漱石</span></span></a>
       <a class="ed-item" href="c/james-j-gibson--affordance/">
         <span class="ed-thumbs"><img src="img/works/james-j-gibson.jpg" alt="" loading="lazy" decoding="async"><img src="img/works/affordance.jpg" alt="" loading="lazy" decoding="async"></span>
-        <span class="ed-txt"><small>［名づけた人］</small><b>椅子は、座ることを差し出している。</b>
+        <span class="ed-txt"><small>［名づけた人］</small><b>椅子は「座る」ことを差し出している。</b>
           <span>ジェームズ・J・ギブソン ＋ アフォーダンス</span></span></a>
       <a class="ed-item" href="c/affordance--martin-heidegger/">
         <span class="ed-thumbs"><img src="img/works/affordance.jpg" alt="" loading="lazy" decoding="async"><img src="img/works/martin-heidegger.jpg" alt="" loading="lazy" decoding="async"></span>
@@ -648,7 +648,7 @@ document.addEventListener('click', function (e) {
           <span>アフォーダンス ＋ マルティン・ハイデッガー</span></span></a>
       <a class="ed-item" href="c/affordance--minakata-mandala/">
         <span class="ed-thumbs"><img src="img/works/affordance.jpg" alt="" loading="lazy" decoding="async"><img src="img/works/minakata-mandala.jpg" alt="" loading="lazy" decoding="async"></span>
-        <span class="ed-txt"><small>［関係から世界を見る］</small><b>物ではなく、つながりを見る。</b>
+        <span class="ed-txt"><small>［見て、飲む］</small><b>物との関わりを、二人は「飲む」を例に書いた。</b>
           <span>アフォーダンス ＋ 南方曼荼羅</span></span></a>
       <a class="ed-item" href="c/martin-heidegger--hannah-arendt/">
         <span class="ed-thumbs"><img src="img/works/martin-heidegger.jpg" alt="" loading="lazy" decoding="async"><img src="img/works/hannah-arendt.jpg" alt="" loading="lazy" decoding="async"></span>
@@ -664,7 +664,7 @@ document.addEventListener('click', function (e) {
           <span>バックミンスター・フラー ＋ バックミンスター・フラー『宇宙船地球号 操縦マニュアル』</span></span></a>
       <a class="ed-item" href="c/buckminster-fuller--think-different/">
         <span class="ed-thumbs"><img src="img/works/buckminster-fuller.jpg" alt="" loading="lazy" decoding="async"><img src="img/works/think-different.jpg" alt="" loading="lazy" decoding="async"></span>
-        <span class="ed-txt"><small>［クレイジーな人たち］</small><b>世界を変えられると本気で信じた人。</b>
+        <span class="ed-txt"><small>［クレイジーな人たち］</small><b>世界を変えられると本気で信じる一人。</b>
           <span>バックミンスター・フラー ＋ アップル「Think Different」</span></span></a>
       <a class="ed-item" href="c/the-outsider--colin-wilson/">
         <span class="ed-thumbs"><img src="img/works/the-outsider.jpg" alt="" loading="lazy" decoding="async"><img src="img/works/colin-wilson.jpg" alt="" loading="lazy" decoding="async"></span>
@@ -684,7 +684,7 @@ document.addEventListener('click', function (e) {
           <span>安彦良和 ＋ 安彦良和『機動戦士ガンダム THE ORIGIN』</span></span></a>
       <a class="ed-item" href="c/yasuhiko-yoshikazu--niji-iro-no-trotsky/">
         <span class="ed-thumbs"><img src="img/works/yasuhiko-yoshikazu.jpg" alt="" loading="lazy" decoding="async"><img src="img/works/niji-iro-no-trotsky.jpg" alt="" loading="lazy" decoding="async"></span>
-        <span class="ed-txt"><small>［作者と作品］</small><b>満州の大学に、ひとりの青年が送り込まれる。</b>
+        <span class="ed-txt"><small>［作者と作品］</small><b>満州の大学に、青年が送り込まれる。</b>
           <span>安彦良和 ＋ 安彦良和『虹色のトロツキー』</span></span></a>
       <a class="ed-item" href="c/niji-iro-no-trotsky--historie/">
         <span class="ed-thumbs"><img src="img/works/niji-iro-no-trotsky.jpg" alt="" loading="lazy" decoding="async"><img src="img/works/historie.jpg" alt="" loading="lazy" decoding="async"></span>
@@ -692,8 +692,8 @@ document.addEventListener('click', function (e) {
           <span>安彦良和『虹色のトロツキー』 ＋ 岩明均『ヒストリエ』</span></span></a>
       <a class="ed-item" href="c/sobagome-jiru--grechka/">
         <span class="ed-thumbs"><img src="img/works/sobagome-jiru.jpg" alt="" loading="lazy" decoding="async"><img src="img/works/grechka.jpg" alt="" loading="lazy" decoding="async"></span>
-        <span class="ed-txt"><small>［そばの実］</small><b>麺にしないそばは、祖谷にもロシアにもある。</b>
-          <span>徳島県「そば米汁」 ＋ ロシア「そばの実（グレチャ）」</span></span></a></div>
+        <span class="ed-txt"><small>［そばの実］</small><b>麺にしないそばを、祖谷もロシアも食べる。</b>
+          <span>徳島県「そば米汁」 ＋ ロシア「そばの実（グレーチカ）」</span></span></a></div>
         </div>
       </article></div>
 </div>
@@ -703,16 +703,16 @@ document.addEventListener('click', function (e) {
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 <script type="application/ld+json" id="ld">{"@context":"https://schema.org","@type":"ProfilePage","url":"https://beautifulcontext.com/e/desk/","mainEntity":{"@type":"Person","name":"BC 編集部","jobTitle":"EDITORIAL DESK","description":"生成AIが書いた初稿を並べています。編集者が事実と出典まで確かめたものには「確認済み」と記します。"}}</script>
 
-<script src="js/config.js?v=139"></script>
-<script src="js/seed.js?v=139"></script>
-<script src="js/sources.js?v=139"></script>
-<script src="js/backend.js?v=139"></script>
-<script src="js/store.js?v=139"></script>
-<script src="js/social.js?v=139"></script>
-<script src="js/render.js?v=139"></script>
-<script src="js/login.js?v=139"></script>
-<script src="js/report.js?v=139"></script>
-<script src="js/transition.js?v=139"></script>
-<script src="js/app.js?v=139"></script>
+<script src="js/config.js?v=140"></script>
+<script src="js/seed.js?v=140"></script>
+<script src="js/sources.js?v=140"></script>
+<script src="js/backend.js?v=140"></script>
+<script src="js/store.js?v=140"></script>
+<script src="js/social.js?v=140"></script>
+<script src="js/render.js?v=140"></script>
+<script src="js/login.js?v=140"></script>
+<script src="js/report.js?v=140"></script>
+<script src="js/transition.js?v=140"></script>
+<script src="js/app.js?v=140"></script>
 </body>
 </html>

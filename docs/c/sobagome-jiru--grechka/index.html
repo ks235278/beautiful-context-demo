@@ -11,15 +11,15 @@ document.documentElement.style.setProperty('--sh', (screen.height || innerHeight
 try { if (sessionStorage.getItem('bc-resume')) document.documentElement.classList.add('resume'); } catch (e) {}
 </script>
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,viewport-fit=cover">
-<title>徳島県「そば米汁」 ＋ ロシア「そばの実（グレチャ）」｜Beautiful Context</title>
-<meta name="description" content="麺にしないそばは、祖谷にもロシアにもある。 徳島県「そば米汁」 と ロシア「そばの実（グレチャ）」。ハブはそばの実。日本でそばといえば麺だが、徳島県の山深い祖谷地方では、そばの実を塩ゆでして乾かした「そば米」を、鶏肉や野菜と煮込んだ汁にして食べてきた。ロシアや東欧では、そばの実は「グレーチカ」と呼…">
+<title>徳島県「そば米汁」 ＋ ロシア「そばの実（グレーチカ）」｜Beautiful Context</title>
+<meta name="description" content="麺にしないそばを、祖谷もロシアも食べる。 徳島県「そば米汁」 と ロシア「そばの実（グレーチカ）」。ハブはそばの実。日本でそばといえば麺だが、徳島県の山深い祖谷地方では、そばの実を塩ゆでして乾かした「そば米」を、鶏肉や野菜と煮込んだ汁にして食べてきた。「そば米雑炊」の名でも知られ、農林水産省の「う…">
 <meta name="theme-color" content="#061629">
 <link rel="canonical" href="https://beautifulcontext.com/c/sobagome-jiru--grechka/">
 <meta property="og:type" content="article">
 <meta property="og:url" content="https://beautifulcontext.com/c/sobagome-jiru--grechka/">
 <meta property="og:site_name" content="Beautiful Context">
-<meta property="og:title" content="徳島県「そば米汁」 ＋ ロシア「そばの実（グレチャ）」｜Beautiful Context">
-<meta property="og:description" content="麺にしないそばは、祖谷にもロシアにもある。 徳島県「そば米汁」 と ロシア「そばの実（グレチャ）」。ハブはそばの実。日本でそばといえば麺だが、徳島県の山深い祖谷地方では、そばの実を塩ゆでして乾かした「そば米」を、鶏肉や野菜と煮込んだ汁にして食べてきた。ロシアや東欧では、そばの実は「グレーチカ」と呼…">
+<meta property="og:title" content="徳島県「そば米汁」 ＋ ロシア「そばの実（グレーチカ）」｜Beautiful Context">
+<meta property="og:description" content="麺にしないそばを、祖谷もロシアも食べる。 徳島県「そば米汁」 と ロシア「そばの実（グレーチカ）」。ハブはそばの実。日本でそばといえば麺だが、徳島県の山深い祖谷地方では、そばの実を塩ゆでして乾かした「そば米」を、鶏肉や野菜と煮込んだ汁にして食べてきた。「そば米雑炊」の名でも知られ、農林水産省の「う…">
 <meta property="og:image" content="https://beautifulcontext.com/img/works/sobagome-jiru.jpg">
 <meta name="twitter:card" content="summary">
 <!-- ホーム画面から開くとき、読み込みのあいだに出る起動画面。表紙の最初の一コマ（回路とロゴ）と同じ絵
@@ -41,9 +41,9 @@ try { if (sessionStorage.getItem('bc-resume')) document.documentElement.classLis
 <link rel="preload" as="image" href="img/logo-layer-words.png">
 <!-- 台本も先に取りに行く（静的なページは台本より先に本文が描かれる。遅い回線で、触れて動くまでの間を縮める）。
      src と同じアドレス（?v= まで）でないと、二度取りに行く -->
-<link rel="preload" as="script" href="js/seed.js?v=139">
-<link rel="preload" as="script" href="js/app.js?v=139">
-<link rel="manifest" href="manifest.webmanifest?v=139">
+<link rel="preload" as="script" href="js/seed.js?v=140">
+<link rel="preload" as="script" href="js/app.js?v=140">
+<link rel="manifest" href="manifest.webmanifest?v=140">
 <link rel="apple-touch-icon" href="icon-180.png">
 <!-- タブと検索結果に出る小さな印。アプリの印（ホーム画面のアイコン）と同じ形 -->
 <link rel="icon" href="favicon.ico" sizes="16x16 32x32 48x48">
@@ -72,11 +72,11 @@ if (location.hostname === 'beautifulcontext.com'){
   document.head.appendChild(ga);
 }
 </script>
-<script src="js/theme.js?v=139"></script>
-<link rel="stylesheet" href="app.css?v=139">
+<script src="js/theme.js?v=140"></script>
+<link rel="stylesheet" href="app.css?v=140">
 <!-- 読む画面の使い勝手（2026.10.24）。app.css のすぐあと -->
-<link rel="stylesheet" href="ux.css?v=139">
-<link rel="stylesheet" href="fade.css?v=139">
+<link rel="stylesheet" href="ux.css?v=140">
+<link rel="stylesheet" href="fade.css?v=140">
 <!-- 台本（js）が揃うまで：まだ押しても動かないもの（‹・絵の横の ‹ ›・つながりを辿る）を少し薄くし、下の帯の上の縁に細い金の線を走らせる。
      app.js が最後に body.app-ready を付けて外す。すぐ揃うときは何も見せない（0.3 秒待ってから出す） -->
 <style>
@@ -180,25 +180,25 @@ document.addEventListener('click', function (e) {
 <!-- パソコン：右の余白に、いまの前後の路線図（区間と駅を、つながりを辿ると同じ順に） -->
 <nav class="route-mini" id="routeMini" aria-label="路線図"></nav>
 
-<div class="view on" id="view" role="dialog" aria-modal="true" aria-label="徳島県「そば米汁」 ＋ ロシア「そばの実（グレチャ）」">
+<div class="view on" id="view" role="dialog" aria-modal="true" aria-label="徳島県「そば米汁」 ＋ ロシア「そばの実（グレーチカ）」">
   <div class="view-in" id="viewIn">
       <article class="page cpage">
         <button type="button" class="back-close" data-close="" aria-label="Today's Editor's Choice へ戻る" title="Today's Editor's Choice へ"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 4.5 7.5 12l7.5 7.5"></path></svg></button>
-        <div class="duo-hero"><a class="c-logo" href="#/" data-top="" aria-label="BEAUTIFUL CONTEXT（TOP へ戻る）"><img src="img/logo.png" alt=""></a><div class="duo"><button type="button" class="duo-go" data-step="0" aria-label="徳島県「そば米汁」の作品ページへ"><div class="art"><img src="img/works/sobagome-jiru.jpg" alt="徳島県「そば米汁」" data-k="sobagome-jiru" decoding="async" fetchpriority="low"></div></button><button type="button" class="duo-go" data-step="2" aria-label="ロシア「そばの実（グレチャ）」の作品ページへ"><div class="art"><img src="img/works/grechka.jpg" alt="ロシア「そばの実（グレチャ）」" data-k="grechka" decoding="async" fetchpriority="low"></div></button><i class="swap" aria-hidden="true">↔</i></div><button type="button" class="ctx-nav prev" data-ctx-go="-1" aria-label="一つ前のつながりへ">‹</button><button type="button" class="ctx-nav next" data-ctx-go="1" aria-label="次のつながりへ">›</button></div>
+        <div class="duo-hero"><a class="c-logo" href="#/" data-top="" aria-label="BEAUTIFUL CONTEXT（TOP へ戻る）"><img src="img/logo.png" alt=""></a><div class="duo"><button type="button" class="duo-go" data-step="0" aria-label="徳島県「そば米汁」の作品ページへ"><div class="art"><img src="img/works/sobagome-jiru.jpg" alt="徳島県「そば米汁」" data-k="sobagome-jiru" decoding="async" fetchpriority="low"></div></button><button type="button" class="duo-go" data-step="2" aria-label="ロシア「そばの実（グレーチカ）」の作品ページへ"><div class="art"><img src="img/works/grechka.jpg" alt="ロシア「そばの実（グレーチカ）」" data-k="grechka" decoding="async" fetchpriority="low"></div></button><i class="swap" aria-hidden="true">↔</i></div><button type="button" class="ctx-nav prev" data-ctx-go="-1" aria-label="一つ前のつながりへ">‹</button><button type="button" class="ctx-nav next" data-ctx-go="1" aria-label="次のつながりへ">›</button></div>
         <section class="context-lead">
           
           <div class="ed-row">
       <a class="ed-link" href="e/desk/"><span class="ava" aria-hidden="true">部</span><span><b>BC 編集部</b><small>EDITORIAL DESK</small></span></a>
       <button type="button" class="follow" data-follow="desk" aria-pressed="false">フォロー</button></div>
           <p class="route-label">CONTEXT　［そばの実］</p>
-          <h2>麺にしないそばは、<br>祖谷にもロシアにもある。</h2>
-          <div class="pair"><span>徳島県「そば米汁」</span><span>そばの実</span><span>ロシア「グレチャ」</span></div>
-          <button type="button" class="read" data-read="">このつながりを読む<small>約25秒</small><span aria-hidden="true">↓</span></button>
+          <h2>麺にしないそばを、<br>祖谷もロシアも食べる。</h2>
+          <div class="pair"><span>徳島県「そば米汁」</span><span>そばの実</span><span>ロシア「グレーチカ」</span></div>
+          <button type="button" class="read" data-read="">このつながりを読む<small>約45秒</small><span aria-hidden="true">↓</span></button>
           <i class="story-cue" aria-hidden="true"></i>
         </section>
         <article class="context-body" id="story">
           <p class="meta">CONTEXT STORY</p>
-          <h2>ハブはそばの実。</h2><p>日本でそばといえば麺だが、徳島県の山深い祖谷地方では、そばの実を塩ゆでして乾かした「そば米」を、鶏肉や野菜と煮込んだ汁にして食べてきた。</p><p>ロシアや東欧では、そばの実は「グレーチカ」と呼ばれ、粥や付け合わせとして毎日の食卓にのぼる。</p><p>寒く、米の育ちにくい土地で、そばの実はそのまま粒で食べられてきた。遠く離れた二つの土地の料理が、同じ一粒でつながっている。</p>
+          <h2>ハブはそばの実。</h2><p>日本でそばといえば麺だが、徳島県の山深い祖谷地方では、そばの実を塩ゆでして乾かした「そば米」を、鶏肉や野菜と煮込んだ汁にして食べてきた。「そば米雑炊」の名でも知られ、農林水産省の「うちの郷土料理」も、祖谷地域でよく食べられる郷土料理として挙げている。</p><p>ロシアでは、そばの実は「グレーチカ」と呼ばれ、粥（カーシャ）にして食べられる。カーシャは、穀物や豆などを煮た粥の総称だ。「シチーとカーシャ、日々の糧」ということわざは、日本でいう飯と味噌汁にあたる組み合わせを表すという。</p><p>祖谷は高い山に囲まれ、米が育ちにくい土地だった。ヒエやムギとともにそばが育てられ、そばを主食とする文化が根づいたという。ロシアは、世界最大のそばの生産国でもある。遠く離れた二つの土地の料理が、同じ一粒でつながっている。</p>
           
       <section class="axes" aria-label="このつながりの型と評価">
         <p class="meta">このつながり<span class="agm">生成AIの初稿・編集者の確認前</span></p>
@@ -209,7 +209,7 @@ document.addEventListener('click', function (e) {
           
           <section class="refs" aria-label="参考・出典">
             <p class="meta">参考・出典</p>
-            <ol><li><a href="https://ja.wikipedia.org/wiki/%E3%81%9D%E3%81%B0%E7%B1%B3%E9%9B%91%E7%82%8A" target="_blank" rel="noopener">そば米汁</a><small>Wikipedia</small></li><li><a href="https://sanagochi.jp/recipe/sobagomejiru" target="_blank" rel="noopener">そば米汁 | 佐那のごちそう便り</a><small>佐那のごちそう便り（一般財団法人さなごうち）</small></li><li><a href="https://ja.wikipedia.org/wiki/%E3%82%AB%E3%83%BC%E3%82%B7%E3%83%A3" target="_blank" rel="noopener">カーシャ</a><small>Wikipedia</small></li><li><a href="https://en.wikipedia.org/wiki/Kasha" target="_blank" rel="noopener">Kasha</a><small>Wikipedia</small></li><li><a href="https://en.wiktionary.org/wiki/гречка" target="_blank" rel="noopener">гречка</a><small>Wiktionary</small></li></ol>
+            <ol><li><a href="https://www.maff.go.jp/j/keikaku/syokubunka/k_ryouri/area_stories/tokushima.html" target="_blank" rel="noopener">四国地方 徳島県 | うちの郷土料理：農林水産省</a><small>農林水産省</small></li><li><a href="https://ja.wikipedia.org/wiki/%E3%81%9D%E3%81%B0%E7%B1%B3%E9%9B%91%E7%82%8A" target="_blank" rel="noopener">そば米汁</a><small>Wikipedia</small></li><li><a href="https://sanagochi.jp/recipe/sobagomejiru" target="_blank" rel="noopener">そば米汁 | 佐那のごちそう便り</a><small>佐那のごちそう便り（一般財団法人さなごうち）</small></li><li><a href="https://ja.wikipedia.org/wiki/%E3%82%AB%E3%83%BC%E3%82%B7%E3%83%A3" target="_blank" rel="noopener">カーシャ</a><small>Wikipedia</small></li><li><a href="https://en.wikipedia.org/wiki/Kasha" target="_blank" rel="noopener">Kasha</a><small>Wikipedia</small></li><li><a href="https://en.wiktionary.org/wiki/гречка" target="_blank" rel="noopener">гречка</a><small>Wiktionary</small></li><li><a href="https://en.wikipedia.org/wiki/Buckwheat" target="_blank" rel="noopener">Buckwheat</a><small>Wikipedia</small></li></ol>
           </section>
           <p class="byline">BC 編集部　·　2026/9/14</p>
           
@@ -241,9 +241,9 @@ document.addEventListener('click', function (e) {
           
           
           <a class="fstop" href="w/grechka/">
-            <span class="st-img"><img src="img/works/grechka.jpg" alt="ロシア「そばの実（グレチャ）」" data-k="grechka" loading="lazy" decoding="async"></span>
+            <span class="st-img"><img src="img/works/grechka.jpg" alt="ロシア「そばの実（グレーチカ）」" data-k="grechka" loading="lazy" decoding="async"></span>
             <span class="st-txt"><small>料理</small>
-              <b>ロシア「そばの実（グレチャ）」</b><span>ロシアや東欧で日常的に食べられる、そばの実の粥や付け合わせ。ロシア語ではグレーチカと呼ぶ。</span></span>
+              <b>ロシア「そばの実（グレーチカ）」</b><span>ロシアで粥（カーシャ）にして食べられる、そばの実。ロシア語ではグレーチカと呼ぶ。</span></span>
           </a>
         </li>
         <li class="stop newline">
@@ -259,8 +259,8 @@ document.addEventListener('click', function (e) {
           
           <a class="seg" href="c/minakata-kumagusu--natsume-soseki/">
             
-            <small>［ロンドンですれ違う］　事実</small>
-            <b><span class="seg-copy">同じ年に生まれた二人は、ロンドンですれ違った。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
+            <small>［ロンドンの入れ違い］　事実</small>
+            <b><span class="seg-copy">同じ年生まれの二人は、ロンドンで入れ違った。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
           <a class="fstop" href="w/natsume-soseki/?c=minakata-kumagusu--natsume-soseki">
             <span class="st-img"><img src="img/works/natsume-soseki.jpg" alt="夏目漱石" data-k="natsume-soseki" loading="lazy" decoding="async"></span>
             <span class="st-txt"><small>人物・1867年</small>
@@ -271,8 +271,8 @@ document.addEventListener('click', function (e) {
           
           <a class="seg" href="c/kusamakura--natsume-soseki/">
             
-            <small>［画工の目、作家の目］　作者と作品</small>
-            <b><span class="seg-copy">「非人情」は、漱石自身の宿題だった。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
+            <small>［旅が生んだ『草枕』］　作者と作品</small>
+            <b><span class="seg-copy">「非人情」の小説には、漱石の芸術論が表れた。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
           <a class="fstop" href="w/kusamakura/?c=kusamakura--natsume-soseki">
             <span class="st-img"><img src="img/kusamakura.jpg" alt="夏目漱石『草枕』" data-k="kusamakura" loading="lazy" decoding="async"></span>
             <span class="st-txt"><small>書籍・1906年</small>
@@ -295,8 +295,8 @@ document.addEventListener('click', function (e) {
           
           <a class="seg" href="c/glenn-gould--goldberg-variations/">
             
-            <small>［始まりと終わりの録音］　事実</small>
-            <b><span class="seg-copy">デビューも最後の録音も、同じ曲だった。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
+            <small>［デビューと再録音］　事実</small>
+            <b><span class="seg-copy">デビュー盤と同じ曲を、死の前年に録り直した。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
           <a class="fstop" href="w/goldberg-variations/?c=glenn-gould--goldberg-variations">
             <span class="st-img"><img src="img/works/goldberg-variations.jpg" alt="バッハ『ゴールドベルク変奏曲』" data-k="goldberg-variations" loading="lazy" decoding="async"></span>
             <span class="st-txt"><small>音楽・1741年</small>
@@ -308,7 +308,7 @@ document.addEventListener('click', function (e) {
           <a class="seg" href="c/goldberg-variations--brad-mehldau/">
             
             <small>［バッハを経由して］　ハブ</small>
-            <b><span class="seg-copy">ジャズのピアニストも、バッハから始め直した。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
+            <b><span class="seg-copy">ゴールドベルクの主題にジャズ奏者が応えた。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
           <a class="fstop" href="w/brad-mehldau/?c=goldberg-variations--brad-mehldau">
             <span class="st-img"><img src="img/works/brad-mehldau.jpg" alt="ブラッド・メルドー" data-k="brad-mehldau" loading="lazy" decoding="async"></span>
             <span class="st-txt"><small>音楽・1970年</small>
@@ -356,23 +356,23 @@ document.addEventListener('click', function (e) {
           <a class="seg" href="c/iris--tazawako/">
             
             <small>［ロケ地になった湖］　事実</small>
-            <b><span class="seg-copy">韓国ドラマの一場面が、秋田の湖畔で撮られた。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
+            <b><span class="seg-copy">韓国ドラマのロケ地に、秋田の田沢湖もあった。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
           <a class="fstop" href="w/iris/?c=iris--tazawako">
             <span class="st-img"><img src="img/works/iris.jpg" alt="韓国ドラマ『アイリス』" data-k="iris" loading="lazy" decoding="async"></span>
             <span class="st-txt"><small>ドラマ・2009年</small>
               <b>韓国ドラマ『アイリス』</b><span>韓国の特殊工作員を主人公にしたアクション・ドラマ。秋田県でのロケが行われ、日本でも話題になった。</span></span>
           </a>
         </li>
-        <li class="stop">
+        <li class="stop branch">
           
-          <a class="seg" href="c/iris--nurungji/">
-            
-            <small>［ドラマから食卓へ］　ハブ</small>
-            <b><span class="seg-copy">画面で見た国の味を、赤坂の一皿で。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
-          <a class="fstop" href="w/nurungji/?c=iris--nurungji">
-            <span class="st-img"><img src="img/works/nurungji.jpg" alt="ヌルンジ（赤坂）" data-k="nurungji" loading="lazy" decoding="async"></span>
-            <span class="st-txt"><small>店</small>
-              <b>ヌルンジ（赤坂）</b><span>東京・赤坂の韓国料理店。店名の「ヌルンジ」は韓国語で、釜の底にできるおこげのこと。</span></span>
+          <a class="seg" href="c/tanaka-isson--kusamakura/">
+            <span class="seg-from">草枕 から分岐</span>
+            <small>［世を離れて描く］　似ている</small>
+            <b><span class="seg-copy">小説の画工を、生きたかのような画家。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
+          <a class="fstop" href="w/tanaka-isson/?c=tanaka-isson--kusamakura">
+            <span class="st-img"><img src="img/works/tanaka-isson.jpg" alt="田中一村" data-k="tanaka-isson" loading="lazy" decoding="async"></span>
+            <span class="st-txt"><small>人物・1908年</small>
+              <b>田中一村</b><span>50歳で奄美大島に移り住み、亜熱帯の植物や鳥を描き続けた日本画家。中央の画壇から離れて暮らした。</span></span>
           </a>
         </li></ol>
             <div class="rail-more" id="railMore" aria-hidden="true"></div>
@@ -386,18 +386,18 @@ document.addEventListener('click', function (e) {
 <div class="edge-back" id="edgeBack" aria-hidden="true"></div>
 
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
-<script type="application/ld+json" id="ld">{"@context":"https://schema.org","@type":"Article","headline":"麺にしないそばは、祖谷にもロシアにもある。","alternativeHeadline":"そばの実","about":[{"@type":"CreativeWork","name":"徳島県「そば米汁」","description":"塩ゆでして乾かしたそばの実（そば米）を、鶏肉や野菜と煮込む、徳島県祖谷地方の郷土料理。","creator":{"@type":"Person","name":"徳島県・祖谷"}},{"@type":"CreativeWork","name":"ロシア「そばの実（グレチャ）」","description":"ロシアや東欧で日常的に食べられる、そばの実の粥や付け合わせ。ロシア語ではグレーチカと呼ぶ。","creator":{"@type":"Person","name":"ロシア・東欧"}}],"author":{"@type":"Person","name":"生成AI（初稿）"},"datePublished":"2026-09-14T00:30:00.000Z","dateModified":"2026-09-14T00:30:00.000Z","inLanguage":"ja","articleBody":"ハブはそばの実。日本でそばといえば麺だが、徳島県の山深い祖谷地方では、そばの実を塩ゆでして乾かした「そば米」を、鶏肉や野菜と煮込んだ汁にして食べてきた。ロシアや東欧では、そばの実は「グレーチカ」と呼ばれ、粥や付け合わせとして毎日の食卓にのぼる。寒く、米の育ちにくい土地で、そばの実はそのまま粒で食べられてきた。遠く離れた二つの土地の料理が、同じ一粒でつながっている。","url":"https://beautifulcontext.com/c/sobagome-jiru--grechka/","citation":[{"@type":"CreativeWork","name":"そば米汁","url":"https://ja.wikipedia.org/wiki/%E3%81%9D%E3%81%B0%E7%B1%B3%E9%9B%91%E7%82%8A","publisher":{"@type":"Organization","name":"Wikipedia"}},{"@type":"CreativeWork","name":"そば米汁 | 佐那のごちそう便り","url":"https://sanagochi.jp/recipe/sobagomejiru","publisher":{"@type":"Organization","name":"佐那のごちそう便り（一般財団法人さなごうち）"}},{"@type":"CreativeWork","name":"カーシャ","url":"https://ja.wikipedia.org/wiki/%E3%82%AB%E3%83%BC%E3%82%B7%E3%83%A3","publisher":{"@type":"Organization","name":"Wikipedia"}},{"@type":"CreativeWork","name":"Kasha","url":"https://en.wikipedia.org/wiki/Kasha","publisher":{"@type":"Organization","name":"Wikipedia"}},{"@type":"CreativeWork","name":"гречка","url":"https://en.wiktionary.org/wiki/гречка","publisher":{"@type":"Organization","name":"Wiktionary"}}],"image":"https://beautifulcontext.com/img/works/sobagome-jiru.jpg"}</script>
+<script type="application/ld+json" id="ld">{"@context":"https://schema.org","@type":"Article","headline":"麺にしないそばを、祖谷もロシアも食べる。","alternativeHeadline":"そばの実","about":[{"@type":"CreativeWork","name":"徳島県「そば米汁」","description":"塩ゆでして乾かしたそばの実（そば米）を、鶏肉や野菜と煮込む、徳島県祖谷地方の郷土料理。","creator":{"@type":"Person","name":"徳島県・祖谷"}},{"@type":"CreativeWork","name":"ロシア「そばの実（グレーチカ）」","description":"ロシアで粥（カーシャ）にして食べられる、そばの実。ロシア語ではグレーチカと呼ぶ。","creator":{"@type":"Person","name":"ロシア・東欧"}}],"author":{"@type":"Person","name":"生成AI（初稿）"},"datePublished":"2026-09-14T00:30:00.000Z","dateModified":"2026-09-14T00:30:00.000Z","inLanguage":"ja","articleBody":"ハブはそばの実。日本でそばといえば麺だが、徳島県の山深い祖谷地方では、そばの実を塩ゆでして乾かした「そば米」を、鶏肉や野菜と煮込んだ汁にして食べてきた。「そば米雑炊」の名でも知られ、農林水産省の「うちの郷土料理」も、祖谷地域でよく食べられる郷土料理として挙げている。ロシアでは、そばの実は「グレーチカ」と呼ばれ、粥（カーシャ）にして食べられる。カーシャは、穀物や豆などを煮た粥の総称だ。「シチーとカーシャ、日々の糧」ということわざは、日本でいう飯と味噌汁にあたる組み合わせを表すという。祖谷は高い山に囲まれ、米が育ちにくい土地だった。ヒエやムギとともにそばが育てられ、そばを主食とする文化が根づいたという。ロシアは、世界最大のそばの生産国でもある。遠く離れた二つの土地の料理が、同じ一粒でつながっている。","url":"https://beautifulcontext.com/c/sobagome-jiru--grechka/","citation":[{"@type":"CreativeWork","name":"四国地方 徳島県 | うちの郷土料理：農林水産省","url":"https://www.maff.go.jp/j/keikaku/syokubunka/k_ryouri/area_stories/tokushima.html","publisher":{"@type":"Organization","name":"農林水産省"}},{"@type":"CreativeWork","name":"そば米汁","url":"https://ja.wikipedia.org/wiki/%E3%81%9D%E3%81%B0%E7%B1%B3%E9%9B%91%E7%82%8A","publisher":{"@type":"Organization","name":"Wikipedia"}},{"@type":"CreativeWork","name":"そば米汁 | 佐那のごちそう便り","url":"https://sanagochi.jp/recipe/sobagomejiru","publisher":{"@type":"Organization","name":"佐那のごちそう便り（一般財団法人さなごうち）"}},{"@type":"CreativeWork","name":"カーシャ","url":"https://ja.wikipedia.org/wiki/%E3%82%AB%E3%83%BC%E3%82%B7%E3%83%A3","publisher":{"@type":"Organization","name":"Wikipedia"}},{"@type":"CreativeWork","name":"Kasha","url":"https://en.wikipedia.org/wiki/Kasha","publisher":{"@type":"Organization","name":"Wikipedia"}},{"@type":"CreativeWork","name":"гречка","url":"https://en.wiktionary.org/wiki/гречка","publisher":{"@type":"Organization","name":"Wiktionary"}},{"@type":"CreativeWork","name":"Buckwheat","url":"https://en.wikipedia.org/wiki/Buckwheat","publisher":{"@type":"Organization","name":"Wikipedia"}}],"image":"https://beautifulcontext.com/img/works/sobagome-jiru.jpg"}</script>
 
-<script src="js/config.js?v=139"></script>
-<script src="js/seed.js?v=139"></script>
-<script src="js/sources.js?v=139"></script>
-<script src="js/backend.js?v=139"></script>
-<script src="js/store.js?v=139"></script>
-<script src="js/social.js?v=139"></script>
-<script src="js/render.js?v=139"></script>
-<script src="js/login.js?v=139"></script>
-<script src="js/report.js?v=139"></script>
-<script src="js/transition.js?v=139"></script>
-<script src="js/app.js?v=139"></script>
+<script src="js/config.js?v=140"></script>
+<script src="js/seed.js?v=140"></script>
+<script src="js/sources.js?v=140"></script>
+<script src="js/backend.js?v=140"></script>
+<script src="js/store.js?v=140"></script>
+<script src="js/social.js?v=140"></script>
+<script src="js/render.js?v=140"></script>
+<script src="js/login.js?v=140"></script>
+<script src="js/report.js?v=140"></script>
+<script src="js/transition.js?v=140"></script>
+<script src="js/app.js?v=140"></script>
 </body>
 </html>

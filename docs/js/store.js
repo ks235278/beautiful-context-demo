@@ -24,7 +24,7 @@
   const B = window.BCBackend && window.BCBackend.enabled() ? window.BCBackend : null;
   const OLD_KEY = 'beautiful-context-store-v1';
   /* 見本を足したら上げる。端末に残っているデータへ、新しい見本だけを足し込む */
-  const SEED_VERSION = 8;
+  const SEED_VERSION = 9;
 
   const DEFAULT_SETTINGS = {
     brand: 'Beautiful Context',

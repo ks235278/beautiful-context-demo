@@ -33,7 +33,11 @@ async function probe(url, ua = UA){
       headers: ua ? { 'User-Agent': ua } : {} });
     return r.status;
   } catch (e) {
-    return e.name === 'AbortError' ? 'timeout' : 'error';
+    if (e.name === 'AbortError') return 'timeout';
+    /* 「無い」とみなすのは名前が引けないときだけ。つながるのが遅いサイト（aisixiang など）は時間切れとして残す */
+    const code = (e.cause && e.cause.code) || '';
+    if (code === 'ENOTFOUND') return 'nodns';
+    return code === 'UND_ERR_CONNECT_TIMEOUT' ? 'timeout' : 'error';
   } finally { clearTimeout(t); }
 }
 
@@ -44,7 +48,7 @@ if (check) {
   let i = 0;
   await Promise.all(Array.from({ length: 8 }, async () => {
     /* つながらなかったものは、名乗りを付けずに一度だけ開き直す（一時的な失敗や、見慣れない名乗りを断るサイトで外さないように） */
-    while (i < urls.length) { const u = urls[i++]; let st = await probe(u); if (st === 'error' || st === 'timeout') st = await probe(u, ''); status.set(u, st); }
+    while (i < urls.length) { const u = urls[i++]; let st = await probe(u); if (typeof st !== 'number') st = await probe(u, ''); status.set(u, st); }
   }));
 }
 
@@ -59,9 +63,8 @@ for (const c of list) {
     seen.add(url);
     if (check) {
       const st = status.get(url);
-      if (st === 404 || st === 410 || st === 'error') { dropped.push({ slug: c.slug, url, why: String(st) }); continue; }
-      if (st !== 'timeout' && (st < 200 || st >= 400)) flagged.push({ slug: c.slug, url, why: String(st) });
-      if (st === 'timeout') flagged.push({ slug: c.slug, url, why: 'timeout' });
+      if (st === 404 || st === 410 || st === 'nodns') { dropped.push({ slug: c.slug, url, why: String(st) }); continue; }
+      if (typeof st !== 'number' || st < 200 || st >= 400) flagged.push({ slug: c.slug, url, why: String(st) });
     }
     keep.push({ title: one(s.title) || url, site: one(s.site), url, primary: !!s.primary });
   }

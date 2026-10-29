@@ -41,9 +41,9 @@ try { if (sessionStorage.getItem('bc-resume')) document.documentElement.classLis
 <link rel="preload" as="image" href="img/logo-layer-words.png">
 <!-- 台本も先に取りに行く（静的なページは台本より先に本文が描かれる。遅い回線で、触れて動くまでの間を縮める）。
      src と同じアドレス（?v= まで）でないと、二度取りに行く -->
-<link rel="preload" as="script" href="js/seed.js?v=139">
-<link rel="preload" as="script" href="js/app.js?v=139">
-<link rel="manifest" href="manifest.webmanifest?v=139">
+<link rel="preload" as="script" href="js/seed.js?v=140">
+<link rel="preload" as="script" href="js/app.js?v=140">
+<link rel="manifest" href="manifest.webmanifest?v=140">
 <link rel="apple-touch-icon" href="icon-180.png">
 <!-- タブと検索結果に出る小さな印。アプリの印（ホーム画面のアイコン）と同じ形 -->
 <link rel="icon" href="favicon.ico" sizes="16x16 32x32 48x48">
@@ -72,11 +72,11 @@ if (location.hostname === 'beautifulcontext.com'){
   document.head.appendChild(ga);
 }
 </script>
-<script src="js/theme.js?v=139"></script>
-<link rel="stylesheet" href="app.css?v=139">
+<script src="js/theme.js?v=140"></script>
+<link rel="stylesheet" href="app.css?v=140">
 <!-- 読む画面の使い勝手（2026.10.24）。app.css のすぐあと -->
-<link rel="stylesheet" href="ux.css?v=139">
-<link rel="stylesheet" href="fade.css?v=139">
+<link rel="stylesheet" href="ux.css?v=140">
+<link rel="stylesheet" href="fade.css?v=140">
 <!-- 台本（js）が揃うまで：まだ押しても動かないもの（‹・絵の横の ‹ ›・つながりを辿る）を少し薄くし、下の帯の上の縁に細い金の線を走らせる。
      app.js が最後に body.app-ready を付けて外す。すぐ揃うときは何も見せない（0.3 秒待ってから出す） -->
 <style>
@@ -223,7 +223,7 @@ document.addEventListener('click', function (e) {
         </form>
         <p class="cm-note">送るときに、名前を一つ作ります。コメントは編集者が確かめてから表示されます。</p>
       </section>
-          <p class="meta more-label">同じルーツのコンテクスト</p><a class="tease" href="c/iris--tazawako/">韓国ドラマ『アイリス』 ＋ 田沢湖 <span aria-hidden="true">›</span></a><a class="tease" href="c/tsurunoyu--nakoikan/">乳頭温泉郷「鶴の湯」 ＋ 小天温泉『那古井館』 <span aria-hidden="true">›</span></a>
+          <p class="meta more-label">同じルーツのコンテクスト</p><a class="tease" href="c/iris--tsurunoyu/">韓国ドラマ『アイリス』 ＋ 乳頭温泉郷「鶴の湯」 <span aria-hidden="true">›</span></a><a class="tease" href="c/iris--tazawako/">韓国ドラマ『アイリス』 ＋ 田沢湖 <span aria-hidden="true">›</span></a><a class="tease" href="c/tsurunoyu--nakoikan/">乳頭温泉郷「鶴の湯」 ＋ 小天温泉『那古井館』 <span aria-hidden="true">›</span></a>
           
       <aside class="c-ad" aria-label="広告">
         <a href="#/ad">
@@ -286,8 +286,8 @@ document.addEventListener('click', function (e) {
           
           <a class="seg" href="c/glenn-gould--goldberg-variations/">
             
-            <small>［始まりと終わりの録音］　事実</small>
-            <b><span class="seg-copy">デビューも最後の録音も、同じ曲だった。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
+            <small>［デビューと再録音］　事実</small>
+            <b><span class="seg-copy">デビュー盤と同じ曲を、死の前年に録り直した。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
           <a class="fstop" href="w/goldberg-variations/?c=glenn-gould--goldberg-variations">
             <span class="st-img"><img src="img/works/goldberg-variations.jpg" alt="バッハ『ゴールドベルク変奏曲』" data-k="goldberg-variations" loading="lazy" decoding="async"></span>
             <span class="st-txt"><small>音楽・1741年</small>
@@ -299,7 +299,7 @@ document.addEventListener('click', function (e) {
           <a class="seg" href="c/goldberg-variations--brad-mehldau/">
             
             <small>［バッハを経由して］　ハブ</small>
-            <b><span class="seg-copy">ジャズのピアニストも、バッハから始め直した。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
+            <b><span class="seg-copy">ゴールドベルクの主題にジャズ奏者が応えた。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
           <a class="fstop" href="w/brad-mehldau/?c=goldberg-variations--brad-mehldau">
             <span class="st-img"><img src="img/works/brad-mehldau.jpg" alt="ブラッド・メルドー" data-k="brad-mehldau" loading="lazy" decoding="async"></span>
             <span class="st-txt"><small>音楽・1970年</small>
@@ -310,8 +310,8 @@ document.addEventListener('click', function (e) {
           
           <a class="seg" href="c/kusamakura--natsume-soseki/">
             <span class="seg-from">草枕 から分岐</span>
-            <small>［画工の目、作家の目］　作者と作品</small>
-            <b><span class="seg-copy">「非人情」は、漱石自身の宿題だった。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
+            <small>［旅が生んだ『草枕』］　作者と作品</small>
+            <b><span class="seg-copy">「非人情」の小説には、漱石の芸術論が表れた。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
           <a class="fstop" href="w/natsume-soseki/?c=kusamakura--natsume-soseki">
             <span class="st-img"><img src="img/works/natsume-soseki.jpg" alt="夏目漱石" data-k="natsume-soseki" loading="lazy" decoding="async"></span>
             <span class="st-txt"><small>人物・1867年</small>
@@ -322,12 +322,12 @@ document.addEventListener('click', function (e) {
           
           <a class="seg" href="c/natsume-soseki--zhou-tokyo-diary/">
             
-            <small>［異国の都の日記］　似ている</small>
+            <small>［異国の都の記録］　似ている</small>
             <b><span class="seg-copy">漱石はロンドンで、周恩来は東京で書いた。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
           <a class="fstop" href="w/zhou-tokyo-diary/?c=natsume-soseki--zhou-tokyo-diary">
             <span class="st-img"><img src="img/zhou-diary.jpg" alt="周恩来『十九歳の東京日記』" data-k="zhou-tokyo-diary" loading="lazy" decoding="async"></span>
             <span class="st-txt"><small>書籍・1918年</small>
-              <b>周恩来『十九歳の東京日記』</b><span>日本に留学していた周恩来が、1918年の東京で書いた日記。神保町、早稲田、浅草、上野、日本橋――19歳の青年が見た百年前の東京が記されている。</span></span>
+              <b>周恩来『十九歳の東京日記』</b><span>日本に留学していた周恩来が、1918年の東京で書いた日記。日比谷公園、靖国神社、浅草など、19歳の青年が見て回った百年前の東京が記されている。</span></span>
           </a>
         </li>
         <li class="stop">
@@ -346,12 +346,12 @@ document.addEventListener('click', function (e) {
           
           <a class="seg" href="c/kanyoro--gyoza-sakaba-kachidoki/">
             
-            <small>［東京の中華、百年］　似ている</small>
-            <b><span class="seg-copy">明治の中華料理店から、駅前の餃子酒場まで。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
+            <small>［勝鬨と留学生］　ハブ</small>
+            <b><span class="seg-copy">勝どきの名も、漢陽楼も日露戦争とつながる。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
           <a class="fstop" href="w/gyoza-sakaba-kachidoki/?c=kanyoro--gyoza-sakaba-kachidoki">
             <span class="st-img"><img src="img/works/gyoza-sakaba-kachidoki.jpg" alt="餃子酒場（勝どき店）" data-k="gyoza-sakaba-kachidoki" loading="lazy" decoding="async"></span>
             <span class="st-txt"><small>店</small>
-              <b>餃子酒場（勝どき店）</b><span>勝どき駅前の、焼き餃子と酒の店。</span></span>
+              <b>餃子酒場（勝どき店）</b><span>勝どき駅近くの、焼き餃子と酒の店。</span></span>
           </a>
         </li>
         <li class="stop">
@@ -359,7 +359,7 @@ document.addEventListener('click', function (e) {
           <a class="seg" href="c/gyoza-sakaba-kachidoki--daiyame/">
             
             <small>［今夜のだいやめ］　似ている</small>
-            <b><span class="seg-copy">「だいやめ」とは、つまり今夜の一杯のこと。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
+            <b><span class="seg-copy">「だいやめ」とは、つまり今夜の一杯だ。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
           <a class="fstop" href="w/daiyame/?c=gyoza-sakaba-kachidoki--daiyame">
             <span class="st-img"><img src="img/works/daiyame.jpg" alt="芋焼酎『だいやめ DAIYAME』" data-k="daiyame" loading="lazy" decoding="async"></span>
             <span class="st-txt"><small>酒</small>
@@ -370,8 +370,8 @@ document.addEventListener('click', function (e) {
           
           <a class="seg" href="c/daiyame--domaine-tetta/">
             
-            <small>［土地の名を背負う酒］　似ている</small>
-            <b><span class="seg-copy">晩酌の言葉と、村の名前。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
+            <small>［名前が語る産地］　似ている</small>
+            <b><span class="seg-copy">焼酎の名は晩酌の言葉、ワイナリーの名は地名。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
           <a class="fstop" href="w/domaine-tetta/?c=daiyame--domaine-tetta">
             <span class="st-img"><img src="img/works/domaine-tetta.jpg" alt="ドメーヌ・テッタ" data-k="domaine-tetta" loading="lazy" decoding="async"></span>
             <span class="st-txt"><small>ワイナリー</small>
@@ -391,16 +391,16 @@ document.addEventListener('click', function (e) {
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 <script type="application/ld+json" id="ld">{"@context":"https://schema.org","@type":"Article","headline":"日本一深い湖から、山の奥の湯宿へ。","alternativeHeadline":"仙北の湖と秘湯","about":[{"@type":"CreativeWork","name":"田沢湖","description":"秋田県仙北市の湖。水深は日本一で、湖畔には辰子の伝説が残る。","creator":{"@type":"Person","name":"秋田県仙北市"}},{"@type":"LodgingBusiness","name":"乳頭温泉郷「鶴の湯」","description":"秋田県の乳頭温泉郷でもっとも古いとされる湯宿。茅葺き屋根の長屋と白濁の湯で知られる。"}],"author":{"@type":"Person","name":"生成AI（初稿）"},"datePublished":"2026-09-15T04:10:00.000Z","dateModified":"2026-09-15T04:10:00.000Z","inLanguage":"ja","articleBody":"ハブは土地。同じ市の中にある、湖と湯宿。田沢湖は水深が日本一の湖で、湖畔には、永遠の美しさを願って龍になったという辰子の伝説が残る。その湖から山へ入った先に、乳頭温泉郷がある。なかでも鶴の湯は、茅葺き屋根の長屋が並ぶ、郷でもっとも古いとされる湯宿である。深く青い湖と、乳白色の湯。旅の一日に並べて訪ねられる二つが、ひとつの土地の表と奥を見せる。","url":"https://beautifulcontext.com/c/tazawako--tsurunoyu/","citation":[{"@type":"CreativeWork","name":"田沢湖 観光情報 仙北市","url":"https://www.city.semboku.akita.jp/sightseeing/spot/04_tazawako.html","publisher":{"@type":"Organization","name":"仙北市"}},{"@type":"CreativeWork","name":"ご案内｜秋田県の秘湯、乳頭温泉郷の鶴の湯温泉","url":"http://www.tsurunoyu.com/FONDMENT/t-annai.html","publisher":{"@type":"Organization","name":"鶴の湯温泉（公式）"}},{"@type":"CreativeWork","name":"乳頭温泉・鶴の湯｜320年以上の歴史ある憧れの露天風呂【魅惑の温泉案内 第1回】","url":"https://serai.jp/tour/232","publisher":{"@type":"Organization","name":"サライ.jp（小学館）"}},{"@type":"CreativeWork","name":"田沢湖","url":"https://ja.wikipedia.org/wiki/田沢湖","publisher":{"@type":"Organization","name":"Wikipedia"}},{"@type":"CreativeWork","name":"乳頭温泉郷","url":"https://ja.wikipedia.org/wiki/乳頭温泉郷","publisher":{"@type":"Organization","name":"Wikipedia"}}],"image":"https://beautifulcontext.com/img/works/tazawako.jpg"}</script>
 
-<script src="js/config.js?v=139"></script>
-<script src="js/seed.js?v=139"></script>
-<script src="js/sources.js?v=139"></script>
-<script src="js/backend.js?v=139"></script>
-<script src="js/store.js?v=139"></script>
-<script src="js/social.js?v=139"></script>
-<script src="js/render.js?v=139"></script>
-<script src="js/login.js?v=139"></script>
-<script src="js/report.js?v=139"></script>
-<script src="js/transition.js?v=139"></script>
-<script src="js/app.js?v=139"></script>
+<script src="js/config.js?v=140"></script>
+<script src="js/seed.js?v=140"></script>
+<script src="js/sources.js?v=140"></script>
+<script src="js/backend.js?v=140"></script>
+<script src="js/store.js?v=140"></script>
+<script src="js/social.js?v=140"></script>
+<script src="js/render.js?v=140"></script>
+<script src="js/login.js?v=140"></script>
+<script src="js/report.js?v=140"></script>
+<script src="js/transition.js?v=140"></script>
+<script src="js/app.js?v=140"></script>
 </body>
 </html>

@@ -41,9 +41,9 @@ try { if (sessionStorage.getItem('bc-resume')) document.documentElement.classLis
 <link rel="preload" as="image" href="img/logo-layer-words.png">
 <!-- 台本も先に取りに行く（静的なページは台本より先に本文が描かれる。遅い回線で、触れて動くまでの間を縮める）。
      src と同じアドレス（?v= まで）でないと、二度取りに行く -->
-<link rel="preload" as="script" href="js/seed.js?v=139">
-<link rel="preload" as="script" href="js/app.js?v=139">
-<link rel="manifest" href="manifest.webmanifest?v=139">
+<link rel="preload" as="script" href="js/seed.js?v=140">
+<link rel="preload" as="script" href="js/app.js?v=140">
+<link rel="manifest" href="manifest.webmanifest?v=140">
 <link rel="apple-touch-icon" href="icon-180.png">
 <!-- タブと検索結果に出る小さな印。アプリの印（ホーム画面のアイコン）と同じ形 -->
 <link rel="icon" href="favicon.ico" sizes="16x16 32x32 48x48">
@@ -72,11 +72,11 @@ if (location.hostname === 'beautifulcontext.com'){
   document.head.appendChild(ga);
 }
 </script>
-<script src="js/theme.js?v=139"></script>
-<link rel="stylesheet" href="app.css?v=139">
+<script src="js/theme.js?v=140"></script>
+<link rel="stylesheet" href="app.css?v=140">
 <!-- 読む画面の使い勝手（2026.10.24）。app.css のすぐあと -->
-<link rel="stylesheet" href="ux.css?v=139">
-<link rel="stylesheet" href="fade.css?v=139">
+<link rel="stylesheet" href="ux.css?v=140">
+<link rel="stylesheet" href="fade.css?v=140">
 <!-- 台本（js）が揃うまで：まだ押しても動かないもの（‹・絵の横の ‹ ›・つながりを辿る）を少し薄くし、下の帯の上の縁に細い金の線を走らせる。
      app.js が最後に body.app-ready を付けて外す。すぐ揃うときは何も見せない（0.3 秒待ってから出す） -->
 <style>
@@ -275,32 +275,17 @@ document.addEventListener('click', function (e) {
           <a class="seg" href="c/iris--tazawako/">
             
             <small>［ロケ地になった湖］　事実</small>
-            <b><span class="seg-copy">韓国ドラマの一場面が、秋田の湖畔で撮られた。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
+            <b><span class="seg-copy">韓国ドラマのロケ地に、秋田の田沢湖もあった。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
           <a class="fstop" href="w/iris/?c=iris--tazawako">
             <span class="st-img"><img src="img/works/iris.jpg" alt="韓国ドラマ『アイリス』" data-k="iris" loading="lazy" decoding="async"></span>
             <span class="st-txt"><small>ドラマ・2009年</small>
               <b>韓国ドラマ『アイリス』</b><span>韓国の特殊工作員を主人公にしたアクション・ドラマ。秋田県でのロケが行われ、日本でも話題になった。</span></span>
           </a>
         </li>
-        <li class="stop">
+        <li class="stop newline">
+          <p class="transfer"><span>別の路線へ</span></p>
           
-          <a class="seg" href="c/iris--nurungji/">
-            
-            <small>［ドラマから食卓へ］　ハブ</small>
-            <b><span class="seg-copy">画面で見た国の味を、赤坂の一皿で。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
-          <a class="fstop" href="w/nurungji/?c=iris--nurungji">
-            <span class="st-img"><img src="img/works/nurungji.jpg" alt="ヌルンジ（赤坂）" data-k="nurungji" loading="lazy" decoding="async"></span>
-            <span class="st-txt"><small>店</small>
-              <b>ヌルンジ（赤坂）</b><span>東京・赤坂の韓国料理店。店名の「ヌルンジ」は韓国語で、釜の底にできるおこげのこと。</span></span>
-          </a>
-        </li>
-        <li class="stop">
-          
-          <a class="seg" href="c/kanyoro--nurungji/">
-            
-            <small>［東京の中の隣国］　似ている</small>
-            <b><span class="seg-copy">神田の中国料理と、赤坂の韓国料理。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
-          <a class="fstop" href="w/kanyoro/?c=kanyoro--nurungji">
+          <a class="fstop" href="w/kanyoro/">
             <span class="st-img"><img src="img/kanyoro.jpg" alt="中国名菜『漢陽楼』" data-k="kanyoro" loading="lazy" decoding="async"></span>
             <span class="st-txt"><small>店・1911年</small>
               <b>中国名菜『漢陽楼』</b><span>明治四十四年創業を掲げる、東京・神田の中国料理店。</span></span>
@@ -315,14 +300,14 @@ document.addEventListener('click', function (e) {
           <a class="fstop" href="w/zhou-tokyo-diary/?c=kanyoro--zhou-tokyo-diary">
             <span class="st-img"><img src="img/zhou-diary.jpg" alt="周恩来『十九歳の東京日記』" data-k="zhou-tokyo-diary" loading="lazy" decoding="async"></span>
             <span class="st-txt"><small>書籍・1918年</small>
-              <b>周恩来『十九歳の東京日記』</b><span>日本に留学していた周恩来が、1918年の東京で書いた日記。神保町、早稲田、浅草、上野、日本橋――19歳の青年が見た百年前の東京が記されている。</span></span>
+              <b>周恩来『十九歳の東京日記』</b><span>日本に留学していた周恩来が、1918年の東京で書いた日記。日比谷公園、靖国神社、浅草など、19歳の青年が見て回った百年前の東京が記されている。</span></span>
           </a>
         </li>
         <li class="stop">
           
           <a class="seg" href="c/natsume-soseki--zhou-tokyo-diary/">
             
-            <small>［異国の都の日記］　似ている</small>
+            <small>［異国の都の記録］　似ている</small>
             <b><span class="seg-copy">漱石はロンドンで、周恩来は東京で書いた。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
           <a class="fstop" href="w/natsume-soseki/?c=natsume-soseki--zhou-tokyo-diary">
             <span class="st-img"><img src="img/works/natsume-soseki.jpg" alt="夏目漱石" data-k="natsume-soseki" loading="lazy" decoding="async"></span>
@@ -334,8 +319,8 @@ document.addEventListener('click', function (e) {
           
           <a class="seg" href="c/kusamakura--natsume-soseki/">
             
-            <small>［画工の目、作家の目］　作者と作品</small>
-            <b><span class="seg-copy">「非人情」は、漱石自身の宿題だった。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
+            <small>［旅が生んだ『草枕』］　作者と作品</small>
+            <b><span class="seg-copy">「非人情」の小説には、漱石の芸術論が表れた。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
           <a class="fstop" href="w/kusamakura/?c=kusamakura--natsume-soseki">
             <span class="st-img"><img src="img/kusamakura.jpg" alt="夏目漱石『草枕』" data-k="kusamakura" loading="lazy" decoding="async"></span>
             <span class="st-txt"><small>書籍・1906年</small>
@@ -358,8 +343,8 @@ document.addEventListener('click', function (e) {
           
           <a class="seg" href="c/glenn-gould--goldberg-variations/">
             
-            <small>［始まりと終わりの録音］　事実</small>
-            <b><span class="seg-copy">デビューも最後の録音も、同じ曲だった。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
+            <small>［デビューと再録音］　事実</small>
+            <b><span class="seg-copy">デビュー盤と同じ曲を、死の前年に録り直した。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
           <a class="fstop" href="w/goldberg-variations/?c=glenn-gould--goldberg-variations">
             <span class="st-img"><img src="img/works/goldberg-variations.jpg" alt="バッハ『ゴールドベルク変奏曲』" data-k="goldberg-variations" loading="lazy" decoding="async"></span>
             <span class="st-txt"><small>音楽・1741年</small>
@@ -371,11 +356,23 @@ document.addEventListener('click', function (e) {
           <a class="seg" href="c/goldberg-variations--brad-mehldau/">
             
             <small>［バッハを経由して］　ハブ</small>
-            <b><span class="seg-copy">ジャズのピアニストも、バッハから始め直した。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
+            <b><span class="seg-copy">ゴールドベルクの主題にジャズ奏者が応えた。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
           <a class="fstop" href="w/brad-mehldau/?c=goldberg-variations--brad-mehldau">
             <span class="st-img"><img src="img/works/brad-mehldau.jpg" alt="ブラッド・メルドー" data-k="brad-mehldau" loading="lazy" decoding="async"></span>
             <span class="st-txt"><small>音楽・1970年</small>
               <b>ブラッド・メルドー</b><span>アメリカのジャズ・ピアニスト。ピアノ・トリオでの演奏のほか、バッハやロックの曲を独自に解釈した録音でも知られる。</span></span>
+          </a>
+        </li>
+        <li class="stop branch">
+          
+          <a class="seg" href="c/tanaka-isson--kusamakura/">
+            <span class="seg-from">草枕 から分岐</span>
+            <small>［世を離れて描く］　似ている</small>
+            <b><span class="seg-copy">小説の画工を、生きたかのような画家。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
+          <a class="fstop" href="w/tanaka-isson/?c=tanaka-isson--kusamakura">
+            <span class="st-img"><img src="img/works/tanaka-isson.jpg" alt="田中一村" data-k="tanaka-isson" loading="lazy" decoding="async"></span>
+            <span class="st-txt"><small>人物・1908年</small>
+              <b>田中一村</b><span>50歳で奄美大島に移り住み、亜熱帯の植物や鳥を描き続けた日本画家。中央の画壇から離れて暮らした。</span></span>
           </a>
         </li></ol>
             <div class="rail-more" id="railMore" aria-hidden="true"></div>
@@ -391,16 +388,16 @@ document.addEventListener('click', function (e) {
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 <script type="application/ld+json" id="ld">{"@context":"https://schema.org","@type":"Article","headline":"「那古井」は、地図の上にもあった。","alternativeHeadline":"小説の舞台を訪ねる","about":[{"@type":"Book","name":"草枕","description":"「智に働けば角が立つ。情に棹させば流される。」で始まる、画工が非人情の世界を求めて旅する小説。","creator":{"@type":"Person","name":"夏目漱石"}},{"@type":"LodgingBusiness","name":"那古井館","description":"明治元年創業を掲げる、熊本・小天温泉の宿。"}],"author":{"@type":"Person","name":"編集部（見本）"},"datePublished":"2026-09-16T09:00:00.000Z","dateModified":"2026-09-16T09:00:00.000Z","inLanguage":"ja","articleBody":"非人情の旅先には、モデルとされる土地がある。『草枕』の画工が逗留する山あいの温泉場「那古井」。そのモデルとされるのが、熊本の小天（おあま）温泉である。漱石の滞在熊本の第五高等学校で教えていた漱石は、明治30年の暮れから翌年の正月にかけて小天温泉を訪れ、この地の前田家の別邸に滞在したと伝えられる。そのときの見聞が、のちの『草枕』の温泉場に重ねられていった。名を受け継ぐ宿いま小天温泉には、小説の地名を名に掲げる宿「那古井館」がある。架空の温泉場の名が、現実の宿の看板になっているという往復が面白い。グールドが英訳で読み込んだ『草枕』の世界は、こうして九州の一つの温泉地へもつながっていく。","url":"https://beautifulcontext.com/c/kusamakura--nakoikan/","citation":[{"@type":"CreativeWork","name":"漱石と、玉名｜玉名市","url":"https://www.city.tamana.lg.jp/q/aview/398/12886.html","publisher":{"@type":"Organization","name":"玉名市"}},{"@type":"CreativeWork","name":"夏目漱石ゆかりの地 | 漱石散歩inくまもと","url":"https://kumamoto.guide/soseki-kumamoto/related/","publisher":{"@type":"Organization","name":"熊本県観光連盟（くまもっと。）"}},{"@type":"CreativeWork","name":"夏目漱石 草枕","url":"https://www.aozora.gr.jp/cards/000148/files/776_14941.html","publisher":{"@type":"Organization","name":"青空文庫"}},{"@type":"CreativeWork","name":"小天温泉","url":"https://ja.wikipedia.org/wiki/%E5%B0%8F%E5%A4%A9%E6%B8%A9%E6%B3%89","publisher":{"@type":"Organization","name":"Wikipedia"}},{"@type":"CreativeWork","name":"Glenn Gould and Natsume Soseki","url":"https://dajf.org.uk/?p=4600","publisher":{"@type":"Organization","name":"Daiwa Anglo-Japanese Foundation（大和日英基金）"}}],"image":"https://beautifulcontext.com/img/kusamakura.jpg"}</script>
 
-<script src="js/config.js?v=139"></script>
-<script src="js/seed.js?v=139"></script>
-<script src="js/sources.js?v=139"></script>
-<script src="js/backend.js?v=139"></script>
-<script src="js/store.js?v=139"></script>
-<script src="js/social.js?v=139"></script>
-<script src="js/render.js?v=139"></script>
-<script src="js/login.js?v=139"></script>
-<script src="js/report.js?v=139"></script>
-<script src="js/transition.js?v=139"></script>
-<script src="js/app.js?v=139"></script>
+<script src="js/config.js?v=140"></script>
+<script src="js/seed.js?v=140"></script>
+<script src="js/sources.js?v=140"></script>
+<script src="js/backend.js?v=140"></script>
+<script src="js/store.js?v=140"></script>
+<script src="js/social.js?v=140"></script>
+<script src="js/render.js?v=140"></script>
+<script src="js/login.js?v=140"></script>
+<script src="js/report.js?v=140"></script>
+<script src="js/transition.js?v=140"></script>
+<script src="js/app.js?v=140"></script>
 </body>
 </html>

@@ -11,15 +11,15 @@ document.documentElement.style.setProperty('--sh', (screen.height || innerHeight
 try { if (sessionStorage.getItem('bc-resume')) document.documentElement.classList.add('resume'); } catch (e) {}
 </script>
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,viewport-fit=cover">
-<title>韓国ドラマ『アイリス』 ＋ ヌルンジ（赤坂）｜Beautiful Context</title>
-<meta name="description" content="画面で見た国の味を、赤坂の一皿で。 韓国ドラマ『アイリス』 と ヌルンジ（赤坂）。画面の向こうの国は、東京の街角にもある。『アイリス』は、韓国の特殊工作員を主人公にしたアクション・ドラマ。日本でも放送され、秋田でのロケも話題になった。赤坂には韓国料理の店が集まる一角があり、「ヌルンジ」もそのひとつ…">
+<title>韓国ドラマ『アイリス』 ＋ 乳頭温泉郷「鶴の湯」｜Beautiful Context</title>
+<meta name="description" content="主役二人の温泉デートは秋田の湯宿で撮られた。 韓国ドラマ『アイリス』 と 乳頭温泉郷「鶴の湯」。主人公二人の温泉デートは、秋田の湯宿・鶴の湯で撮られた。『アイリス』は、国家安全局の要員を主人公に、アクションと恋愛を描いた韓国ドラマ。2009年10月に韓国で放送が始まった。秋田ロケはその年の3月、県…">
 <meta name="theme-color" content="#061629">
-<link rel="canonical" href="https://beautifulcontext.com/c/iris--nurungji/">
+<link rel="canonical" href="https://beautifulcontext.com/c/iris--tsurunoyu/">
 <meta property="og:type" content="article">
-<meta property="og:url" content="https://beautifulcontext.com/c/iris--nurungji/">
+<meta property="og:url" content="https://beautifulcontext.com/c/iris--tsurunoyu/">
 <meta property="og:site_name" content="Beautiful Context">
-<meta property="og:title" content="韓国ドラマ『アイリス』 ＋ ヌルンジ（赤坂）｜Beautiful Context">
-<meta property="og:description" content="画面で見た国の味を、赤坂の一皿で。 韓国ドラマ『アイリス』 と ヌルンジ（赤坂）。画面の向こうの国は、東京の街角にもある。『アイリス』は、韓国の特殊工作員を主人公にしたアクション・ドラマ。日本でも放送され、秋田でのロケも話題になった。赤坂には韓国料理の店が集まる一角があり、「ヌルンジ」もそのひとつ…">
+<meta property="og:title" content="韓国ドラマ『アイリス』 ＋ 乳頭温泉郷「鶴の湯」｜Beautiful Context">
+<meta property="og:description" content="主役二人の温泉デートは秋田の湯宿で撮られた。 韓国ドラマ『アイリス』 と 乳頭温泉郷「鶴の湯」。主人公二人の温泉デートは、秋田の湯宿・鶴の湯で撮られた。『アイリス』は、国家安全局の要員を主人公に、アクションと恋愛を描いた韓国ドラマ。2009年10月に韓国で放送が始まった。秋田ロケはその年の3月、県…">
 <meta property="og:image" content="https://beautifulcontext.com/img/works/iris.jpg">
 <meta name="twitter:card" content="summary">
 <!-- ホーム画面から開くとき、読み込みのあいだに出る起動画面。表紙の最初の一コマ（回路とロゴ）と同じ絵
@@ -41,9 +41,9 @@ try { if (sessionStorage.getItem('bc-resume')) document.documentElement.classLis
 <link rel="preload" as="image" href="img/logo-layer-words.png">
 <!-- 台本も先に取りに行く（静的なページは台本より先に本文が描かれる。遅い回線で、触れて動くまでの間を縮める）。
      src と同じアドレス（?v= まで）でないと、二度取りに行く -->
-<link rel="preload" as="script" href="js/seed.js?v=139">
-<link rel="preload" as="script" href="js/app.js?v=139">
-<link rel="manifest" href="manifest.webmanifest?v=139">
+<link rel="preload" as="script" href="js/seed.js?v=140">
+<link rel="preload" as="script" href="js/app.js?v=140">
+<link rel="manifest" href="manifest.webmanifest?v=140">
 <link rel="apple-touch-icon" href="icon-180.png">
 <!-- タブと検索結果に出る小さな印。アプリの印（ホーム画面のアイコン）と同じ形 -->
 <link rel="icon" href="favicon.ico" sizes="16x16 32x32 48x48">
@@ -72,11 +72,11 @@ if (location.hostname === 'beautifulcontext.com'){
   document.head.appendChild(ga);
 }
 </script>
-<script src="js/theme.js?v=139"></script>
-<link rel="stylesheet" href="app.css?v=139">
+<script src="js/theme.js?v=140"></script>
+<link rel="stylesheet" href="app.css?v=140">
 <!-- 読む画面の使い勝手（2026.10.24）。app.css のすぐあと -->
-<link rel="stylesheet" href="ux.css?v=139">
-<link rel="stylesheet" href="fade.css?v=139">
+<link rel="stylesheet" href="ux.css?v=140">
+<link rel="stylesheet" href="fade.css?v=140">
 <!-- 台本（js）が揃うまで：まだ押しても動かないもの（‹・絵の横の ‹ ›・つながりを辿る）を少し薄くし、下の帯の上の縁に細い金の線を走らせる。
      app.js が最後に body.app-ready を付けて外す。すぐ揃うときは何も見せない（0.3 秒待ってから出す） -->
 <style>
@@ -88,7 +88,7 @@ body:not(.app-ready) .dock::before{content:"";position:absolute;z-index:3;left:0
 @keyframes bc-load{from{transform:translateX(0)}to{transform:translateX(257%)}}
 </style>
 </head>
-<body class="stage-uni viewing route" data-route="#/c/iris--nurungji">
+<body class="stage-uni viewing route" data-route="#/c/iris--tsurunoyu">
 <!-- 台本が届く前に触れた一回を覚えておく（つながりを辿る・‹・絵の横の ‹ ›）。app.js が起き上がったら、その一回を行う。
      遅い回線で「押したのに何も起きない」を無くす -->
 <script>
@@ -180,50 +180,50 @@ document.addEventListener('click', function (e) {
 <!-- パソコン：右の余白に、いまの前後の路線図（区間と駅を、つながりを辿ると同じ順に） -->
 <nav class="route-mini" id="routeMini" aria-label="路線図"></nav>
 
-<div class="view on" id="view" role="dialog" aria-modal="true" aria-label="韓国ドラマ『アイリス』 ＋ ヌルンジ（赤坂）">
+<div class="view on" id="view" role="dialog" aria-modal="true" aria-label="韓国ドラマ『アイリス』 ＋ 乳頭温泉郷「鶴の湯」">
   <div class="view-in" id="viewIn">
       <article class="page cpage">
         <button type="button" class="back-close" data-close="" aria-label="Today's Editor's Choice へ戻る" title="Today's Editor's Choice へ"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 4.5 7.5 12l7.5 7.5"></path></svg></button>
-        <div class="duo-hero"><a class="c-logo" href="#/" data-top="" aria-label="BEAUTIFUL CONTEXT（TOP へ戻る）"><img src="img/logo.png" alt=""></a><div class="duo"><button type="button" class="duo-go" data-step="0" aria-label="韓国ドラマ『アイリス』の作品ページへ"><div class="art"><img src="img/works/iris.jpg" alt="韓国ドラマ『アイリス』" data-k="iris" decoding="async" fetchpriority="low"></div></button><button type="button" class="duo-go" data-step="2" aria-label="ヌルンジ（赤坂）の作品ページへ"><div class="art"><img src="img/works/nurungji.jpg" alt="ヌルンジ（赤坂）" data-k="nurungji" decoding="async" fetchpriority="low"></div></button><i class="swap" aria-hidden="true">↔</i></div><button type="button" class="ctx-nav prev" data-ctx-go="-1" aria-label="一つ前のつながりへ">‹</button><button type="button" class="ctx-nav next" data-ctx-go="1" aria-label="次のつながりへ">›</button></div>
+        <div class="duo-hero"><a class="c-logo" href="#/" data-top="" aria-label="BEAUTIFUL CONTEXT（TOP へ戻る）"><img src="img/logo.png" alt=""></a><div class="duo"><button type="button" class="duo-go" data-step="0" aria-label="韓国ドラマ『アイリス』の作品ページへ"><div class="art"><img src="img/works/iris.jpg" alt="韓国ドラマ『アイリス』" data-k="iris" decoding="async" fetchpriority="low"></div></button><button type="button" class="duo-go" data-step="2" aria-label="乳頭温泉郷「鶴の湯」の作品ページへ"><div class="art"><img src="img/works/tsurunoyu.jpg" alt="乳頭温泉郷「鶴の湯」" data-k="tsurunoyu" decoding="async" fetchpriority="low"></div></button><i class="swap" aria-hidden="true">↔</i></div><button type="button" class="ctx-nav prev" data-ctx-go="-1" aria-label="一つ前のつながりへ">‹</button><button type="button" class="ctx-nav next" data-ctx-go="1" aria-label="次のつながりへ">›</button></div>
         <section class="context-lead">
           
           <div class="ed-row">
       <a class="ed-link" href="e/desk/"><span class="ava" aria-hidden="true">部</span><span><b>BC 編集部</b><small>EDITORIAL DESK</small></span></a>
       <button type="button" class="follow" data-follow="desk" aria-pressed="false">フォロー</button></div>
-          <p class="route-label">CONTEXT　［ドラマから食卓へ］</p>
-          <h2>画面で見た国の味を、<br>赤坂の一皿で。</h2>
-          <div class="pair"><span>韓国ドラマ『アイリス』</span><span>韓国</span><span>赤坂の「ヌルンジ」</span></div>
-          <button type="button" class="read" data-read="">このつながりを読む<small>約25秒</small><span aria-hidden="true">↓</span></button>
+          <p class="route-label">CONTEXT　［画面の中の湯宿］</p>
+          <h2>主役二人の温泉デートは<br>秋田の湯宿で撮られた。</h2>
+          <div class="pair"><span>韓国ドラマ『アイリス』</span><span>秋田ロケ</span><span>乳頭温泉郷「鶴の湯」</span></div>
+          <button type="button" class="read" data-read="">このつながりを読む<small>約1分</small><span aria-hidden="true">↓</span></button>
           <i class="story-cue" aria-hidden="true"></i>
         </section>
         <article class="context-body" id="story">
           <p class="meta">CONTEXT STORY</p>
-          <h2>画面の向こうの国は、東京の街角にもある。</h2><p>『アイリス』は、韓国の特殊工作員を主人公にしたアクション・ドラマ。日本でも放送され、秋田でのロケも話題になった。</p><p>赤坂には韓国料理の店が集まる一角があり、「ヌルンジ」もそのひとつ。店名は韓国語で、釜の底にできるおこげのこと。韓国では、おこげに湯を注いだ「スンニュン」を食後に飲む習慣がある。</p><p>ドラマで知った国へのいちばん近い入口は、案外、一皿の料理なのかもしれない。</p>
+          <h2>主人公二人の温泉デートは、秋田の湯宿・鶴の湯で撮られた。</h2><p>『アイリス』は、国家安全局の要員を主人公に、アクションと恋愛を描いた韓国ドラマ。2009年10月に韓国で放送が始まった。秋田ロケはその年の3月、県内の約20カ所で行われている。</p><p>2009年12月の記念パネル展（北秋田市商工会・仙北市商工会主催）には、田沢湖や乳頭温泉などのロケ写真43点が並んだ。鶴の湯については、秋田県観光連盟の「IRIS 秋田ロケ地を巡る旅マップ」が、二人の温泉デートの場面を撮った宿として載せていた。韓国の京郷新聞も2010年3月の旅行記で同じ場所を紹介し、入口にはロケ地を知らせる看板と、二人の場面のかまくらがあると記す。2013年の韓国の旅行記事も、乳頭温泉郷を入浴場面の撮影地としている。</p><p>鶴の湯は、寛永15年（1638年）に二代目秋田藩主・佐竹義隆が湯治に訪れたといわれる宿。茅葺き屋根の本陣は、そのとき警護の者が詰めた建物だという。京郷新聞の旅行記はもう一つ、温泉の場面で脱衣所の入口に使われたのが、田沢湖畔のたつこ像に近い公衆トイレだったとも書く。撮影のときは表示を外し、「鳥の湯」の看板だけを掛けたという。湯宿と湖が、ひとつの場面の中でつながっている。</p>
           
       <section class="axes" aria-label="このつながりの型と評価">
         <p class="meta">このつながり<span class="agm">生成AIの初稿・編集者の確認前</span></p>
-        <p class="ax-kind"><span>型<b>ハブ</b></span><span>ハブ<b>韓国</b></span></p>
-        <dl class="ax"><div><dt>意外性</dt><dd aria-label="4 / 5"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i></dd></div><div><dt>共感度</dt><dd aria-label="4 / 5"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i></dd></div><div><dt>コンテンツ性</dt><dd aria-label="3 / 5"><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i></dd></div><div><dt>世界観近似性</dt><dd aria-label="3 / 5"><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i></dd></div></dl>
+        <p class="ax-kind"><span>型<b>事実</b></span><span>ハブ<b>秋田ロケ</b></span></p>
+        <dl class="ax"><div><dt>意外性</dt><dd aria-label="4 / 5"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i></dd></div><div><dt>共感度</dt><dd aria-label="4 / 5"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i></dd></div><div><dt>コンテンツ性</dt><dd aria-label="4 / 5"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i></dd></div><div><dt>世界観近似性</dt><dd aria-label="3 / 5"><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i></dd></div></dl>
       </section>
           
           
           <section class="refs" aria-label="参考・出典">
             <p class="meta">参考・出典</p>
-            <ol><li><a href="https://encykorea.aks.ac.kr/Article/E0032051" target="_blank" rel="noopener">숭늉 - 한국민족문화대백과사전</a><small>韓国民族文化大百科事典（韓国学中央研究院）</small></li><li><a href="https://ja.wikipedia.org/wiki/IRIS-%E3%82%A2%E3%82%A4%E3%83%AA%E3%82%B9-" target="_blank" rel="noopener">IRIS-アイリス-</a><small>Wikipedia</small></li><li><a href="https://ascii.jp/elem/000/000/521/521780/" target="_blank" rel="noopener">『ＩＲＩＳ-アイリス-』テレビドラマ史上初の試み！ “生”でドラマを見た人だけにマイレージポイントを発行！ 総額500万円相当の豪華賞品が当たる「ＩＲＩＳ裏ミッション"ナマトク!"キャンペーン」が始動!</a><small>ASCII.jp</small></li><li><a href="https://ja.wikipedia.org/wiki/%E3%81%8A%E7%84%A6%E3%81%92" target="_blank" rel="noopener">お焦げ</a><small>Wikipedia</small></li></ol>
+            <ol><li><a href="https://www.city.kitaakita.akita.jp/archive/contents-3851" target="_blank" rel="noopener">人気韓流ドラマのパネル展開幕</a><small>北秋田市</small></li><li><a href="https://web.archive.org/web/20110812200212/http://www.akitafan.com/iris/senboku/mapmore/map_more06.html" target="_blank" rel="noopener">IRIS 秋田ロケ地を巡る旅マップ（6 乳頭温泉郷 鶴の湯温泉）</a><small>秋田県観光連盟「あきたファンドッとコム」（Internet Archive 保存・2011年8月12日）</small></li><li><a href="http://www.tsurunoyu.com/FONDMENT/t-annai.html" target="_blank" rel="noopener">ご案内｜秋田県の秘湯、乳頭温泉郷の鶴の湯温泉</a><small>鶴の湯温泉（公式）</small></li><li><a href="https://www.khan.co.kr/article/201003171612002" target="_blank" rel="noopener">겨울 설경과 온천, 그리고 휴식의 기행, 아키타(秋田)</a><small>京郷新聞（韓国・2010年3月17日付）</small></li><li><a href="https://www.twig24.com/news/travel-news/2013/09/12/20130912020001" target="_blank" rel="noopener">우윳빛 보드라운 온천수 푸르러 고즈넉한 숲그늘</a><small>Twig24（韓国・2013年9月12日付）</small></li></ol>
           </section>
           <p class="byline">BC 編集部　·　2026/9/28</p>
           
-      <section class="comments" id="comments" data-ctx="seed-iris--nurungji">
+      <section class="comments" id="comments" data-ctx="seed-iris--tsurunoyu">
         <p class="meta">COMMENTS<span class="cm-n">0</span></p>
         <p class="cm-empty">まだコメントはありません。このつながりについて、最初のひとことを。</p>
         
-        <form class="cm-form" data-comment="seed-iris--nurungji">
+        <form class="cm-form" data-comment="seed-iris--tsurunoyu">
           <textarea name="text" rows="2" maxlength="600" placeholder="このつながりについて、思ったことを" aria-label="コメント"></textarea>
           <button type="submit">送る</button>
         </form>
         <p class="cm-note">送るときに、名前を一つ作ります。コメントは編集者が確かめてから表示されます。</p>
       </section>
-          <p class="meta more-label">同じルーツのコンテクスト</p><a class="tease" href="c/kanyoro--nurungji/">中国名菜『漢陽楼』 ＋ ヌルンジ（赤坂） <span aria-hidden="true">›</span></a><a class="tease" href="c/iris--tazawako/">韓国ドラマ『アイリス』 ＋ 田沢湖 <span aria-hidden="true">›</span></a>
+          <p class="meta more-label">同じルーツのコンテクスト</p><a class="tease" href="c/tazawako--tsurunoyu/">田沢湖 ＋ 乳頭温泉郷「鶴の湯」 <span aria-hidden="true">›</span></a><a class="tease" href="c/iris--tazawako/">韓国ドラマ『アイリス』 ＋ 田沢湖 <span aria-hidden="true">›</span></a><a class="tease" href="c/tsurunoyu--nakoikan/">乳頭温泉郷「鶴の湯」 ＋ 小天温泉『那古井館』 <span aria-hidden="true">›</span></a>
           
       <aside class="c-ad" aria-label="広告">
         <a href="#/ad">
@@ -232,7 +232,7 @@ document.addEventListener('click', function (e) {
           <span class="ad-copy"><b>この場所に、作品の広告を。</b><small>映画・音楽・書籍・イベント ── 広告枠のご案内</small></span>
         </a>
       </aside>
-          <p class="img-credit">画像：© 2009 TAEWON ENTERTAINMENT.（映画版『アイリス THE LAST』）／出典 映画.com　<a href="https://eiga.com/movie/55869/" target="_blank" rel="noopener nofollow">出典</a></p><p class="img-credit">画像：店名の由来の「ヌルンジ」（おこげ）（撮影 Hyeon-Jeong Suk）／CC BY 2.0／Wikimedia Commons　<a href="https://commons.wikimedia.org/wiki/File:Nurungji.jpg" target="_blank" rel="noopener nofollow">出典</a></p>
+          <p class="img-credit">画像：© 2009 TAEWON ENTERTAINMENT.（映画版『アイリス THE LAST』）／出典 映画.com　<a href="https://eiga.com/movie/55869/" target="_blank" rel="noopener nofollow">出典</a></p><p class="img-credit">画像：撮影 Fumiaki Yoshimatsu／CC BY-SA 2.0／Wikimedia Commons　<a href="https://commons.wikimedia.org/wiki/File:Tsurunoyu_Onsen_03.jpg" target="_blank" rel="noopener nofollow">出典</a></p>
           
           <section class="ctx-rail" aria-label="この先のつながり">
             <p class="meta more-label">この先のつながり</p>
@@ -240,55 +240,31 @@ document.addEventListener('click', function (e) {
         <li class="stop first">
           
           
-          <a class="fstop" href="w/nurungji/">
-            <span class="st-img"><img src="img/works/nurungji.jpg" alt="ヌルンジ（赤坂）" data-k="nurungji" loading="lazy" decoding="async"></span>
-            <span class="st-txt"><small>店</small>
-              <b>ヌルンジ（赤坂）</b><span>東京・赤坂の韓国料理店。店名の「ヌルンジ」は韓国語で、釜の底にできるおこげのこと。</span></span>
+          <a class="fstop" href="w/tsurunoyu/">
+            <span class="st-img"><img src="img/works/tsurunoyu.jpg" alt="乳頭温泉郷「鶴の湯」" data-k="tsurunoyu" loading="lazy" decoding="async"></span>
+            <span class="st-txt"><small>宿</small>
+              <b>乳頭温泉郷「鶴の湯」</b><span>秋田県の乳頭温泉郷でもっとも古いとされる湯宿。茅葺き屋根の長屋と白濁の湯で知られる。</span></span>
           </a>
         </li>
         <li class="stop">
           
-          <a class="seg" href="c/kanyoro--nurungji/">
+          <a class="seg" href="c/tsurunoyu--nakoikan/">
             
-            <small>［東京の中の隣国］　似ている</small>
-            <b><span class="seg-copy">神田の中国料理と、赤坂の韓国料理。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
-          <a class="fstop" href="w/kanyoro/?c=kanyoro--nurungji">
-            <span class="st-img"><img src="img/kanyoro.jpg" alt="中国名菜『漢陽楼』" data-k="kanyoro" loading="lazy" decoding="async"></span>
-            <span class="st-txt"><small>店・1911年</small>
-              <b>中国名菜『漢陽楼』</b><span>明治四十四年創業を掲げる、東京・神田の中国料理店。</span></span>
+            <small>［湯宿と物語］　似ている</small>
+            <b><span class="seg-copy">小説に描かれた湯と、山奥に守られた湯。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
+          <a class="fstop" href="w/nakoikan/?c=tsurunoyu--nakoikan">
+            <span class="st-img"><img src="img/nakoikan.jpg" alt="小天温泉『那古井館』" data-k="nakoikan" loading="lazy" decoding="async"></span>
+            <span class="st-txt"><small>宿・1868年</small>
+              <b>小天温泉『那古井館』</b><span>明治元年創業を掲げる、熊本・小天温泉の宿。</span></span>
           </a>
         </li>
         <li class="stop">
           
-          <a class="seg" href="c/kanyoro--zhou-tokyo-diary/">
+          <a class="seg" href="c/kusamakura--nakoikan/">
             
-            <small>［若き日の東京］　事実</small>
-            <b><span class="seg-copy">百年前の留学生は、神田の街を歩いていた。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
-          <a class="fstop" href="w/zhou-tokyo-diary/?c=kanyoro--zhou-tokyo-diary">
-            <span class="st-img"><img src="img/zhou-diary.jpg" alt="周恩来『十九歳の東京日記』" data-k="zhou-tokyo-diary" loading="lazy" decoding="async"></span>
-            <span class="st-txt"><small>書籍・1918年</small>
-              <b>周恩来『十九歳の東京日記』</b><span>日本に留学していた周恩来が、1918年の東京で書いた日記。神保町、早稲田、浅草、上野、日本橋――19歳の青年が見た百年前の東京が記されている。</span></span>
-          </a>
-        </li>
-        <li class="stop">
-          
-          <a class="seg" href="c/natsume-soseki--zhou-tokyo-diary/">
-            
-            <small>［異国の都の日記］　似ている</small>
-            <b><span class="seg-copy">漱石はロンドンで、周恩来は東京で書いた。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
-          <a class="fstop" href="w/natsume-soseki/?c=natsume-soseki--zhou-tokyo-diary">
-            <span class="st-img"><img src="img/works/natsume-soseki.jpg" alt="夏目漱石" data-k="natsume-soseki" loading="lazy" decoding="async"></span>
-            <span class="st-txt"><small>人物・1867年</small>
-              <b>夏目漱石</b><span>『吾輩は猫である』『坊っちゃん』『草枕』『こころ』の作家。熊本の第五高等学校で教えたのち、1900年から英国に留学した。</span></span>
-          </a>
-        </li>
-        <li class="stop">
-          
-          <a class="seg" href="c/kusamakura--natsume-soseki/">
-            
-            <small>［画工の目、作家の目］　作者と作品</small>
-            <b><span class="seg-copy">「非人情」は、漱石自身の宿題だった。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
-          <a class="fstop" href="w/kusamakura/?c=kusamakura--natsume-soseki">
+            <small>［小説の舞台を訪ねる］　事実</small>
+            <b><span class="seg-copy">「那古井」は、地図の上にもあった。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
+          <a class="fstop" href="w/kusamakura/?c=kusamakura--nakoikan">
             <span class="st-img"><img src="img/kusamakura.jpg" alt="夏目漱石『草枕』" data-k="kusamakura" loading="lazy" decoding="async"></span>
             <span class="st-txt"><small>書籍・1906年</small>
               <b>夏目漱石『草枕』</b><span>「智に働けば角が立つ。情に棹させば流される。」で始まる、画工が非人情の世界を求めて旅する小説。</span></span>
@@ -310,8 +286,8 @@ document.addEventListener('click', function (e) {
           
           <a class="seg" href="c/glenn-gould--goldberg-variations/">
             
-            <small>［始まりと終わりの録音］　事実</small>
-            <b><span class="seg-copy">デビューも最後の録音も、同じ曲だった。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
+            <small>［デビューと再録音］　事実</small>
+            <b><span class="seg-copy">デビュー盤と同じ曲を、死の前年に録り直した。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
           <a class="fstop" href="w/goldberg-variations/?c=glenn-gould--goldberg-variations">
             <span class="st-img"><img src="img/works/goldberg-variations.jpg" alt="バッハ『ゴールドベルク変奏曲』" data-k="goldberg-variations" loading="lazy" decoding="async"></span>
             <span class="st-txt"><small>音楽・1741年</small>
@@ -323,7 +299,7 @@ document.addEventListener('click', function (e) {
           <a class="seg" href="c/goldberg-variations--brad-mehldau/">
             
             <small>［バッハを経由して］　ハブ</small>
-            <b><span class="seg-copy">ジャズのピアニストも、バッハから始め直した。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
+            <b><span class="seg-copy">ゴールドベルクの主題にジャズ奏者が応えた。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
           <a class="fstop" href="w/brad-mehldau/?c=goldberg-variations--brad-mehldau">
             <span class="st-img"><img src="img/works/brad-mehldau.jpg" alt="ブラッド・メルドー" data-k="brad-mehldau" loading="lazy" decoding="async"></span>
             <span class="st-txt"><small>音楽・1970年</small>
@@ -332,50 +308,74 @@ document.addEventListener('click', function (e) {
         </li>
         <li class="stop branch">
           
-          <a class="seg" href="c/kusamakura--nakoikan/">
+          <a class="seg" href="c/kusamakura--natsume-soseki/">
             <span class="seg-from">草枕 から分岐</span>
-            <small>［小説の舞台を訪ねる］　事実</small>
-            <b><span class="seg-copy">「那古井」は、地図の上にもあった。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
-          <a class="fstop" href="w/nakoikan/?c=kusamakura--nakoikan">
-            <span class="st-img"><img src="img/nakoikan.jpg" alt="小天温泉『那古井館』" data-k="nakoikan" loading="lazy" decoding="async"></span>
-            <span class="st-txt"><small>宿・1868年</small>
-              <b>小天温泉『那古井館』</b><span>明治元年創業を掲げる、熊本・小天温泉の宿。</span></span>
+            <small>［旅が生んだ『草枕』］　作者と作品</small>
+            <b><span class="seg-copy">「非人情」の小説には、漱石の芸術論が表れた。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
+          <a class="fstop" href="w/natsume-soseki/?c=kusamakura--natsume-soseki">
+            <span class="st-img"><img src="img/works/natsume-soseki.jpg" alt="夏目漱石" data-k="natsume-soseki" loading="lazy" decoding="async"></span>
+            <span class="st-txt"><small>人物・1867年</small>
+              <b>夏目漱石</b><span>『吾輩は猫である』『坊っちゃん』『草枕』『こころ』の作家。熊本の第五高等学校で教えたのち、1900年から英国に留学した。</span></span>
           </a>
         </li>
         <li class="stop">
           
-          <a class="seg" href="c/tsurunoyu--nakoikan/">
+          <a class="seg" href="c/natsume-soseki--zhou-tokyo-diary/">
             
-            <small>［湯宿と物語］　似ている</small>
-            <b><span class="seg-copy">小説に描かれた湯と、山奥に守られた湯。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
-          <a class="fstop" href="w/tsurunoyu/?c=tsurunoyu--nakoikan">
-            <span class="st-img"><img src="img/works/tsurunoyu.jpg" alt="乳頭温泉郷「鶴の湯」" data-k="tsurunoyu" loading="lazy" decoding="async"></span>
-            <span class="st-txt"><small>宿</small>
-              <b>乳頭温泉郷「鶴の湯」</b><span>秋田県の乳頭温泉郷でもっとも古いとされる湯宿。茅葺き屋根の長屋と白濁の湯で知られる。</span></span>
+            <small>［異国の都の記録］　似ている</small>
+            <b><span class="seg-copy">漱石はロンドンで、周恩来は東京で書いた。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
+          <a class="fstop" href="w/zhou-tokyo-diary/?c=natsume-soseki--zhou-tokyo-diary">
+            <span class="st-img"><img src="img/zhou-diary.jpg" alt="周恩来『十九歳の東京日記』" data-k="zhou-tokyo-diary" loading="lazy" decoding="async"></span>
+            <span class="st-txt"><small>書籍・1918年</small>
+              <b>周恩来『十九歳の東京日記』</b><span>日本に留学していた周恩来が、1918年の東京で書いた日記。日比谷公園、靖国神社、浅草など、19歳の青年が見て回った百年前の東京が記されている。</span></span>
           </a>
         </li>
         <li class="stop">
           
-          <a class="seg" href="c/tazawako--tsurunoyu/">
+          <a class="seg" href="c/kanyoro--zhou-tokyo-diary/">
             
-            <small>［仙北の湖と秘湯］　ハブ</small>
-            <b><span class="seg-copy">日本一深い湖から、山の奥の湯宿へ。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
-          <a class="fstop" href="w/tazawako/?c=tazawako--tsurunoyu">
-            <span class="st-img"><img src="img/works/tazawako.jpg" alt="田沢湖" data-k="tazawako" loading="lazy" decoding="async"></span>
-            <span class="st-txt"><small>場所</small>
-              <b>田沢湖</b><span>秋田県仙北市の湖。水深は日本一で、湖畔には辰子の伝説が残る。</span></span>
+            <small>［若き日の東京］　事実</small>
+            <b><span class="seg-copy">百年前の留学生は、神田の街を歩いていた。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
+          <a class="fstop" href="w/kanyoro/?c=kanyoro--zhou-tokyo-diary">
+            <span class="st-img"><img src="img/kanyoro.jpg" alt="中国名菜『漢陽楼』" data-k="kanyoro" loading="lazy" decoding="async"></span>
+            <span class="st-txt"><small>店・1911年</small>
+              <b>中国名菜『漢陽楼』</b><span>明治四十四年創業を掲げる、東京・神田の中国料理店。</span></span>
           </a>
         </li>
         <li class="stop">
           
-          <a class="seg" href="c/iris--tazawako/">
+          <a class="seg" href="c/kanyoro--gyoza-sakaba-kachidoki/">
             
-            <small>［ロケ地になった湖］　事実</small>
-            <b><span class="seg-copy">韓国ドラマの一場面が、秋田の湖畔で撮られた。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
-          <a class="fstop" href="w/iris/?c=iris--tazawako">
-            <span class="st-img"><img src="img/works/iris.jpg" alt="韓国ドラマ『アイリス』" data-k="iris" loading="lazy" decoding="async"></span>
-            <span class="st-txt"><small>ドラマ・2009年</small>
-              <b>韓国ドラマ『アイリス』</b><span>韓国の特殊工作員を主人公にしたアクション・ドラマ。秋田県でのロケが行われ、日本でも話題になった。</span></span>
+            <small>［勝鬨と留学生］　ハブ</small>
+            <b><span class="seg-copy">勝どきの名も、漢陽楼も日露戦争とつながる。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
+          <a class="fstop" href="w/gyoza-sakaba-kachidoki/?c=kanyoro--gyoza-sakaba-kachidoki">
+            <span class="st-img"><img src="img/works/gyoza-sakaba-kachidoki.jpg" alt="餃子酒場（勝どき店）" data-k="gyoza-sakaba-kachidoki" loading="lazy" decoding="async"></span>
+            <span class="st-txt"><small>店</small>
+              <b>餃子酒場（勝どき店）</b><span>勝どき駅近くの、焼き餃子と酒の店。</span></span>
+          </a>
+        </li>
+        <li class="stop">
+          
+          <a class="seg" href="c/gyoza-sakaba-kachidoki--daiyame/">
+            
+            <small>［今夜のだいやめ］　似ている</small>
+            <b><span class="seg-copy">「だいやめ」とは、つまり今夜の一杯だ。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
+          <a class="fstop" href="w/daiyame/?c=gyoza-sakaba-kachidoki--daiyame">
+            <span class="st-img"><img src="img/works/daiyame.jpg" alt="芋焼酎『だいやめ DAIYAME』" data-k="daiyame" loading="lazy" decoding="async"></span>
+            <span class="st-txt"><small>酒</small>
+              <b>芋焼酎『だいやめ DAIYAME』</b><span>鹿児島の芋焼酎。ライチを思わせる香りで知られる。名前は、一日の疲れを癒やす晩酌を表す鹿児島の言葉から。</span></span>
+          </a>
+        </li>
+        <li class="stop">
+          
+          <a class="seg" href="c/daiyame--domaine-tetta/">
+            
+            <small>［名前が語る産地］　似ている</small>
+            <b><span class="seg-copy">焼酎の名は晩酌の言葉、ワイナリーの名は地名。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
+          <a class="fstop" href="w/domaine-tetta/?c=daiyame--domaine-tetta">
+            <span class="st-img"><img src="img/works/domaine-tetta.jpg" alt="ドメーヌ・テッタ" data-k="domaine-tetta" loading="lazy" decoding="async"></span>
+            <span class="st-txt"><small>ワイナリー</small>
+              <b>ドメーヌ・テッタ</b><span>岡山県新見市哲多町でぶどうを育て、ワインを造るワイナリー。名前は土地の名から。</span></span>
           </a>
         </li></ol>
             <div class="rail-more" id="railMore" aria-hidden="true"></div>
@@ -389,18 +389,18 @@ document.addEventListener('click', function (e) {
 <div class="edge-back" id="edgeBack" aria-hidden="true"></div>
 
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
-<script type="application/ld+json" id="ld">{"@context":"https://schema.org","@type":"Article","headline":"画面で見た国の味を、赤坂の一皿で。","alternativeHeadline":"ドラマから食卓へ","about":[{"@type":"CreativeWork","name":"アイリス","description":"韓国の特殊工作員を主人公にしたアクション・ドラマ。秋田県でのロケが行われ、日本でも話題になった。","creator":{"@type":"Person","name":"イ・ビョンホン主演"}},{"@type":"Restaurant","name":"ヌルンジ（赤坂）","description":"東京・赤坂の韓国料理店。店名の「ヌルンジ」は韓国語で、釜の底にできるおこげのこと。"}],"author":{"@type":"Person","name":"生成AI（初稿）"},"datePublished":"2026-09-28T09:00:00.000Z","dateModified":"2026-09-28T09:00:00.000Z","inLanguage":"ja","articleBody":"画面の向こうの国は、東京の街角にもある。『アイリス』は、韓国の特殊工作員を主人公にしたアクション・ドラマ。日本でも放送され、秋田でのロケも話題になった。赤坂には韓国料理の店が集まる一角があり、「ヌルンジ」もそのひとつ。店名は韓国語で、釜の底にできるおこげのこと。韓国では、おこげに湯を注いだ「スンニュン」を食後に飲む習慣がある。ドラマで知った国へのいちばん近い入口は、案外、一皿の料理なのかもしれない。","url":"https://beautifulcontext.com/c/iris--nurungji/","citation":[{"@type":"CreativeWork","name":"숭늉 - 한국민족문화대백과사전","url":"https://encykorea.aks.ac.kr/Article/E0032051","publisher":{"@type":"Organization","name":"韓国民族文化大百科事典（韓国学中央研究院）"}},{"@type":"CreativeWork","name":"IRIS-アイリス-","url":"https://ja.wikipedia.org/wiki/IRIS-%E3%82%A2%E3%82%A4%E3%83%AA%E3%82%B9-","publisher":{"@type":"Organization","name":"Wikipedia"}},{"@type":"CreativeWork","name":"『ＩＲＩＳ-アイリス-』テレビドラマ史上初の試み！ “生”でドラマを見た人だけにマイレージポイントを発行！ 総額500万円相当の豪華賞品が当たる「ＩＲＩＳ裏ミッション\"ナマトク!\"キャンペーン」が始動!","url":"https://ascii.jp/elem/000/000/521/521780/","publisher":{"@type":"Organization","name":"ASCII.jp"}},{"@type":"CreativeWork","name":"お焦げ","url":"https://ja.wikipedia.org/wiki/%E3%81%8A%E7%84%A6%E3%81%92","publisher":{"@type":"Organization","name":"Wikipedia"}}],"image":"https://beautifulcontext.com/img/works/iris.jpg"}</script>
+<script type="application/ld+json" id="ld">{"@context":"https://schema.org","@type":"Article","headline":"主役二人の温泉デートは秋田の湯宿で撮られた。","alternativeHeadline":"画面の中の湯宿","about":[{"@type":"CreativeWork","name":"アイリス","description":"韓国の特殊工作員を主人公にしたアクション・ドラマ。秋田県でのロケが行われ、日本でも話題になった。","creator":{"@type":"Person","name":"イ・ビョンホン主演"}},{"@type":"LodgingBusiness","name":"乳頭温泉郷「鶴の湯」","description":"秋田県の乳頭温泉郷でもっとも古いとされる湯宿。茅葺き屋根の長屋と白濁の湯で知られる。"}],"author":{"@type":"Person","name":"生成AI（初稿）"},"datePublished":"2026-09-28T09:00:00.000Z","dateModified":"2026-09-28T09:00:00.000Z","inLanguage":"ja","articleBody":"主人公二人の温泉デートは、秋田の湯宿・鶴の湯で撮られた。『アイリス』は、国家安全局の要員を主人公に、アクションと恋愛を描いた韓国ドラマ。2009年10月に韓国で放送が始まった。秋田ロケはその年の3月、県内の約20カ所で行われている。2009年12月の記念パネル展（北秋田市商工会・仙北市商工会主催）には、田沢湖や乳頭温泉などのロケ写真43点が並んだ。鶴の湯については、秋田県観光連盟の「IRIS 秋田ロケ地を巡る旅マップ」が、二人の温泉デートの場面を撮った宿として載せていた。韓国の京郷新聞も2010年3月の旅行記で同じ場所を紹介し、入口にはロケ地を知らせる看板と、二人の場面のかまくらがあると記す。2013年の韓国の旅行記事も、乳頭温泉郷を入浴場面の撮影地としている。鶴の湯は、寛永15年（1638年）に二代目秋田藩主・佐竹義隆が湯治に訪れたといわれる宿。茅葺き屋根の本陣は、そのとき警護の者が詰めた建物だという。京郷新聞の旅行記はもう一つ、温泉の場面で脱衣所の入口に使われたのが、田沢湖畔のたつこ像に近い公衆トイレだったとも書く。撮影のときは表示を外し、「鳥の湯」の看板だけを掛けたという。湯宿と湖が、ひとつの場面の中でつながっている。","url":"https://beautifulcontext.com/c/iris--tsurunoyu/","citation":[{"@type":"CreativeWork","name":"人気韓流ドラマのパネル展開幕","url":"https://www.city.kitaakita.akita.jp/archive/contents-3851","publisher":{"@type":"Organization","name":"北秋田市"}},{"@type":"CreativeWork","name":"IRIS 秋田ロケ地を巡る旅マップ（6 乳頭温泉郷 鶴の湯温泉）","url":"https://web.archive.org/web/20110812200212/http://www.akitafan.com/iris/senboku/mapmore/map_more06.html","publisher":{"@type":"Organization","name":"秋田県観光連盟「あきたファンドッとコム」（Internet Archive 保存・2011年8月12日）"}},{"@type":"CreativeWork","name":"ご案内｜秋田県の秘湯、乳頭温泉郷の鶴の湯温泉","url":"http://www.tsurunoyu.com/FONDMENT/t-annai.html","publisher":{"@type":"Organization","name":"鶴の湯温泉（公式）"}},{"@type":"CreativeWork","name":"겨울 설경과 온천, 그리고 휴식의 기행, 아키타(秋田)","url":"https://www.khan.co.kr/article/201003171612002","publisher":{"@type":"Organization","name":"京郷新聞（韓国・2010年3月17日付）"}},{"@type":"CreativeWork","name":"우윳빛 보드라운 온천수 푸르러 고즈넉한 숲그늘","url":"https://www.twig24.com/news/travel-news/2013/09/12/20130912020001","publisher":{"@type":"Organization","name":"Twig24（韓国・2013年9月12日付）"}}],"image":"https://beautifulcontext.com/img/works/iris.jpg"}</script>
 
-<script src="js/config.js?v=139"></script>
-<script src="js/seed.js?v=139"></script>
-<script src="js/sources.js?v=139"></script>
-<script src="js/backend.js?v=139"></script>
-<script src="js/store.js?v=139"></script>
-<script src="js/social.js?v=139"></script>
-<script src="js/render.js?v=139"></script>
-<script src="js/login.js?v=139"></script>
-<script src="js/report.js?v=139"></script>
-<script src="js/transition.js?v=139"></script>
-<script src="js/app.js?v=139"></script>
+<script src="js/config.js?v=140"></script>
+<script src="js/seed.js?v=140"></script>
+<script src="js/sources.js?v=140"></script>
+<script src="js/backend.js?v=140"></script>
+<script src="js/store.js?v=140"></script>
+<script src="js/social.js?v=140"></script>
+<script src="js/render.js?v=140"></script>
+<script src="js/login.js?v=140"></script>
+<script src="js/report.js?v=140"></script>
+<script src="js/transition.js?v=140"></script>
+<script src="js/app.js?v=140"></script>
 </body>
 </html>
