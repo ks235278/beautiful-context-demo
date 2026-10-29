@@ -8,7 +8,7 @@
      コンテクスト … demo-1。黒地に二枚の絵と ↔、紙の地に見出しと本文
 
    寸法は demo-1.html の値をそのまま使う。色は紙・墨・金（editorial-ink, 2026.10.27）。
-   以前の回路の絵（構成図の画像）は、墨の山（炭）と和紙（白）の絵に替えた。 */
+   背景の絵は、構成図の画像から、墨の山（炭）と和紙（白）の絵に替えた。 */
 
 :root{
   /* 紙と墨 */
@@ -59,13 +59,13 @@ a{color:inherit}
 #bg{position:fixed;inset:0;z-index:0;background:var(--ground)}
 /* 左右に並ぶ二枚の絵：左が A / WHITE（ReMixIt!・和紙）、右が B / CHARCOAL（UniverseIt!・墨の山）。
    いま見ている方が画面にあり、もう一方は隣（画面の外）に控えている。
-   （class の pcb は回路だったころの名前。スライドの台本（app.js）が同じ名前で探すので、そのまま） */
+   （class の pcb は、構成図の画像だったころの名前。スライドの台本（app.js）が同じ名前で探すので、そのまま） */
 #bg .pcb,.uni-frame .fr{position:absolute;inset:0;background-position:center;background-size:cover;background-repeat:no-repeat}
 /* 画面いっぱいの絵を、いつも GPU に持たせない。iPhone（3 倍の解像度）では一枚で約 15MB になり、
    持ちすぎると iOS が層を捨て、UniverseIt! の地が黒く抜けていた。
    ・隣（画面の外）に控えている方の絵は描かない（スライドしているあいだだけ描く）
    ・GPU に乗せるのも、指で動かしているあいだだけ
-   ・携帯の絵は、以前の回路と同じ大きさ（992×1776）に縦に切り出したもの。重さを以前より増やさない */
+   ・携帯の絵は、以前の構成図の画像と同じ大きさ（992×1776）に縦に切り出したもの。重さを以前より増やさない */
 html:not([data-theme="white"]) body:not(.swiping):not(.settling) :is(#bg .pcb-w,.uni-frame .fr-w),
 html[data-theme="white"] body:not(.swiping):not(.settling) :is(#bg .pcb-c,.uni-frame .fr-c){visibility:hidden}
 body.swiping :is(#bg .pcb,.uni-frame .fr),body.settling :is(#bg .pcb,.uni-frame .fr){will-change:transform}
@@ -952,8 +952,8 @@ html[data-theme="white"] .tag,html[data-theme="white"] .uni-title{text-shadow:0 
    「背景画像の見える範囲を広げる」「黒背景が強すぎる部分を調整する」「ベージュを使った従来のデザインとの釣り合い」。
    数字は下の :root の変数だけで調整できる（ほかの行を読まなくてよい）。
    ・パソコン：絵の面を黒い板でなく、地球の上に掛けた薄い暗幕にする。紙の列の左右に見えている地球が、
-     二枚の絵の後ろにも続く（前田先生 2026.10.22 の「読んでいるあいだは地球、UniverseIt! は回路」の組み立てはそのまま。
-     地球はいま墨の山の紺 ink-side に替えてある：--side-img。UniverseIt! の回路も墨の山の絵）
+     二枚の絵の後ろにも続く（前田先生 2026.10.22 の、読んでいるあいだは左右に地球、UniverseIt! は背景の絵、という組み立てはそのまま。
+     地球はいま墨の山の紺 ink-side に替えてある：--side-img。UniverseIt! の背景も墨の山の絵）
    ・携帯・タブレット：絵の地は暗いままだが、真っ黒でなく炭の地（--ground）に寄せた濃い紺。紙との境は影で和らげる
    ・表紙・UniverseIt!（背景の絵・veil）には触れない。地球の回転は後回し（会議の決め） */
 :root{

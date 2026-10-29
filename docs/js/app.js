@@ -1138,7 +1138,7 @@
   document.addEventListener('input', ev => { if (ev.target.closest('[data-ls-seek]')) filterList(); });
 
   /* ---------- UniverseIt! ⇄ ReMixIt!：左右にスライドして画面を入れ替える（flow1002） ----------
-     二つの画面は左右に並んでいる（左 ReMixIt! の白、右 UniverseIt! の回路）。指で横に引くと、
+     二つの画面は左右に並んでいる（左 ReMixIt! の白、右 UniverseIt! の炭）。指で横に引くと、
      背景の二枚が指に付いて動き、見出しとボタンの濃さが引いた分だけ入れ替わる。
      離して半分を越えていれば（または勢いよく払えば）その画面へ、足りなければ元へ戻る。
      縦の動きはページのスクロールに任せる（touch-action: pan-y。スクロールを待たせない） */
@@ -1196,7 +1196,7 @@
       const v = b[0] > a[0] ? (b[1] - a[1]) / (b[0] - a[0]) : 0;
       let target = cancelled ? S0.base : Math.abs(v) > 0.4 ? (v > 0 ? 1 : 0) : (S0.mix > .5 ? 1 : 0);
       const ease = 'cubic-bezier(.22,.8,.22,1)';
-      body.classList.add('settling');   /* 戻り切るまで、両方の回路を描いておく */
+      body.classList.add('settling');   /* 戻り切るまで、両方の絵を描いておく */
       [...layers(), ...titles(), remix, uniBtn].forEach(el => { el.style.transition = `transform .38s ${ease}, opacity .38s ${ease}, background-color .38s ${ease}`; });
       paint(target);
       setTimeout(() => { setTheme(target ? 'white' : 'charcoal'); clear(); body.classList.remove('settling'); }, 400);
