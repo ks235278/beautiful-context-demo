@@ -33,6 +33,12 @@ window.BC_SOURCES = {
    "site": "Variety",
    "url": "https://au.variety.com/2025/film/reviews/highest-2-lowest-review-spike-lee-22770/",
    "primary": false
+  },
+  {
+   "title": "Book versus film: How Akira Kurosawa's 'High and Low' relocates – and reimagines – 'King's Ransom'",
+   "site": "Scroll.in",
+   "url": "https://scroll.in/reel/1086305/book-versus-film-how-akira-kurosawas-high-and-low-relocates-and-reimagines-kings-ransom",
+   "primary": false
   }
  ],
  "glenn-gould--kusamakura": [
@@ -64,6 +70,12 @@ window.BC_SOURCES = {
    "title": "草枕",
    "site": "Wikipedia",
    "url": "https://ja.wikipedia.org/wiki/%E8%8D%89%E6%9E%95",
+   "primary": false
+  },
+  {
+   "title": "Glenn Gould",
+   "site": "Wikipedia",
+   "url": "https://en.wikipedia.org/wiki/Glenn_Gould",
    "primary": false
   }
  ],
