@@ -163,12 +163,19 @@
 .list-page .content::after{content:"";position:absolute;z-index:-1;right:0;top:56px;width:200px;height:80px;pointer-events:none;
   background:var(--paper);opacity:.25;
   -webkit-mask:url(img/deco/mist.png) 0 0/100% 100% no-repeat;mask:url(img/deco/mist.png) 0 0/100% 100% no-repeat}
+/* 一覧の列が画面の端まで届かない幅（760px〜）：列の右の端は外の紺の地との境。山がそこで切れて縦の線に見えるので、右の四分の一を薄くして消す。
+   山の形は mask（mist.png）が持ち、色は background なので、色の方を右へ透かす（mask は一枚のまま。重ね合わせの指定は要らない） */
+@media (min-width:760px){
+  .list-page .content::after{background:linear-gradient(to right,var(--paper) 75%,transparent)}
+}
 
 /* 携帯のメニュー（紙）：いちばん下（案内と運営のまとまり）の右に、墨の山。左へ薄れるので、左に並ぶ字の後ろはほぼ紙のまま。
-   メニューの中身の終わりに付けるので、メニューを下まで送っても山はいちばん下にある（長さは以前のまま） */
+   メニューの中身の終わりに付けるので、メニューを下まで送っても山はいちばん下にある（長さは以前のまま）。
+   山の高さは 128px：いちばん下の行（利用規約・プライバシー）の字より下に収める。いま開いているページの行は金の字（--gold-ink）になり、
+   160px では山の肩がその字の右下に掛かって 4.36:1（320px 幅では 4.23:1）だった。128px なら字の後ろは紙のまま（5.27:1、320〜390px で同じ） */
 @media (max-width:1099px){
   .menu .menu-foot{position:relative;z-index:0}
-  .menu .menu-foot::after{content:"";position:absolute;z-index:-1;right:-26px;bottom:calc(-30px - env(safe-area-inset-bottom));width:330px;height:160px;pointer-events:none;
+  .menu .menu-foot::after{content:"";position:absolute;z-index:-1;right:-26px;bottom:calc(-30px - env(safe-area-inset-bottom));width:330px;height:128px;pointer-events:none;
     background:url(img/deco/mist.png) right bottom/auto 100% no-repeat;opacity:.35;
     -webkit-mask-image:linear-gradient(to right,transparent,#000 55%);mask-image:linear-gradient(to right,transparent,#000 55%)}
 }
@@ -186,5 +193,5 @@
   .info-page .content::after,.editor-page .content::after,.search-page .content::after,.feed-page .content::after{width:300px;height:120px;
     -webkit-mask-image:linear-gradient(to right,transparent,#000 55%,#000 75%,transparent);mask-image:linear-gradient(to right,transparent,#000 55%,#000 75%,transparent)}
   .search-page .content::after{width:220px;height:88px}
-  .list-page .content::after{width:300px;height:120px}   /* 一覧は紙の列いっぱいの箱なので、右は列の端（切れ目）まで */
+  .list-page .content::after{width:300px;height:120px}   /* 一覧は列いっぱいの箱。右の端は薄くして消す（上の 760px〜） */
 }
