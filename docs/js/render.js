@@ -492,7 +492,7 @@
   const ABOUT_DESC = 'Beautiful Context（ビューティフル・コンテクスト）は、映画・本・音楽・人物・場所など、二つの作品のあいだにある意外なつながりを、編集者が一本の「コンテクスト」として届けるメディアです。読み方、生成AIの初稿の扱いを含む編集の方針、運営について。';
   function page(name){
     const shell = (title, body) => `
-      <article class="page text-page">
+      <article class="page text-page info-page info-${name}">
         ${backTop()}${topLogo('on-paper')}
         <div class="content"><h2>${title}</h2>${body}</div>
       </article>`;

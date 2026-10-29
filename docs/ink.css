@@ -65,3 +65,70 @@
   .menu a[aria-current="page"]::before{content:"";position:absolute;left:-16px;top:calc(14px + 17px * 1.25 / 2 - 4.5px);width:6px;height:9px;background:var(--diamond) center/6px 9px no-repeat}
   .menu .menu-foot a[aria-current="page"]::before{top:calc(50% - 4.5px)}
 }
+
+/* ---- 第4段：読み物のページ（info-page） ---- */
+/* About・Our Mission・利用規約・画像の出典・広告枠のご案内と、見つからないページ（render.js の page() が info-page と info-<名前> を付ける）。
+   編集者・路線・検索の .text-page には付けないので、ここはその六枚だけに効く。並びと名前はそのまま、肌だけ紙・墨・金に。
+   紙は平らに：以前の上から下への薄いにじみは、短いページ（Our Mission・広告枠・404）の途中で切れて段に見えていた。
+   見出しは明朝の太字に、下に ◆ の罫。パソコンは以前のまま、紙の列の真ん中に 760px の一列 */
+.info-page{background:var(--paper)}
+.info-page .content{background:none;padding-bottom:48px}
+.info-page .content h2{margin:0 0 16px;font-size:28px;line-height:1.28;font-weight:700;letter-spacing:-.01em;color:var(--ink)}
+.info-page .content h2::after{content:"";display:block;height:9px;margin-top:16px;background:var(--rule-d)}
+.info-page .content .lead{margin-bottom:18px;line-height:1.9}
+.info-page .content p,.info-page .content li{line-height:1.95}
+/* 節の見出し：右へ金の細い線が薄れながら伸びる。見出しが長いときは線のほうが縮む（文字は折り返さない） */
+.info-page .content h3{display:flex;align-items:center;gap:12px;margin:32px 0 12px;font-size:19px;line-height:1.4;font-weight:700;color:var(--ink)}
+.info-page .content h3::after{content:"";flex:1 1 24px;height:1px;background:linear-gradient(90deg,rgba(169,119,23,.75),rgba(169,119,23,.12))}
+.info-page .content li::marker{color:var(--gold)}
+/* 文中のリンク（利用規約の送り先の案内など）：紺の字に細い下線 */
+.info-page .content p a{color:var(--navy);text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:3px;text-decoration-color:rgba(10,31,58,.5)}
+/* About の運営の欄：紙の上に一段浮かぶ札 */
+.info-page .content .org{padding:14px 16px;border:1px solid var(--hair);border-radius:6px;background:var(--paper-card)}
+
+/* Our Mission：辿る・読む・創るの三つを札に。番号は紺の丸に明るい金、名前は金の字（紙の上の小さな金は --gold-ink。色は app.css） */
+.info-page .steps{margin:24px 0 0;padding:0;list-style:none;counter-reset:st}
+.info-page .content .steps li{position:relative;min-height:64px;margin:0 0 10px;padding:12px 14px 12px 64px;border:1px solid var(--hair);border-radius:6px;
+  background:var(--paper-card);box-shadow:var(--card-shadow);line-height:1.7;text-align:left;counter-increment:st}
+.info-page .steps li::before{content:counter(st);position:absolute;left:14px;top:13px;width:36px;height:36px;border-radius:50%;
+  background:var(--navy);color:var(--gold-lite);font:700 17px/36px var(--mincho);text-align:center}
+.info-page .steps b{display:block;min-width:0;margin:0 0 1px;font:700 16px/1.5 var(--mincho)}
+/* 結びの一行：左右に金の細い線。字は以前の 12px のまま一行に置き、線は余った幅だけ伸びる
+   （線に先に幅を取らせると、字のほうが折り返される）。375px より狭い携帯では余りが数 px なので線は出さず、字だけ真ん中に */
+.info-page .content .motto{display:flex;align-items:center;justify-content:center;gap:12px;margin:30px 0 8px;text-align:center}
+.info-page .motto::before,.info-page .motto::after{content:"";flex:1 1 0;height:1px;background:rgba(169,119,23,.6)}
+@media (max-width:374px){.info-page .motto::before,.info-page .motto::after{display:none}}
+
+/* 画像の出典：一枚の札の中に行を並べる。作品名は明朝の太字（下線なし）、出典のリンクは紺に金の下線。
+   文中のリンクの決まり（p a）はここには掛からない。パソコンでは二列に（116 行あるので、ページが 4 割ほど短くなる） */
+.info-page .content .credits{margin:22px 0 0;border:1px solid var(--hair);border-radius:6px;background:var(--paper-card);box-shadow:var(--card-shadow)}
+.info-page .content .credits li{margin:0;padding:12px 16px;border-top:1px solid var(--hair);line-height:1.55}
+.info-page .content .credits li:first-child{border-top:0}
+.info-page .content .credits li>a{color:var(--ink);font:700 14px/1.5 var(--mincho);text-decoration:none}
+.info-page .content .credits small{color:var(--muted);font:11.5px/1.65 var(--gothic)}
+.info-page .content .credits small a{color:var(--navy);white-space:nowrap;text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:3px;text-decoration-color:var(--gold)}   /* 「出典」の二文字を行で割らない */
+
+/* 広告枠のご案内・見つからないページ：ページでただ一つの行き先は、紺の丸い棒（高さ 48。シートの紺のボタンと同じ形）。› は白で右端に */
+.info-ad .tease,.info-404 .tease{display:flex;align-items:center;justify-content:center;max-width:360px;min-height:48px;margin-top:22px;padding:12px 48px;
+  border:0;border-radius:999px;background:var(--navy);box-shadow:none;color:#fff;font:700 13px/1.5 var(--gothic);text-align:center}
+.info-ad .tease span,.info-404 .tease span{right:14px;background:none;box-shadow:none;color:#fff;font-size:20px}
+@media (hover:hover) and (pointer:fine){.info-ad .tease:hover,.info-404 .tease:hover{background:var(--navy-hover)}}
+/* 見つからないページ（携帯・タブレット）：真ん中にそろえる（棒も少し短く、真ん中に）。パソコンは列の左のまま */
+@media (max-width:1099px){
+  .info-404 .content h2,.info-404 .content .lead,.info-404 .content .after{text-align:center}
+  .info-404 .tease{max-width:300px;margin-left:auto;margin-right:auto}
+}
+@media (min-width:1100px){
+  .info-page .content h2{margin-bottom:20px;font-size:40px;line-height:1.25}
+  .info-page .content h2::after{margin-top:20px}
+  .info-page .content .lead{font-size:16px;line-height:1.95}
+  .info-page .content p,.info-page .content li{line-height:2}
+  .info-page .content h3{margin-top:40px;font-size:22px}
+  /* Our Mission の三つは横に並べる（辿る・読む・創るの順はそのまま）。番号の丸は名前の上に */
+  .info-page .steps{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+  .info-page .content .steps li{min-height:0;margin:0;padding:16px 16px 18px}
+  .info-page .steps li::before{position:static;display:block;margin:0 0 10px}
+  .info-page .content .credits{display:grid;grid-template-columns:1fr 1fr}
+  .info-page .content .credits li:nth-child(2){border-top:0}
+  .info-page .content .credits li:nth-child(odd){border-right:1px solid var(--hair)}
+}
