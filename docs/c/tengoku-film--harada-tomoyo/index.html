@@ -41,9 +41,9 @@ try { if (sessionStorage.getItem('bc-resume')) document.documentElement.classLis
 <link rel="preload" as="image" href="img/logo-layer-words.png">
 <!-- 台本も先に取りに行く（静的なページは台本より先に本文が描かれる。遅い回線で、触れて動くまでの間を縮める）。
      src と同じアドレス（?v= まで）でないと、二度取りに行く -->
-<link rel="preload" as="script" href="js/seed.js?v=141">
-<link rel="preload" as="script" href="js/app.js?v=141">
-<link rel="manifest" href="manifest.webmanifest?v=141">
+<link rel="preload" as="script" href="js/seed.js?v=142">
+<link rel="preload" as="script" href="js/app.js?v=142">
+<link rel="manifest" href="manifest.webmanifest?v=142">
 <link rel="apple-touch-icon" href="icon-180.png">
 <!-- タブと検索結果に出る小さな印。アプリの印（ホーム画面のアイコン）と同じ形 -->
 <link rel="icon" href="favicon.ico" sizes="16x16 32x32 48x48">
@@ -72,11 +72,11 @@ if (location.hostname === 'beautifulcontext.com'){
   document.head.appendChild(ga);
 }
 </script>
-<script src="js/theme.js?v=141"></script>
-<link rel="stylesheet" href="app.css?v=141">
+<script src="js/theme.js?v=142"></script>
+<link rel="stylesheet" href="app.css?v=142">
 <!-- 読む画面の使い勝手（2026.10.24）。app.css のすぐあと -->
-<link rel="stylesheet" href="ux.css?v=141">
-<link rel="stylesheet" href="fade.css?v=141">
+<link rel="stylesheet" href="ux.css?v=142">
+<link rel="stylesheet" href="fade.css?v=142">
 <!-- 台本（js）が揃うまで：まだ押しても動かないもの（‹・絵の横の ‹ ›・つながりを辿る）を少し薄くし、下の帯の上の縁に細い金の線を走らせる。
      app.js が最後に body.app-ready を付けて外す。すぐ揃うときは何も見せない（0.3 秒待ってから出す） -->
 <style>
@@ -388,16 +388,16 @@ document.addEventListener('click', function (e) {
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 <script type="application/ld+json" id="ld">{"@context":"https://schema.org","@type":"Article","headline":"亡き父の言葉を頼りに、少女は南の島へ向かう。","alternativeHeadline":"主演","about":[{"@type":"Movie","name":"天国にいちばん近い島","description":"亡き父から聞いた「天国にいちばん近い島」を探して、ニューカレドニアへ旅立つ少女の物語。主演は原田知世。","creator":{"@type":"Person","name":"大林宣彦監督"}},{"@type":"Person","name":"原田知世","description":"1983年、大林宣彦監督『時をかける少女』で映画に主演。大林監督の『天国にいちばん近い島』にも主演し、歌手としても活動を続けている。"}],"author":{"@type":"Person","name":"生成AI（初稿）"},"datePublished":"2026-09-14T08:10:00.000Z","dateModified":"2026-09-14T08:10:00.000Z","inLanguage":"ja","articleBody":"大林宣彦監督のもとで、原田知世は二年続けて主演した。原田知世は1983年7月公開の『時をかける少女』（大林宣彦監督、角川春樹事務所製作）で、映画に初主演した。その翌年、1984年12月15日に公開されたのが、同じ監督のもとで主演した『天国にいちばん近い島』である。亡き父の言葉を頼りに、南の島へ向かう少女。原作の森村桂『天国にいちばん近い島』は、著者自身のニューカレドニア旅行を描いた旅行記だが、映画はまったく別の筋の物語で、主人公は父を亡くした高校生・桂木万里である。前田先生の note は、若い女性が飛行機で海外を旅するという映画の設定を、原作の旅があった1964年には考えられなかったことだと指摘している。その万里を原田知世が演じ、同名の主題歌も歌った。主題歌は公開に先立つ1984年10月にシングルとして発売され、オリコン週間ランキングで1位になっている。","url":"https://beautifulcontext.com/c/tengoku-film--harada-tomoyo/","citation":[{"@type":"CreativeWork","name":"FILM | O3 Harada Tomoyo Official Site","url":"https://haradatomoyo.com/profile/film/","publisher":{"@type":"Organization","name":"原田知世 公式サイト（O3 Harada Tomoyo Official Site）"}},{"@type":"CreativeWork","name":"『天国に近い島』という蜃気楼","url":"https://note.com/mdkh/n/ndb1c39d07e16","publisher":{"@type":"Organization","name":"note（前田邦宏）"}},{"@type":"CreativeWork","name":"原田知世 - Wikipedia","url":"https://ja.wikipedia.org/wiki/%E5%8E%9F%E7%94%B0%E7%9F%A5%E4%B8%96","publisher":{"@type":"Organization","name":"Wikipedia"}},{"@type":"CreativeWork","name":"時をかける少女 (1983年の映画) - Wikipedia","url":"https://ja.wikipedia.org/wiki/%E6%99%82%E3%82%92%E3%81%8B%E3%81%91%E3%82%8B%E5%B0%91%E5%A5%B3_%281983%E5%B9%B4%E3%81%AE%E6%98%A0%E7%94%BB%29","publisher":{"@type":"Organization","name":"Wikipedia"}},{"@type":"CreativeWork","name":"天国にいちばん近い島 : 作品情報・キャスト・あらすじ - 映画.com","url":"https://eiga.com/movie/37981/","publisher":{"@type":"Organization","name":"映画.com"}},{"@type":"CreativeWork","name":"天国にいちばん近い島 (映画) - Wikipedia","url":"https://ja.wikipedia.org/wiki/%E5%A4%A9%E5%9B%BD%E3%81%AB%E3%81%84%E3%81%A1%E3%81%B0%E3%82%93%E8%BF%91%E3%81%84%E5%B3%B6_%28%E6%98%A0%E7%94%BB%29","publisher":{"@type":"Organization","name":"Wikipedia"}},{"@type":"CreativeWork","name":"大林宣彦 - Wikipedia","url":"https://ja.wikipedia.org/wiki/%E5%A4%A7%E6%9E%97%E5%AE%A3%E5%BD%A6","publisher":{"@type":"Organization","name":"Wikipedia"}}],"image":"https://beautifulcontext.com/img/works/tengoku-film.jpg"}</script>
 
-<script src="js/config.js?v=141"></script>
-<script src="js/seed.js?v=141"></script>
-<script src="js/sources.js?v=141"></script>
-<script src="js/backend.js?v=141"></script>
-<script src="js/store.js?v=141"></script>
-<script src="js/social.js?v=141"></script>
-<script src="js/render.js?v=141"></script>
-<script src="js/login.js?v=141"></script>
-<script src="js/report.js?v=141"></script>
-<script src="js/transition.js?v=141"></script>
-<script src="js/app.js?v=141"></script>
+<script src="js/config.js?v=142"></script>
+<script src="js/seed.js?v=142"></script>
+<script src="js/sources.js?v=142"></script>
+<script src="js/backend.js?v=142"></script>
+<script src="js/store.js?v=142"></script>
+<script src="js/social.js?v=142"></script>
+<script src="js/render.js?v=142"></script>
+<script src="js/login.js?v=142"></script>
+<script src="js/report.js?v=142"></script>
+<script src="js/transition.js?v=142"></script>
+<script src="js/app.js?v=142"></script>
 </body>
 </html>

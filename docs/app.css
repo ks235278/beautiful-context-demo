@@ -249,7 +249,7 @@ body.viewing .dock-brand{display:none}
 body.viewing .uni{display:none}
 /* 携帯では、ページの後ろに回路の絵を残さない。iPhone は触れている間やスクロール中に
    描き終わっていない所から、後ろの固定した層を一瞬見せることがあるため、見せる物自体を置かない */
-@media (max-width:759px){body.viewing #bg{visibility:hidden}}
+@media (max-width:759.98px){body.viewing #bg{visibility:hidden}}
 .view{display:none;position:relative;z-index:35;min-height:100vh;background:var(--paper);color:var(--ink)}
 .view.on{display:block}
 /* 絵を運ばずに開くときだけ、ページを静かに浮かべる（一度きり。あとで外す） */
@@ -721,12 +721,15 @@ body.on-list .view-in{background:#000;padding-bottom:0}
     padding:56px 30px 28px}
   .cpage>.back-close,.wpage>.back-close{grid-column:1;grid-row:1;position:sticky;top:14px;margin:14px 0 0 14px;z-index:9}
   .cpage>.context-lead,.cpage>.context-body,.wpage>.content{grid-column:2}
-  .cpage>.context-lead{grid-row:1;padding:56px 48px 30px}
+  .cpage>.context-lead{grid-row:1;padding:56px 48px 30px;container-type:inline-size}
   .cpage>.context-body{grid-row:2;padding:34px 48px 48px}
   .wpage>.content{grid-row:1;min-height:calc(100vh - var(--dockh));padding:64px 48px 48px}
   .duo-hero .duo{width:100%;max-width:calc((100vh - var(--dockh) - 120px) * 1.47);margin:0 auto}
   .duo-hero .ctx-nav.prev{left:10px}.duo-hero .ctx-nav.next{right:10px}
+  /* 見出しは 2 行に。本文の列が 12em（336px）より細いとき（およそ 1100〜1430px）は、見出しだけ左右の余白に最大 24px ずつはみ出させ、
+     それでも 1 行 11 字が入らないとき（およそ 1100〜1260px）は字を小さくする。広い幅では 12em・28px・中央のまま */
   .context-lead h2{font-size:28px}
+  .cpage>.context-lead h2{font-size:min(28px,(100cqi + 48px) / 11.05);margin-inline:max(-24px,(100cqi - 12em) / 2)}
   .context-body h2{font-size:24px}
   .context-body p,.context-body ul,.context-body ol,.wpage .content p{font-size:15px;line-height:2}
   .wpage .content h2{font-size:27px}
@@ -854,7 +857,7 @@ html[data-theme="white"] .tag,html[data-theme="white"] .uni-title{text-shadow:0 
   --hero-join:0 10px 18px -6px rgba(6,12,23,.45);   /* 絵の面から紙へ落ちる影（硬い境を和らげる） */
 }
 /* 携帯・タブレット：絵の面は紺寄りの暗い段階、下の紙に短い影 */
-@media (max-width:1099px){
+@media (max-width:1099.98px){
   .duo-hero{background:linear-gradient(var(--hero-m-top),var(--hero-m-bottom));box-shadow:var(--hero-join)}
 }
 /* タブレット・パソコン：地球の上に掛ける暗さを薄く（見える範囲を広げる） */

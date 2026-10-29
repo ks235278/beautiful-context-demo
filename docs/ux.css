@@ -15,7 +15,7 @@ body.direct .back-close::after,body[data-route]:not(.app-ready) .back-close::aft
    最初の画面（Today の一本目）は左上に ≡・右上に Login のまま。ほかのページは左上が ‹ なので、≡ は右上に、同じ丸で。
    ロゴ・絵の横の ‹ › より上（.menu-btn は z-index 50）。指の届く範囲は 44px */
 .menu-btn::after{content:"";position:absolute;inset:-3px}
-@media (max-width:1099px){
+@media (max-width:1099.98px){
   body.viewing:not(.at-root) .menu-btn{opacity:1;visibility:visible;left:auto;right:10px;top:calc(env(safe-area-inset-top) + 10px);
     width:38px;height:38px;gap:4px;border-radius:50%;background:rgba(0,0,0,.42);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);
     transition:opacity .25s ease,transform .25s ease,visibility 0s linear 0s}
@@ -26,7 +26,7 @@ body.direct .back-close::after,body[data-route]:not(.app-ready) .back-close::aft
   body.viewing.on-today:not(.at-root) .menu-btn{left:10px;right:auto}
 }
 /* タブレット：紙の列の右上（窓の端ではなく）。Today は列の左上（app.css の at-root と同じ） */
-@media (min-width:760px) and (max-width:1099px){
+@media (min-width:760px) and (max-width:1099.98px){
   body.viewing:not(.at-root) .menu-btn{right:calc(50% - var(--col) / 2 + 10px)}
   body.viewing.on-today:not(.at-root) .menu-btn{left:calc(50% - var(--col) / 2 + 10px);right:auto}
 }
@@ -34,7 +34,7 @@ body.direct .back-close::after,body[data-route]:not(.app-ready) .back-close::aft
 /* ---------- 読み下ろしているあいだは、上に浮かぶ ‹ と ≡ を引っ込める（携帯・タブレット） ----------
    body.scrolled-down（app.js）：下へ読み進めているとき。少し上へ戻せば、すぐ出る（iPhone の Safari の帯と同じ）。
    開いているメニューの ✕ は引っ込めない。パソコンの見開きでは ‹ は絵の列にあり文字に重ならないので、そのまま */
-@media (max-width:1099px){
+@media (max-width:1099.98px){
   body.scrolled-down .back-close,
   body.scrolled-down.viewing:not(.at-root):not(.on-today) .menu-btn[aria-expanded="false"]{opacity:0;transform:translateY(-10px);pointer-events:none}
 }

@@ -41,9 +41,9 @@ try { if (sessionStorage.getItem('bc-resume')) document.documentElement.classLis
 <link rel="preload" as="image" href="img/logo-layer-words.png">
 <!-- 台本も先に取りに行く（静的なページは台本より先に本文が描かれる。遅い回線で、触れて動くまでの間を縮める）。
      src と同じアドレス（?v= まで）でないと、二度取りに行く -->
-<link rel="preload" as="script" href="js/seed.js?v=141">
-<link rel="preload" as="script" href="js/app.js?v=141">
-<link rel="manifest" href="manifest.webmanifest?v=141">
+<link rel="preload" as="script" href="js/seed.js?v=142">
+<link rel="preload" as="script" href="js/app.js?v=142">
+<link rel="manifest" href="manifest.webmanifest?v=142">
 <link rel="apple-touch-icon" href="icon-180.png">
 <!-- タブと検索結果に出る小さな印。アプリの印（ホーム画面のアイコン）と同じ形 -->
 <link rel="icon" href="favicon.ico" sizes="16x16 32x32 48x48">
@@ -72,11 +72,11 @@ if (location.hostname === 'beautifulcontext.com'){
   document.head.appendChild(ga);
 }
 </script>
-<script src="js/theme.js?v=141"></script>
-<link rel="stylesheet" href="app.css?v=141">
+<script src="js/theme.js?v=142"></script>
+<link rel="stylesheet" href="app.css?v=142">
 <!-- 読む画面の使い勝手（2026.10.24）。app.css のすぐあと -->
-<link rel="stylesheet" href="ux.css?v=141">
-<link rel="stylesheet" href="fade.css?v=141">
+<link rel="stylesheet" href="ux.css?v=142">
+<link rel="stylesheet" href="fade.css?v=142">
 <!-- 台本（js）が揃うまで：まだ押しても動かないもの（‹・絵の横の ‹ ›・つながりを辿る）を少し薄くし、下の帯の上の縁に細い金の線を走らせる。
      app.js が最後に body.app-ready を付けて外す。すぐ揃うときは何も見せない（0.3 秒待ってから出す） -->
 <style>
@@ -388,16 +388,16 @@ document.addEventListener('click', function (e) {
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 <script type="application/ld+json" id="ld">{"@context":"https://schema.org","@type":"Article","headline":"着想の日の回想に、ラスコーリニコフの名。","alternativeHeadline":"アウトサイダーの系譜","about":[{"@type":"Book","name":"アウトサイダー","description":"社会の中に居場所を見いだせない人間＝アウトサイダーを、カミュ、ドストエフスキー、ゴッホらの作品と生涯からたどった評論。20代半ばのデビュー作がベストセラーになった。","creator":{"@type":"Person","name":"コリン・ウィルソン"}},{"@type":"Person","name":"ドストエフスキー","description":"ロシアの作家。『罪と罰』『カラマーゾフの兄弟』などで、人間の内面と信仰を深く描いた。"}],"author":{"@type":"Person","name":"生成AI（初稿）"},"datePublished":"2026-09-30T04:50:00.000Z","dateModified":"2026-09-30T04:50:00.000Z","inLanguage":"ja","articleBody":"『アウトサイダー』の着想は、ラスコーリニコフに自分を重ねた日に生まれた。コリン・ウィルソンの『アウトサイダー』（1956）は、社会の外側に立つ作家や芸術家、思想家たちを論じた本だ。そのなかで、ドストエフスキーも取り上げられている。ウィルソン自身の回想によれば、1954年のクリスマス、彼は一人きりの部屋で日記を書きはじめた。社会から完全に切り離された自分は、好きな小説の登場人物たちと同じ立場にいる。ドストエフスキーのラスコーリニコフ、リルケ『マルテの手記』のマルテ、ハムスン『飢え』の若い作家。それを書き進めるうちに、これは一冊の本になると気づいた。日記の後ろのページの冒頭には、「文学におけるアウトサイダー」という本のためのノートと書きつけた。『罪と罰』のラスコーリニコフは、非凡な人間には法を踏み越える権利があると考えて老婆を殺し、やがて社会から切り離されていく。ウィルソンが自分の姿を重ねたのは、そうして孤立していく青年だったとも読める。","url":"https://beautifulcontext.com/c/the-outsider--fyodor-dostoevsky/","citation":[{"@type":"CreativeWork","name":"Crime and Punishment","url":"https://www.gutenberg.org/files/2554/2554-h/2554-h.htm","publisher":{"@type":"Organization","name":"Project Gutenberg"}},{"@type":"CreativeWork","name":"Colin Wilson","url":"https://en.wikipedia.org/wiki/Colin_Wilson","publisher":{"@type":"Organization","name":"Wikipedia"}},{"@type":"CreativeWork","name":"コリン・ウィルソン","url":"https://ja.wikipedia.org/wiki/%E3%82%B3%E3%83%AA%E3%83%B3%E3%83%BB%E3%82%A6%E3%82%A3%E3%83%AB%E3%82%BD%E3%83%B3","publisher":{"@type":"Organization","name":"Wikipedia"}},{"@type":"CreativeWork","name":"Crime and Punishment","url":"https://en.wikipedia.org/wiki/Crime_and_Punishment","publisher":{"@type":"Organization","name":"Wikipedia"}}],"image":"https://beautifulcontext.com/img/works/the-outsider.jpg"}</script>
 
-<script src="js/config.js?v=141"></script>
-<script src="js/seed.js?v=141"></script>
-<script src="js/sources.js?v=141"></script>
-<script src="js/backend.js?v=141"></script>
-<script src="js/store.js?v=141"></script>
-<script src="js/social.js?v=141"></script>
-<script src="js/render.js?v=141"></script>
-<script src="js/login.js?v=141"></script>
-<script src="js/report.js?v=141"></script>
-<script src="js/transition.js?v=141"></script>
-<script src="js/app.js?v=141"></script>
+<script src="js/config.js?v=142"></script>
+<script src="js/seed.js?v=142"></script>
+<script src="js/sources.js?v=142"></script>
+<script src="js/backend.js?v=142"></script>
+<script src="js/store.js?v=142"></script>
+<script src="js/social.js?v=142"></script>
+<script src="js/render.js?v=142"></script>
+<script src="js/login.js?v=142"></script>
+<script src="js/report.js?v=142"></script>
+<script src="js/transition.js?v=142"></script>
+<script src="js/app.js?v=142"></script>
 </body>
 </html>
