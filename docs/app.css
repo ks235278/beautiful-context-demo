@@ -352,9 +352,13 @@ body.viewing .uni{display:none}
 .tease{position:relative;display:block;width:100%;margin-top:17px;padding:12px 52px 12px 14px;border:1px solid var(--hair);border-radius:6px;
   background:var(--paper-card);box-shadow:var(--card-shadow);color:var(--ink);
   text-align:left;text-decoration:none;font:700 12.5px/1.5 var(--gothic);cursor:pointer}
-.tease span{position:absolute;right:12px;top:50%;display:grid;place-items:center;width:28px;height:28px;margin-top:-14px;border-radius:50%;
+.tease>span[aria-hidden="true"]{position:absolute;right:12px;top:50%;display:grid;place-items:center;width:28px;height:28px;margin-top:-14px;border-radius:50%;
   padding-bottom:2px;background:#fff;box-shadow:0 0 0 1px var(--hair);color:var(--navy);font:400 18px/1 "Lato",var(--gothic)}   /* › は字の中心が低いので 2px 上げる */
-.tease[data-step="1"] span{background:var(--navy);box-shadow:none;color:#fff}
+.tease[data-step="1"]>span[aria-hidden="true"]{background:var(--navy);box-shadow:none;color:#fff}
+/* 札の中の、途中で折らない字のかたまり（render.js の tease() の .nb：作品の名前と「とのコンテクストを見る」）。
+   一行に入るなら、ひとかたまりで次の行へ（flow.css の .rel span と同じ）。札の幅より長い名前だけは、名前の中で折れる（はみ出さない・切れない）。
+   上の › の丸の決まりは › だけ（aria-hidden の span）に掛ける */
+.tease .nb{display:inline-block;max-width:100%;overflow-wrap:anywhere}
 .tease + .tease{margin-top:8px}
 .more-label{margin-top:28px !important}
 

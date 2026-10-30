@@ -68,7 +68,8 @@ img{display:block}
 .lead{flex:1 1 auto;min-height:0;padding:24px 22px 0;
   opacity:.5;transform:translateY(10px);transition:opacity .7s ease .05s,transform .9s cubic-bezier(.2,.7,.2,1) .05s}
 .card.on .lead{opacity:1;transform:none}
-.route{margin:0 0 10px;color:var(--gold-ink);font:700 11px/1.4 var(--gothic);letter-spacing:.14em}
+/* 大文字の英字の札（CONTEXT・CONTEXT STORY）は、読む画面（app.css の .meta・.route-label）と同じ Lato。和文はゴシックのまま */
+.route{margin:0 0 10px;color:var(--gold-ink);font:700 11px/1.4 "Lato",var(--gothic);letter-spacing:.14em}
 /* 見出し。--n は一番長い行の字数（flow.js）。その行が一行に収まる大きさまで小さくする（途中で折らない） */
 .hl{margin:0;color:var(--ink);font:700 clamp(24px,7.6vw,32px)/1.46 var(--mincho);letter-spacing:.01em;text-wrap:balance;
   font-size:min(clamp(24px,7.6vw,32px),calc((100vw - 48px) / var(--n,10) * .97))}
@@ -156,7 +157,7 @@ img{display:block}
 .x:active{background:var(--gold-wash)}
 .body{flex:1 1 auto;min-height:0;overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;
   padding:8px 24px calc(var(--sab) + 44px);font-family:var(--mincho)}
-.body .meta{margin:0 0 14px;padding-right:40px;color:var(--gold-ink);font:700 11px/1.5 var(--gothic);letter-spacing:.14em}
+.body .meta{margin:0 0 14px;padding-right:40px;color:var(--gold-ink);font:700 11px/1.5 "Lato",var(--gothic);letter-spacing:.14em}   /* 英字は Lato（上の .route と同じ） */
 .body h2{margin:0 0 16px;font:700 21px/1.55 var(--mincho);letter-spacing:.01em}
 .body h3{margin:24px 0 8px;font:700 16px/1.5 var(--mincho)}
 .body p{margin:0 0 14px;font-size:14px;line-height:2;text-align:justify}

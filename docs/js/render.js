@@ -111,17 +111,29 @@
   /* TOP へ戻るロゴ（作品・コンテクストは絵の上、ほかのページは紙の上）。紙の上では紺のロゴ */
   const topLogo = (cls) => `<a class="c-logo${cls ? ' ' + cls : ''}" href="#/" data-top aria-label="BEAUTIFUL CONTEXT（TOP へ戻る）"><img src="img/${(cls || '').split(' ').includes('on-paper') ? 'logo-navy' : 'logo'}.png" alt=""></a>`;
 
-  /* ほかの区間への導線。demo-1 の「〜とのコンテクストを見る ›」と同じ形 */
+  /* ほかの区間への導線。demo-1 の「〜とのコンテクストを見る ›」と同じ形。
+     text はふつうの文字（ここで逃がす）か、下の pairText・seeText が作ったもの（{ html, label }） */
   function tease(href, text, step){
+    const t = text && text.html != null ? text.html : esc(text);
+    const al = text && text.label != null ? ` aria-label="${attr(text.label)}"` : '';
     return step != null
-      ? `<button type="button" class="tease" data-step="${step}">${esc(text)} <span aria-hidden="true">›</span></button>`
-      : `<a class="tease" href="${attr(href)}">${esc(text)} <span aria-hidden="true">›</span></a>`;
+      ? `<button type="button" class="tease" data-step="${step}"${al}>${t} <span aria-hidden="true">›</span></button>`
+      : `<a class="tease" href="${attr(href)}"${al}>${t} <span aria-hidden="true">›</span></a>`;
   }
+  /* 札の字の中の作品の名前は、途中で折らない（以前は「…天国と地|獄』」「…コンテクス|トを見る」と、名前や言葉の途中で折れていた）。
+     行の途中から始まるかたまりを <span class="nb"> に包む（app.css の .tease .nb：一行に入るなら、ひとかたまりで次の行へ）。
+     ・「A ＋ B」は B を包む。A は札の行の頭から始まるので、一行に入る長さなら包まなくても折れない
+     ・「X とのコンテクストを見る」は言い回しを包む。X は行の頭から始まるので包まない
+     折れるのは ＋ のまわりと、名前と言い回しのあいだだけ。札の幅より長い名前だけは、名前の中で折れる（B なら次の行の頭から）。
+     包みの前後に空白が無いと、Chrome は読み上げる名前に空白を足すので、aria-label で包む前と同じ字にしておく */
+  const nb = (s) => `<span class="nb">${esc(s)}</span>`;
+  const pairText = (a, b) => ({ html: `${esc(a.title)} ＋ ${nb(b.title)}`, label: `${a.title} ＋ ${b.title}` });
+  const seeText = (w) => ({ html: `${esc(w.title)}${nb('とのコンテクストを見る')}`, label: `${w.title}とのコンテクストを見る` });
 
   /* 同じ作品をルーツに共有するコンテクスト */
   function roots(e, list){
     if (!list.length) return '';
-    return list.map(x => tease(pathOf('c', x.context.slug), `${x.a.title} ＋ ${x.b.title}`)).join('');
+    return list.map(x => tease(pathOf('c', x.context.slug), pairText(x.a, x.b))).join('');
   }
 
   /* 広告枠。コンテクストページの読み終わりに一枠だけ置く（記事単位の出稿枠） */
@@ -176,7 +188,7 @@
     const other = e ? e[side === 'a' ? 'b' : 'a'] : null;
     const others = hit.contexts.filter(x => !e || x.entry.id !== e.id);
     const more = others.map(({ entry, side: sd }) =>
-      tease(pathOf('c', entry.context.slug), `${entry[sd === 'a' ? 'b' : 'a'].title}とのコンテクストを見る`)).join('');
+      tease(pathOf('c', entry.context.slug), seeText(entry[sd === 'a' ? 'b' : 'a']))).join('');
     /* 作品ページもコンテクストページと同じ形に（BC修正要望 2026.10.22「全ての Content は Context に」）。
        左にその作品、右はまだ誰も結んでいない席：＋ でエディターを開き、この作品から新しいつながりを創る */
     return `
@@ -189,7 +201,7 @@
           <h2>${esc(w.title)}</h2>
           ${w.creator ? `<p class="by">${esc(w.creator)}</p>` : ''}
           ${w.summary ? `<p>${esc(w.summary)}</p>` : ''}
-          ${e ? tease(null, `${other.title}とのコンテクストを見る`, 1) : ''}
+          ${e ? tease(null, seeText(other), 1) : ''}
           ${more ? `<p class="meta more-label">この駅から延びるほかの区間　${others.length}本</p>${more}` : ''}
           ${credit(w)}
         </div>
@@ -467,7 +479,7 @@
   /* ---------- 検索 ---------- */
   function search(q, res){
     const ctx = res.contexts.map(e =>
-      tease(pathOf('c', e.context.slug), `${e.a.title} ＋ ${e.b.title}`)).join('');
+      tease(pathOf('c', e.context.slug), pairText(e.a, e.b))).join('');
     const works = res.works.map(({ work: w }) =>
       `<a class="chip" href="${attr(pathOf('w', w.slug))}"><span class="h">#</span>${esc(tagText(w))}</a>`).join('');
     const none = !res.contexts.length && !res.works.length;

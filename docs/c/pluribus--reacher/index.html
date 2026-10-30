@@ -43,9 +43,9 @@ try { if (sessionStorage.getItem('bc-resume')) document.documentElement.classLis
 <link rel="preload" as="image" href="img/logo-layer-words.png">
 <!-- 台本も先に取りに行く（静的なページは台本より先に本文が描かれる。遅い回線で、触れて動くまでの間を縮める）。
      src と同じアドレス（?v= まで）でないと、二度取りに行く -->
-<link rel="preload" as="script" href="js/seed.js?v=150">
-<link rel="preload" as="script" href="js/app.js?v=150">
-<link rel="manifest" href="manifest.webmanifest?v=150">
+<link rel="preload" as="script" href="js/seed.js?v=151">
+<link rel="preload" as="script" href="js/app.js?v=151">
+<link rel="manifest" href="manifest.webmanifest?v=151">
 <link rel="apple-touch-icon" href="icon-180.png">
 <!-- タブと検索結果に出る小さな印。アプリの印（ホーム画面のアイコン）と同じ形 -->
 <link rel="icon" href="favicon.ico" sizes="16x16 32x32 48x48">
@@ -74,13 +74,13 @@ if (location.hostname === 'beautifulcontext.com'){
   document.head.appendChild(ga);
 }
 </script>
-<script src="js/theme.js?v=150"></script>
-<link rel="stylesheet" href="app.css?v=150">
+<script src="js/theme.js?v=151"></script>
+<link rel="stylesheet" href="app.css?v=151">
 <!-- 読む画面の使い勝手（2026.10.24）。app.css のすぐあと -->
-<link rel="stylesheet" href="ux.css?v=150">
-<link rel="stylesheet" href="fade.css?v=150">
+<link rel="stylesheet" href="ux.css?v=151">
+<link rel="stylesheet" href="fade.css?v=151">
 <!-- editorial-ink（紙・墨・金）：◆ の罫と、紙の上か絵の上かで変わる決まり。ux.css のあと -->
-<link rel="stylesheet" href="ink.css?v=150">
+<link rel="stylesheet" href="ink.css?v=151">
 <!-- 台本（js）が揃うまで：まだ押しても動かないもの（‹・絵の横の ‹ ›・つながりを辿る）を少し薄くし、下の帯の上の縁に細い金の線を走らせる。
      app.js が最後に body.app-ready を付けて外す。すぐ揃うときは何も見せない（0.3 秒待ってから出す） -->
 <style>
@@ -228,7 +228,7 @@ document.addEventListener('click', function (e) {
         </form>
         <p class="cm-note">送るときに、名前を一つ作ります。コメントは編集者が確かめてから表示されます。</p>
       </section>
-          <p class="meta more-label">同じルーツのコンテクスト</p><a class="tease" href="c/pluribus--parasyte/">ヴィンス・ギリガン『プルリブス』 ＋ 岩明均『寄生獣』 <span aria-hidden="true">›</span></a><a class="tease" href="c/highest-2-lowest--pluribus/">『HIGHEST 2 LOWEST』 ＋ ヴィンス・ギリガン『プルリブス』 <span aria-hidden="true">›</span></a><a class="tease" href="c/breaking-bad--pluribus/">ドラマ『ブレイキング・バッド』 ＋ ヴィンス・ギリガン『プルリブス』 <span aria-hidden="true">›</span></a>
+          <p class="meta more-label">同じルーツのコンテクスト</p><a class="tease" href="c/pluribus--parasyte/" aria-label="ヴィンス・ギリガン『プルリブス』 ＋ 岩明均『寄生獣』">ヴィンス・ギリガン『プルリブス』 ＋ <span class="nb">岩明均『寄生獣』</span> <span aria-hidden="true">›</span></a><a class="tease" href="c/highest-2-lowest--pluribus/" aria-label="『HIGHEST 2 LOWEST』 ＋ ヴィンス・ギリガン『プルリブス』">『HIGHEST 2 LOWEST』 ＋ <span class="nb">ヴィンス・ギリガン『プルリブス』</span> <span aria-hidden="true">›</span></a><a class="tease" href="c/breaking-bad--pluribus/" aria-label="ドラマ『ブレイキング・バッド』 ＋ ヴィンス・ギリガン『プルリブス』">ドラマ『ブレイキング・バッド』 ＋ <span class="nb">ヴィンス・ギリガン『プルリブス』</span> <span aria-hidden="true">›</span></a>
           
       <aside class="c-ad" aria-label="広告">
         <a href="#/ad">
@@ -393,16 +393,16 @@ document.addEventListener('click', function (e) {
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 <script type="application/ld+json" id="ld">{"@context":"https://schema.org","@type":"Article","headline":"誰も味方がいなくても、一人で立つ。","alternativeHeadline":"たった一人で","about":[{"@type":"CreativeWork","name":"プルリブス","description":"『ブレイキング・バッド』のヴィンス・ギリガンが手がけた Apple TV+ のドラマ。人々の心がひとつに溶け合っていく世界で、それに加わらない一人の女性を描く。","creator":{"@type":"Person","name":"ヴィンス・ギリガン"}},{"@type":"CreativeWork","name":"リーチャー 正義のアウトロー","description":"リー・チャイルドの小説シリーズを原作にしたドラマ。元軍人のジャック・リーチャーが、ひとりで各地の事件に立ち向かう。","creator":{"@type":"Person","name":"リー・チャイルド原作"}}],"author":{"@type":"Person","name":"生成AI（初稿）"},"datePublished":"2026-09-15T03:30:00.000Z","dateModified":"2026-09-15T03:30:00.000Z","inLanguage":"ja","articleBody":"意味の上での近さから結ばれた区間。『リーチャー』のジャック・リーチャーは、家も持たずに各地を渡り歩き、行く先々で出会った不正に一人で立ち向かう。『プルリブス』の主人公は、心がひとつになった世界で、ただ一人それに加わらない。ひとつは拳で、ひとつは拒むことで。まったく違う物語が、「大勢の側に入らない一人」を主人公にしている点で並ぶ。どちらも、配信の時代に生まれたシリーズ作品である。","url":"https://beautifulcontext.com/c/pluribus--reacher/","citation":[{"@type":"CreativeWork","name":"The Hard Way","url":"https://www.penguin.co.uk/books/333830/the-hard-way-by-lee-child/9781846576102","publisher":{"@type":"Organization","name":"Penguin Books"}},{"@type":"CreativeWork","name":"Apple TV debuts trailer for Vince Gilligan’s highly anticipated drama “Pluribus,” starring Emmy Award nominee Rhea Seehorn","url":"https://www.apple.com/tv-pr/news/2025/10/apple-tv-debuts-trailer-for-vince-gilligans-highly-anticipated-drama-pluribus-starring-emmy-award-nominee-rhea-seehorn","publisher":{"@type":"Organization","name":"Apple TV Press"}},{"@type":"CreativeWork","name":"Prime Videoで『リーチャー 〜正義のアウトロー〜』シーズン4とスピンオフ『ニーグリー』の配信が決定","url":"https://news.mynavi.jp/article/20260804-4774118/","publisher":{"@type":"Organization","name":"マイナビニュース"}},{"@type":"CreativeWork","name":"「“幸福”に満ちた新世界から取り残されて――「ブレイキング・バッド」生みの親が仕掛ける「プルリブス」は先が気になってしかたがない【ハリウッドコラムvol.369】」","url":"https://eiga.com/news/20251113/33/","publisher":{"@type":"Organization","name":"映画.com"}}],"image":"https://beautifulcontext.com/img/works/pluribus.jpg"}</script>
 
-<script src="js/config.js?v=150"></script>
-<script src="js/seed.js?v=150"></script>
-<script src="js/sources.js?v=150"></script>
-<script src="js/backend.js?v=150"></script>
-<script src="js/store.js?v=150"></script>
-<script src="js/social.js?v=150"></script>
-<script src="js/render.js?v=150"></script>
-<script src="js/login.js?v=150"></script>
-<script src="js/report.js?v=150"></script>
-<script src="js/transition.js?v=150"></script>
-<script src="js/app.js?v=150"></script>
+<script src="js/config.js?v=151"></script>
+<script src="js/seed.js?v=151"></script>
+<script src="js/sources.js?v=151"></script>
+<script src="js/backend.js?v=151"></script>
+<script src="js/store.js?v=151"></script>
+<script src="js/social.js?v=151"></script>
+<script src="js/render.js?v=151"></script>
+<script src="js/login.js?v=151"></script>
+<script src="js/report.js?v=151"></script>
+<script src="js/transition.js?v=151"></script>
+<script src="js/app.js?v=151"></script>
 </body>
 </html>
