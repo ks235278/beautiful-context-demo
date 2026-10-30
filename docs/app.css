@@ -85,7 +85,7 @@ html[data-theme="white"] #bg .pcb-w,html[data-theme="white"] .uni-frame .fr-w{tr
 #bg .veil{position:absolute;inset:0;background:var(--ground);opacity:0;transition:opacity .9s ease}
 body:not(.stage-intro) #bg .veil{opacity:.14}   /* 構成図の UniverseIt! は表紙とほぼ同じ明るさ。文字が読める分だけ落とす */
 
-/* ---------- 右上のメニュー（≡） ---------- */
+/* ---------- 左上のメニュー（≡） ---------- */
 /* 起動の絵（apple-touch-startup-image）にはメニューの印がないので、開いてから静かに出す */
 .menu-btn{animation:menuIn .5s ease .5s backwards}
 @keyframes menuIn{from{opacity:0}}
@@ -322,6 +322,9 @@ body.viewing .uni{display:none}
 .back-close svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
 /* 絵や暗い帯の上の ‹ ≡ ‹ › は半透明の紺に白い細い縁。紙の上（読み物）では紺の丸に白（ぼかしは要らない） */
 .text-page .back-close{background:var(--navy);box-shadow:none;-webkit-backdrop-filter:none;backdrop-filter:none;color:#fff}
+/* 携帯・タブレットでは左上は ≡（10〜48px。ux.css）。‹ はそのすぐ右に、あいだを 12px あけて置く
+   （指の届く範囲も、≡ は外へ 3px で 7〜51px、‹ は外へ 8px で 52px から、と重ならない）。パソコンは以前のまま（見開きでは絵の列の左上） */
+@media (max-width:1099px){.back-close{margin-left:60px}}
 
 /* 絵 */
 .art{position:relative;overflow:hidden;aspect-ratio:672/1000;color:#fff;background:#0a1f3a}
@@ -364,12 +367,16 @@ body.viewing .uni{display:none}
 .c-logo img{display:block;height:24px;width:auto}
 .c-logo:active{opacity:.7}
 .c-logo.on-paper{top:calc(env(safe-area-inset-top) + 16px)}
-/* 幅の狭い携帯（375px 未満）で ‹ に TODAY を添えたとき（ux.css の body.direct ほか）：ロゴを少しだけ小さくして、‹ TODAY とのあいだを 9px あける。
-   以前は 360px で 1px しかなく紺の二つが付いて見え、320px では重なっていた。ロゴは真ん中のまま。
-   7.35 はロゴの横と縦の比（2205×300）、199px は左右それぞれ「‹ TODAY の右の端（90.5px）＋あいだ 9px」。375px で元の 24px に戻る。
-   375px 以上と、‹ が丸だけのときは以前のまま */
-@media (max-width:374px){
-  body.direct .c-logo img,body[data-route]:not(.app-ready) .c-logo img{height:clamp(16px,calc((100vw - 199px) / 7.35),24px)}
+/* 携帯・タブレットの上の帯は、左から ≡・‹（直接開いたページは ‹ TODAY）・ロゴ（≡ は ux.css、‹ は上の .back-close）。
+   ロゴは真ん中。‹ とのあいだが 8px 取れない幅のときだけ、取れる所まで右へ寄せる（iPhone の題と同じ。足りる幅では真ん中のまま）。
+   ・丸の ‹：右の端は 98px（60＋38）。ロゴの真ん中を 194.2px（98＋8＋ロゴの幅の半分 88.2）より左にしない（幅 388px までは少し右へ。375px で 7px、320px で 34px）
+   ・‹ TODAY（ux.css の body.direct ほか）：右の端は 140.5px（Lato）。字が替わって少し伸びても 8px は残るよう、ロゴの左の端を 151px に。
+     そこから右の端まで 10px 残らない狭い携帯（337px 未満。320px で高さ 21.6px）は、ロゴを小さくする（16px まで）
+   ロゴの横は縦の 7.35 倍（2205×300）：高さ 24px で幅 176.4px。ロゴの右には ≡ も Login も無い。パソコンではロゴを出さない（下の 1100px〜） */
+@media (max-width:1099px){
+  .c-logo{left:max(50%,194.2px)}
+  body.direct .c-logo,body[data-route]:not(.app-ready) .c-logo{left:max(50%,calc(151px + min(88.2px,(100vw - 161px) / 2)))}
+  body.direct .c-logo img,body[data-route]:not(.app-ready) .c-logo img{height:clamp(16px,calc((100vw - 161px) / 7.35),24px)}
 }
 .duo{position:relative;display:grid;grid-template-columns:1fr 1fr;gap:7px}
 .duo .art{aspect-ratio:3/4.08}
@@ -558,7 +565,7 @@ body.edging .underlay{will-change:transform}
   font:700 10px/1.6 var(--gothic);letter-spacing:.08em}
 
 /* ---------- Today's Editor's Choice ---------- */
-/* 最初の画面だけ、左上にメニュー（ほかのページでは ‹ が来る場所） */
+/* 最初の画面の左上にメニュー。ほかのページの ≡ も同じ所・同じ丸（ux.css）で、‹ はその右（.back-close） */
 body.viewing.at-root .menu-btn{opacity:1;visibility:visible;left:10px;top:calc(env(safe-area-inset-top) + 10px);
   width:38px;height:38px;gap:4px;border-radius:50%;background:rgba(10,31,58,.6);box-shadow:inset 0 0 0 1px rgba(255,255,255,.18);
   -webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px)}

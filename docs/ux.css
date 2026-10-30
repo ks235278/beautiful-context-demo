@@ -12,24 +12,24 @@ body.direct .back-close::before,body[data-route]:not(.app-ready) .back-close::be
 body.direct .back-close::after,body[data-route]:not(.app-ready) .back-close::after{content:"TODAY";position:static;inset:auto;font:700 10px/1 "Lato",sans-serif;letter-spacing:.14em}
 
 /* ---------- ≡ ：どのページからもメニューへ（携帯・タブレット） ----------
-   最初の画面（Today の一本目）は左上に ≡・右上に Login のまま。ほかのページは左上が ‹ なので、≡ は右上に、同じ丸で。
-   ロゴ・絵の横の ‹ › より上（.menu-btn は z-index 50）。指の届く範囲は 44px */
+   ≡ はどの画面でも左上（app.css の .menu-btn）。読む画面では、Today の一本目と同じ所・同じ丸を、どのページにも。右上は Today の Login だけ。
+   ‹ は ≡ のすぐ右に置く（app.css の .back-close）。2026.10.24 からは ‹ に左上を譲って ≡ を右上にしていたが、
+   ページによって ≡ が左右に替わり、左から出るメニューとも反対の側になっていたので、左上に戻した（2026.10.29）。
+   メニューは左から出て、✕ はメニューの上の、≡ と同じ所。
+   ロゴ・絵の横の ‹ › より上（.menu-btn は z-index 50）。指の届く範囲は 44px（‹ の指の届く範囲とは重ならない） */
 .menu-btn::after{content:"";position:absolute;inset:-3px}
 @media (max-width:1099px){
-  body.viewing:not(.at-root) .menu-btn{opacity:1;visibility:visible;left:auto;right:10px;top:calc(env(safe-area-inset-top) + 10px);
+  body.viewing:not(.at-root) .menu-btn{opacity:1;visibility:visible;left:10px;top:calc(env(safe-area-inset-top) + 10px);
     width:38px;height:38px;gap:4px;border-radius:50%;background:rgba(10,31,58,.6);box-shadow:inset 0 0 0 1px rgba(255,255,255,.18);
     -webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);
     transition:opacity .25s ease,transform .25s ease,visibility 0s linear 0s}
   body.viewing:not(.at-root) .menu-btn i{width:17px;background:#fff}
   body.viewing:not(.at-root) .menu-btn[aria-expanded="true"] i:nth-child(1){transform:translateY(6px) rotate(45deg)}
   body.viewing:not(.at-root) .menu-btn[aria-expanded="true"] i:nth-child(3){transform:translateY(-6px) rotate(-45deg)}
-  /* Today の二本目から（‹ を押して戻れる所）も、‹ は無く右上は Login。≡ は一本目と同じ左上 */
-  body.viewing.on-today:not(.at-root) .menu-btn{left:10px;right:auto}
 }
-/* タブレット：紙の列の右上（窓の端ではなく）。Today は列の左上（app.css の at-root と同じ） */
+/* タブレット：紙の列の左上（窓の端ではなく。Today の一本目（app.css の at-root）と同じ所） */
 @media (min-width:760px) and (max-width:1099px){
-  body.viewing:not(.at-root) .menu-btn{right:calc(50% - var(--col) / 2 + 10px)}
-  body.viewing.on-today:not(.at-root) .menu-btn{left:calc(50% - var(--col) / 2 + 10px);right:auto}
+  body.viewing:not(.at-root) .menu-btn{left:calc(50% - var(--col) / 2 + 10px)}
 }
 
 /* ---------- 読み下ろしているあいだは、上に浮かぶ ‹ と ≡ を引っ込める（携帯・タブレット） ----------
