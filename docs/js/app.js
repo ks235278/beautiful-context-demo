@@ -1027,7 +1027,7 @@
       }
     }
     /* 列の下に「つながりを辿る」（見本どおり。下の帯のボタンと同じ働き） */
-    box.innerHTML = `<p class="rm-title">CONTEXT<br>JOURNEY</p><p class="rm-count"><b>${String(i + 1).padStart(3, '0')}</b> / ${T.length}<small>つながりを辿る順</small></p><ol class="rm">${li}</ol>` +
+    box.innerHTML = `<p class="rm-title">CONTEXT<br>JOURNEY</p><ol class="rm">${li}</ol>` +
       `<button type="button" class="rm-next"><img src="img/logo-mark.png" alt=""><span><b>つながりを辿る</b><small>NEXT CONTEXT</small></span><i aria-hidden="true">↓</i></button>`;
     box.querySelector('.rm-next').addEventListener('click', () => uniBtn.click());
   }
