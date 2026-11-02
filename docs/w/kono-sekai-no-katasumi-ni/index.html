@@ -37,7 +37,7 @@ try { if (sessionStorage.getItem('bc-resume')) document.documentElement.classLis
 <link rel="apple-touch-startup-image" media="(device-width: 375px) and (device-height: 667px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" href="img/launch/375x667@2.png">
 <!-- 表紙に最初から出すもの（墨の山の絵とロゴ）は先に読む。描くときに待たせない。
      絵は携帯（縦長に切り出した絵）とタブレット・パソコン（横長の絵）で別。app.css の 760px の境と同じ -->
-<link rel="preload" as="image" href="img/ink-navy.jpg" media="(max-width:759px)">
+<link rel="preload" as="image" href="img/ink-navy.jpg" media="(max-width:759.98px)">
 <link rel="preload" as="image" href="img/ink-navy-wide.jpg" media="(min-width:760px)">
 <link rel="preload" as="image" href="img/logo-layer-mark.png">
 <link rel="preload" as="image" href="img/logo-layer-words.png">
@@ -186,7 +186,7 @@ document.addEventListener('click', function (e) {
 <nav class="route-mini" id="routeMini" aria-label="路線図"></nav>
 
 <div class="view on" id="view" role="dialog" aria-modal="true" aria-label="『この世界の片隅に』">
-  <div class="view-in" id="viewIn">
+  <div class="view-in" id="viewIn"><!--bc-body-->
       <article class="page wpage">
         <button type="button" class="back-close" data-close="" aria-label="Today's Editor's Choice へ戻る" title="Today's Editor's Choice へ"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 4.5 7.5 12l7.5 7.5"></path></svg></button>
         <div class="duo-hero"><a class="c-logo" href="#/" data-top="" aria-label="BEAUTIFUL CONTEXT（TOP へ戻る）"><img src="img/logo.png" alt=""></a><div class="duo"><div class="art"><img src="img/works/kono-sekai-no-katasumi-ni.jpg" alt="『この世界の片隅に』" data-k="kono-sekai-no-katasumi-ni" decoding="async" fetchpriority="low"></div><a class="duo-add" href="editor.html?from=kono-sekai-no-katasumi-ni" aria-label="『この世界の片隅に』から、新しいつながりを創る" title="この作品から、新しいつながりを創る（ReMixIt!・編集者向け）"><span aria-hidden="true">＋</span><small>つながりを創る</small></a></div><button type="button" class="ctx-nav prev" data-ctx-go="-1" aria-label="一つ前のつながりへ">‹</button><button type="button" class="ctx-nav next" data-ctx-go="1" aria-label="次のつながりへ">›</button></div>
@@ -200,13 +200,13 @@ document.addEventListener('click', function (e) {
           <p class="meta more-label">この駅から延びるほかの区間　3本</p><a class="tease" href="c/kono-sekai-no-katasumi-ni--kure/" aria-label="広島県呉市とのコンテクストを見る">広島県呉市<span class="nb">とのコンテクストを見る</span> <span aria-hidden="true">›</span></a><a class="tease" href="c/kono-sekai-no-katasumi-ni--look-back/" aria-label="藤本タツキ『ルックバック』とのコンテクストを見る">藤本タツキ『ルックバック』<span class="nb">とのコンテクストを見る</span> <span aria-hidden="true">›</span></a><a class="tease" href="c/w-eugene-smith--kono-sekai-no-katasumi-ni/" aria-label="W・ユージン・スミスとのコンテクストを見る">W・ユージン・スミス<span class="nb">とのコンテクストを見る</span> <span aria-hidden="true">›</span></a>
           <p class="img-credit">画像：© 2019 こうの史代・コアミックス／「この世界の片隅に」製作委員会／出典 映画.com　<a href="https://eiga.com/movie/82278/" target="_blank" rel="noopener nofollow">出典</a></p>
         </div>
-      </article></div>
+      </article><!--/bc-body--></div>
 </div>
 <!-- 左の端：ここから右へ払うと、ひとつ前の画面へ戻る（指に付いてページが動く） -->
 <div class="edge-back" id="edgeBack" aria-hidden="true"></div>
 
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
-<script type="application/ld+json" id="ld">{"@context":"https://schema.org","@type":"Movie","name":"この世界の片隅に","description":"戦時中の広島と呉を舞台に、絵を描くことが好きな主人公すずの暮らしを描いたアニメーション映画。原作はこうの史代の漫画。","creator":{"@type":"Person","name":"片渕須直監督（原作 こうの史代）"},"url":"https://beautifulcontext.com/w/kono-sekai-no-katasumi-ni/","image":"https://beautifulcontext.com/img/works/kono-sekai-no-katasumi-ni.jpg","subjectOf":[{"@type":"Article","headline":"戦時下の日常は、この歌から始まる。","url":"https://beautifulcontext.com/c/kanashikute-yarikirenai--kono-sekai-no-katasumi-ni/"},{"@type":"Article","headline":"すずは広島から、軍港の町へ嫁いだ。","url":"https://beautifulcontext.com/c/kono-sekai-no-katasumi-ni--kure/"},{"@type":"Article","headline":"描くことを奪われても、描いた日々は消えない。","url":"https://beautifulcontext.com/c/kono-sekai-no-katasumi-ni--look-back/"},{"@type":"Article","headline":"同じ年の戦争を、前線と台所から見た。","url":"https://beautifulcontext.com/c/w-eugene-smith--kono-sekai-no-katasumi-ni/"}]}</script>
+<script type="application/ld+json" id="ld">{"@context":"https://schema.org","@type":"Movie","name":"この世界の片隅に","description":"戦時中の広島と呉を舞台に、絵を描くことが好きな主人公すずの暮らしを描いたアニメーション映画。原作はこうの史代の漫画。","creator":{"@type":"Person","name":"片渕須直監督（原作 こうの史代）"},"url":"https://beautifulcontext.com/w/kono-sekai-no-katasumi-ni/","image":"https://beautifulcontext.com/img/works/kono-sekai-no-katasumi-ni.jpg","subjectOf":[{"@type":"Article","headline":"戦時下の日常は、この歌から始まる。","url":"https://beautifulcontext.com/c/kanashikute-yarikirenai--kono-sekai-no-katasumi-ni/"},{"@type":"Article","headline":"すずは広島から、軍港の町へ嫁いだ。","url":"https://beautifulcontext.com/c/kono-sekai-no-katasumi-ni--kure/"},{"@type":"Article","headline":"描くことが好きな人が、喪失のあとを生きる。","url":"https://beautifulcontext.com/c/kono-sekai-no-katasumi-ni--look-back/"},{"@type":"Article","headline":"同じ年の戦争を、前線と台所から見た。","url":"https://beautifulcontext.com/c/w-eugene-smith--kono-sekai-no-katasumi-ni/"}]}</script>
 
 <script src="js/config.js?v=151"></script>
 <script src="js/seed.js?v=151"></script>

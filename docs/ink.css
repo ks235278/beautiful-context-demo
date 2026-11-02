@@ -54,12 +54,12 @@
    読み物（.text-page：About・案内・検索・路線・編集者・404）では、左上の ≡ は絵ではなく紙の上に浮かぶ。
    紺の丸に白い線（‹ と同じ。ぼかしは要らない）。絵や暗い帯の上では app.css / ux.css の半透明の紺のまま。
    :has を知らない古いブラウザでは、ここは効かず半透明の紺のまま */
-@media (max-width:1099px){
+@media (max-width:1099.98px){
   body.viewing:not(.at-root):has(#viewIn>.text-page) .menu-btn{background:var(--navy);box-shadow:none;-webkit-backdrop-filter:none;backdrop-filter:none}
 }
 
 /* ---------- 携帯のメニュー（紙）：いまいる所に、左の余白へ金の ◆ ---------- */
-@media (max-width:1099px){
+@media (max-width:1099.98px){
   .menu a[aria-current="page"]{position:relative}
   /* 題の一行（17px × 1.25）の真ん中に */
   .menu a[aria-current="page"]::before{content:"";position:absolute;left:-16px;top:calc(14px + 17px * 1.25 / 2 - 4.5px);width:6px;height:9px;background:var(--diamond) center/6px 9px no-repeat}
@@ -114,7 +114,7 @@
 .info-ad .tease span,.info-404 .tease span{right:14px;background:none;box-shadow:none;color:#fff;font-size:20px}
 @media (hover:hover) and (pointer:fine){.info-ad .tease:hover,.info-404 .tease:hover{background:var(--navy-hover)}}
 /* 見つからないページ（携帯・タブレット）：真ん中にそろえる（棒も少し短く、真ん中に）。パソコンは列の左のまま */
-@media (max-width:1099px){
+@media (max-width:1099.98px){
   .info-404 .content h2,.info-404 .content .lead,.info-404 .content .after{text-align:center}
   .info-404 .tease{max-width:300px;margin-left:auto;margin-right:auto}
 }
@@ -173,7 +173,7 @@
    メニューの中身の終わりに付けるので、メニューを下まで送っても山はいちばん下にある（長さは以前のまま）。
    山の高さは 128px：いちばん下の行（利用規約・プライバシー）の字より下に収める。いま開いているページの行は金の字（--gold-ink）になり、
    160px では山の肩がその字の右下に掛かって 4.36:1（320px 幅では 4.23:1）だった。128px なら字の後ろは紙のまま（5.27:1、320〜390px で同じ） */
-@media (max-width:1099px){
+@media (max-width:1099.98px){
   .menu .menu-foot{position:relative;z-index:0}
   .menu .menu-foot::after{content:"";position:absolute;z-index:-1;right:-26px;bottom:calc(-30px - env(safe-area-inset-bottom));width:330px;height:128px;pointer-events:none;
     background:url(img/deco/mist.png) right bottom/auto 100% no-repeat;opacity:.35;

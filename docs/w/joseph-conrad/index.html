@@ -37,7 +37,7 @@ try { if (sessionStorage.getItem('bc-resume')) document.documentElement.classLis
 <link rel="apple-touch-startup-image" media="(device-width: 375px) and (device-height: 667px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" href="img/launch/375x667@2.png">
 <!-- 表紙に最初から出すもの（墨の山の絵とロゴ）は先に読む。描くときに待たせない。
      絵は携帯（縦長に切り出した絵）とタブレット・パソコン（横長の絵）で別。app.css の 760px の境と同じ -->
-<link rel="preload" as="image" href="img/ink-navy.jpg" media="(max-width:759px)">
+<link rel="preload" as="image" href="img/ink-navy.jpg" media="(max-width:759.98px)">
 <link rel="preload" as="image" href="img/ink-navy-wide.jpg" media="(min-width:760px)">
 <link rel="preload" as="image" href="img/logo-layer-mark.png">
 <link rel="preload" as="image" href="img/logo-layer-words.png">
@@ -186,7 +186,7 @@ document.addEventListener('click', function (e) {
 <nav class="route-mini" id="routeMini" aria-label="路線図"></nav>
 
 <div class="view on" id="view" role="dialog" aria-modal="true" aria-label="ジョセフ・コンラッド">
-  <div class="view-in" id="viewIn">
+  <div class="view-in" id="viewIn"><!--bc-body-->
       <article class="page wpage">
         <button type="button" class="back-close" data-close="" aria-label="Today's Editor's Choice へ戻る" title="Today's Editor's Choice へ"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 4.5 7.5 12l7.5 7.5"></path></svg></button>
         <div class="duo-hero"><a class="c-logo" href="#/" data-top="" aria-label="BEAUTIFUL CONTEXT（TOP へ戻る）"><img src="img/logo.png" alt=""></a><div class="duo"><div class="art"><img src="img/works/joseph-conrad.jpg" alt="ジョセフ・コンラッド" data-k="joseph-conrad" decoding="async" fetchpriority="low"></div><a class="duo-add" href="editor.html?from=joseph-conrad" aria-label="ジョセフ・コンラッドから、新しいつながりを創る" title="この作品から、新しいつながりを創る（ReMixIt!・編集者向け）"><span aria-hidden="true">＋</span><small>つながりを創る</small></a></div><button type="button" class="ctx-nav prev" data-ctx-go="-1" aria-label="一つ前のつながりへ">‹</button><button type="button" class="ctx-nav next" data-ctx-go="1" aria-label="次のつながりへ">›</button></div>
@@ -200,7 +200,7 @@ document.addEventListener('click', function (e) {
           
           <p class="img-credit">画像：撮影 George Charles Beresford／Public domain／Wikimedia Commons　<a href="https://commons.wikimedia.org/wiki/File:Joseph_Conrad-remastered_to_black_and_white.png" target="_blank" rel="noopener nofollow">出典</a></p>
         </div>
-      </article></div>
+      </article><!--/bc-body--></div>
 </div>
 <!-- 左の端：ここから右へ払うと、ひとつ前の画面へ戻る（指に付いてページが動く） -->
 <div class="edge-back" id="edgeBack" aria-hidden="true"></div>

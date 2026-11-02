@@ -1,0 +1,411 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<base href="../../">
+<!-- 表紙のロゴは「画面」の真ん中に置く（ページの枠ではなく）。iOS 26 のホーム画面から開くと、ページの枠が
+     画面より下で短くなり、枠の真ん中では起動画面のマークより上にずれる。画面の高さを最初の一コマより前に渡す -->
+<script>
+document.documentElement.style.setProperty('--sh', (screen.height || innerHeight) + 'px');
+/* 見えないところで読み直したあと（新しい版への入れ替え）は、離れたときの画面のまま。灯る演出はしない */
+try { if (sessionStorage.getItem('bc-resume')) document.documentElement.classList.add('resume'); } catch (e) {}
+</script>
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,viewport-fit=cover">
+<title>韓国ドラマ『アイリス』 ＋ 乳頭温泉郷「鶴の湯」｜Beautiful Context</title>
+<meta name="description" content="主役二人の温泉デートは秋田の湯宿で撮られた。 韓国ドラマ『アイリス』 と 乳頭温泉郷「鶴の湯」。主人公二人の温泉デートは、秋田の湯宿・鶴の湯で撮られた。『アイリス』は、国家安全局の要員を主人公に、アクションと恋愛を描いた韓国ドラマ。2009年10月に韓国で放送が始まった。秋田ロケはその年の3月、県…">
+<meta name="theme-color" content="#071a30">
+<link rel="canonical" href="https://beautifulcontext.com/c/iris--tsurunoyu/">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://beautifulcontext.com/c/iris--tsurunoyu/">
+<meta property="og:site_name" content="Beautiful Context">
+<meta property="og:title" content="韓国ドラマ『アイリス』 ＋ 乳頭温泉郷「鶴の湯」｜Beautiful Context">
+<meta property="og:description" content="主役二人の温泉デートは秋田の湯宿で撮られた。 韓国ドラマ『アイリス』 と 乳頭温泉郷「鶴の湯」。主人公二人の温泉デートは、秋田の湯宿・鶴の湯で撮られた。『アイリス』は、国家安全局の要員を主人公に、アクションと恋愛を描いた韓国ドラマ。2009年10月に韓国で放送が始まった。秋田ロケはその年の3月、県…">
+<meta property="og:image" content="https://beautifulcontext.com/img/works/iris.jpg">
+<meta name="twitter:card" content="summary">
+<!-- ホーム画面から開くとき、読み込みのあいだに出る起動画面。表紙の最初の一コマ（墨の山の絵とロゴ）と同じ絵
+     （端末ごとの大きさ。iOS は PNG を求める。表紙をその大きさで写したもの。≡ は写さない：表紙では少しあとに出る） -->
+<link rel="apple-touch-startup-image" media="(device-width: 440px) and (device-height: 956px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="img/launch/440x956@3.png">
+<link rel="apple-touch-startup-image" media="(device-width: 402px) and (device-height: 874px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="img/launch/402x874@3.png">
+<link rel="apple-touch-startup-image" media="(device-width: 430px) and (device-height: 932px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="img/launch/430x932@3.png">
+<link rel="apple-touch-startup-image" media="(device-width: 393px) and (device-height: 852px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="img/launch/393x852@3.png">
+<link rel="apple-touch-startup-image" media="(device-width: 420px) and (device-height: 912px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="img/launch/420x912@3.png">
+<link rel="apple-touch-startup-image" media="(device-width: 428px) and (device-height: 926px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="img/launch/428x926@3.png">
+<link rel="apple-touch-startup-image" media="(device-width: 390px) and (device-height: 844px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="img/launch/390x844@3.png">
+<link rel="apple-touch-startup-image" media="(device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="img/launch/375x812@3.png">
+<link rel="apple-touch-startup-image" media="(device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="img/launch/414x896@3.png">
+<link rel="apple-touch-startup-image" media="(device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" href="img/launch/414x896@2.png">
+<link rel="apple-touch-startup-image" media="(device-width: 375px) and (device-height: 667px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" href="img/launch/375x667@2.png">
+<!-- 表紙に最初から出すもの（墨の山の絵とロゴ）は先に読む。描くときに待たせない。
+     絵は携帯（縦長に切り出した絵）とタブレット・パソコン（横長の絵）で別。app.css の 760px の境と同じ -->
+<link rel="preload" as="image" href="img/ink-navy.jpg" media="(max-width:759.98px)">
+<link rel="preload" as="image" href="img/ink-navy-wide.jpg" media="(min-width:760px)">
+<link rel="preload" as="image" href="img/logo-layer-mark.png">
+<link rel="preload" as="image" href="img/logo-layer-words.png">
+<!-- 台本も先に取りに行く（静的なページは台本より先に本文が描かれる。遅い回線で、触れて動くまでの間を縮める）。
+     src と同じアドレス（?v= まで）でないと、二度取りに行く -->
+<link rel="preload" as="script" href="js/seed.js?v=151">
+<link rel="preload" as="script" href="js/app.js?v=151">
+<link rel="manifest" href="manifest.webmanifest?v=151">
+<link rel="apple-touch-icon" href="icon-180.png">
+<!-- タブと検索結果に出る小さな印。アプリの印（ホーム画面のアイコン）と同じ形 -->
+<link rel="icon" href="favicon.ico" sizes="16x16 32x32 48x48">
+<link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
+<!-- ホーム画面から開くと全画面になり、safe-area が 0 でなくなる。
+     そのとき初めて Dynamic Island の裏までページが描ける。 -->
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Beautiful Context">
+<!-- 表紙の BEAUTIFUL CONTEXT は、先生の構成図と同じ Bebas Neue -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<!-- フォントは最初の一コマを待たせない（表紙のロゴは絵。Lato は UniverseIt! が出るまでに届く） -->
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Lato:wght@300;400;700&display=swap" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Lato:wght@300;400;700&display=swap"></noscript>
+<!-- アクセス解析（Google アナリティクス 4）。表示を待たせないよう非同期で読む。何を送るかは 利用規約・プライバシー に書いた。
+     本番のアドレスで開いたときだけ数える（静的なページの書き出しや、手元での確かめは数えない）。
+     ページの表示は app.js が画面の替わるたびに送る（ここで送ると、表紙と # の先の道が数えられない） -->
+<script>
+if (location.hostname === 'beautifulcontext.com'){
+  window.dataLayer = window.dataLayer || [];
+  window.gtag = function(){ dataLayer.push(arguments); };
+  gtag('js', new Date()); gtag('config', 'G-Z955G7G1ZG', { send_page_view: false });
+  var ga = document.createElement('script'); ga.async = true; ga.src = 'https://www.googletagmanager.com/gtag/js?id=G-Z955G7G1ZG';
+  document.head.appendChild(ga);
+}
+</script>
+<script src="js/theme.js?v=151"></script>
+<link rel="stylesheet" href="app.css?v=151">
+<!-- 読む画面の使い勝手（2026.10.24）。app.css のすぐあと -->
+<link rel="stylesheet" href="ux.css?v=151">
+<link rel="stylesheet" href="fade.css?v=151">
+<!-- editorial-ink（紙・墨・金）：◆ の罫と、紙の上か絵の上かで変わる決まり。ux.css のあと -->
+<link rel="stylesheet" href="ink.css?v=151">
+<!-- 台本（js）が揃うまで：まだ押しても動かないもの（‹・絵の横の ‹ ›・つながりを辿る）を少し薄くし、下の帯の上の縁に細い金の線を走らせる。
+     app.js が最後に body.app-ready を付けて外す。すぐ揃うときは何も見せない（0.3 秒待ってから出す） -->
+<style>
+body:not(.app-ready) .back-close,body:not(.app-ready) #uniBtn,body:not(.app-ready) .ctx-nav{animation:bc-dim .2s ease .3s both}
+@keyframes bc-dim{to{opacity:.55}}
+body:not(.app-ready) .dock::before{content:"";position:absolute;z-index:3;left:0;top:0;width:28%;height:2px;border-radius:1px;background:#a97717;
+  animation:bc-show .2s ease .3s both,bc-load 1.1s ease-in-out .3s infinite alternate}
+@keyframes bc-show{from{opacity:0}}
+@keyframes bc-load{from{transform:translateX(0)}to{transform:translateX(257%)}}
+</style>
+</head>
+<body class="stage-uni viewing route" data-route="#/c/iris--tsurunoyu">
+<!-- 台本が届く前に触れた一回を覚えておく（つながりを辿る・‹・絵の横の ‹ ›）。app.js が起き上がったら、その一回を行う。
+     遅い回線で「押したのに何も起きない」を無くす -->
+<script>
+document.addEventListener('click', function (e) {
+  if (document.body.classList.contains('app-ready')) return;
+  var t = e.target && e.target.closest ? e.target.closest('#uniBtn,.back-close,[data-ctx-go]') : null;
+  if (!t) return;
+  e.preventDefault();
+  if (!window.__early) window.__early = t.id === 'uniBtn' ? 'uni' : t.hasAttribute('data-ctx-go') ? (+t.getAttribute('data-ctx-go') > 0 ? 'next' : 'prev') : 'close';
+}, true);
+</script>
+
+<!-- 背景は墨の山（炭）と和紙（白）の絵（以前は先生の構成図 flow0921-2 の画像）。
+     表紙では原寸の濃さ、UniverseIt! からは少しだけ落とす（文字が読める分だけ）。 -->
+<!-- 二つの画面が左右に並ぶ：左 ReMixIt!（A / WHITE）、右 UniverseIt!（B / CHARCOAL）。左右にスライドして入れ替わる -->
+<div id="bg" aria-hidden="true"><div class="pcb pcb-c"></div><div class="pcb pcb-w"></div><div class="veil"></div></div>
+
+<button class="menu-btn" id="menuBtn" type="button" aria-label="メニュー" aria-expanded="false" aria-controls="menu"><i></i><i></i><i></i></button>
+
+<section class="intro" id="intro" aria-label="表紙">
+  <!-- 白（和紙の地）のときは紺のロゴ二枚（words-n・markl-n）に替える。炭のときは読み込まない -->
+  <h1 class="wordmark" id="wordmark" aria-label="BEAUTIFUL CONTEXT"><span class="lockup"><img class="words" src="img/logo-layer-words.png" alt="" decoding="sync"><img class="markl" src="img/logo-layer-mark.png" alt="" decoding="sync"><img class="words-n" src="img/logo-words-navy.png" alt="" loading="lazy"><img class="markl-n" src="img/logo-layer-mark-navy.png" alt="" loading="lazy"></span></h1>
+</section>
+
+<main class="uni" id="uni" aria-label="UniverseIt!">
+  <div class="uni-frame" aria-hidden="true"><i class="fr fr-c"></i><i class="fr fr-w"></i></div>
+  <header class="uni-head" id="uniHead">
+    <h1 class="uni-title"><span class="tt tt-u">UniverseIt!</span><span class="tt tt-r" aria-hidden="true">ReMixIt!</span></h1>
+    <p class="uni-sub"><span class="tt tt-u" id="tagline">言葉から、つながりを辿る。</span><span class="tt tt-r" aria-hidden="true">言葉から、つながりを創る。</span></p>
+    <a class="to-today" href="#/today" data-home>TODAY'S EDITOR'S CHOICE ›</a>
+  </header>
+  <div class="uni-list" id="tags" aria-label="言葉"></div>
+</main>
+
+<div class="dock" id="dock">
+  <div class="map" id="map"></div>
+  <p class="sel-hint" id="selHint" aria-live="polite"></p>
+  <p class="dock-brand" id="dockBrand">BEAUTIFUL CONTEXT</p>
+  <!-- 読む画面（Today・コンテクスト・作品）では NEXT UNIVERSE だけ。戻るのは左の端から右へ払う（iPhone と同じ）か、上の ‹。
+       ReMixIt!（つながりを創る）は編集の側の道具なので、UniverseIt! の画面とメニューに置く -->
+  <!-- パソコン：つながりを辿るの行き先を、絵と題で先に見せる（次のエピソードのように）。触れても同じく次へ -->
+  <button type="button" class="next-peek" id="nextPeek" hidden><span class="np-imgs"></span><span class="np-txt"><small></small><b></b><span></span></span></button>
+  <p class="next-hint" id="nextHint" hidden>→ キーか「つながりを辿る」で、次のつながりへ</p>
+  <div class="actions">
+    <a class="act remix" id="remix" href="editor.html?new=1">
+      <svg viewBox="0 0 32 32" aria-hidden="true"><circle cx="12" cy="16" r="8.5"/><circle cx="20" cy="16" r="8.5"/></svg>
+      <span><b>つながりを創る</b><small>ReMixIt!</small></span>
+    </a>
+    <!-- 次のつながりへ。BEAUTIFUL CONTEXT のマークと「つながりを辿る - Next Context -」（前田先生 2026.10.22） -->
+    <button class="act uni-btn" id="uniBtn" type="button">
+      <img class="act-mark" src="img/logo-mark.png" alt="" aria-hidden="true">
+      <span><b>つながりを辿る</b><small>NEXT CONTEXT</small><small id="uniLabel" hidden></small></span>
+    </button>
+  </div>
+</div>
+
+<nav class="menu" id="menu" aria-label="メニュー" hidden>
+  <!-- パソコンでは、メニューは左にいつも出ている列。その一番上に名前（触れると一覧へ） -->
+  <a class="menu-logo" href="#/list" data-top aria-label="BEAUTIFUL CONTEXT（つながりの一覧へ）"><img src="img/logo.png" alt=""></a>
+  <form class="seek" role="search" data-seek>
+    <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6"/><path d="m15 15 5 5"/></svg>
+    <input type="search" name="q" placeholder="言葉で辿る" enterkeyhint="search" aria-label="言葉で辿る">
+  </form>
+  <a href="#/today" data-home>Today's Editor's Choice<small>今日のつながり</small></a>
+  <!-- About：このメディアが何か（開発会議 2026.10.23 で最優先に） -->
+  <a href="#/about">Beautiful Context とは<small>このメディアについて</small></a>
+  <a href="#/list">つながりの一覧<small>辿る順に、すべてのつながり</small></a>
+  <!-- 一画面に一つのつながり。上へ払うと次へ（先生の道筋とは別の入口） -->
+  <a href="flow.html">縦スクロールで観る<small>一枚ずつ、上へ払って辿る</small></a>
+  <a href="#/" data-uni>UniverseIt!<small>すべての言葉から辿る</small></a>
+  <!-- 編集者向け。ログインしていない読者には、エディターへ移る前に app.js が一度たずねる（data-remix） -->
+  <a href="editor.html?new=1" data-remix>ReMixIt!<small>つながりを創る</small></a>
+  <button type="button" class="menu-account" id="menuAccount" data-login>ログイン<small>アカウントを作る</small></button>
+  <!-- 案内と運営の入口。パソコンでは列の下に小さくまとめる（辿る道の邪魔をしない） -->
+  <div class="menu-foot">
+    <a href="#/mission">Our Mission</a>
+    <a href="#/ad">広告枠のご案内</a>
+    <a href="#/credits">画像の出典</a>
+    <a href="#/terms">利用規約・プライバシー</a>
+    <!-- 運営者メニューは、運営の画面を一度でも開いた端末（localStorage の bc-operator）にだけ。app.js が hidden を外す -->
+    <a href="manage.html" data-operator hidden>運営者メニュー</a>
+    <!-- 地の切り替え。何を切り替えるのかがわかる名前に（A / WHITE・B / CHARCOAL の白と炭） -->
+    <div class="theme-pick" role="group" aria-label="地">
+      <button type="button" data-theme-set="white">画面：ReMixIt!（白）</button>
+      <button type="button" data-theme-set="charcoal">画面：UniverseIt!（炭）</button>
+    </div>
+  </div>
+</nav>
+
+<!-- パソコン：右の余白に、いまの前後の路線図（区間と駅を、つながりを辿ると同じ順に） -->
+<nav class="route-mini" id="routeMini" aria-label="路線図"></nav>
+
+<div class="view on" id="view" role="dialog" aria-modal="true" aria-label="韓国ドラマ『アイリス』 ＋ 乳頭温泉郷「鶴の湯」">
+  <div class="view-in" id="viewIn"><!--bc-body-->
+      <article class="page cpage">
+        <button type="button" class="back-close" data-close="" aria-label="Today's Editor's Choice へ戻る" title="Today's Editor's Choice へ"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 4.5 7.5 12l7.5 7.5"></path></svg></button>
+        <div class="duo-hero"><a class="c-logo" href="#/" data-top="" aria-label="BEAUTIFUL CONTEXT（TOP へ戻る）"><img src="img/logo.png" alt=""></a><div class="duo"><button type="button" class="duo-go" data-step="0" aria-label="韓国ドラマ『アイリス』の作品ページへ"><div class="art"><img src="img/works/iris.jpg" alt="韓国ドラマ『アイリス』" data-k="iris" decoding="async" fetchpriority="low"></div></button><button type="button" class="duo-go" data-step="2" aria-label="乳頭温泉郷「鶴の湯」の作品ページへ"><div class="art"><img src="img/works/tsurunoyu.jpg" alt="乳頭温泉郷「鶴の湯」" data-k="tsurunoyu" decoding="async" fetchpriority="low"></div></button><i class="swap" aria-hidden="true">↔</i></div><button type="button" class="ctx-nav prev" data-ctx-go="-1" aria-label="一つ前のつながりへ">‹</button><button type="button" class="ctx-nav next" data-ctx-go="1" aria-label="次のつながりへ">›</button></div>
+        <section class="context-lead">
+          
+          <div class="ed-row">
+      <a class="ed-link" href="e/desk/"><span class="ava" aria-hidden="true">部</span><span><b>BC 編集部</b><small>EDITORIAL DESK</small></span></a>
+      <button type="button" class="follow" data-follow="desk" aria-pressed="false">フォロー</button></div>
+          <p class="route-label">CONTEXT　［画面の中の湯宿］</p>
+          <h2>主役二人の温泉デートは<br>秋田の湯宿で撮られた。</h2>
+          <div class="pair"><span>韓国ドラマ『アイリス』</span><span>秋田ロケ</span><span>乳頭温泉郷「鶴の湯」</span></div>
+          <button type="button" class="read" data-read="">このつながりを読む<small>約1分</small><span aria-hidden="true">↓</span></button>
+          <i class="story-cue" aria-hidden="true"></i>
+        </section>
+        <article class="context-body" id="story">
+          <p class="meta">CONTEXT STORY</p>
+          <h2>主人公二人の温泉デートは、秋田の湯宿・鶴の湯で撮られた。</h2><p>『アイリス』は、国家安全局の要員を主人公に、アクションと恋愛を描いた韓国ドラマ。2009年10月に韓国で放送が始まった。秋田ロケはその年の3月、県内の約20カ所で行われている。</p><p>2009年12月の記念パネル展（北秋田市商工会・仙北市商工会主催）には、田沢湖や乳頭温泉などのロケ写真43点が並んだ。鶴の湯については、秋田県観光連盟の「IRIS 秋田ロケ地を巡る旅マップ」が、二人の温泉デートの場面を撮った宿として載せていた。韓国の京郷新聞も2010年3月の旅行記で同じ場所を紹介し、入口にはロケ地を知らせる看板と、二人の場面のかまくらがあると記す。2013年の韓国の旅行記事も、乳頭温泉郷を入浴場面の撮影地としている。</p><p>鶴の湯は、寛永15年（1638年）に二代目秋田藩主・佐竹義隆が湯治に訪れたといわれる宿。茅葺き屋根の本陣は、そのとき警護の者が詰めた建物だという。京郷新聞の旅行記はもう一つ、温泉の場面で脱衣所の入口に使われたのが、田沢湖畔のたつこ像に近い公衆トイレだったとも書く。撮影のときは表示を外し、「鳥の湯」の看板だけを掛けたという。湯宿と湖が、ひとつの場面の中でつながっている。</p>
+          
+      <section class="axes" aria-label="このつながりの型と評価">
+        <p class="meta">このつながり<span class="agm">生成AIの初稿・編集者の確認前</span></p>
+        <p class="ax-kind"><span>型<b>事実</b></span><span>ハブ<b>秋田ロケ</b></span></p>
+        <dl class="ax"><div><dt>意外性</dt><dd aria-label="4 / 5"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i></dd></div><div><dt>共感度</dt><dd aria-label="4 / 5"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i></dd></div><div><dt>コンテンツ性</dt><dd aria-label="4 / 5"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i></dd></div><div><dt>世界観近似性</dt><dd aria-label="3 / 5"><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i></dd></div></dl>
+      </section>
+          
+          
+          <section class="refs" aria-label="参考・出典">
+            <p class="meta">参考・出典</p>
+            <ol><li><a href="https://www.city.kitaakita.akita.jp/archive/contents-3851" target="_blank" rel="noopener">人気韓流ドラマのパネル展開幕</a><small>北秋田市</small></li><li><a href="https://web.archive.org/web/20110812200212/http://www.akitafan.com/iris/senboku/mapmore/map_more06.html" target="_blank" rel="noopener">IRIS 秋田ロケ地を巡る旅マップ（6 乳頭温泉郷 鶴の湯温泉）</a><small>秋田県観光連盟「あきたファンドッとコム」（Internet Archive 保存・2011年8月12日）</small></li><li><a href="http://www.tsurunoyu.com/FONDMENT/t-annai.html" target="_blank" rel="noopener">ご案内｜秋田県の秘湯、乳頭温泉郷の鶴の湯温泉</a><small>鶴の湯温泉（公式）</small></li><li><a href="https://www.khan.co.kr/article/201003171612002" target="_blank" rel="noopener">겨울 설경과 온천, 그리고 휴식의 기행, 아키타(秋田)</a><small>京郷新聞（韓国・2010年3月17日付）</small></li><li><a href="https://www.twig24.com/news/travel-news/2013/09/12/20130912020001" target="_blank" rel="noopener">우윳빛 보드라운 온천수 푸르러 고즈넉한 숲그늘</a><small>Twig24（韓国・2013年9月12日付）</small></li></ol>
+          </section>
+          <p class="byline">BC 編集部　·　2026/9/28</p>
+          
+      <section class="comments" id="comments" data-ctx="seed-iris--tsurunoyu">
+        <p class="meta">COMMENTS<span class="cm-n">0</span></p>
+        <p class="cm-empty">まだコメントはありません。このつながりについて、最初のひとことを。</p>
+        
+        <form class="cm-form" data-comment="seed-iris--tsurunoyu">
+          <textarea name="text" rows="2" maxlength="600" placeholder="このつながりについて、思ったことを" aria-label="コメント"></textarea>
+          <button type="submit">送る</button>
+        </form>
+        <p class="cm-note">送るときに、名前を一つ作ります。コメントは編集者が確かめてから表示されます。</p>
+      </section>
+          <p class="meta more-label">同じルーツのコンテクスト</p><a class="tease" href="c/tazawako--tsurunoyu/" aria-label="田沢湖 ＋ 乳頭温泉郷「鶴の湯」">田沢湖 ＋ <span class="nb">乳頭温泉郷「鶴の湯」</span> <span aria-hidden="true">›</span></a><a class="tease" href="c/iris--tazawako/" aria-label="韓国ドラマ『アイリス』 ＋ 田沢湖">韓国ドラマ『アイリス』 ＋ <span class="nb">田沢湖</span> <span aria-hidden="true">›</span></a><a class="tease" href="c/tsurunoyu--nakoikan/" aria-label="乳頭温泉郷「鶴の湯」 ＋ 小天温泉『那古井館』">乳頭温泉郷「鶴の湯」 ＋ <span class="nb">小天温泉『那古井館』</span> <span aria-hidden="true">›</span></a>
+          
+      <aside class="c-ad" aria-label="広告">
+        <a href="#/ad">
+          <img class="c-ad-img" src="img/ad-hands.jpg" alt="" loading="lazy" decoding="async">
+          <span class="ad-mark">AD</span>
+          <span class="ad-copy"><b>この場所に、作品の広告を。</b><small>映画・音楽・書籍・イベント ── 広告枠のご案内</small></span>
+        </a>
+      </aside>
+          <p class="img-credit">画像：© 2009 TAEWON ENTERTAINMENT.（映画版『アイリス THE LAST』）／出典 映画.com　<a href="https://eiga.com/movie/55869/" target="_blank" rel="noopener nofollow">出典</a></p><p class="img-credit">画像：撮影 Fumiaki Yoshimatsu／CC BY-SA 2.0／Wikimedia Commons　<a href="https://commons.wikimedia.org/wiki/File:Tsurunoyu_Onsen_03.jpg" target="_blank" rel="noopener nofollow">出典</a></p>
+          
+          <section class="ctx-rail" aria-label="この先のつながり">
+            <p class="meta more-label">この先のつながり</p>
+            <ol class="rail" id="rail">
+        <li class="stop first">
+          
+          
+          <a class="fstop" href="w/tsurunoyu/">
+            <span class="st-img"><img src="img/works/tsurunoyu.jpg" alt="乳頭温泉郷「鶴の湯」" data-k="tsurunoyu" loading="lazy" decoding="async"></span>
+            <span class="st-txt"><small>宿</small>
+              <b>乳頭温泉郷「鶴の湯」</b><span>秋田県の乳頭温泉郷でもっとも古いとされる湯宿。茅葺き屋根の長屋と白濁の湯で知られる。</span></span>
+          </a>
+        </li>
+        <li class="stop">
+          
+          <a class="seg" href="c/tsurunoyu--nakoikan/">
+            
+            <small>［湯宿と物語］　似ている</small>
+            <b><span class="seg-copy">小説に描かれた湯と、山奥に守られた湯。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
+          <a class="fstop" href="w/nakoikan/?c=tsurunoyu--nakoikan">
+            <span class="st-img"><img src="img/nakoikan.jpg" alt="小天温泉『那古井館』" data-k="nakoikan" loading="lazy" decoding="async"></span>
+            <span class="st-txt"><small>宿・1868年</small>
+              <b>小天温泉『那古井館』</b><span>明治元年創業を掲げる、熊本・小天温泉の宿。</span></span>
+          </a>
+        </li>
+        <li class="stop">
+          
+          <a class="seg" href="c/kusamakura--nakoikan/">
+            
+            <small>［小説の舞台を訪ねる］　事実</small>
+            <b><span class="seg-copy">「那古井」は、地図の上にもあった。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
+          <a class="fstop" href="w/kusamakura/?c=kusamakura--nakoikan">
+            <span class="st-img"><img src="img/kusamakura.jpg" alt="夏目漱石『草枕』" data-k="kusamakura" loading="lazy" decoding="async"></span>
+            <span class="st-txt"><small>書籍・1906年</small>
+              <b>夏目漱石『草枕』</b><span>「智に働けば角が立つ。情に棹させば流される。」で始まる、画工が非人情の世界を求めて旅する小説。</span></span>
+          </a>
+        </li>
+        <li class="stop">
+          
+          <a class="seg" href="c/glenn-gould--kusamakura/">
+            
+            <small>［非人情という共通言語］　事実</small>
+            <b><span class="seg-copy">枕元にあった二冊は、聖書と『草枕』だった。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
+          <a class="fstop" href="w/glenn-gould/?c=glenn-gould--kusamakura">
+            <span class="st-img"><img src="img/gould.jpg" alt="グレン・グールド" data-k="glenn-gould" loading="lazy" decoding="async"></span>
+            <span class="st-txt"><small>人物・1932年</small>
+              <b>グレン・グールド</b><span>バッハ演奏で知られ、クラシック音楽における「演奏とは何か」という考え方そのものを変えた20世紀を代表するピアニスト。</span></span>
+          </a>
+        </li>
+        <li class="stop">
+          
+          <a class="seg" href="c/glenn-gould--goldberg-variations/">
+            
+            <small>［デビューと再録音］　事実</small>
+            <b><span class="seg-copy">デビュー盤と同じ曲を、死の前年に録り直した。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
+          <a class="fstop" href="w/goldberg-variations/?c=glenn-gould--goldberg-variations">
+            <span class="st-img"><img src="img/works/goldberg-variations.jpg" alt="バッハ『ゴールドベルク変奏曲』" data-k="goldberg-variations" loading="lazy" decoding="async"></span>
+            <span class="st-txt"><small>音楽・1741年</small>
+              <b>バッハ『ゴールドベルク変奏曲』</b><span>アリアと30の変奏からなる鍵盤作品。1741年ごろに出版された。グレン・グールドの1955年の録音によって、20世紀に広く聴かれる曲になった。</span></span>
+          </a>
+        </li>
+        <li class="stop">
+          
+          <a class="seg" href="c/goldberg-variations--brad-mehldau/">
+            
+            <small>［バッハを経由して］　ハブ</small>
+            <b><span class="seg-copy">ゴールドベルクの主題にジャズ奏者が応えた。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
+          <a class="fstop" href="w/brad-mehldau/?c=goldberg-variations--brad-mehldau">
+            <span class="st-img"><img src="img/works/brad-mehldau.jpg" alt="ブラッド・メルドー" data-k="brad-mehldau" loading="lazy" decoding="async"></span>
+            <span class="st-txt"><small>音楽・1970年</small>
+              <b>ブラッド・メルドー</b><span>アメリカのジャズ・ピアニスト。ピアノ・トリオでの演奏のほか、バッハやロックの曲を独自に解釈した録音でも知られる。</span></span>
+          </a>
+        </li>
+        <li class="stop branch">
+          
+          <a class="seg" href="c/kusamakura--natsume-soseki/">
+            <span class="seg-from">草枕 から分岐</span>
+            <small>［旅が生んだ『草枕』］　作者と作品</small>
+            <b><span class="seg-copy">「非人情」の小説には、漱石の芸術論が表れた。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
+          <a class="fstop" href="w/natsume-soseki/?c=kusamakura--natsume-soseki">
+            <span class="st-img"><img src="img/works/natsume-soseki.jpg" alt="夏目漱石" data-k="natsume-soseki" loading="lazy" decoding="async"></span>
+            <span class="st-txt"><small>人物・1867年</small>
+              <b>夏目漱石</b><span>『吾輩は猫である』『坊っちゃん』『草枕』『こころ』の作家。熊本の第五高等学校で教えたのち、1900年から英国に留学した。</span></span>
+          </a>
+        </li>
+        <li class="stop">
+          
+          <a class="seg" href="c/natsume-soseki--zhou-tokyo-diary/">
+            
+            <small>［異国の都の記録］　似ている</small>
+            <b><span class="seg-copy">漱石はロンドンで、周恩来は東京で書いた。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
+          <a class="fstop" href="w/zhou-tokyo-diary/?c=natsume-soseki--zhou-tokyo-diary">
+            <span class="st-img"><img src="img/zhou-diary.jpg" alt="周恩来『十九歳の東京日記』" data-k="zhou-tokyo-diary" loading="lazy" decoding="async"></span>
+            <span class="st-txt"><small>書籍・1918年</small>
+              <b>周恩来『十九歳の東京日記』</b><span>日本に留学していた周恩来が、1918年の東京で書いた日記。日比谷公園、靖国神社、浅草など、19歳の青年が見て回った百年前の東京が記されている。</span></span>
+          </a>
+        </li>
+        <li class="stop">
+          
+          <a class="seg" href="c/kanyoro--zhou-tokyo-diary/">
+            
+            <small>［若き日の東京］　事実</small>
+            <b><span class="seg-copy">百年前の留学生は、神田の街を歩いていた。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
+          <a class="fstop" href="w/kanyoro/?c=kanyoro--zhou-tokyo-diary">
+            <span class="st-img"><img src="img/kanyoro.jpg" alt="中国名菜『漢陽楼』" data-k="kanyoro" loading="lazy" decoding="async"></span>
+            <span class="st-txt"><small>店・1911年</small>
+              <b>中国名菜『漢陽楼』</b><span>明治四十四年創業を掲げる、東京・神田の中国料理店。</span></span>
+          </a>
+        </li>
+        <li class="stop">
+          
+          <a class="seg" href="c/kanyoro--gyoza-sakaba-kachidoki/">
+            
+            <small>［勝鬨と留学生］　ハブ</small>
+            <b><span class="seg-copy">勝どきの名も、漢陽楼も日露戦争とつながる。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
+          <a class="fstop" href="w/gyoza-sakaba-kachidoki/?c=kanyoro--gyoza-sakaba-kachidoki">
+            <span class="st-img"><img src="img/works/gyoza-sakaba-kachidoki.jpg" alt="餃子酒場（勝どき店）" data-k="gyoza-sakaba-kachidoki" loading="lazy" decoding="async"></span>
+            <span class="st-txt"><small>店</small>
+              <b>餃子酒場（勝どき店）</b><span>勝どき駅近くの、焼き餃子と酒の店。</span></span>
+          </a>
+        </li>
+        <li class="stop">
+          
+          <a class="seg" href="c/gyoza-sakaba-kachidoki--daiyame/">
+            
+            <small>［今夜のだいやめ］　似ている</small>
+            <b><span class="seg-copy">「だいやめ」とは、つまり今夜の一杯だ。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
+          <a class="fstop" href="w/daiyame/?c=gyoza-sakaba-kachidoki--daiyame">
+            <span class="st-img"><img src="img/works/daiyame.jpg" alt="芋焼酎『だいやめ DAIYAME』" data-k="daiyame" loading="lazy" decoding="async"></span>
+            <span class="st-txt"><small>酒</small>
+              <b>芋焼酎『だいやめ DAIYAME』</b><span>鹿児島の芋焼酎。ライチを思わせる香りで知られる。名前は、一日の疲れを癒やす晩酌を表す鹿児島の言葉から。</span></span>
+          </a>
+        </li>
+        <li class="stop">
+          
+          <a class="seg" href="c/daiyame--domaine-tetta/">
+            
+            <small>［名前が語る産地］　似ている</small>
+            <b><span class="seg-copy">焼酎の名は晩酌の言葉、ワイナリーの名は地名。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
+          <a class="fstop" href="w/domaine-tetta/?c=daiyame--domaine-tetta">
+            <span class="st-img"><img src="img/works/domaine-tetta.jpg" alt="ドメーヌ・テッタ" data-k="domaine-tetta" loading="lazy" decoding="async"></span>
+            <span class="st-txt"><small>ワイナリー</small>
+              <b>ドメーヌ・テッタ</b><span>岡山県新見市哲多町でぶどうを育て、ワインを造るワイナリー。名前は土地の名から。</span></span>
+          </a>
+        </li></ol>
+            <div class="rail-more" id="railMore" aria-hidden="true"></div>
+          </section>
+          
+          <nav class="c-foot" aria-label="Beautiful Context の案内"><span><a href="about/">Beautiful Context とは</a> ·</span> <span><a href="#/today" data-home="">Today's Editor's Choice</a> ·</span> <span><a href="#/list">つながりの一覧</a> ·</span> <span><a href="#/search">言葉で辿る</a></span></nav>
+        </article>
+      </article><!--/bc-body--></div>
+</div>
+<!-- 左の端：ここから右へ払うと、ひとつ前の画面へ戻る（指に付いてページが動く） -->
+<div class="edge-back" id="edgeBack" aria-hidden="true"></div>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+<script type="application/ld+json" id="ld">{"@context":"https://schema.org","@type":"Article","headline":"主役二人の温泉デートは秋田の湯宿で撮られた。","alternativeHeadline":"画面の中の湯宿","about":[{"@type":"CreativeWork","name":"アイリス","description":"韓国の特殊工作員を主人公にしたアクション・ドラマ。秋田県でのロケが行われ、日本でも話題になった。","creator":{"@type":"Person","name":"イ・ビョンホン主演"}},{"@type":"LodgingBusiness","name":"乳頭温泉郷「鶴の湯」","description":"秋田県の乳頭温泉郷でもっとも古いとされる湯宿。茅葺き屋根の長屋と白濁の湯で知られる。"}],"author":{"@type":"Person","name":"生成AI（初稿）"},"datePublished":"2026-09-28T09:00:00.000Z","dateModified":"2026-09-28T09:00:00.000Z","inLanguage":"ja","articleBody":"主人公二人の温泉デートは、秋田の湯宿・鶴の湯で撮られた。『アイリス』は、国家安全局の要員を主人公に、アクションと恋愛を描いた韓国ドラマ。2009年10月に韓国で放送が始まった。秋田ロケはその年の3月、県内の約20カ所で行われている。2009年12月の記念パネル展（北秋田市商工会・仙北市商工会主催）には、田沢湖や乳頭温泉などのロケ写真43点が並んだ。鶴の湯については、秋田県観光連盟の「IRIS 秋田ロケ地を巡る旅マップ」が、二人の温泉デートの場面を撮った宿として載せていた。韓国の京郷新聞も2010年3月の旅行記で同じ場所を紹介し、入口にはロケ地を知らせる看板と、二人の場面のかまくらがあると記す。2013年の韓国の旅行記事も、乳頭温泉郷を入浴場面の撮影地としている。鶴の湯は、寛永15年（1638年）に二代目秋田藩主・佐竹義隆が湯治に訪れたといわれる宿。茅葺き屋根の本陣は、そのとき警護の者が詰めた建物だという。京郷新聞の旅行記はもう一つ、温泉の場面で脱衣所の入口に使われたのが、田沢湖畔のたつこ像に近い公衆トイレだったとも書く。撮影のときは表示を外し、「鳥の湯」の看板だけを掛けたという。湯宿と湖が、ひとつの場面の中でつながっている。","url":"https://beautifulcontext.com/c/iris--tsurunoyu/","citation":[{"@type":"CreativeWork","name":"人気韓流ドラマのパネル展開幕","url":"https://www.city.kitaakita.akita.jp/archive/contents-3851","publisher":{"@type":"Organization","name":"北秋田市"}},{"@type":"CreativeWork","name":"IRIS 秋田ロケ地を巡る旅マップ（6 乳頭温泉郷 鶴の湯温泉）","url":"https://web.archive.org/web/20110812200212/http://www.akitafan.com/iris/senboku/mapmore/map_more06.html","publisher":{"@type":"Organization","name":"秋田県観光連盟「あきたファンドッとコム」（Internet Archive 保存・2011年8月12日）"}},{"@type":"CreativeWork","name":"ご案内｜秋田県の秘湯、乳頭温泉郷の鶴の湯温泉","url":"http://www.tsurunoyu.com/FONDMENT/t-annai.html","publisher":{"@type":"Organization","name":"鶴の湯温泉（公式）"}},{"@type":"CreativeWork","name":"겨울 설경과 온천, 그리고 휴식의 기행, 아키타(秋田)","url":"https://www.khan.co.kr/article/201003171612002","publisher":{"@type":"Organization","name":"京郷新聞（韓国・2010年3月17日付）"}},{"@type":"CreativeWork","name":"우윳빛 보드라운 온천수 푸르러 고즈넉한 숲그늘","url":"https://www.twig24.com/news/travel-news/2013/09/12/20130912020001","publisher":{"@type":"Organization","name":"Twig24（韓国・2013年9月12日付）"}}],"image":"https://beautifulcontext.com/img/works/iris.jpg"}</script>
+
+<script src="js/config.js?v=151"></script>
+<script src="js/seed.js?v=151"></script>
+<script src="js/sources.js?v=151"></script>
+<script src="js/backend.js?v=151"></script>
+<script src="js/store.js?v=151"></script>
+<script src="js/social.js?v=151"></script>
+<script src="js/render.js?v=151"></script>
+<script src="js/login.js?v=151"></script>
+<script src="js/report.js?v=151"></script>
+<script src="js/transition.js?v=151"></script>
+<script src="js/app.js?v=151"></script>
+</body>
+</html>

@@ -37,7 +37,7 @@ try { if (sessionStorage.getItem('bc-resume')) document.documentElement.classLis
 <link rel="apple-touch-startup-image" media="(device-width: 375px) and (device-height: 667px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" href="img/launch/375x667@2.png">
 <!-- 表紙に最初から出すもの（墨の山の絵とロゴ）は先に読む。描くときに待たせない。
      絵は携帯（縦長に切り出した絵）とタブレット・パソコン（横長の絵）で別。app.css の 760px の境と同じ -->
-<link rel="preload" as="image" href="img/ink-navy.jpg" media="(max-width:759px)">
+<link rel="preload" as="image" href="img/ink-navy.jpg" media="(max-width:759.98px)">
 <link rel="preload" as="image" href="img/ink-navy-wide.jpg" media="(min-width:760px)">
 <link rel="preload" as="image" href="img/logo-layer-mark.png">
 <link rel="preload" as="image" href="img/logo-layer-words.png">
@@ -186,7 +186,7 @@ document.addEventListener('click', function (e) {
 <nav class="route-mini" id="routeMini" aria-label="路線図"></nav>
 
 <div class="view on" id="view" role="dialog" aria-modal="true" aria-label="『MINAMATA』">
-  <div class="view-in" id="viewIn">
+  <div class="view-in" id="viewIn"><!--bc-body-->
       <article class="page wpage">
         <button type="button" class="back-close" data-close="" aria-label="Today's Editor's Choice へ戻る" title="Today's Editor's Choice へ"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 4.5 7.5 12l7.5 7.5"></path></svg></button>
         <div class="duo-hero"><a class="c-logo" href="#/" data-top="" aria-label="BEAUTIFUL CONTEXT（TOP へ戻る）"><img src="img/logo.png" alt=""></a><div class="duo"><div class="art"><img src="img/works/minamata.jpg" alt="『MINAMATA』" data-k="minamata" decoding="async" fetchpriority="low"></div><a class="duo-add" href="editor.html?from=minamata" aria-label="『MINAMATA』から、新しいつながりを創る" title="この作品から、新しいつながりを創る（ReMixIt!・編集者向け）"><span aria-hidden="true">＋</span><small>つながりを創る</small></a></div><button type="button" class="ctx-nav prev" data-ctx-go="-1" aria-label="一つ前のつながりへ">‹</button><button type="button" class="ctx-nav next" data-ctx-go="1" aria-label="次のつながりへ">›</button></div>
@@ -200,13 +200,13 @@ document.addEventListener('click', function (e) {
           <p class="meta more-label">この駅から延びるほかの区間　2本</p><a class="tease" href="c/w-eugene-smith--minamata/" aria-label="W・ユージン・スミスとのコンテクストを見る">W・ユージン・スミス<span class="nb">とのコンテクストを見る</span> <span aria-hidden="true">›</span></a><a class="tease" href="c/merry-christmas-mr-lawrence--minamata/" aria-label="大島渚『戦場のメリークリスマス』とのコンテクストを見る">大島渚『戦場のメリークリスマス』<span class="nb">とのコンテクストを見る</span> <span aria-hidden="true">›</span></a>
           <p class="img-credit">画像：© 2020 MINAMATA FILM, LLC © Larry Horricks／出典 映画.com　<a href="https://eiga.com/movie/94900/" target="_blank" rel="noopener nofollow">出典</a></p>
         </div>
-      </article></div>
+      </article><!--/bc-body--></div>
 </div>
 <!-- 左の端：ここから右へ払うと、ひとつ前の画面へ戻る（指に付いてページが動く） -->
 <div class="edge-back" id="edgeBack" aria-hidden="true"></div>
 
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
-<script type="application/ld+json" id="ld">{"@context":"https://schema.org","@type":"Movie","name":"MINAMATA","description":"水俣病を世界に伝えた写真家W・ユージン・スミスと、アイリーン・美緒子・スミスの水俣での日々を描いた映画。音楽は坂本龍一。","creator":{"@type":"Person","name":"アンドリュー・レヴィタス監督"},"url":"https://beautifulcontext.com/w/minamata/","image":"https://beautifulcontext.com/img/works/minamata.jpg","subjectOf":[{"@type":"Article","headline":"海賊を演じた俳優が、水俣の写真家になった。","url":"https://beautifulcontext.com/c/johnny-depp--minamata/"},{"@type":"Article","headline":"写真が、世界に水俣を伝えた。","url":"https://beautifulcontext.com/c/w-eugene-smith--minamata/"},{"@type":"Article","headline":"同じ作曲家が、40年を隔てて音楽をつけた。","url":"https://beautifulcontext.com/c/merry-christmas-mr-lawrence--minamata/"}]}</script>
+<script type="application/ld+json" id="ld">{"@context":"https://schema.org","@type":"Movie","name":"MINAMATA","description":"水俣病を世界に伝えた写真家W・ユージン・スミスと、アイリーン・美緒子・スミスの水俣での日々を描いた映画。音楽は坂本龍一。","creator":{"@type":"Person","name":"アンドリュー・レヴィタス監督"},"url":"https://beautifulcontext.com/w/minamata/","image":"https://beautifulcontext.com/img/works/minamata.jpg","subjectOf":[{"@type":"Article","headline":"海賊を演じた俳優が、水俣の写真家になった。","url":"https://beautifulcontext.com/c/johnny-depp--minamata/"},{"@type":"Article","headline":"写真が、世界に水俣を伝えた。","url":"https://beautifulcontext.com/c/w-eugene-smith--minamata/"},{"@type":"Article","headline":"37年を隔てて、音楽は同じ作曲家だ。","url":"https://beautifulcontext.com/c/merry-christmas-mr-lawrence--minamata/"}]}</script>
 
 <script src="js/config.js?v=151"></script>
 <script src="js/seed.js?v=151"></script>

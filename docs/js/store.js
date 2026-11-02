@@ -24,7 +24,7 @@
   const B = window.BCBackend && window.BCBackend.enabled() ? window.BCBackend : null;
   const OLD_KEY = 'beautiful-context-store-v1';
   /* 見本を足したら上げる。端末に残っているデータへ、新しい見本だけを足し込む */
-  const SEED_VERSION = 8;
+  const SEED_VERSION = 9;
 
   const DEFAULT_SETTINGS = {
     brand: 'Beautiful Context',
@@ -230,8 +230,10 @@
 
     byContextSlug(slug) {
       const find = (s) => ensure().entries.find((e) => e.context.slug === s) || null;
-      /* 組み直して名前の変わった区間は、古い名前でも新しい区間を返す */
-      return find(slug) || (window.BC_MOVED && window.BC_MOVED[slug] ? find(window.BC_MOVED[slug]) : null);
+      /* 組み直して名前の変わった区間は、古い名前でも新しい区間を返す（移った先がまた移っていたら、たどる。prerender と同じ） */
+      let s = slug;
+      for (let i = 0; i < 10 && !find(s) && window.BC_MOVED && window.BC_MOVED[s]; i++) s = window.BC_MOVED[s];
+      return find(s);
     },
 
     byId(id) {

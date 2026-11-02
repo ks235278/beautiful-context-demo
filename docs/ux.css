@@ -18,7 +18,7 @@ body.direct .back-close::after,body[data-route]:not(.app-ready) .back-close::aft
    メニューは左から出て、✕ はメニューの上の、≡ と同じ所。
    ロゴ・絵の横の ‹ › より上（.menu-btn は z-index 50）。指の届く範囲は 44px（‹ の指の届く範囲とは重ならない） */
 .menu-btn::after{content:"";position:absolute;inset:-3px}
-@media (max-width:1099px){
+@media (max-width:1099.98px){
   body.viewing:not(.at-root) .menu-btn{opacity:1;visibility:visible;left:10px;top:calc(env(safe-area-inset-top) + 10px);
     width:38px;height:38px;gap:4px;border-radius:50%;background:rgba(10,31,58,.6);box-shadow:inset 0 0 0 1px rgba(255,255,255,.18);
     -webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);
@@ -28,14 +28,14 @@ body.direct .back-close::after,body[data-route]:not(.app-ready) .back-close::aft
   body.viewing:not(.at-root) .menu-btn[aria-expanded="true"] i:nth-child(3){transform:translateY(-6px) rotate(-45deg)}
 }
 /* タブレット：紙の列の左上（窓の端ではなく。Today の一本目（app.css の at-root）と同じ所） */
-@media (min-width:760px) and (max-width:1099px){
+@media (min-width:760px) and (max-width:1099.98px){
   body.viewing:not(.at-root) .menu-btn{left:calc(50% - var(--col) / 2 + 10px)}
 }
 
 /* ---------- 読み下ろしているあいだは、上に浮かぶ ‹ と ≡ を引っ込める（携帯・タブレット） ----------
    body.scrolled-down（app.js）：下へ読み進めているとき。少し上へ戻せば、すぐ出る（iPhone の Safari の帯と同じ）。
    開いているメニューの ✕ は引っ込めない。パソコンの見開きでは ‹ は絵の列にあり文字に重ならないので、そのまま */
-@media (max-width:1099px){
+@media (max-width:1099.98px){
   body.scrolled-down .back-close,
   body.scrolled-down.viewing:not(.at-root):not(.on-today) .menu-btn[aria-expanded="false"]{opacity:0;transform:translateY(-10px);pointer-events:none}
 }

@@ -37,7 +37,7 @@ try { if (sessionStorage.getItem('bc-resume')) document.documentElement.classLis
 <link rel="apple-touch-startup-image" media="(device-width: 375px) and (device-height: 667px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" href="img/launch/375x667@2.png">
 <!-- 表紙に最初から出すもの（墨の山の絵とロゴ）は先に読む。描くときに待たせない。
      絵は携帯（縦長に切り出した絵）とタブレット・パソコン（横長の絵）で別。app.css の 760px の境と同じ -->
-<link rel="preload" as="image" href="img/ink-navy.jpg" media="(max-width:759px)">
+<link rel="preload" as="image" href="img/ink-navy.jpg" media="(max-width:759.98px)">
 <link rel="preload" as="image" href="img/ink-navy-wide.jpg" media="(min-width:760px)">
 <link rel="preload" as="image" href="img/logo-layer-mark.png">
 <link rel="preload" as="image" href="img/logo-layer-words.png">
@@ -186,7 +186,7 @@ document.addEventListener('click', function (e) {
 <nav class="route-mini" id="routeMini" aria-label="路線図"></nav>
 
 <div class="view on" id="view" role="dialog" aria-modal="true" aria-label="大島渚『戦場のメリークリスマス』 ＋ ヴァン・デル・ポスト『影の獄にて』">
-  <div class="view-in" id="viewIn">
+  <div class="view-in" id="viewIn"><!--bc-body-->
       <article class="page cpage">
         <button type="button" class="back-close" data-close="" aria-label="Today's Editor's Choice へ戻る" title="Today's Editor's Choice へ"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 4.5 7.5 12l7.5 7.5"></path></svg></button>
         <div class="duo-hero"><a class="c-logo" href="#/" data-top="" aria-label="BEAUTIFUL CONTEXT（TOP へ戻る）"><img src="img/logo.png" alt=""></a><div class="duo"><button type="button" class="duo-go" data-step="0" aria-label="大島渚『戦場のメリークリスマス』の作品ページへ"><div class="art"><img src="img/works/merry-christmas-mr-lawrence.jpg" alt="大島渚『戦場のメリークリスマス』" data-k="merry-christmas-mr-lawrence" decoding="async" fetchpriority="low"></div></button><button type="button" class="duo-go" data-step="2" aria-label="ヴァン・デル・ポスト『影の獄にて』の作品ページへ"><div class="art"><img src="img/works/the-seed-and-the-sower.jpg" alt="ヴァン・デル・ポスト『影の獄にて』" data-k="the-seed-and-the-sower" decoding="async" fetchpriority="low"></div></button><i class="swap" aria-hidden="true">↔</i></div><button type="button" class="ctx-nav prev" data-ctx-go="-1" aria-label="一つ前のつながりへ">‹</button><button type="button" class="ctx-nav next" data-ctx-go="1" aria-label="次のつながりへ">›</button></div>
@@ -265,7 +265,7 @@ document.addEventListener('click', function (e) {
           <a class="seg" href="c/merry-christmas-mr-lawrence--minamata/">
             
             <small>［坂本龍一を経由して］　ハブ</small>
-            <b><span class="seg-copy">同じ作曲家が、40年を隔てて音楽をつけた。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
+            <b><span class="seg-copy">37年を隔てて、音楽は同じ作曲家だ。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
           <a class="fstop" href="w/minamata/?c=merry-christmas-mr-lawrence--minamata">
             <span class="st-img"><img src="img/works/minamata.jpg" alt="『MINAMATA』" data-k="minamata" loading="lazy" decoding="async"></span>
             <span class="st-txt"><small>映画・2020年</small>
@@ -281,7 +281,7 @@ document.addEventListener('click', function (e) {
           <a class="fstop" href="w/johnny-depp/?c=johnny-depp--minamata">
             <span class="st-img"><img src="img/works/johnny-depp.jpg" alt="ジョニー・デップ" data-k="johnny-depp" loading="lazy" decoding="async"></span>
             <span class="st-txt"><small>人物・1963年</small>
-              <b>ジョニー・デップ</b><span>アメリカの俳優。ティム・バートンやテリー・ギリアムの作品に数多く出演し、『MINAMATA』では主演とともに製作にも加わった。</span></span>
+              <b>ジョニー・デップ</b><span>アメリカの俳優。ティム・バートン監督作に数多く出演し、テリー・ギリアムの作品にも出演した。『MINAMATA』では主演とともに製作にも加わった。</span></span>
           </a>
         </li>
         <li class="stop">
@@ -289,7 +289,7 @@ document.addEventListener('click', function (e) {
           <a class="seg" href="c/brazil--johnny-depp/">
             
             <small>［テリー・ギリアムを経由して］　ハブ</small>
-            <b><span class="seg-copy">夢に逃げる役人の監督と、夢を演じる俳優。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
+            <b><span class="seg-copy">夢を演じる俳優と、夢に逃げる役人の監督。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
           <a class="fstop" href="w/brazil/?c=brazil--johnny-depp">
             <span class="st-img"><img src="img/works/brazil.jpg" alt="テリー・ギリアム『未来世紀ブラジル』" data-k="brazil" loading="lazy" decoding="async"></span>
             <span class="st-txt"><small>映画・1985年</small>
@@ -337,7 +337,7 @@ document.addEventListener('click', function (e) {
           <a class="seg" href="c/greg-egan--blade-runner-2049/">
             <span class="seg-from">ブレードランナー 2049 から分岐</span>
             <small>［記憶は誰のものか］　似ている</small>
-            <b><span class="seg-copy">植えつけられた記憶でも、それは自分なのか。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
+            <b><span class="seg-copy">植えつけられた記憶でもそれは自分なのか。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
           <a class="fstop" href="w/greg-egan/?c=greg-egan--blade-runner-2049">
             <span class="st-img"><img src="img/works/greg-egan.jpg" alt="グレッグ・イーガン" data-k="greg-egan" loading="lazy" decoding="async"></span>
             <span class="st-txt"><small>人物・1961年</small>
@@ -361,7 +361,7 @@ document.addEventListener('click', function (e) {
           <a class="seg" href="c/isaac-asimov--do-androids-dream/">
             
             <small>［人に似せて作られたもの］　似ている</small>
-            <b><span class="seg-copy">ロボットは三原則を守り、アンドロイドは嘘をつく。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
+            <b><span class="seg-copy">人に仕えるロボットと、紛れ込むアンドロイド。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
           <a class="fstop" href="w/isaac-asimov/?c=isaac-asimov--do-androids-dream">
             <span class="st-img"><img src="img/works/isaac-asimov.jpg" alt="アイザック・アシモフ" data-k="isaac-asimov" loading="lazy" decoding="async"></span>
             <span class="st-txt"><small>人物・1920年</small>
@@ -385,7 +385,7 @@ document.addEventListener('click', function (e) {
           
           <nav class="c-foot" aria-label="Beautiful Context の案内"><span><a href="about/">Beautiful Context とは</a> ·</span> <span><a href="#/today" data-home="">Today's Editor's Choice</a> ·</span> <span><a href="#/list">つながりの一覧</a> ·</span> <span><a href="#/search">言葉で辿る</a></span></nav>
         </article>
-      </article></div>
+      </article><!--/bc-body--></div>
 </div>
 <!-- 左の端：ここから右へ払うと、ひとつ前の画面へ戻る（指に付いてページが動く） -->
 <div class="edge-back" id="edgeBack" aria-hidden="true"></div>

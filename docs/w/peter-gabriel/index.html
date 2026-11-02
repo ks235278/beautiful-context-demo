@@ -37,7 +37,7 @@ try { if (sessionStorage.getItem('bc-resume')) document.documentElement.classLis
 <link rel="apple-touch-startup-image" media="(device-width: 375px) and (device-height: 667px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" href="img/launch/375x667@2.png">
 <!-- 表紙に最初から出すもの（墨の山の絵とロゴ）は先に読む。描くときに待たせない。
      絵は携帯（縦長に切り出した絵）とタブレット・パソコン（横長の絵）で別。app.css の 760px の境と同じ -->
-<link rel="preload" as="image" href="img/ink-navy.jpg" media="(max-width:759px)">
+<link rel="preload" as="image" href="img/ink-navy.jpg" media="(max-width:759.98px)">
 <link rel="preload" as="image" href="img/ink-navy-wide.jpg" media="(min-width:760px)">
 <link rel="preload" as="image" href="img/logo-layer-mark.png">
 <link rel="preload" as="image" href="img/logo-layer-words.png">
@@ -186,7 +186,7 @@ document.addEventListener('click', function (e) {
 <nav class="route-mini" id="routeMini" aria-label="路線図"></nav>
 
 <div class="view on" id="view" role="dialog" aria-modal="true" aria-label="ピーター・ガブリエル">
-  <div class="view-in" id="viewIn">
+  <div class="view-in" id="viewIn"><!--bc-body-->
       <article class="page wpage">
         <button type="button" class="back-close" data-close="" aria-label="Today's Editor's Choice へ戻る" title="Today's Editor's Choice へ"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 4.5 7.5 12l7.5 7.5"></path></svg></button>
         <div class="duo-hero"><a class="c-logo" href="#/" data-top="" aria-label="BEAUTIFUL CONTEXT（TOP へ戻る）"><img src="img/logo.png" alt=""></a><div class="duo"><div class="art"><img src="img/works/peter-gabriel.jpg" alt="ピーター・ガブリエル" data-k="peter-gabriel" decoding="async" fetchpriority="low"></div><a class="duo-add" href="editor.html?from=peter-gabriel" aria-label="ピーター・ガブリエルから、新しいつながりを創る" title="この作品から、新しいつながりを創る（ReMixIt!・編集者向け）"><span aria-hidden="true">＋</span><small>つながりを創る</small></a></div><button type="button" class="ctx-nav prev" data-ctx-go="-1" aria-label="一つ前のつながりへ">‹</button><button type="button" class="ctx-nav next" data-ctx-go="1" aria-label="次のつながりへ">›</button></div>
@@ -200,13 +200,13 @@ document.addEventListener('click', function (e) {
           <p class="meta more-label">この駅から延びるほかの区間　1本</p><a class="tease" href="c/peter-gabriel--david-bowie/" aria-label="デヴィッド・ボウイとのコンテクストを見る">デヴィッド・ボウイ<span class="nb">とのコンテクストを見る</span> <span aria-hidden="true">›</span></a>
           <p class="img-credit">画像：撮影 Joi／CC BY 2.0／Wikimedia Commons</p>
         </div>
-      </article></div>
+      </article><!--/bc-body--></div>
 </div>
 <!-- 左の端：ここから右へ払うと、ひとつ前の画面へ戻る（指に付いてページが動く） -->
 <div class="edge-back" id="edgeBack" aria-hidden="true"></div>
 
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
-<script type="application/ld+json" id="ld">{"@context":"https://schema.org","@type":"Person","name":"ピーター・ガブリエル","description":"ジェネシスのボーカルを経てソロへ。「スレッジハンマー」のほか、世界の音楽を紹介するレーベル「リアル・ワールド」と音楽祭 WOMAD を立ち上げた。","url":"https://beautifulcontext.com/w/peter-gabriel/","image":"https://beautifulcontext.com/img/works/peter-gabriel.jpg","subjectOf":[{"@type":"Article","headline":"セネガルの声が、英国の曲の最後を歌った。","url":"https://beautifulcontext.com/c/youssou-ndour--peter-gabriel/"},{"@type":"Article","headline":"ボウイの「ヒーローズ」を、ガブリエルが歌い直した。","url":"https://beautifulcontext.com/c/peter-gabriel--david-bowie/"}]}</script>
+<script type="application/ld+json" id="ld">{"@context":"https://schema.org","@type":"Person","name":"ピーター・ガブリエル","description":"ジェネシスのボーカルを経てソロへ。「スレッジハンマー」のほか、世界の音楽を紹介するレーベル「リアル・ワールド」と音楽祭 WOMAD を立ち上げた。","url":"https://beautifulcontext.com/w/peter-gabriel/","image":"https://beautifulcontext.com/img/works/peter-gabriel.jpg","subjectOf":[{"@type":"Article","headline":"セネガルの声が、英国の曲の最後を歌う。","url":"https://beautifulcontext.com/c/youssou-ndour--peter-gabriel/"},{"@type":"Article","headline":"ボウイ「ヒーローズ」をガブリエルが歌い直す。","url":"https://beautifulcontext.com/c/peter-gabriel--david-bowie/"}]}</script>
 
 <script src="js/config.js?v=151"></script>
 <script src="js/seed.js?v=151"></script>

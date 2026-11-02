@@ -37,7 +37,7 @@ try { if (sessionStorage.getItem('bc-resume')) document.documentElement.classLis
 <link rel="apple-touch-startup-image" media="(device-width: 375px) and (device-height: 667px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" href="img/launch/375x667@2.png">
 <!-- 表紙に最初から出すもの（墨の山の絵とロゴ）は先に読む。描くときに待たせない。
      絵は携帯（縦長に切り出した絵）とタブレット・パソコン（横長の絵）で別。app.css の 760px の境と同じ -->
-<link rel="preload" as="image" href="img/ink-navy.jpg" media="(max-width:759px)">
+<link rel="preload" as="image" href="img/ink-navy.jpg" media="(max-width:759.98px)">
 <link rel="preload" as="image" href="img/ink-navy-wide.jpg" media="(min-width:760px)">
 <link rel="preload" as="image" href="img/logo-layer-mark.png">
 <link rel="preload" as="image" href="img/logo-layer-words.png">
@@ -186,7 +186,7 @@ document.addEventListener('click', function (e) {
 <nav class="route-mini" id="routeMini" aria-label="路線図"></nav>
 
 <div class="view on" id="view" role="dialog" aria-modal="true" aria-label="『うつろな人々』The Hollow Men ＋ ジョセフ・コンラッド『闇の奥』">
-  <div class="view-in" id="viewIn">
+  <div class="view-in" id="viewIn"><!--bc-body-->
       <article class="page cpage">
         <button type="button" class="back-close" data-close="" aria-label="Today's Editor's Choice へ戻る" title="Today's Editor's Choice へ"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 4.5 7.5 12l7.5 7.5"></path></svg></button>
         <div class="duo-hero"><a class="c-logo" href="#/" data-top="" aria-label="BEAUTIFUL CONTEXT（TOP へ戻る）"><img src="img/logo.png" alt=""></a><div class="duo"><button type="button" class="duo-go" data-step="0" aria-label="『うつろな人々』The Hollow Menの作品ページへ"><div class="art"><img src="img/works/the-hollow-men.jpg" alt="『うつろな人々』The Hollow Men" data-k="the-hollow-men" decoding="async" fetchpriority="low"></div></button><button type="button" class="duo-go" data-step="2" aria-label="ジョセフ・コンラッド『闇の奥』の作品ページへ"><div class="art"><img src="img/works/heart-of-darkness.jpg" alt="ジョセフ・コンラッド『闇の奥』" data-k="heart-of-darkness" decoding="async" fetchpriority="low"></div></button><i class="swap" aria-hidden="true">↔</i></div><button type="button" class="ctx-nav prev" data-ctx-go="-1" aria-label="一つ前のつながりへ">‹</button><button type="button" class="ctx-nav next" data-ctx-go="1" aria-label="次のつながりへ">›</button></div>
@@ -292,7 +292,7 @@ document.addEventListener('click', function (e) {
           <a class="seg" href="c/shoplifters--apocalypse-now/">
             
             <small>［パルム・ドールの系譜］　ハブ</small>
-            <b><span class="seg-copy">ジャングルの奥の戦争と、東京の片隅の家族。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
+            <b><span class="seg-copy">ジャングルの奥の戦争と東京の片隅の家族。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
           <a class="fstop" href="w/shoplifters/?c=shoplifters--apocalypse-now">
             <span class="st-img"><img src="img/works/shoplifters.jpg" alt="是枝裕和『万引き家族』" data-k="shoplifters" loading="lazy" decoding="async"></span>
             <span class="st-txt"><small>映画・2018年</small>
@@ -304,7 +304,7 @@ document.addEventListener('click', function (e) {
           <a class="seg" href="c/koreeda-hirokazu--shoplifters/">
             
             <small>［家族とは何か］　作者と作品</small>
-            <b><span class="seg-copy">日本映画に21年ぶりのパルム・ドールをもたらした。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
+            <b><span class="seg-copy">日本映画が21年ぶりにパルム・ドールを得た。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
           <a class="fstop" href="w/koreeda-hirokazu/?c=koreeda-hirokazu--shoplifters">
             <span class="st-img"><img src="img/works/koreeda-hirokazu.jpg" alt="是枝裕和" data-k="koreeda-hirokazu" loading="lazy" decoding="async"></span>
             <span class="st-txt"><small>人物・1962年</small>
@@ -316,7 +316,7 @@ document.addEventListener('click', function (e) {
           <a class="seg" href="c/koreeda-hirokazu--nobody-knows/">
             
             <small>［見過ごされた子どもたち］　作者と作品</small>
-            <b><span class="seg-copy">14歳の少年が、カンヌで最年少の男優賞を得た。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
+            <b><span class="seg-copy">14歳が、カンヌで最年少の男優賞を得た。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
           <a class="fstop" href="w/nobody-knows/?c=koreeda-hirokazu--nobody-knows">
             <span class="st-img"><img src="img/works/nobody-knows.jpg" alt="是枝裕和『誰も知らない』" data-k="nobody-knows" loading="lazy" decoding="async"></span>
             <span class="st-txt"><small>映画・2004年</small>
@@ -340,7 +340,7 @@ document.addEventListener('click', function (e) {
           <a class="seg" href="c/francis-ford-coppola--high-and-low/">
             
             <small>［黒澤明を経由して］　ハブ</small>
-            <b><span class="seg-copy">コッポラは、黒澤の映画づくりを支えた。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
+            <b><span class="seg-copy">コッポラとルーカスが、黒澤の映画を支えた。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
           <a class="fstop" href="w/high-and-low/?c=francis-ford-coppola--high-and-low">
             <span class="st-img"><img src="img/highlow.jpg" alt="黒澤明『天国と地獄』" data-k="high-and-low" loading="lazy" decoding="async"></span>
             <span class="st-txt"><small>映画・1963年</small>
@@ -364,7 +364,7 @@ document.addEventListener('click', function (e) {
           <a class="seg" href="c/highest-2-lowest--kings-ransom/">
             
             <small>［もう一本の源流］　事実</small>
-            <b><span class="seg-copy">始まりは黒澤ではなく、一冊の小説だった。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
+            <b><span class="seg-copy">黒澤の映画の前にも、一冊の小説があった。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
           <a class="fstop" href="w/kings-ransom/?c=highest-2-lowest--kings-ransom">
             <span class="st-img"><img src="img/kings-ransom.jpg" alt="エド・マクベイン『キングの身代金』" data-k="kings-ransom" loading="lazy" decoding="async"></span>
             <span class="st-txt"><small>書籍・1959年</small>
@@ -380,7 +380,7 @@ document.addEventListener('click', function (e) {
           <a class="fstop" href="w/pluribus/?c=highest-2-lowest--pluribus">
             <span class="st-img"><img src="img/works/pluribus.jpg" alt="ヴィンス・ギリガン『プルリブス』" data-k="pluribus" loading="lazy" decoding="async"></span>
             <span class="st-txt"><small>ドラマ・2025年</small>
-              <b>ヴィンス・ギリガン『プルリブス』</b><span>『ブレイキング・バッド』のヴィンス・ギリガンが手がけた Apple TV+ のドラマ。人々の心がひとつに溶け合っていく世界で、それに加わらない一人の女性を描く。</span></span>
+              <b>ヴィンス・ギリガン『プルリブス』</b><span>『ブレイキング・バッド』のヴィンス・ギリガンが手がけた Apple TV のドラマ。人々の心がひとつに溶け合っていく世界で、その輪に加われない数少ない人間の一人である女性を描く。</span></span>
           </a>
         </li></ol>
             <div class="rail-more" id="railMore" aria-hidden="true"></div>
@@ -388,7 +388,7 @@ document.addEventListener('click', function (e) {
           
           <nav class="c-foot" aria-label="Beautiful Context の案内"><span><a href="about/">Beautiful Context とは</a> ·</span> <span><a href="#/today" data-home="">Today's Editor's Choice</a> ·</span> <span><a href="#/list">つながりの一覧</a> ·</span> <span><a href="#/search">言葉で辿る</a></span></nav>
         </article>
-      </article></div>
+      </article><!--/bc-body--></div>
 </div>
 <!-- 左の端：ここから右へ払うと、ひとつ前の画面へ戻る（指に付いてページが動く） -->
 <div class="edge-back" id="edgeBack" aria-hidden="true"></div>

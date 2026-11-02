@@ -37,7 +37,7 @@ try { if (sessionStorage.getItem('bc-resume')) document.documentElement.classLis
 <link rel="apple-touch-startup-image" media="(device-width: 375px) and (device-height: 667px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" href="img/launch/375x667@2.png">
 <!-- 表紙に最初から出すもの（墨の山の絵とロゴ）は先に読む。描くときに待たせない。
      絵は携帯（縦長に切り出した絵）とタブレット・パソコン（横長の絵）で別。app.css の 760px の境と同じ -->
-<link rel="preload" as="image" href="img/ink-navy.jpg" media="(max-width:759px)">
+<link rel="preload" as="image" href="img/ink-navy.jpg" media="(max-width:759.98px)">
 <link rel="preload" as="image" href="img/ink-navy-wide.jpg" media="(min-width:760px)">
 <link rel="preload" as="image" href="img/logo-layer-mark.png">
 <link rel="preload" as="image" href="img/logo-layer-words.png">
@@ -186,7 +186,7 @@ document.addEventListener('click', function (e) {
 <nav class="route-mini" id="routeMini" aria-label="路線図"></nav>
 
 <div class="view on" id="view" role="dialog" aria-modal="true" aria-label="コリン・ウィルソン『アウトサイダー』">
-  <div class="view-in" id="viewIn">
+  <div class="view-in" id="viewIn"><!--bc-body-->
       <article class="page wpage">
         <button type="button" class="back-close" data-close="" aria-label="Today's Editor's Choice へ戻る" title="Today's Editor's Choice へ"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 4.5 7.5 12l7.5 7.5"></path></svg></button>
         <div class="duo-hero"><a class="c-logo" href="#/" data-top="" aria-label="BEAUTIFUL CONTEXT（TOP へ戻る）"><img src="img/logo.png" alt=""></a><div class="duo"><div class="art"><img src="img/works/the-outsider.jpg" alt="コリン・ウィルソン『アウトサイダー』" data-k="the-outsider" decoding="async" fetchpriority="low"></div><a class="duo-add" href="editor.html?from=the-outsider" aria-label="コリン・ウィルソン『アウトサイダー』から、新しいつながりを創る" title="この作品から、新しいつながりを創る（ReMixIt!・編集者向け）"><span aria-hidden="true">＋</span><small>つながりを創る</small></a></div><button type="button" class="ctx-nav prev" data-ctx-go="-1" aria-label="一つ前のつながりへ">‹</button><button type="button" class="ctx-nav next" data-ctx-go="1" aria-label="次のつながりへ">›</button></div>
@@ -200,13 +200,13 @@ document.addEventListener('click', function (e) {
           <p class="meta more-label">この駅から延びるほかの区間　3本</p><a class="tease" href="c/the-outsider--colin-wilson/" aria-label="コリン・ウィルソンとのコンテクストを見る">コリン・ウィルソン<span class="nb">とのコンテクストを見る</span> <span aria-hidden="true">›</span></a><a class="tease" href="c/the-outsider--tanaka-isson/" aria-label="田中一村とのコンテクストを見る">田中一村<span class="nb">とのコンテクストを見る</span> <span aria-hidden="true">›</span></a><a class="tease" href="c/the-outsider--k-pax/" aria-label="『光の旅人 K-PAX』とのコンテクストを見る">『光の旅人 K-PAX』<span class="nb">とのコンテクストを見る</span> <span aria-hidden="true">›</span></a>
           <p class="img-credit">画像：中公文庫の表紙（写真は著者）／© 中央公論新社／出典 版元ドットコム　<a href="https://www.hanmoto.com/bd/isbn/9784122057388" target="_blank" rel="noopener nofollow">出典</a></p>
         </div>
-      </article></div>
+      </article><!--/bc-body--></div>
 </div>
 <!-- 左の端：ここから右へ払うと、ひとつ前の画面へ戻る（指に付いてページが動く） -->
 <div class="edge-back" id="edgeBack" aria-hidden="true"></div>
 
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
-<script type="application/ld+json" id="ld">{"@context":"https://schema.org","@type":"Book","name":"アウトサイダー","description":"社会の中に居場所を見いだせない人間＝アウトサイダーを、カミュ、ドストエフスキー、ゴッホらの作品と生涯からたどった評論。20代半ばのデビュー作がベストセラーになった。","creator":{"@type":"Person","name":"コリン・ウィルソン"},"url":"https://beautifulcontext.com/w/the-outsider/","image":"https://beautifulcontext.com/img/works/the-outsider.jpg","subjectOf":[{"@type":"Article","headline":"社会の外に立つ人間の原型が、ここにいる。","url":"https://beautifulcontext.com/c/the-outsider--fyodor-dostoevsky/"},{"@type":"Article","headline":"24歳の作家は、図書館で書いた。","url":"https://beautifulcontext.com/c/the-outsider--colin-wilson/"},{"@type":"Article","headline":"画壇の外で、描き続けた画家。","url":"https://beautifulcontext.com/c/the-outsider--tanaka-isson/"},{"@type":"Article","headline":"彼は、遠い星から来たと言う。","url":"https://beautifulcontext.com/c/the-outsider--k-pax/"}]}</script>
+<script type="application/ld+json" id="ld">{"@context":"https://schema.org","@type":"Book","name":"アウトサイダー","description":"社会の中に居場所を見いだせない人間＝アウトサイダーを、カミュ、ドストエフスキー、ゴッホらの作品と生涯からたどった評論。20代半ばのデビュー作がベストセラーになった。","creator":{"@type":"Person","name":"コリン・ウィルソン"},"url":"https://beautifulcontext.com/w/the-outsider/","image":"https://beautifulcontext.com/img/works/the-outsider.jpg","subjectOf":[{"@type":"Article","headline":"着想の日の回想に、ラスコーリニコフの名。","url":"https://beautifulcontext.com/c/the-outsider--fyodor-dostoevsky/"},{"@type":"Article","headline":"24歳の作家は、図書館で書いた。","url":"https://beautifulcontext.com/c/the-outsider--colin-wilson/"},{"@type":"Article","headline":"画壇の外で、描き続けた画家。","url":"https://beautifulcontext.com/c/the-outsider--tanaka-isson/"},{"@type":"Article","headline":"彼は、遠い星から来たと言う。","url":"https://beautifulcontext.com/c/the-outsider--k-pax/"}]}</script>
 
 <script src="js/config.js?v=151"></script>
 <script src="js/seed.js?v=151"></script>

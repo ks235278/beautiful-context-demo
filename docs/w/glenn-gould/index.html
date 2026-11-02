@@ -37,7 +37,7 @@ try { if (sessionStorage.getItem('bc-resume')) document.documentElement.classLis
 <link rel="apple-touch-startup-image" media="(device-width: 375px) and (device-height: 667px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" href="img/launch/375x667@2.png">
 <!-- 表紙に最初から出すもの（墨の山の絵とロゴ）は先に読む。描くときに待たせない。
      絵は携帯（縦長に切り出した絵）とタブレット・パソコン（横長の絵）で別。app.css の 760px の境と同じ -->
-<link rel="preload" as="image" href="img/ink-navy.jpg" media="(max-width:759px)">
+<link rel="preload" as="image" href="img/ink-navy.jpg" media="(max-width:759.98px)">
 <link rel="preload" as="image" href="img/ink-navy-wide.jpg" media="(min-width:760px)">
 <link rel="preload" as="image" href="img/logo-layer-mark.png">
 <link rel="preload" as="image" href="img/logo-layer-words.png">
@@ -186,7 +186,7 @@ document.addEventListener('click', function (e) {
 <nav class="route-mini" id="routeMini" aria-label="路線図"></nav>
 
 <div class="view on" id="view" role="dialog" aria-modal="true" aria-label="グレン・グールド">
-  <div class="view-in" id="viewIn">
+  <div class="view-in" id="viewIn"><!--bc-body-->
       <article class="page wpage">
         <button type="button" class="back-close" data-close="" aria-label="Today's Editor's Choice へ戻る" title="Today's Editor's Choice へ"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 4.5 7.5 12l7.5 7.5"></path></svg></button>
         <div class="duo-hero"><a class="c-logo" href="#/" data-top="" aria-label="BEAUTIFUL CONTEXT（TOP へ戻る）"><img src="img/logo.png" alt=""></a><div class="duo"><div class="art"><img src="img/gould.jpg" alt="グレン・グールド" data-k="glenn-gould" decoding="async" fetchpriority="low"></div><a class="duo-add" href="editor.html?from=glenn-gould" aria-label="グレン・グールドから、新しいつながりを創る" title="この作品から、新しいつながりを創る（ReMixIt!・編集者向け）"><span aria-hidden="true">＋</span><small>つながりを創る</small></a></div><button type="button" class="ctx-nav prev" data-ctx-go="-1" aria-label="一つ前のつながりへ">‹</button><button type="button" class="ctx-nav next" data-ctx-go="1" aria-label="次のつながりへ">›</button></div>
@@ -200,13 +200,13 @@ document.addEventListener('click', function (e) {
           <p class="meta more-label">この駅から延びるほかの区間　1本</p><a class="tease" href="c/glenn-gould--goldberg-variations/" aria-label="バッハ『ゴールドベルク変奏曲』とのコンテクストを見る">バッハ『ゴールドベルク変奏曲』<span class="nb">とのコンテクストを見る</span> <span aria-hidden="true">›</span></a>
           
         </div>
-      </article></div>
+      </article><!--/bc-body--></div>
 </div>
 <!-- 左の端：ここから右へ払うと、ひとつ前の画面へ戻る（指に付いてページが動く） -->
 <div class="edge-back" id="edgeBack" aria-hidden="true"></div>
 
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
-<script type="application/ld+json" id="ld">{"@context":"https://schema.org","@type":"Person","name":"グレン・グールド","description":"バッハ演奏で知られ、クラシック音楽における「演奏とは何か」という考え方そのものを変えた20世紀を代表するピアニスト。","url":"https://beautifulcontext.com/w/glenn-gould/","image":"https://beautifulcontext.com/img/gould.jpg","subjectOf":[{"@type":"Article","headline":"枕元にあった二冊は、聖書と『草枕』だった。","url":"https://beautifulcontext.com/c/glenn-gould--kusamakura/"},{"@type":"Article","headline":"デビューも最後の録音も、同じ曲だった。","url":"https://beautifulcontext.com/c/glenn-gould--goldberg-variations/"}]}</script>
+<script type="application/ld+json" id="ld">{"@context":"https://schema.org","@type":"Person","name":"グレン・グールド","description":"バッハ演奏で知られ、クラシック音楽における「演奏とは何か」という考え方そのものを変えた20世紀を代表するピアニスト。","url":"https://beautifulcontext.com/w/glenn-gould/","image":"https://beautifulcontext.com/img/gould.jpg","subjectOf":[{"@type":"Article","headline":"枕元にあった二冊は、聖書と『草枕』だった。","url":"https://beautifulcontext.com/c/glenn-gould--kusamakura/"},{"@type":"Article","headline":"デビュー盤と同じ曲を、死の前年に録り直した。","url":"https://beautifulcontext.com/c/glenn-gould--goldberg-variations/"}]}</script>
 
 <script src="js/config.js?v=151"></script>
 <script src="js/seed.js?v=151"></script>

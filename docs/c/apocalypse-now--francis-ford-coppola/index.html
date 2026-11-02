@@ -37,7 +37,7 @@ try { if (sessionStorage.getItem('bc-resume')) document.documentElement.classLis
 <link rel="apple-touch-startup-image" media="(device-width: 375px) and (device-height: 667px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" href="img/launch/375x667@2.png">
 <!-- 表紙に最初から出すもの（墨の山の絵とロゴ）は先に読む。描くときに待たせない。
      絵は携帯（縦長に切り出した絵）とタブレット・パソコン（横長の絵）で別。app.css の 760px の境と同じ -->
-<link rel="preload" as="image" href="img/ink-navy.jpg" media="(max-width:759px)">
+<link rel="preload" as="image" href="img/ink-navy.jpg" media="(max-width:759.98px)">
 <link rel="preload" as="image" href="img/ink-navy-wide.jpg" media="(min-width:760px)">
 <link rel="preload" as="image" href="img/logo-layer-mark.png">
 <link rel="preload" as="image" href="img/logo-layer-words.png">
@@ -186,7 +186,7 @@ document.addEventListener('click', function (e) {
 <nav class="route-mini" id="routeMini" aria-label="路線図"></nav>
 
 <div class="view on" id="view" role="dialog" aria-modal="true" aria-label="コッポラ『地獄の黙示録』 ＋ フランシス・フォード・コッポラ">
-  <div class="view-in" id="viewIn">
+  <div class="view-in" id="viewIn"><!--bc-body-->
       <article class="page cpage">
         <button type="button" class="back-close" data-close="" aria-label="Today's Editor's Choice へ戻る" title="Today's Editor's Choice へ"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 4.5 7.5 12l7.5 7.5"></path></svg></button>
         <div class="duo-hero"><a class="c-logo" href="#/" data-top="" aria-label="BEAUTIFUL CONTEXT（TOP へ戻る）"><img src="img/logo.png" alt=""></a><div class="duo"><button type="button" class="duo-go" data-step="0" aria-label="コッポラ『地獄の黙示録』の作品ページへ"><div class="art"><img src="img/works/apocalypse-now.jpg" alt="コッポラ『地獄の黙示録』" data-k="apocalypse-now" decoding="async" fetchpriority="low"></div></button><button type="button" class="duo-go" data-step="2" aria-label="フランシス・フォード・コッポラの作品ページへ"><div class="art"><img src="img/works/francis-ford-coppola.jpg" alt="フランシス・フォード・コッポラ" data-k="francis-ford-coppola" decoding="async" fetchpriority="low"></div></button><i class="swap" aria-hidden="true">↔</i></div><button type="button" class="ctx-nav prev" data-ctx-go="-1" aria-label="一つ前のつながりへ">‹</button><button type="button" class="ctx-nav next" data-ctx-go="1" aria-label="次のつながりへ">›</button></div>
@@ -198,12 +198,12 @@ document.addEventListener('click', function (e) {
           <p class="route-label">CONTEXT　［監督も奥地へ］</p>
           <h2>映画の撮影そのものが、<br>地獄の行軍になった。</h2>
           <div class="pair"><span>フランシス・フォード・コッポラ</span><span>『地獄の黙示録』（1979）</span></div>
-          <button type="button" class="read" data-read="">このつながりを読む<small>約25秒</small><span aria-hidden="true">↓</span></button>
+          <button type="button" class="read" data-read="">このつながりを読む<small>約30秒</small><span aria-hidden="true">↓</span></button>
           <i class="story-cue" aria-hidden="true"></i>
         </section>
         <article class="context-body" id="story">
           <p class="meta">CONTEXT STORY</p>
-          <h2>作品の裏に、もう一つの物語がある。</h2><p>コッポラはフィリピンで『地獄の黙示録』を撮影した。台風でセットが壊れ、主演のマーティン・シーンが撮影中に心臓発作で倒れ、撮影は予定を大きく超えて続いた。</p><p>その混乱は、妻エレノア・コッポラが現場で撮った映像をもとにしたドキュメンタリー『ハート・オブ・ダークネス／コッポラの黙示録』（1991）に残されている。原題 Hearts of Darkness は、原作『闇の奥』の原題をもじったものである。</p>
+          <h2>作品の裏に、もう一つの物語がある。</h2><p>コッポラはフィリピンで『地獄の黙示録』を撮影した。台風でセットが壊れ、主演のマーティン・シーンが撮影中に心臓発作で倒れ、撮影は予定を大きく超えて続いた。</p><p>その混乱は、妻エレノア・コッポラが現場で撮った映像をもとにしたドキュメンタリー『ハート・オブ・ダークネス コッポラの黙示録』（1991）に残されている。題名の Hearts of Darkness は、『地獄の黙示録』が着想を得たコンラッドの小説『闇の奥』（Heart of Darkness）に由来する。</p>
           
       <section class="axes" aria-label="このつながりの型と評価">
         <p class="meta">このつながり<span class="agm">生成AIの初稿・編集者の確認前</span></p>
@@ -256,7 +256,7 @@ document.addEventListener('click', function (e) {
           <a class="seg" href="c/francis-ford-coppola--high-and-low/">
             
             <small>［黒澤明を経由して］　ハブ</small>
-            <b><span class="seg-copy">コッポラは、黒澤の映画づくりを支えた。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
+            <b><span class="seg-copy">コッポラとルーカスが、黒澤の映画を支えた。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
           <a class="fstop" href="w/high-and-low/?c=francis-ford-coppola--high-and-low">
             <span class="st-img"><img src="img/highlow.jpg" alt="黒澤明『天国と地獄』" data-k="high-and-low" loading="lazy" decoding="async"></span>
             <span class="st-txt"><small>映画・1963年</small>
@@ -280,7 +280,7 @@ document.addEventListener('click', function (e) {
           <a class="seg" href="c/highest-2-lowest--kings-ransom/">
             
             <small>［もう一本の源流］　事実</small>
-            <b><span class="seg-copy">始まりは黒澤ではなく、一冊の小説だった。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
+            <b><span class="seg-copy">黒澤の映画の前にも、一冊の小説があった。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
           <a class="fstop" href="w/kings-ransom/?c=highest-2-lowest--kings-ransom">
             <span class="st-img"><img src="img/kings-ransom.jpg" alt="エド・マクベイン『キングの身代金』" data-k="kings-ransom" loading="lazy" decoding="async"></span>
             <span class="st-txt"><small>書籍・1959年</small>
@@ -296,30 +296,18 @@ document.addEventListener('click', function (e) {
           <a class="fstop" href="w/pluribus/?c=highest-2-lowest--pluribus">
             <span class="st-img"><img src="img/works/pluribus.jpg" alt="ヴィンス・ギリガン『プルリブス』" data-k="pluribus" loading="lazy" decoding="async"></span>
             <span class="st-txt"><small>ドラマ・2025年</small>
-              <b>ヴィンス・ギリガン『プルリブス』</b><span>『ブレイキング・バッド』のヴィンス・ギリガンが手がけた Apple TV+ のドラマ。人々の心がひとつに溶け合っていく世界で、それに加わらない一人の女性を描く。</span></span>
+              <b>ヴィンス・ギリガン『プルリブス』</b><span>『ブレイキング・バッド』のヴィンス・ギリガンが手がけた Apple TV のドラマ。人々の心がひとつに溶け合っていく世界で、その輪に加われない数少ない人間の一人である女性を描く。</span></span>
           </a>
         </li>
         <li class="stop">
           
-          <a class="seg" href="c/pluribus--reacher/">
-            
-            <small>［たった一人で］　似ている</small>
-            <b><span class="seg-copy">誰も味方がいなくても、一人で立つ。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
-          <a class="fstop" href="w/reacher/?c=pluribus--reacher">
-            <span class="st-img"><img src="img/works/reacher.jpg" alt="『リーチャー 正義のアウトロー』" data-k="reacher" loading="lazy" decoding="async"></span>
-            <span class="st-txt"><small>ドラマ・2022年</small>
-              <b>『リーチャー 正義のアウトロー』</b><span>リー・チャイルドの小説シリーズを原作にしたドラマ。元軍人のジャック・リーチャーが、ひとりで各地の事件に立ち向かう。</span></span>
-          </a>
-        </li>
-        <li class="stop branch">
-          
           <a class="seg" href="c/pluribus--parasyte/">
-            <span class="seg-from">プルリブス から分岐</span>
+            
             <small>［内側から入れ替わる人類］　似ている</small>
             <b><span class="seg-copy">隣の人が、昨日までの人ではない。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
           <a class="fstop" href="w/parasyte/?c=pluribus--parasyte">
             <span class="st-img"><img src="img/works/parasyte.jpg" alt="岩明均『寄生獣』" data-k="parasyte" loading="lazy" decoding="async"></span>
-            <span class="st-txt"><small>漫画・1988年</small>
+            <span class="st-txt"><small>漫画・1989年</small>
               <b>岩明均『寄生獣』</b><span>人間に寄生する生物が現れた世界で、右手に寄生された高校生・泉新一と「ミギー」の共生を描いた漫画。</span></span>
           </a>
         </li>
@@ -340,7 +328,7 @@ document.addEventListener('click', function (e) {
           <a class="seg" href="c/fujimoto-tatsuki--chainsaw-man/">
             
             <small>［悪魔を狩る少年］　作者と作品</small>
-            <b><span class="seg-copy">借金を背負った少年に、チェンソーの心臓が宿る。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
+            <b><span class="seg-copy">チェンソーの心臓が、借金を負う少年に宿る。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
           <a class="fstop" href="w/fujimoto-tatsuki/?c=fujimoto-tatsuki--chainsaw-man">
             <span class="st-img"><img src="img/works/fujimoto-tatsuki.jpg" alt="藤本タツキ" data-k="fujimoto-tatsuki" loading="lazy" decoding="async"></span>
             <span class="st-txt"><small>人物</small>
@@ -364,7 +352,7 @@ document.addEventListener('click', function (e) {
           <a class="seg" href="c/kono-sekai-no-katasumi-ni--look-back/">
             
             <small>［描く手］　似ている</small>
-            <b><span class="seg-copy">描くことを奪われても、描いた日々は消えない。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
+            <b><span class="seg-copy">描くことが好きな人が、喪失のあとを生きる。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
           <a class="fstop" href="w/kono-sekai-no-katasumi-ni/?c=kono-sekai-no-katasumi-ni--look-back">
             <span class="st-img"><img src="img/works/kono-sekai-no-katasumi-ni.jpg" alt="『この世界の片隅に』" data-k="kono-sekai-no-katasumi-ni" loading="lazy" decoding="async"></span>
             <span class="st-txt"><small>映画・2016年</small>
@@ -382,19 +370,31 @@ document.addEventListener('click', function (e) {
             <span class="st-txt"><small>音楽・1968年</small>
               <b>「悲しくてやりきれない」</b><span>1968年に発表されたザ・フォーク・クルセダーズの歌。多くの歌い手にうたい継がれてきた。</span></span>
           </a>
+        </li>
+        <li class="stop">
+          
+          <a class="seg" href="c/kotringo--kanashikute-yarikirenai/">
+            
+            <small>［歌い直された歌］　事実</small>
+            <b><span class="seg-copy">1968年の歌を、静かな声が歌い直した。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
+          <a class="fstop" href="w/kotringo/?c=kotringo--kanashikute-yarikirenai">
+            <span class="st-img"><img src="img/works/kotringo.jpg" alt="コトリンゴ" data-k="kotringo" loading="lazy" decoding="async"></span>
+            <span class="st-txt"><small>音楽</small>
+              <b>コトリンゴ</b><span>ピアノと歌のシンガーソングライター。アニメーション映画『この世界の片隅に』の音楽を手がけ、「悲しくてやりきれない」を歌った。</span></span>
+          </a>
         </li></ol>
             <div class="rail-more" id="railMore" aria-hidden="true"></div>
           </section>
           
           <nav class="c-foot" aria-label="Beautiful Context の案内"><span><a href="about/">Beautiful Context とは</a> ·</span> <span><a href="#/today" data-home="">Today's Editor's Choice</a> ·</span> <span><a href="#/list">つながりの一覧</a> ·</span> <span><a href="#/search">言葉で辿る</a></span></nav>
         </article>
-      </article></div>
+      </article><!--/bc-body--></div>
 </div>
 <!-- 左の端：ここから右へ払うと、ひとつ前の画面へ戻る（指に付いてページが動く） -->
 <div class="edge-back" id="edgeBack" aria-hidden="true"></div>
 
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
-<script type="application/ld+json" id="ld">{"@context":"https://schema.org","@type":"Article","headline":"映画の撮影そのものが、地獄の行軍になった。","alternativeHeadline":"監督も奥地へ","about":[{"@type":"Movie","name":"地獄の黙示録","description":"ベトナム戦争のさなか、軍を離れて奥地に王国を築いたカーツ大佐の暗殺を命じられた大尉の旅。1979年のカンヌ国際映画祭でパルム・ドールを受けた。","creator":{"@type":"Person","name":"フランシス・フォード・コッポラ監督"}},{"@type":"Person","name":"フランシス・フォード・コッポラ","description":"『ゴッドファーザー』『地獄の黙示録』の映画監督。"}],"author":{"@type":"Person","name":"生成AI（初稿）"},"datePublished":"2026-09-15T04:40:00.000Z","dateModified":"2026-09-15T04:40:00.000Z","inLanguage":"ja","articleBody":"作品の裏に、もう一つの物語がある。コッポラはフィリピンで『地獄の黙示録』を撮影した。台風でセットが壊れ、主演のマーティン・シーンが撮影中に心臓発作で倒れ、撮影は予定を大きく超えて続いた。その混乱は、妻エレノア・コッポラが現場で撮った映像をもとにしたドキュメンタリー『ハート・オブ・ダークネス／コッポラの黙示録』（1991）に残されている。原題 Hearts of Darkness は、原作『闇の奥』の原題をもじったものである。","url":"https://beautifulcontext.com/c/apocalypse-now--francis-ford-coppola/","citation":[{"@type":"CreativeWork","name":"Hearts of darkness: a filmmaker's apocalypse","url":"https://www.acmi.net.au/works/85025--hearts-of-darkness-a-filmmakers-apocalypse/","publisher":{"@type":"Organization","name":"ACMI（オーストラリア映像センター、メルボルン）"}},{"@type":"CreativeWork","name":"地獄の黙示録","url":"https://ja.wikipedia.org/wiki/地獄の黙示録","publisher":{"@type":"Organization","name":"Wikipedia"}},{"@type":"CreativeWork","name":"Apocalypse Now","url":"https://en.wikipedia.org/wiki/Apocalypse_Now","publisher":{"@type":"Organization","name":"Wikipedia"}},{"@type":"CreativeWork","name":"Hearts of Darkness: A Filmmaker's Apocalypse","url":"https://en.wikipedia.org/wiki/Hearts_of_Darkness:_A_Filmmaker%27s_Apocalypse","publisher":{"@type":"Organization","name":"Wikipedia"}},{"@type":"CreativeWork","name":"ハート・オブ・ダークネス コッポラの黙示録","url":"https://eiga.com/movie/47735/","publisher":{"@type":"Organization","name":"映画.com"}}],"image":"https://beautifulcontext.com/img/works/apocalypse-now.jpg"}</script>
+<script type="application/ld+json" id="ld">{"@context":"https://schema.org","@type":"Article","headline":"映画の撮影そのものが、地獄の行軍になった。","alternativeHeadline":"監督も奥地へ","about":[{"@type":"Movie","name":"地獄の黙示録","description":"ベトナム戦争のさなか、軍を離れて奥地に王国を築いたカーツ大佐の暗殺を命じられた大尉の旅。1979年のカンヌ国際映画祭でパルム・ドールを受けた。","creator":{"@type":"Person","name":"フランシス・フォード・コッポラ監督"}},{"@type":"Person","name":"フランシス・フォード・コッポラ","description":"『ゴッドファーザー』『地獄の黙示録』の映画監督。"}],"author":{"@type":"Person","name":"生成AI（初稿）"},"datePublished":"2026-09-15T04:40:00.000Z","dateModified":"2026-09-15T04:40:00.000Z","inLanguage":"ja","articleBody":"作品の裏に、もう一つの物語がある。コッポラはフィリピンで『地獄の黙示録』を撮影した。台風でセットが壊れ、主演のマーティン・シーンが撮影中に心臓発作で倒れ、撮影は予定を大きく超えて続いた。その混乱は、妻エレノア・コッポラが現場で撮った映像をもとにしたドキュメンタリー『ハート・オブ・ダークネス コッポラの黙示録』（1991）に残されている。題名の Hearts of Darkness は、『地獄の黙示録』が着想を得たコンラッドの小説『闇の奥』（Heart of Darkness）に由来する。","url":"https://beautifulcontext.com/c/apocalypse-now--francis-ford-coppola/","citation":[{"@type":"CreativeWork","name":"Hearts of darkness: a filmmaker's apocalypse","url":"https://www.acmi.net.au/works/85025--hearts-of-darkness-a-filmmakers-apocalypse/","publisher":{"@type":"Organization","name":"ACMI（オーストラリア映像センター、メルボルン）"}},{"@type":"CreativeWork","name":"地獄の黙示録","url":"https://ja.wikipedia.org/wiki/地獄の黙示録","publisher":{"@type":"Organization","name":"Wikipedia"}},{"@type":"CreativeWork","name":"Apocalypse Now","url":"https://en.wikipedia.org/wiki/Apocalypse_Now","publisher":{"@type":"Organization","name":"Wikipedia"}},{"@type":"CreativeWork","name":"Hearts of Darkness: A Filmmaker's Apocalypse","url":"https://en.wikipedia.org/wiki/Hearts_of_Darkness:_A_Filmmaker%27s_Apocalypse","publisher":{"@type":"Organization","name":"Wikipedia"}},{"@type":"CreativeWork","name":"ハート・オブ・ダークネス コッポラの黙示録","url":"https://eiga.com/movie/47735/","publisher":{"@type":"Organization","name":"映画.com"}}],"image":"https://beautifulcontext.com/img/works/apocalypse-now.jpg"}</script>
 
 <script src="js/config.js?v=151"></script>
 <script src="js/seed.js?v=151"></script>

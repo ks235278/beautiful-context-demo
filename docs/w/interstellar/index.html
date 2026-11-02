@@ -37,7 +37,7 @@ try { if (sessionStorage.getItem('bc-resume')) document.documentElement.classLis
 <link rel="apple-touch-startup-image" media="(device-width: 375px) and (device-height: 667px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" href="img/launch/375x667@2.png">
 <!-- 表紙に最初から出すもの（墨の山の絵とロゴ）は先に読む。描くときに待たせない。
      絵は携帯（縦長に切り出した絵）とタブレット・パソコン（横長の絵）で別。app.css の 760px の境と同じ -->
-<link rel="preload" as="image" href="img/ink-navy.jpg" media="(max-width:759px)">
+<link rel="preload" as="image" href="img/ink-navy.jpg" media="(max-width:759.98px)">
 <link rel="preload" as="image" href="img/ink-navy-wide.jpg" media="(min-width:760px)">
 <link rel="preload" as="image" href="img/logo-layer-mark.png">
 <link rel="preload" as="image" href="img/logo-layer-words.png">
@@ -186,7 +186,7 @@ document.addEventListener('click', function (e) {
 <nav class="route-mini" id="routeMini" aria-label="路線図"></nav>
 
 <div class="view on" id="view" role="dialog" aria-modal="true" aria-label="クリストファー・ノーラン『インターステラー』">
-  <div class="view-in" id="viewIn">
+  <div class="view-in" id="viewIn"><!--bc-body-->
       <article class="page wpage">
         <button type="button" class="back-close" data-close="" aria-label="Today's Editor's Choice へ戻る" title="Today's Editor's Choice へ"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 4.5 7.5 12l7.5 7.5"></path></svg></button>
         <div class="duo-hero"><a class="c-logo" href="#/" data-top="" aria-label="BEAUTIFUL CONTEXT（TOP へ戻る）"><img src="img/logo.png" alt=""></a><div class="duo"><div class="art"><img src="img/works/interstellar.jpg" alt="クリストファー・ノーラン『インターステラー』" data-k="interstellar" decoding="async" fetchpriority="low"></div><a class="duo-add" href="editor.html?from=interstellar" aria-label="クリストファー・ノーラン『インターステラー』から、新しいつながりを創る" title="この作品から、新しいつながりを創る（ReMixIt!・編集者向け）"><span aria-hidden="true">＋</span><small>つながりを創る</small></a></div><button type="button" class="ctx-nav prev" data-ctx-go="-1" aria-label="一つ前のつながりへ">‹</button><button type="button" class="ctx-nav next" data-ctx-go="1" aria-label="次のつながりへ">›</button></div>
@@ -200,13 +200,13 @@ document.addEventListener('click', function (e) {
           <p class="meta more-label">この駅から延びるほかの区間　3本</p><a class="tease" href="c/interstellar--christopher-nolan/" aria-label="クリストファー・ノーランとのコンテクストを見る">クリストファー・ノーラン<span class="nb">とのコンテクストを見る</span> <span aria-hidden="true">›</span></a><a class="tease" href="c/war-of-the-worlds-2005--interstellar/" aria-label="スピルバーグ『宇宙戦争』とのコンテクストを見る">スピルバーグ『宇宙戦争』<span class="nb">とのコンテクストを見る</span> <span aria-hidden="true">›</span></a><a class="tease" href="c/interstellar--spaceship-earth/" aria-label="バックミンスター・フラー『宇宙船地球号 操縦マニュアル』とのコンテクストを見る">バックミンスター・フラー『宇宙船地球号 操縦マニュアル』<span class="nb">とのコンテクストを見る</span> <span aria-hidden="true">›</span></a>
           <p class="img-credit">画像：© 2014 Warner Bros. Entertainment, Inc. and Paramount Pictures.／出典 映画.com　<a href="https://eiga.com/movie/78321/" target="_blank" rel="noopener nofollow">出典</a></p>
         </div>
-      </article></div>
+      </article><!--/bc-body--></div>
 </div>
 <!-- 左の端：ここから右へ払うと、ひとつ前の画面へ戻る（指に付いてページが動く） -->
 <div class="edge-back" id="edgeBack" aria-hidden="true"></div>
 
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
-<script type="application/ld+json" id="ld">{"@context":"https://schema.org","@type":"Movie","name":"インターステラー","description":"砂嵐と作物の枯死に追い詰められた近未来の地球から、人類の移住先を探して宇宙へ向かう元宇宙飛行士と、地球に残された娘の物語。","creator":{"@type":"Person","name":"クリストファー・ノーラン監督"},"url":"https://beautifulcontext.com/w/interstellar/","image":"https://beautifulcontext.com/img/works/interstellar.jpg","subjectOf":[{"@type":"Article","headline":"砂嵐の農場から、星の海へ。","url":"https://beautifulcontext.com/c/interstellar--the-grapes-of-wrath/"},{"@type":"Article","headline":"父は、本棚の向こうから娘を呼んだ。","url":"https://beautifulcontext.com/c/interstellar--christopher-nolan/"},{"@type":"Article","headline":"父と子の物語は、もう一人の監督へ渡った。","url":"https://beautifulcontext.com/c/war-of-the-worlds-2005--interstellar/"},{"@type":"Article","headline":"人類は、船を乗り換えられるのか。","url":"https://beautifulcontext.com/c/interstellar--spaceship-earth/"}]}</script>
+<script type="application/ld+json" id="ld">{"@context":"https://schema.org","@type":"Movie","name":"インターステラー","description":"砂嵐と作物の枯死に追い詰められた近未来の地球から、人類の移住先を探して宇宙へ向かう元宇宙飛行士と、地球に残された娘の物語。","creator":{"@type":"Person","name":"クリストファー・ノーラン監督"},"url":"https://beautifulcontext.com/w/interstellar/","image":"https://beautifulcontext.com/img/works/interstellar.jpg","subjectOf":[{"@type":"Article","headline":"砂嵐の農場から、星の海へ。","url":"https://beautifulcontext.com/c/interstellar--the-grapes-of-wrath/"},{"@type":"Article","headline":"父と娘の時間のずれを、兄弟で書いた。","url":"https://beautifulcontext.com/c/interstellar--christopher-nolan/"},{"@type":"Article","headline":"守る父を撮った監督は、旅立つ父の企画にいた。","url":"https://beautifulcontext.com/c/war-of-the-worlds-2005--interstellar/"},{"@type":"Article","headline":"人類は、船を乗り換えられるか。","url":"https://beautifulcontext.com/c/interstellar--spaceship-earth/"}]}</script>
 
 <script src="js/config.js?v=151"></script>
 <script src="js/seed.js?v=151"></script>
