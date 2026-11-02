@@ -41,12 +41,12 @@ img{display:block}
   -webkit-overflow-scrolling:touch;touch-action:pan-y;scrollbar-width:none}
 .flow::-webkit-scrollbar{display:none}
 
-/* 一つのつながり＝一画面の表紙（.screen）＋そのすぐ下の本文（.story）。上へ払うだけで、表紙 → 本文 → 次の表紙と続く。
-   表紙の高さは流れの枠の高さ（--fh、flow.js が測る）から 64px 引いたもの：下に本文の頭がのぞき、押さずに下へ読めるとわかる。
+/* 一つのつながり＝表紙（.screen）＋そのすぐ下の本文（.story）。上へ払うだけで、表紙 → 本文 → 次の表紙と続く。
+   表紙は中身の高さだけ（以前は画面の高さで、題の下に大きな空きができていた）。すぐ下から本文が始まり、押さずに下へ読めるとわかる。
    表紙の頭にだけ、近くで止めたときに寄せる（proximity。本文の途中では止めた所で止まる） */
 .card{position:relative;background:var(--paper)}
-.screen{position:relative;height:calc(var(--fh,100vh) - 64px);display:flex;flex-direction:column;scroll-snap-align:start;
-  padding:calc(var(--sat) + 56px) 0 18px}
+.screen{position:relative;display:flex;flex-direction:column;scroll-snap-align:start;
+  padding:calc(var(--sat) + 56px) 0 4px}
 .card.empty{display:flex;align-items:center;justify-content:center;height:100%;color:var(--muted);font:14px/2 var(--mincho)}
 
 /* 二枚の絵。3:4 のまま並べる（ポスターも表紙も切らない） */
@@ -77,12 +77,13 @@ img{display:block}
   font-size:min(clamp(24px,7.6vw,32px),calc((100vw - 48px) / var(--n,10) * .97))}
 @supports (width:1cqw){ .hl{font-size:min(clamp(24px,7.6cqw,32px),calc((100cqw - 48px) / var(--n,10) * .97))} }
 /* 関係の行。作品名は途中で折らず、ひとかたまりで次の行へ。右の列の下に入らないよう、右を空ける */
-.rel{margin:14px 48px 0 0;color:var(--ink-2);font:12.5px/1.7 var(--mincho)}
+.rel{margin:14px 0 0;color:var(--ink-2);font:12.5px/1.7 var(--mincho)}
 .rel span{display:inline-block;max-width:100%}
 .rel i{margin:0 .45em;color:var(--gold-ink);font-style:normal}
-.row{display:flex;align-items:center;gap:18px;margin-top:24px}
+.row{display:flex;align-items:center;gap:12px;margin-top:20px}
+.tools{margin-left:auto}
 /* 「下へ、そのまま読める」：押すものではなく、下へ続くことを知らせる印（矢印がゆっくり下へ） */
-.down{display:inline-flex;align-items:center;gap:8px;margin-left:auto;color:var(--muted);font:700 11px/1.3 var(--gothic);letter-spacing:.06em;white-space:nowrap}
+.down{display:flex;align-items:center;justify-content:center;gap:8px;margin:18px 0 0;color:var(--muted);font:700 11px/1.3 var(--gothic);letter-spacing:.06em;white-space:nowrap}
 .down small{font:700 10px/1 "Lato",sans-serif;letter-spacing:.06em;color:var(--muted)}
 .down i{display:block;width:9px;height:9px;margin-top:-4px;border-right:1.5px solid var(--gold-ink);border-bottom:1.5px solid var(--gold-ink);transform:rotate(45deg);
   animation:sink 2.4s ease-in-out infinite}
@@ -94,16 +95,16 @@ img{display:block}
 /* 低い画面（iPhone SE など）では、見出しを少し小さく、関係の行を詰める */
 @media (max-height:640px){
   .screen{padding-top:calc(var(--sat) + 48px)}
-  .lead{padding:16px 56px 0 22px}   /* 低い画面では右の列が高くまで来るので、文字の右を空ける */
+  .lead{padding:16px 22px 0}
   .hl{font-size:min(clamp(20px,6.2vw,26px),calc((100vw - 82px) / var(--n,10) * .97))}
   .rel{margin:10px 0 0;font-size:11.5px;line-height:1.55}
-  .row{margin-top:16px}
+  .row{margin-top:14px}
 }
 
 /* ---------- 上：名前と位置 ---------- */
 .top{position:absolute;z-index:6;left:0;right:0;top:0;display:flex;align-items:center;justify-content:center;
   height:calc(var(--sat) + 54px);padding-top:var(--sat);pointer-events:none;
-  background:linear-gradient(rgba(250,247,241,.96),rgba(250,247,241,0))}
+  background:linear-gradient(rgba(250,247,241,.98) 62%,rgba(250,247,241,0))}
 .top .wm,.top .pos{pointer-events:auto}
 .wm{display:block;padding:6px}
 .wm img{height:17px;width:auto;opacity:.96}
@@ -111,7 +112,7 @@ img{display:block}
 .pos{position:absolute;right:16px;top:calc(var(--sat) + 19px);color:var(--muted);
   font:400 15px/1 "Bebas Neue","Oswald","Arial Narrow",sans-serif;letter-spacing:.1em;font-variant-numeric:tabular-nums}
 
-/* ---------- 右の細い列（紙の上では紺。パソコンでは舞台の外、絵の上なので白：下の @media） ---------- */
+/* ---------- 右の列（紺。携帯ではいまの札の編者の段に入れ、パソコンでは舞台の外に浮かべる） ---------- */
 .rail{position:absolute;z-index:5;right:8px;bottom:calc(var(--sab) + 60px);display:grid;gap:12px;justify-items:center}
 .rb{position:relative;display:grid;justify-items:center;align-content:start;gap:4px;width:50px;padding:0;border:0;background:none;
   text-decoration:none;cursor:pointer;color:var(--navy);transition:transform .22s cubic-bezier(.2,.9,.3,1.2)}
@@ -135,7 +136,7 @@ img{display:block}
 .rail,.top{transition:opacity .4s ease}
 
 /* ---------- 最初の一度だけの印 ---------- */
-.hint{position:absolute;z-index:6;left:0;right:0;bottom:calc(var(--sab) + 84px);margin:0;text-align:center;color:var(--muted);
+.hint{display:none !important;position:absolute;z-index:6;left:0;right:0;bottom:calc(var(--sab) + 84px);margin:0;text-align:center;color:var(--muted);
   font:11.5px/1.5 var(--gothic);letter-spacing:.12em;opacity:0;visibility:hidden;pointer-events:none;
   transition:opacity .6s ease,visibility 0s linear .6s}
 .hint.show{opacity:1;visibility:visible;transition:opacity .9s ease 1.1s,visibility 0s linear 1.1s}
@@ -144,8 +145,20 @@ img{display:block}
   animation:lift 2.4s ease-in-out infinite}
 @keyframes lift{0%,100%{transform:translateY(4px) rotate(45deg);opacity:.45}50%{transform:translateY(-4px) rotate(45deg);opacity:1}}
 
+
+/* ---------- 携帯・タブレット：右の列（フォロー・共感・共有・一覧）は、いまの札の編集者の行の右に横一列（flow.js が入れる） ---------- */
+@media (max-width:1099.98px){
+  .tools .rail{position:static;display:flex;align-items:flex-start;gap:4px}
+  .tools .rb{width:44px}
+  .tools .rb svg{width:24px;height:24px}
+  .tools .rb.follow{height:auto}
+  .tools .rb.follow .ava{width:30px;height:30px;font-size:13px}
+  .tools .rb.follow .badge{top:20px;width:15px;height:15px;font-size:10px}
+  .tools .rb small{font-size:9px}
+}
+
 /* ---------- 本文（表紙のすぐ下。以前の「読む」の紙の幕の中身） ---------- */
-.story{position:relative;padding:20px 24px calc(var(--sab) + 64px);font-family:var(--mincho)}
+.story{position:relative;padding:20px 24px calc(var(--sab) + 30px);font-family:var(--mincho)}
 .story::before{content:"";display:block;width:36px;height:1.5px;margin:0 0 18px;background:var(--gold)}
 .story .meta{margin:0 0 14px;color:var(--gold-ink);font:700 11px/1.5 "Lato",var(--gothic);letter-spacing:.14em}
 .story h2{margin:0 0 16px;font:700 21px/1.55 var(--mincho);letter-spacing:.01em}
@@ -174,33 +187,25 @@ img{display:block}
   transition:opacity .3s ease,transform .3s ease,visibility 0s linear .3s}
 .toast.show{opacity:1;visibility:visible;transform:translate(-50%,0);transition-delay:0s}
 
-/* ---------- パソコン（幅 1100px から）：墨の山の紺の上に、縦の舞台（紙）を一つ ---------- */
+/* ---------- パソコン（幅 1100px から）：紙の地（クリーム）と淡い墨の山の上に、縦の舞台（紙）を一つ ---------- */
 @media (min-width:1100px){
-  body{background:#04070d}
-  /* 地は index と同じ --side-img（いまは墨の山の紺 ink-side。地球に戻すときは url(img/bg-earth.jpg)） */
-  .earth{display:block;position:fixed;inset:0;background:#071a30 var(--side-img,url(img/ink-side.jpg)) center/cover no-repeat}
-  .earth::after{content:"";position:absolute;inset:0;background:rgba(3,8,18,.36)}
+  body{background:var(--paper)}
+  /* 地は紙の色に、淡い墨の山（ink-paper-wide）。紺の地はやめた */
+  .earth{display:block;position:fixed;inset:0;background:var(--paper) url(img/ink-paper-wide.jpg) center bottom/cover no-repeat}
   .pc-logo{display:block;position:fixed;z-index:2;left:34px;top:30px}
   .pc-logo img{height:26px;width:auto;opacity:.92}
-  .pc-keys{display:block;position:fixed;z-index:2;left:36px;bottom:28px;margin:0;color:rgba(255,255,255,.55);
+  .pc-keys{display:block;position:fixed;z-index:2;left:36px;bottom:28px;margin:0;color:var(--muted);
     font:11px/1.5 "Lato",sans-serif;letter-spacing:.2em}
   /* 舞台は角を丸め、中身（流れ・幕）だけを切り抜く。右の列は舞台の外、地の絵の上に浮かべる（文字の幅を狭めない） */
   .stage{left:50%;top:50%;right:auto;bottom:auto;width:440px;height:min(100vh - 64px,900px);transform:translate(-50%,-50%);
-    overflow:visible;border-radius:16px;box-shadow:0 30px 80px rgba(0,0,0,.45),0 0 0 1px rgba(250,247,241,.12)}
+    overflow:visible;border-radius:16px;box-shadow:0 24px 60px rgba(6,20,43,.2),0 0 0 1px rgba(11,33,61,.1)}
   .stage{--sat:0px;--sab:0px}
   .flow{border-radius:16px;overflow:hidden}
   .flow{overflow-y:auto;overflow-x:hidden}
   .top{border-radius:16px 16px 0 0}
-  /* 右の列は舞台の外、地の絵の上：白のまま（紺だと暗い地に沈む）。
-     地が墨の山の紺になったので、地球の雲よけに敷いていた紺の薄い地は外した（白い印は地に対して 13:1 以上。印の位置は前と同じ） */
+  /* 右の列は舞台の外、地の絵の上 */
   .rail{right:-82px;bottom:28px;gap:16px}
-  .rb{color:#fff}
-  .rb svg{stroke:#fff;filter:drop-shadow(0 1px 6px rgba(0,0,0,.55))}
-  .rb small{color:rgba(255,255,255,.82);text-shadow:0 1px 6px rgba(0,0,0,.6)}
-  .rb.follow .ava{background:#1d1b18;box-shadow:0 0 0 1.5px rgba(255,255,255,.9),0 2px 10px #0008}
-  .rb.follow .badge{box-shadow:0 0 0 1.5px var(--navy-side)}
-  .rb.follow.on .ava{box-shadow:0 0 0 1.5px var(--gold),0 2px 10px #0008}
-  .rb.follow.on .badge{box-shadow:0 0 0 1.5px rgba(255,255,255,.9)}   /* 紺の地の上の紺の ✓ に白い輪 */
+  /* 紙の地の上なので、印は携帯と同じ紺のまま */
   .rel{margin-right:0}
 }
 @media (hover:hover) and (pointer:fine){
@@ -208,11 +213,6 @@ img{display:block}
   .rb.follow:hover .ava{box-shadow:0 0 0 2px var(--navy),0 2px 8px rgba(10,31,58,.25)}
   .story .more:hover{background:var(--gold-wash)}
   .wm:hover img{opacity:1}
-}
-
-/* パソコンの右の列は地の絵の上：フォローに触れたときの輪も白 */
-@media (min-width:1100px) and (hover:hover) and (pointer:fine){
-  .rb.follow:hover .ava{box-shadow:0 0 0 2px #fff,0 2px 10px #0008}
 }
 
 @media (prefers-reduced-motion:reduce){
