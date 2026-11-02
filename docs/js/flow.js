@@ -13,7 +13,7 @@
 (() => {
   const S = window.BCStore, R = window.BCRender, Social = window.BCSocial;
   const $ = (id) => document.getElementById(id);
-  const stage = $('stage'), flow = $('flow'), rail = $('rail'), pos = $('pos'), hint = $('hint');
+  const stage = $('stage'), flow = $('flow'), rail = $('rail'), hint = $('hint');
   const toastEl = $('toast');
   const esc = R.esc;
   const kept = (k, fb) => { try { const v = JSON.parse(localStorage.getItem(k)); return v == null ? fb : v; } catch (e) { return fb; } };
@@ -138,7 +138,6 @@
     cards.forEach((el, k) => el.classList.toggle('on', k === i));
     mount(i);
     const t = T[i], e = t.entry, c = e.context;
-    pos.textContent = `${String(i + 1).padStart(3, '0')} / ${N}`;
     keep('bc-last', e.id);
     try { history.replaceState(null, '', '#' + encodeURIComponent(c.slug)); } catch (x) {}
     renderRail(t);

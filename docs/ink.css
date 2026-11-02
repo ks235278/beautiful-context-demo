@@ -569,3 +569,5 @@ body.on-list .view-in{background:var(--paper)}
 }
 /* About の絵は 300px まで（「Beautiful Context とは」が一行に入るように） */
 .info-about .content::before{max-width:300px}
+/* 右の列の番号（070 / 130）は出さない（CTO 2026.11.02）。見出しの下を少し空けて路線へ */
+@media (min-width:1100px){.rm-title{margin-bottom:20px}}
