@@ -525,3 +525,47 @@ body.on-list .view-in{background:var(--paper)}
 @media (min-width:1100px){
   .editor-page>.back-close{grid-column:1;grid-row:1;justify-self:start;align-self:start;margin:14px 0 0 -34px;z-index:9}
 }
+
+/* ---- 第18段：見本（GPT の画像）そのものの墨・山・筆を使う（CTO 2026.11.02「GPT が作った画像のように」） ----
+   img/deco/ink-splash.png（見本 02 の左上の墨と金の筆）・ink-palms.png（見本 02 の本文の右の山と木）・ink-scene.png（見本 14 の山と湖）。
+   見本の紙の色を透明に抜いた絵（字や枠は含めない）。どれも字の後ろ・触れない */
+/* 上の段の絵の左上に、見本の墨と金の筆（以前の金の弧の代わり） */
+:is(.cpage,.wpage)>.duo-hero::after{background:url(img/deco/ink-splash.png) 0 0/100% 100% no-repeat;aspect-ratio:282/96;width:72%;opacity:1}
+@media (min-width:1100px){
+  :is(.cpage,.wpage)>.duo-hero::after{left:0;top:26px;width:70%}
+  /* 本文の右に見本の山と木（以前の墨の山の代わり）。字の列（660px）の右の余白に */
+  .cpage>.context-body::after{background:url(img/deco/ink-palms.png) right top/contain no-repeat;width:min(34%,320px);aspect-ratio:1/1;top:30px;opacity:1}
+}
+@media (max-width:1099.98px){
+  :is(.cpage,.wpage)>.duo-hero::after{left:-8px;top:calc(env(safe-area-inset-top) + 40px);width:80%}
+}
+/* About：見出しの右に見本の山と湖（字はその左に回り込む）。携帯は見出しの上に横長に */
+.info-about .content::before{content:"";float:right;width:44%;max-width:340px;aspect-ratio:388/392;margin:-6px -8px 8px 18px;pointer-events:none;
+  background:url(img/deco/ink-scene.png) center/contain no-repeat}
+@media (max-width:759.98px){
+  .info-about .content::before{float:none;display:block;width:auto;max-width:none;height:200px;aspect-ratio:auto;margin:0 -20px 6px;
+    background-size:cover;background-position:center 40%}
+}
+/* 本文の小見出しに、見本の「01・02…」の金の番号 */
+.context-body{counter-reset:ctxh}
+.context-body>h3{counter-increment:ctxh}
+.context-body>h3::before{content:counter(ctxh,decimal-leading-zero);flex:0 0 auto;margin-right:2px;color:var(--gold-ink);font:500 1.35em/1 var(--mincho);letter-spacing:.02em}
+.context-body>h3:has(*)::before{margin-right:10px}
+/* 「CONTEXT STORY」の前に、見本どおり金の筆の小さな印 */
+.context-body>.meta:first-child::before{content:"";display:inline-block;width:38px;height:14px;margin:0 8px 0 -4px;vertical-align:-2px;
+  background:url(img/deco/brush-gold.png) 0 50%/100% auto no-repeat}
+/* 一覧（携帯）：札の絵を見本のように大きく */
+@media (max-width:759.98px){
+  .list-page .ed-thumbs img,.list-page .ed-thumbs .ph{width:46px;height:62px;border-radius:2px}
+  .list-page h2{font-size:26px}
+}
+/* 山と木の絵に字が掛からないように：字の列を 560px に（見本の本文と同じくらい）。狭いパソコン（〜1279px）は絵を出さない */
+@media (min-width:1280px){
+  .cpage>.context-body>*{max-width:560px}
+  .cpage>.context-body::after{width:min(calc(100% - 56px - 560px - 8px),330px)}
+}
+@media (min-width:1100px) and (max-width:1279.98px){
+  .cpage>.context-body::after{display:none}
+}
+/* About の絵は 300px まで（「Beautiful Context とは」が一行に入るように） */
+.info-about .content::before{max-width:300px}
