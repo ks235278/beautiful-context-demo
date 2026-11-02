@@ -157,13 +157,17 @@ if (fs.existsSync(path.join(DOCS, 'sitemap.xml'))) {
    変わっても、変わったうちに入れない（Google は lastmod を「中身の大きな変更」の日として読む）。
    本文の印（<!--bc-body-->）のない古いページとは、コメント・script（構造化データ以外）・style・CSS/JS の link・?v=・空白を除いて比べる */
 const pick = (re, h) => (h.match(re) || [])[1] || '';
+/* 本文は、字と絵（src・alt）だけで比べる。札の包み（span）・class・role・aria など、見た目の書き方が変わっただけでは
+   「変わった」に入れない（画面の着せ替えで、すべてのページが今日の日付にならないように） */
+const bodySig = (s) => s.replace(/<img\b[^>]*>/g, (t) => ` [${pick(/\bsrc="([^"]*)"/, t)}|${pick(/\balt="([^"]*)"/, t)}] `)
+  .replace(/<[^>]+>/g, '').replace(/\s+/g, ' ').trim();
 function sig(h) {
   h = h.replace(/\r\n/g, '\n');
   const b = h.indexOf('<!--bc-body-->'), e = h.indexOf('<!--/bc-body-->');
   if (b < 0 || e < b) return null;
   return [pick(/<title>([^<]*)<\/title>/, h), pick(/<meta name="description" content="([^"]*)">/, h),
     pick(/<meta property="og:image" content="([^"]*)">/, h), pick(/<script type="application\/ld\+json" id="ld">([\s\S]*?)<\/script>/, h),
-    h.slice(b, e)].join('\n').replace(/\?v=\d+/g, '');
+    bodySig(h.slice(b, e))].join('\n').replace(/\?v=\d+/g, '');
 }
 const norm = (h) => h.replace(/\r\n/g, '\n')
   .replace(/<!--[\s\S]*?-->/g, '')

@@ -7,7 +7,7 @@
 <meta name="description" content="Beautiful Context のつながりを、一画面に一つずつ。上へ払うだけで、次のつながりへ。">
 <!-- 縦スクロールの試作。正式な画面になるまで検索結果には出さない（説明が操作の案内になってしまうため） -->
 <meta name="robots" content="noindex">
-<meta name="theme-color" content="#061629">
+<meta name="theme-color" content="#faf7f1">
 <link rel="canonical" href="https://beautifulcontext.com/flow.html">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Beautiful Context">
@@ -36,17 +36,18 @@ if (location.hostname === 'beautifulcontext.com'){
   document.head.appendChild(ga);
 }
 </script>
-<link rel="stylesheet" href="flow.css?v=1">
+<link rel="stylesheet" href="flow.css?v=151">
 </head>
 <body>
 
-<!-- パソコンでは、地球の上に縦の舞台を一つ置く -->
+<!-- パソコンでは、墨の山の紺の絵（flow.css の --side-img）の上に縦の舞台（紙）を一つ置く。舞台の外の字と印は白（左上の名前も白い版）。
+     class の earth は地球だったころの名前のまま -->
 <div class="earth" aria-hidden="true"></div>
 <a class="pc-logo" href="index.html" aria-label="BEAUTIFUL CONTEXT（TOP へ）"><img src="img/logo.png" alt=""></a>
 
 <div class="stage" id="stage">
   <header class="top">
-    <a class="wm" href="index.html" aria-label="BEAUTIFUL CONTEXT（TOP へ）"><img src="img/logo.png" alt=""></a>
+    <a class="wm" href="index.html" aria-label="BEAUTIFUL CONTEXT（TOP へ）"><img src="img/logo-navy.png" alt=""></a>
     <span class="pos" id="pos" aria-live="polite"></span>
   </header>
 
@@ -73,10 +74,10 @@ if (location.hostname === 'beautifulcontext.com'){
 
 <p class="pc-keys" aria-hidden="true">↑ ↓ で、前後のつながり</p>
 
-<script src="js/seed.js?v=130"></script>
-<script src="js/store.js?v=130"></script>
-<script src="js/social.js?v=130"></script>
-<script src="js/render.js?v=130"></script>
-<script src="js/flow.js?v=2"></script>
+<script src="js/seed.js?v=151"></script>
+<script src="js/store.js?v=151"></script>
+<script src="js/social.js?v=151"></script>
+<script src="js/render.js?v=151"></script>
+<script src="js/flow.js?v=151"></script>
 </body>
 </html>

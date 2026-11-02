@@ -13,7 +13,7 @@ try { if (sessionStorage.getItem('bc-resume')) document.documentElement.classLis
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,viewport-fit=cover">
 <title>クリストファー・ノーラン『インターステラー』 ＋ クリストファー・ノーラン｜Beautiful Context</title>
 <meta name="description" content="父と娘の時間のずれを、兄弟で書いた。 クリストファー・ノーラン『インターステラー』 と クリストファー・ノーラン。弟ジョナサンとの共同脚本。『インターステラー』は、弟のジョナサン・ノーランが書いていた脚本を、クリストファー・ノーランが引き継いで監督した作品である。時間の流れが星ごとに違う宇宙で、父…">
-<meta name="theme-color" content="#061629">
+<meta name="theme-color" content="#071a30">
 <link rel="canonical" href="https://beautifulcontext.com/c/interstellar--christopher-nolan/">
 <meta property="og:type" content="article">
 <meta property="og:url" content="https://beautifulcontext.com/c/interstellar--christopher-nolan/">
@@ -22,8 +22,8 @@ try { if (sessionStorage.getItem('bc-resume')) document.documentElement.classLis
 <meta property="og:description" content="父と娘の時間のずれを、兄弟で書いた。 クリストファー・ノーラン『インターステラー』 と クリストファー・ノーラン。弟ジョナサンとの共同脚本。『インターステラー』は、弟のジョナサン・ノーランが書いていた脚本を、クリストファー・ノーランが引き継いで監督した作品である。時間の流れが星ごとに違う宇宙で、父…">
 <meta property="og:image" content="https://beautifulcontext.com/img/works/interstellar.jpg">
 <meta name="twitter:card" content="summary">
-<!-- ホーム画面から開くとき、読み込みのあいだに出る起動画面。表紙の最初の一コマ（回路とロゴ）と同じ絵
-     （端末ごとの大きさ。iOS は PNG を求める） -->
+<!-- ホーム画面から開くとき、読み込みのあいだに出る起動画面。表紙の最初の一コマ（墨の山の絵とロゴ）と同じ絵
+     （端末ごとの大きさ。iOS は PNG を求める。表紙をその大きさで写したもの。≡ は写さない：表紙では少しあとに出る） -->
 <link rel="apple-touch-startup-image" media="(device-width: 440px) and (device-height: 956px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="img/launch/440x956@3.png">
 <link rel="apple-touch-startup-image" media="(device-width: 402px) and (device-height: 874px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="img/launch/402x874@3.png">
 <link rel="apple-touch-startup-image" media="(device-width: 430px) and (device-height: 932px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="img/launch/430x932@3.png">
@@ -35,15 +35,17 @@ try { if (sessionStorage.getItem('bc-resume')) document.documentElement.classLis
 <link rel="apple-touch-startup-image" media="(device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="img/launch/414x896@3.png">
 <link rel="apple-touch-startup-image" media="(device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" href="img/launch/414x896@2.png">
 <link rel="apple-touch-startup-image" media="(device-width: 375px) and (device-height: 667px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" href="img/launch/375x667@2.png">
-<!-- 表紙に最初から出すもの（回路とロゴ）は先に読む。描くときに待たせない -->
-<link rel="preload" as="image" href="img/pcb-charcoal.jpg">
+<!-- 表紙に最初から出すもの（墨の山の絵とロゴ）は先に読む。描くときに待たせない。
+     絵は携帯（縦長に切り出した絵）とタブレット・パソコン（横長の絵）で別。app.css の 760px の境と同じ -->
+<link rel="preload" as="image" href="img/ink-navy.jpg" media="(max-width:759.98px)">
+<link rel="preload" as="image" href="img/ink-navy-wide.jpg" media="(min-width:760px)">
 <link rel="preload" as="image" href="img/logo-layer-mark.png">
 <link rel="preload" as="image" href="img/logo-layer-words.png">
 <!-- 台本も先に取りに行く（静的なページは台本より先に本文が描かれる。遅い回線で、触れて動くまでの間を縮める）。
      src と同じアドレス（?v= まで）でないと、二度取りに行く -->
-<link rel="preload" as="script" href="js/seed.js?v=142">
-<link rel="preload" as="script" href="js/app.js?v=142">
-<link rel="manifest" href="manifest.webmanifest?v=142">
+<link rel="preload" as="script" href="js/seed.js?v=151">
+<link rel="preload" as="script" href="js/app.js?v=151">
+<link rel="manifest" href="manifest.webmanifest?v=151">
 <link rel="apple-touch-icon" href="icon-180.png">
 <!-- タブと検索結果に出る小さな印。アプリの印（ホーム画面のアイコン）と同じ形 -->
 <link rel="icon" href="favicon.ico" sizes="16x16 32x32 48x48">
@@ -72,11 +74,13 @@ if (location.hostname === 'beautifulcontext.com'){
   document.head.appendChild(ga);
 }
 </script>
-<script src="js/theme.js?v=142"></script>
-<link rel="stylesheet" href="app.css?v=142">
+<script src="js/theme.js?v=151"></script>
+<link rel="stylesheet" href="app.css?v=151">
 <!-- 読む画面の使い勝手（2026.10.24）。app.css のすぐあと -->
-<link rel="stylesheet" href="ux.css?v=142">
-<link rel="stylesheet" href="fade.css?v=142">
+<link rel="stylesheet" href="ux.css?v=151">
+<link rel="stylesheet" href="fade.css?v=151">
+<!-- editorial-ink（紙・墨・金）：◆ の罫と、紙の上か絵の上かで変わる決まり。ux.css のあと -->
+<link rel="stylesheet" href="ink.css?v=151">
 <!-- 台本（js）が揃うまで：まだ押しても動かないもの（‹・絵の横の ‹ ›・つながりを辿る）を少し薄くし、下の帯の上の縁に細い金の線を走らせる。
      app.js が最後に body.app-ready を付けて外す。すぐ揃うときは何も見せない（0.3 秒待ってから出す） -->
 <style>
@@ -101,15 +105,16 @@ document.addEventListener('click', function (e) {
 }, true);
 </script>
 
-<!-- 背景は先生の構成図（flow0921-2）の回路の絵そのもの。
-     表紙では原寸の濃さ、UniverseIt! からは 50% に落とす（構成図のプロンプトどおり）。 -->
+<!-- 背景は墨の山（炭）と和紙（白）の絵（以前は先生の構成図 flow0921-2 の画像）。
+     表紙では原寸の濃さ、UniverseIt! からは少しだけ落とす（文字が読める分だけ）。 -->
 <!-- 二つの画面が左右に並ぶ：左 ReMixIt!（A / WHITE）、右 UniverseIt!（B / CHARCOAL）。左右にスライドして入れ替わる -->
 <div id="bg" aria-hidden="true"><div class="pcb pcb-c"></div><div class="pcb pcb-w"></div><div class="veil"></div></div>
 
 <button class="menu-btn" id="menuBtn" type="button" aria-label="メニュー" aria-expanded="false" aria-controls="menu"><i></i><i></i><i></i></button>
 
 <section class="intro" id="intro" aria-label="表紙">
-  <h1 class="wordmark" id="wordmark" aria-label="BEAUTIFUL CONTEXT"><span class="lockup"><img class="words" src="img/logo-layer-words.png" alt="" decoding="sync"><img class="markl" src="img/logo-layer-mark.png" alt="" decoding="sync"></span></h1>
+  <!-- 白（和紙の地）のときは紺のロゴ二枚（words-n・markl-n）に替える。炭のときは読み込まない -->
+  <h1 class="wordmark" id="wordmark" aria-label="BEAUTIFUL CONTEXT"><span class="lockup"><img class="words" src="img/logo-layer-words.png" alt="" decoding="sync"><img class="markl" src="img/logo-layer-mark.png" alt="" decoding="sync"><img class="words-n" src="img/logo-words-navy.png" alt="" loading="lazy"><img class="markl-n" src="img/logo-layer-mark-navy.png" alt="" loading="lazy"></span></h1>
 </section>
 
 <main class="uni" id="uni" aria-label="UniverseIt!">
@@ -223,7 +228,7 @@ document.addEventListener('click', function (e) {
         </form>
         <p class="cm-note">送るときに、名前を一つ作ります。コメントは編集者が確かめてから表示されます。</p>
       </section>
-          <p class="meta more-label">同じルーツのコンテクスト</p><a class="tease" href="c/interstellar--the-grapes-of-wrath/">クリストファー・ノーラン『インターステラー』 ＋ ジョン・スタインベック『怒りの葡萄』 <span aria-hidden="true">›</span></a><a class="tease" href="c/war-of-the-worlds-2005--interstellar/">スピルバーグ『宇宙戦争』 ＋ クリストファー・ノーラン『インターステラー』 <span aria-hidden="true">›</span></a><a class="tease" href="c/interstellar--spaceship-earth/">クリストファー・ノーラン『インターステラー』 ＋ バックミンスター・フラー『宇宙船地球号 操縦マニュアル』 <span aria-hidden="true">›</span></a>
+          <p class="meta more-label">同じルーツのコンテクスト</p><a class="tease" href="c/interstellar--the-grapes-of-wrath/" aria-label="クリストファー・ノーラン『インターステラー』 ＋ ジョン・スタインベック『怒りの葡萄』">クリストファー・ノーラン『インターステラー』 ＋ <span class="nb">ジョン・スタインベック『怒りの葡萄』</span> <span aria-hidden="true">›</span></a><a class="tease" href="c/war-of-the-worlds-2005--interstellar/" aria-label="スピルバーグ『宇宙戦争』 ＋ クリストファー・ノーラン『インターステラー』">スピルバーグ『宇宙戦争』 ＋ <span class="nb">クリストファー・ノーラン『インターステラー』</span> <span aria-hidden="true">›</span></a><a class="tease" href="c/interstellar--spaceship-earth/" aria-label="クリストファー・ノーラン『インターステラー』 ＋ バックミンスター・フラー『宇宙船地球号 操縦マニュアル』">クリストファー・ノーラン『インターステラー』 ＋ <span class="nb">バックミンスター・フラー『宇宙船地球号 操縦マニュアル』</span> <span aria-hidden="true">›</span></a>
           
       <aside class="c-ad" aria-label="広告">
         <a href="#/ad">
@@ -388,16 +393,16 @@ document.addEventListener('click', function (e) {
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 <script type="application/ld+json" id="ld">{"@context":"https://schema.org","@type":"Article","headline":"父と娘の時間のずれを、兄弟で書いた。","alternativeHeadline":"監督と作品","about":[{"@type":"Movie","name":"インターステラー","description":"砂嵐と作物の枯死に追い詰められた近未来の地球から、人類の移住先を探して宇宙へ向かう元宇宙飛行士と、地球に残された娘の物語。","creator":{"@type":"Person","name":"クリストファー・ノーラン監督"}},{"@type":"Person","name":"クリストファー・ノーラン","description":"ロンドン生まれの映画監督。『ダークナイト』『インセプション』『インターステラー』『ダンケルク』『オッペンハイマー』。"}],"author":{"@type":"Person","name":"生成AI（初稿）"},"datePublished":"2026-09-14T06:30:00.000Z","dateModified":"2026-09-14T06:30:00.000Z","inLanguage":"ja","articleBody":"弟ジョナサンとの共同脚本。『インターステラー』は、弟のジョナサン・ノーランが書いていた脚本を、クリストファー・ノーランが引き継いで監督した作品である。時間の流れが星ごとに違う宇宙で、父と娘の時間がずれていく。『メメント』『インセプション』『TENET』と、時間の構造そのものを物語にしてきたノーランの関心が、ここでは家族の物語として結晶している。","url":"https://beautifulcontext.com/c/interstellar--christopher-nolan/","citation":[{"@type":"CreativeWork","name":"If 'Interstellar' Were Made Today, What Would Be Different?","url":"https://www.sciencefriday.com/segments/10-year-anniversary-interstellar/","publisher":{"@type":"Organization","name":"Science Friday"}},{"@type":"CreativeWork","name":"Jonathan Nolan","url":"https://en.wikipedia.org/wiki/Jonathan_Nolan","publisher":{"@type":"Organization","name":"Wikipedia"}},{"@type":"CreativeWork","name":"Christopher Nolan","url":"https://en.wikipedia.org/wiki/Christopher_Nolan","publisher":{"@type":"Organization","name":"Wikipedia"}}],"image":"https://beautifulcontext.com/img/works/interstellar.jpg"}</script>
 
-<script src="js/config.js?v=142"></script>
-<script src="js/seed.js?v=142"></script>
-<script src="js/sources.js?v=142"></script>
-<script src="js/backend.js?v=142"></script>
-<script src="js/store.js?v=142"></script>
-<script src="js/social.js?v=142"></script>
-<script src="js/render.js?v=142"></script>
-<script src="js/login.js?v=142"></script>
-<script src="js/report.js?v=142"></script>
-<script src="js/transition.js?v=142"></script>
-<script src="js/app.js?v=142"></script>
+<script src="js/config.js?v=151"></script>
+<script src="js/seed.js?v=151"></script>
+<script src="js/sources.js?v=151"></script>
+<script src="js/backend.js?v=151"></script>
+<script src="js/store.js?v=151"></script>
+<script src="js/social.js?v=151"></script>
+<script src="js/render.js?v=151"></script>
+<script src="js/login.js?v=151"></script>
+<script src="js/report.js?v=151"></script>
+<script src="js/transition.js?v=151"></script>
+<script src="js/app.js?v=151"></script>
 </body>
 </html>

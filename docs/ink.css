@@ -1,0 +1,197 @@
+/* Beautiful Context — editorial-ink（紙・墨・金, 2026.10.27）
+   app.css・ux.css のあとに読む。紙の上の小さな飾りと、「紙の上か、絵の上か」で変わる決まりだけをここに集める。
+   色の変数・地・ボタンの形は app.css（ここを外しても画面は崩れない。飾りと紙の上の ≡ が以前の形に戻るだけ）。
+   先生の配置と名前は変えない。足すだけ */
+
+/* ---------- ◆ の罫：金の細い線を二つに分け、真ん中に縦長の菱形（5×9） ----------
+   文字の ◆ は字形しだいで細く描かれるので使わず、絵（SVG）で描く。線と菱形のあいだは 4px ずつ空ける。
+   .rule-d は罫そのもの（hr などに）。同じ絵を ::before / ::after に敷くときは background:var(--rule-d) */
+:root{
+  --diamond:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='6' height='9' viewBox='0 0 6 9'%3E%3Cpath d='M3 0 6 4.5 3 9 0 4.5z' fill='%23a97717'/%3E%3C/svg%3E");
+  --rule-d:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='5' height='9' viewBox='0 0 5 9'%3E%3Cpath d='M2.5 0 5 4.5 2.5 9 0 4.5z' fill='%23a97717'/%3E%3C/svg%3E") center/5px 9px no-repeat,
+    linear-gradient(var(--gold),var(--gold)) left center/calc(50% - 6.5px) 1px no-repeat,
+    linear-gradient(var(--gold),var(--gold)) right center/calc(50% - 6.5px) 1px no-repeat;
+}
+.rule-d{display:block;height:9px;margin:0;padding:0;border:0;background:var(--rule-d)}
+
+/* ---- 第3段：読む画面・作品の画面 ---- */
+/* Today・コンテクスト・作品（駅）・編集者・一覧・検索・路線。並びと名前はそのまま、肌だけ紙・墨・金に。
+   色の入れ替え（紺の墨の帯・平らな紙・札の縁・一覧の紺）は app.css のその場で。ここには新しく足した罫と印だけを置く */
+
+/* 二つの作品の名前の上：灰色の線をやめて、金の ◆ の罫（罫の高さは以前の灰色の線と同じ所） */
+.pair::before{content:"";position:absolute;left:0;right:0;top:-4px;height:9px;background:var(--rule-d);pointer-events:none}
+
+/* 札（見出し）と本文（CONTEXT STORY）の境：端から端までの ◆ の罫（以前の灰色の線の代わり）。
+   ボタンの下から降りる金の細い線（.story-cue）は、この ◆ を抜けて本文へ流れる */
+.context-body::before{content:"";position:absolute;left:0;right:0;top:-4px;height:9px;background:var(--rule-d);pointer-events:none}
+
+/* 本文の小見出し：右へ金の細い線が薄れながら伸びる（線は余った幅だけ。見出しが長いときは線が消え、字の幅は以前のまま）。
+   見出しの中に太字などの印があるときは、字の並びを崩さないよう線は引かない（:has を知らない古いブラウザも線なし） */
+.context-body h3:not(:has(*)){display:flex;align-items:center;gap:10px}
+.context-body h3:not(:has(*))::after{content:"";flex:1 1 0;height:1px;background:linear-gradient(90deg,rgba(169,119,23,.75),rgba(169,119,23,.12))}
+
+/* 小さな金の見出し（この駅から延びるほかの区間・同じルーツ・この先のつながり・検索の「作品」）：左に金の縦線、右へ金の細い線。
+   線は余った幅だけ（パソコンの 15px の見出しが二行に割れないように） */
+.more-label{display:flex;align-items:center;gap:10px;padding-left:10px;border-left:2px solid var(--gold)}
+.more-label::after{content:"";flex:1 1 0;height:1px;background:linear-gradient(90deg,rgba(169,119,23,.75),rgba(169,119,23,.12))}
+
+/* 路線の最初の駅（路線の起点・コンテクストの読み終わりの「いまここ」）：金の丸に、うすい金の輪 */
+.stop.first .fstop::before{background:var(--gold);box-shadow:0 0 0 4px rgba(169,119,23,.2)}
+
+/* 参考・出典（render.js の refs()：本文の事実を確かめた先）。出典（.source）と同じ罫・同じ間合いの、小さな字の段。
+   金の見出し「参考・出典」は、本文のほかの見出し（CONTEXT STORY・このつながり・COMMENTS）と同じ大きさと間合い
+   （本文の p の 13・15px のまま。ここだけ小さくすると、すぐ上の「このつながり」と段が違って見える）。
+   一覧の番号と載っている所は灰、題は墨の字に金のうすい細い下線（触れると紺） */
+.refs{margin:22px 0 0;padding-top:12px;border-top:1px solid var(--hair)}
+.context-body .refs ol{margin:0;padding-left:1.5em;color:var(--muted);font:12px/1.7 var(--gothic)}
+.refs li{margin:0 0 8px}
+.refs li:last-child{margin-bottom:0}
+.refs a{color:var(--ink);overflow-wrap:anywhere;text-decoration:underline;text-decoration-thickness:1px;text-decoration-color:rgba(169,119,23,.5);text-underline-offset:3px}
+.refs small{display:block;margin-top:1px;color:var(--muted);font:11px/1.5 var(--gothic);letter-spacing:.02em}
+@media (hover:hover) and (pointer:fine){.refs a:hover{color:var(--navy);text-decoration-color:var(--navy)}}
+
+/* ---------- 紙の上の ≡（携帯・タブレット） ----------
+   読み物（.text-page：About・案内・検索・路線・編集者・404）では、左上の ≡ は絵ではなく紙の上に浮かぶ。
+   紺の丸に白い線（‹ と同じ。ぼかしは要らない）。絵や暗い帯の上では app.css / ux.css の半透明の紺のまま。
+   :has を知らない古いブラウザでは、ここは効かず半透明の紺のまま */
+@media (max-width:1099.98px){
+  body.viewing:not(.at-root):has(#viewIn>.text-page) .menu-btn{background:var(--navy);box-shadow:none;-webkit-backdrop-filter:none;backdrop-filter:none}
+}
+
+/* ---------- 携帯のメニュー（紙）：いまいる所に、左の余白へ金の ◆ ---------- */
+@media (max-width:1099.98px){
+  .menu a[aria-current="page"]{position:relative}
+  /* 題の一行（17px × 1.25）の真ん中に */
+  .menu a[aria-current="page"]::before{content:"";position:absolute;left:-16px;top:calc(14px + 17px * 1.25 / 2 - 4.5px);width:6px;height:9px;background:var(--diamond) center/6px 9px no-repeat}
+  .menu .menu-foot a[aria-current="page"]::before{top:calc(50% - 4.5px)}
+}
+
+/* ---- 第4段：読み物のページ（info-page） ---- */
+/* About・Our Mission・利用規約・画像の出典・広告枠のご案内と、見つからないページ（render.js の page() が info-page と info-<名前> を付ける）。
+   編集者・路線・検索の .text-page には付けないので、ここはその六枚だけに効く。並びと名前はそのまま、肌だけ紙・墨・金に。
+   紙は平らに：以前の上から下への薄いにじみは、短いページ（Our Mission・広告枠・404）の途中で切れて段に見えていた。
+   見出しは明朝の太字に、下に ◆ の罫。パソコンは以前のまま、紙の列の真ん中に 760px の一列 */
+.info-page{background:var(--paper)}
+.info-page .content{background:none;padding-bottom:48px}
+.info-page .content h2{margin:0 0 16px;font-size:28px;line-height:1.28;font-weight:700;letter-spacing:-.01em;color:var(--ink)}
+.info-page .content h2::after{content:"";display:block;height:9px;margin-top:16px;background:var(--rule-d)}
+.info-page .content .lead{margin-bottom:18px;line-height:1.9}
+.info-page .content p,.info-page .content li{line-height:1.95}
+/* 節の見出し：右へ金の細い線が薄れながら伸びる。見出しが長いときは線のほうが縮む（文字は折り返さない） */
+.info-page .content h3{display:flex;align-items:center;gap:12px;margin:32px 0 12px;font-size:19px;line-height:1.4;font-weight:700;color:var(--ink)}
+.info-page .content h3::after{content:"";flex:1 1 24px;height:1px;background:linear-gradient(90deg,rgba(169,119,23,.75),rgba(169,119,23,.12))}
+.info-page .content li::marker{color:var(--gold)}
+/* 文中のリンク（利用規約の送り先の案内など）：紺の字に細い下線 */
+.info-page .content p a{color:var(--navy);text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:3px;text-decoration-color:rgba(10,31,58,.5)}
+/* About の運営の欄：紙の上に一段浮かぶ札 */
+.info-page .content .org{padding:14px 16px;border:1px solid var(--hair);border-radius:6px;background:var(--paper-card)}
+
+/* Our Mission：辿る・読む・創るの三つを札に。番号は紺の丸に明るい金、名前は金の字（紙の上の小さな金は --gold-ink。色は app.css） */
+.info-page .steps{margin:24px 0 0;padding:0;list-style:none;counter-reset:st}
+.info-page .content .steps li{position:relative;min-height:64px;margin:0 0 10px;padding:12px 14px 12px 64px;border:1px solid var(--hair);border-radius:6px;
+  background:var(--paper-card);box-shadow:var(--card-shadow);line-height:1.7;text-align:left;counter-increment:st}
+.info-page .steps li::before{content:counter(st);position:absolute;left:14px;top:13px;width:36px;height:36px;border-radius:50%;
+  background:var(--navy);color:var(--gold-lite);font:700 17px/36px var(--mincho);text-align:center}
+.info-page .steps b{display:block;min-width:0;margin:0 0 1px;font:700 16px/1.5 var(--mincho)}
+/* 結びの一行：左右に金の細い線。字は以前の 12px のまま一行に置き、線は余った幅だけ伸びる
+   （線に先に幅を取らせると、字のほうが折り返される）。375px より狭い携帯では余りが数 px なので線は出さず、字だけ真ん中に */
+.info-page .content .motto{display:flex;align-items:center;justify-content:center;gap:12px;margin:30px 0 8px;text-align:center}
+.info-page .motto::before,.info-page .motto::after{content:"";flex:1 1 0;height:1px;background:rgba(169,119,23,.6)}
+@media (max-width:374px){.info-page .motto::before,.info-page .motto::after{display:none}}
+
+/* 画像の出典：一枚の札の中に行を並べる。作品名は明朝の太字（下線なし）、出典のリンクは紺に金の下線。
+   文中のリンクの決まり（p a）はここには掛からない。パソコンでは二列に（116 行あるので、ページが 4 割ほど短くなる） */
+.info-page .content .credits{margin:22px 0 0;border:1px solid var(--hair);border-radius:6px;background:var(--paper-card);box-shadow:var(--card-shadow)}
+.info-page .content .credits li{margin:0;padding:12px 16px;border-top:1px solid var(--hair);line-height:1.55}
+.info-page .content .credits li:first-child{border-top:0}
+.info-page .content .credits li>a{color:var(--ink);font:700 14px/1.5 var(--mincho);text-decoration:none}
+.info-page .content .credits small{color:var(--muted);font:11.5px/1.65 var(--gothic)}
+.info-page .content .credits small a{color:var(--navy);white-space:nowrap;text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:3px;text-decoration-color:var(--gold)}   /* 「出典」の二文字を行で割らない */
+
+/* 広告枠のご案内・見つからないページ：ページでただ一つの行き先は、紺の丸い棒（高さ 48。シートの紺のボタンと同じ形）。› は白で右端に */
+.info-ad .tease,.info-404 .tease{display:flex;align-items:center;justify-content:center;max-width:360px;min-height:48px;margin-top:22px;padding:12px 48px;
+  border:0;border-radius:999px;background:var(--navy);box-shadow:none;color:#fff;font:700 13px/1.5 var(--gothic);text-align:center}
+.info-ad .tease span,.info-404 .tease span{right:14px;background:none;box-shadow:none;color:#fff;font-size:20px}
+@media (hover:hover) and (pointer:fine){.info-ad .tease:hover,.info-404 .tease:hover{background:var(--navy-hover)}}
+/* 見つからないページ（携帯・タブレット）：真ん中にそろえる（棒も少し短く、真ん中に）。パソコンは列の左のまま */
+@media (max-width:1099.98px){
+  .info-404 .content h2,.info-404 .content .lead,.info-404 .content .after{text-align:center}
+  .info-404 .tease{max-width:300px;margin-left:auto;margin-right:auto}
+}
+@media (min-width:1100px){
+  .info-page .content h2{margin-bottom:20px;font-size:40px;line-height:1.25}
+  .info-page .content h2::after{margin-top:20px}
+  .info-page .content .lead{font-size:16px;line-height:1.95}
+  .info-page .content p,.info-page .content li{line-height:2}
+  .info-page .content h3{margin-top:40px;font-size:22px}
+  /* Our Mission の三つは横に並べる（辿る・読む・創るの順はそのまま）。番号の丸は名前の上に */
+  .info-page .steps{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+  .info-page .content .steps li{min-height:0;margin:0;padding:16px 16px 18px}
+  .info-page .steps li::before{position:static;display:block;margin:0 0 10px}
+  .info-page .content .credits{display:grid;grid-template-columns:1fr 1fr}
+  .info-page .content .credits li:nth-child(2){border-top:0}
+  .info-page .content .credits li:nth-child(odd){border-right:1px solid var(--hair)}
+}
+
+/* ---- 第6段：飾り ---- */
+/* 金の筆（img/deco/brush-gold.png）と墨の山（img/deco/mist.png）を、紙の隅に一つ二つ。動かない絵（アニメーションは足さない）。
+   置くのは、読み物（About・Our Mission・利用規約・画像の出典・広告枠のご案内・見つからないページ）・編集者・一覧・検索・路線・
+   携帯のメニュー・ログインのシートだけ。Today・コンテクスト・作品（絵と帯でいっぱい。ページを動かすときに写しも作る）と、
+   エディター・運営者メニュー・流れで観るには置かない。
+   決まり
+   ・飾りは中身の箱の中の position:absolute。触れない（pointer-events:none）。字の後ろ（箱に z-index:0、飾りは -1。札や欄は飾りの上）
+   ・fixed・will-change は使わない。.page に overflow:hidden を掛けない（‹ が上に留まらなくなる）
+   ・箱の外へはみ出さない（ページの長さも横幅も以前のまま）。上の ≡・‹ TODAY・ロゴの帯（上から 56px）には掛けない
+   ・字と重なる所は、字と飾りのいちばん濃い点で 4.5:1 以上。紙の上の小さな金や灰の字（見出しの英字・数など）の後ろには、濃い所を置かない
+   ・絵はいつも一枚まるごと見せる（切り抜かない）。いまの絵は仮のもの。同じ名前・同じ縦横比の絵に差し替えれば、ここは直さずに済む
+     （金の筆 1400×520：左の端から入って弧を描き、右で細く消える。墨の山 1600×640：右に寄せた山が、左と下へ消える） */
+.info-page .content,.editor-page .content,.search-page .content,.feed-page .content,.list-page .content{position:relative;z-index:0}
+
+/* 読み物：見出しの下の ◆ の罫の左の端に、金の筆の弧（左の端から入り、罫を越えて罫に降りる）。罫について動くので、見出しが二行になっても同じ所 */
+.info-page .content h2{position:relative}
+.info-page .content h2::before{content:"";position:absolute;z-index:-1;left:-23px;bottom:-22px;width:150px;height:56px;pointer-events:none;
+  background:url(img/deco/brush-gold.png) 0 0/100% 100% no-repeat;opacity:.85}
+/* 読み物・編集者・検索・路線：見出しの帯の右に、墨の山（左へ薄れる）。見出しの墨の字は山の濃い所でも 7:1 */
+.info-page .content::after,.editor-page .content::after,.search-page .content::after,.feed-page .content::after{content:"";position:absolute;z-index:-1;
+  right:0;top:56px;width:230px;height:92px;pointer-events:none;
+  background:url(img/deco/mist.png) 0 0/100% 100% no-repeat;opacity:.45;
+  -webkit-mask-image:linear-gradient(to right,transparent,#000 60%);mask-image:linear-gradient(to right,transparent,#000 60%)}
+.editor-page .content::after{top:0;width:200px;height:80px}   /* 編集者：写真のすぐ下、名前の右 */
+.search-page .content::after{width:170px;height:68px}         /* 検索：探す欄の上に山の頭だけ（裾は欄の後ろ） */
+.feed-page .content::after{width:200px;height:80px}
+/* 一覧（紺の地）：同じ山を明るく、うすく（墨の山の形だけを借りて、紙の色で描く） */
+.list-page .content::after{content:"";position:absolute;z-index:-1;right:0;top:56px;width:200px;height:80px;pointer-events:none;
+  background:var(--paper);opacity:.25;
+  -webkit-mask:url(img/deco/mist.png) 0 0/100% 100% no-repeat;mask:url(img/deco/mist.png) 0 0/100% 100% no-repeat}
+/* 一覧の列が画面の端まで届かない幅（760px〜）：列の右の端は外の紺の地との境。山がそこで切れて縦の線に見えるので、右の四分の一を薄くして消す。
+   山の形は mask（mist.png）が持ち、色は background なので、色の方を右へ透かす（mask は一枚のまま。重ね合わせの指定は要らない） */
+@media (min-width:760px){
+  .list-page .content::after{background:linear-gradient(to right,var(--paper) 75%,transparent)}
+}
+
+/* 携帯のメニュー（紙）：いちばん下（案内と運営のまとまり）の右に、墨の山。左へ薄れるので、左に並ぶ字の後ろはほぼ紙のまま。
+   メニューの中身の終わりに付けるので、メニューを下まで送っても山はいちばん下にある（長さは以前のまま）。
+   山の高さは 128px：いちばん下の行（利用規約・プライバシー）の字より下に収める。いま開いているページの行は金の字（--gold-ink）になり、
+   160px では山の肩がその字の右下に掛かって 4.36:1（320px 幅では 4.23:1）だった。128px なら字の後ろは紙のまま（5.27:1、320〜390px で同じ） */
+@media (max-width:1099.98px){
+  .menu .menu-foot{position:relative;z-index:0}
+  .menu .menu-foot::after{content:"";position:absolute;z-index:-1;right:-26px;bottom:calc(-30px - env(safe-area-inset-bottom));width:330px;height:128px;pointer-events:none;
+    background:url(img/deco/mist.png) right bottom/auto 100% no-repeat;opacity:.35;
+    -webkit-mask-image:linear-gradient(to right,transparent,#000 55%);mask-image:linear-gradient(to right,transparent,#000 55%)}
+}
+
+/* ログインのシート：右上の角に、金の筆の弧（左右を返して、太い入りをシートの右の端に）。字の無い所だけ。
+   シートは ReMixIt!・アカウント・通報でも使うので、ログイン（aria-label。login.js・app.js の openLogin）だけに */
+.sheet[aria-label="ログイン"] .sheet-in{position:relative;z-index:0}
+.sheet[aria-label="ログイン"] .sheet-in::before{content:"";position:absolute;z-index:-1;right:0;top:12px;width:128px;height:47.5px;pointer-events:none;
+  background:url(img/deco/brush-gold.png) 0 0/100% 100% no-repeat;opacity:.85;transform:scaleX(-1)}
+
+/* パソコン：紙の列（760px）の中のまま、少し大きく。列の端は絵の切れ目にならないので、筆の入りと山の両端を薄くする */
+@media (min-width:1100px){
+  .info-page .content h2::before{bottom:-23px;width:160px;height:59.4px;
+    -webkit-mask-image:linear-gradient(to right,transparent,#000 30%);mask-image:linear-gradient(to right,transparent,#000 30%)}
+  .info-page .content::after,.editor-page .content::after,.search-page .content::after,.feed-page .content::after{width:300px;height:120px;
+    -webkit-mask-image:linear-gradient(to right,transparent,#000 55%,#000 75%,transparent);mask-image:linear-gradient(to right,transparent,#000 55%,#000 75%,transparent)}
+  .search-page .content::after{width:220px;height:88px}
+  .list-page .content::after{width:300px;height:120px}   /* 一覧は列いっぱいの箱。右の端は薄くして消す（上の 760px〜） */
+}

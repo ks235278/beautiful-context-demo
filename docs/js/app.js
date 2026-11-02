@@ -131,12 +131,15 @@
   placeMenu();
   /* 運営者メニューは、運営の画面（manage.html）を一度でも開いた端末にだけ出す。読者のメニューには要らない */
   try { if (localStorage.getItem('bc-operator') === '1'){ const op = menu.querySelector('[data-operator]'); if (op) op.hidden = false; } } catch (e) {}
-  /* いまいる場所を、メニューの中で示す（Today・一覧・UniverseIt!） */
+  /* いまいる場所を、メニューの中で示す（Today・一覧・UniverseIt!。白の地のときは ReMixIt!。
+     案内と運営のページ（About・Our Mission・広告・出典・規約）は、その項目） */
   function paintMenu(){
-    const at = !here ? 'uni' : here.today ? 'today' : here.list ? 'list' : '';
-    menu.querySelectorAll('[data-home],a[href="#/list"]:not(.menu-logo),[data-uni]').forEach(a => {
-      const k = a.matches('[data-home]') ? 'today' : a.matches('[data-uni]') ? 'uni' : 'list';
-      if (k === at) a.setAttribute('aria-current', 'page'); else a.removeAttribute('aria-current');
+    const white = document.documentElement.dataset.theme === 'white';
+    const at = !here ? (white ? 'remix' : 'uni') : here.today ? 'today' : here.list ? 'list'
+      : /^p:/.test(here.key || '') ? here.key.slice(2) : '';
+    menu.querySelectorAll('a:not(.menu-logo)').forEach(a => {
+      const k = a.matches('[data-uni]') ? 'uni' : a.matches('[data-remix]') ? 'remix' : (a.getAttribute('href') || '').replace(/^#\//, '');
+      if (at && k === at) a.setAttribute('aria-current', 'page'); else a.removeAttribute('aria-current');
     });
   }
   /* メニューは左から出てくるので、左へ払えばしまわれる（出てきた向きへ帰る） */
@@ -154,10 +157,13 @@
   /* A / WHITE（ReMixIt!）と B / CHARCOAL（UniverseIt!）。左右に並ぶ二つの画面 */
   function setTheme(theme){
     document.documentElement.dataset.theme = theme;
+    /* 地の色は theme.js と同じ値（炭は墨の山の紺、白は和紙） */
+    const ground = window.BCTheme.GROUND[theme === 'white' ? 'white' : 'charcoal'];
     const meta = document.querySelector('meta[name="theme-color"]');
-    if (meta) meta.content = theme === 'white' ? '#ffffff' : '#061629';
-    document.documentElement.style.setProperty('--veil', theme === 'white' ? '#ffffff' : '#061629');
+    if (meta) meta.content = ground;
+    document.documentElement.style.setProperty('--veil', ground);
     markTheme();
+    paintMenu();   /* UniverseIt!（炭）と ReMixIt!（白）で、メニューの「いま」も入れ替わる */
     if (typeof paintSelection === 'function') paintSelection();
   }
   function markTheme(){
@@ -1132,7 +1138,7 @@
   document.addEventListener('input', ev => { if (ev.target.closest('[data-ls-seek]')) filterList(); });
 
   /* ---------- UniverseIt! ⇄ ReMixIt!：左右にスライドして画面を入れ替える（flow1002） ----------
-     二つの画面は左右に並んでいる（左 ReMixIt! の白、右 UniverseIt! の回路）。指で横に引くと、
+     二つの画面は左右に並んでいる（左 ReMixIt! の白、右 UniverseIt! の炭）。指で横に引くと、
      背景の二枚が指に付いて動き、見出しとボタンの濃さが引いた分だけ入れ替わる。
      離して半分を越えていれば（または勢いよく払えば）その画面へ、足りなければ元へ戻る。
      縦の動きはページのスクロールに任せる（touch-action: pan-y。スクロールを待たせない） */
@@ -1190,7 +1196,7 @@
       const v = b[0] > a[0] ? (b[1] - a[1]) / (b[0] - a[0]) : 0;
       let target = cancelled ? S0.base : Math.abs(v) > 0.4 ? (v > 0 ? 1 : 0) : (S0.mix > .5 ? 1 : 0);
       const ease = 'cubic-bezier(.22,.8,.22,1)';
-      body.classList.add('settling');   /* 戻り切るまで、両方の回路を描いておく */
+      body.classList.add('settling');   /* 戻り切るまで、両方の絵を描いておく */
       [...layers(), ...titles(), remix, uniBtn].forEach(el => { el.style.transition = `transform .38s ${ease}, opacity .38s ${ease}, background-color .38s ${ease}`; });
       paint(target);
       setTimeout(() => { setTheme(target ? 'white' : 'charcoal'); clear(); body.classList.remove('settling'); }, 400);
