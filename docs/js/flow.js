@@ -21,6 +21,7 @@
   /* 読者の動き。名前・打った文字は送らない */
   const track = (name, params) => { if (window.gtag) gtag('event', name, params || {}); };
   const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const wide = matchMedia('(min-width: 1100px)');
 
   const T = S.trail();
   const N = T.length;
@@ -81,8 +82,9 @@
           ${rel ? `<p class="rel">${rel}</p>` : ''}
           <div class="row">
             <a class="ed" href="index.html#/e/${encodeURIComponent(ed.id)}"><b>${esc(ed.name)}</b><small>${esc(ed.role || 'EDITOR')}</small></a>
-            <span class="down" aria-hidden="true">下へ、そのまま読める<small>${esc(R.readLabel(c.body))}</small><i></i></span>
+            <span class="tools"></span>
           </div>
+          <p class="down" aria-hidden="true">下へ、そのまま読める<small>${esc(R.readLabel(c.body))}</small><i></i></p>
         </div>
       </div>
       <section class="story" aria-label="コンテクスト・ストーリー">${story(e)}</section>
@@ -109,9 +111,9 @@
   }
 
 
-  /* ---------- 表紙の高さ ----------
-     一画面の表紙は、流れの枠の高さから、下の 64px を引いたもの。下には本文の頭（CONTEXT STORY）がのぞき、
-     「このまま下へ読める」とひと目でわかる。枠の高さは iOS の帯の出入りで変わるので、そのたびに測り直す */
+  /* ---------- 位置 ----------
+     表紙は中身の高さだけ（絵・題・二つの作品・編集者の行）。すぐ下から本文が始まり、間に空きを作らない。
+     枠の高さ（--fh）は、狭い画面での見出しの大きさなどに使うので、iOS の帯の出入りのたびに測り直す */
   const h = () => flow.clientHeight;
   const fit = () => flow.style.setProperty('--fh', h() + 'px');
   fit();
@@ -141,6 +143,9 @@
     keep('bc-last', e.id);
     try { history.replaceState(null, '', '#' + encodeURIComponent(c.slug)); } catch (x) {}
     renderRail(t);
+    /* 携帯・タブレット：右の列（フォロー・共感・共有・一覧）は、いまの札の編集者の行に入れる（表紙の下に空きを作らない）。
+       パソコンは舞台の外のまま */
+    if (!wide.matches) cards[i].querySelector('.tools').appendChild(rail);
     /* 解析：札が落ち着いてから一度。速く払い抜けた札は数えない */
     clearTimeout(viewTimer);
     viewTimer = setTimeout(() => {
@@ -172,6 +177,7 @@
     rt = setTimeout(() => {
       const i = Math.max(cur, 0), off = flow.scrollTop - tops[i];
       fit(); measure();
+      if (wide.matches) stage.appendChild(rail); else if (cur >= 0) cards[cur].querySelector('.tools').appendChild(rail);
       flow.scrollTo({ top: tops[i] + Math.max(0, off), behavior: 'instant' });
     }, 120);
   });
