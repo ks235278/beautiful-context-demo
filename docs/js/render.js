@@ -194,7 +194,7 @@
     return `
       <article class="page wpage">
         ${backTop()}
-        <div class="duo-hero"><a class="c-logo" href="#/" data-top aria-label="BEAUTIFUL CONTEXT（TOP へ戻る）"><img src="img/logo.png" alt=""></a><div class="duo">${frame(w, 'art')}<a class="duo-add" href="editor.html?from=${attr(encodeURIComponent(w.slug))}" aria-label="${attr(w.title)}から、新しいつながりを創る" title="この作品から、新しいつながりを創る（ReMixIt!・編集者向け）"><span aria-hidden="true">＋</span><small>つながりを創る</small></a></div>${navArrows()}</div>
+        <div class="duo-hero">${topLogo('on-paper')}<div class="duo">${frame(w, 'art')}<a class="duo-add" href="editor.html?from=${attr(encodeURIComponent(w.slug))}" aria-label="${attr(w.title)}から、新しいつながりを創る" title="この作品から、新しいつながりを創る（ReMixIt!・編集者向け）"><span aria-hidden="true">＋</span><small>つながりを創る</small></a></div>${navArrows()}</div>
         <div class="content">
           <p class="meta">${esc(w.type || '作品')}${w.year ? '・' + esc(w.year) + '年' : ''}　CURRENT STATION</p>
           <p class="meta-sub">駅：この作品を起点に、次の区間へ</p>
@@ -320,8 +320,8 @@
       <article class="page cpage${td ? ' today' : ''}">
         ${td ? '' : backTop()}
         <div class="duo-hero">${td
-          ? `<div class="today-bar"><b>TODAY'S EDITOR'S CHOICE</b><span><time>${esc(td.day)}</time>${dots}</span></div>${loginChip(o.me)}`
-          : `<a class="c-logo" href="#/" data-top aria-label="BEAUTIFUL CONTEXT（TOP へ戻る）"><img src="img/logo.png" alt=""></a>`}<div class="duo"><button type="button" class="duo-go" data-step="0" aria-label="${attr(e.a.title)}の作品ページへ">${frame(e.a, 'art')}</button><button type="button" class="duo-go" data-step="2" aria-label="${attr(e.b.title)}の作品ページへ">${frame(e.b, 'art')}</button><i class="swap" aria-hidden="true">↔</i></div>${nav}</div>
+          ? `${topLogo('on-paper today-logo')}<div class="today-bar"><b>TODAY'S EDITOR'S CHOICE</b><span><time>${esc(td.day)}</time>${dots}</span></div>${loginChip(o.me)}`
+          : topLogo('on-paper')}<div class="duo"><button type="button" class="duo-go" data-step="0" aria-label="${attr(e.a.title)}の作品ページへ">${frame(e.a, 'art')}</button><button type="button" class="duo-go" data-step="2" aria-label="${attr(e.b.title)}の作品ページへ">${frame(e.b, 'art')}</button><i class="swap" aria-hidden="true">↔</i></div>${nav}</div>
         <section class="context-lead">
           ${state}
           ${editorRow(o.editor, o.following)}

@@ -157,9 +157,9 @@ if (fs.existsSync(path.join(DOCS, 'sitemap.xml'))) {
    変わっても、変わったうちに入れない（Google は lastmod を「中身の大きな変更」の日として読む）。
    本文の印（<!--bc-body-->）のない古いページとは、コメント・script（構造化データ以外）・style・CSS/JS の link・?v=・空白を除いて比べる */
 const pick = (re, h) => (h.match(re) || [])[1] || '';
-/* 本文は、字と絵（src・alt）だけで比べる。札の包み（span）・class・role・aria など、見た目の書き方が変わっただけでは
+/* 本文は、字と絵（src・alt）だけで比べる（上のロゴは枠なので外す）。札の包み（span）・class・role・aria など、見た目の書き方が変わっただけでは
    「変わった」に入れない（画面の着せ替えで、すべてのページが今日の日付にならないように） */
-const bodySig = (s) => s.replace(/<img\b[^>]*>/g, (t) => ` [${pick(/\bsrc="([^"]*)"/, t)}|${pick(/\balt="([^"]*)"/, t)}] `)
+const bodySig = (s) => s.replace(/<a class="c-logo[^"]*"[\s\S]*?<\/a>/g, '').replace(/<img\b[^>]*>/g,(t) => ` [${pick(/\bsrc="([^"]*)"/, t)}|${pick(/\balt="([^"]*)"/, t)}] `)
   .replace(/<[^>]+>/g, '').replace(/\s+/g, ' ').trim();
 function sig(h) {
   h = h.replace(/\r\n/g, '\n');

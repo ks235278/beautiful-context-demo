@@ -262,3 +262,38 @@
   .rm-seg.now .rm-pic{padding:3px;border:1.5px solid var(--gold-lite);border-radius:4px;width:max-content}
   .rm-seg.now .rm-pic img,.rm-seg.now .rm-pic i{width:54px;height:72px;opacity:1}
 }
+
+/* ---- 第10段：携帯・タブレットの読む画面も、見本の紙の上に（CTO 2026.11.02「携帯もやってから一緒に上げる」） ----
+   ・二枚の絵の地を紺の墨の帯から紙に。絵の後ろに墨のにじみ、足もとに墨の山、まわりに金の筆の輪（パソコンの第9段と同じ絵）
+   ・上の帯（≡・‹・ロゴ・Login・Today の名札）は紙の上の色に：≡ と ‹ は紺の丸、ロゴは紺（render.js で logo-navy）、
+     Login は紺の縁、名札は濃い金と灰。Today は見本どおりロゴを上に置き、名札をその下へ
+   ・並び・大きさ・動き（払って入れ替える・‹ ›）は変えない。パソコン（1100px〜）は第9段 */
+@media (max-width:1099.98px){
+  :is(.cpage,.wpage)>.duo-hero{background:var(--paper);box-shadow:none;isolation:isolate;padding-left:30px;padding-right:30px;padding-bottom:24px}
+  /* 絵は左右 30px 内側に（墨と金の輪が絵のまわりに見えるように。‹ › の丸はその余白に入る） */
+  :is(.cpage,.wpage)>.duo-hero .art{box-shadow:0 10px 20px -12px rgba(6,20,43,.55)}
+  :is(.cpage,.wpage)>.duo-hero::before{content:"";position:absolute;z-index:-1;left:-8%;right:-8%;top:calc(env(safe-area-inset-top) + 44px);bottom:-10px;pointer-events:none;
+    background:url(img/ink-side.jpg) center 70%/cover no-repeat;opacity:.9;
+    -webkit-mask-image:radial-gradient(closest-side,#000 60%,rgba(0,0,0,.55) 82%,transparent);mask-image:radial-gradient(closest-side,#000 60%,rgba(0,0,0,.55) 82%,transparent)}
+  :is(.cpage,.wpage)>.duo-hero::after{content:"";position:absolute;z-index:-1;left:-6px;top:calc(env(safe-area-inset-top) + 50px);width:62%;aspect-ratio:1400/520;pointer-events:none;
+    background:url(img/deco/brush-gold.png) 0 0/100% 100% no-repeat;opacity:.9}
+  :is(.cpage,.wpage)>.duo-hero .duo::after{content:"";position:absolute;z-index:-1;right:-10%;bottom:-26px;width:62%;aspect-ratio:1400/520;pointer-events:none;
+    background:url(img/deco/brush-gold.png) 0 0/100% 100% no-repeat;opacity:.9;transform:rotate(180deg)}
+  :is(.cpage,.wpage)>.duo-hero .duo::before{content:"";position:absolute;z-index:-1;left:-14%;bottom:-24px;width:80%;aspect-ratio:1600/640;pointer-events:none;
+    background:url(img/deco/mist.png) 0 100%/contain no-repeat;opacity:.85;transform:scaleX(-1)}
+  /* 紙の上の ≡ と ‹ は紺の丸（読み物の .text-page と同じ。ぼかしは要らない） */
+  body.viewing:has(#viewIn>:is(.cpage,.wpage)) .menu-btn{background:var(--navy);box-shadow:none;-webkit-backdrop-filter:none;backdrop-filter:none}
+  :is(.cpage,.wpage)>.back-close{background:var(--navy);box-shadow:none;-webkit-backdrop-filter:none;backdrop-filter:none;color:#fff}
+  :is(.cpage,.wpage) .ctx-nav{background:var(--navy);box-shadow:none;-webkit-backdrop-filter:none;backdrop-filter:none;color:#fff}
+  /* Today：ロゴを上に、名札（TODAY'S EDITOR'S CHOICE・日付）はその下。Login は紺の縁 */
+  .cpage.today>.duo-hero{padding-top:calc(env(safe-area-inset-top) + 84px)}
+  .cpage.today .today-logo{left:50%;top:calc(env(safe-area-inset-top) + 13px)}   /* Today には ‹ が無いので、真ん中のまま（第7段の右寄せは要らない） */
+  /* ロゴは ≡ と Login のあいだに収める（Login の左の端まで 8px。320px で 18.5px、344px から 22px） */
+  .cpage.today .today-logo img{height:clamp(16px,calc((100vw - 184px) / 7.35),22px)}
+  .cpage .today-bar{top:calc(env(safe-area-inset-top) + 42px)}
+  .cpage .today-bar b{color:var(--gold-ink)}
+  .cpage .today-bar span{color:var(--muted)}
+  .cpage .today-dots i{background:rgba(10,31,58,.22)}
+  .cpage .today-dots i.on{background:var(--gold)}
+  .cpage .login-chip:not(.me){border:1.5px solid var(--navy);background:var(--paper-card);color:var(--navy)}
+}
