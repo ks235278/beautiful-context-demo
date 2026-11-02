@@ -43,9 +43,9 @@ try { if (sessionStorage.getItem('bc-resume')) document.documentElement.classLis
 <link rel="preload" as="image" href="img/logo-layer-words.png">
 <!-- 台本も先に取りに行く（静的なページは台本より先に本文が描かれる。遅い回線で、触れて動くまでの間を縮める）。
      src と同じアドレス（?v= まで）でないと、二度取りに行く -->
-<link rel="preload" as="script" href="js/seed.js?v=152">
-<link rel="preload" as="script" href="js/app.js?v=152">
-<link rel="manifest" href="manifest.webmanifest?v=152">
+<link rel="preload" as="script" href="js/seed.js?v=156">
+<link rel="preload" as="script" href="js/app.js?v=156">
+<link rel="manifest" href="manifest.webmanifest?v=156">
 <link rel="apple-touch-icon" href="icon-180.png">
 <!-- タブと検索結果に出る小さな印。アプリの印（ホーム画面のアイコン）と同じ形 -->
 <link rel="icon" href="favicon.ico" sizes="16x16 32x32 48x48">
@@ -74,13 +74,13 @@ if (location.hostname === 'beautifulcontext.com'){
   document.head.appendChild(ga);
 }
 </script>
-<script src="js/theme.js?v=152"></script>
-<link rel="stylesheet" href="app.css?v=152">
+<script src="js/theme.js?v=156"></script>
+<link rel="stylesheet" href="app.css?v=156">
 <!-- 読む画面の使い勝手（2026.10.24）。app.css のすぐあと -->
-<link rel="stylesheet" href="ux.css?v=152">
-<link rel="stylesheet" href="fade.css?v=152">
+<link rel="stylesheet" href="ux.css?v=156">
+<link rel="stylesheet" href="fade.css?v=156">
 <!-- editorial-ink（紙・墨・金）：◆ の罫と、紙の上か絵の上かで変わる決まり。ux.css のあと -->
-<link rel="stylesheet" href="ink.css?v=152">
+<link rel="stylesheet" href="ink.css?v=156">
 <!-- 台本（js）が揃うまで：まだ押しても動かないもの（‹・絵の横の ‹ ›・つながりを辿る）を少し薄くし、下の帯の上の縁に細い金の線を走らせる。
      app.js が最後に body.app-ready を付けて外す。すぐ揃うときは何も見せない（0.3 秒待ってから出す） -->
 <style>
@@ -201,6 +201,11 @@ document.addEventListener('click', function (e) {
           <button type="button" class="read" data-read="">このつながりを読む<small>約30秒</small><span aria-hidden="true">↓</span></button>
           <i class="story-cue" aria-hidden="true"></i>
         </section>
+        
+        <section class="src-cards" aria-label="つながる二つの作品">
+          <p class="meta">SOURCE CONNECTION</p>
+          <div class="src-row"><button type="button" class="src" data-step="0" aria-label="アイザック・アシモフ『ファウンデーション』の作品ページへ"><img src="img/works/foundation.jpg" alt="" loading="lazy" decoding="async"><span class="src-t"><small>書籍・1951</small><b>アイザック・アシモフ『ファウンデーション』</b><em>アイザック・アシモフ</em><span class="src-s">銀河帝国の崩壊を「心理歴史学」で予見した数学者ハリ・セルダンが、来るべき暗黒時代を短くするための計画を立てる。2021年から Apple TV+ でドラマになった。</span><i aria-hidden="true">作品ページへ　→</i></span></button><span class="src-link" aria-hidden="true">↔</span><button type="button" class="src" data-step="2" aria-label="ヴィンス・ギリガン『プルリブス』の作品ページへ"><img src="img/works/pluribus.jpg" alt="" loading="lazy" decoding="async"><span class="src-t"><small>ドラマ・2025</small><b>ヴィンス・ギリガン『プルリブス』</b><em>ヴィンス・ギリガン</em><span class="src-s">『ブレイキング・バッド』のヴィンス・ギリガンが手がけた Apple TV のドラマ。人々の心がひとつに溶け合っていく世界で、その輪に加われない数少ない人間の一人である女性を描く。</span><i aria-hidden="true">作品ページへ　→</i></span></button></div>
+        </section>
         <article class="context-body" id="story">
           <p class="meta">CONTEXT STORY</p>
           <h2>ハブは配信サービス Apple TV（2025年10月に Apple TV+ から改称）。</h2><p>『ファウンデーション』のドラマ版は2021年9月24日に Apple TV+ で、『プルリブス』は2025年11月7日に Apple TV で、それぞれ配信が始まった。</p><p>数学者ハリ・セルダンが「心理歴史学」で銀河帝国の崩壊を予見する物語と、感染によってほぼすべての人の心がひとつにつながる世界の物語。個人を超えた「全体」をめぐる主題で、この二作を並べて読むこともできる。</p>
@@ -228,7 +233,7 @@ document.addEventListener('click', function (e) {
         </form>
         <p class="cm-note">送るときに、名前を一つ作ります。コメントは編集者が確かめてから表示されます。</p>
       </section>
-          <p class="meta more-label">同じルーツのコンテクスト</p><a class="tease" href="c/pluribus--parasyte/" aria-label="ヴィンス・ギリガン『プルリブス』 ＋ 岩明均『寄生獣』">ヴィンス・ギリガン『プルリブス』 ＋ <span class="nb">岩明均『寄生獣』</span> <span aria-hidden="true">›</span></a><a class="tease" href="c/highest-2-lowest--pluribus/" aria-label="『HIGHEST 2 LOWEST』 ＋ ヴィンス・ギリガン『プルリブス』">『HIGHEST 2 LOWEST』 ＋ <span class="nb">ヴィンス・ギリガン『プルリブス』</span> <span aria-hidden="true">›</span></a><a class="tease" href="c/breaking-bad--pluribus/" aria-label="ドラマ『ブレイキング・バッド』 ＋ ヴィンス・ギリガン『プルリブス』">ドラマ『ブレイキング・バッド』 ＋ <span class="nb">ヴィンス・ギリガン『プルリブス』</span> <span aria-hidden="true">›</span></a>
+          <p class="meta more-label">同じルーツのコンテクスト</p><div class="ctx-cards"><a class="ctx-card" href="c/pluribus--parasyte/" aria-label="隣の人が、昨日までの人ではない。：ヴィンス・ギリガン『プルリブス』 ＋ 岩明均『寄生獣』"><span class="cc-pics" aria-hidden="true"><img src="img/works/pluribus.jpg" alt="" loading="lazy" decoding="async"><img src="img/works/parasyte.jpg" alt="" loading="lazy" decoding="async"></span><span class="cc-t"><small>［内側から入れ替わる人類］</small><b>隣の人が、昨日までの人ではない。</b><em>ヴィンス・ギリガン『プルリブス』 ＋ <span class="nb">岩明均『寄生獣』</span></em></span><span class="cc-go" aria-hidden="true">›</span></a><a class="ctx-card" href="c/highest-2-lowest--pluribus/" aria-label="誘拐劇とSFが、同じ画面から届く。：『HIGHEST 2 LOWEST』 ＋ ヴィンス・ギリガン『プルリブス』"><span class="cc-pics" aria-hidden="true"><img src="img/highest.jpg" alt="" loading="lazy" decoding="async"><img src="img/works/pluribus.jpg" alt="" loading="lazy" decoding="async"></span><span class="cc-t"><small>［同じ配信の窓］</small><b>誘拐劇とSFが、同じ画面から届く。</b><em>『HIGHEST 2 LOWEST』 ＋ <span class="nb">ヴィンス・ギリガン『プルリブス』</span></em></span><span class="cc-go" aria-hidden="true">›</span></a><a class="ctx-card" href="c/breaking-bad--pluribus/" aria-label="化学教師の物語の作者がのちに描く「私たち」。：ドラマ『ブレイキング・バッド』 ＋ ヴィンス・ギリガン『プルリブス』"><span class="cc-pics" aria-hidden="true"><img src="img/works/breaking-bad.jpg" alt="" loading="lazy" decoding="async"><img src="img/works/pluribus.jpg" alt="" loading="lazy" decoding="async"></span><span class="cc-t"><small>［ヴィンス・ギリガンを経由して］</small><b>化学教師の物語の作者がのちに描く「私たち」。</b><em>ドラマ『ブレイキング・バッド』 ＋ <span class="nb">ヴィンス・ギリガン『プルリブス』</span></em></span><span class="cc-go" aria-hidden="true">›</span></a></div>
           
       <aside class="c-ad" aria-label="広告">
         <a href="#/ad">
@@ -396,16 +401,16 @@ document.addEventListener('click', function (e) {
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 <script type="application/ld+json" id="ld">{"@context":"https://schema.org","@type":"Article","headline":"銀河の帝国と、ひとつになった世界。","alternativeHeadline":"同じ配信の窓","about":[{"@type":"Book","name":"ファウンデーション","description":"銀河帝国の崩壊を「心理歴史学」で予見した数学者ハリ・セルダンが、来るべき暗黒時代を短くするための計画を立てる。2021年から Apple TV+ でドラマになった。","creator":{"@type":"Person","name":"アイザック・アシモフ"}},{"@type":"CreativeWork","name":"プルリブス","description":"『ブレイキング・バッド』のヴィンス・ギリガンが手がけた Apple TV のドラマ。人々の心がひとつに溶け合っていく世界で、その輪に加われない数少ない人間の一人である女性を描く。","creator":{"@type":"Person","name":"ヴィンス・ギリガン"}}],"author":{"@type":"Person","name":"生成AI（初稿）"},"datePublished":"2026-09-14T04:10:00.000Z","dateModified":"2026-09-14T04:10:00.000Z","inLanguage":"ja","articleBody":"ハブは配信サービス Apple TV（2025年10月に Apple TV+ から改称）。『ファウンデーション』のドラマ版は2021年9月24日に Apple TV+ で、『プルリブス』は2025年11月7日に Apple TV で、それぞれ配信が始まった。数学者ハリ・セルダンが「心理歴史学」で銀河帝国の崩壊を予見する物語と、感染によってほぼすべての人の心がひとつにつながる世界の物語。個人を超えた「全体」をめぐる主題で、この二作を並べて読むこともできる。","url":"https://beautifulcontext.com/c/foundation--pluribus/","citation":[{"@type":"CreativeWork","name":"Watch Foundation - Apple TV","url":"https://tv.apple.com/us/show/foundation/umc.cmc.5983fipzqbicvrve6jdfep4x3","publisher":{"@type":"Organization","name":"Apple TV"}},{"@type":"CreativeWork","name":"Apple TV celebrates the world premiere of “Pluribus,” starring Rhea Seehorn - Apple TV Press","url":"https://www.apple.com/tv-pr/news/2025/11/apple-tv-celebrates-the-world-premiere-of-pluribus-vince-gilligans-new-science-fiction-drama-starring-emmy-award-nominee-rhea-seehorn-ahead-of-its-debut-on-friday-november-7/","publisher":{"@type":"Organization","name":"Apple TV Press（Apple）"}},{"@type":"CreativeWork","name":"Apple Original Films’ “F1 The Movie” to make global streaming debut December 12 - Apple TV Press","url":"https://www.apple.com/tv-pr/news/2025/10/apple-original-films-blockbuster-feature-f1-the-movie-from-joseph-kosinski-to-make-global-streaming-debut-on-friday-december-12-2025/","publisher":{"@type":"Organization","name":"Apple TV Press（Apple）"}},{"@type":"CreativeWork","name":"'Pluribus' Episodes 1 and 2, Explained","url":"https://time.com/7332089/pluribus-premiere-explained/","publisher":{"@type":"Organization","name":"TIME"}}],"image":"https://beautifulcontext.com/img/works/foundation.jpg"}</script>
 
-<script src="js/config.js?v=152"></script>
-<script src="js/seed.js?v=152"></script>
-<script src="js/sources.js?v=152"></script>
-<script src="js/backend.js?v=152"></script>
-<script src="js/store.js?v=152"></script>
-<script src="js/social.js?v=152"></script>
-<script src="js/render.js?v=152"></script>
-<script src="js/login.js?v=152"></script>
-<script src="js/report.js?v=152"></script>
-<script src="js/transition.js?v=152"></script>
-<script src="js/app.js?v=152"></script>
+<script src="js/config.js?v=156"></script>
+<script src="js/seed.js?v=156"></script>
+<script src="js/sources.js?v=156"></script>
+<script src="js/backend.js?v=156"></script>
+<script src="js/store.js?v=156"></script>
+<script src="js/social.js?v=156"></script>
+<script src="js/render.js?v=156"></script>
+<script src="js/login.js?v=156"></script>
+<script src="js/report.js?v=156"></script>
+<script src="js/transition.js?v=156"></script>
+<script src="js/app.js?v=156"></script>
 </body>
 </html>

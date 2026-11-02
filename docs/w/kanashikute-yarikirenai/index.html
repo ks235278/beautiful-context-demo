@@ -43,9 +43,9 @@ try { if (sessionStorage.getItem('bc-resume')) document.documentElement.classLis
 <link rel="preload" as="image" href="img/logo-layer-words.png">
 <!-- 台本も先に取りに行く（静的なページは台本より先に本文が描かれる。遅い回線で、触れて動くまでの間を縮める）。
      src と同じアドレス（?v= まで）でないと、二度取りに行く -->
-<link rel="preload" as="script" href="js/seed.js?v=152">
-<link rel="preload" as="script" href="js/app.js?v=152">
-<link rel="manifest" href="manifest.webmanifest?v=152">
+<link rel="preload" as="script" href="js/seed.js?v=156">
+<link rel="preload" as="script" href="js/app.js?v=156">
+<link rel="manifest" href="manifest.webmanifest?v=156">
 <link rel="apple-touch-icon" href="icon-180.png">
 <!-- タブと検索結果に出る小さな印。アプリの印（ホーム画面のアイコン）と同じ形 -->
 <link rel="icon" href="favicon.ico" sizes="16x16 32x32 48x48">
@@ -74,13 +74,13 @@ if (location.hostname === 'beautifulcontext.com'){
   document.head.appendChild(ga);
 }
 </script>
-<script src="js/theme.js?v=152"></script>
-<link rel="stylesheet" href="app.css?v=152">
+<script src="js/theme.js?v=156"></script>
+<link rel="stylesheet" href="app.css?v=156">
 <!-- 読む画面の使い勝手（2026.10.24）。app.css のすぐあと -->
-<link rel="stylesheet" href="ux.css?v=152">
-<link rel="stylesheet" href="fade.css?v=152">
+<link rel="stylesheet" href="ux.css?v=156">
+<link rel="stylesheet" href="fade.css?v=156">
 <!-- editorial-ink（紙・墨・金）：◆ の罫と、紙の上か絵の上かで変わる決まり。ux.css のあと -->
-<link rel="stylesheet" href="ink.css?v=152">
+<link rel="stylesheet" href="ink.css?v=156">
 <!-- 台本（js）が揃うまで：まだ押しても動かないもの（‹・絵の横の ‹ ›・つながりを辿る）を少し薄くし、下の帯の上の縁に細い金の線を走らせる。
      app.js が最後に body.app-ready を付けて外す。すぐ揃うときは何も見せない（0.3 秒待ってから出す） -->
 <style>
@@ -196,8 +196,8 @@ document.addEventListener('click', function (e) {
           <h2>「悲しくてやりきれない」</h2>
           <p class="by">ザ・フォーク・クルセダーズ（作詞 サトウハチロー／作曲 加藤和彦）</p>
           <p>1968年に発表されたザ・フォーク・クルセダーズの歌。多くの歌い手にうたい継がれてきた。</p>
-          <button type="button" class="tease" data-step="1" aria-label="コトリンゴとのコンテクストを見る">コトリンゴ<span class="nb">とのコンテクストを見る</span> <span aria-hidden="true">›</span></button>
-          <p class="meta more-label">この駅から延びるほかの区間　1本</p><a class="tease" href="c/kanashikute-yarikirenai--kono-sekai-no-katasumi-ni/" aria-label="『この世界の片隅に』とのコンテクストを見る">『この世界の片隅に』<span class="nb">とのコンテクストを見る</span> <span aria-hidden="true">›</span></a>
+          <div class="ctx-cards"><button type="button" class="ctx-card" data-step="1" aria-label="1968年の歌を、静かな声が歌い直した。：コトリンゴ ＋ 「悲しくてやりきれない」"><span class="cc-pics" aria-hidden="true"><img src="img/works/kotringo.jpg" alt="" loading="lazy" decoding="async"><img src="img/works/kanashikute-yarikirenai.jpg" alt="" loading="lazy" decoding="async"></span><span class="cc-t"><small>［歌い直された歌］</small><b>1968年の歌を、静かな声が歌い直した。</b><em>コトリンゴ ＋ <span class="nb">「悲しくてやりきれない」</span></em></span><span class="cc-go" aria-hidden="true">›</span></button></div>
+          <p class="meta more-label">この駅から延びるほかの区間　1本</p><div class="ctx-cards"><a class="ctx-card" href="c/kanashikute-yarikirenai--kono-sekai-no-katasumi-ni/" aria-label="戦時下の日常は、この歌から始まる。：「悲しくてやりきれない」 ＋ 『この世界の片隅に』"><span class="cc-pics" aria-hidden="true"><img src="img/works/kanashikute-yarikirenai.jpg" alt="" loading="lazy" decoding="async"><img src="img/works/kono-sekai-no-katasumi-ni.jpg" alt="" loading="lazy" decoding="async"></span><span class="cc-t"><small>［映画のはじまりの歌］</small><b>戦時下の日常は、この歌から始まる。</b><em>「悲しくてやりきれない」 ＋ <span class="nb">『この世界の片隅に』</span></em></span><span class="cc-go" aria-hidden="true">›</span></a></div>
           <p class="img-credit">画像：ザ・フォーク・クルセダーズ『紀元弐阡年』（1968）ジャケット／© 権利者／出典 Apple Music　<a href="https://music.apple.com/jp/song/795007085" target="_blank" rel="noopener nofollow">出典</a></p>
         </div>
       </article><!--/bc-body--></div>
@@ -208,16 +208,16 @@ document.addEventListener('click', function (e) {
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 <script type="application/ld+json" id="ld">{"@context":"https://schema.org","@type":"MusicRecording","name":"「悲しくてやりきれない」","description":"1968年に発表されたザ・フォーク・クルセダーズの歌。多くの歌い手にうたい継がれてきた。","creator":{"@type":"Person","name":"ザ・フォーク・クルセダーズ（作詞 サトウハチロー／作曲 加藤和彦）"},"url":"https://beautifulcontext.com/w/kanashikute-yarikirenai/","image":"https://beautifulcontext.com/img/works/kanashikute-yarikirenai.jpg","subjectOf":[{"@type":"Article","headline":"1968年の歌を、静かな声が歌い直した。","url":"https://beautifulcontext.com/c/kotringo--kanashikute-yarikirenai/"},{"@type":"Article","headline":"戦時下の日常は、この歌から始まる。","url":"https://beautifulcontext.com/c/kanashikute-yarikirenai--kono-sekai-no-katasumi-ni/"}]}</script>
 
-<script src="js/config.js?v=152"></script>
-<script src="js/seed.js?v=152"></script>
-<script src="js/sources.js?v=152"></script>
-<script src="js/backend.js?v=152"></script>
-<script src="js/store.js?v=152"></script>
-<script src="js/social.js?v=152"></script>
-<script src="js/render.js?v=152"></script>
-<script src="js/login.js?v=152"></script>
-<script src="js/report.js?v=152"></script>
-<script src="js/transition.js?v=152"></script>
-<script src="js/app.js?v=152"></script>
+<script src="js/config.js?v=156"></script>
+<script src="js/seed.js?v=156"></script>
+<script src="js/sources.js?v=156"></script>
+<script src="js/backend.js?v=156"></script>
+<script src="js/store.js?v=156"></script>
+<script src="js/social.js?v=156"></script>
+<script src="js/render.js?v=156"></script>
+<script src="js/login.js?v=156"></script>
+<script src="js/report.js?v=156"></script>
+<script src="js/transition.js?v=156"></script>
+<script src="js/app.js?v=156"></script>
 </body>
 </html>

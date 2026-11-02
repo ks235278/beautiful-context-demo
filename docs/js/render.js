@@ -130,10 +130,24 @@
   const pairText = (a, b) => ({ html: `${esc(a.title)} ＋ ${nb(b.title)}`, label: `${a.title} ＋ ${b.title}` });
   const seeText = (w) => ({ html: `${esc(w.title)}${nb('とのコンテクストを見る')}`, label: `${w.title}とのコンテクストを見る` });
 
+  /* つながりの札（見本の絵入りの札）：二つの作品の小さな絵・路線の名・題・二つの作品。検索・作品（駅）・同じルーツで使う。
+     step があれば data-step のボタン（作品ページから、いま来た区間へ）、なければそのつながりへのリンク */
+  function ctxCard(x, step){
+    const h = String(x.context.headline || '').replace(/\n/g, '');
+    const pic = (w) => { const u = safeImg(w.image); return u ? `<img src="${attr(u)}" alt="" loading="lazy" decoding="async">` : `<i>${esc(initial(w))}</i>`; };
+    const inner = `<span class="cc-pics" aria-hidden="true">${pic(x.a)}${pic(x.b)}</span>` +
+      `<span class="cc-t"><small>［${esc(x.context.routeName)}］</small><b>${esc(h)}</b><em>${esc(x.a.title)} ＋ ${nb(x.b.title)}</em></span>` +
+      `<span class="cc-go" aria-hidden="true">›</span>`;
+    const al = ` aria-label="${attr(h + '：' + x.a.title + ' ＋ ' + x.b.title)}"`;
+    return step != null
+      ? `<button type="button" class="ctx-card" data-step="${step}"${al}>${inner}</button>`
+      : `<a class="ctx-card" href="${attr(pathOf('c', x.context.slug))}"${al}>${inner}</a>`;
+  }
+
   /* 同じ作品をルーツに共有するコンテクスト */
   function roots(e, list){
     if (!list.length) return '';
-    return list.map(x => tease(pathOf('c', x.context.slug), pairText(x.a, x.b))).join('');
+    return `<div class="ctx-cards">${list.map(x => ctxCard(x)).join('')}</div>`;
   }
 
   /* 広告枠。コンテクストページの読み終わりに一枠だけ置く（記事単位の出稿枠） */
@@ -187,8 +201,7 @@
     const side = e && e.b.slug === w.slug ? 'b' : 'a';
     const other = e ? e[side === 'a' ? 'b' : 'a'] : null;
     const others = hit.contexts.filter(x => !e || x.entry.id !== e.id);
-    const more = others.map(({ entry, side: sd }) =>
-      tease(pathOf('c', entry.context.slug), seeText(entry[sd === 'a' ? 'b' : 'a']))).join('');
+    const more = others.length ? `<div class="ctx-cards">${others.map(({ entry }) => ctxCard(entry)).join('')}</div>` : '';
     /* 作品ページもコンテクストページと同じ形に（BC修正要望 2026.10.22「全ての Content は Context に」）。
        左にその作品、右はまだ誰も結んでいない席：＋ でエディターを開き、この作品から新しいつながりを創る */
     return `
@@ -201,7 +214,7 @@
           <h2>${esc(w.title)}</h2>
           ${w.creator ? `<p class="by">${esc(w.creator)}</p>` : ''}
           ${w.summary ? `<p>${esc(w.summary)}</p>` : ''}
-          ${e ? tease(null, seeText(other), 1) : ''}
+          ${e ? `<div class="ctx-cards">${ctxCard(e, 1)}</div>` : ''}
           ${more ? `<p class="meta more-label">この駅から延びるほかの区間　${others.length}本</p>${more}` : ''}
           ${credit(w)}
         </div>
@@ -331,6 +344,7 @@
           <button type="button" class="read" data-read>このつながりを読む<small>${t}</small><span aria-hidden="true">↓</span></button>
           <i class="story-cue" aria-hidden="true"></i>
         </section>
+        ${sourceCards(e)}
         <article class="context-body" id="story">
           <p class="meta">CONTEXT STORY</p>
           ${story}
@@ -351,6 +365,23 @@
           ${cfoot()}
         </article>
       </article>`;
+  }
+  /* 二つの作品の札（見本の SOURCE CONNECTION）。題の下に、左右の作品を絵・種類・名前・作り手・ひとことで。
+     触れるとその作品（駅）のページへ（上の二枚の絵と同じ data-step）。絵には data-k を付けない（ページが替わるときに運ぶ絵は上の二枚だけ） */
+  function sourceCards(e){
+    const card = (w, step) => {
+      const s = safeImg(w.image);
+      return `<button type="button" class="src" data-step="${step}" aria-label="${attr(w.title)}の作品ページへ">` +
+        (s ? `<img src="${attr(s)}" alt="" loading="lazy" decoding="async">` : `<span class="ph">${esc(initial(w))}</span>`) +
+        `<span class="src-t"><small>${esc(w.type || '作品')}${w.year ? '・' + esc(w.year) : ''}</small><b>${esc(w.title)}</b>` +
+        `${w.creator ? `<em>${esc(w.creator)}</em>` : ''}${w.summary ? `<span class="src-s">${esc(w.summary)}</span>` : ''}` +
+        `<i aria-hidden="true">作品ページへ　→</i></span></button>`;
+    };
+    return `
+        <section class="src-cards" aria-label="つながる二つの作品">
+          <p class="meta">SOURCE CONNECTION</p>
+          <div class="src-row">${card(e.a, 0)}<span class="src-link" aria-hidden="true">↔</span>${card(e.b, 2)}</div>
+        </section>`;
   }
   /* コンテクストページのいちばん下：検索などから来た人が、このメディアのどこへでも行ける小さな入口 */
   const cfoot = () => `
@@ -414,7 +445,7 @@
     }).join('');
     return `
       <article class="page list-page">
-        ${backTop()}${topLogo()}
+        ${backTop()}${topLogo('on-paper')}
         <div class="content">
           <p class="meta">つながりを辿る順</p>
           <h2>つながりの一覧</h2>
@@ -478,8 +509,7 @@
 
   /* ---------- 検索 ---------- */
   function search(q, res){
-    const ctx = res.contexts.map(e =>
-      tease(pathOf('c', e.context.slug), pairText(e.a, e.b))).join('');
+    const ctx = res.contexts.length ? `<div class="ctx-cards">${res.contexts.map(e => ctxCard(e)).join('')}</div>` : '';
     const works = res.works.map(({ work: w }) =>
       `<a class="chip" href="${attr(pathOf('w', w.slug))}"><span class="h">#</span>${esc(tagText(w))}</a>`).join('');
     const none = !res.contexts.length && !res.works.length;

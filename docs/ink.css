@@ -297,3 +297,275 @@
   .cpage .today-dots i.on{background:var(--gold)}
   .cpage .login-chip:not(.me){border:1.5px solid var(--navy);background:var(--paper-card);color:var(--navy)}
 }
+
+/* ---- 第11段：見本（editorial-ink）にもっと寄せる（CTO 2026.11.02「ink を見て、本当に似せて」） ----
+   ・題の下に二つの作品の札（SOURCE CONNECTION）：絵・種類と年・名前・作り手・ひとこと・作品ページへ（render.js sourceCards）
+   ・右の列は墨の山の絵の上に。列の下に「つながりを辿る」
+   ・パソコンの題は見本の大きさへ（2 行の決まりの式はそのまま、上限だけ 28 → 32px） */
+.src-cards{position:relative;padding:4px 18px 22px}
+.src-cards>.meta{display:flex;align-items:center;gap:10px;margin:0 0 14px;color:var(--gold-ink);font:700 11px/1.4 "Lato",var(--gothic);letter-spacing:.22em;white-space:nowrap}
+.src-cards>.meta::before,.src-cards>.meta::after{content:"";flex:1 1 0;height:1px;background:linear-gradient(90deg,rgba(169,119,23,.1),var(--gold))}
+.src-cards>.meta::after{background:linear-gradient(90deg,var(--gold),rgba(169,119,23,.1))}
+.src-row{display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);align-items:start;gap:8px}
+.src{display:flex;align-items:flex-start;gap:9px;min-width:0;padding:0;border:0;background:none;color:inherit;font:inherit;text-align:left;cursor:pointer;
+  -webkit-tap-highlight-color:transparent}
+.src:active{opacity:.8}
+.src img,.src .ph{flex:0 0 auto;width:52px;height:72px;border-radius:2px;object-fit:cover;box-shadow:0 6px 14px -8px rgba(6,20,43,.6)}
+.src .ph{display:grid;place-items:center;background:#0a1f3a;color:var(--gold-lite);font:18px/1 var(--mincho)}
+.src-t{display:grid;gap:2px;min-width:0}
+.src-t small{color:var(--gold-ink);font:700 9.5px/1.4 var(--gothic);letter-spacing:.06em}
+.src-t b{display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;color:var(--ink);font:700 13px/1.4 var(--mincho)}
+.src-t em{color:var(--muted);font:400 10.5px/1.4 var(--mincho);font-style:normal}
+.src-s{display:none}
+.src-t i{margin-top:5px;width:max-content;max-width:100%;padding:4px 10px;border:1px solid var(--navy);border-radius:999px;color:var(--navy);font:700 10px/1.3 var(--gothic);font-style:normal}
+.src-link{align-self:center;display:grid;place-items:center;width:30px;height:30px;margin-top:-20px;border:1px solid var(--gold);border-radius:50%;background:var(--paper);
+  color:var(--gold-ink);font:700 13px/1 var(--gothic)}
+@media (min-width:1100px){
+  .cpage>.src-cards{grid-column:1/-1;grid-row:2;padding:6px 48px 4px}
+  .cpage>.context-body{grid-row:3}
+  .src-row{gap:18px}
+  .src{gap:16px}
+  .src img,.src .ph{width:108px;height:148px}
+  .src-t{gap:4px;padding-top:4px}
+  .src-t small{font-size:11px}
+  .src-t b{font-size:20px;line-height:1.35}
+  .src-t em{font-size:12.5px}
+  .src-s{display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;margin-top:4px;color:var(--ink-2);font:12.5px/1.75 var(--mincho)}
+  .src-t i{font-size:11px;padding:5px 12px}
+  .src-link{width:46px;height:46px;margin-top:50px;font-size:17px;box-shadow:0 0 0 6px var(--paper)}
+  .src-row{position:relative}
+  .src-row::before{content:"";position:absolute;z-index:-1;left:50%;top:0;bottom:0;width:1px;background:linear-gradient(transparent,var(--gold) 20%,var(--gold) 80%,transparent)}
+  .src-cards{isolation:isolate}
+
+  /* 題を見本の大きさに（11 字で 1 行の式は app.css のまま。上限だけ上げる） */
+  .cpage>.context-lead h2{font-size:min(32px,(100cqi + 48px) / 11.05)}
+  /* 上の段の絵を大きく（左右の余白を詰める） */
+  :is(.cpage,.wpage)>.duo-hero{padding-left:30px;padding-right:12px}
+
+  /* 右の列：墨の山の絵の上に。上に CONTEXT JOURNEY、下に「つながりを辿る」 */
+  .route-mini{justify-content:flex-start;padding-top:30px;background:var(--navy-side) url(img/ink-side.jpg) 50% 100%/cover no-repeat}
+  .rm-title::after{content:"";display:block;width:26px;height:1.5px;margin-top:10px;background:var(--gold-lite)}
+  .rm{flex:0 1 auto;min-height:0;overflow:hidden}
+  .rm-next{flex:0 0 auto;display:flex;align-items:center;gap:8px;width:100%;margin-top:auto;padding:10px 12px;border:1px solid rgba(255,255,255,.75);border-radius:9px;
+    background:rgba(6,20,43,.6);color:#fff;cursor:pointer;text-align:left;font:inherit}
+  .rm-next:active{transform:scale(.97)}
+  .rm-next img{width:30px;height:30px}
+  .rm-next span{flex:1;display:grid}
+  .rm-next b{font:700 12.5px/1.35 var(--gothic);letter-spacing:.04em;white-space:nowrap}
+  .rm-next small{font:700 10px/1.3 "Lato",sans-serif;letter-spacing:.06em}
+  .rm-next i{font-style:normal;font-size:18px}
+}
+/* コンテクストのページ（Today 以外）は見本 04 の向き：左に大きな題、右に絵。Today は見本 02 の向き（左に絵）のまま。
+   札の中は、見本どおり 種類 → 題 → 二つの作品 → 編集者 → 読むボタン の順（並べ替えは見た目だけ。読み上げの順は元のまま） */
+@media (min-width:1100px){
+  .cpage:not(.today){grid-template-columns:1fr calc(100% * var(--hv,.42))}   /* 札 58%・絵 42%（題を大きく） */
+  .cpage:not(.today)>.duo-hero{grid-column:2;padding:64px 30px 42px 10px}
+  .cpage:not(.today)>.context-lead{grid-column:1;display:flex;flex-direction:column;align-items:flex-start;padding:64px 14px 30px 48px}
+  .cpage:not(.today)>.context-lead>.back-state{order:0}
+  .cpage:not(.today)>.context-lead>.route-label{order:1}
+  .cpage:not(.today)>.context-lead>h2{order:2;align-self:stretch;max-width:none;margin:0 0 16px;
+    font-size:min(40px,100cqi / 11.1);line-height:1.32}   /* 1 行 11 字が札の幅に収まる大きさ（右の絵へははみ出さない） */
+  .cpage:not(.today)>.context-lead>.pair{order:3;align-self:stretch;text-align:left;font-size:14.5px;line-height:1.7}
+  .cpage:not(.today)>.context-lead>.ed-row{order:4;margin:18px 0 0}
+  .cpage:not(.today)>.context-lead>.read{order:5;max-width:360px}
+  .cpage:not(.today)>.back-close{grid-column:1}
+}
+@media (min-width:1100px) and (max-width:1279.98px){
+  .cpage:not(.today){--hv:.46}
+  .cpage:not(.today)>.context-lead{padding-left:30px}
+  .cpage:not(.today)>.duo-hero{padding-left:10px;padding-right:18px}
+}
+
+/* ---- 第12段：メニューに見本どおりの線の印（携帯の紙のメニュー・パソコンの左の列） ----
+   CTO 2026.11.02「ink を見て本当に似せて」。以前の決め（P-ICON：印は足さない）より見本を優先する。
+   印は字の色（currentColor）で描く線の絵。触れる所・読み上げる名前は変えない（::after は飾り） */
+:root{
+  --i-home:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M3.5 11 12 4l8.5 7'/%3E%3Cpath d='M5.5 9.5V20h5v-5.5h3V20h5V9.5'/%3E%3C/svg%3E");
+  --i-book:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M2.5 5.5h6a3.5 3.5 0 0 1 3.5 3.5v11a2.5 2.5 0 0 0-2.5-2.5h-7z'/%3E%3Cpath d='M21.5 5.5h-6A3.5 3.5 0 0 0 12 9v11a2.5 2.5 0 0 1 2.5-2.5h7z'/%3E%3C/svg%3E");
+  --i-list:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M9 6.5h11.5M9 12h11.5M9 17.5h11.5'/%3E%3Ccircle cx='4.5' cy='6.5' r='1'/%3E%3Ccircle cx='4.5' cy='12' r='1'/%3E%3Ccircle cx='4.5' cy='17.5' r='1'/%3E%3C/svg%3E");
+  --i-scroll:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='6.5' y='2.5' width='11' height='19' rx='2'/%3E%3Cpath d='M12 7v8M9.5 12.5 12 15l2.5-2.5'/%3E%3C/svg%3E");
+  --i-globe:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='12' cy='12' r='9'/%3E%3Cpath d='M3 12h18'/%3E%3Cpath d='M12 3c2.6 2.6 3.9 5.6 3.9 9s-1.3 6.4-3.9 9c-2.6-2.6-3.9-5.6-3.9-9S9.4 5.6 12 3z'/%3E%3C/svg%3E");
+  --i-remix:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='9' cy='12' r='6'/%3E%3Ccircle cx='15' cy='12' r='6'/%3E%3C/svg%3E");
+  --i-user:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='12' cy='8' r='4'/%3E%3Cpath d='M4.5 21a7.5 7.5 0 0 1 15 0'/%3E%3C/svg%3E");
+  --i-chev:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M9 5.5 15.5 12 9 18.5'/%3E%3C/svg%3E");
+}
+#menu>a,#menu>.menu-account{position:relative;padding-left:34px}
+#menu>a::after,#menu>.menu-account::after{content:"";position:absolute;left:0;top:50%;width:21px;height:21px;margin-top:-10.5px;pointer-events:none;
+  background:currentColor;-webkit-mask:var(--ic) center/contain no-repeat;mask:var(--ic) center/contain no-repeat;opacity:.9}
+#menu>a.menu-logo{padding-left:0}
+#menu>a.menu-logo::after{content:none}
+#menu>a[data-home]{--ic:var(--i-home)}
+#menu>a[href="#/about"]{--ic:var(--i-book)}
+#menu>a[href="#/list"]{--ic:var(--i-list)}
+#menu>a[href="flow.html"]{--ic:var(--i-scroll)}
+#menu>a[data-uni]{--ic:var(--i-globe)}
+#menu>a[data-remix]{--ic:var(--i-remix)}
+#menu>.menu-account{--ic:var(--i-user)}
+/* 携帯の紙のメニュー：右に › （見本どおり）。いまいる所の金の ◆ は印の左の余白のまま */
+@media (max-width:1099.98px){
+  #menu>a:not(.menu-logo),#menu>.menu-account{padding-right:22px;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%238b8f97' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M9 5.5 15.5 12 9 18.5'/%3E%3C/svg%3E") right center/14px 14px no-repeat}
+  #menu>a[aria-current="page"]{color:var(--gold-ink)}
+}
+@media (min-width:1100px){
+  #menu>a,#menu>.menu-account{padding-left:32px}
+  #menu>a::after,#menu>.menu-account::after{width:19px;height:19px;margin-top:-9.5px}
+}
+
+/* ---- 第13段：一覧も見本どおり紙の上に（以前の決め D4「一覧は紺」より見本を優先。CTO 2026.11.02） ----
+   札は紙の札（細い縁・うすい影）、いま読んでいる札は金の縁。下の帯（分けるボタン・探す欄）も紙。右上の墨の山は紙の上の色のまま */
+body.on-list .view-in{background:var(--paper)}
+.list-page{background:var(--paper);color:var(--ink)}
+.list-page .meta{color:var(--gold-ink)}
+.list-page h2{color:var(--ink);font-weight:700}
+.ls-count{color:var(--muted)}
+.ls-item{border-color:var(--hair);background:var(--paper-card);color:var(--ink);box-shadow:0 1px 4px rgba(90,70,30,.08)}
+.ls-no{color:var(--muted)}
+.ls-item .ed-txt b{color:var(--ink)}
+.ls-item .ed-txt span{color:var(--muted)}
+.list-page .ed-txt small{color:var(--gold-ink)}
+.ls-row.done .ls-item{opacity:.78}
+.ls-row.now .ls-item{border-color:var(--gold);box-shadow:inset 0 0 0 1px var(--gold),0 6px 16px -10px rgba(90,70,30,.35)}
+.ls-mark{border-color:var(--hair);color:var(--muted)}
+.ls-mark.now{border-color:var(--gold-btn);background:var(--gold-btn);color:#fff}
+.ls-sep span{border-color:var(--hair);color:var(--muted)}
+.ls-none{color:var(--muted)}
+.ls-bar{border-top-color:var(--hair);background:rgba(250,247,241,.94)}
+.ls-cats button{border-color:var(--hair);color:var(--ink);background:var(--paper-card)}
+.ls-cats button.on{border-color:var(--navy);background:var(--navy);color:#fff}
+.ls-seek{border-color:var(--rule-field);background:#fff}
+.ls-seek svg{stroke:var(--muted)}
+.ls-seek input{color:var(--ink)}
+.ls-seek input::placeholder{color:var(--muted)}
+.list-page .content::after{background:url(img/deco/mist.png) 0 0/100% 100% no-repeat;opacity:.6;-webkit-mask:none;mask:none}
+@media (min-width:760px){
+  .list-page .content::after{-webkit-mask-image:linear-gradient(to right,#000 70%,transparent);mask-image:linear-gradient(to right,#000 70%,transparent)}
+}
+@media (hover:hover) and (pointer:fine){
+  .ls-item:hover{border-color:var(--gold);background:#fff}
+  .ls-cats button:hover{border-color:var(--navy)}
+}
+
+/* ---- 第14段：案内のページ（About・404 など）の見出しを見本に寄せる ----
+   ・見出しの右の墨の山を大きく（パソコン 300 → 460px 幅）
+   ・404 は見本どおり、見出しの上に金の小さな「NOT FOUND」と、大きな「404」 */
+.info-404 .content::before{content:"404";display:block;margin:0 0 2px;color:var(--navy);font:600 64px/1 var(--mincho);letter-spacing:.06em;
+  background:linear-gradient(transparent 62%,rgba(239,176,47,.35) 62%,rgba(239,176,47,.35) 78%,transparent 78%) 0 0/100% 100% no-repeat;width:max-content}
+.info-404 .content h2{margin-top:0}
+.info-404 .content>.meta:first-of-type,.info-404 .content h2+.lead{margin-top:6px}
+@media (min-width:1100px){
+  .info-page .content::after{width:460px;height:184px;top:24px}
+  .info-404 .content::before{font-size:88px;margin-left:auto;margin-right:auto}
+}
+@media (max-width:759.98px){
+  .info-404 .content::before{margin-left:auto;margin-right:auto}
+}
+/* 札の「作品ページへ」は縮めてよい（以前は 320px で札の列が画面より広くなり、ページが横に 27px はみ出した）。
+   狭い携帯（375px 未満）は絵を上、字を下に */
+.src-t i{width:auto;justify-self:start;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+@media (max-width:374.98px){
+  .src{flex-direction:column;gap:6px}
+}
+
+/* ---- 第15段：絵の後ろの墨を、見本のように筆の跡のある形に ----
+   墨の山の絵（紺）を、楕円・金の筆の絵の形（二つ）・墨の山の形で切り抜いて重ねる（どれも透明の部分を持つ絵。色は墨の絵のまま）。
+   楕円だけのときより縁がかすれ、筆で掃いたように見える。携帯もパソコンも同じ（箱の大きさは第9段・第10段） */
+:is(.cpage,.wpage)>.duo-hero::before{
+  -webkit-mask-image:radial-gradient(closest-side,#000 48%,rgba(0,0,0,.5) 72%,transparent),url(img/deco/brush-gold.png),url(img/deco/brush-gold.png),url(img/deco/mist.png);
+  mask-image:radial-gradient(closest-side,#000 48%,rgba(0,0,0,.5) 72%,transparent),url(img/deco/brush-gold.png),url(img/deco/brush-gold.png),url(img/deco/mist.png);
+  -webkit-mask-size:100% 100%,96% auto,74% auto,100% auto;mask-size:100% 100%,96% auto,74% auto,100% auto;
+  -webkit-mask-position:center,0 0,100% 92%,0 100%;mask-position:center,0 0,100% 92%,0 100%;
+  -webkit-mask-repeat:no-repeat;mask-repeat:no-repeat;
+  -webkit-mask-composite:source-over;mask-composite:add}
+
+/* ---- 第16段：つながりの札を見本どおり絵入りに（検索の結果・作品（駅）の区間・同じルーツ） ---- */
+.ctx-cards{display:grid;gap:10px;margin:12px 0 18px}
+.ctx-card{position:relative;display:flex;align-items:center;gap:12px;width:100%;min-width:0;padding:10px 44px 10px 10px;border:1px solid var(--hair);border-radius:10px;
+  background:var(--paper-card);box-shadow:0 1px 4px rgba(90,70,30,.1);color:var(--ink);font:inherit;text-align:left;text-decoration:none;cursor:pointer;
+  transition:transform .2s ease,border-color .2s}
+.ctx-card:active{transform:scale(.985);transition-duration:.06s}
+.cc-pics{flex:0 0 auto;display:flex;gap:3px}
+.cc-pics img,.cc-pics i{display:grid;place-items:center;width:44px;height:60px;border-radius:2px;object-fit:cover;background:#0a1f3a;
+  color:var(--gold-lite);font:16px/1 var(--mincho);font-style:normal}
+.cc-t{display:grid;gap:2px;min-width:0}
+.cc-t small{color:var(--gold-ink);font:700 10px/1.4 var(--gothic);letter-spacing:.02em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.cc-t b{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;color:var(--ink);font:700 14px/1.45 var(--mincho)}
+.cc-t em{overflow:hidden;color:var(--muted);font:400 11px/1.45 var(--gothic);font-style:normal;white-space:nowrap;text-overflow:ellipsis}
+.cc-go{position:absolute;right:10px;top:50%;display:grid;place-items:center;width:26px;height:26px;margin-top:-13px;padding-bottom:2px;border-radius:50%;
+  background:var(--navy);color:#fff;font:400 16px/1 "Lato",sans-serif}
+@media (hover:hover) and (pointer:fine){.ctx-card:hover{border-color:var(--gold);background:#fff}}
+@media (min-width:760px){
+  .search-page .ctx-cards,.cpage .context-body .ctx-cards{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media (min-width:1100px){
+  .cc-pics img,.cc-pics i{width:50px;height:68px}
+  .cc-t b{font-size:15px}
+}
+
+/* ---- 第17段：編集者のページ（パソコン）を見本の向きに：左に名前・肩書き・ひとこと・フォロー、右に写真（大きいまま） ----
+   写真は先生の MyBeautifulContext のとおり大きく。左の端は紙へにじませ、まわりに墨と金。選んだつながりは下に二列 */
+@media (min-width:1100px){
+  .editor-page{display:grid;grid-template-columns:minmax(0,1fr) 46%;column-gap:24px;align-items:center;padding:0 36px 0 48px;isolation:isolate}
+  .editor-page>.content{display:contents}
+  .editor-page>.ed-cover{grid-column:2;grid-row:1;height:auto;aspect-ratio:4/3.1;margin-top:58px;background:none;border-radius:4px;
+    -webkit-mask-image:linear-gradient(to right,transparent,#000 22%,#000 92%,transparent),linear-gradient(transparent,#000 10%,#000 88%,transparent);
+    mask-image:linear-gradient(to right,transparent,#000 22%,#000 92%,transparent),linear-gradient(transparent,#000 10%,#000 88%,transparent);
+    -webkit-mask-composite:source-in;mask-composite:intersect}
+  .editor-page .ed-down{display:none}
+  .editor-page .ed-head{grid-column:1;grid-row:1;justify-items:start;gap:8px;padding:84px 0 18px;border-bottom:0;text-align:left;position:relative}
+  .editor-page .ed-title{justify-content:flex-start}
+  .editor-page .ed-title span{font-size:26px}
+  .editor-page .ed-title b{font-size:32px}
+  .editor-page .ed-bio{max-width:26em;text-align:left !important;font-size:14px;line-height:1.9}
+  .editor-page .ed-acts{justify-content:flex-start}
+  .editor-page .ed-head::after{content:"";position:absolute;z-index:-1;left:-10px;top:52px;width:58%;aspect-ratio:1400/520;pointer-events:none;
+    background:url(img/deco/brush-gold.png) 0 0/100% 100% no-repeat;opacity:.75}
+  .editor-page .ed-chose,.editor-page .ed-list{grid-column:1/-1}
+  .editor-page .ed-chose{margin-top:18px;padding-top:22px;border-top:1px solid var(--hair)}
+}
+@media (min-width:1100px){
+  .editor-page>.back-close{grid-column:1;grid-row:1;justify-self:start;align-self:start;margin:14px 0 0 -34px;z-index:9}
+}
+
+/* ---- 第18段：見本（GPT の画像）そのものの墨・山・筆を使う（CTO 2026.11.02「GPT が作った画像のように」） ----
+   img/deco/ink-splash.png（見本 02 の左上の墨と金の筆）・ink-palms.png（見本 02 の本文の右の山と木）・ink-scene.png（見本 14 の山と湖）。
+   見本の紙の色を透明に抜いた絵（字や枠は含めない）。どれも字の後ろ・触れない */
+/* 上の段の絵の左上に、見本の墨と金の筆（以前の金の弧の代わり） */
+:is(.cpage,.wpage)>.duo-hero::after{background:url(img/deco/ink-splash.png) 0 0/100% 100% no-repeat;aspect-ratio:282/96;width:72%;opacity:1}
+@media (min-width:1100px){
+  :is(.cpage,.wpage)>.duo-hero::after{left:0;top:26px;width:70%}
+  /* 本文の右に見本の山と木（以前の墨の山の代わり）。字の列（660px）の右の余白に */
+  .cpage>.context-body::after{background:url(img/deco/ink-palms.png) right top/contain no-repeat;width:min(34%,320px);aspect-ratio:1/1;top:30px;opacity:1}
+}
+@media (max-width:1099.98px){
+  :is(.cpage,.wpage)>.duo-hero::after{left:-8px;top:calc(env(safe-area-inset-top) + 40px);width:80%}
+}
+/* About：見出しの右に見本の山と湖（字はその左に回り込む）。携帯は見出しの上に横長に */
+.info-about .content::before{content:"";float:right;width:44%;max-width:340px;aspect-ratio:388/392;margin:-6px -8px 8px 18px;pointer-events:none;
+  background:url(img/deco/ink-scene.png) center/contain no-repeat}
+@media (max-width:759.98px){
+  .info-about .content::before{float:none;display:block;width:auto;max-width:none;height:200px;aspect-ratio:auto;margin:0 -20px 6px;
+    background-size:cover;background-position:center 40%}
+}
+/* 本文の小見出しに、見本の「01・02…」の金の番号 */
+.context-body{counter-reset:ctxh}
+.context-body>h3{counter-increment:ctxh}
+.context-body>h3::before{content:counter(ctxh,decimal-leading-zero);flex:0 0 auto;margin-right:2px;color:var(--gold-ink);font:500 1.35em/1 var(--mincho);letter-spacing:.02em}
+.context-body>h3:has(*)::before{margin-right:10px}
+/* 「CONTEXT STORY」の前に、見本どおり金の筆の小さな印 */
+.context-body>.meta:first-child::before{content:"";display:inline-block;width:38px;height:14px;margin:0 8px 0 -4px;vertical-align:-2px;
+  background:url(img/deco/brush-gold.png) 0 50%/100% auto no-repeat}
+/* 一覧（携帯）：札の絵を見本のように大きく */
+@media (max-width:759.98px){
+  .list-page .ed-thumbs img,.list-page .ed-thumbs .ph{width:46px;height:62px;border-radius:2px}
+  .list-page h2{font-size:26px}
+}
+/* 山と木の絵に字が掛からないように：字の列を 560px に（見本の本文と同じくらい）。狭いパソコン（〜1279px）は絵を出さない */
+@media (min-width:1280px){
+  .cpage>.context-body>*{max-width:560px}
+  .cpage>.context-body::after{width:min(calc(100% - 56px - 560px - 8px),330px)}
+}
+@media (min-width:1100px) and (max-width:1279.98px){
+  .cpage>.context-body::after{display:none}
+}
+/* About の絵は 300px まで（「Beautiful Context とは」が一行に入るように） */
+.info-about .content::before{max-width:300px}
