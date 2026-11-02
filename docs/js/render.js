@@ -432,7 +432,7 @@
     }).join('');
     return `
       <article class="page list-page">
-        ${backTop()}${topLogo()}
+        ${backTop()}${topLogo('on-paper')}
         <div class="content">
           <p class="meta">つながりを辿る順</p>
           <h2>つながりの一覧</h2>

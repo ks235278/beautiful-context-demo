@@ -990,14 +990,22 @@
 
   /* 右の路線図：いまの前後（前に二つ、あとに三つ）を、地下鉄の路線図のように縦に。
      区間（コンテクスト）と駅（その先の作品）を、つながりを辿ると同じ順に交互に並べる。触れるとそこへ */
+  let lastRoute = -1;   /* 右の列の「いま」：最後に読んだ区間の順番 */
   function paintRoute(){
     const box = $('routeMini');
     if (!box) return;
     const T = trail();
-    const i = view.classList.contains('on') && here && here.entry && !here.list ? posOf(here.entry.id) : -1;
+    const own = view.classList.contains('on') && here && here.entry && !here.list ? posOf(here.entry.id) : -1;
+    /* 見本どおり、読み物・一覧・検索などのページ（パソコン）でも右の列を出す。そのときは最後に読んだ区間（まだ無ければ今日の一本）を「いま」に */
+    if (own >= 0) lastRoute = own;
+    let i = own;
+    if (i < 0 && view.classList.contains('on')){
+      if (lastRoute < 0){ const tl = todayList(); lastRoute = tl.length ? posOf(tl[0].e.id) : 0; }
+      i = lastRoute;
+    }
     body.classList.toggle('has-route', i >= 0);
     if (i < 0){ box.innerHTML = ''; return; }
-    const cur = 2 * i + (here.step === 1 ? 0 : 1);
+    const cur = 2 * i + (own >= 0 && here.step === 1 ? 0 : 1);
     const from = Math.max(0, cur - 2), to = Math.min(2 * T.length - 1, cur + 3);
     let li = '';
     for (let k = from; k <= to; k++){

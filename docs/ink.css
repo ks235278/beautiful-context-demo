@@ -375,3 +375,93 @@
   .cpage:not(.today)>.context-lead{padding-left:30px}
   .cpage:not(.today)>.duo-hero{padding-left:10px;padding-right:18px}
 }
+
+/* ---- 第12段：メニューに見本どおりの線の印（携帯の紙のメニュー・パソコンの左の列） ----
+   CTO 2026.11.02「ink を見て本当に似せて」。以前の決め（P-ICON：印は足さない）より見本を優先する。
+   印は字の色（currentColor）で描く線の絵。触れる所・読み上げる名前は変えない（::after は飾り） */
+:root{
+  --i-home:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M3.5 11 12 4l8.5 7'/%3E%3Cpath d='M5.5 9.5V20h5v-5.5h3V20h5V9.5'/%3E%3C/svg%3E");
+  --i-book:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M2.5 5.5h6a3.5 3.5 0 0 1 3.5 3.5v11a2.5 2.5 0 0 0-2.5-2.5h-7z'/%3E%3Cpath d='M21.5 5.5h-6A3.5 3.5 0 0 0 12 9v11a2.5 2.5 0 0 1 2.5-2.5h7z'/%3E%3C/svg%3E");
+  --i-list:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M9 6.5h11.5M9 12h11.5M9 17.5h11.5'/%3E%3Ccircle cx='4.5' cy='6.5' r='1'/%3E%3Ccircle cx='4.5' cy='12' r='1'/%3E%3Ccircle cx='4.5' cy='17.5' r='1'/%3E%3C/svg%3E");
+  --i-scroll:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='6.5' y='2.5' width='11' height='19' rx='2'/%3E%3Cpath d='M12 7v8M9.5 12.5 12 15l2.5-2.5'/%3E%3C/svg%3E");
+  --i-globe:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='12' cy='12' r='9'/%3E%3Cpath d='M3 12h18'/%3E%3Cpath d='M12 3c2.6 2.6 3.9 5.6 3.9 9s-1.3 6.4-3.9 9c-2.6-2.6-3.9-5.6-3.9-9S9.4 5.6 12 3z'/%3E%3C/svg%3E");
+  --i-remix:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='9' cy='12' r='6'/%3E%3Ccircle cx='15' cy='12' r='6'/%3E%3C/svg%3E");
+  --i-user:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='12' cy='8' r='4'/%3E%3Cpath d='M4.5 21a7.5 7.5 0 0 1 15 0'/%3E%3C/svg%3E");
+  --i-chev:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M9 5.5 15.5 12 9 18.5'/%3E%3C/svg%3E");
+}
+#menu>a,#menu>.menu-account{position:relative;padding-left:34px}
+#menu>a::after,#menu>.menu-account::after{content:"";position:absolute;left:0;top:50%;width:21px;height:21px;margin-top:-10.5px;pointer-events:none;
+  background:currentColor;-webkit-mask:var(--ic) center/contain no-repeat;mask:var(--ic) center/contain no-repeat;opacity:.9}
+#menu>a.menu-logo{padding-left:0}
+#menu>a.menu-logo::after{content:none}
+#menu>a[data-home]{--ic:var(--i-home)}
+#menu>a[href="#/about"]{--ic:var(--i-book)}
+#menu>a[href="#/list"]{--ic:var(--i-list)}
+#menu>a[href="flow.html"]{--ic:var(--i-scroll)}
+#menu>a[data-uni]{--ic:var(--i-globe)}
+#menu>a[data-remix]{--ic:var(--i-remix)}
+#menu>.menu-account{--ic:var(--i-user)}
+/* 携帯の紙のメニュー：右に › （見本どおり）。いまいる所の金の ◆ は印の左の余白のまま */
+@media (max-width:1099.98px){
+  #menu>a:not(.menu-logo),#menu>.menu-account{padding-right:22px;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%238b8f97' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M9 5.5 15.5 12 9 18.5'/%3E%3C/svg%3E") right center/14px 14px no-repeat}
+  #menu>a[aria-current="page"]{color:var(--gold-ink)}
+}
+@media (min-width:1100px){
+  #menu>a,#menu>.menu-account{padding-left:32px}
+  #menu>a::after,#menu>.menu-account::after{width:19px;height:19px;margin-top:-9.5px}
+}
+
+/* ---- 第13段：一覧も見本どおり紙の上に（以前の決め D4「一覧は紺」より見本を優先。CTO 2026.11.02） ----
+   札は紙の札（細い縁・うすい影）、いま読んでいる札は金の縁。下の帯（分けるボタン・探す欄）も紙。右上の墨の山は紙の上の色のまま */
+body.on-list .view-in{background:var(--paper)}
+.list-page{background:var(--paper);color:var(--ink)}
+.list-page .meta{color:var(--gold-ink)}
+.list-page h2{color:var(--ink);font-weight:700}
+.ls-count{color:var(--muted)}
+.ls-item{border-color:var(--hair);background:var(--paper-card);color:var(--ink);box-shadow:0 1px 4px rgba(90,70,30,.08)}
+.ls-no{color:var(--muted)}
+.ls-item .ed-txt b{color:var(--ink)}
+.ls-item .ed-txt span{color:var(--muted)}
+.list-page .ed-txt small{color:var(--gold-ink)}
+.ls-row.done .ls-item{opacity:.78}
+.ls-row.now .ls-item{border-color:var(--gold);box-shadow:inset 0 0 0 1px var(--gold),0 6px 16px -10px rgba(90,70,30,.35)}
+.ls-mark{border-color:var(--hair);color:var(--muted)}
+.ls-mark.now{border-color:var(--gold-btn);background:var(--gold-btn);color:#fff}
+.ls-sep span{border-color:var(--hair);color:var(--muted)}
+.ls-none{color:var(--muted)}
+.ls-bar{border-top-color:var(--hair);background:rgba(250,247,241,.94)}
+.ls-cats button{border-color:var(--hair);color:var(--ink);background:var(--paper-card)}
+.ls-cats button.on{border-color:var(--navy);background:var(--navy);color:#fff}
+.ls-seek{border-color:var(--rule-field);background:#fff}
+.ls-seek svg{stroke:var(--muted)}
+.ls-seek input{color:var(--ink)}
+.ls-seek input::placeholder{color:var(--muted)}
+.list-page .content::after{background:url(img/deco/mist.png) 0 0/100% 100% no-repeat;opacity:.6;-webkit-mask:none;mask:none}
+@media (min-width:760px){
+  .list-page .content::after{-webkit-mask-image:linear-gradient(to right,#000 70%,transparent);mask-image:linear-gradient(to right,#000 70%,transparent)}
+}
+@media (hover:hover) and (pointer:fine){
+  .ls-item:hover{border-color:var(--gold);background:#fff}
+  .ls-cats button:hover{border-color:var(--navy)}
+}
+
+/* ---- 第14段：案内のページ（About・404 など）の見出しを見本に寄せる ----
+   ・見出しの右の墨の山を大きく（パソコン 300 → 460px 幅）
+   ・404 は見本どおり、見出しの上に金の小さな「NOT FOUND」と、大きな「404」 */
+.info-404 .content::before{content:"404";display:block;margin:0 0 2px;color:var(--navy);font:600 64px/1 var(--mincho);letter-spacing:.06em;
+  background:linear-gradient(transparent 62%,rgba(239,176,47,.35) 62%,rgba(239,176,47,.35) 78%,transparent 78%) 0 0/100% 100% no-repeat;width:max-content}
+.info-404 .content h2{margin-top:0}
+.info-404 .content>.meta:first-of-type,.info-404 .content h2+.lead{margin-top:6px}
+@media (min-width:1100px){
+  .info-page .content::after{width:460px;height:184px;top:24px}
+  .info-404 .content::before{font-size:88px;margin-left:auto;margin-right:auto}
+}
+@media (max-width:759.98px){
+  .info-404 .content::before{margin-left:auto;margin-right:auto}
+}
+/* 札の「作品ページへ」は縮めてよい（以前は 320px で札の列が画面より広くなり、ページが横に 27px はみ出した）。
+   狭い携帯（375px 未満）は絵を上、字を下に */
+.src-t i{width:auto;justify-self:start;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+@media (max-width:374.98px){
+  .src{flex-direction:column;gap:6px}
+}
