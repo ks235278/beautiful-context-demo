@@ -36,7 +36,7 @@ if (location.hostname === 'beautifulcontext.com'){
   document.head.appendChild(ga);
 }
 </script>
-<link rel="stylesheet" href="flow.css?v=156">
+<link rel="stylesheet" href="flow.css?v=157">
 </head>
 <body>
 
@@ -51,33 +51,23 @@ if (location.hostname === 'beautifulcontext.com'){
     <span class="pos" id="pos" aria-live="polite"></span>
   </header>
 
-  <!-- 一画面に一つのつながり。上へ払うと次へ（scroll-snap。指の勢いも、途中で止めるのもブラウザそのもの） -->
+  <!-- 一つのつながり＝一画面の表紙と、そのすぐ下の本文。上へ払うだけで読み進め、そのまま次のつながりへ（押すところは無い） -->
   <main class="flow" id="flow" aria-label="つながりの流れ"></main>
 
   <!-- 右の細い列：フォロー・共感・共有・一覧 -->
   <aside class="rail" id="rail" aria-label="このつながりへの操作"></aside>
 
-  <p class="hint" id="hint" aria-hidden="true">上へ払うと、次のつながり</p>
-
-  <!-- 「読む」：本文が紙の幕として下から上がる。流れからは離れない -->
-  <div class="sheet" id="sheet">
-    <div class="veil" data-close></div>
-    <section class="panel" id="panel" role="dialog" aria-modal="true" aria-label="コンテクスト・ストーリー">
-      <div class="grab" aria-hidden="true"><i></i></div>
-      <button type="button" class="x" data-close aria-label="閉じる">×</button>
-      <div class="body" id="sheetBody"></div>
-    </section>
-  </div>
+  <p class="hint" id="hint" aria-hidden="true">上へ払うと、そのまま本文が読めます</p>
 
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
 </div>
 
-<p class="pc-keys" aria-hidden="true">↑ ↓ で、前後のつながり</p>
+<p class="pc-keys" aria-hidden="true">スクロールで読む　·　J / K で前後のつながり</p>
 
-<script src="js/seed.js?v=156"></script>
-<script src="js/store.js?v=156"></script>
-<script src="js/social.js?v=156"></script>
-<script src="js/render.js?v=156"></script>
-<script src="js/flow.js?v=156"></script>
+<script src="js/seed.js?v=157"></script>
+<script src="js/store.js?v=157"></script>
+<script src="js/social.js?v=157"></script>
+<script src="js/render.js?v=157"></script>
+<script src="js/flow.js?v=157"></script>
 </body>
 </html>
