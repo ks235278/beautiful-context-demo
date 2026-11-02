@@ -1008,14 +1008,17 @@
           const fw = t.from && (e.a.slug === t.from ? e.a : e.b);
           li += `<li class="rm-break"><span>${t.jump ? '別の路線へ' : R.esc(fw.title) + 'から分岐'}</span></li>`;
         }
+        /* 区間には、二つの作品の絵を小さく（いまの区間は金の縁）。絵の無い作品は頭文字 */
+        const pic = (w) => { const s = R.safeImg(w.image); return s ? `<img src="${R.esc(s)}" alt="" loading="lazy" decoding="async">` : `<i>${R.esc(String(w.title || '').slice(0, 1))}</i>`; };
         li += `<li class="rm-seg${now ? ' now' : ''}"><a href="#/c/${encodeURIComponent(e.context.slug)}"${cur_}>` +
-          `<small>［${R.esc(e.context.routeName)}］</small><span>${R.esc(String(e.context.headline || '').replace(/\n/g, ''))}</span></a></li>`;
+          `<small>［${R.esc(e.context.routeName)}］</small><span>${R.esc(String(e.context.headline || '').replace(/\n/g, ''))}</span>` +
+          `<b class="rm-pic" aria-hidden="true">${pic(e.a)}${pic(e.b)}</b></a></li>`;
       } else {
         const w = e[t.exit];
         li += `<li class="rm-st${now ? ' now' : ''}"><a href="${stepHash(e, t.exit === 'a' ? 0 : 2)}"${cur_}><i></i><span>${R.esc(w.title)}</span></a></li>`;
       }
     }
-    box.innerHTML = `<p class="rm-count"><b>${String(i + 1).padStart(3, '0')}</b> / ${T.length}<small>つながりを辿る順</small></p><ol class="rm">${li}</ol>`;
+    box.innerHTML = `<p class="rm-title">CONTEXT<br>JOURNEY</p><p class="rm-count"><b>${String(i + 1).padStart(3, '0')}</b> / ${T.length}<small>つながりを辿る順</small></p><ol class="rm">${li}</ol>`;
   }
 
   /* はじめてパソコンで開いた人に一度だけ：→ キーか、つながりを辿るで次へ進めること。最初に進むか、8 秒で消える */
