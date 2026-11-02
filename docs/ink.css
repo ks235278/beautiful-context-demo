@@ -195,3 +195,70 @@
   .search-page .content::after{width:220px;height:88px}
   .list-page .content::after{width:300px;height:120px}   /* 一覧は列いっぱいの箱。右の端は薄くして消す（上の 760px〜） */
 }
+
+/* ---- 第9段：パソコンの読む画面を、雑誌の見開きに（CTO 2026.11.02「目標の画面に近づける。配置を変えてもよい」） ----
+   ・上の段：左に二枚の絵、右に札（編集者・題・二つの作品・読むボタン）。絵は留めず、紺の帯をやめて紙の上に置く
+   ・下の段：本文（CONTEXT STORY から下）を列の幅いっぱいに。字の列は読みやすい幅（660px）まで
+   ・絵の後ろに墨のにじみ（墨の山の絵をぼかした楕円で切り抜く）、まわりに金の筆の輪（同じ筆の絵を二つ、半回転して向かい合わせ）。
+     本文の右上に墨の山。どれも position:absolute・触れない・字の後ろ
+   ・Today の名札は列の真ん中、Login は列の右上に、紙の上の色で。題を 2 行にする決まり（app.css）はそのまま
+   ・携帯・タブレット（1099.98px まで）は変えない */
+@media (min-width:1100px){
+  :is(.cpage,.wpage){--hr:.55;grid-template-columns:calc(100% * var(--hr)) 1fr}
+  /* app.css は左の列を紙から外して暗幕にしている（:has の中）。雑誌の見開きでは列全体を紙に */
+  @supports selector(:has(> .cpage)){
+    :is(.view,.ghost,.underlay)>.view-in:has(>.cpage),:is(.view,.ghost,.underlay)>.view-in:has(>.wpage),
+    :is(.view,.ghost,.underlay)>.view-in>:is(.cpage,.wpage){background:var(--paper)}
+    :is(.view,.ghost,.underlay)>.view-in>:is(.cpage,.wpage)>.duo-hero{background:none;box-shadow:none}
+  }
+  :is(.cpage,.wpage)>.duo-hero{grid-column:1;grid-row:1;position:relative;top:auto;height:auto;display:block;isolation:isolate;overflow:visible;
+    padding:78px 22px 42px 44px;background:none}
+  :is(.cpage,.wpage)>.duo-hero .duo{max-width:none;margin:0}
+  :is(.cpage,.wpage)>.duo-hero .art{box-shadow:0 14px 26px -16px rgba(6,20,43,.6)}
+  :is(.cpage,.wpage)>.duo-hero::before{content:"";position:absolute;z-index:-1;left:-2%;right:-6%;top:18px;bottom:-6px;pointer-events:none;
+    background:url(img/ink-side.jpg) center 70%/cover no-repeat;opacity:.9;
+    -webkit-mask-image:radial-gradient(closest-side,#000 62%,rgba(0,0,0,.6) 82%,transparent);mask-image:radial-gradient(closest-side,#000 62%,rgba(0,0,0,.6) 82%,transparent)}
+  /* 絵の足もとに墨の山（左右を返して、左下から） */
+  :is(.cpage,.wpage)>.duo-hero .duo::before{content:"";position:absolute;z-index:-1;left:-16%;bottom:-40px;width:78%;aspect-ratio:1600/640;pointer-events:none;
+    background:url(img/deco/mist.png) 0 100%/contain no-repeat;opacity:.85;transform:scaleX(-1)}
+  :is(.cpage,.wpage)>.duo-hero::after{content:"";position:absolute;z-index:-1;left:6px;top:36px;width:64%;aspect-ratio:1400/520;pointer-events:none;
+    background:url(img/deco/brush-gold.png) 0 0/100% 100% no-repeat;opacity:.9}
+  :is(.cpage,.wpage)>.duo-hero .duo::after{content:"";position:absolute;z-index:-1;right:-14%;bottom:-38px;width:64%;aspect-ratio:1400/520;pointer-events:none;
+    background:url(img/deco/brush-gold.png) 0 0/100% 100% no-repeat;opacity:.9;transform:rotate(180deg)}
+  /* 札は上の段の右。編集者は左寄せ、題も左から（2 行の決まりの箱はそのまま） */
+  .cpage>.context-lead{grid-column:2;grid-row:1;align-self:center;padding:86px 40px 34px 14px;text-align:left}
+  .cpage>.context-lead .ed-row{justify-content:flex-start;margin-bottom:22px}
+  .cpage>.context-lead .route-label{margin-bottom:12px}
+  .cpage>.context-lead .pair{text-align:center}
+  /* 作品（駅）のページも同じ見開き：左に絵、右に名前と説明・区間の札。紙の上、絵は留めない */
+  .wpage>.content{grid-column:2;grid-row:1;min-height:0;padding:86px 40px 48px 14px}
+  /* 本文は下の段。右上に墨の山 */
+  .cpage>.context-body{grid-column:1/-1;grid-row:2;padding:46px 56px 56px;isolation:isolate}
+  .cpage>.context-body>*{max-width:660px}
+  .cpage>.context-body h2{font-size:26px;line-height:1.5;text-wrap:balance}
+  .cpage>.context-body::after{content:"";position:absolute;z-index:-1;right:0;top:18px;width:min(54%,500px);aspect-ratio:1600/640;pointer-events:none;
+    background:url(img/deco/mist.png) right top/contain no-repeat;opacity:.6}
+  /* Today の名札（列の真ん中）と Login（列の右上）。上の段の左（55%）の中から、列いっぱいへ広げる */
+  .cpage>.duo-hero .today-bar{left:0;right:auto;width:calc(100% / var(--hr));top:22px}
+  .cpage .today-bar b{color:var(--gold-ink)}
+  .cpage .today-bar span{color:var(--muted)}
+  .cpage .today-dots i{background:rgba(10,31,58,.22)}
+  .cpage .today-dots i.on{background:var(--gold)}
+  .cpage>.duo-hero .login-chip:not(.me){right:calc(26px - 100% * (1 - var(--hr)) / var(--hr));top:18px;border:1.5px solid var(--navy);background:var(--paper-card);color:var(--navy)}
+  .cpage>.duo-hero .login-chip.me{right:calc(26px - 100% * (1 - var(--hr)) / var(--hr));top:18px}
+
+  /* 狭いパソコン（1100〜1279px）：絵と札を半々に。札の左を少し空けて、題が › の丸に掛からないように */
+  @media (max-width:1279.98px){
+    :is(.cpage,.wpage){--hr:.5}
+    :is(.cpage,.wpage)>.duo-hero{padding:78px 18px 42px 28px}
+    .wpage>.content{padding-left:26px;padding-right:28px}
+    .cpage>.context-lead{padding-left:26px;padding-right:28px}
+  }
+  /* 右の列（路線図）：見本の CONTEXT JOURNEY。区間に二つの作品の小さな絵（いまの区間は金の縁） */
+  .rm-title{margin:0 0 10px;color:#fff;font:700 13px/1.35 "Lato",sans-serif;letter-spacing:.2em}
+  .rm-pic{display:flex;gap:3px;margin-top:6px}
+  .rm-pic img,.rm-pic i{display:grid;place-items:center;width:40px;height:54px;border-radius:2px;object-fit:cover;background:#0a1f3a;
+    color:var(--gold-lite);font:14px/1 var(--mincho);font-style:normal;opacity:.78}
+  .rm-seg.now .rm-pic{padding:3px;border:1.5px solid var(--gold-lite);border-radius:4px;width:max-content}
+  .rm-seg.now .rm-pic img,.rm-seg.now .rm-pic i{width:54px;height:72px;opacity:1}
+}
