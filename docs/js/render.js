@@ -331,6 +331,7 @@
           <button type="button" class="read" data-read>このつながりを読む<small>${t}</small><span aria-hidden="true">↓</span></button>
           <i class="story-cue" aria-hidden="true"></i>
         </section>
+        ${sourceCards(e)}
         <article class="context-body" id="story">
           <p class="meta">CONTEXT STORY</p>
           ${story}
@@ -351,6 +352,23 @@
           ${cfoot()}
         </article>
       </article>`;
+  }
+  /* 二つの作品の札（見本の SOURCE CONNECTION）。題の下に、左右の作品を絵・種類・名前・作り手・ひとことで。
+     触れるとその作品（駅）のページへ（上の二枚の絵と同じ data-step）。絵には data-k を付けない（ページが替わるときに運ぶ絵は上の二枚だけ） */
+  function sourceCards(e){
+    const card = (w, step) => {
+      const s = safeImg(w.image);
+      return `<button type="button" class="src" data-step="${step}" aria-label="${attr(w.title)}の作品ページへ">` +
+        (s ? `<img src="${attr(s)}" alt="" loading="lazy" decoding="async">` : `<span class="ph">${esc(initial(w))}</span>`) +
+        `<span class="src-t"><small>${esc(w.type || '作品')}${w.year ? '・' + esc(w.year) : ''}</small><b>${esc(w.title)}</b>` +
+        `${w.creator ? `<em>${esc(w.creator)}</em>` : ''}${w.summary ? `<span class="src-s">${esc(w.summary)}</span>` : ''}` +
+        `<i aria-hidden="true">作品ページへ　→</i></span></button>`;
+    };
+    return `
+        <section class="src-cards" aria-label="つながる二つの作品">
+          <p class="meta">SOURCE CONNECTION</p>
+          <div class="src-row">${card(e.a, 0)}<span class="src-link" aria-hidden="true">↔</span>${card(e.b, 2)}</div>
+        </section>`;
   }
   /* コンテクストページのいちばん下：検索などから来た人が、このメディアのどこへでも行ける小さな入口 */
   const cfoot = () => `

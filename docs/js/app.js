@@ -1018,7 +1018,10 @@
         li += `<li class="rm-st${now ? ' now' : ''}"><a href="${stepHash(e, t.exit === 'a' ? 0 : 2)}"${cur_}><i></i><span>${R.esc(w.title)}</span></a></li>`;
       }
     }
-    box.innerHTML = `<p class="rm-title">CONTEXT<br>JOURNEY</p><p class="rm-count"><b>${String(i + 1).padStart(3, '0')}</b> / ${T.length}<small>つながりを辿る順</small></p><ol class="rm">${li}</ol>`;
+    /* 列の下に「つながりを辿る」（見本どおり。下の帯のボタンと同じ働き） */
+    box.innerHTML = `<p class="rm-title">CONTEXT<br>JOURNEY</p><p class="rm-count"><b>${String(i + 1).padStart(3, '0')}</b> / ${T.length}<small>つながりを辿る順</small></p><ol class="rm">${li}</ol>` +
+      `<button type="button" class="rm-next"><img src="img/logo-mark.png" alt=""><span><b>つながりを辿る</b><small>NEXT CONTEXT</small></span><i aria-hidden="true">↓</i></button>`;
+    box.querySelector('.rm-next').addEventListener('click', () => uniBtn.click());
   }
 
   /* はじめてパソコンで開いた人に一度だけ：→ キーか、つながりを辿るで次へ進めること。最初に進むか、8 秒で消える */
