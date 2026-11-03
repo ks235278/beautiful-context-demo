@@ -357,6 +357,7 @@
           ${rel.length ? `<p class="meta more-label">同じルーツのコンテクスト</p>${roots(e, rel)}` : ''}
           ${ad(adItem)}
           ${credit(e.a)}${credit(e.b)}
+          ${nextCtx(o.journey)}
           ${o.rail && o.rail.length ? `
           <section class="ctx-rail" aria-label="この先のつながり">
             <p class="meta more-label">この先のつながり</p>
@@ -384,20 +385,36 @@
           <div class="src-row">${card(e.a, 0)}<span class="src-link" aria-hidden="true">↔</span>${card(e.b, 2)}</div>
         </section>`;
   }
-  /* 見本の CONTEXT JOURNEY（携帯）：つながりを辿る道の上の、一つ前・いま・その先。横に五つまで。
+  /* 見本の CONTEXT JOURNEY（携帯）：つながりを辿る道の上の、一つ前・いま・その先。見本どおり縦に五つまで
+     （以前は横に五つ並べていたが、一つが 60px ほどで題が四字ずつ折れていた）。一行に道の上の名と題の頭、二つの作品の小さな絵、›。
      触れるとその区間へ。パソコンでは右の列が同じものなので出さない（ink.css） */
   function journey(list){
     if (!list || list.length < 2) return '';
+    const pic = (w) => { const u = safeImg(w.image); return u ? `<img src="${attr(u)}" alt="" loading="lazy" decoding="async">` : `<i>${esc(initial(w))}</i>`; };
     const stop = (x) => {
-      const inner = `<i></i><b>${esc(x.name)}</b><small>${esc(String(x.entry.context.headline || '').split('\n')[0])}</small>`;
-      return `<li${x.now ? ' class="now"' : ''}>${x.now ? `<span aria-current="step">${inner}</span>` : `<a href="${attr(pathOf('c', x.entry.context.slug))}">${inner}</a>`}</li>`;
+      const e = x.entry;
+      const inner = `<i class="jr-dot"></i><span class="jr-t"><b>${esc(x.name)}</b><small>${esc(String(e.context.headline || '').replace(/\n/g, ''))}</small></span>` +
+        `<span class="jr-pics" aria-hidden="true">${pic(e.a)}${pic(e.b)}</span>`;
+      return `<li${x.now ? ' class="now"' : ''}>${x.now ? `<span class="jr-row" aria-current="step">${inner}</span>`
+        : `<a class="jr-row" href="${attr(pathOf('c', e.context.slug))}">${inner}</a>`}</li>`;
     };
     return `
         <section class="journey" aria-label="CONTEXT JOURNEY">
           <p class="meta">CONTEXT JOURNEY<a href="#/list">一覧で見る　→</a></p>
           <p class="jr-sub">このつながりから、たどる道</p>
-          <ol class="jr" style="--n:${list.length}">${list.map(stop).join('')}</ol>
+          <ol class="jr">${list.map(stop).join('')}</ol>
         </section>`;
+  }
+  /* 見本の「次に読む CONTEXT」：読み終わりに、つながりを辿る道の次の区間（CONTEXT JOURNEY の「つぎへ」）を札で一つ。
+     この先のつながり（B の駅から延びる路線）の前に置く */
+  function nextCtx(list){
+    const i = (list || []).findIndex(x => x.now), nx = i >= 0 && list[i + 1];
+    if (!nx) return '';
+    return `
+          <section class="next-ctx" aria-label="次に読むつながり">
+            <p class="meta">NEXT CONTEXT<small>次に読むつながり</small></p>
+            ${ctxCard(nx.entry)}
+          </section>`;
   }
   /* コンテクストページのいちばん下：検索などから来た人が、このメディアのどこへでも行ける小さな入口 */
   const cfoot = () => `

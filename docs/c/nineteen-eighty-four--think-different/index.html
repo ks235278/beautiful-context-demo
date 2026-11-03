@@ -43,9 +43,9 @@ try { if (sessionStorage.getItem('bc-resume')) document.documentElement.classLis
 <link rel="preload" as="image" href="img/logo-layer-words.png">
 <!-- 台本も先に取りに行く（静的なページは台本より先に本文が描かれる。遅い回線で、触れて動くまでの間を縮める）。
      src と同じアドレス（?v= まで）でないと、二度取りに行く -->
-<link rel="preload" as="script" href="js/seed.js?v=162">
-<link rel="preload" as="script" href="js/app.js?v=162">
-<link rel="manifest" href="manifest.webmanifest?v=162">
+<link rel="preload" as="script" href="js/seed.js?v=165">
+<link rel="preload" as="script" href="js/app.js?v=165">
+<link rel="manifest" href="manifest.webmanifest?v=165">
 <link rel="apple-touch-icon" href="icon-180.png">
 <!-- タブと検索結果に出る小さな印。アプリの印（ホーム画面のアイコン）と同じ形 -->
 <link rel="icon" href="favicon.ico" sizes="16x16 32x32 48x48">
@@ -74,13 +74,13 @@ if (location.hostname === 'beautifulcontext.com'){
   document.head.appendChild(ga);
 }
 </script>
-<script src="js/theme.js?v=162"></script>
-<link rel="stylesheet" href="app.css?v=162">
+<script src="js/theme.js?v=165"></script>
+<link rel="stylesheet" href="app.css?v=165">
 <!-- 読む画面の使い勝手（2026.10.24）。app.css のすぐあと -->
-<link rel="stylesheet" href="ux.css?v=162">
-<link rel="stylesheet" href="fade.css?v=162">
+<link rel="stylesheet" href="ux.css?v=165">
+<link rel="stylesheet" href="fade.css?v=165">
 <!-- editorial-ink（紙・墨・金）：◆ の罫と、紙の上か絵の上かで変わる決まり。ux.css のあと -->
-<link rel="stylesheet" href="ink.css?v=162">
+<link rel="stylesheet" href="ink.css?v=165">
 <!-- 台本（js）が揃うまで：まだ押しても動かないもの（‹・絵の横の ‹ ›・つながりを辿る）を少し薄くし、下の帯の上の縁に細い金の線を走らせる。
      app.js が最後に body.app-ready を付けて外す。すぐ揃うときは何も見せない（0.3 秒待ってから出す） -->
 <style>
@@ -211,7 +211,7 @@ document.addEventListener('click', function (e) {
         <section class="journey" aria-label="CONTEXT JOURNEY">
           <p class="meta">CONTEXT JOURNEY<a href="#/list">一覧で見る　→</a></p>
           <p class="jr-sub">このつながりから、たどる道</p>
-          <ol class="jr" style="--n:5"><li><a href="c/buckminster-fuller--think-different/"><i></i><b>ここまで</b><small>世界を変えられると</small></a></li><li class="now"><span aria-current="step"><i></i><b>いまここ</b><small>ビッグ・ブラザーを、</small></span></li><li><a href="c/hannah-arendt--nineteen-eighty-four/"><i></i><b>つぎへ</b><small>人を丸ごと呑み込む</small></a></li><li><a href="c/jidai-no-kishimi--hannah-arendt/"><i></i><b>さらに</b><small>〈わたし〉と国家の</small></a></li><li><a href="c/washida-kiyokazu--jidai-no-kishimi/"><i></i><b>その先へ</b><small>時代を拒むほど、</small></a></li></ol>
+          <ol class="jr"><li><a class="jr-row" href="c/buckminster-fuller--think-different/"><i class="jr-dot"></i><span class="jr-t"><b>ここまで</b><small>世界を変えられると本気で信じる一人。</small></span><span class="jr-pics" aria-hidden="true"><img src="img/works/buckminster-fuller.jpg" alt="" loading="lazy" decoding="async"><img src="img/works/think-different.jpg" alt="" loading="lazy" decoding="async"></span></a></li><li class="now"><span class="jr-row" aria-current="step"><i class="jr-dot"></i><span class="jr-t"><b>いまここ</b><small>ビッグ・ブラザーを、ハンマーが打ち砕いた。</small></span><span class="jr-pics" aria-hidden="true"><img src="img/works/nineteen-eighty-four.jpg" alt="" loading="lazy" decoding="async"><img src="img/works/think-different.jpg" alt="" loading="lazy" decoding="async"></span></span></li><li><a class="jr-row" href="c/hannah-arendt--nineteen-eighty-four/"><i class="jr-dot"></i><span class="jr-t"><b>つぎへ</b><small>人を丸ごと呑み込む国家のしくみ。</small></span><span class="jr-pics" aria-hidden="true"><img src="img/works/hannah-arendt.jpg" alt="" loading="lazy" decoding="async"><img src="img/works/nineteen-eighty-four.jpg" alt="" loading="lazy" decoding="async"></span></a></li><li><a class="jr-row" href="c/jidai-no-kishimi--hannah-arendt/"><i class="jr-dot"></i><span class="jr-t"><b>さらに</b><small>〈わたし〉と国家のあいだに立つ。</small></span><span class="jr-pics" aria-hidden="true"><img src="img/works/jidai-no-kishimi.jpg" alt="" loading="lazy" decoding="async"><img src="img/works/hannah-arendt.jpg" alt="" loading="lazy" decoding="async"></span></a></li><li><a class="jr-row" href="c/washida-kiyokazu--jidai-no-kishimi/"><i class="jr-dot"></i><span class="jr-t"><b>その先へ</b><small>時代を拒むほど、時代に絡めとられる。</small></span><span class="jr-pics" aria-hidden="true"><img src="img/works/washida-kiyokazu.jpg" alt="" loading="lazy" decoding="async"><img src="img/works/jidai-no-kishimi.jpg" alt="" loading="lazy" decoding="async"></span></a></li></ol>
         </section>
         <article class="context-body" id="story">
           <p class="meta">CONTEXT STORY</p>
@@ -250,6 +250,11 @@ document.addEventListener('click', function (e) {
         </a>
       </aside>
           <p class="img-credit">画像：ハヤカワepi文庫［新訳版］の表紙／© 早川書房／出典 早川書房　<a href="https://www.hayakawa-online.co.jp/shop/g/g0000310053/" target="_blank" rel="noopener nofollow">出典</a></p><p class="img-credit">画像：アップルの広告ポスター／Public domain／Wikimedia Commons　<a href="https://commons.wikimedia.org/wiki/File:Apple_%27Think_Different%27_Poster_-_Theodore_Roosevelt.jpg" target="_blank" rel="noopener nofollow">出典</a></p>
+          
+          <section class="next-ctx" aria-label="次に読むつながり">
+            <p class="meta">NEXT CONTEXT<small>次に読むつながり</small></p>
+            <a class="ctx-card" href="c/hannah-arendt--nineteen-eighty-four/" aria-label="人を丸ごと呑み込む国家のしくみ。：ハンナ・アーレント ＋ ジョージ・オーウェル『1984年』"><span class="cc-pics" aria-hidden="true"><img src="img/works/hannah-arendt.jpg" alt="" loading="lazy" decoding="async"><img src="img/works/nineteen-eighty-four.jpg" alt="" loading="lazy" decoding="async"></span><span class="cc-t"><small>［全体主義］</small><b>人を丸ごと呑み込む国家のしくみ。</b><em>ハンナ・アーレント ＋ <span class="nb">ジョージ・オーウェル『1984年』</span></em></span><span class="cc-go" aria-hidden="true">›</span></a>
+          </section>
           
           <section class="ctx-rail" aria-label="この先のつながり">
             <p class="meta more-label">この先のつながり</p>
@@ -408,16 +413,16 @@ document.addEventListener('click', function (e) {
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 <script type="application/ld+json" id="ld">{"@context":"https://schema.org","@type":"Article","headline":"ビッグ・ブラザーを、ハンマーが打ち砕いた。","alternativeHeadline":"1984年は『1984年』のようにはならない","about":[{"@type":"Book","name":"1984年","description":"「ビッグ・ブラザー」がすべてを監視する全体主義国家オセアニアで、真理省に勤めるウィンストンが体制に疑いを抱く。","creator":{"@type":"Person","name":"ジョージ・オーウェル"}},{"@type":"CreativeWork","name":"アップル「Think Different」","description":"1997年にアップルが始めた広告キャンペーン。アインシュタイン、ガンディー、ピカソら、世界を変えた「クレイジーな人たち」への賛辞を掲げた。","creator":{"@type":"Person","name":"アップル"}}],"author":{"@type":"Person","name":"生成AI（初稿）"},"datePublished":"2026-09-14T07:40:00.000Z","dateModified":"2026-09-14T07:40:00.000Z","inLanguage":"ja","articleBody":"ハブは、1984年のアップルの広告。1984年1月22日、アップルはスーパーボウルの中継で、2日後に発表する最初の Macintosh のテレビ広告を流した。オーウェルの『1984年』を下敷きにしたこの広告では、画面の独裁者に向かって女性がハンマーを投げつける。監督はリドリー・スコット、女性を演じたのはアニャ・メジャーである。13年後の1997年、アップルは「Think Different」で、世界を変えた「クレイジーな人たち」を讃えた。1984年の広告は Chiat/Day が、1997年の「Think Different」は TBWA\\Chiat\\Day のロサンゼルス事務所が手がけた。「1984」は体制に挑む一人の女性を、「Think Different」は世界を変える「クレイジーな人たち」を主役にしている。群衆ではなく個人に光を当てた広告として、二つは並べて読める。","url":"https://beautifulcontext.com/c/nineteen-eighty-four--think-different/","citation":[{"@type":"CreativeWork","name":"Folklore.org: 1984","url":"https://www.folklore.org/1984.html","publisher":{"@type":"Organization","name":"Folklore.org（Andy Hertzfeld）"}},{"@type":"CreativeWork","name":"Macintosh 128K - Wikipedia","url":"https://en.wikipedia.org/wiki/Macintosh_128K","publisher":{"@type":"Organization","name":"Wikipedia"}},{"@type":"CreativeWork","name":"Think different - Wikipedia","url":"https://en.wikipedia.org/wiki/Think_different","publisher":{"@type":"Organization","name":"Wikipedia"}},{"@type":"CreativeWork","name":"Think different - Wikipedia","url":"https://ja.wikipedia.org/wiki/Think_different","publisher":{"@type":"Organization","name":"Wikipedia"}}],"image":"https://beautifulcontext.com/img/works/nineteen-eighty-four.jpg"}</script>
 
-<script src="js/config.js?v=162"></script>
-<script src="js/seed.js?v=162"></script>
-<script src="js/sources.js?v=162"></script>
-<script src="js/backend.js?v=162"></script>
-<script src="js/store.js?v=162"></script>
-<script src="js/social.js?v=162"></script>
-<script src="js/render.js?v=162"></script>
-<script src="js/login.js?v=162"></script>
-<script src="js/report.js?v=162"></script>
-<script src="js/transition.js?v=162"></script>
-<script src="js/app.js?v=162"></script>
+<script src="js/config.js?v=165"></script>
+<script src="js/seed.js?v=165"></script>
+<script src="js/sources.js?v=165"></script>
+<script src="js/backend.js?v=165"></script>
+<script src="js/store.js?v=165"></script>
+<script src="js/social.js?v=165"></script>
+<script src="js/render.js?v=165"></script>
+<script src="js/login.js?v=165"></script>
+<script src="js/report.js?v=165"></script>
+<script src="js/transition.js?v=165"></script>
+<script src="js/app.js?v=165"></script>
 </body>
 </html>

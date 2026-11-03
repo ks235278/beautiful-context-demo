@@ -43,9 +43,9 @@ try { if (sessionStorage.getItem('bc-resume')) document.documentElement.classLis
 <link rel="preload" as="image" href="img/logo-layer-words.png">
 <!-- 台本も先に取りに行く（静的なページは台本より先に本文が描かれる。遅い回線で、触れて動くまでの間を縮める）。
      src と同じアドレス（?v= まで）でないと、二度取りに行く -->
-<link rel="preload" as="script" href="js/seed.js?v=162">
-<link rel="preload" as="script" href="js/app.js?v=162">
-<link rel="manifest" href="manifest.webmanifest?v=162">
+<link rel="preload" as="script" href="js/seed.js?v=165">
+<link rel="preload" as="script" href="js/app.js?v=165">
+<link rel="manifest" href="manifest.webmanifest?v=165">
 <link rel="apple-touch-icon" href="icon-180.png">
 <!-- タブと検索結果に出る小さな印。アプリの印（ホーム画面のアイコン）と同じ形 -->
 <link rel="icon" href="favicon.ico" sizes="16x16 32x32 48x48">
@@ -74,13 +74,13 @@ if (location.hostname === 'beautifulcontext.com'){
   document.head.appendChild(ga);
 }
 </script>
-<script src="js/theme.js?v=162"></script>
-<link rel="stylesheet" href="app.css?v=162">
+<script src="js/theme.js?v=165"></script>
+<link rel="stylesheet" href="app.css?v=165">
 <!-- 読む画面の使い勝手（2026.10.24）。app.css のすぐあと -->
-<link rel="stylesheet" href="ux.css?v=162">
-<link rel="stylesheet" href="fade.css?v=162">
+<link rel="stylesheet" href="ux.css?v=165">
+<link rel="stylesheet" href="fade.css?v=165">
 <!-- editorial-ink（紙・墨・金）：◆ の罫と、紙の上か絵の上かで変わる決まり。ux.css のあと -->
-<link rel="stylesheet" href="ink.css?v=162">
+<link rel="stylesheet" href="ink.css?v=165">
 <!-- 台本（js）が揃うまで：まだ押しても動かないもの（‹・絵の横の ‹ ›・つながりを辿る）を少し薄くし、下の帯の上の縁に細い金の線を走らせる。
      app.js が最後に body.app-ready を付けて外す。すぐ揃うときは何も見せない（0.3 秒待ってから出す） -->
 <style>
@@ -211,7 +211,7 @@ document.addEventListener('click', function (e) {
         <section class="journey" aria-label="CONTEXT JOURNEY">
           <p class="meta">CONTEXT JOURNEY<a href="#/list">一覧で見る　→</a></p>
           <p class="jr-sub">このつながりから、たどる道</p>
-          <ol class="jr" style="--n:5"><li><a href="c/tengoku-book--rebellion-ordre-et-morale/"><i></i><b>ここまで</b><small>天国にいちばん近い島は</small></a></li><li class="now"><span aria-current="step"><i></i><b>いまここ</b><small>亡き父の言葉を頼りに、</small></span></li><li><a href="c/sobagome-jiru--grechka/"><i></i><b>つぎへ</b><small>麺にしないそばを、</small></a></li><li><a href="c/lorenzos-oil--adrenoleukodystrophy/"><i></i><b>さらに</b><small>息子を救う方法を、</small></a></li><li><a href="c/highest-2-lowest--high-and-low/"><i></i><b>その先へ</b><small>誘拐劇は、60年後に</small></a></li></ol>
+          <ol class="jr"><li><a class="jr-row" href="c/tengoku-book--rebellion-ordre-et-morale/"><i class="jr-dot"></i><span class="jr-t"><b>ここまで</b><small>天国にいちばん近い島は人質事件の島でもある。</small></span><span class="jr-pics" aria-hidden="true"><img src="img/works/tengoku-book.jpg" alt="" loading="lazy" decoding="async"><img src="img/works/rebellion-ordre-et-morale.jpg" alt="" loading="lazy" decoding="async"></span></a></li><li class="now"><span class="jr-row" aria-current="step"><i class="jr-dot"></i><span class="jr-t"><b>いまここ</b><small>亡き父の言葉を頼りに、少女は南の島へ向かう。</small></span><span class="jr-pics" aria-hidden="true"><img src="img/works/tengoku-film.jpg" alt="" loading="lazy" decoding="async"><img src="img/works/harada-tomoyo.jpg" alt="" loading="lazy" decoding="async"></span></span></li><li><a class="jr-row" href="c/sobagome-jiru--grechka/"><i class="jr-dot"></i><span class="jr-t"><b>つぎへ</b><small>麺にしないそばを、祖谷もロシアも食べる。</small></span><span class="jr-pics" aria-hidden="true"><img src="img/works/sobagome-jiru.jpg" alt="" loading="lazy" decoding="async"><img src="img/works/grechka.jpg" alt="" loading="lazy" decoding="async"></span></a></li><li><a class="jr-row" href="c/lorenzos-oil--adrenoleukodystrophy/"><i class="jr-dot"></i><span class="jr-t"><b>さらに</b><small>息子を救う方法を、両親は自ら探した。</small></span><span class="jr-pics" aria-hidden="true"><img src="img/works/lorenzos-oil.jpg" alt="" loading="lazy" decoding="async"><img src="img/works/adrenoleukodystrophy.jpg" alt="" loading="lazy" decoding="async"></span></a></li><li><a class="jr-row" href="c/highest-2-lowest--high-and-low/"><i class="jr-dot"></i><span class="jr-t"><b>その先へ</b><small>誘拐劇は、60年後にアメリカへ戻った。</small></span><span class="jr-pics" aria-hidden="true"><img src="img/highest.jpg" alt="" loading="lazy" decoding="async"><img src="img/highlow.jpg" alt="" loading="lazy" decoding="async"></span></a></li></ol>
         </section>
         <article class="context-body" id="story">
           <p class="meta">CONTEXT STORY</p>
@@ -250,6 +250,11 @@ document.addEventListener('click', function (e) {
         </a>
       </aside>
           <p class="img-credit">画像：© 権利者／出典 映画.com　<a href="https://eiga.com/movie/37981/" target="_blank" rel="noopener nofollow">出典</a></p><p class="img-credit">画像：アルバム『music &amp; me』（2007）のジャケット／© 権利者／出典 Apple Music　<a href="https://music.apple.com/jp/album/music-me/266792664" target="_blank" rel="noopener nofollow">出典</a></p>
+          
+          <section class="next-ctx" aria-label="次に読むつながり">
+            <p class="meta">NEXT CONTEXT<small>次に読むつながり</small></p>
+            <a class="ctx-card" href="c/sobagome-jiru--grechka/" aria-label="麺にしないそばを、祖谷もロシアも食べる。：徳島県「そば米汁」 ＋ ロシア「そばの実（グレーチカ）」"><span class="cc-pics" aria-hidden="true"><img src="img/works/sobagome-jiru.jpg" alt="" loading="lazy" decoding="async"><img src="img/works/grechka.jpg" alt="" loading="lazy" decoding="async"></span><span class="cc-t"><small>［そばの実］</small><b>麺にしないそばを、祖谷もロシアも食べる。</b><em>徳島県「そば米汁」 ＋ <span class="nb">ロシア「そばの実（グレーチカ）」</span></em></span><span class="cc-go" aria-hidden="true">›</span></a>
+          </section>
           
           <section class="ctx-rail" aria-label="この先のつながり">
             <p class="meta more-label">この先のつながり</p>
@@ -405,16 +410,16 @@ document.addEventListener('click', function (e) {
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 <script type="application/ld+json" id="ld">{"@context":"https://schema.org","@type":"Article","headline":"亡き父の言葉を頼りに、少女は南の島へ向かう。","alternativeHeadline":"主演","about":[{"@type":"Movie","name":"天国にいちばん近い島","description":"亡き父から聞いた「天国にいちばん近い島」を探して、ニューカレドニアへ旅立つ少女の物語。主演は原田知世。","creator":{"@type":"Person","name":"大林宣彦監督"}},{"@type":"Person","name":"原田知世","description":"1983年、大林宣彦監督『時をかける少女』で映画に主演。大林監督の『天国にいちばん近い島』にも主演し、歌手としても活動を続けている。"}],"author":{"@type":"Person","name":"生成AI（初稿）"},"datePublished":"2026-09-14T08:10:00.000Z","dateModified":"2026-09-14T08:10:00.000Z","inLanguage":"ja","articleBody":"大林宣彦監督のもとで、原田知世は二年続けて主演した。原田知世は1983年7月公開の『時をかける少女』（大林宣彦監督、角川春樹事務所製作）で、映画に初主演した。その翌年、1984年12月15日に公開されたのが、同じ監督のもとで主演した『天国にいちばん近い島』である。亡き父の言葉を頼りに、南の島へ向かう少女。原作の森村桂『天国にいちばん近い島』は、著者自身のニューカレドニア旅行を描いた旅行記だが、映画はまったく別の筋の物語で、主人公は父を亡くした高校生・桂木万里である。前田先生の note は、若い女性が飛行機で海外を旅するという映画の設定を、原作の旅があった1964年には考えられなかったことだと指摘している。その万里を原田知世が演じ、同名の主題歌も歌った。主題歌は公開に先立つ1984年10月にシングルとして発売され、オリコン週間ランキングで1位になっている。","url":"https://beautifulcontext.com/c/tengoku-film--harada-tomoyo/","citation":[{"@type":"CreativeWork","name":"FILM | O3 Harada Tomoyo Official Site","url":"https://haradatomoyo.com/profile/film/","publisher":{"@type":"Organization","name":"原田知世 公式サイト（O3 Harada Tomoyo Official Site）"}},{"@type":"CreativeWork","name":"『天国に近い島』という蜃気楼","url":"https://note.com/mdkh/n/ndb1c39d07e16","publisher":{"@type":"Organization","name":"note（前田邦宏）"}},{"@type":"CreativeWork","name":"原田知世 - Wikipedia","url":"https://ja.wikipedia.org/wiki/%E5%8E%9F%E7%94%B0%E7%9F%A5%E4%B8%96","publisher":{"@type":"Organization","name":"Wikipedia"}},{"@type":"CreativeWork","name":"時をかける少女 (1983年の映画) - Wikipedia","url":"https://ja.wikipedia.org/wiki/%E6%99%82%E3%82%92%E3%81%8B%E3%81%91%E3%82%8B%E5%B0%91%E5%A5%B3_%281983%E5%B9%B4%E3%81%AE%E6%98%A0%E7%94%BB%29","publisher":{"@type":"Organization","name":"Wikipedia"}},{"@type":"CreativeWork","name":"天国にいちばん近い島 : 作品情報・キャスト・あらすじ - 映画.com","url":"https://eiga.com/movie/37981/","publisher":{"@type":"Organization","name":"映画.com"}},{"@type":"CreativeWork","name":"天国にいちばん近い島 (映画) - Wikipedia","url":"https://ja.wikipedia.org/wiki/%E5%A4%A9%E5%9B%BD%E3%81%AB%E3%81%84%E3%81%A1%E3%81%B0%E3%82%93%E8%BF%91%E3%81%84%E5%B3%B6_%28%E6%98%A0%E7%94%BB%29","publisher":{"@type":"Organization","name":"Wikipedia"}},{"@type":"CreativeWork","name":"大林宣彦 - Wikipedia","url":"https://ja.wikipedia.org/wiki/%E5%A4%A7%E6%9E%97%E5%AE%A3%E5%BD%A6","publisher":{"@type":"Organization","name":"Wikipedia"}}],"image":"https://beautifulcontext.com/img/works/tengoku-film.jpg"}</script>
 
-<script src="js/config.js?v=162"></script>
-<script src="js/seed.js?v=162"></script>
-<script src="js/sources.js?v=162"></script>
-<script src="js/backend.js?v=162"></script>
-<script src="js/store.js?v=162"></script>
-<script src="js/social.js?v=162"></script>
-<script src="js/render.js?v=162"></script>
-<script src="js/login.js?v=162"></script>
-<script src="js/report.js?v=162"></script>
-<script src="js/transition.js?v=162"></script>
-<script src="js/app.js?v=162"></script>
+<script src="js/config.js?v=165"></script>
+<script src="js/seed.js?v=165"></script>
+<script src="js/sources.js?v=165"></script>
+<script src="js/backend.js?v=165"></script>
+<script src="js/store.js?v=165"></script>
+<script src="js/social.js?v=165"></script>
+<script src="js/render.js?v=165"></script>
+<script src="js/login.js?v=165"></script>
+<script src="js/report.js?v=165"></script>
+<script src="js/transition.js?v=165"></script>
+<script src="js/app.js?v=165"></script>
 </body>
 </html>

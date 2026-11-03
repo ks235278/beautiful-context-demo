@@ -43,9 +43,9 @@ try { if (sessionStorage.getItem('bc-resume')) document.documentElement.classLis
 <link rel="preload" as="image" href="img/logo-layer-words.png">
 <!-- 台本も先に取りに行く（静的なページは台本より先に本文が描かれる。遅い回線で、触れて動くまでの間を縮める）。
      src と同じアドレス（?v= まで）でないと、二度取りに行く -->
-<link rel="preload" as="script" href="js/seed.js?v=162">
-<link rel="preload" as="script" href="js/app.js?v=162">
-<link rel="manifest" href="manifest.webmanifest?v=162">
+<link rel="preload" as="script" href="js/seed.js?v=165">
+<link rel="preload" as="script" href="js/app.js?v=165">
+<link rel="manifest" href="manifest.webmanifest?v=165">
 <link rel="apple-touch-icon" href="icon-180.png">
 <!-- タブと検索結果に出る小さな印。アプリの印（ホーム画面のアイコン）と同じ形 -->
 <link rel="icon" href="favicon.ico" sizes="16x16 32x32 48x48">
@@ -74,13 +74,13 @@ if (location.hostname === 'beautifulcontext.com'){
   document.head.appendChild(ga);
 }
 </script>
-<script src="js/theme.js?v=162"></script>
-<link rel="stylesheet" href="app.css?v=162">
+<script src="js/theme.js?v=165"></script>
+<link rel="stylesheet" href="app.css?v=165">
 <!-- 読む画面の使い勝手（2026.10.24）。app.css のすぐあと -->
-<link rel="stylesheet" href="ux.css?v=162">
-<link rel="stylesheet" href="fade.css?v=162">
+<link rel="stylesheet" href="ux.css?v=165">
+<link rel="stylesheet" href="fade.css?v=165">
 <!-- editorial-ink（紙・墨・金）：◆ の罫と、紙の上か絵の上かで変わる決まり。ux.css のあと -->
-<link rel="stylesheet" href="ink.css?v=162">
+<link rel="stylesheet" href="ink.css?v=165">
 <!-- 台本（js）が揃うまで：まだ押しても動かないもの（‹・絵の横の ‹ ›・つながりを辿る）を少し薄くし、下の帯の上の縁に細い金の線を走らせる。
      app.js が最後に body.app-ready を付けて外す。すぐ揃うときは何も見せない（0.3 秒待ってから出す） -->
 <style>
@@ -211,7 +211,7 @@ document.addEventListener('click', function (e) {
         <section class="journey" aria-label="CONTEXT JOURNEY">
           <p class="meta">CONTEXT JOURNEY<a href="#/list">一覧で見る　→</a></p>
           <p class="jr-sub">このつながりから、たどる道</p>
-          <ol class="jr" style="--n:5"><li><a href="c/wings-of-desire--peter-handke/"><i></i><b>ここまで</b><small>劇中の詩を書いたのは</small></a></li><li class="now"><span aria-current="step"><i></i><b>いまここ</b><small>人の心の声を聞く天使は</small></span></li><li><a href="c/downfall--bruno-ganz/"><i></i><b>つぎへ</b><small>天使を演じた俳優が、</small></a></li><li><a href="c/the-bunker--downfall/"><i></i><b>さらに</b><small>地下壕の最後の日々を、</small></a></li><li><a href="c/anthony-hopkins--the-bunker/"><i></i><b>その先へ</b><small>レクター博士も、</small></a></li></ol>
+          <ol class="jr"><li><a class="jr-row" href="c/wings-of-desire--peter-handke/"><i class="jr-dot"></i><span class="jr-t"><b>ここまで</b><small>劇中の詩を書いたのはのちのノーベル賞作家。</small></span><span class="jr-pics" aria-hidden="true"><img src="img/works/wings-of-desire.jpg" alt="" loading="lazy" decoding="async"><img src="img/works/peter-handke.jpg" alt="" loading="lazy" decoding="async"></span></a></li><li class="now"><span class="jr-row" aria-current="step"><i class="jr-dot"></i><span class="jr-t"><b>いまここ</b><small>人の心の声を聞く天使はやがて人間になった。</small></span><span class="jr-pics" aria-hidden="true"><img src="img/works/bruno-ganz.jpg" alt="" loading="lazy" decoding="async"><img src="img/works/wings-of-desire.jpg" alt="" loading="lazy" decoding="async"></span></span></li><li><a class="jr-row" href="c/downfall--bruno-ganz/"><i class="jr-dot"></i><span class="jr-t"><b>つぎへ</b><small>天使を演じた俳優が、独裁者を演じた。</small></span><span class="jr-pics" aria-hidden="true"><img src="img/works/downfall.jpg" alt="" loading="lazy" decoding="async"><img src="img/works/bruno-ganz.jpg" alt="" loading="lazy" decoding="async"></span></a></li><li><a class="jr-row" href="c/the-bunker--downfall/"><i class="jr-dot"></i><span class="jr-t"><b>さらに</b><small>地下壕の最後の日々を、二本の映画が描いた。</small></span><span class="jr-pics" aria-hidden="true"><i>ザ</i><img src="img/works/downfall.jpg" alt="" loading="lazy" decoding="async"></span></a></li><li><a class="jr-row" href="c/anthony-hopkins--the-bunker/"><i class="jr-dot"></i><span class="jr-t"><b>その先へ</b><small>レクター博士も、ヒトラーを演じていた。</small></span><span class="jr-pics" aria-hidden="true"><img src="img/works/anthony-hopkins.jpg" alt="" loading="lazy" decoding="async"><i>ザ</i></span></a></li></ol>
         </section>
         <article class="context-body" id="story">
           <p class="meta">CONTEXT STORY</p>
@@ -250,6 +250,11 @@ document.addEventListener('click', function (e) {
         </a>
       </aside>
           <p class="img-credit">画像：東京ドイツ映画祭（2005）（撮影 Yasu）／CC BY-SA 3.0／Wikimedia Commons　<a href="https://commons.wikimedia.org/wiki/File:Bruno_Ganz_DFF_Tokyo_2005.jpg" target="_blank" rel="noopener nofollow">出典</a></p><p class="img-credit">画像：場面写真／(C)Wim Wenders Stiftung – Argos Films／出典 映画.com　<a href="https://eiga.com/movie/27461/" target="_blank" rel="noopener nofollow">出典</a></p>
+          
+          <section class="next-ctx" aria-label="次に読むつながり">
+            <p class="meta">NEXT CONTEXT<small>次に読むつながり</small></p>
+            <a class="ctx-card" href="c/downfall--bruno-ganz/" aria-label="天使を演じた俳優が、独裁者を演じた。：映画『ヒトラー〜最期の12日間〜』 ＋ ブルーノ・ガンツ"><span class="cc-pics" aria-hidden="true"><img src="img/works/downfall.jpg" alt="" loading="lazy" decoding="async"><img src="img/works/bruno-ganz.jpg" alt="" loading="lazy" decoding="async"></span><span class="cc-t"><small>［ヒトラーを演じた人］</small><b>天使を演じた俳優が、独裁者を演じた。</b><em>映画『ヒトラー〜最期の12日間〜』 ＋ <span class="nb">ブルーノ・ガンツ</span></em></span><span class="cc-go" aria-hidden="true">›</span></a>
+          </section>
           
           <section class="ctx-rail" aria-label="この先のつながり">
             <p class="meta more-label">この先のつながり</p>
@@ -408,16 +413,16 @@ document.addEventListener('click', function (e) {
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 <script type="application/ld+json" id="ld">{"@context":"https://schema.org","@type":"Article","headline":"人の心の声を聞く天使はやがて人間になった。","alternativeHeadline":"天使ダミエル","about":[{"@type":"Person","name":"ブルーノ・ガンツ","description":"スイス出身の俳優。『ベルリン・天使の詩』の天使ダミエル、『ヒトラー〜最期の12日間〜』のヒトラーを演じた。"},{"@type":"CreativeWork","name":"ベルリン・天使の詩","description":"壁のあった時代のベルリンで、人々の心の声を聞き続けてきた天使が、人間になることを選ぶ物語。","creator":{"@type":"Person","name":"ヴィム・ヴェンダース監督"}}],"author":{"@type":"Person","name":"生成AI（初稿）"},"datePublished":"2026-09-30T08:40:00.000Z","dateModified":"2026-09-30T08:40:00.000Z","inLanguage":"ja","articleBody":"永遠の命よりも、人間として生きることを選ぶ。『ベルリン・天使の詩』で、ブルーノ・ガンツは天使ダミエルを演じ、この役で好意的な評価を受けた。ダミエルは、ベルリンの人々の心の声に耳を澄ませながら、人間に直接かかわることはできない存在だ。サーカスの空中ブランコ乗りマリオンに恋したダミエルは、永遠の命を捨てて人間になる。天使たちの視界はモノクロの映像で描かれ、ダミエルが人間に近づくにつれて、映像は色を帯びていく。人間になった彼は、食べ物を味わい、コーヒーを飲む。","url":"https://beautifulcontext.com/c/bruno-ganz--wings-of-desire/","citation":[{"@type":"CreativeWork","name":"5 visual themes in Wings of Desire – Wim Wenders' immortal film about watching","url":"https://www.bfi.org.uk/features/five-visual-themes-wings-desire-wim-wenders-immortal-film-about-watching","publisher":{"@type":"Organization","name":"BFI"}},{"@type":"CreativeWork","name":"Wings of Desire","url":"https://en.wikipedia.org/wiki/Wings_of_Desire","publisher":{"@type":"Organization","name":"Wikipedia"}},{"@type":"CreativeWork","name":"ベルリン・天使の詩","url":"https://ja.wikipedia.org/wiki/%E3%83%99%E3%83%AB%E3%83%AA%E3%83%B3%E3%83%BB%E5%A4%A9%E4%BD%BF%E3%81%AE%E8%A9%A9","publisher":{"@type":"Organization","name":"Wikipedia"}}],"image":"https://beautifulcontext.com/img/works/bruno-ganz.jpg"}</script>
 
-<script src="js/config.js?v=162"></script>
-<script src="js/seed.js?v=162"></script>
-<script src="js/sources.js?v=162"></script>
-<script src="js/backend.js?v=162"></script>
-<script src="js/store.js?v=162"></script>
-<script src="js/social.js?v=162"></script>
-<script src="js/render.js?v=162"></script>
-<script src="js/login.js?v=162"></script>
-<script src="js/report.js?v=162"></script>
-<script src="js/transition.js?v=162"></script>
-<script src="js/app.js?v=162"></script>
+<script src="js/config.js?v=165"></script>
+<script src="js/seed.js?v=165"></script>
+<script src="js/sources.js?v=165"></script>
+<script src="js/backend.js?v=165"></script>
+<script src="js/store.js?v=165"></script>
+<script src="js/social.js?v=165"></script>
+<script src="js/render.js?v=165"></script>
+<script src="js/login.js?v=165"></script>
+<script src="js/report.js?v=165"></script>
+<script src="js/transition.js?v=165"></script>
+<script src="js/app.js?v=165"></script>
 </body>
 </html>

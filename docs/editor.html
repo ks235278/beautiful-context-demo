@@ -6,8 +6,8 @@
   <meta name="description" content="二つの作品を選び、そのあいだのつながりを書く。Beautiful Context の編集画面（ReMixIt!）。">
   <!-- 編集の道具。検索結果には出さない（読み物のページだけを出す） -->
   <meta name="robots" content="noindex">
-  <meta name="theme-color" content="#0a1f3a">
-<link rel="manifest" href="manifest.webmanifest?v=162">
+  <meta name="theme-color" content="#faf7f1">
+<link rel="manifest" href="manifest.webmanifest?v=165">
 <link rel="apple-touch-icon" href="icon-180.png">
 <!-- ホーム画面から開くと全画面になり、safe-area が 0 でなくなる。
      そのとき初めて Dynamic Island の裏までページが描ける。 -->
@@ -54,19 +54,22 @@
     :focus-visible{outline:3px solid rgba(169,119,23,.35);outline-offset:2px}
     .app{min-height:100vh;padding-bottom:env(safe-area-inset-bottom)}
     /* 全画面モードでは上端が Dynamic Island の裏に入る。 safe-area のぶん下げないと、戻るボタンが島に隠れて押せなくなる。 */
-.topbar{height:calc(68px + env(safe-area-inset-top) + 10px);padding-top:calc(env(safe-area-inset-top) + 10px);background:var(--nav);color:#fff;display:flex;align-items:center;gap:22px;padding-left:30px;padding-right:30px;position:sticky;top:0;z-index:40;box-shadow:inset 0 -1px 0 rgba(239,176,47,.35)}
-    .brand{display:flex;align-items:center;gap:11px;min-width:max-content;font-family:Georgia,"Yu Mincho",serif;font-weight:700;letter-spacing:.03em}
+/* 上の帯は見本（ReMixIt! エディター）どおり紙の地：紺の名前・明朝の題・右に淡い墨の山。以前は紺の帯（2026.11.03 から紙） */
+    .topbar{height:calc(68px + env(safe-area-inset-top) + 10px);padding-top:calc(env(safe-area-inset-top) + 10px);background:var(--paper) url(img/deco/mist.png) right 96px top 0/auto 100% no-repeat;color:var(--navy);display:flex;align-items:center;gap:22px;padding-left:30px;padding-right:30px;position:sticky;top:0;z-index:40;box-shadow:inset 0 -1px 0 var(--line),0 1px 0 rgba(169,119,23,.25)}
+    .brand{display:flex;align-items:center;gap:11px;min-width:max-content}
+    .brand img{display:block;width:auto;height:21px}
     .to-uni{margin-left:14px}
-    .top-title{font-size:.875rem;color:rgba(255,255,255,.7);white-space:nowrap}
+    .top-title{display:flex;align-items:baseline;gap:10px;color:var(--muted);font-size:.82rem;white-space:nowrap}
+    .top-title b{color:var(--navy);font:700 1.3rem/1 var(--mincho);letter-spacing:.02em}
     .top-actions{margin-left:auto;display:flex;align-items:center;gap:9px}
-    .save-state{font-size:.75rem;color:rgba(255,255,255,.62);margin-right:8px;white-space:nowrap}
-    .save-state.saved{color:#b9dec8}
+    .save-state{font-size:.75rem;color:var(--muted);margin-right:8px;white-space:nowrap}
+    .save-state.saved{color:#2f6b4a}
     .btn{border:1px solid transparent;border-radius:999px;padding:9px 16px;font-size:.84rem;font-weight:700;background:#fff;transition:.18s ease}
     .btn:hover{transform:translateY(-1px)}
-    .btn.ghost{background:transparent;color:#fff;border-color:rgba(255,255,255,.4)}
-    /* 先へ進むボタンは紺。上の帯の「公開する」だけ金（紺の上の金、8.6:1）。運営者メニューの帯の「＋ 新しいコンテクスト」も同じ形 */
+    .btn.ghost{background:var(--paper);color:var(--navy);border-color:rgba(10,31,58,.35)}   /* 地は紙（墨の山が字の後ろに透けないように） */
+    /* 先へ進むボタンは紺。上の帯の「公開する」だけ金（紙の帯の上なので、白い字をのせる金 --gold-btn。4.51:1） */
     .btn.primary{background:var(--navy);color:#fff}
-    .topbar .btn.primary{background:var(--gold-lite);color:var(--navy)}
+    .topbar .btn.primary{background:var(--gold-btn);color:#fff}
     .next-step-row{display:flex;justify-content:flex-end;padding:0 22px 22px}
     .btn.small{padding:7px 12px;font-size:.76rem}
 
@@ -207,7 +210,7 @@
       .top-title{display:none}
     }
     @media (max-width:640px){
-      .topbar{height:calc(62px + env(safe-area-inset-top) + 10px);padding-top:calc(env(safe-area-inset-top) + 10px);padding-left:14px;padding-right:14px}.brand{display:none}.to-uni{margin-left:0}.save-state,.btn.ghost{display:none}.btn{padding:8px 12px}
+      .topbar{height:calc(62px + env(safe-area-inset-top) + 10px);padding-top:calc(env(safe-area-inset-top) + 10px);padding-left:14px;padding-right:14px;background-image:none}.brand{display:none}.to-uni{margin-left:0}.save-state,.btn.ghost{display:none}.btn{padding:8px 12px}
       .layout{padding:12px}.workflow{grid-template-columns:1fr;gap:8px}.step-card{min-height:82px}.step-card.context{margin-left:0}.context-link{display:none}
       .panel-head,.form-section{padding:17px}.panel-head .head-note{display:none}.grid,.grid.three{grid-template-columns:1fr}.upload-grid{grid-template-columns:120px 1fr}.image-preview,.dropzone{min-height:155px}
       .phone-stage{min-height:auto;padding:13px 4px;overflow:hidden}.phone{transform:scale(.86);margin:-48px 0}
@@ -234,15 +237,15 @@
     .shape-pick path{fill:none;stroke-width:3.2;stroke-linecap:round;stroke-linejoin:round}
   </style>
 <style>:root{--veil:var(--canvas)}</style>
-  <link rel="stylesheet" href="fade.css?v=162">
+  <link rel="stylesheet" href="fade.css?v=165">
 </head>
 <body>
   <div class="app">
     <header class="topbar">
-      <div class="brand"><span>Beautiful Context</span></div>
+      <div class="brand"><img src="img/logo-navy.png" alt="Beautiful Context"></div>
       <a class="btn ghost small to-uni" href="index.html" style="text-decoration:none;display:inline-flex;align-items:center">← 元のページへ</a>
       <a class="btn ghost small" href="manage.html" style="text-decoration:none;display:inline-flex;align-items:center">運営</a>
-      <div class="top-title">コンテンツ／コンテクスト エディター</div>
+      <div class="top-title"><b>ReMixIt!</b>コンテンツ／コンテクスト エディター</div>
       <div class="top-actions">
         <span class="save-state" id="saveState">未保存</span>
         <button class="btn ghost small" id="resetBtn" type="button">サンプルに戻す</button>
@@ -421,10 +424,10 @@
   </div>
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
-  <script src="js/seed.js?v=162"></script>
-  <script src="js/sources.js?v=162"></script>
-  <script src="js/store.js?v=162"></script>
-  <script src="js/render.js?v=162"></script>
+  <script src="js/seed.js?v=165"></script>
+  <script src="js/sources.js?v=165"></script>
+  <script src="js/store.js?v=165"></script>
+  <script src="js/render.js?v=165"></script>
 
   <script>
   (() => {
@@ -612,6 +615,6 @@
     if (history.length > 1 && document.referrer.startsWith(location.origin + '/')){ ev.preventDefault(); ev.stopPropagation(); history.back(); }
   });
   </script>
-  <script src="js/transition.js?v=162"></script>
+  <script src="js/transition.js?v=165"></script>
 </body>
 </html>
