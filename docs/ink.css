@@ -571,3 +571,44 @@ body.on-list .view-in{background:var(--paper)}
 .info-about .content::before{max-width:300px}
 /* 右の列の番号（070 / 130）は出さない（CTO 2026.11.02）。見出しの下を少し空けて路線へ */
 @media (min-width:1100px){.rm-title{margin-bottom:20px}}
+
+/* ---- 第19段：見本どおりの CONTEXT JOURNEY（はじまり・いまここ・つぎへ・さらに・その先へ）と、NEXT CONTEXT の → ----
+   携帯：二つの作品の札の下に、道の上の五つを横に。いまの区間は金の丸。パソコンでは右の列が同じ働きなので出さない。
+   右の列（パソコン）は、区間の上に同じ名を小さく */
+.journey{padding:4px 18px 26px}
+.journey>.meta{display:flex;align-items:baseline;justify-content:space-between;gap:10px;margin:0;color:var(--gold-ink);
+  font:700 11px/1.4 "Lato",var(--gothic);letter-spacing:.22em;white-space:nowrap}
+.journey>.meta a{color:var(--navy);font:700 10.5px/1.4 var(--gothic);letter-spacing:.06em;text-decoration:none}
+.journey .jr-sub{margin:4px 0 14px;color:var(--ink-2);font:600 14px/1.5 var(--mincho)}
+.jr{display:grid;grid-template-columns:repeat(var(--n),minmax(0,1fr));margin:0;padding:0;list-style:none}
+.jr li{position:relative;min-width:0}
+/* 丸と丸をつなぐ金の線（一つ前の丸の中心から、この丸の中心まで） */
+.jr li+li::before{content:"";position:absolute;z-index:0;top:7px;right:50%;width:100%;height:1.5px;background:var(--gold)}
+.jr a,.jr span{position:relative;z-index:1;display:grid;justify-items:center;gap:3px;padding:0 2px;color:inherit;text-align:center;text-decoration:none;
+  -webkit-tap-highlight-color:transparent}
+.jr i{width:9px;height:9px;margin-bottom:5px;border:2.5px solid var(--gold);border-radius:50%;background:var(--paper)}
+.jr .now i{width:12px;height:12px;margin:-1.5px 0 3.5px;background:var(--gold);box-shadow:0 0 0 3px rgba(169,119,23,.22)}
+.jr b{color:var(--navy);font:700 11px/1.3 var(--gothic);letter-spacing:.04em}
+.jr .now b{color:var(--gold-ink)}
+.jr small{display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;color:var(--muted);font:10px/1.5 var(--mincho);word-break:break-all}
+.jr a:active b{opacity:.6}
+@media (min-width:1100px){
+  .cpage>.journey{display:none}
+  /* 右の列：区間の上に道の上の名（いまここは金） */
+  .rm-stage{display:block;margin:0 0 1px;color:#fff;font:700 10.5px/1.4 var(--gothic);font-style:normal;letter-spacing:.06em}
+  .rm-seg.now .rm-stage{color:var(--gold-lite)}
+  .rm-st .rm-stage{display:inline;margin-right:6px;color:var(--gold-lite)}
+}
+/* NEXT CONTEXT（一つだけ横いっぱいに出る読む画面）の右に → 。見本どおり */
+.act .act-go{display:none}
+body.viewing .act.uni-btn{position:relative}
+body.viewing .act.uni-btn .act-go{display:block;position:absolute;right:24px;top:50%;transform:translateY(-50%);font:400 20px/1 var(--gothic);font-style:normal}
+
+/* 検索：見本の大きな見出しと、注目のキーワード */
+.search-page .seek-title{margin:2px 0 6px;font:700 24px/1.4 var(--mincho);letter-spacing:.02em}
+.search-page .seek-sub{margin:0 0 14px;color:var(--muted);font-size:12.5px;line-height:1.6}
+.search-page .seek-keys{display:flex;flex-wrap:wrap;align-items:center;gap:6px 8px;margin:12px 0 18px}
+.search-page .seek-keys small{margin-right:2px;color:var(--gold-ink);font:700 10.5px/1.4 var(--gothic);letter-spacing:.08em}
+.search-page .seek-keys a{padding:4px 11px;border:1px solid var(--hair);border-radius:999px;background:var(--paper-card);color:var(--navy);
+  font:600 12px/1.4 var(--gothic);text-decoration:none}
+.search-page .seek-keys a[aria-current]{border-color:var(--navy);background:var(--navy);color:#fff}

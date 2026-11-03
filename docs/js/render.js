@@ -345,6 +345,7 @@
           <i class="story-cue" aria-hidden="true"></i>
         </section>
         ${sourceCards(e)}
+        ${journey(o.journey)}
         <article class="context-body" id="story">
           <p class="meta">CONTEXT STORY</p>
           ${story}
@@ -381,6 +382,21 @@
         <section class="src-cards" aria-label="つながる二つの作品">
           <p class="meta">SOURCE CONNECTION</p>
           <div class="src-row">${card(e.a, 0)}<span class="src-link" aria-hidden="true">↔</span>${card(e.b, 2)}</div>
+        </section>`;
+  }
+  /* 見本の CONTEXT JOURNEY（携帯）：つながりを辿る道の上の、一つ前・いま・その先。横に五つまで。
+     触れるとその区間へ。パソコンでは右の列が同じものなので出さない（ink.css） */
+  function journey(list){
+    if (!list || list.length < 2) return '';
+    const stop = (x) => {
+      const inner = `<i></i><b>${esc(x.name)}</b><small>${esc(String(x.entry.context.headline || '').split('\n')[0])}</small>`;
+      return `<li${x.now ? ' class="now"' : ''}>${x.now ? `<span aria-current="step">${inner}</span>` : `<a href="${attr(pathOf('c', x.entry.context.slug))}">${inner}</a>`}</li>`;
+    };
+    return `
+        <section class="journey" aria-label="CONTEXT JOURNEY">
+          <p class="meta">CONTEXT JOURNEY<a href="#/list">一覧で見る　→</a></p>
+          <p class="jr-sub">このつながりから、たどる道</p>
+          <ol class="jr" style="--n:${list.length}">${list.map(stop).join('')}</ol>
         </section>`;
   }
   /* コンテクストページのいちばん下：検索などから来た人が、このメディアのどこへでも行ける小さな入口 */
@@ -508,6 +524,16 @@
   }
 
   /* ---------- 検索 ---------- */
+  /* 見本の「注目のキーワード」：作品の種類（映画・書籍・人物…）を、多い順に。触れるとその言葉で辿る */
+  function keywords(q){
+    const n = {};
+    /* 「映画・ドラマ」のような種類は、映画とドラマに分けて数える */
+    S.works().forEach(({ work: w }) => String(w.type || '').split('・').filter(Boolean).forEach(t => { n[t] = (n[t] || 0) + 1; }));
+    const top = Object.keys(n).sort((x, y) => n[y] - n[x]).slice(0, 8);
+    if (!top.length) return '';
+    return `<p class="seek-keys"><small>注目のキーワード</small>${top.map(k =>
+      `<a href="#/search?q=${encodeURIComponent(k)}"${k === q ? ' aria-current="true"' : ''}>${esc(k)}</a>`).join('')}</p>`;
+  }
   function search(q, res){
     const ctx = res.contexts.length ? `<div class="ctx-cards">${res.contexts.map(e => ctxCard(e)).join('')}</div>` : '';
     const works = res.works.map(({ work: w }) =>
@@ -518,9 +544,12 @@
         ${backTop()}${topLogo('on-paper')}
         <div class="content">
           <p class="meta">SEARCH</p>
+          <h2 class="seek-title">作品・作家・テーマを検索</h2>
+          <p class="seek-sub">小説から映画へ、言葉から始まるつながりを見つける。</p>
           <form class="seek big" role="search" data-seek>
-            ${ICON.seek}<input type="search" name="q" value="${attr(q)}" placeholder="言葉で辿る" enterkeyhint="search" aria-label="検索">
+            ${ICON.seek}<input type="search" name="q" value="${attr(q)}" placeholder="作品名・作家名・テーマなどで検索" enterkeyhint="search" aria-label="検索">
           </form>
+          ${keywords(q)}
           ${q ? `<p class="meta">「${esc(q)}」のつながり　${res.contexts.length}件</p>` : ''}
           ${none && q ? `<p>見つかりませんでした。別の言葉で辿ってみてください。</p>` : ''}
           ${ctx}
