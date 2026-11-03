@@ -1083,3 +1083,26 @@ body.viewing:has(.view-in>.login-page) .login-page .content{padding-bottom:40px}
   .menu .menu-account[aria-current="page"]::before{content:"";position:absolute;z-index:-1;top:0;bottom:0;left:-22px;right:0;pointer-events:none;
     background:linear-gradient(90deg,rgba(239,176,47,.12),transparent 50%);box-shadow:inset 3px 0 0 var(--gold-lite)}
 }
+
+/* ---- 第28段：ログインの画面のパスワード（js/login-page.js）。見本 20-login の目の印・ログインしたままにする（パソコン）・パスワードをお忘れの方・Apple ---- */
+.login-page .lp-field .lp-eye{position:absolute;right:4px;top:50%;display:flex;align-items:center;justify-content:center;width:44px;height:44px;margin-top:-22px;padding:0;
+  border:0;border-radius:6px;background:none;color:var(--muted);cursor:pointer}
+.login-page .lp-field .lp-eye svg{position:static;display:block;width:21px;height:21px;margin:0;stroke:currentColor}
+.login-page .lp-field .lp-eye[aria-pressed="true"]{color:var(--navy)}
+.login-page .lp-field input[name="password"]{padding-right:50px}
+.login-page .lp-label[hidden]{display:none}
+.login-page .lp-row{display:flex;align-items:center;justify-content:flex-end;gap:12px;margin:-6px 0 0}
+.login-page .lp-row .lp-remember{display:none}
+.login-page .lp-forgot{padding:6px 0;text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:3px}
+.login-page .lp-forgot::after{content:" ›";text-decoration:none}
+.login-page .lp-socials{display:grid;gap:12px}
+.login-page .lp-socials[hidden]{display:none}
+.login-page .lp-apple svg{color:#000}
+@media (min-width:1100px){
+  .login-page .lp-row{justify-content:space-between}
+  .login-page .lp-row .lp-remember{display:flex;font-size:12.5px}
+  .login-page .lp-forgot{font-size:12.5px}
+  .login-page .lp-forgot::after{content:none}
+  .login-page .lp-socials{grid-template-columns:1fr 1fr}
+  .login-page .lp-socials .lp-google{order:-1}
+}
