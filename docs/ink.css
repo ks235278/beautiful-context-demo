@@ -802,3 +802,12 @@ body.viewing .act.uni-btn .act-go{display:block;position:absolute;right:24px;top
 }
 /* 利用規約の見出しは「利用規約・」のあとでだけ折る（320px で「プライバ｜シー」と言葉の途中で折れていた） */
 .info-terms .content h2{word-break:keep-all;overflow-wrap:anywhere}
+
+/* ---- 第22段：つながりの路線（フィード）の最初の駅を、見本の札のように絵を左・字を右に ----
+   以前は絵が列の幅の 64% まで大きく、最初の画面がほとんど絵一枚だった（パソコンでは 300px の縦長の絵）。
+   エディター・運営者メニューの上の帯は、それぞれの html の中（紙の地に） */
+.feed-page .stop.first .fstop{grid-template-columns:120px minmax(0,1fr);gap:16px;align-items:start}
+.feed-page .stop.first .st-img{width:auto}
+@media (min-width:760px){
+  .feed-page .stop.first .fstop{grid-template-columns:200px minmax(0,1fr);gap:24px}
+}
