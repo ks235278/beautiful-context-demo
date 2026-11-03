@@ -43,9 +43,9 @@ try { if (sessionStorage.getItem('bc-resume')) document.documentElement.classLis
 <link rel="preload" as="image" href="img/logo-layer-words.png">
 <!-- 台本も先に取りに行く（静的なページは台本より先に本文が描かれる。遅い回線で、触れて動くまでの間を縮める）。
      src と同じアドレス（?v= まで）でないと、二度取りに行く -->
-<link rel="preload" as="script" href="js/seed.js?v=162">
-<link rel="preload" as="script" href="js/app.js?v=162">
-<link rel="manifest" href="manifest.webmanifest?v=162">
+<link rel="preload" as="script" href="js/seed.js?v=163">
+<link rel="preload" as="script" href="js/app.js?v=163">
+<link rel="manifest" href="manifest.webmanifest?v=163">
 <link rel="apple-touch-icon" href="icon-180.png">
 <!-- タブと検索結果に出る小さな印。アプリの印（ホーム画面のアイコン）と同じ形 -->
 <link rel="icon" href="favicon.ico" sizes="16x16 32x32 48x48">
@@ -74,13 +74,13 @@ if (location.hostname === 'beautifulcontext.com'){
   document.head.appendChild(ga);
 }
 </script>
-<script src="js/theme.js?v=162"></script>
-<link rel="stylesheet" href="app.css?v=162">
+<script src="js/theme.js?v=163"></script>
+<link rel="stylesheet" href="app.css?v=163">
 <!-- 読む画面の使い勝手（2026.10.24）。app.css のすぐあと -->
-<link rel="stylesheet" href="ux.css?v=162">
-<link rel="stylesheet" href="fade.css?v=162">
+<link rel="stylesheet" href="ux.css?v=163">
+<link rel="stylesheet" href="fade.css?v=163">
 <!-- editorial-ink（紙・墨・金）：◆ の罫と、紙の上か絵の上かで変わる決まり。ux.css のあと -->
-<link rel="stylesheet" href="ink.css?v=162">
+<link rel="stylesheet" href="ink.css?v=163">
 <!-- 台本（js）が揃うまで：まだ押しても動かないもの（‹・絵の横の ‹ ›・つながりを辿る）を少し薄くし、下の帯の上の縁に細い金の線を走らせる。
      app.js が最後に body.app-ready を付けて外す。すぐ揃うときは何も見せない（0.3 秒待ってから出す） -->
 <style>
@@ -211,7 +211,7 @@ document.addEventListener('click', function (e) {
         <section class="journey" aria-label="CONTEXT JOURNEY">
           <p class="meta">CONTEXT JOURNEY<a href="#/list">一覧で見る　→</a></p>
           <p class="jr-sub">このつながりから、たどる道</p>
-          <ol class="jr" style="--n:5"><li><a href="c/interstellar--spaceship-earth/"><i></i><b>ここまで</b><small>人類は、</small></a></li><li class="now"><span aria-current="step"><i></i><b>いまここ</b><small>地球には、</small></span></li><li><a href="c/buckminster-fuller--think-different/"><i></i><b>つぎへ</b><small>世界を変えられると</small></a></li><li><a href="c/nineteen-eighty-four--think-different/"><i></i><b>さらに</b><small>ビッグ・ブラザーを、</small></a></li><li><a href="c/hannah-arendt--nineteen-eighty-four/"><i></i><b>その先へ</b><small>人を丸ごと呑み込む</small></a></li></ol>
+          <ol class="jr"><li><a class="jr-row" href="c/interstellar--spaceship-earth/"><i class="jr-dot"></i><span class="jr-t"><b>ここまで</b><small>人類は、船を乗り換えられるか。</small></span><span class="jr-pics" aria-hidden="true"><img src="img/works/interstellar.jpg" alt="" loading="lazy" decoding="async"><img src="img/works/spaceship-earth.jpg" alt="" loading="lazy" decoding="async"></span></a></li><li class="now"><span class="jr-row" aria-current="step"><i class="jr-dot"></i><span class="jr-t"><b>いまここ</b><small>地球には、操縦マニュアルがない。</small></span><span class="jr-pics" aria-hidden="true"><img src="img/works/buckminster-fuller.jpg" alt="" loading="lazy" decoding="async"><img src="img/works/spaceship-earth.jpg" alt="" loading="lazy" decoding="async"></span></span></li><li><a class="jr-row" href="c/buckminster-fuller--think-different/"><i class="jr-dot"></i><span class="jr-t"><b>つぎへ</b><small>世界を変えられると本気で信じる一人。</small></span><span class="jr-pics" aria-hidden="true"><img src="img/works/buckminster-fuller.jpg" alt="" loading="lazy" decoding="async"><img src="img/works/think-different.jpg" alt="" loading="lazy" decoding="async"></span></a></li><li><a class="jr-row" href="c/nineteen-eighty-four--think-different/"><i class="jr-dot"></i><span class="jr-t"><b>さらに</b><small>ビッグ・ブラザーを、ハンマーが打ち砕いた。</small></span><span class="jr-pics" aria-hidden="true"><img src="img/works/nineteen-eighty-four.jpg" alt="" loading="lazy" decoding="async"><img src="img/works/think-different.jpg" alt="" loading="lazy" decoding="async"></span></a></li><li><a class="jr-row" href="c/hannah-arendt--nineteen-eighty-four/"><i class="jr-dot"></i><span class="jr-t"><b>その先へ</b><small>人を丸ごと呑み込む国家のしくみ。</small></span><span class="jr-pics" aria-hidden="true"><img src="img/works/hannah-arendt.jpg" alt="" loading="lazy" decoding="async"><img src="img/works/nineteen-eighty-four.jpg" alt="" loading="lazy" decoding="async"></span></a></li></ol>
         </section>
         <article class="context-body" id="story">
           <p class="meta">CONTEXT STORY</p>
@@ -408,16 +408,16 @@ document.addEventListener('click', function (e) {
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 <script type="application/ld+json" id="ld">{"@context":"https://schema.org","@type":"Article","headline":"地球には、操縦マニュアルがない。","alternativeHeadline":"作者と作品","about":[{"@type":"Person","name":"バックミンスター・フラー","description":"ジオデシック・ドームで知られるアメリカの思想家・建築家。「宇宙船地球号」という言葉を広めた。"},{"@type":"Book","name":"宇宙船地球号 操縦マニュアル","description":"地球を、限られた資源で航行する一隻の宇宙船にたとえ、人類はその操縦のしかたを学ばねばならないと説いた。","creator":{"@type":"Person","name":"バックミンスター・フラー"}}],"author":{"@type":"Person","name":"生成AI（初稿）"},"datePublished":"2026-09-14T01:50:00.000Z","dateModified":"2026-09-14T01:50:00.000Z","inLanguage":"ja","articleBody":"「宇宙船地球号」を広めた一冊。フラーは1969年、『宇宙船地球号 操縦マニュアル』で、地球を限られた資源で航行する船にたとえ、この船には操縦の説明書が付いていないと指摘した。そして、人類は細分化された専門の知ではなく、全体を見渡す知でその船を操縦すべきだと説いた。ジオデシック・ドームで知られ、「より少ないもので、より多くを」を唱えたフラー。その影響は、1968年に創刊された『ホール・アース・カタログ』にも及んでいる。創刊号には、フラーの洞察がこのカタログを始動させたと記されている。","url":"https://beautifulcontext.com/c/buckminster-fuller--spaceship-earth/","citation":[{"@type":"CreativeWork","name":"Operating Manual for Spaceship Earth","url":"https://www.lars-mueller-publishers.com/operating-manual-spaceship-earth","publisher":{"@type":"Organization","name":"Lars Müller Publishers"}},{"@type":"CreativeWork","name":"Biography","url":"https://www.bfi.org/about-fuller/biography/","publisher":{"@type":"Organization","name":"Buckminster Fuller Institute"}},{"@type":"CreativeWork","name":"Whole Earth Catalog Fall 1968","url":"https://archive.org/details/wholeearthcatalo00unse_8","publisher":{"@type":"Organization","name":"Internet Archive（Portola Institute 刊・創刊号の原本スキャン、提供 Stewart Brand）"}},{"@type":"CreativeWork","name":"The Last Whole Earth Catalog January 1, 1971","url":"https://archive.org/details/lastwholeearthca00unse","publisher":{"@type":"Organization","name":"Internet Archive（The Point Foundation 刊の原本スキャン）"}},{"@type":"CreativeWork","name":"Interview with Stewart Brand（Bucky Conversations, M1915）","url":"https://purl.stanford.edu/fr963yt9378","publisher":{"@type":"Organization","name":"Stanford Libraries（Stanford Digital Repository／Special Collections）"}},{"@type":"CreativeWork","name":"Operating Manual for Spaceship Earth","url":"https://en.wikipedia.org/wiki/Operating_Manual_for_Spaceship_Earth","publisher":{"@type":"Organization","name":"Wikipedia"}},{"@type":"CreativeWork","name":"Spaceship Earth","url":"https://en.wikipedia.org/wiki/Spaceship_Earth","publisher":{"@type":"Organization","name":"Wikipedia"}},{"@type":"CreativeWork","name":"Whole Earth Catalog","url":"https://en.wikipedia.org/wiki/Whole_Earth_Catalog","publisher":{"@type":"Organization","name":"Wikipedia"}},{"@type":"CreativeWork","name":"Quote Origin: Spaceship Earth: No Instruction Book Came With It","url":"https://quoteinvestigator.com/2022/07/17/spaceship-earth/","publisher":{"@type":"Organization","name":"Quote Investigator"}}],"image":"https://beautifulcontext.com/img/works/buckminster-fuller.jpg"}</script>
 
-<script src="js/config.js?v=162"></script>
-<script src="js/seed.js?v=162"></script>
-<script src="js/sources.js?v=162"></script>
-<script src="js/backend.js?v=162"></script>
-<script src="js/store.js?v=162"></script>
-<script src="js/social.js?v=162"></script>
-<script src="js/render.js?v=162"></script>
-<script src="js/login.js?v=162"></script>
-<script src="js/report.js?v=162"></script>
-<script src="js/transition.js?v=162"></script>
-<script src="js/app.js?v=162"></script>
+<script src="js/config.js?v=163"></script>
+<script src="js/seed.js?v=163"></script>
+<script src="js/sources.js?v=163"></script>
+<script src="js/backend.js?v=163"></script>
+<script src="js/store.js?v=163"></script>
+<script src="js/social.js?v=163"></script>
+<script src="js/render.js?v=163"></script>
+<script src="js/login.js?v=163"></script>
+<script src="js/report.js?v=163"></script>
+<script src="js/transition.js?v=163"></script>
+<script src="js/app.js?v=163"></script>
 </body>
 </html>
