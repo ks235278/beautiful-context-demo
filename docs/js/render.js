@@ -249,9 +249,9 @@
   const navArrows = () =>
     `<button type="button" class="ctx-nav prev" data-ctx-go="-1" aria-label="一つ前のつながりへ">‹</button>` +
     `<button type="button" class="ctx-nav next" data-ctx-go="1" aria-label="次のつながりへ">›</button>`;
-  /* フォローしている人の数。Supabase の数（editor_stats）があればそれ（BCSocial.followerCount）。無ければ見本の数 ＋ この端末のフォロー */
-  const followers = (ed, on) =>
-    `<span class="ed-followers" data-follow-count="${attr(ed.id)}"><b>${window.BCSocial && BCSocial.followerCount ? BCSocial.followerCount(ed.id, ed.followers) : (+ed.followers || 0) + (on ? 1 : 0)}</b> フォロワー</span>`;
+  /* フォローしている人の数。Supabase の数（editor_stats）があればそれ（BCSocial.followerCount）。無ければ見本の数 ＋ この端末のフォロー。
+     編集者のページの数の段（見本の「記事数・フォロワー」）に出す。app.js が [data-follow-count] の中の b を書き換える */
+  const followerNum = (ed, on) => window.BCSocial && BCSocial.followerCount ? BCSocial.followerCount(ed.id, ed.followers) : (+ed.followers || 0) + (on ? 1 : 0);
   function editorRow(ed, on){
     if (!ed) return '';
     return `<div class="ed-row">
@@ -345,6 +345,7 @@
           <i class="story-cue" aria-hidden="true"></i>
         </section>
         ${sourceCards(e)}
+        ${journey(o.journey)}
         <article class="context-body" id="story">
           <p class="meta">CONTEXT STORY</p>
           ${story}
@@ -383,6 +384,21 @@
           <div class="src-row">${card(e.a, 0)}<span class="src-link" aria-hidden="true">↔</span>${card(e.b, 2)}</div>
         </section>`;
   }
+  /* 見本の CONTEXT JOURNEY（携帯）：つながりを辿る道の上の、一つ前・いま・その先。横に五つまで。
+     触れるとその区間へ。パソコンでは右の列が同じものなので出さない（ink.css） */
+  function journey(list){
+    if (!list || list.length < 2) return '';
+    const stop = (x) => {
+      const inner = `<i></i><b>${esc(x.name)}</b><small>${esc(String(x.entry.context.headline || '').split('\n')[0])}</small>`;
+      return `<li${x.now ? ' class="now"' : ''}>${x.now ? `<span aria-current="step">${inner}</span>` : `<a href="${attr(pathOf('c', x.entry.context.slug))}">${inner}</a>`}</li>`;
+    };
+    return `
+        <section class="journey" aria-label="CONTEXT JOURNEY">
+          <p class="meta">CONTEXT JOURNEY<a href="#/list">一覧で見る　→</a></p>
+          <p class="jr-sub">このつながりから、たどる道</p>
+          <ol class="jr" style="--n:${list.length}">${list.map(stop).join('')}</ol>
+        </section>`;
+  }
   /* コンテクストページのいちばん下：検索などから来た人が、このメディアのどこへでも行ける小さな入口 */
   const cfoot = () => `
           <nav class="c-foot" aria-label="Beautiful Context の案内"><span><a href="about/">Beautiful Context とは</a> ·</span> <span><a href="#/today" data-home>Today's Editor's Choice</a> ·</span> <span><a href="#/list">つながりの一覧</a> ·</span> <span><a href="#/search">言葉で辿る</a></span></nav>`;
@@ -411,7 +427,8 @@
             <h2 class="ed-title"><span>${esc(ed.name)}の</span> <b>BEAUTIFUL CONTEXT</b></h2>
             <p class="meta">${esc(ed.role || 'EDITOR')}</p>
             ${ed.bio ? `<p class="ed-bio">${esc(ed.bio)}</p>` : ''}
-            <div class="ed-acts">${followBtn(ed, on)}${followers(ed, on)}${note
+            <dl class="ed-stats"><div><dt>つながり</dt><dd>${list.length}</dd></div><div data-follow-count="${attr(ed.id)}"><dt>フォロワー</dt><dd><b>${followerNum(ed, on)}</b></dd></div></dl>
+            <div class="ed-acts">${followBtn(ed, on)}${note
               ? `<a class="note-link" href="https://note.com/${attr(note)}" target="_blank" rel="noopener"><b>note</b><span>note.com/${esc(note)}</span></a>` : ''}</div>
           </div>
           <h3 class="ed-chose">${esc(ed.name)}が選んだつながり<small>この編集者が選んだつながり　${list.length}</small></h3>
@@ -508,6 +525,32 @@
   }
 
   /* ---------- 検索 ---------- */
+  /* 見本の「注目のキーワード」：作品の種類（映画・書籍・人物…）を、多い順に。触れるとその言葉で辿る */
+  function keywords(q){
+    const n = {};
+    /* 「映画・ドラマ」のような種類は、映画とドラマに分けて数える */
+    S.works().forEach(({ work: w }) => String(w.type || '').split('・').filter(Boolean).forEach(t => { n[t] = (n[t] || 0) + 1; }));
+    const top = Object.keys(n).sort((x, y) => n[y] - n[x]).slice(0, 8);
+    if (!top.length) return '';
+    return `<p class="seek-keys"><small>注目のキーワード</small>${top.map(k =>
+      `<a href="#/search?q=${encodeURIComponent(k)}"${k === q ? ' aria-current="true"' : ''}>${esc(k)}</a>`).join('')}</p>`;
+  }
+  /* 見本の DISCOVERY：辿る道のはじめのほうに出てくる作品を、絵の札で横に並べる（触れるとその作品（駅）へ）。
+     言葉を入れていなければ結果の場所に、入れていれば結果の下に置く（探した結果を押し下げない） */
+  function discovery(){
+    const seen = new Set(), list = [];
+    S.trail().some(({ entry: e }) => { [e.a, e.b].forEach(w => { if (w && !seen.has(w.slug)) { seen.add(w.slug); list.push(w); } }); return list.length >= 10; });
+    if (!list.length) return '';
+    const card = (w) => { const u = safeImg(w.image);
+      return `<a class="dc" href="${attr(pathOf('w', w.slug))}"><span class="dc-img">${u ? `<img src="${attr(u)}" alt="" loading="lazy" decoding="async">` : `<i>${esc(initial(w))}</i>`}</span>` +
+        `<small>${esc(String(w.type || '作品').split('・')[0])}</small><b>${esc(w.title)}</b>${w.creator ? `<em>${esc(w.creator)}${w.year ? `（${esc(w.year)}）` : ''}</em>` : ''}</a>`; };
+    return `
+          <section class="disc" aria-label="DISCOVERY">
+            <p class="meta">DISCOVERY<a href="#/list">すべて見る　→</a></p>
+            <h3 class="disc-t">作品から見つける</h3>
+            <div class="dc-row">${list.slice(0, 10).map(card).join('')}</div>
+          </section>`;
+  }
   function search(q, res){
     const ctx = res.contexts.length ? `<div class="ctx-cards">${res.contexts.map(e => ctxCard(e)).join('')}</div>` : '';
     const works = res.works.map(({ work: w }) =>
@@ -518,13 +561,18 @@
         ${backTop()}${topLogo('on-paper')}
         <div class="content">
           <p class="meta">SEARCH</p>
+          <h2 class="seek-title">作品・作家・テーマを検索</h2>
+          <p class="seek-sub">小説から映画へ、言葉から始まるつながりを見つける。</p>
           <form class="seek big" role="search" data-seek>
-            ${ICON.seek}<input type="search" name="q" value="${attr(q)}" placeholder="言葉で辿る" enterkeyhint="search" aria-label="検索">
+            ${ICON.seek}<input type="search" name="q" value="${attr(q)}" placeholder="作品名・作家名・テーマなどで検索" enterkeyhint="search" aria-label="検索">
           </form>
-          ${q ? `<p class="meta">「${esc(q)}」のつながり　${res.contexts.length}件</p>` : ''}
+          ${keywords(q)}
+          ${q ? '' : discovery()}
+          ${q ? `<p class="meta">SEARCH RESULTS</p><h3 class="seek-res">「${esc(q)}」の検索結果<small>${res.contexts.length}件</small></h3>` : ''}
           ${none && q ? `<p>見つかりませんでした。別の言葉で辿ってみてください。</p>` : ''}
           ${ctx}
           ${works ? `<p class="meta more-label">作品</p><div class="chips">${works}</div>` : ''}
+          ${q ? discovery() : ''}
         </div>
       </article>`;
   }
@@ -533,14 +581,23 @@
   /* 「Beautiful Context とは」の説明文（検索結果の説明と、構造化データで同じものを使う） */
   const ABOUT_DESC = 'Beautiful Context（ビューティフル・コンテクスト）は、映画・本・音楽・人物・場所など、二つの作品のあいだにある意外なつながりを、編集者が一本の「コンテクスト」として届けるメディアです。読み方、生成AIの初稿の扱いを含む編集の方針、運営について。';
   function page(name){
-    const shell = (title, body) => `
+    const shell = (title, body, kick) => `
       <article class="page text-page info-page info-${name}">
         ${backTop()}${topLogo('on-paper')}
-        <div class="content"><h2>${title}</h2>${body}</div>
+        <div class="content">${kick ? `<p class="meta kick">${kick}</p>` : ''}<h2>${title}</h2>${body}</div>
       </article>`;
+    /* 見本の紺の丸いボタン（→ 付き）と、縁だけのボタン */
+    const pill = (href, text, sub, extra) => `<a class="pill${sub ? ' sub' : ''}" href="${attr(href)}"${extra || ''}>${text}<i aria-hidden="true">→</i></a>`;
     /* About（開発会議 2026.10.23：検索エンジンが BC を「カードのデータベース」としか読めていないため、最優先で用意） */
     if (name === 'about') return shell('Beautiful Context とは', `
       <p class="lead">Beautiful Context（ビューティフル・コンテクスト）は、映画・本・音楽・人物・場所など、二つの作品のあいだにある意外なつながりを、編集者が一本の「コンテクスト」として書き、届けるメディアです。</p>
+      <p class="ab-go">${pill('#/today', '今日のつながりを読む', 0, ' data-home')}</p>
+      <p class="meta ab-feat-h">BEAUTIFUL CONTEXT の 3つの特徴</p>
+      <ol class="ab-feats" role="list">
+        <li class="f-uni"><small>01</small><b>辿る</b><span>UniverseIt! ── 言葉から、既にある区間を辿る</span></li>
+        <li class="f-read"><small>02</small><b>読む</b><span>作品の駅から、二駅間の区間へ。区間を読んで、別の駅へ</span></li>
+        <li class="f-remix"><small>03</small><b>創る</b><span>ReMixIt! ── 二つの作品の間に、新しい区間をつくる</span></li>
+      </ol>
       <p>たとえば、ピアニストのグレン・グールドが生涯の愛読書にしていたのが、夏目漱石の『草枕』だったこと。二つの作品のどちらにも属さないその関係を、独立した一本の読み物として読めるようにしています。</p>
       <p>私たちは、作品を「駅」、二つの作品のあいだにある関係を「区間」と呼んでいます。駅にあたる作品は、それぞれの作者や権利者のものです。Beautiful Context がつくるのは、駅と駅のあいだの区間のほうです。区間を一本読み終えると次の駅に着き、そこからまた別の区間へ。作品から作品へ、つながりを辿っていけます。</p>
       <h3>読み方</h3>
@@ -562,7 +619,7 @@
       <p class="org">運営：（会社名）<br>代表：前田邦宏<br>連絡先：info@beautifulcontext.com（準備中）</p>
       ${tease('#/terms', '利用規約・プライバシー')}
       ${tease('#/credits', '画像の出典')}
-      ${tease('#/ad', '広告枠のご案内')}`);
+      ${tease('#/ad', '広告枠のご案内')}`, 'BEAUTIFUL CONTEXT について');
     /* 辿る・読む・創るの三つは、番号の印を消して札に並べている（ink.css の .info-page .steps）。印の無い ol を
        Safari の読み上げが「リスト」と読まないことがあるので、role="list" を付ける（見た目は変わらない） */
     if (name === 'mission') return shell('Our Mission', `
@@ -614,10 +671,19 @@
         <li>管理画面から、枠の画像・文言・リンク先・表示の有無を編集できる（デモで動作）</li>
       </ul>
       ${tease('manage.html#ads', '管理画面で広告枠を見る')}`);
-    return shell('ページが見つかりません', `
+    /* DISCOVER MORE：辿る道のはじめの二本と、UniverseIt!・ReMixIt!（どの端末でも同じものが出る） */
+    const card = (href, pic, kind, text, extra) => `<a class="nf-card" href="${attr(href)}"${extra || ''}><span class="nf-img">${pic
+      ? `<img src="${attr(pic)}" alt="" loading="lazy" decoding="async">` : ''}</span><small>${kind}</small><b>${esc(text)}</b></a>`;
+    const more = S.trail().slice(0, 2).map(({ entry: e }) =>
+      card(pathOf('c', e.context.slug), safeImg(e.a.image) || safeImg(e.b.image), 'CONTEXT', String(e.context.headline || '').split('\n')[0])).join('');
+    return shell('お探しのページは<br>見つかりませんでした。', `
       <p class="lead">お探しのページは移動したか、公開が終了した可能性があります。</p>
-      <a class="tease" href="#/today" data-home>Today's Editor's Choice へ戻る <span aria-hidden="true">›</span></a>
-      <p class="after">はじめての方は<a href="#/about">Beautiful Context とは</a>へ。</p>`);
+      <p class="nf-acts">${pill('#/today', '今日のつながりへ戻る', 0, ' data-home')}${pill('#/list', 'つながりの一覧へ', 1)}</p>
+      <p class="after">はじめての方は<a href="#/about">Beautiful Context とは</a>へ。</p>
+      <section class="nf-more" aria-label="DISCOVER MORE">
+        <p class="meta">DISCOVER MORE<small>ここからも辿れます</small></p>
+        <div class="nf-cards">${more}${card('#/', 'img/deco/ink-scene.png', 'UNIVERSEIT!', 'すべての言葉から辿る', ' data-uni')}${card('editor.html?new=1', 'img/deco/ink-palms.png', 'REMIXIT!', 'つながりを創る', ' data-remix')}</div>
+      </section>`, 'NOT FOUND');
   }
 
   /* 「Beautiful Context とは」の構造化データ：AboutPage と、運営する Organization（名前・アドレス・ロゴ） */

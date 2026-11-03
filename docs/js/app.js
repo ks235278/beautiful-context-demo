@@ -395,7 +395,20 @@
   function ctxOpts(e, today){
     const me = Social.me(), ed = S.editorOf(e);
     return { editor: ed, following: Social.isFollowing(ed.id), me, comments: S.visibleComments(e),
-      mine: me ? S.myPendingComments(e, me.uid) : [], today, rail: S.feed(e.b.slug, e.id), railBatch: FEED_BATCH };
+      mine: me ? S.myPendingComments(e, me.uid) : [], today, rail: S.feed(e.b.slug, e.id), railBatch: FEED_BATCH,
+      journey: journeyOf(e) };
+  }
+  /* 見本の CONTEXT JOURNEY：つながりを辿る道の上で、一つ前・いま・その先の三つ（あわせて五つまで）。
+     名は道の上の位置で決まる（道の始めは「はじまり」）。道の終わりの先は、つながりを辿ると同じく道の始めへ回る */
+  const stageName = (d, k) => d < 0 ? (k === 0 ? 'はじまり' : 'ここまで') : d === 0 ? 'いまここ' : d <= 1 ? 'つぎへ' : d <= 2 ? 'さらに' : 'その先へ';
+  function journeyOf(e){
+    const T = trail(), p = posOf(e.id);
+    if (p < 0) return [];
+    const back = p > 0 ? 1 : 0;   /* 道の始めでは前が無いので、いまを先頭に */
+    return Array.from({ length: Math.min(5, T.length) }, (_, j) => {
+      const d = j - back, k = (p + d + T.length) % T.length;
+      return { entry: T[k].entry, name: stageName(d, k), now: d === 0 };
+    });
   }
   function showToday(i, motion){
     const list = todayList();
@@ -1019,11 +1032,11 @@
         /* 区間には、二つの作品の絵を小さく（いまの区間は金の縁）。絵の無い作品は頭文字 */
         const pic = (w) => { const s = R.safeImg(w.image); return s ? `<img src="${R.esc(s)}" alt="" loading="lazy" decoding="async">` : `<i>${R.esc(String(w.title || '').slice(0, 1))}</i>`; };
         li += `<li class="rm-seg${now ? ' now' : ''}"><a href="#/c/${encodeURIComponent(e.context.slug)}"${cur_}>` +
-          `<small>［${R.esc(e.context.routeName)}］</small><span>${R.esc(String(e.context.headline || '').replace(/\n/g, ''))}</span>` +
+          `<em class="rm-stage">${stageName((k - cur) / 2, k >> 1)}</em><small>［${R.esc(e.context.routeName)}］</small><span>${R.esc(String(e.context.headline || '').replace(/\n/g, ''))}</span>` +
           `<b class="rm-pic" aria-hidden="true">${pic(e.a)}${pic(e.b)}</b></a></li>`;
       } else {
         const w = e[t.exit];
-        li += `<li class="rm-st${now ? ' now' : ''}"><a href="${stepHash(e, t.exit === 'a' ? 0 : 2)}"${cur_}><i></i><span>${R.esc(w.title)}</span></a></li>`;
+        li += `<li class="rm-st${now ? ' now' : ''}"><a href="${stepHash(e, t.exit === 'a' ? 0 : 2)}"${cur_}><i></i><span>${now ? '<em class="rm-stage">いまここ</em>' : ''}${R.esc(w.title)}</span></a></li>`;
       }
     }
     /* 列の下に「つながりを辿る」（見本どおり。下の帯のボタンと同じ働き） */
@@ -1284,11 +1297,11 @@
     const route = a.getAttribute('href').startsWith('#/') ? a.getAttribute('href') : routeOfLink(a);
     if (route){ ev.preventDefault(); how(a.closest('.ls') ? 'list' : a.closest('#menu') ? 'menu' : a.closest('#routeMini') ? 'route_map' : 'link'); go(route, { origin: a.closest('.view') ? null : rectOf(a) }); }
   });
-  /* つながりを創る（作品ページの ＋・メニューの ReMixIt!）は編集者向けの道具。ログインしていない読者には、エディターへ移る前に
+  /* つながりを創る（作品ページの ＋・メニューと 404 の ReMixIt!）は編集者向けの道具。ログインしていない読者には、エディターへ移る前に
      一度たずねる（読んでいる途中で、いきなり編集の画面に飛ばない）。ログインしていればそのまま。
      transition.js（ページを離れる薄れ）より先に受け取るので、捕まえる側（capture）で聞く */
   document.addEventListener('click', ev => {
-    const a = ev.target.closest && ev.target.closest('a.duo-add[href], #menu a[data-remix][href]');
+    const a = ev.target.closest && ev.target.closest('a.duo-add[href], a[data-remix][href]');
     if (!a || Social.me() || ev.metaKey || ev.ctrlKey || ev.shiftKey || ev.altKey || ev.button > 0) return;
     ev.preventDefault(); ev.stopPropagation();
     const href = a.getAttribute('href'), work = a.matches('.duo-add');

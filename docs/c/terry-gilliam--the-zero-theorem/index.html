@@ -43,9 +43,9 @@ try { if (sessionStorage.getItem('bc-resume')) document.documentElement.classLis
 <link rel="preload" as="image" href="img/logo-layer-words.png">
 <!-- 台本も先に取りに行く（静的なページは台本より先に本文が描かれる。遅い回線で、触れて動くまでの間を縮める）。
      src と同じアドレス（?v= まで）でないと、二度取りに行く -->
-<link rel="preload" as="script" href="js/seed.js?v=159">
-<link rel="preload" as="script" href="js/app.js?v=159">
-<link rel="manifest" href="manifest.webmanifest?v=159">
+<link rel="preload" as="script" href="js/seed.js?v=161">
+<link rel="preload" as="script" href="js/app.js?v=161">
+<link rel="manifest" href="manifest.webmanifest?v=161">
 <link rel="apple-touch-icon" href="icon-180.png">
 <!-- タブと検索結果に出る小さな印。アプリの印（ホーム画面のアイコン）と同じ形 -->
 <link rel="icon" href="favicon.ico" sizes="16x16 32x32 48x48">
@@ -74,13 +74,13 @@ if (location.hostname === 'beautifulcontext.com'){
   document.head.appendChild(ga);
 }
 </script>
-<script src="js/theme.js?v=159"></script>
-<link rel="stylesheet" href="app.css?v=159">
+<script src="js/theme.js?v=161"></script>
+<link rel="stylesheet" href="app.css?v=161">
 <!-- 読む画面の使い勝手（2026.10.24）。app.css のすぐあと -->
-<link rel="stylesheet" href="ux.css?v=159">
-<link rel="stylesheet" href="fade.css?v=159">
+<link rel="stylesheet" href="ux.css?v=161">
+<link rel="stylesheet" href="fade.css?v=161">
 <!-- editorial-ink（紙・墨・金）：◆ の罫と、紙の上か絵の上かで変わる決まり。ux.css のあと -->
-<link rel="stylesheet" href="ink.css?v=159">
+<link rel="stylesheet" href="ink.css?v=161">
 <!-- 台本（js）が揃うまで：まだ押しても動かないもの（‹・絵の横の ‹ ›・つながりを辿る）を少し薄くし、下の帯の上の縁に細い金の線を走らせる。
      app.js が最後に body.app-ready を付けて外す。すぐ揃うときは何も見せない（0.3 秒待ってから出す） -->
 <style>
@@ -145,13 +145,14 @@ document.addEventListener('click', function (e) {
     <button class="act uni-btn" id="uniBtn" type="button">
       <img class="act-mark" src="img/logo-mark.png" alt="" aria-hidden="true">
       <span><b>つながりを辿る</b><small>NEXT CONTEXT</small><small id="uniLabel" hidden></small></span>
+      <i class="act-go" aria-hidden="true">→</i>
     </button>
   </div>
 </div>
 
 <nav class="menu" id="menu" aria-label="メニュー" hidden>
-  <!-- パソコンでは、メニューは左にいつも出ている列。その一番上に名前（触れると一覧へ） -->
-  <a class="menu-logo" href="#/list" data-top aria-label="BEAUTIFUL CONTEXT（つながりの一覧へ）"><img src="img/logo.png" alt=""></a>
+  <!-- パソコンでは、メニューは左にいつも出ている列。その一番上に名前（触れると一覧へ）。携帯の紙のメニューでは紺の名前を ✕ の右に -->
+  <a class="menu-logo" href="#/list" data-top aria-label="BEAUTIFUL CONTEXT（つながりの一覧へ）"><img src="img/logo.png" alt=""><img class="on-paper" src="img/logo-navy.png" alt=""></a>
   <form class="seek" role="search" data-seek>
     <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6"/><path d="m15 15 5 5"/></svg>
     <input type="search" name="q" placeholder="言葉で辿る" enterkeyhint="search" aria-label="言葉で辿る">
@@ -205,6 +206,12 @@ document.addEventListener('click', function (e) {
         <section class="src-cards" aria-label="つながる二つの作品">
           <p class="meta">SOURCE CONNECTION</p>
           <div class="src-row"><button type="button" class="src" data-step="0" aria-label="テリー・ギリアムの作品ページへ"><img src="img/works/terry-gilliam.jpg" alt="" loading="lazy" decoding="async"><span class="src-t"><small>人物・1940</small><b>テリー・ギリアム</b><em>映画監督・モンティ・パイソン</em><span class="src-s">アメリカ生まれで、英国を拠点にする映画監督。モンティ・パイソンのアニメーションを手がけ、『未来世紀ブラジル』『12モンキーズ』『ゼロの未来』を撮った。</span><i aria-hidden="true">作品ページへ　→</i></span></button><span class="src-link" aria-hidden="true">↔</span><button type="button" class="src" data-step="2" aria-label="テリー・ギリアム『ゼロの未来』の作品ページへ"><img src="img/works/the-zero-theorem.jpg" alt="" loading="lazy" decoding="async"><span class="src-t"><small>映画・2013</small><b>テリー・ギリアム『ゼロの未来』</b><em>テリー・ギリアム監督</em><span class="src-s">巨大企業の管理のもとで、「ゼロの定理」の証明に取り組まされる孤独なプログラマーを描いた映画。主演はクリストフ・ヴァルツ。</span><i aria-hidden="true">作品ページへ　→</i></span></button></div>
+        </section>
+        
+        <section class="journey" aria-label="CONTEXT JOURNEY">
+          <p class="meta">CONTEXT JOURNEY<a href="#/list">一覧で見る　→</a></p>
+          <p class="jr-sub">このつながりから、たどる道</p>
+          <ol class="jr" style="--n:5"><li><a href="c/the-zero-theorem--brazil/"><i></i><b>ここまで</b><small>書類の迷宮から、</small></a></li><li class="now"><span aria-current="step"><i></i><b>いまここ</b><small>『ブラジル』の監督が、</small></span></li><li><a href="c/terry-gilliam--brazil/"><i></i><b>つぎへ</b><small>夢に逃げ込む役人を、</small></a></li><li><a href="c/shooting-an-elephant--nineteen-eighty-four/"><i></i><b>さらに</b><small>『象を撃つ』の作者は、</small></a></li><li><a href="c/shooting-an-elephant--heart-of-darkness/"><i></i><b>その先へ</b><small>植民地を統べる者の</small></a></li></ol>
         </section>
         <article class="context-body" id="story">
           <p class="meta">CONTEXT STORY</p>
@@ -401,16 +408,16 @@ document.addEventListener('click', function (e) {
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 <script type="application/ld+json" id="ld">{"@context":"https://schema.org","@type":"Article","headline":"『ブラジル』の監督が、今の世界の一端を描く。","alternativeHeadline":"監督と作品","about":[{"@type":"Person","name":"テリー・ギリアム","description":"アメリカ生まれで、英国を拠点にする映画監督。モンティ・パイソンのアニメーションを手がけ、『未来世紀ブラジル』『12モンキーズ』『ゼロの未来』を撮った。"},{"@type":"Movie","name":"ゼロの未来","description":"巨大企業の管理のもとで、「ゼロの定理」の証明に取り組まされる孤独なプログラマーを描いた映画。主演はクリストフ・ヴァルツ。","creator":{"@type":"Person","name":"テリー・ギリアム監督"}}],"author":{"@type":"Person","name":"生成AI（初稿）"},"datePublished":"2026-09-14T04:50:00.000Z","dateModified":"2026-09-14T04:50:00.000Z","inLanguage":"ja","articleBody":"『未来世紀ブラジル』『12モンキーズ』に続くディストピア。『ゼロの未来』は、巨大企業の管理のもとで「ゼロの定理」の証明を命じられた孤独なプログラマーの物語である。『未来世紀ブラジル』『12モンキーズ』と並べて、ディストピア三部作と呼ばれることがあるが、監督自身の発言は時期によって揺れている。ギリアムは、『ブラジル』では当時の世界の姿を描こうとし、『ゼロの未来』は今の世界の一端だと述べている。書類の社会から、画面とネットワークの社会へ。およそ30年を隔てて、同じ監督が時代の道具に合わせて管理社会を描き直した、と読むこともできる。","url":"https://beautifulcontext.com/c/terry-gilliam--the-zero-theorem/","citation":[{"@type":"CreativeWork","name":"Terry Gilliam calculates \"The Zero Theorem\" - CBS News","url":"https://www.cbsnews.com/news/terry-gilliam-calculates-the-zero-theorem/","publisher":{"@type":"Organization","name":"CBS News"}},{"@type":"CreativeWork","name":"Terry Gilliam: “The poetry of cinema has been replaced by the Dan Brown prose of cinema” – The Irish Times","url":"https://www.irishtimes.com/culture/film/terry-gilliam-the-poetry-of-cinema-has-been-replaced-by-the-dan-brown-prose-of-cinema-1.1723902?page=2","publisher":{"@type":"Organization","name":"The Irish Times"}},{"@type":"CreativeWork","name":"ゼロの未来 - Wikipedia","url":"https://ja.wikipedia.org/wiki/ゼロの未来","publisher":{"@type":"Organization","name":"Wikipedia"}},{"@type":"CreativeWork","name":"The Zero Theorem - Wikipedia","url":"https://en.wikipedia.org/wiki/The_Zero_Theorem","publisher":{"@type":"Organization","name":"Wikipedia"}}],"image":"https://beautifulcontext.com/img/works/terry-gilliam.jpg"}</script>
 
-<script src="js/config.js?v=159"></script>
-<script src="js/seed.js?v=159"></script>
-<script src="js/sources.js?v=159"></script>
-<script src="js/backend.js?v=159"></script>
-<script src="js/store.js?v=159"></script>
-<script src="js/social.js?v=159"></script>
-<script src="js/render.js?v=159"></script>
-<script src="js/login.js?v=159"></script>
-<script src="js/report.js?v=159"></script>
-<script src="js/transition.js?v=159"></script>
-<script src="js/app.js?v=159"></script>
+<script src="js/config.js?v=161"></script>
+<script src="js/seed.js?v=161"></script>
+<script src="js/sources.js?v=161"></script>
+<script src="js/backend.js?v=161"></script>
+<script src="js/store.js?v=161"></script>
+<script src="js/social.js?v=161"></script>
+<script src="js/render.js?v=161"></script>
+<script src="js/login.js?v=161"></script>
+<script src="js/report.js?v=161"></script>
+<script src="js/transition.js?v=161"></script>
+<script src="js/app.js?v=161"></script>
 </body>
 </html>

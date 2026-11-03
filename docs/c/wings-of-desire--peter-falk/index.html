@@ -43,9 +43,9 @@ try { if (sessionStorage.getItem('bc-resume')) document.documentElement.classLis
 <link rel="preload" as="image" href="img/logo-layer-words.png">
 <!-- 台本も先に取りに行く（静的なページは台本より先に本文が描かれる。遅い回線で、触れて動くまでの間を縮める）。
      src と同じアドレス（?v= まで）でないと、二度取りに行く -->
-<link rel="preload" as="script" href="js/seed.js?v=159">
-<link rel="preload" as="script" href="js/app.js?v=159">
-<link rel="manifest" href="manifest.webmanifest?v=159">
+<link rel="preload" as="script" href="js/seed.js?v=161">
+<link rel="preload" as="script" href="js/app.js?v=161">
+<link rel="manifest" href="manifest.webmanifest?v=161">
 <link rel="apple-touch-icon" href="icon-180.png">
 <!-- タブと検索結果に出る小さな印。アプリの印（ホーム画面のアイコン）と同じ形 -->
 <link rel="icon" href="favicon.ico" sizes="16x16 32x32 48x48">
@@ -74,13 +74,13 @@ if (location.hostname === 'beautifulcontext.com'){
   document.head.appendChild(ga);
 }
 </script>
-<script src="js/theme.js?v=159"></script>
-<link rel="stylesheet" href="app.css?v=159">
+<script src="js/theme.js?v=161"></script>
+<link rel="stylesheet" href="app.css?v=161">
 <!-- 読む画面の使い勝手（2026.10.24）。app.css のすぐあと -->
-<link rel="stylesheet" href="ux.css?v=159">
-<link rel="stylesheet" href="fade.css?v=159">
+<link rel="stylesheet" href="ux.css?v=161">
+<link rel="stylesheet" href="fade.css?v=161">
 <!-- editorial-ink（紙・墨・金）：◆ の罫と、紙の上か絵の上かで変わる決まり。ux.css のあと -->
-<link rel="stylesheet" href="ink.css?v=159">
+<link rel="stylesheet" href="ink.css?v=161">
 <!-- 台本（js）が揃うまで：まだ押しても動かないもの（‹・絵の横の ‹ ›・つながりを辿る）を少し薄くし、下の帯の上の縁に細い金の線を走らせる。
      app.js が最後に body.app-ready を付けて外す。すぐ揃うときは何も見せない（0.3 秒待ってから出す） -->
 <style>
@@ -145,13 +145,14 @@ document.addEventListener('click', function (e) {
     <button class="act uni-btn" id="uniBtn" type="button">
       <img class="act-mark" src="img/logo-mark.png" alt="" aria-hidden="true">
       <span><b>つながりを辿る</b><small>NEXT CONTEXT</small><small id="uniLabel" hidden></small></span>
+      <i class="act-go" aria-hidden="true">→</i>
     </button>
   </div>
 </div>
 
 <nav class="menu" id="menu" aria-label="メニュー" hidden>
-  <!-- パソコンでは、メニューは左にいつも出ている列。その一番上に名前（触れると一覧へ） -->
-  <a class="menu-logo" href="#/list" data-top aria-label="BEAUTIFUL CONTEXT（つながりの一覧へ）"><img src="img/logo.png" alt=""></a>
+  <!-- パソコンでは、メニューは左にいつも出ている列。その一番上に名前（触れると一覧へ）。携帯の紙のメニューでは紺の名前を ✕ の右に -->
+  <a class="menu-logo" href="#/list" data-top aria-label="BEAUTIFUL CONTEXT（つながりの一覧へ）"><img src="img/logo.png" alt=""><img class="on-paper" src="img/logo-navy.png" alt=""></a>
   <form class="seek" role="search" data-seek>
     <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6"/><path d="m15 15 5 5"/></svg>
     <input type="search" name="q" placeholder="言葉で辿る" enterkeyhint="search" aria-label="言葉で辿る">
@@ -205,6 +206,12 @@ document.addEventListener('click', function (e) {
         <section class="src-cards" aria-label="つながる二つの作品">
           <p class="meta">SOURCE CONNECTION</p>
           <div class="src-row"><button type="button" class="src" data-step="0" aria-label="映画『ベルリン・天使の詩』の作品ページへ"><img src="img/works/wings-of-desire.jpg" alt="" loading="lazy" decoding="async"><span class="src-t"><small>映画・ドラマ・1987</small><b>映画『ベルリン・天使の詩』</b><em>ヴィム・ヴェンダース監督</em><span class="src-s">壁のあった時代のベルリンで、人々の心の声を聞き続けてきた天使が、人間になることを選ぶ物語。</span><i aria-hidden="true">作品ページへ　→</i></span></button><span class="src-link" aria-hidden="true">↔</span><button type="button" class="src" data-step="2" aria-label="ピーター・フォークの作品ページへ"><img src="img/works/peter-falk.jpg" alt="" loading="lazy" decoding="async"><span class="src-t"><small>人物</small><b>ピーター・フォーク</b><em>俳優（1927–2011）</em><span class="src-s">アメリカの俳優。『刑事コロンボ』のコロンボ役で知られる。『ベルリン・天使の詩』には本人役で出演した。</span><i aria-hidden="true">作品ページへ　→</i></span></button></div>
+        </section>
+        
+        <section class="journey" aria-label="CONTEXT JOURNEY">
+          <p class="meta">CONTEXT JOURNEY<a href="#/list">一覧で見る　→</a></p>
+          <p class="jr-sub">このつながりから、たどる道</p>
+          <ol class="jr" style="--n:5"><li><a href="c/wings-of-desire--wim-wenders/"><i></i><b>ここまで</b><small>壁のあった街を、</small></a></li><li class="now"><span aria-current="step"><i></i><b>いまここ</b><small>コロンボ役の俳優は、</small></span></li><li><a href="c/elmer-gantry--nobel-literature-laureates/"><i></i><b>つぎへ</b><small>伝道者を皮肉る作家は、</small></a></li><li><a href="c/elmer-gantry--anti-intellectualism-in-american-life/"><i></i><b>さらに</b><small>熱狂させる伝道者を、</small></a></li><li><a href="c/anti-intellectualism--anti-intellectualism-in-american-life/"><i></i><b>その先へ</b><small>ひとつの言葉を、</small></a></li></ol>
         </section>
         <article class="context-body" id="story">
           <p class="meta">CONTEXT STORY</p>
@@ -398,16 +405,16 @@ document.addEventListener('click', function (e) {
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 <script type="application/ld+json" id="ld">{"@context":"https://schema.org","@type":"Article","headline":"コロンボ役の俳優は、劇中では元天使だった。","alternativeHeadline":"本人役の元天使","about":[{"@type":"CreativeWork","name":"ベルリン・天使の詩","description":"壁のあった時代のベルリンで、人々の心の声を聞き続けてきた天使が、人間になることを選ぶ物語。","creator":{"@type":"Person","name":"ヴィム・ヴェンダース監督"}},{"@type":"Person","name":"ピーター・フォーク","description":"アメリカの俳優。『刑事コロンボ』のコロンボ役で知られる。『ベルリン・天使の詩』には本人役で出演した。"}],"author":{"@type":"Person","name":"生成AI（初稿）"},"datePublished":"2026-09-30T07:40:00.000Z","dateModified":"2026-09-30T07:40:00.000Z","inLanguage":"ja","articleBody":"映画の中のピーター・フォークは、ピーター・フォーク自身が演じる、半ば虚構の「ピーター・フォーク」だ。『ベルリン・天使の詩』に、『刑事コロンボ』で知られるピーター・フォークが本人役で登場する。映画の撮影でベルリンを訪れている俳優という設定だ。ところが物語が進むと、彼もかつては天使で、人間になることを選んだのだとわかる。姿の見えない天使ダミエルの気配を感じ取り、人間の暮らしの楽しみを語りかけるフォークは、映画に温かさをもたらす存在と評される。","url":"https://beautifulcontext.com/c/wings-of-desire--peter-falk/","citation":[{"@type":"CreativeWork","name":"Wings of Desire | Wim Wenders Stiftung","url":"http://wimwendersstiftung.de/en/film/wings-of-desire/","publisher":{"@type":"Organization","name":"Wim Wenders Stiftung"}},{"@type":"CreativeWork","name":"5 visual themes in Wings of Desire – Wim Wenders' immortal film about watching","url":"https://www.bfi.org.uk/features/five-visual-themes-wings-desire-wim-wenders-immortal-film-about-watching","publisher":{"@type":"Organization","name":"BFI（英国映画協会）"}},{"@type":"CreativeWork","name":"Wings of Desire - Wikipedia","url":"https://en.wikipedia.org/wiki/Wings_of_Desire","publisher":{"@type":"Organization","name":"Wikipedia"}},{"@type":"CreativeWork","name":"Peter Falk - Wikipedia","url":"https://en.wikipedia.org/wiki/Peter_Falk","publisher":{"@type":"Organization","name":"Wikipedia"}}],"image":"https://beautifulcontext.com/img/works/wings-of-desire.jpg"}</script>
 
-<script src="js/config.js?v=159"></script>
-<script src="js/seed.js?v=159"></script>
-<script src="js/sources.js?v=159"></script>
-<script src="js/backend.js?v=159"></script>
-<script src="js/store.js?v=159"></script>
-<script src="js/social.js?v=159"></script>
-<script src="js/render.js?v=159"></script>
-<script src="js/login.js?v=159"></script>
-<script src="js/report.js?v=159"></script>
-<script src="js/transition.js?v=159"></script>
-<script src="js/app.js?v=159"></script>
+<script src="js/config.js?v=161"></script>
+<script src="js/seed.js?v=161"></script>
+<script src="js/sources.js?v=161"></script>
+<script src="js/backend.js?v=161"></script>
+<script src="js/store.js?v=161"></script>
+<script src="js/social.js?v=161"></script>
+<script src="js/render.js?v=161"></script>
+<script src="js/login.js?v=161"></script>
+<script src="js/report.js?v=161"></script>
+<script src="js/transition.js?v=161"></script>
+<script src="js/app.js?v=161"></script>
 </body>
 </html>

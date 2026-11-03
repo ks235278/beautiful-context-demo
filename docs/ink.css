@@ -571,3 +571,171 @@ body.on-list .view-in{background:var(--paper)}
 .info-about .content::before{max-width:300px}
 /* 右の列の番号（070 / 130）は出さない（CTO 2026.11.02）。見出しの下を少し空けて路線へ */
 @media (min-width:1100px){.rm-title{margin-bottom:20px}}
+
+/* ---- 第19段：見本どおりの CONTEXT JOURNEY（はじまり・いまここ・つぎへ・さらに・その先へ）と、NEXT CONTEXT の → ----
+   携帯：二つの作品の札の下に、道の上の五つを横に。いまの区間は金の丸。パソコンでは右の列が同じ働きなので出さない。
+   右の列（パソコン）は、区間の上に同じ名を小さく */
+.journey{padding:4px 18px 26px}
+.journey>.meta{display:flex;align-items:baseline;justify-content:space-between;gap:10px;margin:0;color:var(--gold-ink);
+  font:700 11px/1.4 "Lato",var(--gothic);letter-spacing:.22em;white-space:nowrap}
+.journey>.meta a{color:var(--navy);font:700 10.5px/1.4 var(--gothic);letter-spacing:.06em;text-decoration:none}
+.journey .jr-sub{margin:4px 0 14px;color:var(--ink-2);font:600 14px/1.5 var(--mincho)}
+.jr{display:grid;grid-template-columns:repeat(var(--n),minmax(0,1fr));margin:0;padding:0;list-style:none}
+.jr li{position:relative;min-width:0}
+/* 丸と丸をつなぐ金の線（一つ前の丸の中心から、この丸の中心まで） */
+.jr li+li::before{content:"";position:absolute;z-index:0;top:7px;right:50%;width:100%;height:1.5px;background:var(--gold)}
+.jr a,.jr span{position:relative;z-index:1;display:grid;justify-items:center;gap:3px;padding:0 2px;color:inherit;text-align:center;text-decoration:none;
+  -webkit-tap-highlight-color:transparent}
+.jr i{width:9px;height:9px;margin-bottom:5px;border:2.5px solid var(--gold);border-radius:50%;background:var(--paper)}
+.jr .now i{width:12px;height:12px;margin:-1.5px 0 3.5px;background:var(--gold);box-shadow:0 0 0 3px rgba(169,119,23,.22)}
+.jr b{color:var(--navy);font:700 11px/1.3 var(--gothic);letter-spacing:.04em}
+.jr .now b{color:var(--gold-ink)}
+.jr small{display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;color:var(--muted);font:10px/1.5 var(--mincho);word-break:break-all}
+.jr a:active b{opacity:.6}
+@media (min-width:1100px){
+  .cpage>.journey{display:none}
+  /* 右の列：区間の上に道の上の名（いまここは金） */
+  .rm-stage{display:block;margin:0 0 1px;color:#fff;font:700 10.5px/1.4 var(--gothic);font-style:normal;letter-spacing:.06em}
+  .rm-seg.now .rm-stage{color:var(--gold-lite)}
+  .rm-st .rm-stage{display:inline;margin-right:6px;color:var(--gold-lite)}
+}
+/* NEXT CONTEXT（一つだけ横いっぱいに出る読む画面）の右に → 。見本どおり */
+.act .act-go{display:none}
+body.viewing .act.uni-btn{position:relative}
+body.viewing .act.uni-btn .act-go{display:block;position:absolute;right:24px;top:50%;transform:translateY(-50%);font:400 20px/1 var(--gothic);font-style:normal}
+
+/* 検索：見本の大きな見出しと、注目のキーワード */
+.search-page .seek-title{margin:2px 0 6px;font:700 24px/1.4 var(--mincho);letter-spacing:.02em}
+.search-page .seek-sub{margin:0 0 14px;color:var(--muted);font-size:12.5px;line-height:1.6}
+.search-page .seek-keys{display:flex;flex-wrap:wrap;align-items:center;gap:6px 8px;margin:12px 0 18px}
+.search-page .seek-keys small{margin-right:2px;color:var(--gold-ink);font:700 10.5px/1.4 var(--gothic);letter-spacing:.08em}
+.search-page .seek-keys a{padding:4px 11px;border:1px solid var(--hair);border-radius:999px;background:var(--paper-card);color:var(--navy);
+  font:600 12px/1.4 var(--gothic);text-decoration:none}
+.search-page .seek-keys a[aria-current]{border-color:var(--navy);background:var(--navy);color:#fff}
+
+/* ---- 第20段：見本の残り（CTO 2026.11.03「sửa tiếp」）：メニューの名前と下の段の印・紺の丸いボタン・404・About の三つの特徴・
+   検索の DISCOVERY と結果の見出し・編集者の数の段 ---- */
+:root{
+  --i-compass:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='12' cy='12' r='9'/%3E%3Cpath d='m15.5 8.5-2 5-5 2 2-5z'/%3E%3C/svg%3E");
+  --i-mega:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4 9.5v5h3l7.5 4.5v-14L7 9.5z'/%3E%3Cpath d='M18 9a4 4 0 0 1 0 6'/%3E%3C/svg%3E");
+  --i-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='3.5' y='5' width='17' height='14' rx='1.5'/%3E%3Ccircle cx='9' cy='10' r='1.6'/%3E%3Cpath d='m4 18 5.5-5 3.5 3 2.5-2 4.5 4'/%3E%3C/svg%3E");
+  --i-doc:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6.5 3h8l4 4v14h-12z'/%3E%3Cpath d='M14.5 3v4h4M9.5 12h6M9.5 15.5h6'/%3E%3C/svg%3E");
+}
+.menu-logo img.on-paper{display:none}
+/* 携帯の紙のメニュー：✕ の右、いちばん上に紺の名前（見本どおり）。下の段（Our Mission ほか）にも線の印と › */
+@media (max-width:1099.98px){
+  #menu>a.menu-logo{display:block;position:absolute;top:calc(env(safe-area-inset-top) + 18px);left:58px;right:16px;width:auto;margin:0;padding:0;border:0}   /* #menu>a（第12段）より強く */
+  .menu .menu-logo img{display:none}
+  .menu .menu-logo img.on-paper{display:block;width:min(176px,100%);height:auto;margin:0 auto}
+  .menu .menu-foot>a{position:relative;padding-left:34px;padding-right:22px;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%238b8f97' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M9 5.5 15.5 12 9 18.5'/%3E%3C/svg%3E") right center/14px 14px no-repeat}
+  .menu .menu-foot>a::after{content:"";position:absolute;left:1px;top:50%;width:19px;height:19px;margin-top:-9.5px;pointer-events:none;
+    background:currentColor;-webkit-mask:var(--ic) center/contain no-repeat;mask:var(--ic) center/contain no-repeat;opacity:.85}
+  .menu .menu-foot>a[href="#/mission"]{--ic:var(--i-compass)}
+  .menu .menu-foot>a[href="#/ad"]{--ic:var(--i-mega)}
+  .menu .menu-foot>a[href="#/credits"]{--ic:var(--i-image)}
+  .menu .menu-foot>a[href="#/terms"]{--ic:var(--i-doc)}
+  .menu .menu-foot>a[data-operator]{--ic:var(--i-user)}
+}
+
+/* 紺の丸いボタン（→ 付き）と、縁だけのボタン。About の「今日のつながりを読む」、404 の二つ。
+   段落の中のリンク（第4段の .info-page .content p a：紺の字に下線）より強く */
+.info-page .content a.pill{display:inline-flex;align-items:center;justify-content:space-between;gap:20px;min-height:48px;padding:0 22px 0 28px;box-sizing:border-box;
+  border:1px solid var(--navy);border-radius:999px;background:var(--navy);color:#fff;font:700 14px/1.3 var(--mincho);letter-spacing:.06em;text-decoration:none}
+.info-page .content a.pill i{font:400 18px/1 var(--gothic);font-style:normal}
+.info-page .content a.pill.sub{background:transparent;color:var(--navy)}
+@media (hover:hover) and (pointer:fine){
+  .info-page .content a.pill:hover{background:var(--navy-side,#0b2340)}
+  .info-page .content a.pill.sub:hover{background:rgba(7,26,48,.06)}
+}
+
+/* 404：大きな 404 の下に金の NOT FOUND、二行の見出し、二つのボタン、下に DISCOVER MORE（絵の札を四つ） */
+.info-404 .kick{display:flex;align-items:center;gap:12px;width:max-content;margin:4px 0 8px}
+.info-404 .kick::before,.info-404 .kick::after{content:"";width:28px;height:1px;background:var(--gold)}
+.nf-acts{display:flex;flex-wrap:wrap;gap:12px;margin:22px 0 6px}
+.nf-more{margin:34px 0 0;padding-top:20px;border-top:1px solid var(--hair);text-align:left}
+.nf-more .meta{display:flex;align-items:baseline;gap:12px;margin:0}
+.nf-more .meta small{color:var(--muted);font:400 12px/1.4 var(--mincho);letter-spacing:.02em}
+.nf-cards{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:12px}
+.content a.nf-card{display:flex;flex-direction:column;gap:3px;padding:0 0 12px;border:1px solid var(--hair);border-radius:8px;background:var(--paper-card);
+  overflow:hidden;color:var(--ink);text-decoration:none;box-shadow:0 1px 4px rgba(90,70,30,.08)}
+.nf-img{display:block;aspect-ratio:16/10;margin-bottom:6px;overflow:hidden;background:var(--paper)}
+.nf-img img{display:block;width:100%;height:100%;object-fit:cover}
+.nf-card small{padding:0 12px;color:var(--gold-ink);font:700 10px/1.4 "Lato",var(--gothic);letter-spacing:.14em}
+.nf-card b{padding:0 12px;font:700 14px/1.5 var(--mincho);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+@media (max-width:759.98px){
+  .info-404 .kick{margin-left:auto;margin-right:auto}
+  .nf-acts{flex-direction:column;align-items:center}
+  .nf-acts a.pill{width:min(300px,100%)}
+}
+@media (min-width:1100px){
+  .nf-cards{grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}
+}
+@media (hover:hover) and (pointer:fine){
+  .content a.nf-card:hover{border-color:var(--gold);background:#fff}
+}
+
+/* About：見出しの上の金の札、「今日のつながりを読む」、見本の「3つの特徴」（中身は Our Mission の辿る・読む・創る） */
+.info-page .kick{margin:0 0 8px}
+.ab-go{margin:20px 0 28px}
+.info-page .content .ab-feat-h{margin:0 0 12px}
+.info-page .content .ab-feats{list-style:none;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin:0 0 32px;padding:0}
+.info-page .content .ab-feats li{display:flex;flex-direction:column;align-items:center;gap:2px;margin:0;padding:14px 8px 16px;border:1px solid var(--hair);border-radius:10px;
+  background:var(--paper-card);text-align:center;line-height:1.5}
+.ab-feats li::before{content:"";width:34px;height:34px;margin:0 0 6px;background:var(--navy);-webkit-mask:var(--ic) center/contain no-repeat;mask:var(--ic) center/contain no-repeat}
+.ab-feats .f-uni{--ic:var(--i-globe)}
+.ab-feats .f-read{--ic:var(--i-book)}
+.ab-feats .f-remix{--ic:var(--i-remix)}
+.ab-feats small{color:var(--gold-ink);font:700 10px/1.4 "Lato",var(--gothic);letter-spacing:.14em}
+.ab-feats b{color:var(--ink);font:700 17px/1.4 var(--mincho)}
+.ab-feats span{color:var(--muted);font:400 11.5px/1.65 var(--mincho)}
+@media (min-width:760px){
+  .info-page .content .ab-feats{gap:14px}
+  .info-page .content .ab-feats li{align-items:flex-start;padding:20px 20px 22px;text-align:left}
+  .ab-feats li::before{width:40px;height:40px;margin-bottom:10px}
+  .ab-feats small{display:flex;align-items:center;gap:10px}
+  .ab-feats small::after{content:"";width:28px;height:1px;background:var(--gold)}
+  .ab-feats b{font-size:22px}
+  .ab-feats span{font-size:13.5px;line-height:1.8}
+}
+/* 狭い携帯（375px 未満）は三つを縦に。印を左、字を右に（三列だと一行が四字ほどになり、言葉の途中で折れる） */
+@media (max-width:374.98px){
+  .info-page .content .ab-feats{grid-template-columns:1fr}
+  .info-page .content .ab-feats li{display:grid;grid-template-columns:34px 1fr;column-gap:14px;align-items:center;padding:12px 14px;text-align:left}
+  .ab-feats li::before{grid-row:1/span 3;margin:0}
+}
+
+/* 検索：結果の見出し（SEARCH RESULTS「〜」の検索結果 n件）と、DISCOVERY（作品の絵の札を横に。指で横へ送る） */
+.search-page .seek-res{display:flex;align-items:baseline;flex-wrap:wrap;gap:4px 12px;margin:2px 0 14px;color:var(--ink);font:700 20px/1.45 var(--mincho)}
+.search-page .seek-res small{color:var(--muted);font:400 13px/1.4 var(--mincho)}
+.disc{margin:24px 0 8px}
+.disc .meta{display:flex;justify-content:space-between;align-items:baseline;margin:0}
+.disc .meta a{color:var(--navy);font:400 12px/1.4 var(--mincho);letter-spacing:.02em;text-decoration:none}
+.disc-t{margin:2px 0 12px;color:var(--ink);font:700 20px/1.45 var(--mincho)}
+.dc-row{display:flex;gap:12px;overflow-x:auto;padding:2px 0 10px;scroll-snap-type:x mandatory;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+.dc-row::-webkit-scrollbar{display:none}
+.content a.dc{flex:0 0 112px;display:flex;flex-direction:column;gap:2px;scroll-snap-align:start;color:var(--ink);text-decoration:none}
+.dc-img{display:block;aspect-ratio:3/4;margin-bottom:6px;overflow:hidden;border-radius:4px;background:var(--paper-card);box-shadow:0 6px 12px -8px rgba(30,25,15,.55)}
+.dc-img img{display:block;width:100%;height:100%;object-fit:cover}
+.dc-img i{display:grid;place-items:center;height:100%;color:var(--navy);font:700 28px var(--mincho);font-style:normal}
+.dc small{color:var(--gold-ink);font:700 10px/1.4 "Lato",var(--gothic);letter-spacing:.1em}
+.dc b{font:700 13px/1.45 var(--mincho);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.dc em{color:var(--muted);font:400 10.5px/1.5 var(--mincho);font-style:normal;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+/* マウスの画面・広い画面は横に送れないので、並べて折り返す（二段） */
+@media (min-width:760px),(hover:hover) and (pointer:fine){
+  .dc-row{display:grid;grid-template-columns:repeat(auto-fill,minmax(112px,1fr));gap:18px 14px;overflow:visible}
+}
+@media (hover:hover) and (pointer:fine){
+  .content a.dc:hover b{color:var(--gold-ink)}
+}
+
+/* 編集者：見本の数の段（つながり・フォロワー）。数は大きく、名前は小さく、間に細い縦の線 */
+.ed-stats{display:flex;justify-content:center;margin:14px 0 16px;padding:0}
+.ed-stats div{display:flex;flex-direction:column-reverse;align-items:center;min-width:88px;padding:0 18px;border-left:1px solid var(--hair)}
+.ed-stats div:first-child{border-left:0}
+.ed-stats dd{margin:0;color:var(--ink);font:600 26px/1.1 var(--mincho)}
+.ed-stats dd b{font-weight:600}
+.ed-stats dt{margin-top:5px;color:var(--muted);font:400 11px/1.3 "Lato",var(--gothic);letter-spacing:.06em}
+@media (min-width:1100px){
+  .ed-stats{justify-content:flex-start}
+  .ed-stats div:first-child{padding-left:0;align-items:flex-start}
+}
