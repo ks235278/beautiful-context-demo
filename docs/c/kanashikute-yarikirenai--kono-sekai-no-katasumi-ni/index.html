@@ -43,9 +43,9 @@ try { if (sessionStorage.getItem('bc-resume')) document.documentElement.classLis
 <link rel="preload" as="image" href="img/logo-layer-words.png">
 <!-- 台本も先に取りに行く（静的なページは台本より先に本文が描かれる。遅い回線で、触れて動くまでの間を縮める）。
      src と同じアドレス（?v= まで）でないと、二度取りに行く -->
-<link rel="preload" as="script" href="js/seed.js?v=170">
-<link rel="preload" as="script" href="js/app.js?v=170">
-<link rel="manifest" href="manifest.webmanifest?v=170">
+<link rel="preload" as="script" href="js/seed.js?v=171">
+<link rel="preload" as="script" href="js/app.js?v=171">
+<link rel="manifest" href="manifest.webmanifest?v=171">
 <link rel="apple-touch-icon" href="icon-180.png">
 <!-- タブと検索結果に出る小さな印。アプリの印（ホーム画面のアイコン）と同じ形 -->
 <link rel="icon" href="favicon.ico" sizes="16x16 32x32 48x48">
@@ -62,6 +62,8 @@ try { if (sessionStorage.getItem('bc-resume')) document.documentElement.classLis
 <!-- フォントは最初の一コマを待たせない（表紙のロゴは絵。Lato は UniverseIt! が出るまでに届く） -->
 <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Lato:wght@300;400;700&display=swap" onload="this.onload=null;this.rel='stylesheet'">
 <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Lato:wght@300;400;700&display=swap"></noscript>
+<!-- ログインの画面の題（見本の太い明朝）。使う字だけを取る（text=。題の言葉を変えたら、ここの字も足す） -->
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@700;800;900&display=swap&text=%E3%80%81%E3%80%82%E3%81%84%E3%81%86%E3%81%8C%E3%81%8F%E3%81%97%E3%81%99%E3%81%A0%E3%81%A4%E3%81%A6%E3%81%A7%E3%81%A8%E3%81%AA%E3%81%AB%E3%81%AC%E3%81%BE%E3%82%8B%E3%82%8C%E3%82%92%E3%82%A2%E3%82%A4%E3%82%A6%E3%82%AB%E3%82%B0%E3%83%88%E3%83%AD%E3%83%B3%E4%B8%96%E4%BC%9A%E4%BD%9C%E5%87%BA%E6%96%87%E6%96%B0%E6%98%A0%E7%94%BB%E7%95%8C%E8%84%88%E8%91%89%E8%A6%8B%E8%A8%80" onload="this.onload=null;this.rel='stylesheet'">
 <!-- アクセス解析（Google アナリティクス 4）。表示を待たせないよう非同期で読む。何を送るかは 利用規約・プライバシー に書いた。
      本番のアドレスで開いたときだけ数える（静的なページの書き出しや、手元での確かめは数えない）。
      ページの表示は app.js が画面の替わるたびに送る（ここで送ると、表紙と # の先の道が数えられない） -->
@@ -74,13 +76,13 @@ if (location.hostname === 'beautifulcontext.com'){
   document.head.appendChild(ga);
 }
 </script>
-<script src="js/theme.js?v=170"></script>
-<link rel="stylesheet" href="app.css?v=170">
+<script src="js/theme.js?v=171"></script>
+<link rel="stylesheet" href="app.css?v=171">
 <!-- 読む画面の使い勝手（2026.10.24）。app.css のすぐあと -->
-<link rel="stylesheet" href="ux.css?v=170">
-<link rel="stylesheet" href="fade.css?v=170">
+<link rel="stylesheet" href="ux.css?v=171">
+<link rel="stylesheet" href="fade.css?v=171">
 <!-- editorial-ink（紙・墨・金）：◆ の罫と、紙の上か絵の上かで変わる決まり。ux.css のあと -->
-<link rel="stylesheet" href="ink.css?v=170">
+<link rel="stylesheet" href="ink.css?v=171">
 <!-- 台本（js）が揃うまで：まだ押しても動かないもの（‹・絵の横の ‹ ›・つながりを辿る）を少し薄くし、下の帯の上の縁に細い金の線を走らせる。
      app.js が最後に body.app-ready を付けて外す。すぐ揃うときは何も見せない（0.3 秒待ってから出す） -->
 <style>
@@ -413,17 +415,17 @@ document.addEventListener('click', function (e) {
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 <script type="application/ld+json" id="ld">{"@context":"https://schema.org","@type":"Article","headline":"戦時下の日常は、この歌から始まる。","alternativeHeadline":"映画のはじまりの歌","about":[{"@type":"MusicRecording","name":"「悲しくてやりきれない」","description":"1968年に発表されたザ・フォーク・クルセダーズの歌。多くの歌い手にうたい継がれてきた。","creator":{"@type":"Person","name":"ザ・フォーク・クルセダーズ（作詞 サトウハチロー／作曲 加藤和彦）"}},{"@type":"Movie","name":"この世界の片隅に","description":"戦時中の広島と呉を舞台に、絵を描くことが好きな主人公すずの暮らしを描いたアニメーション映画。原作はこうの史代の漫画。","creator":{"@type":"Person","name":"片渕須直監督（原作 こうの史代）"}}],"author":{"@type":"Person","name":"生成AI（初稿）"},"datePublished":"2026-09-15T07:40:00.000Z","dateModified":"2026-09-15T07:40:00.000Z","inLanguage":"ja","articleBody":"悲しみを叫ぶのではなく、そっと差し出す歌。映画『この世界の片隅に』（2016）は、戦争の時代を生きたすずの暮らしを、配給物資が減っていくなかで食卓を工夫し、衣服を仕立て直す日々から描いていく。そのオープニングで流れるのが、コトリンゴが歌う「悲しくてやりきれない」である。1968年にザ・フォーク・クルセダーズが発表した歌は、この映画の冒頭でも作品世界によく合うと評された。どうにもならない悲しみを抱えながら、それでも日々は続いていく。歌の言葉は、映画がこれから描く時間をあらかじめ包んでいるようにも聴こえる。","url":"https://beautifulcontext.com/c/kanashikute-yarikirenai--kono-sekai-no-katasumi-ni/","citation":[{"@type":"CreativeWork","name":"この世界の片隅に【映画】","url":"https://konosekai.jp/","publisher":{"@type":"Organization","name":"映画『この世界の片隅に』公式サイト"}},{"@type":"CreativeWork","name":"第4次フォークルのニューアルバム、誕生！「若い加藤和彦のように」3月30日発売決定！！ - UNIVERSAL MUSIC JAPAN","url":"https://www.universal-music.co.jp/the-folk-crusaders/news/2013-03-07/","publisher":{"@type":"Organization","name":"UNIVERSAL MUSIC JAPAN"}},{"@type":"CreativeWork","name":"(3ページ目)『君の名は。』『聲の形』『この世界の片隅に』ーー 最新アニメ映画の音楽、その傾向と問題点について｜Real Sound｜リアルサウンド 映画部","url":"https://realsound.jp/movie/2016/09/post-2826_3.html","publisher":{"@type":"Organization","name":"Real Sound（リアルサウンド）映画部"}}],"image":"https://beautifulcontext.com/img/works/kanashikute-yarikirenai.jpg"}</script>
 
-<script src="js/config.js?v=170"></script>
-<script src="js/seed.js?v=170"></script>
-<script src="js/sources.js?v=170"></script>
-<script src="js/backend.js?v=170"></script>
-<script src="js/store.js?v=170"></script>
-<script src="js/social.js?v=170"></script>
-<script src="js/render.js?v=170"></script>
-<script src="js/login.js?v=170"></script>
-<script src="js/login-page.js?v=170"></script>
-<script src="js/report.js?v=170"></script>
-<script src="js/transition.js?v=170"></script>
-<script src="js/app.js?v=170"></script>
+<script src="js/config.js?v=171"></script>
+<script src="js/seed.js?v=171"></script>
+<script src="js/sources.js?v=171"></script>
+<script src="js/backend.js?v=171"></script>
+<script src="js/store.js?v=171"></script>
+<script src="js/social.js?v=171"></script>
+<script src="js/render.js?v=171"></script>
+<script src="js/login.js?v=171"></script>
+<script src="js/login-page.js?v=171"></script>
+<script src="js/report.js?v=171"></script>
+<script src="js/transition.js?v=171"></script>
+<script src="js/app.js?v=171"></script>
 </body>
 </html>

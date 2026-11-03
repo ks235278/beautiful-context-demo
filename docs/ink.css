@@ -1084,25 +1084,243 @@ body.viewing:has(.view-in>.login-page) .login-page .content{padding-bottom:40px}
     background:linear-gradient(90deg,rgba(239,176,47,.12),transparent 50%);box-shadow:inset 3px 0 0 var(--gold-lite)}
 }
 
-/* ---- 第28段：ログインの画面のパスワード（js/login-page.js）。見本 20-login の目の印・ログインしたままにする（パソコン）・パスワードをお忘れの方・Apple ---- */
-.login-page .lp-field .lp-eye{position:absolute;right:4px;top:50%;display:flex;align-items:center;justify-content:center;width:44px;height:44px;margin-top:-22px;padding:0;
+/* ---- 第28段：ログインの画面を、見本 20-login と並べて見比べて詰める（CTO 2026.11.03「giống chưa?」） ----
+   ・‹ は置かず、名前は真ん中。携帯は名前の下に TODAY'S EDITOR'S CHOICE（見本どおり）
+   ・題は見本の太い明朝（Noto Serif JP。index.html で使う字だけを取る）。題と文は携帯とパソコンで別（見本どおり）
+   ・二つ目の欄は「認証コード」。その下に「パスワードは要りません｜コードを送る ›」（見本の「パスワードをお忘れの方 ›」の所） */
+.login-page{--lp-serif:"Noto Serif JP",var(--mincho)}
+@media (max-width:1099.98px){
+  .login-page span.pc{display:none}
+  body .login-page>.c-logo{left:50%}
+  body .login-page>.c-logo img{height:min(24px,calc((100vw - 140px) / 7.35))}
+  .login-page .lp-kick{margin:-16px 0 12px;font:700 10px/1.4 "Lato",var(--gothic);letter-spacing:.2em}
+  .login-page .lp-title{margin:clamp(52px,21vw,90px) 0 14px;font:900 min(36px,calc((100vw - 52px) / 10))/1.32 var(--lp-serif);letter-spacing:0}   /* 二行目「新しい文脈に出会う。」十字が一行に（左右 24px の内側） */
+  .login-page .lp-sub{margin:0 0 20px;font:500 min(16px,calc((100vw - 48px) / 16.6))/1.7 var(--mincho);letter-spacing:.06em}
+  .login-page .lp-tabs{margin:0 0 20px}
+  .login-page .lp-tabs button{height:48px;font:700 min(17px,4.6vw)/1 var(--gothic);letter-spacing:.06em;color:#7b7d82}
+  .login-page .lp-tabs button[aria-selected="true"]{color:var(--gold-ink)}
+  .login-page .lp-card form{gap:14px}
+  .login-page .lp-label{gap:8px;font:500 13px/1.4 var(--gothic);letter-spacing:.12em}
+  .login-page .lp-field input{height:46px;border-radius:6px;font-size:15px;background:rgba(255,255,255,.55)}
+  .login-page .lp-go{height:52px;margin-top:4px;font-size:17px;letter-spacing:.18em}
+  .login-page .lp-terms{margin-top:22px;font-size:12px;line-height:1.85}
+}
+@media (min-width:1100px){
+  .login-page span.sp{display:none}
+  .login-page .lp-title{font:700 clamp(21px,1.9vw,28px)/1.4 var(--lp-serif);letter-spacing:.06em}
+  .login-page .lp-card h3{font:700 clamp(23px,2.1vw,30px)/1.25 var(--lp-serif);letter-spacing:.06em}
+  .login-page .lp-card .lp-lead br{display:inline}
+}
+/* 見本の「パスワードをお忘れの方 ›」の所：左に灰の一言、右に紺の下線の「コードを送る ›」 */
+.login-page .lp-row{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:-4px 0 2px;text-align:left}
+.login-page .lp-row span{color:var(--muted);font:400 11.5px/1.5 var(--gothic)}
+.login-page .lp-send{display:inline-flex;align-items:center;gap:6px;flex:0 0 auto;min-height:32px;padding:0;border:0;background:none;color:var(--navy);cursor:pointer;
+  font:700 13px/1.4 var(--gothic);letter-spacing:.04em;text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:4px}
+.login-page .lp-send::after{content:"";width:6px;height:6px;margin-left:2px;border-top:1.5px solid currentColor;border-right:1.5px solid currentColor;transform:rotate(45deg)}
+.login-page .lp-send:disabled{opacity:.6;cursor:progress}
+@media (hover:hover) and (pointer:fine){.login-page .lp-send:hover{color:var(--gold-ink)}}
+
+/* ---- 第29段：ログインの画面を見本にもう一段寄せる（CTO 2026.11.03「giống nhất có thể」） ----
+   携帯：欄の名は太く、文は一回り大きく、名前の下の罫は見本の幅に。パソコン：題を大きく、札の下の一行（同意の文）は見本に無いので出さない */
+@media (max-width:1099.98px){
+  .login-page .lp-rule{width:min(200px,52%)}
+  .login-page .lp-sub{font-weight:600;font-size:min(17px,calc((100vw - 48px) / 15.6));line-height:1.75}
+  .login-page .lp-label{font-weight:700;letter-spacing:.1em}
+  .login-page .lp-field input{border-color:#c4bdb0}
+  .login-page .lp-tabs button[aria-selected="true"]{font-size:min(19px,5vw)}
+}
+@media (min-width:1100px){
+  .login-page .lp-title{font-size:clamp(23px,2.15vw,33px);letter-spacing:.08em}
+  .login-page .lp-sub{font-size:clamp(13px,1.05vw,15px)}
+  .login-page .lp-terms{display:none}
+  .login-page .lp-card .lp-lead{font-size:clamp(13px,1.05vw,15px)}
+}
+
+/* ---- 第30段：ログインの画面を見本と点で重ねて合わせる（CTO 2026.11.03「giống hẳn từng pixel」） ----
+   見本の携帯（853×1844 ＝ 390×844 の 2.187 倍）とパソコン（1672×941）から、罫・欄の縁・ボタンの上下・字の段の y を測り（scratchpad/lg/lines.py）、
+   その数をそのまま書く。携帯：左右の余白 33px、名前 23.5px、名札 8px、罫 170px、題 33px、文 15px/1.56、タブ 17/14px、
+   欄 39px、ボタン 47px、または、Google 40px、同意の文 12px。パソコン：WELCOME TO 17px、名前 57px を縦に 1.35 倍（見本の字は細長い）、
+   題 31px、文 16px/1.62、札は幅 487px・間 21px、見出し 31px、欄 44px、欄の間 18px、ボタン 55px */
+@media (max-width:1099.98px){
+  .login-page .content{padding-left:33px;padding-right:33px}
+  body .login-page>.c-logo{top:calc(env(safe-area-inset-top) + 18px)}
+  body .login-page>.c-logo img{height:min(23.5px,calc((100vw - 140px) / 7.35))}
+  .login-page .lp-kick{margin:-14px 0 11px;font:700 8px/1.4 "Lato",var(--gothic);letter-spacing:.1em}
+  .login-page .lp-rule{width:170px}
+  .login-page .lp-title{margin:86px 0 12px;font:800 min(33px,calc((100vw - 66px) / 9.8))/1.36 var(--lp-serif);letter-spacing:-.02em}
+  .login-page .lp-sub{margin:0 0 17px;font:500 15px/1.56 var(--mincho);letter-spacing:.03em}
+  .login-page .lp-hero>.lp-rule.sp{margin-bottom:10px}
+  .login-page .lp-tabs{margin:0 0 20px;border-bottom-width:1.5px}
+  .login-page .lp-tabs::after{height:3px;bottom:-1.5px}
+  .login-page .lp-tabs button{height:35px;font:700 14px/1 var(--gothic);letter-spacing:.06em;color:#7b7d82}
+  .login-page .lp-tabs button[aria-selected="true"]{font-size:17px;color:var(--gold-ink)}
+  .login-page .lp-card form{gap:11px}
+  .login-page .lp-label{gap:6px;font:700 12px/1.4 var(--gothic);letter-spacing:.1em}
+  .login-page .lp-field input{height:39px;padding:0 14px;border:1.5px solid #c9c2b5;border-radius:8px;font-size:15px}
+  .login-page .lp-field input::placeholder{color:#a3a3a5}
+  .login-page .lp-row{justify-content:flex-end;margin:1px 0 0}
+  .login-page .lp-row span{display:none}
+  .login-page .lp-send{min-height:20px;font-size:12px}
+  .login-page .lp-go{height:47px;margin-top:5px;font-size:19px;letter-spacing:.22em}
+  .login-page .lp-go i{right:22px}
+  .login-page .lp-or{margin:18px 0 13px;font:700 11px/1 var(--mincho);letter-spacing:.14em}
+  .login-page .lp-or::before,.login-page .lp-or::after{height:1px}
+  .login-page .lp-alt{height:40px;border:1.5px solid #bdb5a6;border-radius:10px;font-size:17px}
+  .login-page .lp-alt svg{width:24px;height:24px}
+  .login-page .lp-terms{margin-top:21px;font:400 12px/1.35 var(--gothic);letter-spacing:0}
+  .login-page .lp-check{font-size:12px}
+}
+@media (min-width:1100px){
+  .login-page .content{padding-top:26px}
+  .login-page .lp-hero{padding:31px 0 36px}
+  .login-page .lp-kick{margin:0 0 20px;font:700 17px/1 "Lato",var(--gothic);letter-spacing:.3em}
+  /* 見本の名前は細長い太い明朝。手元の字（Times）を縦に 1.35 倍して幅と高さを合わせる（57px → 幅 637・高さ 54） */
+  .login-page .lp-brand{margin:0 0 30px;font:700 57px/1 "Times New Roman",var(--mincho);letter-spacing:.005em;transform:scaleY(1.35);transform-origin:50% 100%}
+  .login-page .lp-title{margin:0 0 20px;font:700 31px/1.25 var(--lp-serif);letter-spacing:.06em}
+  .login-page .lp-sub{margin:0;font:400 16px/1.62 var(--mincho);letter-spacing:.04em}
+  .login-page .lp-cards{max-width:995px;margin:0 auto;gap:21px;align-items:stretch}
+  .login-page .lp-card{padding:30px 36px 28px;border-radius:16px}
+  .login-page .lp-card h3{margin:0 0 16px;font:700 31px/1.3 var(--lp-serif);letter-spacing:.04em}
+  .login-page .lp-card h3::after{margin-top:13px}
+  .login-page .lp-card .lp-lead{margin:0 0 20px;font:400 15px/1.55 var(--mincho);letter-spacing:.04em}
+  .login-page .lp-card form{gap:18px}
+  .login-page .lp-label{gap:7px;font:700 13px/1.4 var(--gothic);letter-spacing:.1em}
+  .login-page .lp-field input{height:44px;font-size:15px}
+  .login-page .lp-row{margin:-6px 0 0}
+  .login-page .lp-go{height:55px;margin-top:4px}
+  /* アカウントを作る札：「コードを送る ›」の行は、見本の欄の下の一言（英数字を組み合わせて…）の所に */
+  .login-page .lp-new .lp-row{margin:-12px 0 0}
+  .login-page .lp-new .lp-row span{font-size:11px}
+  .login-page .lp-new .lp-check{margin-top:2px}
+}
+
+/* 第30段の数を、測り直して詰める（二回目） */
+@media (max-width:1099.98px){
+  .login-page .lp-title{margin-bottom:5px}
+  .login-page .lp-sub{margin-bottom:12px}
+  .login-page .lp-hero>.lp-rule.sp{margin-bottom:6px}
+  .login-page .lp-label{gap:3px}
+  .login-page .lp-card form{gap:13px}
+  .login-page .lp-go{margin-top:0}
+}
+@media (min-width:1100px){
+  .login-page .lp-hero{padding-top:28px}
+  .login-page .lp-kick{margin-bottom:29px;font-size:19px}
+  .login-page .lp-brand{margin-bottom:15px}
+  .login-page .lp-title{margin-bottom:10px}
+  .login-page .lp-card{padding:26px 36px 18px}
+  .login-page .lp-card h3{margin-bottom:6px}
+  .login-page .lp-card h3::after{margin-top:10px}
+  .login-page .lp-card .lp-lead{margin-bottom:24px}
+  .login-page .lp-label{gap:4px}
+  .login-page .lp-hint{margin-top:-3px}
+  .login-page .lp-card form{gap:16px}
+  .login-page .lp-row{margin-top:-10px}
+  .login-page .lp-go{margin-top:7px}
+  .login-page .lp-new .lp-row{margin-top:-22px}
+  .login-page .lp-new .lp-check{margin-top:-12px}
+  .login-page .lp-new .lp-go{margin-top:-3px}
+}
+/* 三回目：札の中の欄の間（ログインの札は 19、作る札は一言が入るので 12） */
+@media (max-width:1099.98px){
+  .login-page .lp-row{margin-top:-2px}
+  .login-page .lp-go{height:46px}
+}
+@media (min-width:1100px){
+  .login-page .lp-in form{gap:19px}
+  .login-page .lp-new form{gap:12px}
+  .login-page .lp-new .lp-row{margin-top:-18px}
+  .login-page .lp-new .lp-check{margin-top:-6px}
+  .login-page .lp-new .lp-go{margin-top:14px}
+}
+/* 四回目：墨と筆の絵を、見本から切り出した所にそのまま置く（携帯は 390px の見本の座標を vw に、パソコンは帯を 1054px に揃えて左右の端に） */
+@media (max-width:1099.98px){
+  .login-page .content{position:relative}
+  .login-page .lp-art{background-size:100% auto}
+  .login-page .lp-art.tl{left:0;top:61px;width:41vw;max-width:none;aspect-ratio:350/411}
+  .login-page .lp-art.tr{left:auto;right:0;top:64px;width:47.3vw;max-width:none;aspect-ratio:403/322}
+  .login-page .lp-art.bl{left:0;bottom:0;width:35.2vw;max-width:none;aspect-ratio:300/212}
+  .login-page .lp-art.br{right:0;bottom:0;width:34.4vw;max-width:none;aspect-ratio:293/214}
+  .login-page .lp-hero .lp-art{position:absolute}
+  .login-page .lp-hero{position:static}
+}
+@media (min-width:1100px){
+  .login-page .lp-hero{max-width:1054px;margin:0 auto}
+  .login-page .lp-art.pl,.login-page .lp-art.pr{top:-26px;bottom:auto;height:330px;width:auto;-webkit-mask-image:none;mask-image:none}
+  .login-page .lp-art.pl{left:0;aspect-ratio:457/330;background-image:url(img/deco/login-pc-l.png)}
+  .login-page .lp-art.pr{right:0;aspect-ratio:357/330;background-image:url(img/deco/login-pc-r.png)}
+}
+/* 五回目：パソコンの題と文の字間（見本の幅 505・434px に）、作る札のボタンは見本どおり 60px */
+@media (min-width:1100px){
+  .login-page .lp-title{letter-spacing:.02em}
+  .login-page .lp-sub{letter-spacing:.02em}
+  .login-page .lp-new .lp-go{height:60px}
+}
+/* 六回目：携帯の絵の置き場。上の帯（.lp-hero）は入るときの動き（transform）で座標の元になるので、絵は帯の外（.content の子）に置く。
+   下の二枚は画面の下の端（見本は 844px の画面いっぱい）：.content を画面の高さに */
+@media (max-width:1099.98px){
+  .login-page .content{min-height:100svh;box-sizing:border-box}
+  .login-page .content>.lp-art{position:absolute}
+}
+/* 七回目：四隅の絵を見本の端まで広く切り直した（tr は x 196 から、bl・br は y 736 から） */
+@media (max-width:1099.98px){
+  .login-page .lp-art.tr{width:49.6vw;aspect-ratio:423/322}
+  .login-page .lp-art.bl{width:41vw;aspect-ratio:350/234}
+  .login-page .lp-art.br{width:41.4vw;aspect-ratio:353/234}
+}
+/* 八回目：携帯の四隅は見本の端まで（bl・br は y 727 から、幅 169・161）。パソコンの左右の絵は列の端（左の列・右の列に接する所）から、継ぎ目が出ないように */
+@media (max-width:1099.98px){
+  .login-page .lp-art.bl{width:43.4vw;aspect-ratio:370/254}
+  .login-page .lp-art.br{width:41.4vw;aspect-ratio:353/254}
+}
+@media (min-width:1100px){
+  .login-page .content{position:relative}
+  .login-page .lp-hero{position:static}
+  .login-page .lp-art.pl{left:0}
+  .login-page .lp-art.pr{right:0}
+}
+/* 九回目：携帯の右上と下の二枚を、見本の端まで（tr は y 215 まで、bl・br は y 713 から） */
+@media (max-width:1099.98px){
+  .login-page .lp-art.tr{aspect-ratio:423/330}
+  .login-page .lp-art.bl{width:43.4vw;aspect-ratio:370/284}
+  .login-page .lp-art.br{width:41.4vw;aspect-ratio:353/284}
+}
+/* 十回目：絵はすべて .content の直下の後ろに置く（上の帯は入るときの動き（app.css の rise：transform）で座標の元になっていた） */
+.login-page .content>.lp-art{position:absolute;z-index:-1}
+@media (max-width:1099.98px){
+  .login-page .lp-art.bl{aspect-ratio:370/299}
+  .login-page .lp-art.br{aspect-ratio:353/299}
+}
+/* 十一回目：パソコンでは読む列（.view-in）の幅の決まりを外し、絵を左の列・右の列に接する端から（見本は紙の列の端から） */
+@media (min-width:1100px){
+  body.viewing:has(.view-in>.login-page) .view-in{max-width:none}
+  .login-page .lp-art.pl,.login-page .lp-art.pr{top:0}
+}
+
+/* ---- 第31段：ログインの画面のパスワード（js/login-page.js。見本 20-login の「パスワード」の欄と目の印、
+   「ログインしたままにする」（パソコンだけ）、「パスワードをお忘れの方 ›」、「または」の下の Apple・Google） ---- */
+.login-page .lp-field .lp-eye{position:absolute;top:0;bottom:0;right:2px;display:flex;align-items:center;justify-content:center;width:44px;padding:0;
   border:0;border-radius:6px;background:none;color:var(--muted);cursor:pointer}
-.login-page .lp-field .lp-eye svg{position:static;display:block;width:21px;height:21px;margin:0;stroke:currentColor}
+.login-page .lp-field .lp-eye svg{position:static;display:block;width:21px;height:21px;margin:0;fill:none;stroke:currentColor;stroke-width:1.6}
 .login-page .lp-field .lp-eye[aria-pressed="true"]{color:var(--navy)}
-.login-page .lp-field input[name="password"]{padding-right:50px}
+.login-page .lp-field input[name="password"]{padding-right:48px}
 .login-page .lp-label[hidden]{display:none}
-.login-page .lp-row{display:flex;align-items:center;justify-content:flex-end;gap:12px;margin:-6px 0 0}
 .login-page .lp-row .lp-remember{display:none}
-.login-page .lp-forgot{padding:6px 0;text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:3px}
-.login-page .lp-forgot::after{content:" ›";text-decoration:none}
+/* 「パスワードをお忘れの方」（携帯）・「パスワードを忘れた方」（パソコン）。行の中の span を隠す・薄くする決まり（第28・30段）から外す */
+.login-page .lp-row .lp-send span{color:inherit;font:inherit;letter-spacing:inherit}
+@media (max-width:1099.98px){.login-page .lp-row .lp-send span.sp{display:inline}}
+.login-page .lp-send[data-lp-back]{color:var(--muted)}
+.login-page .lp-send[data-lp-back]::after{content:none}
 .login-page .lp-socials{display:grid;gap:12px}
 .login-page .lp-socials[hidden]{display:none}
+.login-page .lp-socials .lp-alt{padding:0 8px;white-space:nowrap}
 .login-page .lp-apple svg{color:#000}
 @media (min-width:1100px){
-  .login-page .lp-row{justify-content:space-between}
-  .login-page .lp-row .lp-remember{display:flex;font-size:12.5px}
-  .login-page .lp-forgot{font-size:12.5px}
-  .login-page .lp-forgot::after{content:none}
-  .login-page .lp-socials{grid-template-columns:1fr 1fr}
+  .login-page .lp-in .lp-row{flex-wrap:wrap;row-gap:4px}
+  .login-page .lp-row .lp-remember{display:flex;gap:8px;font-size:12px;white-space:nowrap}
+  .login-page .lp-row .lp-send{white-space:nowrap;margin-left:auto}
+  .login-page .lp-row .lp-remember input{width:18px;height:18px}
+  .login-page .lp-socials{grid-template-columns:1fr 1fr;gap:12px}
+  .login-page .lp-socials .lp-alt{gap:10px}
   .login-page .lp-socials .lp-google{order:-1}
 }

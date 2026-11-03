@@ -162,7 +162,7 @@
       if (at && k === at) a.setAttribute('aria-current', 'page'); else a.removeAttribute('aria-current');
     });
     const acc = menu.querySelector('#menuAccount');
-    if (acc){ if (here && here.key === 'login') acc.setAttribute('aria-current', 'page'); else acc.removeAttribute('aria-current'); }
+    if (acc){ if (here && /^login/.test(here.key)) acc.setAttribute('aria-current', 'page'); else acc.removeAttribute('aria-current'); }
   }
   /* メニューは左から出てくるので、左へ払えばしまわれる（出てきた向きへ帰る） */
   {
@@ -1431,6 +1431,9 @@
   }
   function leaveLogin(){
     if (!here || !/^login/.test(here.key)) return;
+    /* パスワードを決め直している途中（data-stay）は離れない。ログインした直後に予約された leaveLogin が、
+       そのあと開いた「新しいパスワード」の画面を閉じてしまわないように。保存し終えたら data-stay を外してから呼ぶ */
+    if (viewIn.querySelector('.login-page[data-stay]')) return;
     if (depth() > rootDepth()) closeView(null, 'login');
     else { pushRoot('#/today'); routeTo('#/today', { fade: true }); }
   }
