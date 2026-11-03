@@ -40,6 +40,18 @@
     live();
   };
   const expired = !remembered() && !new RegExp(`(?:^|;\\s*)${LIVE}=1`).test(document.cookie);
+  /* Google・メールのリンクから戻ったところか（?code=。名前がちょうど code のときだけ） */
+  const hasCode = () => new URLSearchParams(location.search).has('code');
+  /* 閉じたあとに開いた：supabase-js を作る前に、前のセッションをこの端末から外す（URL に ?code= があっても生かさない。
+     生かすと、だれかが送ったリンク一つで前の人のセッションが戻る）。サーバーでの取り消しは ready() が revoke() で */
+  let stale = null;
+  if (expired) {
+    try {
+      stale = localStorage.getItem(K.auth);
+      localStorage.removeItem(K.auth); localStorage.removeItem(K.auth + '-user');
+      if (!hasCode()) localStorage.removeItem(REMEMBER);   // ?code= の続き（外したまま始めた登録の確かめなど）は、外したままにする
+    } catch (e) {}
+  }
 
   /* ---------- 知らせ ----------
      'auth'   … ログイン・ログアウト・表示名が変わった（{ event: 'login' | 'in' | 'out' | 'profile' | 'recovery', method, isNew, needsName }）
@@ -113,7 +125,20 @@
   };
   /* 最初の一コマを描き終えたか（load のあと、次の描画のあと、手が空いたとき）。それまで supabase-js を読み込まない。
      Google から戻ったとき（?code=）だけは待たない（すぐにログインを済ませる） */
-  const URGENT = /[?&]code=/.test(location.search);
+  const URGENT = hasCode();
+  /* 閉じる前のセッションを、サーバーで取り消す（その refresh token で一度だけ入り直し、そのセッションを logout）。
+     端末の storage には書かない。取り消せなければ（もう切れている・ネットが無い）それまで */
+  async function revoke(raw) {
+    try {
+      const s = JSON.parse(raw), rt = s && (s.refresh_token || (s.currentSession && s.currentSession.refresh_token));
+      if (!rt) return;
+      const h = { apikey: C.supabaseAnonKey, 'Content-Type': 'application/json' };
+      const r = await fetchT(`${C.supabaseUrl}/auth/v1/token?grant_type=refresh_token`, { method: 'POST', headers: h, body: JSON.stringify({ refresh_token: rt }) });
+      if (!r.ok) return;
+      const t = await r.json();
+      if (t && t.access_token) await fetchT(`${C.supabaseUrl}/auth/v1/logout?scope=local`, { method: 'POST', headers: Object.assign({ Authorization: 'Bearer ' + t.access_token }, h) });
+    } catch (e) {}
+  }
   /* Google の画面で取りやめたときなどは ?error=（または #error=）が付いて戻る。# は画面の道にすぐ書き換わるので、読み込んだときに控える */
   let backErr = (() => {
     const q = new URLSearchParams(location.search), h = new URLSearchParams(location.hash.slice(1));
@@ -420,18 +445,13 @@
     if (boot) return boot;
     boot = (async () => {
       const c = await load();
-      const code = /[?&]code=/.test(location.search);
+      const code = hasCode();
       const failed = code ? '' : backErr.code, detail = backErr.detail;
       if (code) logging = true;   // ?code= の交換で来る SIGNED_IN は、下の afterLogin が受け持つ
-      /* 「ログインしたままにする」を外した人が、ブラウザを閉じてから開いた：この端末のセッションを捨てる。
-         メールのリンク・Google から戻ったところ（?code=）は、いまのログインなので生かし、クッキーを置き直す */
-      if (expired && code) live();
-      else if (expired) {
-        try { await c.auth.signOut({ scope: 'local' }); } catch (e) {}
-        write(K.auth, null);
-        try { localStorage.removeItem(REMEMBER); } catch (e) {}
-      }
       const { data, error } = await c.auth.getSession().finally(() => { logging = false; });
+      /* 閉じる前のセッション（読み込んだときに外した）は、サーバーでも取り消す。?code= で新しくログインできたときだけ、クッキーを置き直す */
+      if (stale) { const s = stale; stale = null; quiet(revoke(s)); }
+      if (expired && code && data && data.session) live();
       /* ネットが無くてセッションを確かめられないときは、控えのまま（ログアウトにしない。outbox も残す） */
       if (error && isNetwork(error)) throw error;
       const u = data.session && data.session.user;
