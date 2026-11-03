@@ -1297,11 +1297,11 @@
     const route = a.getAttribute('href').startsWith('#/') ? a.getAttribute('href') : routeOfLink(a);
     if (route){ ev.preventDefault(); how(a.closest('.ls') ? 'list' : a.closest('#menu') ? 'menu' : a.closest('#routeMini') ? 'route_map' : 'link'); go(route, { origin: a.closest('.view') ? null : rectOf(a) }); }
   });
-  /* つながりを創る（作品ページの ＋・メニューの ReMixIt!）は編集者向けの道具。ログインしていない読者には、エディターへ移る前に
+  /* つながりを創る（作品ページの ＋・メニューと 404 の ReMixIt!）は編集者向けの道具。ログインしていない読者には、エディターへ移る前に
      一度たずねる（読んでいる途中で、いきなり編集の画面に飛ばない）。ログインしていればそのまま。
      transition.js（ページを離れる薄れ）より先に受け取るので、捕まえる側（capture）で聞く */
   document.addEventListener('click', ev => {
-    const a = ev.target.closest && ev.target.closest('a.duo-add[href], #menu a[data-remix][href]');
+    const a = ev.target.closest && ev.target.closest('a.duo-add[href], a[data-remix][href]');
     if (!a || Social.me() || ev.metaKey || ev.ctrlKey || ev.shiftKey || ev.altKey || ev.button > 0) return;
     ev.preventDefault(); ev.stopPropagation();
     const href = a.getAttribute('href'), work = a.matches('.duo-add');
