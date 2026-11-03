@@ -832,3 +832,21 @@ body.viewing .act.uni-btn .act-go{display:block;position:absolute;right:24px;top
 .sheet[aria-label="ログイン"] .sheet-go::after{content:"";position:absolute;right:22px;top:50%;width:7px;height:7px;margin-top:-4px;
   border-top:1.5px solid currentColor;border-right:1.5px solid currentColor;transform:rotate(45deg)}
 .sheet[aria-label="ログイン"] .sheet-demo{text-align:center}
+
+/* ---- 第24段：携帯の Today の名札を紙の上に・CONTEXT JOURNEY の「一覧で見る」を縁のボタンに ---- */
+@media (max-width:1099.98px){
+  /* 名札（TODAY'S EDITOR'S CHOICE・日付）の後ろに墨と金の筆を掛けない。以前は墨が 44px・筆が 40px から始まり、
+     名札（42〜74px）の金と灰の字が墨に沈んでいた。見本どおり名札は紙の上、墨と筆は絵のまわりだけ */
+  .cpage.today>.duo-hero::before{top:calc(env(safe-area-inset-top) + 80px)}
+  .cpage.today>.duo-hero::after{top:calc(env(safe-area-inset-top) + 82px)}
+  /* 名札は画面の真ん中に、Login の丸の下に 3px あけて。以前は ≡ と Login のあいだの箱の真ん中で、
+     320px では字が箱から右へはみ出し、Login の下の端に触れていた。字だけなので触れても何も起きない */
+  .cpage.today .today-bar{left:0;right:0;top:calc(env(safe-area-inset-top) + 47px);pointer-events:none}
+}
+@media (max-width:374.98px){
+  .cpage.today .today-bar b{letter-spacing:.1em}
+}
+/* CONTEXT JOURNEY の「一覧で見る」：見本の「全体を見る」と同じ、紺の細い縁の丸いボタン */
+.journey>.meta a{display:inline-flex;align-items:center;min-height:30px;padding:0 12px;box-sizing:border-box;border:1px solid rgba(10,31,58,.45);border-radius:999px;background:var(--paper-card)}
+.journey>.meta{align-items:center}
+.journey>.meta a:active{background:var(--hair)}
