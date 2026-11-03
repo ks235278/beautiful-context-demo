@@ -46,6 +46,26 @@
   const reduced = matchMedia('(prefers-reduced-motion:reduce)');
   const motionOK = () => !reduced.matches;
 
+  /* 札や区切りは、画面に入るときに下から少し浮かんで現れる（CTO 2026.11.03「motion を、uyển chuyển に」。ink.css 第26段の .rv）。
+     同じときに入ったものは 55ms ずつ遅らせて、上から順に。出終わったら印を外す（札の「押すと沈む」動きを元の速さに戻す）。
+     動きを減らす設定の端末では何もしない（初めから見えている）。触れる所・読み上げは変えない */
+  const RV = '.src-cards,.journey,.context-body>h3,.context-body>.meta,.axes,.refs,.next-ctx,.ctx-cards>*,.ls-row,.ed-item,.nf-card,.ab-feats>li,.rail>.stop,.disc,.c-ad,.ctx-rail>.meta,.lp-card';
+  const rvIO = 'IntersectionObserver' in window ? new IntersectionObserver(es => {
+    let k = 0;
+    es.forEach(en => {
+      if (!en.isIntersecting) return;
+      const el = en.target, d = Math.min(k++, 6) * 55;
+      rvIO.unobserve(el);
+      el.style.setProperty('--rv-d', d + 'ms');
+      el.classList.add('rv-in');
+      setTimeout(() => { el.classList.remove('rv', 'rv-in'); el.style.removeProperty('--rv-d'); }, 760 + d);
+    });
+  }, { rootMargin: '0px 0px -4% 0px' }) : null;
+  function reveal(root){
+    if (!rvIO || !motionOK() || !root) return;
+    root.querySelectorAll(RV).forEach(el => { if (!el.classList.contains('rv')){ el.classList.add('rv'); rvIO.observe(el); } });
+  }
+
   function toast(msg){
     const t = $('toast');
     t.textContent = msg;
@@ -141,6 +161,8 @@
       const k = a.matches('[data-uni]') ? 'uni' : a.matches('[data-remix]') ? 'remix' : (a.getAttribute('href') || '').replace(/^#\//, '');
       if (at && k === at) a.setAttribute('aria-current', 'page'); else a.removeAttribute('aria-current');
     });
+    const acc = menu.querySelector('#menuAccount');
+    if (acc){ if (here && here.key === 'login') acc.setAttribute('aria-current', 'page'); else acc.removeAttribute('aria-current'); }
   }
   /* メニューは左から出てくるので、左へ払えばしまわれる（出てきた向きへ帰る） */
   {
@@ -371,6 +393,11 @@
     } else if (name === 'search'){
       const s = q.get('q') || '';
       return show({ key: 's:' + s, kind: 'page' }, R.search(s, S.search(s)), motion, s ? `「${s}」を辿る` : '言葉で辿る');
+    } else if (name === 'login' && window.BCLoginPage){
+      /* ログインの画面（js/login-page.js）。?new=1 なら、携帯では「アカウント作成」の札から */
+      const r = show({ key: 'login', kind: 'page' }, BCLoginPage.html(q.get('new') ? 'new' : 'in'), motion, 'ログイン');
+      if (viewIn.querySelector('.login-page')) BCLoginPage.mount(viewIn, { toast, track, done: leaveLogin, account: openAccount });
+      return r;
     } else if (['about', 'mission', 'terms', 'ad', 'credits'].includes(name)){
       return show({ key: 'p:' + name, kind: 'page' }, R.page(name), motion,
         { about: 'Beautiful Context とは', mission: 'Our Mission', terms: '利用規約・プライバシー', ad: '広告枠のご案内', credits: '画像の出典' }[name]);
@@ -652,7 +679,7 @@
     inner.innerHTML = got.html;
     if (got.page.feed && m.n > FEED_BATCH){
       const rail = inner.querySelector('#rail');
-      if (rail) rail.insertAdjacentHTML('beforeend', R.feedStops(got.page.feed, FEED_BATCH, m.n));
+      if (rail){ rail.insertAdjacentHTML('beforeend', R.feedStops(got.page.feed, FEED_BATCH, m.n)); reveal(rail); }
     }
     inner.querySelectorAll('[id]').forEach(n => n.removeAttribute('id'));
     inner.querySelectorAll('img[data-k]').forEach(im => {
@@ -733,7 +760,9 @@
 
     if (!was) uniScroll = window.scrollY;
     here = page;
+    if (rvIO) rvIO.disconnect();
     viewIn.innerHTML = html;
+    reveal(viewIn);
     view.setAttribute('aria-label', title || '');
     document.title = (title ? title + '｜' : '') + brand;
     count(page);
@@ -860,6 +889,7 @@
     if (!f || !f.rail || f.shown >= n) return;
     const to = Math.min(n, f.items.length);
     f.rail.insertAdjacentHTML('beforeend', R.feedStops(f.items, f.shown, to));
+    reveal(f.rail);
     f.shown = to;
     if (f.shown >= f.items.length && feedIO){ feedIO.disconnect(); feedIO = null; }
   }
@@ -1285,7 +1315,13 @@
     /* 編集者をフォローする（ログインしなくてもできる。この端末に覚える） */
     const fol = t.closest('[data-follow]');
     if (fol){ ev.preventDefault(); toggleFollow(fol.dataset.follow); return; }
-    if (t.closest('[data-login]')){ ev.preventDefault(); openMenu(false); openLogin(); return; }
+    if (t.closest('[data-login]')){
+      ev.preventDefault(); openMenu(false);
+      /* Supabase につながる版は、ログインの画面（見本 20-login）へ。この端末だけのデモ版は、いままでのシート */
+      if (Social.remote() && window.BCLoginPage && !(Social.me() && Social.me().named === false)) go(t.closest('[data-login-new]') ? '#/login?new=1' : '#/login');
+      else openLogin();
+      return;
+    }
     if (t.closest('[data-account]')){ ev.preventDefault(); openMenu(false); openAccount(); return; }
     /* コメントの「…」：運営に知らせる・この人のコメントを表示しない（js/report.js）。「すべて表示する」で戻す */
     const more = t.closest('[data-cm-more]');
@@ -1391,6 +1427,11 @@
       if (then) then(me);
     });
   }
+  function leaveLogin(){
+    if (!here || here.key !== 'login') return;
+    if (depth() > rootDepth()) closeView(null, 'login');
+    else { pushRoot('#/today'); routeTo('#/today', { fade: true }); }
+  }
   function openAccount(){
     const me = Social.me();
     if (!me || me.named === false){ openLogin(); return; }
@@ -1414,7 +1455,7 @@
     const el = document.createElement('div');
     el.className = 'nudge';
     el.setAttribute('role', 'status');
-    el.innerHTML = `<p><b>${R.esc(title)}</b>${R.esc(text)}</p><div><button type="button" data-login>アカウントを作る</button><button type="button" data-nudge-close>あとで</button></div>`;
+    el.innerHTML = `<p><b>${R.esc(title)}</b>${R.esc(text)}</p><div><button type="button" data-login data-login-new>アカウントを作る</button><button type="button" data-nudge-close>あとで</button></div>`;
     document.body.appendChild(el);
     requestAnimationFrame(() => el.classList.add('show'));
     const off = () => { el.classList.remove('show'); setTimeout(() => el.remove(), 320); };
@@ -1462,6 +1503,7 @@
     acc.toggleAttribute('data-login', !me);
     acc.toggleAttribute('data-account', !!me);
     acc.innerHTML = me ? `${R.esc(me.name)}<small>アカウント</small>` : 'ログイン<small>アカウントを作る</small>';
+    if (me && me.named !== false && here && here.key === 'login' && !viewIn.querySelector('.login-page.signed')) setTimeout(leaveLogin, 0);
     redrawComments();
   }
   Social.onChange(paintSocial);
