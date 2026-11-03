@@ -43,9 +43,9 @@ try { if (sessionStorage.getItem('bc-resume')) document.documentElement.classLis
 <link rel="preload" as="image" href="img/logo-layer-words.png">
 <!-- 台本も先に取りに行く（静的なページは台本より先に本文が描かれる。遅い回線で、触れて動くまでの間を縮める）。
      src と同じアドレス（?v= まで）でないと、二度取りに行く -->
-<link rel="preload" as="script" href="js/seed.js?v=166">
-<link rel="preload" as="script" href="js/app.js?v=166">
-<link rel="manifest" href="manifest.webmanifest?v=166">
+<link rel="preload" as="script" href="js/seed.js?v=167">
+<link rel="preload" as="script" href="js/app.js?v=167">
+<link rel="manifest" href="manifest.webmanifest?v=167">
 <link rel="apple-touch-icon" href="icon-180.png">
 <!-- タブと検索結果に出る小さな印。アプリの印（ホーム画面のアイコン）と同じ形 -->
 <link rel="icon" href="favicon.ico" sizes="16x16 32x32 48x48">
@@ -74,13 +74,13 @@ if (location.hostname === 'beautifulcontext.com'){
   document.head.appendChild(ga);
 }
 </script>
-<script src="js/theme.js?v=166"></script>
-<link rel="stylesheet" href="app.css?v=166">
+<script src="js/theme.js?v=167"></script>
+<link rel="stylesheet" href="app.css?v=167">
 <!-- 読む画面の使い勝手（2026.10.24）。app.css のすぐあと -->
-<link rel="stylesheet" href="ux.css?v=166">
-<link rel="stylesheet" href="fade.css?v=166">
+<link rel="stylesheet" href="ux.css?v=167">
+<link rel="stylesheet" href="fade.css?v=167">
 <!-- editorial-ink（紙・墨・金）：◆ の罫と、紙の上か絵の上かで変わる決まり。ux.css のあと -->
-<link rel="stylesheet" href="ink.css?v=166">
+<link rel="stylesheet" href="ink.css?v=167">
 <!-- 台本（js）が揃うまで：まだ押しても動かないもの（‹・絵の横の ‹ ›・つながりを辿る）を少し薄くし、下の帯の上の縁に細い金の線を走らせる。
      app.js が最後に body.app-ready を付けて外す。すぐ揃うときは何も見せない（0.3 秒待ってから出す） -->
 <style>
@@ -197,8 +197,8 @@ document.addEventListener('click', function (e) {
           <h2>テリー・ギリアム『未来世紀ブラジル』</h2>
           <p class="by">テリー・ギリアム監督</p>
           <p>書類と管理に覆われた近未来の社会で、夢に逃げ込む役人を描いた映画。</p>
-          <div class="ctx-cards"><button type="button" class="ctx-card" data-step="1" aria-label="雨とネオンの未来と、書類に埋もれた未来。：リドリー・スコット『ブレードランナー』 ＋ テリー・ギリアム『未来世紀ブラジル』"><span class="cc-pics" aria-hidden="true"><img src="img/works/blade-runner.jpg" alt="" loading="lazy" decoding="async"><img src="img/works/brazil.jpg" alt="" loading="lazy" decoding="async"></span><span class="cc-t"><small>［八〇年代が描いた未来］</small><b>雨とネオンの未来と、書類に埋もれた未来。</b><em>リドリー・スコット『ブレードランナー』 ＋ <span class="nb">テリー・ギリアム『未来世紀ブラジル』</span></em></span><span class="cc-go" aria-hidden="true">›</span></button></div>
-          <p class="meta more-label">この駅から延びるほかの区間　4本</p><div class="ctx-cards"><a class="ctx-card" href="c/brazil--johnny-depp/" aria-label="夢を演じる俳優と、夢に逃げる役人の監督。：テリー・ギリアム『未来世紀ブラジル』 ＋ ジョニー・デップ"><span class="cc-pics" aria-hidden="true"><img src="img/works/brazil.jpg" alt="" loading="lazy" decoding="async"><img src="img/works/johnny-depp.jpg" alt="" loading="lazy" decoding="async"></span><span class="cc-t"><small>［テリー・ギリアムを経由して］</small><b>夢を演じる俳優と、夢に逃げる役人の監督。</b><em>テリー・ギリアム『未来世紀ブラジル』 ＋ <span class="nb">ジョニー・デップ</span></em></span><span class="cc-go" aria-hidden="true">›</span></a><a class="ctx-card" href="c/nineteen-eighty-four--brazil/" aria-label="はじめの題は、『1984½』だった。：ジョージ・オーウェル『1984年』 ＋ テリー・ギリアム『未来世紀ブラジル』"><span class="cc-pics" aria-hidden="true"><img src="img/works/nineteen-eighty-four.jpg" alt="" loading="lazy" decoding="async"><img src="img/works/brazil.jpg" alt="" loading="lazy" decoding="async"></span><span class="cc-t"><small>［1984½］</small><b>はじめの題は、『1984½』だった。</b><em>ジョージ・オーウェル『1984年』 ＋ <span class="nb">テリー・ギリアム『未来世紀ブラジル』</span></em></span><span class="cc-go" aria-hidden="true">›</span></a><a class="ctx-card" href="c/terry-gilliam--brazil/" aria-label="夢に逃げ込む役人を、ブラックな笑いで描く。：テリー・ギリアム ＋ テリー・ギリアム『未来世紀ブラジル』"><span class="cc-pics" aria-hidden="true"><img src="img/works/terry-gilliam.jpg" alt="" loading="lazy" decoding="async"><img src="img/works/brazil.jpg" alt="" loading="lazy" decoding="async"></span><span class="cc-t"><small>［監督と作品］</small><b>夢に逃げ込む役人を、ブラックな笑いで描く。</b><em>テリー・ギリアム ＋ <span class="nb">テリー・ギリアム『未来世紀ブラジル』</span></em></span><span class="cc-go" aria-hidden="true">›</span></a><a class="ctx-card" href="c/the-zero-theorem--brazil/" aria-label="書類の迷宮から、画面の迷宮へ。：テリー・ギリアム『ゼロの未来』 ＋ テリー・ギリアム『未来世紀ブラジル』"><span class="cc-pics" aria-hidden="true"><img src="img/works/the-zero-theorem.jpg" alt="" loading="lazy" decoding="async"><img src="img/works/brazil.jpg" alt="" loading="lazy" decoding="async"></span><span class="cc-t"><small>［二つの管理社会］</small><b>書類の迷宮から、画面の迷宮へ。</b><em>テリー・ギリアム『ゼロの未来』 ＋ <span class="nb">テリー・ギリアム『未来世紀ブラジル』</span></em></span><span class="cc-go" aria-hidden="true">›</span></a></div>
+          <div class="ctx-cards"><button type="button" class="ctx-card" data-step="1" aria-label="雨とネオンの未来と、書類に埋もれた未来。：リドリー・スコット『ブレードランナー』 ＋ テリー・ギリアム『未来世紀ブラジル』"><span class="cc-pics" aria-hidden="true"><img src="img/works/blade-runner.jpg" alt="" loading="lazy" decoding="async"><img src="img/works/brazil.jpg" alt="" loading="lazy" decoding="async"></span><span class="cc-t"><small><span class="rn">［八〇年代が描いた未来］</span><i class="rt">約35秒</i></small><b>雨とネオンの未来と、書類に埋もれた未来。</b><em>リドリー・スコット『ブレードランナー』 ＋ <span class="nb">テリー・ギリアム『未来世紀ブラジル』</span></em></span><span class="cc-go" aria-hidden="true">›</span></button></div>
+          <p class="meta more-label">この駅から延びるほかの区間　4本</p><div class="ctx-cards"><a class="ctx-card" href="c/brazil--johnny-depp/" aria-label="夢を演じる俳優と、夢に逃げる役人の監督。：テリー・ギリアム『未来世紀ブラジル』 ＋ ジョニー・デップ"><span class="cc-pics" aria-hidden="true"><img src="img/works/brazil.jpg" alt="" loading="lazy" decoding="async"><img src="img/works/johnny-depp.jpg" alt="" loading="lazy" decoding="async"></span><span class="cc-t"><small><span class="rn">［テリー・ギリアムを経由して］</span><i class="rt">約45秒</i></small><b>夢を演じる俳優と、夢に逃げる役人の監督。</b><em>テリー・ギリアム『未来世紀ブラジル』 ＋ <span class="nb">ジョニー・デップ</span></em></span><span class="cc-go" aria-hidden="true">›</span></a><a class="ctx-card" href="c/nineteen-eighty-four--brazil/" aria-label="はじめの題は、『1984½』だった。：ジョージ・オーウェル『1984年』 ＋ テリー・ギリアム『未来世紀ブラジル』"><span class="cc-pics" aria-hidden="true"><img src="img/works/nineteen-eighty-four.jpg" alt="" loading="lazy" decoding="async"><img src="img/works/brazil.jpg" alt="" loading="lazy" decoding="async"></span><span class="cc-t"><small><span class="rn">［1984½］</span><i class="rt">約50秒</i></small><b>はじめの題は、『1984½』だった。</b><em>ジョージ・オーウェル『1984年』 ＋ <span class="nb">テリー・ギリアム『未来世紀ブラジル』</span></em></span><span class="cc-go" aria-hidden="true">›</span></a><a class="ctx-card" href="c/terry-gilliam--brazil/" aria-label="夢に逃げ込む役人を、ブラックな笑いで描く。：テリー・ギリアム ＋ テリー・ギリアム『未来世紀ブラジル』"><span class="cc-pics" aria-hidden="true"><img src="img/works/terry-gilliam.jpg" alt="" loading="lazy" decoding="async"><img src="img/works/brazil.jpg" alt="" loading="lazy" decoding="async"></span><span class="cc-t"><small><span class="rn">［監督と作品］</span><i class="rt">約40秒</i></small><b>夢に逃げ込む役人を、ブラックな笑いで描く。</b><em>テリー・ギリアム ＋ <span class="nb">テリー・ギリアム『未来世紀ブラジル』</span></em></span><span class="cc-go" aria-hidden="true">›</span></a><a class="ctx-card" href="c/the-zero-theorem--brazil/" aria-label="書類の迷宮から、画面の迷宮へ。：テリー・ギリアム『ゼロの未来』 ＋ テリー・ギリアム『未来世紀ブラジル』"><span class="cc-pics" aria-hidden="true"><img src="img/works/the-zero-theorem.jpg" alt="" loading="lazy" decoding="async"><img src="img/works/brazil.jpg" alt="" loading="lazy" decoding="async"></span><span class="cc-t"><small><span class="rn">［二つの管理社会］</span><i class="rt">約30秒</i></small><b>書類の迷宮から、画面の迷宮へ。</b><em>テリー・ギリアム『ゼロの未来』 ＋ <span class="nb">テリー・ギリアム『未来世紀ブラジル』</span></em></span><span class="cc-go" aria-hidden="true">›</span></a></div>
           <p class="img-credit">画像：© 20th Century Studios／出典 Apple TV　<a href="https://tv.apple.com/jp/movie/umc.cmc.25tn9231aa7mzrvk4y5ssijqj" target="_blank" rel="noopener nofollow">出典</a></p>
         </div>
       </article><!--/bc-body--></div>
@@ -209,16 +209,16 @@ document.addEventListener('click', function (e) {
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 <script type="application/ld+json" id="ld">{"@context":"https://schema.org","@type":"Movie","name":"未来世紀ブラジル","description":"書類と管理に覆われた近未来の社会で、夢に逃げ込む役人を描いた映画。","creator":{"@type":"Person","name":"テリー・ギリアム監督"},"url":"https://beautifulcontext.com/w/brazil/","image":"https://beautifulcontext.com/img/works/brazil.jpg","subjectOf":[{"@type":"Article","headline":"雨とネオンの未来と、書類に埋もれた未来。","url":"https://beautifulcontext.com/c/blade-runner--brazil/"},{"@type":"Article","headline":"夢を演じる俳優と、夢に逃げる役人の監督。","url":"https://beautifulcontext.com/c/brazil--johnny-depp/"},{"@type":"Article","headline":"はじめの題は、『1984½』だった。","url":"https://beautifulcontext.com/c/nineteen-eighty-four--brazil/"},{"@type":"Article","headline":"夢に逃げ込む役人を、ブラックな笑いで描く。","url":"https://beautifulcontext.com/c/terry-gilliam--brazil/"},{"@type":"Article","headline":"書類の迷宮から、画面の迷宮へ。","url":"https://beautifulcontext.com/c/the-zero-theorem--brazil/"}]}</script>
 
-<script src="js/config.js?v=166"></script>
-<script src="js/seed.js?v=166"></script>
-<script src="js/sources.js?v=166"></script>
-<script src="js/backend.js?v=166"></script>
-<script src="js/store.js?v=166"></script>
-<script src="js/social.js?v=166"></script>
-<script src="js/render.js?v=166"></script>
-<script src="js/login.js?v=166"></script>
-<script src="js/report.js?v=166"></script>
-<script src="js/transition.js?v=166"></script>
-<script src="js/app.js?v=166"></script>
+<script src="js/config.js?v=167"></script>
+<script src="js/seed.js?v=167"></script>
+<script src="js/sources.js?v=167"></script>
+<script src="js/backend.js?v=167"></script>
+<script src="js/store.js?v=167"></script>
+<script src="js/social.js?v=167"></script>
+<script src="js/render.js?v=167"></script>
+<script src="js/login.js?v=167"></script>
+<script src="js/report.js?v=167"></script>
+<script src="js/transition.js?v=167"></script>
+<script src="js/app.js?v=167"></script>
 </body>
 </html>

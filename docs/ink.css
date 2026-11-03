@@ -850,3 +850,28 @@ body.viewing .act.uni-btn .act-go{display:block;position:absolute;right:24px;top
 .journey>.meta a{display:inline-flex;align-items:center;min-height:30px;padding:0 12px;box-sizing:border-box;border:1px solid rgba(10,31,58,.45);border-radius:999px;background:var(--paper-card)}
 .journey>.meta{align-items:center}
 .journey>.meta a:active{background:var(--hair)}
+
+/* ---- 第25段：読む時間・Our Mission の札 ---- */
+/* 読む時間（見本の「約20秒で読む」）：札の路線の名の行の右に、時計の線の印と灰の字 */
+:root{
+  --i-clock:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='12' cy='12' r='9'/%3E%3Cpath d='M12 7v5l3.5 2'/%3E%3C/svg%3E");
+}
+.cc-t small,.ed-txt small{display:flex;align-items:center;gap:6px;min-width:0}
+.rt{flex:0 0 auto;display:inline-flex;align-items:center;gap:3px;margin-left:auto;color:var(--muted);font:400 10px/1.4 var(--gothic);font-style:normal;letter-spacing:.02em;white-space:nowrap}
+.rt::before{content:"";flex:0 0 auto;width:11px;height:11px;background:currentColor;-webkit-mask:var(--i-clock) center/contain no-repeat;mask:var(--i-clock) center/contain no-repeat}
+
+/* Our Mission：三つの札（About の三つの特徴と同じ）のあとに、真ん中に「今日のつながりを読む」 */
+.info-page .content .ms-feats{margin-top:24px}
+.info-page .content .ms-go{margin:10px 0 0;text-align:center}
+@media (max-width:759.98px){
+  .info-page .content .ms-go a.pill{width:min(300px,100%)}
+}
+
+/* 札の路線の名は、読む時間を押し出さないよう、名のほうを … で縮める（320px で読む時間が札の外へ切れていた）。編集者・一覧の札も同じ */
+:is(.cc-t,.ed-txt) small .rn{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+/* 一覧の「いまここ」「読んだ」は折らない（路線の名と読む時間に挟まれ、「いまこ｜こ」と折れていた） */
+.ls-mark{flex:0 0 auto;white-space:nowrap}
+/* 路線の名は少なくとも頭の数字は残す（320px のいまの札で「いまここ」と読む時間に押され、名が消えていた） */
+.ed-txt small .rn{min-width:3.6em}
+/* 狭い携帯（375px 未満）では、印（いまここ・読んだ）のある札は読む時間を出さない（三つは一行に入らず、ページが横にはみ出した） */
+@media (max-width:374.98px){.ed-txt small .ls-mark~.rt{display:none}}

@@ -43,9 +43,9 @@ try { if (sessionStorage.getItem('bc-resume')) document.documentElement.classLis
 <link rel="preload" as="image" href="img/logo-layer-words.png">
 <!-- 台本も先に取りに行く（静的なページは台本より先に本文が描かれる。遅い回線で、触れて動くまでの間を縮める）。
      src と同じアドレス（?v= まで）でないと、二度取りに行く -->
-<link rel="preload" as="script" href="js/seed.js?v=166">
-<link rel="preload" as="script" href="js/app.js?v=166">
-<link rel="manifest" href="manifest.webmanifest?v=166">
+<link rel="preload" as="script" href="js/seed.js?v=167">
+<link rel="preload" as="script" href="js/app.js?v=167">
+<link rel="manifest" href="manifest.webmanifest?v=167">
 <link rel="apple-touch-icon" href="icon-180.png">
 <!-- タブと検索結果に出る小さな印。アプリの印（ホーム画面のアイコン）と同じ形 -->
 <link rel="icon" href="favicon.ico" sizes="16x16 32x32 48x48">
@@ -74,13 +74,13 @@ if (location.hostname === 'beautifulcontext.com'){
   document.head.appendChild(ga);
 }
 </script>
-<script src="js/theme.js?v=166"></script>
-<link rel="stylesheet" href="app.css?v=166">
+<script src="js/theme.js?v=167"></script>
+<link rel="stylesheet" href="app.css?v=167">
 <!-- 読む画面の使い勝手（2026.10.24）。app.css のすぐあと -->
-<link rel="stylesheet" href="ux.css?v=166">
-<link rel="stylesheet" href="fade.css?v=166">
+<link rel="stylesheet" href="ux.css?v=167">
+<link rel="stylesheet" href="fade.css?v=167">
 <!-- editorial-ink（紙・墨・金）：◆ の罫と、紙の上か絵の上かで変わる決まり。ux.css のあと -->
-<link rel="stylesheet" href="ink.css?v=166">
+<link rel="stylesheet" href="ink.css?v=167">
 <!-- 台本（js）が揃うまで：まだ押しても動かないもの（‹・絵の横の ‹ ›・つながりを辿る）を少し薄くし、下の帯の上の縁に細い金の線を走らせる。
      app.js が最後に body.app-ready を付けて外す。すぐ揃うときは何も見せない（0.3 秒待ってから出す） -->
 <style>
@@ -240,7 +240,7 @@ document.addEventListener('click', function (e) {
         </form>
         <p class="cm-note">送るときに、名前を一つ作ります。コメントは編集者が確かめてから表示されます。</p>
       </section>
-          <p class="meta more-label">同じルーツのコンテクスト</p><div class="ctx-cards"><a class="ctx-card" href="c/kusamakura--natsume-soseki/" aria-label="「非人情」の小説には、漱石の芸術論が表れた。：夏目漱石『草枕』 ＋ 夏目漱石"><span class="cc-pics" aria-hidden="true"><img src="img/kusamakura.jpg" alt="" loading="lazy" decoding="async"><img src="img/works/natsume-soseki.jpg" alt="" loading="lazy" decoding="async"></span><span class="cc-t"><small>［旅が生んだ『草枕』］</small><b>「非人情」の小説には、漱石の芸術論が表れた。</b><em>夏目漱石『草枕』 ＋ <span class="nb">夏目漱石</span></em></span><span class="cc-go" aria-hidden="true">›</span></a><a class="ctx-card" href="c/natsume-soseki--zhou-tokyo-diary/" aria-label="漱石はロンドンで、周恩来は東京で書いた。：夏目漱石 ＋ 周恩来『十九歳の東京日記』"><span class="cc-pics" aria-hidden="true"><img src="img/works/natsume-soseki.jpg" alt="" loading="lazy" decoding="async"><img src="img/zhou-diary.jpg" alt="" loading="lazy" decoding="async"></span><span class="cc-t"><small>［異国の都の記録］</small><b>漱石はロンドンで、周恩来は東京で書いた。</b><em>夏目漱石 ＋ <span class="nb">周恩来『十九歳の東京日記』</span></em></span><span class="cc-go" aria-hidden="true">›</span></a><a class="ctx-card" href="c/minakata-kumagusu--minakata-mandala/" aria-label="世界のつながりを、一枚の図に描いた。：南方熊楠 ＋ 南方曼荼羅"><span class="cc-pics" aria-hidden="true"><img src="img/works/minakata-kumagusu.jpg" alt="" loading="lazy" decoding="async"><img src="img/works/minakata-mandala.jpg" alt="" loading="lazy" decoding="async"></span><span class="cc-t"><small>［書き手と図］</small><b>世界のつながりを、一枚の図に描いた。</b><em>南方熊楠 ＋ <span class="nb">南方曼荼羅</span></em></span><span class="cc-go" aria-hidden="true">›</span></a></div>
+          <p class="meta more-label">同じルーツのコンテクスト</p><div class="ctx-cards"><a class="ctx-card" href="c/kusamakura--natsume-soseki/" aria-label="「非人情」の小説には、漱石の芸術論が表れた。：夏目漱石『草枕』 ＋ 夏目漱石"><span class="cc-pics" aria-hidden="true"><img src="img/kusamakura.jpg" alt="" loading="lazy" decoding="async"><img src="img/works/natsume-soseki.jpg" alt="" loading="lazy" decoding="async"></span><span class="cc-t"><small><span class="rn">［旅が生んだ『草枕』］</span><i class="rt">約40秒</i></small><b>「非人情」の小説には、漱石の芸術論が表れた。</b><em>夏目漱石『草枕』 ＋ <span class="nb">夏目漱石</span></em></span><span class="cc-go" aria-hidden="true">›</span></a><a class="ctx-card" href="c/natsume-soseki--zhou-tokyo-diary/" aria-label="漱石はロンドンで、周恩来は東京で書いた。：夏目漱石 ＋ 周恩来『十九歳の東京日記』"><span class="cc-pics" aria-hidden="true"><img src="img/works/natsume-soseki.jpg" alt="" loading="lazy" decoding="async"><img src="img/zhou-diary.jpg" alt="" loading="lazy" decoding="async"></span><span class="cc-t"><small><span class="rn">［異国の都の記録］</span><i class="rt">約40秒</i></small><b>漱石はロンドンで、周恩来は東京で書いた。</b><em>夏目漱石 ＋ <span class="nb">周恩来『十九歳の東京日記』</span></em></span><span class="cc-go" aria-hidden="true">›</span></a><a class="ctx-card" href="c/minakata-kumagusu--minakata-mandala/" aria-label="世界のつながりを、一枚の図に描いた。：南方熊楠 ＋ 南方曼荼羅"><span class="cc-pics" aria-hidden="true"><img src="img/works/minakata-kumagusu.jpg" alt="" loading="lazy" decoding="async"><img src="img/works/minakata-mandala.jpg" alt="" loading="lazy" decoding="async"></span><span class="cc-t"><small><span class="rn">［書き手と図］</span><i class="rt">約40秒</i></small><b>世界のつながりを、一枚の図に描いた。</b><em>南方熊楠 ＋ <span class="nb">南方曼荼羅</span></em></span><span class="cc-go" aria-hidden="true">›</span></a></div>
           
       <aside class="c-ad" aria-label="広告">
         <a href="#/ad">
@@ -253,7 +253,7 @@ document.addEventListener('click', function (e) {
           
           <section class="next-ctx" aria-label="次に読むつながり">
             <p class="meta">NEXT CONTEXT<small>次に読むつながり</small></p>
-            <a class="ctx-card" href="c/kusamakura--natsume-soseki/" aria-label="「非人情」の小説には、漱石の芸術論が表れた。：夏目漱石『草枕』 ＋ 夏目漱石"><span class="cc-pics" aria-hidden="true"><img src="img/kusamakura.jpg" alt="" loading="lazy" decoding="async"><img src="img/works/natsume-soseki.jpg" alt="" loading="lazy" decoding="async"></span><span class="cc-t"><small>［旅が生んだ『草枕』］</small><b>「非人情」の小説には、漱石の芸術論が表れた。</b><em>夏目漱石『草枕』 ＋ <span class="nb">夏目漱石</span></em></span><span class="cc-go" aria-hidden="true">›</span></a>
+            <a class="ctx-card" href="c/kusamakura--natsume-soseki/" aria-label="「非人情」の小説には、漱石の芸術論が表れた。：夏目漱石『草枕』 ＋ 夏目漱石"><span class="cc-pics" aria-hidden="true"><img src="img/kusamakura.jpg" alt="" loading="lazy" decoding="async"><img src="img/works/natsume-soseki.jpg" alt="" loading="lazy" decoding="async"></span><span class="cc-t"><small><span class="rn">［旅が生んだ『草枕』］</span><i class="rt">約40秒</i></small><b>「非人情」の小説には、漱石の芸術論が表れた。</b><em>夏目漱石『草枕』 ＋ <span class="nb">夏目漱石</span></em></span><span class="cc-go" aria-hidden="true">›</span></a>
           </section>
           
           <section class="ctx-rail" aria-label="この先のつながり">
@@ -413,16 +413,16 @@ document.addEventListener('click', function (e) {
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 <script type="application/ld+json" id="ld">{"@context":"https://schema.org","@type":"Article","headline":"同じ年生まれの二人は、ロンドンで入れ違った。","alternativeHeadline":"ロンドンの入れ違い","about":[{"@type":"Person","name":"南方熊楠","description":"和歌山生まれの博物学者。粘菌の研究で知られ、若い頃はロンドンの大英博物館に通って学んだ。"},{"@type":"Person","name":"夏目漱石","description":"『吾輩は猫である』『坊っちゃん』『草枕』『こころ』の作家。熊本の第五高等学校で教えたのち、1900年から英国に留学した。"}],"author":{"@type":"Person","name":"生成AI（初稿）"},"datePublished":"2026-09-14T02:50:00.000Z","dateModified":"2026-09-14T02:50:00.000Z","inLanguage":"ja","articleBody":"ハブはロンドン。同じ年に生まれた二人の、入れ違い。南方熊楠と夏目漱石は、どちらも1867年に生まれた。熊楠は1892年から1900年までロンドンに住み、大英博物館に通って学んだ。熊楠がロンドンを離れたのは1900年9月。その翌月の10月末、入れ替わるように漱石が留学生としてロンドンに着く。漱石は下宿先を転々とし、神経衰弱に陥った。熊楠は博物館で蔵書を筆写し、そのノート『ロンドン抜書』は52冊に及んだ。同じ都市で対照的な留学生活を送った二人は、そこでは顔を合わせないまま入れ違いになった。二人は1884年、ともに大学予備門に入学した同窓でもあった。","url":"https://beautifulcontext.com/c/minakata-kumagusu--natsume-soseki/","citation":[{"@type":"CreativeWork","name":"熊楠の歩んだ道","url":"https://www.minakatakumagusu-kinenkan.jp/kumagusu/lifemap","publisher":{"@type":"Organization","name":"公益財団法人 南方熊楠記念館"}},{"@type":"CreativeWork","name":"大英博物館と知への挑戦（イギリス時代）","url":"https://www.minakatakumagusu-kinenkan.jp/exhibition-guide/corner2/corner2-2","publisher":{"@type":"Organization","name":"公益財団法人 南方熊楠記念館"}},{"@type":"CreativeWork","name":"夏目漱石生い立ち：新宿区","url":"https://www.city.shinjuku.lg.jp/kanko/file03_01_00027.html","publisher":{"@type":"Organization","name":"新宿区"}},{"@type":"CreativeWork","name":"南方熊楠略年譜","url":"https://www.minakata.org/minakatakumagusu/lifetime13/","publisher":{"@type":"Organization","name":"南方熊楠顕彰館（南方熊楠邸）"}},{"@type":"CreativeWork","name":"資料でたどる夏目漱石略年譜","url":"https://www.kanabun.or.jp/souseki/nenfu.html","publisher":{"@type":"Organization","name":"県立神奈川近代文学館 夏目漱石資料デジタルアーカイブ"}},{"@type":"CreativeWork","name":"漱石の生涯 英国留学時代","url":"https://www.library.tohoku.ac.jp/collection/collection/soseki/syogai-04.html","publisher":{"@type":"Organization","name":"東北大学附属図書館 夏目漱石ライブラリ"}},{"@type":"CreativeWork","name":"夏目漱石","url":"https://ja.wikipedia.org/wiki/%E5%A4%8F%E7%9B%AE%E6%BC%B1%E7%9F%B3","publisher":{"@type":"Organization","name":"Wikipedia"}},{"@type":"CreativeWork","name":"南方熊楠","url":"https://ja.wikipedia.org/wiki/%E5%8D%97%E6%96%B9%E7%86%8A%E6%A5%A0","publisher":{"@type":"Organization","name":"Wikipedia"}},{"@type":"CreativeWork","name":"Minakata Kumagusu","url":"https://en.wikipedia.org/wiki/Minakata_Kumagusu","publisher":{"@type":"Organization","name":"Wikipedia"}}],"image":"https://beautifulcontext.com/img/works/minakata-kumagusu.jpg"}</script>
 
-<script src="js/config.js?v=166"></script>
-<script src="js/seed.js?v=166"></script>
-<script src="js/sources.js?v=166"></script>
-<script src="js/backend.js?v=166"></script>
-<script src="js/store.js?v=166"></script>
-<script src="js/social.js?v=166"></script>
-<script src="js/render.js?v=166"></script>
-<script src="js/login.js?v=166"></script>
-<script src="js/report.js?v=166"></script>
-<script src="js/transition.js?v=166"></script>
-<script src="js/app.js?v=166"></script>
+<script src="js/config.js?v=167"></script>
+<script src="js/seed.js?v=167"></script>
+<script src="js/sources.js?v=167"></script>
+<script src="js/backend.js?v=167"></script>
+<script src="js/store.js?v=167"></script>
+<script src="js/social.js?v=167"></script>
+<script src="js/render.js?v=167"></script>
+<script src="js/login.js?v=167"></script>
+<script src="js/report.js?v=167"></script>
+<script src="js/transition.js?v=167"></script>
+<script src="js/app.js?v=167"></script>
 </body>
 </html>
