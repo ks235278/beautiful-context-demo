@@ -25,22 +25,21 @@
   const idle = (fn) => (window.requestIdleCallback ? requestIdleCallback(fn, { timeout: 2500 }) : setTimeout(fn, 300));
   const quiet = (p) => { if (p && p.catch) p.catch(() => {}); };
 
-  /* 「ログインしたままにする」（見本のログインの画面）。外したときは、セッションをこのタブ（sessionStorage）にだけ置き、閉じれば消える。
-     PKCE の code-verifier は、確かめのメールのリンクを別のタブで開いても使えるよう、いつも localStorage に置く */
-  const REMEMBER = 'bc-remember';
+  const has = (k) => { try { return localStorage.getItem(k) != null; } catch (e) { return false; } };
+
+  /* 「ログインしたままにする」（見本のログインの画面）。セッションはいつも localStorage（どのタブでも同じ一つ。タブごとに分けると、
+     ほかのタブがセッションの無いままログイン中に見え、書き込みが消える）。外してログインしたときは、印（bc-remember = '0'）と、
+     ブラウザを閉じると消えるクッキー（bc-live）を置く。次に開いて、印があるのにクッキーが無ければ（＝一度閉じた）、ready() がこの端末のセッションを捨てる */
+  const REMEMBER = 'bc-remember', LIVE = 'bc-live';
   const remembered = () => { try { return localStorage.getItem(REMEMBER) !== '0'; } catch (e) { return true; } };
-  const setRemember = (on) => { try { if (on === false) localStorage.setItem(REMEMBER, '0'); else localStorage.removeItem(REMEMBER); } catch (e) {} };
-  const authStore = {
-    getItem(k) { try { const v = sessionStorage.getItem(k); return v != null ? v : localStorage.getItem(k); } catch (e) { return null; } },
-    setItem(k, v) {
-      try {
-        const local = remembered() || /-code-verifier$/.test(k);
-        (local ? localStorage : sessionStorage).setItem(k, v);
-        (local ? sessionStorage : localStorage).removeItem(k);
-      } catch (e) {}
-    },
-    removeItem(k) { try { localStorage.removeItem(k); sessionStorage.removeItem(k); } catch (e) {} }
+  const live = () => { document.cookie = `${LIVE}=1; path=/; SameSite=Lax${location.protocol === 'https:' ? '; Secure' : ''}`; };
+  /* on：このログインで決めた値。undefined はそのまま（メールのコード・リンクで続ける手続きは、始めたときの値を使う） */
+  const setRemember = (on) => {
+    if (on === undefined) return;
+    try { if (on === false) localStorage.setItem(REMEMBER, '0'); else localStorage.removeItem(REMEMBER); } catch (e) {}
+    live();
   };
+  const expired = !remembered() && !new RegExp(`(?:^|;\\s*)${LIVE}=1`).test(document.cookie);
 
   /* ---------- 知らせ ----------
      'auth'   … ログイン・ログアウト・表示名が変わった（{ event: 'login' | 'in' | 'out' | 'profile' | 'recovery', method, isNew, needsName }）
@@ -76,8 +75,11 @@
   };
 
   /* いまの利用者。supabase-js のセッション（bc-auth）が端末に残っているときだけ、控え（bc-me）を信じる */
-  let me = authStore.getItem(K.auth) != null ? read(K.me, null) : null;
-  if (!me) write(K.me, null);
+  let me = has(K.auth) && !expired ? read(K.me, null) : null;
+  /* 控えだけが残っていた（ブラウザを閉じてセッションを捨てる・ほかでログアウトした）：起動の signedOut() で 'out' を出し、
+     サーバーから写したフォロー・共感をこの端末から消す（次にこの端末を使う人に見せない） */
+  let dropped = false;
+  if (!me) { dropped = !!read(K.me, null); write(K.me, null); }
 
   /* ---------- outbox：送れなかった書き込み ----------
      { kind: 'follow' | 'react', key, on, uid }   同じ相手への古い操作は消し、最後のものだけ残す
@@ -115,7 +117,7 @@
   /* Google の画面で取りやめたときなどは ?error=（または #error=）が付いて戻る。# は画面の道にすぐ書き換わるので、読み込んだときに控える */
   let backErr = (() => {
     const q = new URLSearchParams(location.search), h = new URLSearchParams(location.hash.slice(1));
-    return { code: q.get('error') || h.get('error') || '', hash: h.has('error') };
+    return { code: q.get('error') || h.get('error') || '', detail: q.get('error_code') || h.get('error_code') || '', hash: h.has('error') };
   })();
   const painted = new Promise((resolve) => {
     const go = () => requestAnimationFrame(() => setTimeout(() => idle(resolve), 0));
@@ -130,7 +132,7 @@
       const make = () => {
         try {
           client = window.supabase.createClient(C.supabaseUrl, C.supabaseAnonKey, {
-            auth: { flowType: 'pkce', persistSession: true, autoRefreshToken: true, detectSessionInUrl: true, storageKey: K.auth, storage: authStore },
+            auth: { flowType: 'pkce', persistSession: true, autoRefreshToken: true, detectSessionInUrl: true, storageKey: K.auth },
             global: { fetch: fetchT }
           });
         } catch (e) { reject(e); return; }
@@ -366,6 +368,8 @@
   let logging = false;
   /* パスワードを忘れた人が、メールのリンクで戻ってきた（supabase-js の PASSWORD_RECOVERY） */
   let recovering = false;
+  /* 確かめ待ちの登録（このページの中だけ。confirmSignup が使ったら消す） */
+  let pending = null;
   /* method：'password' | 'email'（コード）| 'google' | 'apple'（この画面でログインした。GA に数える）、null（ほかのタブ・ほかの道でログインした） */
   async function afterLogin(method, user) {
     logging = true;
@@ -394,7 +398,8 @@
     emit('auth', { event: 'in' });
   }
   function signedOut() {
-    const was = !!me;
+    const was = !!me || dropped;
+    dropped = false;
     me = null; write(K.me, null);
     cache.mine = null; cache.comments = {}; save();
     outbox = []; keep();
@@ -416,8 +421,16 @@
     boot = (async () => {
       const c = await load();
       const code = /[?&]code=/.test(location.search);
-      const failed = code ? '' : backErr.code;
+      const failed = code ? '' : backErr.code, detail = backErr.detail;
       if (code) logging = true;   // ?code= の交換で来る SIGNED_IN は、下の afterLogin が受け持つ
+      /* 「ログインしたままにする」を外した人が、ブラウザを閉じてから開いた：この端末のセッションを捨てる。
+         メールのリンク・Google から戻ったところ（?code=）は、いまのログインなので生かし、クッキーを置き直す */
+      if (expired && code) live();
+      else if (expired) {
+        try { await c.auth.signOut({ scope: 'local' }); } catch (e) {}
+        write(K.auth, null);
+        try { localStorage.removeItem(REMEMBER); } catch (e) {}
+      }
       const { data, error } = await c.auth.getSession().finally(() => { logging = false; });
       /* ネットが無くてセッションを確かめられないときは、控えのまま（ログアウトにしない。outbox も残す） */
       if (error && isNetwork(error)) throw error;
@@ -427,12 +440,15 @@
         const back = take('bc-return'), hashErr = !code && backErr.hash;
         history.replaceState(history.state, '', location.pathname + (back != null ? back : hashErr ? '' : location.hash));
         if (back || hashErr) window.dispatchEvent(new HashChangeEvent('hashchange'));
-        backErr = { code: '', hash: false };   // 一度だけ（起動をやり直しても、いまの画面の道は消さない）
+        backErr = { code: '', detail: '', hash: false };   // 一度だけ（起動をやり直しても、いまの画面の道は消さない）
       }
       /* 'bc-oauth'（出かけた先：google・apple）は ?code= で戻ってきたときだけ使う（その画面から「戻る」で帰ったあとに残っていても、数えない） */
       const method = take('bc-oauth');
       const via = { google: 'Google', apple: 'Apple' }[method];
       if (failed && via) emit('notice', failed === 'access_denied' ? `${via} でのログインを取りやめました` : `${via} でログインできませんでした。もう一度お試しください`);
+      /* メールのリンク（登録の確かめ・パスワードの再設定）が使えなかった：黙って表紙に戻さず、一言 */
+      else if (failed) emit('notice', /expired|invalid/.test(detail + ' ' + failed) ? 'メールのリンクの期限が切れているか、もう使われています。もう一度送ってください' : 'メールのリンクを開けませんでした。もう一度送ってください');
+      else if (code && !u) emit('notice', via ? `${via} でログインできませんでした。もう一度お試しください` : 'このリンクは、メールを頼んだときと同じブラウザで開いてください（メールの6桁のコードでも続けられます）');
       if (u && code && recovering) {
         /* パスワードを忘れた人：ログインはできた。GA には数えず、画面に新しいパスワードを聞いてもらう */
         recovering = false;
@@ -548,7 +564,7 @@
         options: { shouldCreateUser: true, emailRedirectTo: location.origin + location.pathname } });
       if (error) throw error;
     },
-    verifyCode(email, code) { return verify(email, code, 'email', 'email'); },
+    verifyCode(email, code, { remember } = {}) { setRemember(remember !== false); return verify(email, code, 'email', 'email'); },
 
     /* アカウントを作る（見本の「アカウント作成」：表示名・メールアドレス・パスワード・規約への同意）。
        agreed：同意のチェック（チェックの無い画面では渡さない＝「ログインすることで同意」の文で足りる）。同意の時刻は user_metadata に残す。
@@ -561,7 +577,7 @@
       if (agreed === false) throw fail('bc_terms');
       if (bad) throw fail('bc_weak_password', { detail: bad });
       const c = await load();
-      setRemember(remember);
+      setRemember(remember !== false);
       logging = true;
       let r;
       try {
@@ -571,11 +587,23 @@
       if (r.error) throw r.error;
       const u = r.data.user;
       if (u && Array.isArray(u.identities) && !u.identities.length) throw fail('user_already_exists');
-      if (!r.data.session) return { needsConfirm: true };
+      if (!r.data.session) { pending = { email: mailOf(email).toLowerCase(), password: String(password), name: n }; return { needsConfirm: true }; }
       return Object.assign({ needsConfirm: false }, await afterLogin('password', u));
     },
-    /* 登録の確かめ（Confirm signup の雛形に {{ .Token }} を入れておく）。届かないときは resendConfirm */
-    confirmSignup(email, code) { return verify(email, code, 'signup', 'password'); },
+    /* 登録の確かめ（Confirm signup の雛形に {{ .Token }} を入れておく）。届かないときは resendConfirm。
+       まだ確かめていないアドレスで二度目の signUp をすると、Supabase は一度目のパスワード・表示名のままにする
+       （一度目が別の人でも、そのパスワードが生きてしまう）。確かめたあとで、この画面で入れた値に直す */
+    async confirmSignup(email, code, { remember } = {}) {
+      setRemember(remember);
+      const r = await verify(email, code, 'signup', 'password');
+      const p = pending; pending = null;
+      if (p && p.email === mailOf(email).toLowerCase()) {
+        const c = await load();
+        try { await c.auth.updateUser({ password: p.password }); } catch (e) {}   // 同じなら same_password。どちらでもよい
+        if (me && me.name !== p.name) { try { await this.setName(p.name); r.needsName = false; } catch (e) {} }
+      }
+      return r;
+    },
     async resendConfirm(email) {
       const c = await load();
       const { error } = await c.auth.resend({ type: 'signup', email: mailOf(email), options: { emailRedirectTo: backTo() } });
@@ -586,7 +614,7 @@
        まだ確かめていない登録は email_not_confirmed（→ confirmSignup か resendConfirm） */
     async signIn({ email, password, remember } = {}) {
       const c = await load();
-      setRemember(remember);
+      setRemember(remember !== false);
       logging = true;
       let r;
       try { r = await c.auth.signInWithPassword({ email: mailOf(email), password: String(password || '') }); }
@@ -604,7 +632,10 @@
       const { error } = await c.auth.resetPasswordForEmail(mailOf(email), { redirectTo: backTo() });
       if (error) throw error;
     },
-    async verifyRecovery(email, code) { return Object.assign({ recovery: true }, await verify(email, code, 'recovery', null)); },
+    async verifyRecovery(email, code, { remember } = {}) {
+      setRemember(remember);
+      return Object.assign({ recovery: true }, await verify(email, code, 'recovery', null));
+    },
     async updatePassword(password) {
       const bad = passwordProblem(password);
       if (bad) throw fail('bc_weak_password', { detail: bad });
@@ -619,7 +650,7 @@
     async oauth(provider, { remember, returnTo } = {}) {
       if (!/^(google|apple)$/.test(provider) || !this.methods()[provider]) throw fail('bc_off');
       const c = await load();
-      setRemember(remember);
+      setRemember(remember !== false);
       leaving(returnTo, provider);
       const { error } = await c.auth.signInWithOAuth({ provider, options: { redirectTo: backTo() } });
       if (error) throw error;
@@ -640,7 +671,7 @@
     async signOut() {
       signedOut();
       if (client) { try { await client.auth.signOut({ scope: 'local' }); } catch (e) {} }
-      else authStore.removeItem(K.auth);
+      else write(K.auth, null);
     },
     /* 退会（App Store 5.1.1(v)）：サーバーの delete_my_account() が、アカウント・フォロー・共感・コメント（公開中のものも）・
        お知らせを消す（backend/migrations/12）。消えたら、この端末の控えも消してログアウトする。
@@ -653,7 +684,7 @@
       signedOut();
       /* サーバーのセッションはもう無い（auth.users ごと消えた）。端末のトークンだけを捨てる */
       try { await c.auth.signOut({ scope: 'local' }); } catch (e) {}
-      authStore.removeItem(K.auth);
+      write(K.auth, null);
     },
 
     /* フォロー */
