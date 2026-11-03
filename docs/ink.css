@@ -1296,3 +1296,31 @@ body.viewing:has(.view-in>.login-page) .login-page .content{padding-bottom:40px}
   body.viewing:has(.view-in>.login-page) .view-in{max-width:none}
   .login-page .lp-art.pl,.login-page .lp-art.pr{top:0}
 }
+
+/* ---- 第31段：ログインの画面のパスワード（js/login-page.js。見本 20-login の「パスワード」の欄と目の印、
+   「ログインしたままにする」（パソコンだけ）、「パスワードをお忘れの方 ›」、「または」の下の Apple・Google） ---- */
+.login-page .lp-field .lp-eye{position:absolute;top:0;bottom:0;right:2px;display:flex;align-items:center;justify-content:center;width:44px;padding:0;
+  border:0;border-radius:6px;background:none;color:var(--muted);cursor:pointer}
+.login-page .lp-field .lp-eye svg{position:static;display:block;width:21px;height:21px;margin:0;fill:none;stroke:currentColor;stroke-width:1.6}
+.login-page .lp-field .lp-eye[aria-pressed="true"]{color:var(--navy)}
+.login-page .lp-field input[name="password"]{padding-right:48px}
+.login-page .lp-label[hidden]{display:none}
+.login-page .lp-row .lp-remember{display:none}
+/* 「パスワードをお忘れの方」（携帯）・「パスワードを忘れた方」（パソコン）。行の中の span を隠す・薄くする決まり（第28・30段）から外す */
+.login-page .lp-row .lp-send span{color:inherit;font:inherit;letter-spacing:inherit}
+@media (max-width:1099.98px){.login-page .lp-row .lp-send span.sp{display:inline}}
+.login-page .lp-send[data-lp-back]{color:var(--muted)}
+.login-page .lp-send[data-lp-back]::after{content:none}
+.login-page .lp-socials{display:grid;gap:12px}
+.login-page .lp-socials[hidden]{display:none}
+.login-page .lp-socials .lp-alt{padding:0 8px;white-space:nowrap}
+.login-page .lp-apple svg{color:#000}
+@media (min-width:1100px){
+  .login-page .lp-in .lp-row{flex-wrap:wrap;row-gap:4px}
+  .login-page .lp-row .lp-remember{display:flex;gap:8px;font-size:12px;white-space:nowrap}
+  .login-page .lp-row .lp-send{white-space:nowrap;margin-left:auto}
+  .login-page .lp-row .lp-remember input{width:18px;height:18px}
+  .login-page .lp-socials{grid-template-columns:1fr 1fr;gap:12px}
+  .login-page .lp-socials .lp-alt{gap:10px}
+  .login-page .lp-socials .lp-google{order:-1}
+}
