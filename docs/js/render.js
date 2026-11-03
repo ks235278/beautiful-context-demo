@@ -132,11 +132,13 @@
 
   /* つながりの札（見本の絵入りの札）：二つの作品の小さな絵・路線の名・題・二つの作品。検索・作品（駅）・同じルーツで使う。
      step があれば data-step のボタン（作品ページから、いま来た区間へ）、なければそのつながりへのリンク */
+  /* 読む時間（見本の「約20秒で読む」）。札の路線の名の行の右に小さく。本文の長さから（readLabel） */
+  const rt = (c) => c && c.body ? `<i class="rt">${readLabel(c.body)}</i>` : '';
   function ctxCard(x, step){
     const h = String(x.context.headline || '').replace(/\n/g, '');
     const pic = (w) => { const u = safeImg(w.image); return u ? `<img src="${attr(u)}" alt="" loading="lazy" decoding="async">` : `<i>${esc(initial(w))}</i>`; };
     const inner = `<span class="cc-pics" aria-hidden="true">${pic(x.a)}${pic(x.b)}</span>` +
-      `<span class="cc-t"><small>［${esc(x.context.routeName)}］</small><b>${esc(h)}</b><em>${esc(x.a.title)} ＋ ${nb(x.b.title)}</em></span>` +
+      `<span class="cc-t"><small><span class="rn">［${esc(x.context.routeName)}］</span>${rt(x.context)}</small><b>${esc(h)}</b><em>${esc(x.a.title)} ＋ ${nb(x.b.title)}</em></span>` +
       `<span class="cc-go" aria-hidden="true">›</span>`;
     const al = ` aria-label="${attr(h + '：' + x.a.title + ' ＋ ' + x.b.title)}"`;
     return step != null
@@ -427,7 +429,7 @@
     const items = list.map(e => `
       <a class="ed-item" href="${attr(pathOf('c', e.context.slug))}">
         <span class="ed-thumbs">${mini(e.a)}${mini(e.b)}</span>
-        <span class="ed-txt"><small>［${esc(e.context.routeName)}］</small><b>${esc(e.context.headline).replace(/\n/g, '')}</b>
+        <span class="ed-txt"><small><span class="rn">［${esc(e.context.routeName)}］</span>${rt(e.context)}</small><b>${esc(e.context.headline).replace(/\n/g, '')}</b>
           <span>${esc(e.a.title)} ＋ ${esc(e.b.title)}</span></span></a>`).join('');
     /* マイページ（前田先生の MyBeautifulContext.pdf）：その人の写真を大きく、「〇〇の BEAUTIFUL CONTEXT」、
        フォローと note へのリンク、その人が選んだつながり。写真がなければ、頭文字の丸を黒地に置く */
@@ -473,7 +475,7 @@
           <a class="ls-item" href="${attr(pathOf('c', c.slug))}">
             <span class="ls-no">${String(i + 1).padStart(3, '0')}</span>
             <span class="ed-thumbs">${mini(e.a)}${mini(e.b)}</span>
-            <span class="ed-txt"><small>［${esc(c.routeName)}］${now ? '<i class="ls-mark now">いまここ</i>' : done ? '<i class="ls-mark">読んだ</i>' : ''}</small>
+            <span class="ed-txt"><small><span class="rn">［${esc(c.routeName)}］</span>${now ? '<i class="ls-mark now">いまここ</i>' : done ? '<i class="ls-mark">読んだ</i>' : ''}${rt(c)}</small>
               <b>${esc(c.headline).replace(/\n/g, '')}</b>
               <span>${from ? `${esc(tagText(from))}から分岐　` : ''}${esc(e.a.title)} ＋ ${esc(e.b.title)}</span></span></a></li>`;
     }).join('');
@@ -637,19 +639,20 @@
       ${tease('#/terms', '利用規約・プライバシー')}
       ${tease('#/credits', '画像の出典')}
       ${tease('#/ad', '広告枠のご案内')}`, 'BEAUTIFUL CONTEXT について');
-    /* 辿る・読む・創るの三つは、番号の印を消して札に並べている（ink.css の .info-page .steps）。印の無い ol を
+    /* 辿る・読む・創るの三つは、About の三つの特徴と同じ線の印の札に（見本の Our Mission。2026.11.03 番号の丸から）。印の無い ol を
        Safari の読み上げが「リスト」と読まないことがあるので、role="list" を付ける（見た目は変わらない） */
     if (name === 'mission') return shell('Our Mission', `
       <p class="lead">意外な関係を持つ二つの情報を、つなぎ、読める場所をつくる。</p>
       <p>たとえば、自分が見た海外の映画に原作があり、それが日本の著名な映画監督によってすでに撮られていたと気づいたとき。その発見は、二つの作品のどちらにも属さない、独立した一つの読み物になる。</p>
       <p>作品は駅、コンテクストは二駅間の区間。駅にあたる作品やブランドは他者のものであり、ここで生み出すのは区間のほうである。</p>
       <p>関係の初稿は生成AIが書き、採否と最終稿は人が担う。二つを組み合わせるだけで、音楽の DJ のように、つながりを活かした美しい空間が編み出されていく。</p>
-      <ol class="steps" role="list">
-        <li><b>辿る</b>UniverseIt! ── 言葉から、既にある区間を辿る</li>
-        <li><b>読む</b>作品の駅から、二駅間の区間へ。区間を読んで、別の駅へ</li>
-        <li><b>創る</b>ReMixIt! ── 二つの作品の間に、新しい区間をつくる</li>
+      <ol class="ab-feats ms-feats" role="list">
+        <li class="f-uni"><small>01</small><b>辿る</b><span>UniverseIt! ── 言葉から、既にある区間を辿る</span></li>
+        <li class="f-read"><small>02</small><b>読む</b><span>作品の駅から、二駅間の区間へ。区間を読んで、別の駅へ</span></li>
+        <li class="f-remix"><small>03</small><b>創る</b><span>ReMixIt! ── 二つの作品の間に、新しい区間をつくる</span></li>
       </ol>
-      <p class="motto">YOUR CONTEXT WILL VISUALIZE BY US</p>`, 'OUR MISSION');
+      <p class="motto">YOUR CONTEXT WILL VISUALIZE BY US</p>
+      <p class="ab-go ms-go">${pill('#/today', '今日のつながりを読む', 0, ' data-home')}</p>`, 'OUR MISSION');
     if (name === 'terms') return shell('利用規約・<wbr>プライバシー', `
       <p class="lead">これはデモ版です。正式な利用規約とプライバシーポリシーは、サービス公開時に用意します。</p>
       <h3>データの保存先</h3>
