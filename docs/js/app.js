@@ -1019,20 +1019,24 @@
     body.classList.toggle('has-route', i >= 0);
     if (i < 0){ box.innerHTML = ''; return; }
     const cur = 2 * i + (own >= 0 && here.step === 1 ? 0 : 1);
-    const from = Math.max(0, cur - 2), to = Math.min(2 * T.length - 1, cur + 3);
+    /* 区間と駅を交互に六つ：いまの二つ前から三つ先まで。道の始めでは前が無いぶん先を多く、
+       道の終わりを越えたら、はじめへ回る（つながりを辿る・携帯の CONTEXT JOURNEY と同じ。以前は今日の一本が道の最後なので、列の下半分が空いていた） */
+    const N = 2 * T.length, back = Math.min(2, cur);
     let li = '';
-    for (let k = from; k <= to; k++){
-      const t = T[k >> 1], e = t.entry, now = k === cur;
+    for (let j = 0; j < Math.min(6, N); j++){
+      const o = j - back, k = (cur + o) % N;
+      const t = T[k >> 1], e = t.entry, now = o === 0;
       const cur_ = now ? ' aria-current="page"' : '';
       if (k % 2 === 0){
-        if (k > from && (t.jump || t.from)){
+        if (j > 0 && k === 0) li += '<li class="rm-break"><span>はじめの路線へ</span></li>';
+        else if (j > 0 && (t.jump || t.from)){
           const fw = t.from && (e.a.slug === t.from ? e.a : e.b);
           li += `<li class="rm-break"><span>${t.jump ? '別の路線へ' : R.esc(fw.title) + 'から分岐'}</span></li>`;
         }
         /* 区間には、二つの作品の絵を小さく（いまの区間は金の縁）。絵の無い作品は頭文字 */
         const pic = (w) => { const s = R.safeImg(w.image); return s ? `<img src="${R.esc(s)}" alt="" loading="lazy" decoding="async">` : `<i>${R.esc(String(w.title || '').slice(0, 1))}</i>`; };
         li += `<li class="rm-seg${now ? ' now' : ''}"><a href="#/c/${encodeURIComponent(e.context.slug)}"${cur_}>` +
-          `<em class="rm-stage">${stageName((k - cur) / 2, k >> 1)}</em><small>［${R.esc(e.context.routeName)}］</small><span>${R.esc(String(e.context.headline || '').replace(/\n/g, ''))}</span>` +
+          `<em class="rm-stage">${stageName(o / 2, k >> 1)}</em><small>［${R.esc(e.context.routeName)}］</small><span>${R.esc(String(e.context.headline || '').replace(/\n/g, ''))}</span>` +
           `<b class="rm-pic" aria-hidden="true">${pic(e.a)}${pic(e.b)}</b></a></li>`;
       } else {
         const w = e[t.exit];
@@ -1043,7 +1047,22 @@
     box.innerHTML = `<p class="rm-title">CONTEXT<br>JOURNEY</p><ol class="rm">${li}</ol>` +
       `<button type="button" class="rm-next"><img src="img/logo-mark.png" alt=""><span><b>つながりを辿る</b><small>NEXT CONTEXT</small></span><i aria-hidden="true">↓</i></button>`;
     box.querySelector('.rm-next').addEventListener('click', () => uniBtn.click());
+    fitRoute();
   }
+  /* 低い画面（高さ 770px 未満）では列に六つ入りきらない。下の遠い先から一つずつ外して、絵や字が途中で切れないように。
+     いまの区間・駅は外さない。窓の高さが変わったら描き直す */
+  function fitRoute(){
+    const ol = document.querySelector('#routeMini .rm');
+    if (!ol || !ol.clientHeight) return;
+    const over = () => ol.scrollHeight > ol.clientHeight + 1;
+    while (ol.lastElementChild && !ol.lastElementChild.querySelector('[aria-current]') &&
+      (over() || ol.lastElementChild.classList.contains('rm-break'))) ol.lastElementChild.remove();
+  }
+  let fitT = 0;
+  window.addEventListener('resize', () => {
+    cancelAnimationFrame(fitT);
+    fitT = requestAnimationFrame(() => { if (wide.matches && body.classList.contains('has-route')) paintRoute(); });
+  });
 
   /* はじめてパソコンで開いた人に一度だけ：→ キーか、つながりを辿るで次へ進めること。最初に進むか、8 秒で消える */
   let hinted = false, hintT = 0;

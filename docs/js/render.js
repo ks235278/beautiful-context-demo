@@ -632,8 +632,8 @@
         <li><b>読む</b>作品の駅から、二駅間の区間へ。区間を読んで、別の駅へ</li>
         <li><b>創る</b>ReMixIt! ── 二つの作品の間に、新しい区間をつくる</li>
       </ol>
-      <p class="motto">YOUR CONTEXT WILL VISUALIZE BY US</p>`);
-    if (name === 'terms') return shell('利用規約・プライバシー', `
+      <p class="motto">YOUR CONTEXT WILL VISUALIZE BY US</p>`, 'OUR MISSION');
+    if (name === 'terms') return shell('利用規約・<wbr>プライバシー', `
       <p class="lead">これはデモ版です。正式な利用規約とプライバシーポリシーは、サービス公開時に用意します。</p>
       <h3>データの保存先</h3>
       <p>作成したコンテクストや設定は、お使いの端末のブラウザ（localStorage）にだけ保存されます。サーバーへ送信することはありません。別の端末や別の人には見えません。</p>
@@ -650,7 +650,7 @@
       <p>アカウントは、メニューの「アカウント」からいつでも削除できます。削除すると、メールアドレス・表示名・フォロー・共感と、書いたコメント（公開中のものも）がすぐに消え、元には戻せません。お送りいただいた通報・削除の依頼は、対応の記録として内容だけを残し、送った方との結びつき（アカウント・お名前・メールアドレス）を外します。</p>
       <h3>画像と文章</h3>
       <p>見本の作品画像は、作品紹介を目的として引用しています。著作権は各権利者に帰属します。出典は<a href="#/credits">画像の出典</a>にまとめています。見本の解説文は、確かめられる事実に基づいて書いた見本です。</p>
-      <p>このメディアの目的と読み方は<a href="#/about">Beautiful Context とは</a>をご覧ください。</p>`);
+      <p>このメディアの目的と読み方は<a href="#/about">Beautiful Context とは</a>をご覧ください。</p>`, 'INFORMATION');
     if (name === 'credits'){
       /* 画像の出典。CC BY / BY-SA の表示義務もここで満たす */
       const rows = S.works(S.all()).filter(h => h.work.credit).map(({ work: w, slug }) => `
@@ -659,18 +659,18 @@
       return shell('画像の出典', `
         <p class="lead">作品の画像は、作品紹介のための引用、または自由な利用が許された写真です。著作権は各権利者に帰属します。</p>
         <p>クリエイティブ・コモンズ（CC BY／CC BY-SA）の写真は、撮影者と条件をここに記しています。ポスター・表紙・キービジュアルは、デモでの作品紹介のために掲載しています。公開の前に権利を確かめ、必要なものは差し替えます。背景の墨と和紙の絵は、Beautiful Context のために制作したものです。</p>
-        <ul class="credits">${rows}</ul>`);
+        <ul class="credits">${rows}</ul>`, 'SOURCES');
     }
     if (name === 'ad') return shell('広告枠のご案内', `
       <p class="lead">コンテクストページの読み終わりに、その区間の世界観と重なる広告を一枠だけ置きます。</p>
       <p>映画・音楽・書籍・イベントなど、読み終えた人がその作品を買える・観られる・訪ねられる入口を置く。つながりを辿った先が、そのまま体験への入口になります。</p>
       <h3>想定している仕組み</h3>
-      <ul>
-        <li>記事単位で販売する出稿枠。記事の主題と広告主の世界観が重なることを根拠にする</li>
-        <li>クレジットカードで購入できる枠、表示の割合やタグ指定による価格設定（本番で実装）</li>
-        <li>管理画面から、枠の画像・文言・リンク先・表示の有無を編集できる（デモで動作）</li>
-      </ul>
-      ${tease('manage.html#ads', '管理画面で広告枠を見る')}`);
+      <ol class="ab-feats rows" role="list">
+        <li class="f-doc"><small>01</small><b>記事単位の枠</b><span>記事単位で販売する出稿枠。記事の主題と広告主の世界観が重なることを根拠にする</span></li>
+        <li class="f-card"><small>02</small><b>購入と価格</b><span>クレジットカードで購入できる枠、表示の割合やタグ指定による価格設定（本番で実装）</span></li>
+        <li class="f-edit"><small>03</small><b>管理画面で編集</b><span>管理画面から、枠の画像・文言・リンク先・表示の有無を編集できる（デモで動作）</span></li>
+      </ol>
+      ${tease('manage.html#ads', '管理画面で広告枠を見る')}`, 'ADVERTISING WITH CONTEXT');
     /* DISCOVER MORE：辿る道のはじめの二本と、UniverseIt!・ReMixIt!（どの端末でも同じものが出る） */
     const card = (href, pic, kind, text, extra) => `<a class="nf-card" href="${attr(href)}"${extra || ''}><span class="nf-img">${pic
       ? `<img src="${attr(pic)}" alt="" loading="lazy" decoding="async">` : ''}</span><small>${kind}</small><b>${esc(text)}</b></a>`;
