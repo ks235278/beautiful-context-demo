@@ -357,6 +357,7 @@
           ${rel.length ? `<p class="meta more-label">同じルーツのコンテクスト</p>${roots(e, rel)}` : ''}
           ${ad(adItem)}
           ${credit(e.a)}${credit(e.b)}
+          ${nextCtx(o.journey)}
           ${o.rail && o.rail.length ? `
           <section class="ctx-rail" aria-label="この先のつながり">
             <p class="meta more-label">この先のつながり</p>
@@ -403,6 +404,17 @@
           <p class="jr-sub">このつながりから、たどる道</p>
           <ol class="jr">${list.map(stop).join('')}</ol>
         </section>`;
+  }
+  /* 見本の「次に読む CONTEXT」：読み終わりに、つながりを辿る道の次の区間（CONTEXT JOURNEY の「つぎへ」）を札で一つ。
+     この先のつながり（B の駅から延びる路線）の前に置く */
+  function nextCtx(list){
+    const i = (list || []).findIndex(x => x.now), nx = i >= 0 && list[i + 1];
+    if (!nx) return '';
+    return `
+          <section class="next-ctx" aria-label="次に読むつながり">
+            <p class="meta">NEXT CONTEXT<small>次に読むつながり</small></p>
+            ${ctxCard(nx.entry)}
+          </section>`;
   }
   /* コンテクストページのいちばん下：検索などから来た人が、このメディアのどこへでも行ける小さな入口 */
   const cfoot = () => `

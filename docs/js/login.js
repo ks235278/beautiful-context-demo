@@ -13,7 +13,7 @@
       const me0 = Social.me();
       const intro = 'フォローした編集者の Today\'s Choice を、どの端末でも受け取れます。メールアドレスに届く6桁のコードでログインします（パスワードは要りません）。';
       const el = ui.sheet(`
-        <p class="meta">BEAUTIFUL CONTEXT</p>
+        <p class="meta login-brand"><img src="img/logo-navy.png" alt="BEAUTIFUL CONTEXT"></p>
         <h2>${R.esc(title || 'ログイン')}</h2>
         <p class="sheet-note" data-login-note>${me0 ? 'コメントに出す名前を決めてください。' : R.esc(intro)}</p>
         ${Social.googleEnabled() && !me0 ? '<button type="button" class="sheet-go" data-login-google>Google で続ける</button>' : ''}

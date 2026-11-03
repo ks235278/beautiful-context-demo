@@ -811,3 +811,24 @@ body.viewing .act.uni-btn .act-go{display:block;position:absolute;right:24px;top
 @media (min-width:760px){
   .feed-page .stop.first .fstop{grid-template-columns:200px minmax(0,1fr);gap:24px}
 }
+
+/* ---- 第23段：読み終わりの「NEXT CONTEXT」と、ログインのシートの頭を見本に寄せる ---- */
+/* 次に読むつながり：金の小さな見出しと、札一つ（つながりの札と同じ形。少し大きく） */
+.next-ctx{margin:34px 0 10px;padding-top:22px;border-top:1px solid var(--hair)}
+.next-ctx .meta{display:flex;align-items:baseline;gap:12px;margin:0 0 12px}
+.next-ctx .meta small{color:var(--muted);font:400 12px/1.4 var(--mincho);letter-spacing:.02em}
+.next-ctx .ctx-card{padding:12px 48px 12px 12px;border-color:var(--gold);box-shadow:0 8px 20px -14px rgba(90,70,30,.45)}
+.next-ctx .cc-pics img,.next-ctx .cc-pics i{width:54px;height:74px}
+.next-ctx .cc-t b{font-size:16px}
+.next-ctx .cc-go{right:12px;width:30px;height:30px;margin-top:-15px}
+
+/* ログインのシート：見本どおり、いちばん上に紺の名前、明朝の見出しの下に ◆ の罫、文は真ん中に。主のボタンに › */
+.sheet[aria-label="ログイン"] .sheet-in>.login-brand{margin:2px 0 12px;text-align:center}
+.sheet[aria-label="ログイン"] .login-brand img{display:inline-block;width:auto;height:20px;vertical-align:top}
+.sheet[aria-label="ログイン"] .sheet-in>h2{text-align:center}
+.sheet[aria-label="ログイン"] .sheet-in>h2::after{content:"";display:block;height:9px;margin-top:10px;background:var(--rule-d)}
+.sheet[aria-label="ログイン"] .sheet-note{text-align:center}
+.sheet[aria-label="ログイン"] .sheet-go{position:relative}
+.sheet[aria-label="ログイン"] .sheet-go::after{content:"";position:absolute;right:22px;top:50%;width:7px;height:7px;margin-top:-4px;
+  border-top:1.5px solid currentColor;border-right:1.5px solid currentColor;transform:rotate(45deg)}
+.sheet[aria-label="ログイン"] .sheet-demo{text-align:center}
