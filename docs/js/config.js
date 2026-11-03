@@ -13,9 +13,11 @@ window.BC_CONFIG = {
   backend: /[?&]static=1(&|$)/.test(location.search) ? 'snapshot' : 'supabase',
   supabaseUrl: 'https://jajlkgybusedmvjmnqjc.supabase.co',
   supabaseAnonKey: 'sb_publishable_VHjpIckzfwazjXOba3SSig_MEXO0-RC',
-  /* Google ログイン。ダッシュボードで Google provider を有効にし（OAuth クライアントが要る）、
-     iPhone のホーム画面の BC で戻ってこられることを実機で確かめてから true にする */
+  /* Google・Apple でのログイン。ダッシュボードで provider を有効にしてから true にする（有効でないまま押すと、Supabase の英語のエラーの画面に出る）。
+     Google は OAuth クライアント、Apple は Apple Developer の Services ID と鍵が要る（agent-notes/google-login-20261103.md）。
+     iPhone のホーム画面の BC で戻ってこられないと分かったら false に戻す */
   googleEnabled: false,
+  appleEnabled: false,
   /* 電波の悪いところで画面を待たせない（これを超えた通信は打ち切り、outbox に積む） */
   timeoutMs: 6000
 };

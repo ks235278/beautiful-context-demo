@@ -1,7 +1,8 @@
 /* Beautiful Context — Supabase の窓口（window.BCBackend）。
 
    読むもの（コンテクスト・作品・編集者）は、いままでどおり seed.js から読む。ここが受け持つのは「人ごとのもの」だけ：
-     ログイン …… メールに届く 6桁のコード（signInWithOtp → verifyOtp）。Google は config.js の googleEnabled が true のときだけ
+     ログイン …… メールアドレスとパスワード（signUp・signInWithPassword。パスワードを忘れたら resetPasswordForEmail）、
+                 メールに届く 6桁のコード（signInWithOtp → verifyOtp）。Google・Apple は config.js で開けたときだけ（methods()）
      表示名 …… profiles.display_name（コメントに出る名前。Google の本名は使わない）
      フォロー・共感 …… follows・reactions（本人の行だけ書ける。数はトリガーが editor_stats・context_stats に足す）
      コメント …… comments（トリガーで必ず pending＝確認待ちで入る。読めるのは公開されたものと、自分の分）
@@ -20,13 +21,30 @@
 
   const read = (k, d) => { try { const v = JSON.parse(localStorage.getItem(k)); return v == null ? d : v; } catch (e) { return d; } };
   const write = (k, v) => { try { if (v == null) localStorage.removeItem(k); else localStorage.setItem(k, JSON.stringify(v)); } catch (e) {} };
-  const has = (k) => { try { return localStorage.getItem(k) != null; } catch (e) { return false; } };
   const take = (k) => { try { const v = sessionStorage.getItem(k); sessionStorage.removeItem(k); return v; } catch (e) { return null; } };
   const idle = (fn) => (window.requestIdleCallback ? requestIdleCallback(fn, { timeout: 2500 }) : setTimeout(fn, 300));
   const quiet = (p) => { if (p && p.catch) p.catch(() => {}); };
 
+  /* 「ログインしたままにする」（見本のログインの画面）。外したときは、セッションをこのタブ（sessionStorage）にだけ置き、閉じれば消える。
+     PKCE の code-verifier は、確かめのメールのリンクを別のタブで開いても使えるよう、いつも localStorage に置く */
+  const REMEMBER = 'bc-remember';
+  const remembered = () => { try { return localStorage.getItem(REMEMBER) !== '0'; } catch (e) { return true; } };
+  const setRemember = (on) => { try { if (on === false) localStorage.setItem(REMEMBER, '0'); else localStorage.removeItem(REMEMBER); } catch (e) {} };
+  const authStore = {
+    getItem(k) { try { const v = sessionStorage.getItem(k); return v != null ? v : localStorage.getItem(k); } catch (e) { return null; } },
+    setItem(k, v) {
+      try {
+        const local = remembered() || /-code-verifier$/.test(k);
+        (local ? localStorage : sessionStorage).setItem(k, v);
+        (local ? sessionStorage : localStorage).removeItem(k);
+      } catch (e) {}
+    },
+    removeItem(k) { try { localStorage.removeItem(k); sessionStorage.removeItem(k); } catch (e) {} }
+  };
+
   /* ---------- 知らせ ----------
-     'auth'   … ログイン・ログアウト・表示名が変わった（{ event: 'login' | 'in' | 'out' | 'profile', method, isNew }）
+     'auth'   … ログイン・ログアウト・表示名が変わった（{ event: 'login' | 'in' | 'out' | 'profile' | 'recovery', method, isNew, needsName }）
+                'recovery' はパスワードを忘れた人がメールのリンクで戻ってきた（ログインはできている。画面は新しいパスワードを聞く → updatePassword）
      'data'   … サーバーから読んだ値で控えが変わった（数・コメント・自分のフォロー）
      'notice' … 利用者に一言伝えたいこと（送れなかったコメントなど） */
   const subs = { auth: new Set(), data: new Set(), notice: new Set() };
@@ -58,7 +76,7 @@
   };
 
   /* いまの利用者。supabase-js のセッション（bc-auth）が端末に残っているときだけ、控え（bc-me）を信じる */
-  let me = has(K.auth) ? read(K.me, null) : null;
+  let me = authStore.getItem(K.auth) != null ? read(K.me, null) : null;
   if (!me) write(K.me, null);
 
   /* ---------- outbox：送れなかった書き込み ----------
@@ -94,6 +112,11 @@
   /* 最初の一コマを描き終えたか（load のあと、次の描画のあと、手が空いたとき）。それまで supabase-js を読み込まない。
      Google から戻ったとき（?code=）だけは待たない（すぐにログインを済ませる） */
   const URGENT = /[?&]code=/.test(location.search);
+  /* Google の画面で取りやめたときなどは ?error=（または #error=）が付いて戻る。# は画面の道にすぐ書き換わるので、読み込んだときに控える */
+  let backErr = (() => {
+    const q = new URLSearchParams(location.search), h = new URLSearchParams(location.hash.slice(1));
+    return { code: q.get('error') || h.get('error') || '', hash: h.has('error') };
+  })();
   const painted = new Promise((resolve) => {
     const go = () => requestAnimationFrame(() => setTimeout(() => idle(resolve), 0));
     if (document.readyState === 'complete') go(); else window.addEventListener('load', go, { once: true });
@@ -107,12 +130,15 @@
       const make = () => {
         try {
           client = window.supabase.createClient(C.supabaseUrl, C.supabaseAnonKey, {
-            auth: { flowType: 'pkce', persistSession: true, autoRefreshToken: true, detectSessionInUrl: true, storageKey: K.auth },
+            auth: { flowType: 'pkce', persistSession: true, autoRefreshToken: true, detectSessionInUrl: true, storageKey: K.auth, storage: authStore },
             global: { fetch: fetchT }
           });
         } catch (e) { reject(e); return; }
         /* コールバックの中で Supabase を待たない（supabase-js の決まり。中で await すると固まる） */
-        client.auth.onAuthStateChange((event, session) => setTimeout(() => quiet(onAuth(event, session)), 0));
+        client.auth.onAuthStateChange((event, session) => {
+          if (event === 'PASSWORD_RECOVERY') recovering = true;   // ready() が見る（下の setTimeout より先に立てる）
+          setTimeout(() => quiet(onAuth(event, session)), 0);
+        });
         resolve(client);
       };
       if (window.supabase && window.supabase.createClient) { make(); return; }
@@ -128,6 +154,16 @@
   }
 
   /* ---------- 失敗を日本語の一言に ---------- */
+  /* パスワードの決まり（見本：英数字を組み合わせて8文字以上）。ダッシュボードの Password Requirements と同じにしておく。
+     問題なければ ''。72 は Supabase（bcrypt）が読む上限 */
+  function passwordProblem(pw) {
+    const s = String(pw || '');
+    if (s.length < 8) return 'パスワードは8文字以上にしてください';
+    if (new Blob([s]).size > 72) return 'パスワードが長すぎます（72バイトまで）';
+    if (!/[A-Za-z]/.test(s) || !/[0-9]/.test(s)) return 'パスワードは英字と数字を組み合わせてください';
+    return '';
+  }
+  const fail = (code, extra) => Object.assign(new Error(code), { code }, extra || {});
   const isNetwork = (e) => !e || e.message === 'load' || e.name === 'AuthRetryableFetchError' || e.name === 'AbortError' ||
     (!e.code && /fetch|network|abort|load failed|timeout/i.test(String(e.message || e)));
   function message(e) {
@@ -135,7 +171,17 @@
     if (isNetwork(e)) return 'ネットにつながっていません。少し時間をおいて、もう一度どうぞ';
     if (code === 'over_email_send_rate_limit' || code === 'over_request_rate_limit' || (e && e.status === 429))
       return '短い時間に何度も送られています。少し時間をおいてください';
+    /* パスワードでのログイン（signIn が e.via = 'password' を付ける）。どちらが違うかは言わない（登録の有無を漏らさない） */
+    if (code === 'invalid_credentials' && e.via === 'password') return 'メールアドレスかパスワードが違います';
     if (code === 'otp_expired' || code === 'invalid_credentials') return 'コードが違うか、期限が切れています。もう一度送ってください';
+    if (code === 'email_not_confirmed') return 'メールアドレスの確認がまだです。届いたメールの6桁のコードを入れるか、リンクを開いてください';
+    if (code === 'weak_password' || code === 'bc_weak_password') return e.detail || 'もっと強いパスワードにしてください（英字と数字を組み合わせて8文字以上）';
+    if (code === 'same_password') return 'いまと同じパスワードです。別のものにしてください';
+    if (code === 'user_already_exists' || code === 'email_exists') return 'このメールアドレスはもう登録されています。ログインしてください';
+    if (code === 'bc_name') return '表示名を入れてください';
+    if (code === 'bc_terms') return '利用規約・プライバシーポリシーへの同意が要ります';
+    if (code === 'bc_off' || code === 'provider_disabled' || code === 'email_provider_disabled') return 'いまはこの方法でログインできません（準備中です）';
+    if (code === 'reauthentication_needed' || code === 'session_not_found') return 'もう一度ログインしてから変えてください';
     if (code === 'email_address_invalid' || code === 'validation_failed') return 'メールアドレスを確かめてください';
     if (code === 'email_address_not_authorized') return 'いまはこのアドレスにメールを送れません（準備中です）';
     if (code === 'signup_disabled') return 'いまは新しいアカウントを作れません';
@@ -318,7 +364,9 @@
   };
   /* ログインの手続きの最中か（そのあいだに onAuthStateChange が来ても、二重に送らない） */
   let logging = false;
-  /* method：'email' | 'google'（この画面でログインした。GA に数える）、null（ほかのタブ・ほかの道でログインした） */
+  /* パスワードを忘れた人が、メールのリンクで戻ってきた（supabase-js の PASSWORD_RECOVERY） */
+  let recovering = false;
+  /* method：'password' | 'email'（コード）| 'google' | 'apple'（この画面でログインした。GA に数える）、null（ほかのタブ・ほかの道でログインした） */
   async function afterLogin(method, user) {
     logging = true;
     const isNew = isNewUser(user);
@@ -336,8 +384,9 @@
       cache.comments = {};   // 自分の確認待ちのコメントを読み直す
       save();
     } finally { logging = false; }
-    emit('auth', method ? { event: 'login', method, isNew } : { event: 'in' });
-    return { isNew, needsName: !me.name };
+    const needsName = !me.name;
+    emit('auth', method ? { event: 'login', method, isNew, needsName } : { event: 'in', needsName });
+    return { isNew, needsName };
   }
   async function resume(user) {
     if (!me || me.uid !== user.id) { me = { uid: user.id, name: '', role: 'reader' }; write(K.me, me); cache.mine = null; }
@@ -367,19 +416,30 @@
     boot = (async () => {
       const c = await load();
       const code = /[?&]code=/.test(location.search);
+      const failed = code ? '' : backErr.code;
       if (code) logging = true;   // ?code= の交換で来る SIGNED_IN は、下の afterLogin が受け持つ
       const { data, error } = await c.auth.getSession().finally(() => { logging = false; });
       /* ネットが無くてセッションを確かめられないときは、控えのまま（ログアウトにしない。outbox も残す） */
       if (error && isNetwork(error)) throw error;
       const u = data.session && data.session.user;
-      if (code) {
-        /* 戻ってきたアドレスから ?code= を消し、出かける前の画面（# の道）に戻す */
-        const back = take('bc-return');
-        history.replaceState(history.state, '', location.pathname + (back != null ? back : location.hash));
-        if (back) window.dispatchEvent(new HashChangeEvent('hashchange'));
+      if (code || failed) {
+        /* 戻ってきたアドレスから ?code= / ?error= を消し、出かける前の画面（# の道）に戻す */
+        const back = take('bc-return'), hashErr = !code && backErr.hash;
+        history.replaceState(history.state, '', location.pathname + (back != null ? back : hashErr ? '' : location.hash));
+        if (back || hashErr) window.dispatchEvent(new HashChangeEvent('hashchange'));
+        backErr = { code: '', hash: false };   // 一度だけ（起動をやり直しても、いまの画面の道は消さない）
       }
+      /* 'bc-oauth'（出かけた先：google・apple）は ?code= で戻ってきたときだけ使う（その画面から「戻る」で帰ったあとに残っていても、数えない） */
       const method = take('bc-oauth');
-      if (u && (method || code)) await afterLogin(method || 'email', u);
+      const via = { google: 'Google', apple: 'Apple' }[method];
+      if (failed && via) emit('notice', failed === 'access_denied' ? `${via} でのログインを取りやめました` : `${via} でログインできませんでした。もう一度お試しください`);
+      if (u && code && recovering) {
+        /* パスワードを忘れた人：ログインはできた。GA には数えず、画面に新しいパスワードを聞いてもらう */
+        recovering = false;
+        await afterLogin(null, u);
+        emit('auth', { event: 'recovery' });
+      }
+      else if (u && code) await afterLogin(via ? method : 'email', u);
       else if (u) await resume(u);
       else signedOut();
       lastPoll = Date.now();
@@ -440,10 +500,38 @@
     return item;
   }
 
+  /* ---------- ログインの手続き（画面は BCSocial の同じ名前の関数から呼ぶ） ---------- */
+  const mailOf = (x) => String(x || '').trim();
+  const backTo = () => location.origin + location.pathname;
+  /* メールのリンク・Google・Apple へ出かける前に、戻る先の # の道と、出かけた先を覚える（ready() が使う） */
+  const leaving = (returnTo, oauth) => {
+    try {
+      sessionStorage.setItem('bc-return', returnTo != null ? String(returnTo) : location.hash);
+      if (oauth) sessionStorage.setItem('bc-oauth', oauth);
+    } catch (e) {}
+  };
+  /* メールの 6桁のコードを確かめる。type：'email'（コードでログイン）・'signup'（登録の確かめ）・'recovery'（パスワードを忘れた） */
+  async function verify(mail, code, type, method) {
+    const c = await load();
+    logging = true;   // verifyOtp の中で来る SIGNED_IN は、ここの afterLogin が受け持つ
+    let r;
+    try { r = await c.auth.verifyOtp({ email: mailOf(mail), token: String(code || '').replace(/\D/g, ''), type }); }
+    finally { logging = false; }
+    if (r.error) throw r.error;
+    return afterLogin(method, r.data.user);
+  }
+
   /* ---------- 公開する関数 ---------- */
   window.BCBackend = {
     enabled: () => ON,
     googleEnabled: () => ON && !!C.googleEnabled,
+    appleEnabled: () => ON && !!C.appleEnabled,
+    /* 使えるログインの方法（画面はこれを見てボタンを出す）。password・code はいつも、google・apple は config.js で開けたときだけ */
+    methods: () => ({ password: ON, code: ON, google: ON && !!C.googleEnabled, apple: ON && !!C.appleEnabled }),
+    /* パスワードの決まりに合わないときの一言（合えば ''）。入れているそばから出せる */
+    passwordProblem,
+    /* 「ログインしたままにする」の今の値（チェックの初期値に） */
+    remembered,
     load, ready, flush, message,
     on(ev, fn) { if (subs[ev]) subs[ev].add(fn); return () => subs[ev] && subs[ev].delete(fn); },
     provide(name, fn) { providers[name] = fn; },
@@ -460,23 +548,84 @@
         options: { shouldCreateUser: true, emailRedirectTo: location.origin + location.pathname } });
       if (error) throw error;
     },
-    async verifyCode(email, code) {
+    verifyCode(email, code) { return verify(email, code, 'email', 'email'); },
+
+    /* アカウントを作る（見本の「アカウント作成」：表示名・メールアドレス・パスワード・規約への同意）。
+       agreed：同意のチェック（チェックの無い画面では渡さない＝「ログインすることで同意」の文で足りる）。同意の時刻は user_metadata に残す。
+       「Confirm email」が有効なので、ふつうはすぐにはログインしない → { needsConfirm: true }。
+       画面は「メールに届いた6桁のコード」を聞いて confirmSignup(email, code) へ（リンクを開いても ?code= でログインできる）。
+       同じアドレスがもうあると、Supabase は登録の有無を隠して成功のように返す（identities が空）。ここで「もう登録されています」にする */
+    async signUp({ name, email, password, agreed, remember } = {}) {
+      const n = String(name || '').trim().slice(0, 24), bad = passwordProblem(password);
+      if (!n) throw fail('bc_name');
+      if (agreed === false) throw fail('bc_terms');
+      if (bad) throw fail('bc_weak_password', { detail: bad });
       const c = await load();
-      logging = true;   // verifyOtp の中で来る SIGNED_IN は、ここの afterLogin が受け持つ
+      setRemember(remember);
+      logging = true;
       let r;
-      try { r = await c.auth.verifyOtp({ email: String(email || '').trim(), token: String(code || '').replace(/\D/g, ''), type: 'email' }); }
-      finally { logging = false; }
+      try {
+        r = await c.auth.signUp({ email: mailOf(email), password: String(password), options: {
+          emailRedirectTo: backTo(), data: { display_name: n, terms_agreed_at: new Date().toISOString() } } });
+      } finally { logging = false; }
       if (r.error) throw r.error;
-      return afterLogin('email', r.data.user);
+      const u = r.data.user;
+      if (u && Array.isArray(u.identities) && !u.identities.length) throw fail('user_already_exists');
+      if (!r.data.session) return { needsConfirm: true };
+      return Object.assign({ needsConfirm: false }, await afterLogin('password', u));
     },
-    /* Google（googleEnabled のときだけ画面に出す）。出かける前の画面を覚えて、戻ってきたら ready() が戻す */
-    async google() {
-      if (!this.googleEnabled()) throw new Error('off');
+    /* 登録の確かめ（Confirm signup の雛形に {{ .Token }} を入れておく）。届かないときは resendConfirm */
+    confirmSignup(email, code) { return verify(email, code, 'signup', 'password'); },
+    async resendConfirm(email) {
       const c = await load();
-      try { sessionStorage.setItem('bc-return', location.hash); sessionStorage.setItem('bc-oauth', 'google'); } catch (e) {}
-      const { error } = await c.auth.signInWithOAuth({ provider: 'google', options: { redirectTo: location.origin + location.pathname } });
+      const { error } = await c.auth.resend({ type: 'signup', email: mailOf(email), options: { emailRedirectTo: backTo() } });
       if (error) throw error;
     },
+
+    /* メールアドレスとパスワードでログイン（見本の「ログイン」）。remember：「ログインしたままにする」（既定 true）。
+       まだ確かめていない登録は email_not_confirmed（→ confirmSignup か resendConfirm） */
+    async signIn({ email, password, remember } = {}) {
+      const c = await load();
+      setRemember(remember);
+      logging = true;
+      let r;
+      try { r = await c.auth.signInWithPassword({ email: mailOf(email), password: String(password || '') }); }
+      finally { logging = false; }
+      if (r.error) throw Object.assign(r.error, { via: 'password' });
+      return afterLogin('password', r.data.user);
+    },
+
+    /* パスワードを忘れた（見本の「パスワードをお忘れの方」）。メールに 6桁のコードとリンクが届く（Reset password の雛形に {{ .Token }}）。
+       コードなら verifyRecovery(email, code)、リンクで戻ってきたら 'auth' の { event: 'recovery' }。どちらもそのあと updatePassword。
+       登録の無いアドレスでも成功のように返る（登録の有無を漏らさない）。コードだけでもメールで続けられる（OTP でログインしていた人も、ここでパスワードを作れる） */
+    async resetPassword(email, { returnTo } = {}) {
+      const c = await load();
+      leaving(returnTo);
+      const { error } = await c.auth.resetPasswordForEmail(mailOf(email), { redirectTo: backTo() });
+      if (error) throw error;
+    },
+    async verifyRecovery(email, code) { return Object.assign({ recovery: true }, await verify(email, code, 'recovery', null)); },
+    async updatePassword(password) {
+      const bad = passwordProblem(password);
+      if (bad) throw fail('bc_weak_password', { detail: bad });
+      if (!me) throw fail('session_not_found');
+      const c = await load();
+      const { error } = await c.auth.updateUser({ password: String(password) });
+      if (error) throw error;
+    },
+
+    /* Google・Apple（methods() で開いているものだけ）。出かける前の画面（returnTo、無ければいまの # の道）を覚えて、戻ってきたら ready() が戻す。
+       はじめての人は表示名がまだ無い（'auth' の needsName）。Google・Apple の名前は使わない */
+    async oauth(provider, { remember, returnTo } = {}) {
+      if (!/^(google|apple)$/.test(provider) || !this.methods()[provider]) throw fail('bc_off');
+      const c = await load();
+      setRemember(remember);
+      leaving(returnTo, provider);
+      const { error } = await c.auth.signInWithOAuth({ provider, options: { redirectTo: backTo() } });
+      if (error) throw error;
+    },
+    google(opts) { return this.oauth('google', opts); },
+    apple(opts) { return this.oauth('apple', opts); },
     async setName(name) {
       const n = String(name || '').trim().slice(0, 24);
       if (!n || !me) throw new Error('name');
@@ -491,7 +640,7 @@
     async signOut() {
       signedOut();
       if (client) { try { await client.auth.signOut({ scope: 'local' }); } catch (e) {} }
-      else write(K.auth, null);
+      else authStore.removeItem(K.auth);
     },
     /* 退会（App Store 5.1.1(v)）：サーバーの delete_my_account() が、アカウント・フォロー・共感・コメント（公開中のものも）・
        お知らせを消す（backend/migrations/12）。消えたら、この端末の控えも消してログアウトする。
@@ -504,7 +653,7 @@
       signedOut();
       /* サーバーのセッションはもう無い（auth.users ごと消えた）。端末のトークンだけを捨てる */
       try { await c.auth.signOut({ scope: 'local' }); } catch (e) {}
-      write(K.auth, null);
+      authStore.removeItem(K.auth);
     },
 
     /* フォロー */

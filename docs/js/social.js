@@ -56,7 +56,23 @@
     /* Supabase のログイン（Promise）。失敗は BCBackend.message(err) で日本語の一言に */
     sendCode(email) { return B ? B.sendCode(email) : Promise.reject(new Error('off')); },
     verifyCode(email, code) { return B ? B.verifyCode(email, code) : Promise.reject(new Error('off')); },
-    signInWithGoogle() { return B ? B.google() : Promise.reject(new Error('off')); },
+    signInWithGoogle(opts) { return B ? B.google(opts) : Promise.reject(new Error('off')); },
+
+    /* 見本のログインの画面（ログイン／アカウント作成・パスワードをお忘れの方・Apple・Google）。中身は backend.js の同じ名前の関数。
+       methods() でボタンを出し分ける：{ password, code, google, apple } */
+    methods() { return B ? B.methods() : { password: false, code: false, google: false, apple: false }; },
+    passwordProblem(pw) { return B ? B.passwordProblem(pw) : ''; },
+    remembered() { return B ? B.remembered() : true; },
+    /* { name, email, password, agreed?, remember? } → { needsConfirm } か、ログインできたら { isNew, needsName } */
+    signUp(o) { return B ? B.signUp(o) : Promise.reject(new Error('off')); },
+    confirmSignup(email, code) { return B ? B.confirmSignup(email, code) : Promise.reject(new Error('off')); },
+    resendConfirm(email) { return B ? B.resendConfirm(email) : Promise.reject(new Error('off')); },
+    /* { email, password, remember? } → { isNew, needsName }（見本の signIn(name) とは別。あちらは 'local' の見本用） */
+    signInWithPassword(o) { return B ? B.signIn(o) : Promise.reject(new Error('off')); },
+    resetPassword(email, opts) { return B ? B.resetPassword(email, opts) : Promise.reject(new Error('off')); },
+    verifyRecovery(email, code) { return B ? B.verifyRecovery(email, code) : Promise.reject(new Error('off')); },
+    updatePassword(pw) { return B ? B.updatePassword(pw) : Promise.reject(new Error('off')); },
+    signInWithApple(opts) { return B ? B.apple(opts) : Promise.reject(new Error('off')); },
     setName(name) { return B ? B.setName(name) : Promise.reject(new Error('off')); },
     /* 退会（Supabase のときだけ。アカウントとコメントなどがサーバーから消え、この端末もログアウトする） */
     deleteAccount() { return B ? B.deleteAccount() : Promise.reject(new Error('off')); },
