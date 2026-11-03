@@ -223,7 +223,9 @@
     background:url(img/deco/mist.png) 0 100%/contain no-repeat;opacity:.85;transform:scaleX(-1)}
   :is(.cpage,.wpage)>.duo-hero::after{content:"";position:absolute;z-index:-1;left:6px;top:36px;width:64%;aspect-ratio:1400/520;pointer-events:none;
     background:url(img/deco/brush-gold.png) 0 0/100% 100% no-repeat;opacity:.9}
-  :is(.cpage,.wpage)>.duo-hero .duo::after{content:"";position:absolute;z-index:-1;right:-14%;bottom:-38px;width:64%;aspect-ratio:1400/520;pointer-events:none;
+  /* 右下の金の筆は、見本どおり絵の足もとに：絵の列の中に収める。以前は右へ 14% はみ出し、隣の列の
+     「このつながりを読む」や札の上に描かれていた（2026.11.03 CTO「筆がボタンに掛かっている」） */
+  :is(.cpage,.wpage)>.duo-hero .duo::after{content:"";position:absolute;z-index:-1;right:0;bottom:-38px;width:64%;aspect-ratio:1400/520;pointer-events:none;
     background:url(img/deco/brush-gold.png) 0 0/100% 100% no-repeat;opacity:.9;transform:rotate(180deg)}
   /* 札は上の段の右。編集者は左寄せ、題も左から（2 行の決まりの箱はそのまま） */
   .cpage>.context-lead{grid-column:2;grid-row:1;align-self:center;padding:86px 40px 34px 14px;text-align:left}
@@ -532,12 +534,14 @@ body.on-list .view-in{background:var(--paper)}
 /* 上の段の絵の左上に、見本の墨と金の筆（以前の金の弧の代わり） */
 :is(.cpage,.wpage)>.duo-hero::after{background:url(img/deco/ink-splash.png) 0 0/100% 100% no-repeat;aspect-ratio:282/96;width:72%;opacity:1}
 @media (min-width:1100px){
-  :is(.cpage,.wpage)>.duo-hero::after{left:0;top:26px;width:70%}
+  /* 墨は「‹ TODAY」（14〜52px）と名札の下から。以前は 26px からで、紺のボタンが紺の墨に埋もれていた（2026.11.03 CTO「筆がボタンに掛かっている」） */
+  :is(.cpage,.wpage)>.duo-hero::after{left:0;top:60px;width:70%}
   /* 本文の右に見本の山と木（以前の墨の山の代わり）。字の列（660px）の右の余白に */
   .cpage>.context-body::after{background:url(img/deco/ink-palms.png) right top/contain no-repeat;width:min(34%,320px);aspect-ratio:1/1;top:30px;opacity:1}
 }
 @media (max-width:1099.98px){
-  :is(.cpage,.wpage)>.duo-hero::after{left:-8px;top:calc(env(safe-area-inset-top) + 40px);width:80%}
+  /* 墨は ≡ と「‹ TODAY」（10〜48px）の下から。以前は 40px からで、二つの丸の下の端が墨に掛かっていた */
+  :is(.cpage,.wpage)>.duo-hero::after{left:-8px;top:calc(env(safe-area-inset-top) + 56px);width:80%}
 }
 /* About：見出しの右に見本の山と湖（字はその左に回り込む）。携帯は見出しの上に横長に */
 .info-about .content::before{content:"";float:right;width:44%;max-width:340px;aspect-ratio:388/392;margin:-6px -8px 8px 18px;pointer-events:none;
@@ -875,3 +879,54 @@ body.viewing .act.uni-btn .act-go{display:block;position:absolute;right:24px;top
 .ed-txt small .rn{min-width:3.6em}
 /* 狭い携帯（375px 未満）では、印（いまここ・読んだ）のある札は読む時間を出さない（三つは一行に入らず、ページが横にはみ出した） */
 @media (max-width:374.98px){.ed-txt small .ls-mark~.rt{display:none}}
+
+/* ---- 第26段：四角い箱の積み重ねに見えないように、角と縁を和らげ、ゆるやかに動かす ----
+   CTO 2026.11.03「khối hình tứ giác chồng vào nhau… motion, làm cho uyển chuyển」。以前の決め（効果を自分で足さない）より CTO の指示を優先。
+   動きは iPhone の約束どおり：短く・途中で触れても止まる・一度だけ。動きを減らす設定の端末では、どれも動かない */
+:root{
+  --card-r:12px;
+  --card-sh:0 1px 2px rgba(60,45,20,.05),0 12px 28px -18px rgba(60,45,20,.34);
+  --card-sh-h:0 2px 6px rgba(60,45,20,.07),0 20px 38px -18px rgba(60,45,20,.42);
+  --ease-out:cubic-bezier(.2,.7,.2,1);
+}
+/* 札：細い縁の箱をやめ、影だけで紙から浮かせる。いまの札（金の輪）・次に読む札（金の縁）はそのまま */
+.ctx-card,.ls-item,.nf-card,.info-page .content .ab-feats li,.info-page .content .credits{border-color:transparent;border-radius:var(--card-r);box-shadow:var(--card-sh)}
+@media (min-width:1100px){
+  .editor-page .ed-item{border-color:transparent;border-radius:var(--card-r);box-shadow:var(--card-sh)}
+}
+.c-ad a{border-radius:var(--card-r)}
+/* 絵の角も少し丸く（札の中・CONTEXT JOURNEY・DISCOVERY） */
+.cc-pics img,.cc-pics i,.ed-thumbs img,.ed-thumbs .ph,.jr-pics img,.jr-pics i,.dc-img,.src img{border-radius:4px}
+/* 上の段の二枚の絵と「つながりを創る」の席：角を丸く */
+:is(.cpage,.wpage)>.duo-hero .art,:is(.cpage,.wpage)>.duo-hero .duo-add{border-radius:6px;overflow:hidden}
+/* 下の帯（携帯）：上の硬い金の線をやめ、紙から帯へ影でにじむように */
+body.viewing .dock{border-top-color:transparent;box-shadow:0 -16px 26px -18px rgba(60,45,20,.28)}
+
+/* 画面に入るとき、下から少し浮かんで現れる（app.js の reveal が .rv と .rv-in を付け外しする） */
+.rv{opacity:0;transform:translateY(18px)}
+.rv.rv-in{opacity:1;transform:none;transition:opacity .55s var(--ease-out) var(--rv-d,0ms),transform .72s var(--ease-out) var(--rv-d,0ms)}
+
+/* ページが開くと、墨と金の筆が筆で掃くように左から現れ、絵の後ろの墨はにじむように濃くなる */
+@keyframes ink-draw{from{clip-path:inset(0 100% 0 0)}to{clip-path:inset(0 0 0 0)}}
+@keyframes ink-bleed{from{opacity:0}}
+:is(.cpage,.wpage)>.duo-hero::after,:is(.cpage,.wpage)>.duo-hero .duo::after,.info-page .content h2::before,.editor-page .ed-head::after{animation:ink-draw 1.1s var(--ease-out) .15s both}
+:is(.cpage,.wpage)>.duo-hero::before{animation:ink-bleed .9s ease-out both}
+
+/* 触れたとき：パソコンは札が少し浮かぶ。携帯は押すと少し沈み、指を離すとすぐ戻る */
+@media (hover:hover) and (pointer:fine){
+  .ctx-card,.ls-item,.nf-card,.editor-page .ed-item,.dc{transition:transform .28s var(--ease-out),box-shadow .28s var(--ease-out),border-color .2s,background-color .2s}
+  .ctx-card:hover,.ls-item:hover,.nf-card:hover,.editor-page .ed-item:hover{transform:translateY(-3px);box-shadow:var(--card-sh-h)}
+  .dc:hover .dc-img{transform:translateY(-3px)}
+  .dc-img{transition:transform .28s var(--ease-out)}
+}
+.ctx-card:active,.ls-item:active,.nf-card:active,.jr-row:active,.src:active{transform:scale(.985);transition-duration:.08s}
+
+@media (prefers-reduced-motion:reduce){
+  .rv{opacity:1;transform:none}
+  :is(.cpage,.wpage)>.duo-hero::after,:is(.cpage,.wpage)>.duo-hero::before,:is(.cpage,.wpage)>.duo-hero .duo::after,.info-page .content h2::before,.editor-page .ed-head::after{animation:none}
+}
+/* パソコンの下の帯の「次は」の札も、縁の箱から影の札に */
+@media (min-width:1100px){
+  body.viewing .next-peek:not([hidden]){border-color:transparent;border-radius:var(--card-r);box-shadow:var(--card-sh)}
+  @media (hover:hover){.next-peek:hover{border-color:transparent;box-shadow:var(--card-sh-h)}}
+}

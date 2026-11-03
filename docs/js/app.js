@@ -46,6 +46,26 @@
   const reduced = matchMedia('(prefers-reduced-motion:reduce)');
   const motionOK = () => !reduced.matches;
 
+  /* 札や区切りは、画面に入るときに下から少し浮かんで現れる（CTO 2026.11.03「motion を、uyển chuyển に」。ink.css 第26段の .rv）。
+     同じときに入ったものは 55ms ずつ遅らせて、上から順に。出終わったら印を外す（札の「押すと沈む」動きを元の速さに戻す）。
+     動きを減らす設定の端末では何もしない（初めから見えている）。触れる所・読み上げは変えない */
+  const RV = '.src-cards,.journey,.context-body>h3,.context-body>.meta,.axes,.refs,.next-ctx,.ctx-cards>*,.ls-row,.ed-item,.nf-card,.ab-feats>li,.rail>.stop,.disc,.c-ad,.ctx-rail>.meta';
+  const rvIO = 'IntersectionObserver' in window ? new IntersectionObserver(es => {
+    let k = 0;
+    es.forEach(en => {
+      if (!en.isIntersecting) return;
+      const el = en.target, d = Math.min(k++, 6) * 55;
+      rvIO.unobserve(el);
+      el.style.setProperty('--rv-d', d + 'ms');
+      el.classList.add('rv-in');
+      setTimeout(() => { el.classList.remove('rv', 'rv-in'); el.style.removeProperty('--rv-d'); }, 760 + d);
+    });
+  }, { rootMargin: '0px 0px -4% 0px' }) : null;
+  function reveal(root){
+    if (!rvIO || !motionOK() || !root) return;
+    root.querySelectorAll(RV).forEach(el => { if (!el.classList.contains('rv')){ el.classList.add('rv'); rvIO.observe(el); } });
+  }
+
   function toast(msg){
     const t = $('toast');
     t.textContent = msg;
@@ -652,7 +672,7 @@
     inner.innerHTML = got.html;
     if (got.page.feed && m.n > FEED_BATCH){
       const rail = inner.querySelector('#rail');
-      if (rail) rail.insertAdjacentHTML('beforeend', R.feedStops(got.page.feed, FEED_BATCH, m.n));
+      if (rail){ rail.insertAdjacentHTML('beforeend', R.feedStops(got.page.feed, FEED_BATCH, m.n)); reveal(rail); }
     }
     inner.querySelectorAll('[id]').forEach(n => n.removeAttribute('id'));
     inner.querySelectorAll('img[data-k]').forEach(im => {
@@ -733,7 +753,9 @@
 
     if (!was) uniScroll = window.scrollY;
     here = page;
+    if (rvIO) rvIO.disconnect();
     viewIn.innerHTML = html;
+    reveal(viewIn);
     view.setAttribute('aria-label', title || '');
     document.title = (title ? title + '｜' : '') + brand;
     count(page);
@@ -860,6 +882,7 @@
     if (!f || !f.rail || f.shown >= n) return;
     const to = Math.min(n, f.items.length);
     f.rail.insertAdjacentHTML('beforeend', R.feedStops(f.items, f.shown, to));
+    reveal(f.rail);
     f.shown = to;
     if (f.shown >= f.items.length && feedIO){ feedIO.disconnect(); feedIO = null; }
   }
