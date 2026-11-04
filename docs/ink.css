@@ -420,7 +420,7 @@ body.on-list .view-in{background:var(--paper)}
 .list-page .meta{color:var(--gold-ink)}
 .list-page h2{color:var(--ink);font-weight:700}
 .ls-count{color:var(--muted)}
-.ls-item{border-color:var(--hair);background:var(--paper-card);color:var(--ink);box-shadow:0 1px 4px rgba(90,70,30,.08)}
+.ls-item{background:var(--paper-card);color:var(--ink)}
 .ls-no{color:var(--muted)}
 .ls-item .ed-txt b{color:var(--ink)}
 .ls-item .ed-txt span{color:var(--muted)}
@@ -481,8 +481,8 @@ body.on-list .view-in{background:var(--paper)}
 
 /* ---- 第16段：つながりの札を見本どおり絵入りに（検索の結果・作品（駅）の区間・同じルーツ） ---- */
 .ctx-cards{display:grid;gap:10px;margin:12px 0 18px}
-.ctx-card{position:relative;display:flex;align-items:center;gap:12px;width:100%;min-width:0;padding:10px 44px 10px 10px;border:1px solid var(--hair);border-radius:10px;
-  background:var(--paper-card);box-shadow:0 1px 4px rgba(90,70,30,.1);color:var(--ink);font:inherit;text-align:left;text-decoration:none;cursor:pointer;
+.ctx-card{position:relative;display:flex;align-items:center;gap:12px;width:100%;min-width:0;padding:10px 44px 10px 10px;border:1px solid transparent;
+  background:var(--paper-card);color:var(--ink);font:inherit;text-align:left;text-decoration:none;cursor:pointer;
   transition:transform .2s ease,border-color .2s}
 .ctx-card:active{transform:scale(.985);transition-duration:.06s}
 .cc-pics{flex:0 0 auto;display:flex;gap:3px}
@@ -1877,4 +1877,50 @@ body.viewing:has(.view-in>.login-page) .login-page .content{padding-bottom:40px}
 @media (hover:none){
   .login-page .lp-field input{font-size:16px}
   .login-page .lp-field input::placeholder{font-size:15px}
+}
+
+/* ---- 第37段：一つの部品（rà soát 4/11 の 5 番目）。同じ役目は同じ形 ----
+   小さな金の札（--kick）：題の上の一行。大きな金の札（--kick-lg）：節の見出し。この二つだけ
+   小見出し：明朝 700。主のボタン：紺の丸い棒 48px、14px/700。従のボタン：細い縁の丸 36px、12px/700。絞り込みの札：32px、12px */
+:root{--kick-fs:11px;--kick-lg-fs:13px}
+@media (min-width:1100px){:root{--kick-fs:clamp(11px,.8vw,13.5px);--kick-lg-fs:clamp(13px,1.02vw,16px)}}
+:is(.route-label,.today-bar>b,.ip-hero>.meta,.content>.meta,.disc>.meta,.src-cards>.meta,.journey>.meta,.ed-head>.meta,.nf-card>small){
+  color:var(--gold-ink);font-family:"Lato",var(--gothic) !important;font-weight:700;font-size:var(--kick-fs) !important;letter-spacing:.22em !important}
+:is(.context-body>.meta,.axes>.meta,.refs>.meta,.comments>.meta,.next-ctx>.meta,.ctx-rail>.meta,.nf-more>.meta,.content>.ab-feat-h,.content>.more-label){
+  color:var(--gold-ink);font-family:"Lato",var(--gothic) !important;font-weight:700;font-size:var(--kick-lg-fs) !important;letter-spacing:.16em !important}
+.meta{text-align:left}
+.ed-head>.meta{text-align:inherit}
+/* 小見出し */
+:is(.ed-chose,.disc-t,.seek-res,.context-body>h3){font-family:var(--mincho) !important;font-weight:700 !important;font-size:17px !important;line-height:1.45 !important}
+.search-page .seek-res small{font-family:var(--mincho);font-weight:400;font-size:13px}
+@media (min-width:1100px){:is(.ed-chose,.disc-t,.seek-res,.context-body>h3){font-size:clamp(17px,1.3vw,22px) !important}}
+/* 頁の大きな題 */
+:is(.ip-hero h2,.search-page .seek-title,.list-page .ls-hero h2){font-weight:700 !important}
+/* 主のボタン */
+:is(.read,.pill){min-height:48px;box-sizing:border-box;border-radius:999px;font-family:var(--gothic) !important;font-size:14px !important;font-weight:700 !important}
+.read small{font-weight:400}
+.pill{display:inline-flex;align-items:center;justify-content:center}
+@media (min-width:1100px){:is(.read,.pill){min-height:46px !important;height:auto}}
+/* 従のボタン */
+:is(.follow,.note-link,.journey>.meta a){display:inline-flex;align-items:center;min-height:36px;height:36px;box-sizing:border-box;padding:0 14px;border:1px solid var(--navy) !important;border-radius:999px;font-family:var(--gothic);font-size:12px !important;font-weight:700}
+.note-link b{font-size:13px}
+.note-link span{font-size:11px;font-weight:400}
+/* 絞り込み・言葉の札 */
+:is(.ls-cats button,.search-page .seek-keys a,.chip){min-height:32px;box-sizing:border-box;font-size:12px !important}
+.search-page .seek-keys a{display:inline-flex;align-items:center;padding-block:0 !important}
+.cm-form textarea{border-radius:var(--card-r)}
+/* 検索の頭：説明の字が墨に掛かっても読めるように */
+.search-page .seek-sub{color:var(--muted);text-shadow:0 0 5px var(--paper),0 0 2px var(--paper)}
+/* 編集者のページ：ロゴは絵の上に載せず、上の紙の帯に（以前は余白の折りたたみで頁ごと下がり、写真に重なっていた） */
+@media (max-width:1099.98px){
+  .editor-page{padding-top:calc(env(safe-area-inset-top) + 58px)}
+  .editor-page .ed-cover{margin-top:0}
+}
+/* 編集者の選んだ札を、ほかの札と同じ形に（携帯）。› の丸も同じ */
+@media (max-width:759.98px){
+  .editor-page .ed-list{gap:10px}
+  .editor-page .ed-item{position:relative;align-items:center;padding:10px 44px 10px 10px;border:1px solid transparent;border-radius:var(--card-r);background:var(--paper-card);box-shadow:var(--card-sh)}
+  .editor-page .ed-item::after{content:"›";position:absolute;right:10px;top:50%;display:grid;place-items:center;width:26px;height:26px;margin-top:-13px;padding-bottom:2px;box-sizing:border-box;border-radius:50%;background:var(--navy);color:#fff;font:400 16px/1 "Lato",sans-serif}
+  .editor-page .ed-item .ed-txt b{font:700 14px/1.45 var(--mincho)}
+  .editor-page .ed-chose{margin-bottom:14px !important}
 }

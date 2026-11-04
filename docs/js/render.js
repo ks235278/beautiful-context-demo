@@ -466,7 +466,7 @@
     const note = /^[A-Za-z0-9_]{1,40}$/.test(ed.note || '') ? ed.note : '';
     return `
       <article class="page text-page editor-page">
-        ${backTop()}${topLogo('on-paper')}
+        ${backTop()}${topLogo('on-paper')}${topExtras()}
         <div class="ed-cover${pic ? '' : ' empty'}">${pic
           ? `<img src="${attr(pic)}" alt="${attr(ed.name)}" decoding="async">`
           : avatar(ed.mark || ed.name, 'big')}<span class="ed-down" aria-hidden="true"></span></div>
@@ -479,7 +479,7 @@
             <div class="ed-acts">${followBtn(ed, on)}${note
               ? `<a class="note-link" href="https://note.com/${attr(note)}" target="_blank" rel="noopener"><b>note</b><span>note.com/${esc(note)}</span></a>` : ''}</div>
           </div>
-          <h3 class="ed-chose">${esc(ed.name)}が選んだつながり<small>この編集者が選んだつながり　${list.length}</small></h3>
+          <h3 class="ed-chose">${esc(ed.name)}が選んだつながり</h3>
           <div class="ed-list">${items || '<p>まだありません。</p>'}</div>
         </div>
       </article>`;
