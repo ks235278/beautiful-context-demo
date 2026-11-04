@@ -1772,3 +1772,69 @@ body.viewing:has(.view-in>.login-page) .login-page .content{padding-bottom:40px}
   body.on-list .dock-next{display:none}
 }
 .ctx-rail .stop.first .fstop::after{content:none}
+
+/* ---- 第35段：作品（駅）のページを、その作品のページに（rà soát 4/11 の 3 番目） ----
+   ・右の席（＋）は位置はそのまま、紙の地に。画面でいちばん暗いものを作品の絵に戻す（席を外すかは 要・先生の確認）
+   ・名前を大きく。パソコンは絵と名前の下に、札を横いっぱいに（下の空きを無くす）
+   ・携帯の CONTEXT JOURNEY は見本 08 のように大きな絵で。並びはパソコンの右の列と同じ */
+.duo-add{border:1px dashed #c2903e;background:#fcfaf4;color:var(--navy)}
+.duo-add span{background:none;box-shadow:0 0 0 1.5px var(--navy)}
+.duo-add small{color:#8a5f10;font-size:11px}
+.duo-add:active span{background:rgba(10,31,58,.08)}
+@media (hover:hover) and (pointer:fine){.duo-add:hover span{background:rgba(10,31,58,.08)}}
+.wpage .w-lead{padding-bottom:6px}
+.wpage .w-lead h2{margin-bottom:10px;color:var(--ink);font:700 min(30px,calc((100vw - 44px) / 11.05))/1.3 var(--mincho);text-wrap:balance}
+.wpage .w-lead p{color:var(--ink-2)}
+.wpage .w-lines{padding-top:0}
+.wpage .w-lines .more-label{margin-top:6px !important}
+/* つぎへ の札：つながりを辿るの行き先 */
+.ctx-card.is-next{border-color:var(--gold);box-shadow:0 8px 20px -14px rgba(90,70,30,.45)}
+.ctx-card.is-next .cc-pics{margin-top:12px}
+.cc-tag{position:absolute;left:-1px;top:-1px;z-index:1;padding:3px 12px;border-radius:10px 0 8px 0;background:var(--gold-btn);color:#fff;font:700 11px/1.4 var(--gothic);letter-spacing:.1em}
+/* CONTEXT JOURNEY（作品ページ） */
+.w-journey{padding-top:10px}
+/* 行の高さが揃わないので、線は丸から次の行の丸まで（丸は行の上から 20px） */
+.w-journey .jr-row{height:auto;grid-template-columns:20px 50px clamp(68px,20.5vw,92px) minmax(0,1fr) 10px;align-items:start;column-gap:8px;padding:12px 0}
+.w-journey .jr li::before{content:"";position:absolute;z-index:0;left:9.25px;top:20px;bottom:-20px;height:auto;width:1.5px;background:var(--gold)}
+.w-journey .jr li:last-child::before{content:none}
+.w-journey .jr-dot{margin-top:3px}
+.w-journey .now .jr-dot{margin-top:1px}
+.w-journey .jr-row>b{color:var(--navy);font:700 12px/1.5 var(--gothic);letter-spacing:.02em;white-space:nowrap}
+.w-journey .now .jr-row>b{color:var(--gold-ink)}
+.jr-art{display:block}
+.jr-art img,.jr-art .ph{display:grid;place-items:center;width:100%;aspect-ratio:2/3;border-radius:4px;object-fit:cover;background:#0a1f3a;color:var(--gold-lite);font:18px/1 var(--mincho);box-shadow:0 8px 14px -10px rgba(6,20,43,.55)}
+.w-journey .now .jr-art img,.w-journey .now .jr-art .ph{outline:1.5px solid var(--gold);outline-offset:2px}
+.w-journey .jr-t{gap:3px}
+.w-journey .jr-t small{overflow:visible;color:var(--gold-ink);font:700 10.5px/1.4 var(--gothic);letter-spacing:.02em;white-space:normal}
+.w-journey .jr-t strong{display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;color:var(--ink);font:700 clamp(13.5px,3.7vw,15.5px)/1.45 var(--mincho)}
+.w-journey .jr-t em{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;color:var(--muted);font:400 11px/1.5 var(--gothic);font-style:normal}
+.w-journey a.jr-row::after{align-self:center}
+#routeMini .rm-pics.one{grid-template-columns:1fr}
+#routeMini .rm-pics.one img{object-position:50% 30%}
+@media (min-width:760px) and (max-width:1099.98px){
+  .w-journey .jr-row{grid-template-columns:20px 54px 92px minmax(0,1fr) 10px;column-gap:12px}
+  .w-journey .jr-t strong{font-size:16px}
+  .wpage .w-lead h2{font-size:30px}
+  .wpage .w-lines .ctx-cards{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media (min-width:1100px){
+  .wpage{grid-template-rows:auto auto 1fr}
+  .wpage>.w-lead{grid-column:2;grid-row:1;align-self:center;min-height:0;padding:86px 40px 34px 14px}
+  .wpage .w-lead h2{margin-bottom:14px;font-size:min(clamp(36px,3.1vw,52px),calc(100cqi / 8))}
+  .wpage .w-lead p{font-size:clamp(14px,1vw,16.5px);line-height:1.9;text-align:left}
+  .wpage .w-lead .by{margin-top:0;font-size:clamp(13px,.9vw,15px)}
+  .wpage>.w-journey{display:none}
+  .wpage>.w-lines{grid-column:1/-1;grid-row:2;min-height:0;padding:0 var(--lx) clamp(40px,4vw,64px)}
+  .wpage .w-lines .ctx-cards{grid-template-columns:repeat(auto-fill,minmax(clamp(210px,17vw,270px),1fr));gap:clamp(10px,1vw,18px);margin-top:clamp(12px,1vw,18px)}
+  .wpage .w-lines .ctx-card{flex-direction:column;align-items:stretch;gap:0;height:100%;padding:0 0 14px;overflow:hidden;border-radius:8px}
+  .wpage .w-lines .cc-pics{display:grid;grid-template-columns:1fr 1fr;gap:2px;margin:0}
+  .wpage .w-lines .cc-pics img,.wpage .w-lines .cc-pics i{width:100%;height:auto;aspect-ratio:2/2.6;border-radius:0}
+  .wpage .w-lines .cc-t{flex:1;align-content:start;gap:4px;padding:12px 14px 4px}
+  .wpage .w-lines .cc-t b{-webkit-line-clamp:3;font-size:clamp(14.5px,1.1vw,18px)}
+  .wpage .w-lines .cc-t em{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;white-space:normal}
+  .wpage .w-lines .cc-go{display:none}
+  .wpage .w-lines .ctx-card::after{content:"このつながりを読む　→";align-self:center;margin-top:10px;padding:6px 16px;border:1px solid var(--navy);border-radius:999px;color:var(--navy);font:600 clamp(11px,.78vw,13px)/1.3 var(--gothic)}
+  .wpage .w-lines .ctx-card.is-next::after{background:var(--navy);color:#fff}
+  .wpage .w-lines .cc-tag{border-radius:8px 0 8px 0}
+  .wpage .img-credit{margin-top:14px}
+}

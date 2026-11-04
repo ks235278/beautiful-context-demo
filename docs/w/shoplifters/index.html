@@ -43,9 +43,9 @@ try { if (sessionStorage.getItem('bc-resume')) document.documentElement.classLis
 <link rel="preload" as="image" href="img/logo-layer-words.png">
 <!-- 台本も先に取りに行く（静的なページは台本より先に本文が描かれる。遅い回線で、触れて動くまでの間を縮める）。
      src と同じアドレス（?v= まで）でないと、二度取りに行く -->
-<link rel="preload" as="script" href="js/seed.js?v=175">
-<link rel="preload" as="script" href="js/app.js?v=175">
-<link rel="manifest" href="manifest.webmanifest?v=175">
+<link rel="preload" as="script" href="js/seed.js?v=176">
+<link rel="preload" as="script" href="js/app.js?v=176">
+<link rel="manifest" href="manifest.webmanifest?v=176">
 <link rel="apple-touch-icon" href="icon-180.png">
 <!-- タブと検索結果に出る小さな印。アプリの印（ホーム画面のアイコン）と同じ形 -->
 <link rel="icon" href="favicon.ico" sizes="16x16 32x32 48x48">
@@ -76,13 +76,13 @@ if (location.hostname === 'beautifulcontext.com'){
   document.head.appendChild(ga);
 }
 </script>
-<script src="js/theme.js?v=175"></script>
-<link rel="stylesheet" href="app.css?v=175">
+<script src="js/theme.js?v=176"></script>
+<link rel="stylesheet" href="app.css?v=176">
 <!-- 読む画面の使い勝手（2026.10.24）。app.css のすぐあと -->
-<link rel="stylesheet" href="ux.css?v=175">
-<link rel="stylesheet" href="fade.css?v=175">
+<link rel="stylesheet" href="ux.css?v=176">
+<link rel="stylesheet" href="fade.css?v=176">
 <!-- editorial-ink（紙・墨・金）：◆ の罫と、紙の上か絵の上かで変わる決まり。ux.css のあと -->
-<link rel="stylesheet" href="ink.css?v=175">
+<link rel="stylesheet" href="ink.css?v=176">
 <!-- 台本（js）が揃うまで：まだ押しても動かないもの（‹・絵の横の ‹ ›・つながりを辿る）を少し薄くし、下の帯の上の縁に細い金の線を走らせる。
      app.js が最後に body.app-ready を付けて外す。すぐ揃うときは何も見せない（0.3 秒待ってから出す） -->
 <style>
@@ -195,14 +195,21 @@ document.addEventListener('click', function (e) {
       <article class="page wpage">
         <button type="button" class="back-close" data-close="" aria-label="Today's Editor's Choice へ戻る" title="Today's Editor's Choice へ"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 4.5 7.5 12l7.5 7.5"></path></svg></button>
         <div class="duo-hero"><a class="c-logo on-paper" href="#/" data-top="" aria-label="BEAUTIFUL CONTEXT（TOP へ戻る）"><img src="img/logo-navy.png" alt=""></a><span class="only-sp"><button type="button" class="login-chip" data-login="">Login</button></span><div class="duo"><div class="art"><img src="img/works/shoplifters.jpg" alt="是枝裕和『万引き家族』" data-k="shoplifters" decoding="async" fetchpriority="low"></div><a class="duo-add" href="editor.html?from=shoplifters" aria-label="是枝裕和『万引き家族』から、新しいつながりを創る" title="この作品から、新しいつながりを創る（ReMixIt!・編集者向け）"><span aria-hidden="true">＋</span><small>つながりを創る</small></a></div><button type="button" class="ctx-nav prev" data-ctx-go="-1" aria-label="一つ前のつながりへ">‹</button><button type="button" class="ctx-nav next" data-ctx-go="1" aria-label="次へ：日本映画が21年ぶりにパルム・ドールを得た。">›</button></div>
-        <div class="content">
+        <div class="content w-lead">
           <p class="meta">映画・2018年　CURRENT STATION</p>
-          <p class="meta-sub">駅：この作品を起点に、次の区間へ</p>
           <h2>是枝裕和『万引き家族』</h2>
           <p class="by">是枝裕和監督</p>
           <p>万引きで暮らしを補う一家と、彼らに拾われた少女を描いた映画。2018年のカンヌ国際映画祭でパルム・ドールを受けた。</p>
-          <div class="ctx-cards"><button type="button" class="ctx-card" data-step="1" aria-label="日本映画が21年ぶりにパルム・ドールを得た。：是枝裕和 ＋ 是枝裕和『万引き家族』"><span class="cc-pics" aria-hidden="true"><img src="img/works/koreeda-hirokazu.jpg" alt="" loading="lazy" decoding="async"><img src="img/works/shoplifters.jpg" alt="" loading="lazy" decoding="async"></span><span class="cc-t"><small><span class="rn">［家族とは何か］</span><i class="rt">約30秒</i></small><b>日本映画が21年ぶりにパルム・ドールを得た。</b><em>是枝裕和 ＋ <span class="nb">是枝裕和『万引き家族』</span></em></span><span class="cc-go" aria-hidden="true">›</span></button></div>
-          <p class="meta more-label">この駅から延びるほかの区間　2本</p><div class="ctx-cards"><a class="ctx-card" href="c/nobody-knows--shoplifters/" aria-label="社会の外側で、子どもたちは暮らした。：是枝裕和『誰も知らない』 ＋ 是枝裕和『万引き家族』"><span class="cc-pics" aria-hidden="true"><img src="img/works/nobody-knows.jpg" alt="" loading="lazy" decoding="async"><img src="img/works/shoplifters.jpg" alt="" loading="lazy" decoding="async"></span><span class="cc-t"><small><span class="rn">［誰にも見えない家］</span><i class="rt">約30秒</i></small><b>社会の外側で、子どもたちは暮らした。</b><em>是枝裕和『誰も知らない』 ＋ <span class="nb">是枝裕和『万引き家族』</span></em></span><span class="cc-go" aria-hidden="true">›</span></a><a class="ctx-card" href="c/shoplifters--apocalypse-now/" aria-label="ジャングルの奥の戦争と東京の片隅の家族。：是枝裕和『万引き家族』 ＋ コッポラ『地獄の黙示録』"><span class="cc-pics" aria-hidden="true"><img src="img/works/shoplifters.jpg" alt="" loading="lazy" decoding="async"><img src="img/works/apocalypse-now.jpg" alt="" loading="lazy" decoding="async"></span><span class="cc-t"><small><span class="rn">［パルム・ドールの系譜］</span><i class="rt">約30秒</i></small><b>ジャングルの奥の戦争と東京の片隅の家族。</b><em>是枝裕和『万引き家族』 ＋ <span class="nb">コッポラ『地獄の黙示録』</span></em></span><span class="cc-go" aria-hidden="true">›</span></a></div>
+        </div>
+        
+        <section class="journey w-journey" aria-label="CONTEXT JOURNEY">
+          <p class="meta">CONTEXT JOURNEY<a href="#/list">一覧で見る　→</a></p>
+          <p class="jr-sub">この作品から、たどる道</p>
+          <ol class="jr"><li class="now"><span class="jr-row" aria-current="step"><i class="jr-dot"></i><b>いまここ</b><span class="jr-art"><img src="img/works/shoplifters.jpg" alt="" loading="lazy" decoding="async"></span><span class="jr-t"><small>映画・2018</small><strong>是枝裕和『万引き家族』</strong><em>是枝裕和監督</em></span></span></li><li><a class="jr-row" href="c/koreeda-hirokazu--shoplifters/"><i class="jr-dot"></i><b>つぎへ</b><span class="jr-art"><img src="img/works/koreeda-hirokazu.jpg" alt="" loading="lazy" decoding="async"></span><span class="jr-t"><small>［家族とは何か］</small><strong>日本映画が21年ぶりにパルム・ドールを得た。</strong><em>是枝裕和 ＋ 是枝裕和『万引き家族』</em></span></a></li><li><a class="jr-row" href="c/koreeda-hirokazu--nobody-knows/"><i class="jr-dot"></i><b>さらに</b><span class="jr-art"><img src="img/works/nobody-knows.jpg" alt="" loading="lazy" decoding="async"></span><span class="jr-t"><small>［見過ごされた子どもたち］</small><strong>14歳が、カンヌで最年少の男優賞を得た。</strong><em>是枝裕和 ＋ 是枝裕和『誰も知らない』</em></span></a></li><li><a class="jr-row" href="c/nobody-knows--shoplifters/"><i class="jr-dot"></i><b>その先へ</b><span class="jr-art"><img src="img/works/nobody-knows.jpg" alt="" loading="lazy" decoding="async"></span><span class="jr-t"><small>［誰にも見えない家］</small><strong>社会の外側で、子どもたちは暮らした。</strong><em>是枝裕和『誰も知らない』 ＋ 是枝裕和『万引き家族』</em></span></a></li></ol>
+        </section>
+        <div class="content w-lines">
+          <p class="meta more-label">この作品から延びるつながり　3本</p>
+          <div class="ctx-cards"><button type="button" class="ctx-card is-next" data-step="1" aria-label="日本映画が21年ぶりにパルム・ドールを得た。：是枝裕和 ＋ 是枝裕和『万引き家族』"><span class="cc-tag">つぎへ</span><span class="cc-pics" aria-hidden="true"><img src="img/works/koreeda-hirokazu.jpg" alt="" loading="lazy" decoding="async"><img src="img/works/shoplifters.jpg" alt="" loading="lazy" decoding="async"></span><span class="cc-t"><small><span class="rn">［家族とは何か］</span><i class="rt">約30秒</i></small><b>日本映画が21年ぶりにパルム・ドールを得た。</b><em>是枝裕和 ＋ <span class="nb">是枝裕和『万引き家族』</span></em></span><span class="cc-go" aria-hidden="true">›</span></button><a class="ctx-card" href="c/nobody-knows--shoplifters/" aria-label="社会の外側で、子どもたちは暮らした。：是枝裕和『誰も知らない』 ＋ 是枝裕和『万引き家族』"><span class="cc-pics" aria-hidden="true"><img src="img/works/nobody-knows.jpg" alt="" loading="lazy" decoding="async"><img src="img/works/shoplifters.jpg" alt="" loading="lazy" decoding="async"></span><span class="cc-t"><small><span class="rn">［誰にも見えない家］</span><i class="rt">約30秒</i></small><b>社会の外側で、子どもたちは暮らした。</b><em>是枝裕和『誰も知らない』 ＋ <span class="nb">是枝裕和『万引き家族』</span></em></span><span class="cc-go" aria-hidden="true">›</span></a><a class="ctx-card" href="c/shoplifters--apocalypse-now/" aria-label="ジャングルの奥の戦争と東京の片隅の家族。：是枝裕和『万引き家族』 ＋ コッポラ『地獄の黙示録』"><span class="cc-pics" aria-hidden="true"><img src="img/works/shoplifters.jpg" alt="" loading="lazy" decoding="async"><img src="img/works/apocalypse-now.jpg" alt="" loading="lazy" decoding="async"></span><span class="cc-t"><small><span class="rn">［パルム・ドールの系譜］</span><i class="rt">約30秒</i></small><b>ジャングルの奥の戦争と東京の片隅の家族。</b><em>是枝裕和『万引き家族』 ＋ <span class="nb">コッポラ『地獄の黙示録』</span></em></span><span class="cc-go" aria-hidden="true">›</span></a></div>
           <p class="img-credit">画像：© 2018 フジテレビジョン ギャガ AOI Pro.／出典 映画.com　<a href="https://eiga.com/movie/88449/" target="_blank" rel="noopener nofollow">出典</a></p>
         </div>
       </article><!--/bc-body--></div>
@@ -213,17 +220,17 @@ document.addEventListener('click', function (e) {
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 <script type="application/ld+json" id="ld">{"@context":"https://schema.org","@type":"Movie","name":"万引き家族","description":"万引きで暮らしを補う一家と、彼らに拾われた少女を描いた映画。2018年のカンヌ国際映画祭でパルム・ドールを受けた。","creator":{"@type":"Person","name":"是枝裕和監督"},"url":"https://beautifulcontext.com/w/shoplifters/","image":"https://beautifulcontext.com/img/works/shoplifters.jpg","subjectOf":[{"@type":"Article","headline":"日本映画が21年ぶりにパルム・ドールを得た。","url":"https://beautifulcontext.com/c/koreeda-hirokazu--shoplifters/"},{"@type":"Article","headline":"社会の外側で、子どもたちは暮らした。","url":"https://beautifulcontext.com/c/nobody-knows--shoplifters/"},{"@type":"Article","headline":"ジャングルの奥の戦争と東京の片隅の家族。","url":"https://beautifulcontext.com/c/shoplifters--apocalypse-now/"}]}</script>
 
-<script src="js/config.js?v=175"></script>
-<script src="js/seed.js?v=175"></script>
-<script src="js/sources.js?v=175"></script>
-<script src="js/backend.js?v=175"></script>
-<script src="js/store.js?v=175"></script>
-<script src="js/social.js?v=175"></script>
-<script src="js/render.js?v=175"></script>
-<script src="js/login.js?v=175"></script>
-<script src="js/login-page.js?v=175"></script>
-<script src="js/report.js?v=175"></script>
-<script src="js/transition.js?v=175"></script>
-<script src="js/app.js?v=175"></script>
+<script src="js/config.js?v=176"></script>
+<script src="js/seed.js?v=176"></script>
+<script src="js/sources.js?v=176"></script>
+<script src="js/backend.js?v=176"></script>
+<script src="js/store.js?v=176"></script>
+<script src="js/social.js?v=176"></script>
+<script src="js/render.js?v=176"></script>
+<script src="js/login.js?v=176"></script>
+<script src="js/login-page.js?v=176"></script>
+<script src="js/report.js?v=176"></script>
+<script src="js/transition.js?v=176"></script>
+<script src="js/app.js?v=176"></script>
 </body>
 </html>

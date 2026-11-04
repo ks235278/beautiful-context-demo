@@ -43,9 +43,9 @@ try { if (sessionStorage.getItem('bc-resume')) document.documentElement.classLis
 <link rel="preload" as="image" href="img/logo-layer-words.png">
 <!-- 台本も先に取りに行く（静的なページは台本より先に本文が描かれる。遅い回線で、触れて動くまでの間を縮める）。
      src と同じアドレス（?v= まで）でないと、二度取りに行く -->
-<link rel="preload" as="script" href="js/seed.js?v=175">
-<link rel="preload" as="script" href="js/app.js?v=175">
-<link rel="manifest" href="manifest.webmanifest?v=175">
+<link rel="preload" as="script" href="js/seed.js?v=176">
+<link rel="preload" as="script" href="js/app.js?v=176">
+<link rel="manifest" href="manifest.webmanifest?v=176">
 <link rel="apple-touch-icon" href="icon-180.png">
 <!-- タブと検索結果に出る小さな印。アプリの印（ホーム画面のアイコン）と同じ形 -->
 <link rel="icon" href="favicon.ico" sizes="16x16 32x32 48x48">
@@ -76,13 +76,13 @@ if (location.hostname === 'beautifulcontext.com'){
   document.head.appendChild(ga);
 }
 </script>
-<script src="js/theme.js?v=175"></script>
-<link rel="stylesheet" href="app.css?v=175">
+<script src="js/theme.js?v=176"></script>
+<link rel="stylesheet" href="app.css?v=176">
 <!-- 読む画面の使い勝手（2026.10.24）。app.css のすぐあと -->
-<link rel="stylesheet" href="ux.css?v=175">
-<link rel="stylesheet" href="fade.css?v=175">
+<link rel="stylesheet" href="ux.css?v=176">
+<link rel="stylesheet" href="fade.css?v=176">
 <!-- editorial-ink（紙・墨・金）：◆ の罫と、紙の上か絵の上かで変わる決まり。ux.css のあと -->
-<link rel="stylesheet" href="ink.css?v=175">
+<link rel="stylesheet" href="ink.css?v=176">
 <!-- 台本（js）が揃うまで：まだ押しても動かないもの（‹・絵の横の ‹ ›・つながりを辿る）を少し薄くし、下の帯の上の縁に細い金の線を走らせる。
      app.js が最後に body.app-ready を付けて外す。すぐ揃うときは何も見せない（0.3 秒待ってから出す） -->
 <style>
@@ -195,14 +195,21 @@ document.addEventListener('click', function (e) {
       <article class="page wpage">
         <button type="button" class="back-close" data-close="" aria-label="Today's Editor's Choice へ戻る" title="Today's Editor's Choice へ"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 4.5 7.5 12l7.5 7.5"></path></svg></button>
         <div class="duo-hero"><a class="c-logo on-paper" href="#/" data-top="" aria-label="BEAUTIFUL CONTEXT（TOP へ戻る）"><img src="img/logo-navy.png" alt=""></a><span class="only-sp"><button type="button" class="login-chip" data-login="">Login</button></span><div class="duo"><div class="art"><img src="img/works/natsume-soseki.jpg" alt="夏目漱石" data-k="natsume-soseki" decoding="async" fetchpriority="low"></div><a class="duo-add" href="editor.html?from=natsume-soseki" aria-label="夏目漱石から、新しいつながりを創る" title="この作品から、新しいつながりを創る（ReMixIt!・編集者向け）"><span aria-hidden="true">＋</span><small>つながりを創る</small></a></div><button type="button" class="ctx-nav prev" data-ctx-go="-1" aria-label="一つ前のつながりへ">‹</button><button type="button" class="ctx-nav next" data-ctx-go="1" aria-label="次へ：「非人情」の小説には、漱石の芸術論が表れた。">›</button></div>
-        <div class="content">
+        <div class="content w-lead">
           <p class="meta">人物・1867年　CURRENT STATION</p>
-          <p class="meta-sub">駅：この作品を起点に、次の区間へ</p>
           <h2>夏目漱石</h2>
           <p class="by">小説家（1867–1916）</p>
           <p>『吾輩は猫である』『坊っちゃん』『草枕』『こころ』の作家。熊本の第五高等学校で教えたのち、1900年から英国に留学した。</p>
-          <div class="ctx-cards"><button type="button" class="ctx-card" data-step="1" aria-label="「非人情」の小説には、漱石の芸術論が表れた。：夏目漱石『草枕』 ＋ 夏目漱石"><span class="cc-pics" aria-hidden="true"><img src="img/kusamakura.jpg" alt="" loading="lazy" decoding="async"><img src="img/works/natsume-soseki.jpg" alt="" loading="lazy" decoding="async"></span><span class="cc-t"><small><span class="rn">［旅が生んだ『草枕』］</span><i class="rt">約40秒</i></small><b>「非人情」の小説には、漱石の芸術論が表れた。</b><em>夏目漱石『草枕』 ＋ <span class="nb">夏目漱石</span></em></span><span class="cc-go" aria-hidden="true">›</span></button></div>
-          <p class="meta more-label">この駅から延びるほかの区間　2本</p><div class="ctx-cards"><a class="ctx-card" href="c/natsume-soseki--zhou-tokyo-diary/" aria-label="漱石はロンドンで、周恩来は東京で書いた。：夏目漱石 ＋ 周恩来『十九歳の東京日記』"><span class="cc-pics" aria-hidden="true"><img src="img/works/natsume-soseki.jpg" alt="" loading="lazy" decoding="async"><img src="img/zhou-diary.jpg" alt="" loading="lazy" decoding="async"></span><span class="cc-t"><small><span class="rn">［異国の都の記録］</span><i class="rt">約40秒</i></small><b>漱石はロンドンで、周恩来は東京で書いた。</b><em>夏目漱石 ＋ <span class="nb">周恩来『十九歳の東京日記』</span></em></span><span class="cc-go" aria-hidden="true">›</span></a><a class="ctx-card" href="c/minakata-kumagusu--natsume-soseki/" aria-label="同じ年生まれの二人は、ロンドンで入れ違った。：南方熊楠 ＋ 夏目漱石"><span class="cc-pics" aria-hidden="true"><img src="img/works/minakata-kumagusu.jpg" alt="" loading="lazy" decoding="async"><img src="img/works/natsume-soseki.jpg" alt="" loading="lazy" decoding="async"></span><span class="cc-t"><small><span class="rn">［ロンドンの入れ違い］</span><i class="rt">約35秒</i></small><b>同じ年生まれの二人は、ロンドンで入れ違った。</b><em>南方熊楠 ＋ <span class="nb">夏目漱石</span></em></span><span class="cc-go" aria-hidden="true">›</span></a></div>
+        </div>
+        
+        <section class="journey w-journey" aria-label="CONTEXT JOURNEY">
+          <p class="meta">CONTEXT JOURNEY<a href="#/list">一覧で見る　→</a></p>
+          <p class="jr-sub">この作品から、たどる道</p>
+          <ol class="jr"><li class="now"><span class="jr-row" aria-current="step"><i class="jr-dot"></i><b>いまここ</b><span class="jr-art"><img src="img/works/natsume-soseki.jpg" alt="" loading="lazy" decoding="async"></span><span class="jr-t"><small>人物・1867</small><strong>夏目漱石</strong><em>小説家（1867–1916）</em></span></span></li><li><a class="jr-row" href="c/kusamakura--natsume-soseki/"><i class="jr-dot"></i><b>つぎへ</b><span class="jr-art"><img src="img/kusamakura.jpg" alt="" loading="lazy" decoding="async"></span><span class="jr-t"><small>［旅が生んだ『草枕』］</small><strong>「非人情」の小説には、漱石の芸術論が表れた。</strong><em>夏目漱石『草枕』 ＋ 夏目漱石</em></span></a></li><li><a class="jr-row" href="c/glenn-gould--kusamakura/"><i class="jr-dot"></i><b>さらに</b><span class="jr-art"><img src="img/gould.jpg" alt="" loading="lazy" decoding="async"></span><span class="jr-t"><small>［非人情という共通言語］</small><strong>枕元にあった二冊は、聖書と『草枕』だった。</strong><em>グレン・グールド ＋ 夏目漱石『草枕』</em></span></a></li><li><a class="jr-row" href="c/glenn-gould--goldberg-variations/"><i class="jr-dot"></i><b>その先へ</b><span class="jr-art"><img src="img/works/goldberg-variations.jpg" alt="" loading="lazy" decoding="async"></span><span class="jr-t"><small>［デビューと再録音］</small><strong>デビュー盤と同じ曲を、死の前年に録り直した。</strong><em>グレン・グールド ＋ バッハ『ゴールドベルク変奏曲』</em></span></a></li></ol>
+        </section>
+        <div class="content w-lines">
+          <p class="meta more-label">この作品から延びるつながり　3本</p>
+          <div class="ctx-cards"><button type="button" class="ctx-card is-next" data-step="1" aria-label="「非人情」の小説には、漱石の芸術論が表れた。：夏目漱石『草枕』 ＋ 夏目漱石"><span class="cc-tag">つぎへ</span><span class="cc-pics" aria-hidden="true"><img src="img/kusamakura.jpg" alt="" loading="lazy" decoding="async"><img src="img/works/natsume-soseki.jpg" alt="" loading="lazy" decoding="async"></span><span class="cc-t"><small><span class="rn">［旅が生んだ『草枕』］</span><i class="rt">約40秒</i></small><b>「非人情」の小説には、漱石の芸術論が表れた。</b><em>夏目漱石『草枕』 ＋ <span class="nb">夏目漱石</span></em></span><span class="cc-go" aria-hidden="true">›</span></button><a class="ctx-card" href="c/natsume-soseki--zhou-tokyo-diary/" aria-label="漱石はロンドンで、周恩来は東京で書いた。：夏目漱石 ＋ 周恩来『十九歳の東京日記』"><span class="cc-pics" aria-hidden="true"><img src="img/works/natsume-soseki.jpg" alt="" loading="lazy" decoding="async"><img src="img/zhou-diary.jpg" alt="" loading="lazy" decoding="async"></span><span class="cc-t"><small><span class="rn">［異国の都の記録］</span><i class="rt">約40秒</i></small><b>漱石はロンドンで、周恩来は東京で書いた。</b><em>夏目漱石 ＋ <span class="nb">周恩来『十九歳の東京日記』</span></em></span><span class="cc-go" aria-hidden="true">›</span></a><a class="ctx-card" href="c/minakata-kumagusu--natsume-soseki/" aria-label="同じ年生まれの二人は、ロンドンで入れ違った。：南方熊楠 ＋ 夏目漱石"><span class="cc-pics" aria-hidden="true"><img src="img/works/minakata-kumagusu.jpg" alt="" loading="lazy" decoding="async"><img src="img/works/natsume-soseki.jpg" alt="" loading="lazy" decoding="async"></span><span class="cc-t"><small><span class="rn">［ロンドンの入れ違い］</span><i class="rt">約35秒</i></small><b>同じ年生まれの二人は、ロンドンで入れ違った。</b><em>南方熊楠 ＋ <span class="nb">夏目漱石</span></em></span><span class="cc-go" aria-hidden="true">›</span></a></div>
           <p class="img-credit">画像：撮影 小川一眞／Public domain／Wikimedia Commons　<a href="https://commons.wikimedia.org/wiki/File:Natsume_Soseki_photo.jpg" target="_blank" rel="noopener nofollow">出典</a></p>
         </div>
       </article><!--/bc-body--></div>
@@ -213,17 +220,17 @@ document.addEventListener('click', function (e) {
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 <script type="application/ld+json" id="ld">{"@context":"https://schema.org","@type":"Person","name":"夏目漱石","description":"『吾輩は猫である』『坊っちゃん』『草枕』『こころ』の作家。熊本の第五高等学校で教えたのち、1900年から英国に留学した。","url":"https://beautifulcontext.com/w/natsume-soseki/","image":"https://beautifulcontext.com/img/works/natsume-soseki.jpg","subjectOf":[{"@type":"Article","headline":"「非人情」の小説には、漱石の芸術論が表れた。","url":"https://beautifulcontext.com/c/kusamakura--natsume-soseki/"},{"@type":"Article","headline":"漱石はロンドンで、周恩来は東京で書いた。","url":"https://beautifulcontext.com/c/natsume-soseki--zhou-tokyo-diary/"},{"@type":"Article","headline":"同じ年生まれの二人は、ロンドンで入れ違った。","url":"https://beautifulcontext.com/c/minakata-kumagusu--natsume-soseki/"}]}</script>
 
-<script src="js/config.js?v=175"></script>
-<script src="js/seed.js?v=175"></script>
-<script src="js/sources.js?v=175"></script>
-<script src="js/backend.js?v=175"></script>
-<script src="js/store.js?v=175"></script>
-<script src="js/social.js?v=175"></script>
-<script src="js/render.js?v=175"></script>
-<script src="js/login.js?v=175"></script>
-<script src="js/login-page.js?v=175"></script>
-<script src="js/report.js?v=175"></script>
-<script src="js/transition.js?v=175"></script>
-<script src="js/app.js?v=175"></script>
+<script src="js/config.js?v=176"></script>
+<script src="js/seed.js?v=176"></script>
+<script src="js/sources.js?v=176"></script>
+<script src="js/backend.js?v=176"></script>
+<script src="js/store.js?v=176"></script>
+<script src="js/social.js?v=176"></script>
+<script src="js/render.js?v=176"></script>
+<script src="js/login.js?v=176"></script>
+<script src="js/login-page.js?v=176"></script>
+<script src="js/report.js?v=176"></script>
+<script src="js/transition.js?v=176"></script>
+<script src="js/app.js?v=176"></script>
 </body>
 </html>

@@ -43,9 +43,9 @@ try { if (sessionStorage.getItem('bc-resume')) document.documentElement.classLis
 <link rel="preload" as="image" href="img/logo-layer-words.png">
 <!-- 台本も先に取りに行く（静的なページは台本より先に本文が描かれる。遅い回線で、触れて動くまでの間を縮める）。
      src と同じアドレス（?v= まで）でないと、二度取りに行く -->
-<link rel="preload" as="script" href="js/seed.js?v=175">
-<link rel="preload" as="script" href="js/app.js?v=175">
-<link rel="manifest" href="manifest.webmanifest?v=175">
+<link rel="preload" as="script" href="js/seed.js?v=176">
+<link rel="preload" as="script" href="js/app.js?v=176">
+<link rel="manifest" href="manifest.webmanifest?v=176">
 <link rel="apple-touch-icon" href="icon-180.png">
 <!-- タブと検索結果に出る小さな印。アプリの印（ホーム画面のアイコン）と同じ形 -->
 <link rel="icon" href="favicon.ico" sizes="16x16 32x32 48x48">
@@ -76,13 +76,13 @@ if (location.hostname === 'beautifulcontext.com'){
   document.head.appendChild(ga);
 }
 </script>
-<script src="js/theme.js?v=175"></script>
-<link rel="stylesheet" href="app.css?v=175">
+<script src="js/theme.js?v=176"></script>
+<link rel="stylesheet" href="app.css?v=176">
 <!-- 読む画面の使い勝手（2026.10.24）。app.css のすぐあと -->
-<link rel="stylesheet" href="ux.css?v=175">
-<link rel="stylesheet" href="fade.css?v=175">
+<link rel="stylesheet" href="ux.css?v=176">
+<link rel="stylesheet" href="fade.css?v=176">
 <!-- editorial-ink（紙・墨・金）：◆ の罫と、紙の上か絵の上かで変わる決まり。ux.css のあと -->
-<link rel="stylesheet" href="ink.css?v=175">
+<link rel="stylesheet" href="ink.css?v=176">
 <!-- 台本（js）が揃うまで：まだ押しても動かないもの（‹・絵の横の ‹ ›・つながりを辿る）を少し薄くし、下の帯の上の縁に細い金の線を走らせる。
      app.js が最後に body.app-ready を付けて外す。すぐ揃うときは何も見せない（0.3 秒待ってから出す） -->
 <style>
@@ -194,15 +194,22 @@ document.addEventListener('click', function (e) {
   <div class="view-in" id="viewIn"><!--bc-body-->
       <article class="page wpage">
         <button type="button" class="back-close" data-close="" aria-label="Today's Editor's Choice へ戻る" title="Today's Editor's Choice へ"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 4.5 7.5 12l7.5 7.5"></path></svg></button>
-        <div class="duo-hero"><a class="c-logo on-paper" href="#/" data-top="" aria-label="BEAUTIFUL CONTEXT（TOP へ戻る）"><img src="img/logo-navy.png" alt=""></a><span class="only-sp"><button type="button" class="login-chip" data-login="">Login</button></span><div class="duo"><div class="art"><img src="img/kings-ransom.jpg" alt="エド・マクベイン『キングの身代金』" data-k="kings-ransom" decoding="async" fetchpriority="low"></div><a class="duo-add" href="editor.html?from=kings-ransom" aria-label="エド・マクベイン『キングの身代金』から、新しいつながりを創る" title="この作品から、新しいつながりを創る（ReMixIt!・編集者向け）"><span aria-hidden="true">＋</span><small>つながりを創る</small></a></div><button type="button" class="ctx-nav prev" data-ctx-go="-1" aria-label="一つ前のつながりへ">‹</button><button type="button" class="ctx-nav next" data-ctx-go="1" aria-label="次へ：黒澤の映画の前にも、一冊の小説があった。">›</button></div>
-        <div class="content">
+        <div class="duo-hero"><a class="c-logo on-paper" href="#/" data-top="" aria-label="BEAUTIFUL CONTEXT（TOP へ戻る）"><img src="img/logo-navy.png" alt=""></a><span class="only-sp"><button type="button" class="login-chip" data-login="">Login</button></span><div class="duo"><div class="art"><img src="img/kings-ransom.jpg" alt="エド・マクベイン『キングの身代金』" data-k="kings-ransom" decoding="async" fetchpriority="low"></div><a class="duo-add" href="editor.html?from=kings-ransom" aria-label="エド・マクベイン『キングの身代金』から、新しいつながりを創る" title="この作品から、新しいつながりを創る（ReMixIt!・編集者向け）"><span aria-hidden="true">＋</span><small>つながりを創る</small></a></div><button type="button" class="ctx-nav prev" data-ctx-go="-1" aria-label="一つ前のつながりへ">‹</button><button type="button" class="ctx-nav next" data-ctx-go="1" aria-label="次へ：身代金の電話は、横浜の高台で鳴った。">›</button></div>
+        <div class="content w-lead">
           <p class="meta">書籍・1959年　CURRENT STATION</p>
-          <p class="meta-sub">駅：この作品を起点に、次の区間へ</p>
           <h2>エド・マクベイン『キングの身代金』</h2>
           <p class="by">エド・マクベイン（87分署シリーズ）</p>
           <p>架空の街アイソラの87分署を舞台にした警察小説シリーズの一作。原題『King’s Ransom』。靴会社の重役のもとに、身代金を要求する電話がかかってくる。</p>
-          <div class="ctx-cards"><button type="button" class="ctx-card" data-step="1" aria-label="身代金の電話は、横浜の高台で鳴った。：黒澤明『天国と地獄』 ＋ エド・マクベイン『キングの身代金』"><span class="cc-pics" aria-hidden="true"><img src="img/highlow.jpg" alt="" loading="lazy" decoding="async"><img src="img/kings-ransom.jpg" alt="" loading="lazy" decoding="async"></span><span class="cc-t"><small><span class="rn">［小説から映画へ］</span><i class="rt">約1分</i></small><b>身代金の電話は、横浜の高台で鳴った。</b><em>黒澤明『天国と地獄』 ＋ <span class="nb">エド・マクベイン『キングの身代金』</span></em></span><span class="cc-go" aria-hidden="true">›</span></button></div>
-          <p class="meta more-label">この駅から延びるほかの区間　1本</p><div class="ctx-cards"><a class="ctx-card" href="c/highest-2-lowest--kings-ransom/" aria-label="黒澤の映画の前にも、一冊の小説があった。：『HIGHEST 2 LOWEST』 ＋ エド・マクベイン『キングの身代金』"><span class="cc-pics" aria-hidden="true"><img src="img/highest.jpg" alt="" loading="lazy" decoding="async"><img src="img/kings-ransom.jpg" alt="" loading="lazy" decoding="async"></span><span class="cc-t"><small><span class="rn">［もう一本の源流］</span><i class="rt">約35秒</i></small><b>黒澤の映画の前にも、一冊の小説があった。</b><em>『HIGHEST 2 LOWEST』 ＋ <span class="nb">エド・マクベイン『キングの身代金』</span></em></span><span class="cc-go" aria-hidden="true">›</span></a></div>
+        </div>
+        
+        <section class="journey w-journey" aria-label="CONTEXT JOURNEY">
+          <p class="meta">CONTEXT JOURNEY<a href="#/list">一覧で見る　→</a></p>
+          <p class="jr-sub">この作品から、たどる道</p>
+          <ol class="jr"><li class="now"><span class="jr-row" aria-current="step"><i class="jr-dot"></i><b>いまここ</b><span class="jr-art"><img src="img/kings-ransom.jpg" alt="" loading="lazy" decoding="async"></span><span class="jr-t"><small>書籍・1959</small><strong>エド・マクベイン『キングの身代金』</strong><em>エド・マクベイン（87分署シリーズ）</em></span></span></li><li><a class="jr-row" href="c/high-and-low--kings-ransom/"><i class="jr-dot"></i><b>つぎへ</b><span class="jr-art"><img src="img/highlow.jpg" alt="" loading="lazy" decoding="async"></span><span class="jr-t"><small>［小説から映画へ］</small><strong>身代金の電話は、横浜の高台で鳴った。</strong><em>黒澤明『天国と地獄』 ＋ エド・マクベイン『キングの身代金』</em></span></a></li><li><a class="jr-row" href="c/highest-2-lowest--kings-ransom/"><i class="jr-dot"></i><b>さらに</b><span class="jr-art"><img src="img/highest.jpg" alt="" loading="lazy" decoding="async"></span><span class="jr-t"><small>［もう一本の源流］</small><strong>黒澤の映画の前にも、一冊の小説があった。</strong><em>『HIGHEST 2 LOWEST』 ＋ エド・マクベイン『キングの身代金』</em></span></a></li><li><a class="jr-row" href="c/highest-2-lowest--pluribus/"><i class="jr-dot"></i><b>その先へ</b><span class="jr-art"><img src="img/works/pluribus.jpg" alt="" loading="lazy" decoding="async"></span><span class="jr-t"><small>［同じ配信の窓］</small><strong>誘拐劇とSFが、同じ画面から届く。</strong><em>『HIGHEST 2 LOWEST』 ＋ ヴィンス・ギリガン『プルリブス』</em></span></a></li></ol>
+        </section>
+        <div class="content w-lines">
+          <p class="meta more-label">この作品から延びるつながり　2本</p>
+          <div class="ctx-cards"><button type="button" class="ctx-card is-next" data-step="1" aria-label="身代金の電話は、横浜の高台で鳴った。：黒澤明『天国と地獄』 ＋ エド・マクベイン『キングの身代金』"><span class="cc-tag">つぎへ</span><span class="cc-pics" aria-hidden="true"><img src="img/highlow.jpg" alt="" loading="lazy" decoding="async"><img src="img/kings-ransom.jpg" alt="" loading="lazy" decoding="async"></span><span class="cc-t"><small><span class="rn">［小説から映画へ］</span><i class="rt">約1分</i></small><b>身代金の電話は、横浜の高台で鳴った。</b><em>黒澤明『天国と地獄』 ＋ <span class="nb">エド・マクベイン『キングの身代金』</span></em></span><span class="cc-go" aria-hidden="true">›</span></button><a class="ctx-card" href="c/highest-2-lowest--kings-ransom/" aria-label="黒澤の映画の前にも、一冊の小説があった。：『HIGHEST 2 LOWEST』 ＋ エド・マクベイン『キングの身代金』"><span class="cc-pics" aria-hidden="true"><img src="img/highest.jpg" alt="" loading="lazy" decoding="async"><img src="img/kings-ransom.jpg" alt="" loading="lazy" decoding="async"></span><span class="cc-t"><small><span class="rn">［もう一本の源流］</span><i class="rt">約35秒</i></small><b>黒澤の映画の前にも、一冊の小説があった。</b><em>『HIGHEST 2 LOWEST』 ＋ <span class="nb">エド・マクベイン『キングの身代金』</span></em></span><span class="cc-go" aria-hidden="true">›</span></a></div>
           
         </div>
       </article><!--/bc-body--></div>
@@ -213,17 +220,17 @@ document.addEventListener('click', function (e) {
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 <script type="application/ld+json" id="ld">{"@context":"https://schema.org","@type":"Book","name":"キングの身代金","description":"架空の街アイソラの87分署を舞台にした警察小説シリーズの一作。原題『King’s Ransom』。靴会社の重役のもとに、身代金を要求する電話がかかってくる。","creator":{"@type":"Person","name":"エド・マクベイン（87分署シリーズ）"},"url":"https://beautifulcontext.com/w/kings-ransom/","image":"https://beautifulcontext.com/img/kings-ransom.jpg","subjectOf":[{"@type":"Article","headline":"身代金の電話は、横浜の高台で鳴った。","url":"https://beautifulcontext.com/c/high-and-low--kings-ransom/"},{"@type":"Article","headline":"黒澤の映画の前にも、一冊の小説があった。","url":"https://beautifulcontext.com/c/highest-2-lowest--kings-ransom/"}]}</script>
 
-<script src="js/config.js?v=175"></script>
-<script src="js/seed.js?v=175"></script>
-<script src="js/sources.js?v=175"></script>
-<script src="js/backend.js?v=175"></script>
-<script src="js/store.js?v=175"></script>
-<script src="js/social.js?v=175"></script>
-<script src="js/render.js?v=175"></script>
-<script src="js/login.js?v=175"></script>
-<script src="js/login-page.js?v=175"></script>
-<script src="js/report.js?v=175"></script>
-<script src="js/transition.js?v=175"></script>
-<script src="js/app.js?v=175"></script>
+<script src="js/config.js?v=176"></script>
+<script src="js/seed.js?v=176"></script>
+<script src="js/sources.js?v=176"></script>
+<script src="js/backend.js?v=176"></script>
+<script src="js/store.js?v=176"></script>
+<script src="js/social.js?v=176"></script>
+<script src="js/render.js?v=176"></script>
+<script src="js/login.js?v=176"></script>
+<script src="js/login-page.js?v=176"></script>
+<script src="js/report.js?v=176"></script>
+<script src="js/transition.js?v=176"></script>
+<script src="js/app.js?v=176"></script>
 </body>
 </html>

@@ -134,16 +134,16 @@
      step があれば data-step のボタン（作品ページから、いま来た区間へ）、なければそのつながりへのリンク */
   /* 読む時間（見本の「約20秒で読む」）。札の路線の名の行の右に小さく。本文の長さから（readLabel） */
   const rt = (c) => c && c.body ? `<i class="rt">${readLabel(c.body)}</i>` : '';
-  function ctxCard(x, step, href){
+  function ctxCard(x, step, href, tag){
     const h = String(x.context.headline || '').replace(/\n/g, '');
     const pic = (w) => { const u = safeImg(w.image); return u ? `<img src="${attr(u)}" alt="" loading="lazy" decoding="async">` : `<i>${esc(initial(w))}</i>`; };
-    const inner = `<span class="cc-pics" aria-hidden="true">${pic(x.a)}${pic(x.b)}</span>` +
+    const inner = (tag ? `<span class="cc-tag">${esc(tag)}</span>` : '') + `<span class="cc-pics" aria-hidden="true">${pic(x.a)}${pic(x.b)}</span>` +
       `<span class="cc-t"><small><span class="rn">［${esc(x.context.routeName)}］</span>${rt(x.context)}</small><b>${esc(h)}</b><em>${esc(x.a.title)} ＋ ${nb(x.b.title)}</em></span>` +
       `<span class="cc-go" aria-hidden="true">›</span>`;
     const al = ` aria-label="${attr(h + '：' + x.a.title + ' ＋ ' + x.b.title)}"`;
     return step != null
-      ? `<button type="button" class="ctx-card" data-step="${step}"${al}>${inner}</button>`
-      : `<a class="ctx-card" href="${attr(href || pathOf('c', x.context.slug))}"${al}>${inner}</a>`;
+      ? `<button type="button" class="ctx-card${tag ? ' is-next' : ''}" data-step="${step}"${al}>${inner}</button>`
+      : `<a class="ctx-card${tag ? ' is-next' : ''}" href="${attr(href || pathOf('c', x.context.slug))}"${al}>${inner}</a>`;
   }
 
   /* 同じ作品をルーツに共有するコンテクスト */
@@ -198,29 +198,55 @@
   /* ---------- 作品ページ（駅） ----------
      demo-1 の作品ページ A／B。上に絵、下に紙の地で作品固有の解説だけ。
      他作品との関係はコンテクストページで読む。 */
-  function workPage(hit, e){
-    const w = hit.work;
-    const side = e && e.b.slug === w.slug ? 'b' : 'a';
-    const other = e ? e[side === 'a' ? 'b' : 'a'] : null;
-    const others = hit.contexts.filter(x => !e || x.entry.id !== e.id);
-    const more = others.length ? `<div class="ctx-cards">${others.map(({ entry }) => ctxCard(entry)).join('')}</div>` : '';
+  function workPage(hit, e, o){
+    o = o || {};
+    const w = hit.work, nx = o.next || null, from = o.from || null, own = hit.contexts.map(x => x.entry);
+    /* 札の順：次に行くつながりを先頭に（つぎへ。つながりを辿ると同じ行き先）、読んできたものは最後に。
+       道の都合で次がこの作品のつながりでないとき（路線の乗り換え）は、札を見出しの上に分ける */
+    const card = (x, tag) => ctxCard(x, e && x.id === e.id ? 1 : null, null, tag);
+    const inOwn = !!nx && own.some(x => x.id === nx.id);
+    const rest = own.filter(x => !nx || x.id !== nx.id);
+    const list = rest.filter(x => !from || x.id !== from.id).concat(rest.filter(x => from && x.id === from.id));
+    const lines = (nx && !inOwn ? `<div class="ctx-cards">${card(nx, 'つぎへ')}</div>` : '') +
+      (own.length ? `<p class="meta more-label">この作品から延びるつながり　${own.length}本</p>
+          <div class="ctx-cards">${inOwn ? card(nx, 'つぎへ') : ''}${list.map(x => card(x)).join('')}</div>` : '');
     /* 作品ページもコンテクストページと同じ形に（BC修正要望 2026.10.22「全ての Content は Context に」）。
        左にその作品、右はまだ誰も結んでいない席：＋ でエディターを開き、この作品から新しいつながりを創る */
     return `
       <article class="page wpage">
         ${backTop()}
         <div class="duo-hero">${topLogo('on-paper')}${topExtras()}<div class="duo">${frame(w, 'art')}<a class="duo-add" href="editor.html?from=${attr(encodeURIComponent(w.slug))}" aria-label="${attr(w.title)}から、新しいつながりを創る" title="この作品から、新しいつながりを創る（ReMixIt!・編集者向け）"><span aria-hidden="true">＋</span><small>つながりを創る</small></a></div>${navArrows()}</div>
-        <div class="content">
+        <div class="content w-lead">
           <p class="meta">${esc(w.type || '作品')}${w.year ? '・' + esc(w.year) + '年' : ''}　CURRENT STATION</p>
-          <p class="meta-sub">駅：この作品を起点に、次の区間へ</p>
           <h2>${esc(w.title)}</h2>
           ${w.creator ? `<p class="by">${esc(w.creator)}</p>` : ''}
           ${w.summary ? `<p>${esc(w.summary)}</p>` : ''}
-          ${e ? `<div class="ctx-cards">${ctxCard(e, 1)}</div>` : ''}
-          ${more ? `<p class="meta more-label">この駅から延びるほかの区間　${others.length}本</p>${more}` : ''}
+        </div>
+        ${workJourney(o.journey)}
+        <div class="content w-lines">
+          ${lines}
           ${credit(w)}
         </div>
       </article>`;
+  }
+  /* 作品ページの CONTEXT JOURNEY（携帯）：パソコンの右の列と同じ並びを、見本 08 のように大きな絵で。
+     ここまで＝読んできたつながり、いまここ＝この作品、つぎへ＝つながりを辿るの行き先（app.js workRows） */
+  function workJourney(list){
+    if (!list || list.length < 2) return '';
+    const row = (x) => {
+      const c = x.entry && x.entry.context, w = x.work;
+      const inner = `<i class="jr-dot"></i><b>${esc(x.name)}</b><span class="jr-art">${mini(w || x.pic)}</span><span class="jr-t">` + (c
+        ? `<small>［${esc(c.routeName)}］</small><strong>${esc(String(c.headline || '').replace(/\n/g, ''))}</strong><em>${esc(x.entry.a.title)} ＋ ${esc(x.entry.b.title)}</em>`
+        : `<small>${esc(w.type || '作品')}${w.year ? '・' + esc(w.year) : ''}</small><strong>${esc(w.title)}</strong>${w.creator ? `<em>${esc(w.creator)}</em>` : ''}`) + `</span>`;
+      return `<li${x.now ? ' class="now"' : ''}>${x.now ? `<span class="jr-row" aria-current="step">${inner}</span>`
+        : `<a class="jr-row" href="${attr(x.href || pathOf('c', c.slug))}">${inner}</a>`}</li>`;
+    };
+    return `
+        <section class="journey w-journey" aria-label="CONTEXT JOURNEY">
+          <p class="meta">CONTEXT JOURNEY<a href="#/list">一覧で見る　→</a></p>
+          <p class="jr-sub">この作品から、たどる道</p>
+          <ol class="jr">${list.map(row).join('')}</ol>
+        </section>`;
   }
 
   /* つながりの型と四軸。先生の資料（事業計画書）の採点軸をそのまま並べる。
@@ -356,7 +382,7 @@
           ${refs(c)}
           <p class="byline">${esc(o.editor ? o.editor.name : c.author)}　·　${esc(new Date(e.updatedAt).toLocaleDateString('ja-JP'))}</p>
           ${comments(e, o.comments || S.visibleComments(e), o.mine, o.me)}
-          ${rel.length ? `<p class="meta more-label">同じルーツのコンテクスト</p>${roots(e, rel)}` : ''}
+          ${rel.length ? `<p class="meta more-label">同じ作品から出るつながり</p>${roots(e, rel)}` : ''}
           ${ad(adItem)}
           ${credit(e.a)}${credit(e.b)}
           ${nextCtx(o.journey)}

@@ -393,8 +393,10 @@
         const e = want && (want.a.slug === arg || want.b.slug === arg) ? want
           : (hit.contexts[0] && hit.contexts[0].entry) || null;
         const step = e && e.b.slug === arg ? 2 : 0;
-        return show({ key: 'w:' + arg + ':' + (e ? e.id : ''), kind: e ? 'route' : 'page', entry: e, step, work: true, slug: arg },
-          R.workPage(hit, e), motion, hit.work.title);
+        /* 行き先はここで一度だけ決める（札・CONTEXT JOURNEY・右の列・つながりを辿る が同じものを読む） */
+        const from = want === e ? e : null, next = e ? nextFromWork(arg, from) : null, rows = e ? workRows(hit.work, from, next) : [];
+        return show({ key: 'w:' + arg + ':' + (e ? e.id : ''), kind: e ? 'route' : 'page', entry: e, step, work: true, slug: arg, next, rows },
+          R.workPage(hit, e, { from, next, journey: rows }), motion, hit.work.title);
       }
     } else if (name === 'f' && arg){
       const items = S.feed(arg);
@@ -470,12 +472,25 @@
   }
   /* 作品（駅）のページから次に行くつながり。読んだ区間の出口の駅なら道の次へ。
      そうでなければ（一覧・検索などから来た）、その作品のつながりのうち、まだ読んでいないものへ */
-  function nextFromWork(slug, entry){
-    if (entry && exitOf(entry).slug === slug) return after(entry.id);
-    const hit = S.workBySlug(slug), list = hit ? hit.contexts.map(c => c.entry) : [];
-    return list.find(x => !readCtx.has(x.id)) || list[0] || (entry ? after(entry.id) : null);
+  function nextFromWork(slug, from){
+    if (from && exitOf(from).slug === slug) return after(from.id);
+    const hit = S.workBySlug(slug), all = hit ? hit.contexts.map(c => c.entry) : [];
+    const list = all.filter(x => !from || x.id !== from.id);
+    return list.find(x => !readCtx.has(x.id)) || list[0] || all[0] || (from ? after(from.id) : null);
   }
-  /* 見本の CONTEXT JOURNEY：つながりを辿る道の上で、一つ前・いま・その先の三つ（あわせて五つまで）。
+  /* 作品（駅）の上の CONTEXT JOURNEY。ここまで＝読んできたつながり、いまここ＝この作品、つぎへ＝次の行き先、その先は道の順 */
+  function workRows(w, from, next){
+    const other = (x) => x.a.slug === w.slug ? x.b : x.b.slug === w.slug ? x.a : exitOf(x);
+    const rows = [];
+    if (from) rows.push({ entry: from, pic: other(from), href: null, name: 'ここまで', now: false });
+    rows.push({ work: w, name: 'いまここ', now: true });
+    if (!next) return rows;
+    rows.push({ entry: next, pic: other(next), href: null, name: 'つぎへ', now: false });
+    lineAhead(next).filter(x => !from || x.entry.id !== from.id).slice(0, 2)
+      .forEach((x, k) => rows.push({ entry: x.entry, pic: other(x.entry), href: x.href, name: stageName(k + 2, 1), now: false }));
+    return rows;
+  }
+  /* 見本の CONTEXT JOURNEY：つながりを辿る道の上で、一つ前・いま・その先の三つ（つぎへ・さらに・その先へ）。
      名は道の上の位置で決まる（道の始めは「はじまり」）。道の終わりの先は、つながりを辿ると同じく道の始めへ回る */
   const stageName = (d, k) => d < 0 ? (k === 0 ? 'はじまり' : 'ここまで') : d === 0 ? 'いまここ' : d <= 1 ? 'つぎへ' : d <= 2 ? 'さらに' : 'その先へ';
   function journeyOf(e, today){
@@ -489,7 +504,7 @@
       rows.push({ entry: T[p - 1].entry, href: null, name: stageName(-1, p - 1), now: false });   /* 道の始めでは前が無いので、いまを先頭に */
     }
     rows.push({ entry: e, href: null, name: 'いまここ', now: true });
-    lineAhead(e, today).slice(0, 5 - rows.length).forEach((x, k) => rows.push({ entry: x.entry, href: x.href, name: stageName(k + 1, 1), now: false }));
+    lineAhead(e, today).slice(0, 3).forEach((x, k) => rows.push({ entry: x.entry, href: x.href, name: stageName(k + 1, 1), now: false }));
     return rows;
   }
   function showToday(i, motion){
@@ -1024,10 +1039,7 @@
       const step = t && t.exit === 'a' ? 0 : 2;
       return { label: 'その先の駅へ', run: () => goStep(step, null), peek: { work: here.entry[step ? 'b' : 'a'] } };
     }
-    if (here && here.work){
-      const e = nextFromWork(here.slug, here.entry);
-      if (e) return toCtx(e, '次のつながりへ');
-    }
+    if (here && here.work && here.next) return toCtx(here.next, '次のつながりへ');
     if (here && here.feed){
       const bottom = document.getElementById('dock').getBoundingClientRect().top;
       for (const a of viewIn.querySelectorAll('.seg')){
@@ -1112,17 +1124,19 @@
     body.classList.toggle('has-route', i >= 0);
     if (i < 0){ box.innerHTML = ''; return; }
     /* 見本どおり、道の上の五つ（一つ前・いま・三つ先）：名と題の頭。いまの所だけ題を全部と、二つの作品の絵（金の縁）。
-       作品（駅）のページでは、いまの所の字はその作品の名。携帯の CONTEXT JOURNEY と同じ並び（journeyOf） */
+       作品（駅）のページは workRows、それ以外は journeyOf。どちらも携帯の CONTEXT JOURNEY と同じ並び */
     const pic = (w) => { const s = R.safeImg(w.image); return s ? `<img src="${R.esc(s)}" alt="" loading="lazy" decoding="async">` : `<i>${R.esc(String(w.title || '').slice(0, 1))}</i>`; };
-    const atWork = own >= 0 && here.step !== 1 ? (here.step === 0 ? here.entry.a : here.entry.b) : null;
     const todayNow = own >= 0 && here.today ? here.today : null;
     /* コンテクストを読んでいるときは、見本 04〜06 のとおり五つとも絵を（案内のページなどは、いまの所だけ） */
-    const pics = own >= 0 && here.step === 1 && !here.today;
+    const pics = own >= 0 && !here.today;
     box.classList.toggle('pics', pics);
-    const li = journeyOf(T[i].entry, todayNow).map(x => {
+    const rows = own >= 0 && here.rows ? here.rows : journeyOf(T[i].entry, todayNow);
+    const li = rows.map(x => {
+      if (x.work) return `<li class="rm-s now"><a href="${R.esc('#/w/' + encodeURIComponent(x.work.slug))}" aria-current="page"><i class="rm-dot"></i>` +
+        `<b>${R.esc(x.name)}</b><span>${R.esc(x.work.title)}</span><em class="rm-pics one" aria-hidden="true">${pic(x.work)}</em></a></li>`;
       const e = x.entry, lines = String(e.context.headline || '').split('\n').map(R.esc);
       /* いまの所は題の全部。ほかは路線の名（題の一行目は文の途中で切れる） */
-      const text = x.now ? (atWork ? R.esc(atWork.title) : lines.join('<br>')) : `［${R.esc(e.context.routeName)}］`;
+      const text = x.now ? lines.join('<br>') : `［${R.esc(e.context.routeName)}］`;
       return `<li class="rm-s${x.now ? ' now' : ''}"><a href="${R.esc(x.href || '#/c/' + encodeURIComponent(e.context.slug))}"${x.now ? ' aria-current="page"' : ''}><i class="rm-dot"></i>` +
         `<b>${R.esc(x.name)}</b><span>${text}</span>${x.now || pics ? `<em class="rm-pics" aria-hidden="true">${pic(e.a)}${pic(e.b)}</em>` : ''}</a></li>`;
     }).join('');
