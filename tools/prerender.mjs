@@ -136,7 +136,8 @@ function page(s, got){
   h = h.replace(/<meta property="og:description" content="[^"]*">/, () => `<meta property="og:description" content="${esc(got.desc)}">`);
   if (got.image) h = h.replace(/<meta property="og:image" content="[^"]*">/, () => `<meta property="og:image" content="${esc(got.image)}">`);
   swap('<script type="application/ld+json" id="ld"></script>', `<script type="application/ld+json" id="ld">${got.ld.replace(/</g, '\\u003c')}</script>`);
-  swap('<body class="stage-intro">', `<body class="stage-uni viewing${s.body}" data-route="${s.route}">`);
+  /* has-route：パソコンの右の列の席を最初から空けておく（台本が起きてから列が出ると、紙が横にずれた） */
+  swap('<body class="stage-intro">', `<body class="stage-uni viewing has-route${s.body}" data-route="${s.route}">`);
   const VIEW = /<div class="view" id="view" role="dialog" aria-modal="true">\s*<div class="view-in" id="viewIn"><\/div>/;
   if (!VIEW.test(h)) throw new Error('index.html の形が変わっています：#view');
   /* 本文を印で挟む（sitemap の lastmod を決めるとき、枠ではなくこの中身で比べる） */
