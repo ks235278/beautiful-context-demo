@@ -201,7 +201,7 @@
     /* パスワードでのログイン（signIn が e.via = 'password' を付ける）。どちらが違うかは言わない（登録の有無を漏らさない） */
     if (code === 'invalid_credentials' && e.via === 'password') return 'メールアドレスかパスワードが違います';
     if (code === 'otp_expired' || code === 'invalid_credentials') return 'コードが違うか、期限が切れています。もう一度送ってください';
-    if (code === 'email_not_confirmed') return 'メールアドレスの確認がまだです。届いたメールの6桁のコードを入れるか、リンクを開いてください';
+    if (code === 'email_not_confirmed') return 'メールアドレスの確認がまだです。届いたメールのコードを入れるか、リンクを開いてください';
     if (code === 'weak_password' || code === 'bc_weak_password') return e.detail || 'もっと強いパスワードにしてください（英字と数字を組み合わせて8文字以上）';
     if (code === 'same_password') return 'いまと同じパスワードです。別のものにしてください';
     if (code === 'user_already_exists' || code === 'email_exists') return 'このメールアドレスはもう登録されています。ログインしてください';
@@ -468,7 +468,7 @@
       if (failed && via) emit('notice', failed === 'access_denied' ? `${via} でのログインを取りやめました` : `${via} でログインできませんでした。もう一度お試しください`);
       /* メールのリンク（登録の確かめ・パスワードの再設定）が使えなかった：黙って表紙に戻さず、一言 */
       else if (failed) emit('notice', /expired|invalid/.test(detail + ' ' + failed) ? 'メールのリンクの期限が切れているか、もう使われています。もう一度送ってください' : 'メールのリンクを開けませんでした。もう一度送ってください');
-      else if (code && !u) emit('notice', via ? `${via} でログインできませんでした。もう一度お試しください` : 'このリンクは、メールを頼んだときと同じブラウザで開いてください（メールの6桁のコードでも続けられます）');
+      else if (code && !u) emit('notice', via ? `${via} でログインできませんでした。もう一度お試しください` : 'このリンクは、メールを頼んだときと同じブラウザで開いてください（メールにコードがあれば、それでも続けられます）');
       if (u && code && recovering) {
         /* パスワードを忘れた人：ログインはできた。GA には数えず、画面に新しいパスワードを聞いてもらう */
         recovering = false;

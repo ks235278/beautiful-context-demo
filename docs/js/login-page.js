@@ -25,7 +25,7 @@
   const field = (ic, label, input, hint) => `<label class="lp-label">${label}<span class="lp-field">${IC[ic]}${input}</span>${hint ? `<small class="lp-hint">${hint}</small>` : ''}</label>`;
   const go = (text, cls) => `<button type="submit" class="lp-go${cls ? ' ' + cls : ''}">${text}<i aria-hidden="true">→</i></button>`;
   const EMAIL = '<input name="email" type="email" inputmode="email" autocomplete="email" maxlength="254" required placeholder="example@beautifulcontext.jp">';
-  const CODE = '<input name="code" inputmode="numeric" autocomplete="one-time-code" pattern="[0-9]{6,10}" maxlength="10" placeholder="メールに届く6桁のコード">';
+  const CODE = '<input name="code" inputmode="numeric" autocomplete="one-time-code" pattern="[0-9]{6,10}" maxlength="10" placeholder="メールに届いたコード">';
   const MAIL = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   const PW_HINT = '英数字を組み合わせて8文字以上で入力してください';
   /* パスワードの欄。右に目の印（押すと見える・隠れる） */
@@ -49,6 +49,8 @@
 
   /* いま開いているログインの画面（一つだけ）。'auth' と pageshow は一度だけ登録し、ここへ渡す（開くたびに足さない） */
   let current = null, hooked = false;
+  /* アカウント作成の下書き。規約を読みに出て戻っても、札と入れたものを残す（パスワードは持たない）。ログインできたら消す */
+  let draft = { tab: '', name: '', email: '', agree: false };
   const hook = () => {
     if (hooked) return;
     hooked = true;
@@ -104,11 +106,11 @@
         </div>
       </article>`;
       }
-      const isNew = tab === 'new';
+      const isNew = tab === 'new' || draft.tab === 'new';
       /* 名前がまだ無い（コードを確かめたあとで閉じた、Google・Apple から戻ったばかり）：名前だけを聞く */
       const naming = !!me;
       return `
-      <article class="page text-page login-page">
+      <article class="page text-page login-page${naming ? ' naming' : ''}">
         ${logo}
         <div class="content">${hero()}
           <div class="lp-tabs" role="tablist" aria-label="ログインとアカウントの作成" data-on="${isNew ? 'new' : 'in'}">
@@ -117,8 +119,8 @@
           </div>
           <div class="lp-cards" data-on="${isNew ? 'new' : 'in'}">
             <section class="lp-card lp-in" id="lpIn" role="tabpanel" aria-labelledby="lpTabIn">
-              <h3>ログイン</h3>
-              <p class="lp-lead">アカウントにログインして、<br>つながりの旅を続けましょう。</p>
+              <h3>${naming ? '表示名を決める' : 'ログイン'}</h3>
+              <p class="lp-lead">${naming ? 'ログインしました。<br>コメントに出す名前を決めてください。' : 'アカウントにログインして、<br>つながりの旅を続けましょう。'}</p>
               <form data-lp-pass${naming ? ' hidden' : ''} novalidate>
                 ${field('mail', 'メールアドレス', EMAIL)}
                 ${pwField('パスワード', 'パスワードを入力', '', 'current-password')}
@@ -127,13 +129,13 @@
               </form>
               <form data-lp-confirm hidden novalidate>
                 ${codeField()}
-                <p class="lp-row"><button type="button" class="lp-send" data-lp-back>ログインに戻る</button><button type="button" class="lp-send" data-lp-resend>コードを送り直す</button></p>
+                <p class="lp-row"><button type="button" class="lp-send" data-lp-back>ログインに戻る</button><button type="button" class="lp-send" data-lp-resend>メールを送り直す</button></p>
                 ${go('ログイン')}
               </form>
               <form data-lp-reset hidden novalidate>
                 ${field('mail', 'メールアドレス', EMAIL)}
                 <p class="lp-row"><button type="button" class="lp-send" data-lp-back>ログインに戻る</button></p>
-                ${go('コードを送る')}
+                ${go('メールを送る')}
               </form>
               <form data-lp-recover hidden novalidate>
                 ${codeField()}
@@ -145,7 +147,7 @@
                 ${field('user', '表示名', `<input name="name" maxlength="24" autocomplete="nickname" required placeholder="例：映画と本の山田" value="${esc(Social.demoName())}">`, 'コメントに出る名前です。Google・Apple やメールの名前は使いません')}
                 ${go('はじめる')}
               </form>
-              <p class="lp-msg" data-lp-msg role="status" aria-live="polite">${naming ? 'ログインしました。コメントに出す名前を決めてください。' : ''}</p>
+              <p class="lp-msg" data-lp-msg role="status" aria-live="polite"></p>
               ${naming ? '' : socials(Social.methods())}
             </section>
             <section class="lp-card lp-new" id="lpNew" role="tabpanel" aria-labelledby="lpTabNew">
@@ -160,7 +162,7 @@
               </form>
               <form data-lp-confirm hidden novalidate>
                 ${codeField()}
-                <p class="lp-row"><button type="button" class="lp-send" data-lp-back>入れ直す</button><button type="button" class="lp-send" data-lp-resend>コードを送り直す</button></p>
+                <p class="lp-row"><button type="button" class="lp-send" data-lp-back>入れ直す</button><button type="button" class="lp-send" data-lp-resend>メールを送り直す</button></p>
                 ${go('アカウントを作成', 'gold')}
               </form>
               <p class="lp-msg" data-lp-msg role="status" aria-live="polite"></p>
@@ -195,6 +197,7 @@
 
       const done = (fresh) => {
         const me = Social.me();
+        draft = { tab: '', name: '', email: '', agree: false };
         ui.toast(`${me.name} として${fresh ? 'はじめました' : 'ログインしました'}`);
         ui.done(me);
       };
@@ -225,13 +228,15 @@
         const bad = (input, text) => { input.setAttribute('aria-invalid', 'true'); say(text, true); focus(input); return null; };
         const codeOf = (f) => f.elements.code.value.replace(/\D/g, '');
         /* 「コードを送り直す」：送るあいだと、送ってから 60 秒は押せない（Supabase も 60 秒に一通まで） */
+        let cool = 0;
+        const unlock = (b) => { clearTimeout(cool); b.disabled = false; };   // 別のアドレスになったら、待たずに押せる
         const resend = (b, to) => {
           if (b.disabled) return;
           b.disabled = true;
-          Social.resendConfirm(to()).then(() => { say(`${to()} にコードを送り直しました。`); setTimeout(() => { b.disabled = false; }, 60000); },
+          Social.resendConfirm(to()).then(() => { say(`${to()} にメールを送り直しました。`); cool = setTimeout(() => { b.disabled = false; }, 60000); },
             (err) => { say(Social.message(err), true); b.disabled = false; });
         };
-        return { $, say, show, focus, busy, bad, codeOf, resend };
+        return { $, say, show, focus, busy, bad, codeOf, resend, unlock };
       };
 
       /* メールのリンクから戻った：新しいパスワードだけ */
@@ -258,7 +263,7 @@
       const tabs = [...page.querySelectorAll('[data-lp-tab]')];
       const pick = (k, focus) => {
         if (cards.dataset.on === k) return;
-        cards.dataset.on = k; tabBox.dataset.on = k;
+        cards.dataset.on = k; tabBox.dataset.on = k; draft.tab = k;
         const shown = page.querySelector(k === 'new' ? '.lp-new' : '.lp-in');
         shown.classList.remove('lp-step'); void shown.offsetWidth; shown.classList.add('lp-step');
         tabs.forEach((t) => t.setAttribute('aria-selected', String(t.dataset.lpTab === k)));
@@ -276,7 +281,12 @@
         recover: K1.$('[data-lp-recover]'), name: K1.$('[data-lp-name]') };
       let email = '', verified = false;
       const remember = () => f.pass.elements.remember.checked;
-      const askName = () => { pick('in'); K1.show(f.name); K1.say('ログインしました。コメントに出す名前を決めてください。'); K1.focus(f.name.elements.name); };
+      const askName = () => {
+        pick('in'); page.classList.add('naming');
+        inCard.querySelector('h3').textContent = '表示名を決める';
+        inCard.querySelector('.lp-lead').innerHTML = 'ログインしました。<br>コメントに出す名前を決めてください。';
+        K1.show(f.name); K1.say(''); K1.focus(f.name.elements.name);
+      };
       const after = (r) => { if (r.needsName) askName(); else done(false); };
       f.pass.addEventListener('submit', async (ev) => {
         ev.preventDefault();
@@ -288,8 +298,9 @@
           (err) => {
             if (err.code !== 'email_not_confirmed') return false;
             /* 登録したまま、メールを確かめていない：その場で 6桁のコードを聞く */
+            if (email !== v) K1.unlock(K1.$('[data-lp-resend]'));
             email = v; K1.show(f.confirm);
-            K1.say(`${v} の確認がまだです。登録のときに届いたメールの6桁のコードを入れてください（届いていなければ「コードを送り直す」）。`);
+            K1.say(`${v} の確認がまだです。登録のときに届いたメールのコードを入れるか、メールのリンクを同じブラウザで開いてください（届いていなければ「メールを送り直す」）。`);
             K1.focus(f.confirm.elements.code);
             return true;
           });
@@ -305,7 +316,7 @@
       K1.$('[data-lp-forgot]').addEventListener('click', () => {
         f.reset.elements.email.value = f.pass.elements.email.value;
         K1.show(f.reset);
-        K1.say('登録したメールアドレスに、パスワードを決め直すための6桁のコードを送ります。');
+        K1.say('登録したメールアドレスに、パスワードを決め直すためのメールを送ります。');
         K1.focus(f.reset.elements.email);
       });
       f.reset.addEventListener('submit', async (ev) => {
@@ -317,7 +328,7 @@
         email = v; verified = false;
         f.recover.elements.code.closest('.lp-label').hidden = false;
         K1.show(f.recover);
-        K1.say(`${v} にコードを送りました（登録の無いアドレスには届きません）。届かないときは、迷惑メールのフォルダも見てください。`);
+        K1.say(`${v} にメールを送りました（登録の無いアドレスには届きません）。メールのコードを入れるか、メールのリンクを同じブラウザで開いてください。届かないときは、迷惑メールのフォルダも見てください。`);
         K1.focus(f.recover.elements.code);
       });
       f.recover.addEventListener('submit', async (ev) => {
@@ -337,7 +348,7 @@
         if (!r) { if (!verified) delete page.dataset.stay; return; }
         delete page.dataset.stay;
         /* 一言は「パスワードを変えました」だけ（「ログインしました」で上書きしない） */
-        if (r.needsName) { askName(); K1.say('パスワードを変えました。コメントに出す名前を決めてください。'); return; }
+        if (r.needsName) { askName(); K1.say('パスワードを変えました。'); return; }
         ui.toast('パスワードを変えました');
         ui.done(Social.me());
       });
@@ -346,6 +357,7 @@
         if (verified && Social.me()) { delete page.dataset.stay; ui.done(Social.me()); return; }
         K1.show(f.pass); K1.say('');
         inCard.querySelectorAll('input[name=code]').forEach((x) => { x.value = ''; });
+        K1.focus(f.pass.elements.email);
       }));
       K1.$('[data-lp-resend]').addEventListener('click', (ev) => K1.resend(ev.currentTarget, () => email));
       f.name.addEventListener('submit', async (ev) => {
@@ -372,6 +384,8 @@
       /* ---- アカウントを作る札 ---- */
       const newCard = page.querySelector('.lp-new'), K2 = kit(newCard);
       const make = K2.$('[data-lp-make]'), conf = K2.$('[data-lp-confirm]');
+      make.elements.name.value = draft.name; make.elements.email.value = draft.email; make.elements.agree.checked = draft.agree;
+      make.addEventListener('input', () => { draft.name = make.elements.name.value; draft.email = make.elements.email.value; draft.agree = make.elements.agree.checked; });
       let newMail = '';
       make.addEventListener('submit', async (ev) => {
         ev.preventDefault();
@@ -384,9 +398,10 @@
         const r = await K2.busy(make, '送っています…', () => Social.signUp({ name: n.value.trim(), email: v, password: pw.value, agreed: true }));
         if (!r) return;
         if (!r.needsConfirm) { if (r.needsName) askName(); else done(true); return; }
+        if (newMail !== v) K2.unlock(K2.$('[data-lp-resend]'));
         newMail = v;
         K2.show(conf);
-        K2.say(`${v} に確認のコードを送りました。届かないときは、迷惑メールのフォルダも見てください。`);
+        K2.say(`${v} に確認のメールを送りました。メールのコードを入れるか、メールのリンクを同じブラウザで開いてください。届かないときは、迷惑メールのフォルダも見てください。`);
         K2.focus(conf.elements.code);
       });
       conf.addEventListener('submit', async (ev) => {
@@ -398,7 +413,7 @@
         if (r.needsName) askName(); else done(true);
       });
       K2.$('[data-lp-resend]').addEventListener('click', (ev) => K2.resend(ev.currentTarget, () => newMail));
-      K2.$('[data-lp-back]').addEventListener('click', () => { K2.show(make); K2.say(''); conf.elements.code.value = ''; });
+      K2.$('[data-lp-back]').addEventListener('click', () => { K2.show(make); K2.say(''); conf.elements.code.value = ''; K2.focus(make.elements.name); });
     }
   };
 })();

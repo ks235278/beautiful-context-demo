@@ -397,7 +397,8 @@
       /* ログインの画面（js/login-page.js）。?new=1 なら、携帯では「アカウント作成」の札から。
          ?reset=1 はパスワードを忘れた人がメールのリンクで戻ってきたところ（新しいパスワードだけ。別の key にして描き直す） */
       const tab = q.get('new') ? 'new' : q.get('reset') ? 'reset' : 'in';
-      const r = show({ key: tab === 'reset' ? 'login:reset' : 'login', kind: 'page' }, BCLoginPage.html(tab), motion, 'ログイン');
+      const who = Social.me();
+      const r = show({ key: tab === 'reset' ? 'login:reset' : who && who.named !== false ? 'login:signed' : 'login', kind: 'page' }, BCLoginPage.html(tab), motion, 'ログイン');
       if (viewIn.querySelector('.login-page')) BCLoginPage.mount(viewIn, { toast, track, done: leaveLogin, account: openAccount });
       return r;
     } else if (['about', 'mission', 'terms', 'ad', 'credits'].includes(name)){
@@ -1508,6 +1509,8 @@
     acc.toggleAttribute('data-login', !me);
     acc.toggleAttribute('data-account', !!me);
     acc.innerHTML = me ? `${R.esc(me.name)}<small>アカウント</small>` : 'ログイン<small>アカウントを作る</small>';
+    /* 「ログインしています」「新しいパスワード」の画面のままログアウトした：ログインの欄に描き直す */
+    if (!me && here && (here.key === 'login:signed' || here.key === 'login:reset')) setTimeout(() => { if (Social.me() || !here || !/^login:/.test(here.key)) return; history.replaceState(history.state, '', '#/login'); routeTo('#/login'); }, 0);
     /* data-stay：パスワードを決め直している途中（コードを確かめた時点でログインになるが、保存し終えるまで離れない） */
     if (me && me.named !== false && here && here.key === 'login' && !viewIn.querySelector('.login-page.signed, .login-page[data-stay]')) setTimeout(leaveLogin, 0);
     redrawComments();

@@ -1324,3 +1324,21 @@ body.viewing:has(.view-in>.login-page) .login-page .content{padding-bottom:40px}
   .login-page .lp-socials .lp-alt{gap:10px}
   .login-page .lp-socials .lp-google{order:-1}
 }
+
+/* 第31段の続き：表示名だけを聞くとき（.naming）は、ログインの札一つだけ。
+   Apple・Google は二つの幅をそろえ、ログインのボタンの端に合わせる（1241〜1439px は列が狭いので字を小さく）。
+   パソコンの 1100〜1170px でも BEAUTIFUL CONTEXT を一行に。360px 幅でも規約のリンクを折らない */
+.login-page.naming .lp-tabs,.login-page.naming .lp-new,.login-page.naming .lp-terms{display:none}
+.login-page.naming .lp-in{display:block}
+@media (max-width:374.98px){.login-page .lp-terms{font-size:11px}}
+@media (min-width:1100px){
+  .login-page.naming .lp-cards{grid-template-columns:minmax(0,487px);justify-content:center}
+  .login-page .lp-brand{white-space:nowrap}
+  .login-page .lp-socials{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+  .login-page .lp-socials .lp-alt{padding:0 4px}
+}
+@media (min-width:1100px) and (max-width:1179.98px){.login-page .lp-brand{font-size:calc((100vw - 548px) / 11.05)}}
+@media (min-width:1241px) and (max-width:1439.98px){
+  .login-page .lp-socials .lp-alt{gap:6px;font-size:13px}
+  .login-page .lp-socials .lp-alt svg{width:18px;height:18px}
+}
