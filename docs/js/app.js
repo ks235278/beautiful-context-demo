@@ -438,20 +438,59 @@
   function ctxOpts(e, today){
     const me = Social.me(), ed = S.editorOf(e);
     return { editor: ed, following: Social.isFollowing(ed.id), me, comments: S.visibleComments(e),
-      mine: me ? S.myPendingComments(e, me.uid) : [], today, rail: S.feed(e.b.slug, e.id), railBatch: FEED_BATCH,
-      journey: journeyOf(e) };
+      mine: me ? S.myPendingComments(e, me.uid) : [], today, rail: railOf(e, today), railBatch: FEED_BATCH,
+      journey: journeyOf(e, today) };
+  }
+  /* 「この先」はここ一つから（CONTEXT JOURNEY・右の列・次に読む札・この先のつながり・次は の字）。
+     つながり → 作品（出口の駅） → つながり の道（S.trail）。Today は残りの Choice を先に、最後の Choice のあとは道の続き。同じつながりは二度並べない */
+  function lineAhead(e, today){
+    const T = trail(), out = [], seen = new Set([e.id]);
+    const add = (entry, href) => { if (entry && !seen.has(entry.id)){ seen.add(entry.id); out.push({ entry, href: href || null }); } };
+    let from = e.id;
+    if (today){
+      const list = todayList();
+      list.slice(today.i + 1).forEach((x, k) => add(x.e, '#/today?i=' + (today.i + 1 + k)));
+      if (list.length) from = list[list.length - 1].e.id;
+    }
+    const p = posOf(from);
+    for (let k = 1; p >= 0 && k <= T.length; k++) add(T[(p + k) % T.length].entry);
+    return out;
+  }
+  /* その区間の出口の駅（作品） */
+  const exitOf = (e) => { const t = trail()[posOf(e.id)]; return t && t.exit === 'a' ? e.a : e.b; };
+  /* 読み終わりの下の「この先のつながり」：次に読む札の出口の駅から、道を順に（S.feed は作品ごとの路線 #/f/ だけに使う） */
+  function railOf(e, today){
+    const ahead = lineAhead(e, today), nx = ahead[0];
+    if (!nx) return [];
+    const w0 = exitOf(nx.entry);
+    return [{ slug: w0.slug, work: w0, entry: null, via: nx.entry }].concat(ahead.slice(1).map(x => {
+      const w = exitOf(x.entry), t = trail()[posOf(x.entry.id)];
+      return { slug: w.slug, work: w, entry: x.entry, jump: !!(t && t.jump) };
+    }));
+  }
+  /* 作品（駅）のページから次に行くつながり。読んだ区間の出口の駅なら道の次へ。
+     そうでなければ（一覧・検索などから来た）、その作品のつながりのうち、まだ読んでいないものへ */
+  function nextFromWork(slug, entry){
+    if (entry && exitOf(entry).slug === slug) return after(entry.id);
+    const hit = S.workBySlug(slug), list = hit ? hit.contexts.map(c => c.entry) : [];
+    return list.find(x => !readCtx.has(x.id)) || list[0] || (entry ? after(entry.id) : null);
   }
   /* 見本の CONTEXT JOURNEY：つながりを辿る道の上で、一つ前・いま・その先の三つ（あわせて五つまで）。
      名は道の上の位置で決まる（道の始めは「はじまり」）。道の終わりの先は、つながりを辿ると同じく道の始めへ回る */
   const stageName = (d, k) => d < 0 ? (k === 0 ? 'はじまり' : 'ここまで') : d === 0 ? 'いまここ' : d <= 1 ? 'つぎへ' : d <= 2 ? 'さらに' : 'その先へ';
-  function journeyOf(e){
+  function journeyOf(e, today){
     const T = trail(), p = posOf(e.id);
     if (p < 0) return [];
-    const back = p > 0 ? 1 : 0;   /* 道の始めでは前が無いので、いまを先頭に */
-    return Array.from({ length: Math.min(5, T.length) }, (_, j) => {
-      const d = j - back, k = (p + d + T.length) % T.length;
-      return { entry: T[k].entry, name: stageName(d, k), now: d === 0 };
-    });
+    const rows = [];
+    if (today && today.i > 0){
+      const j = today.i - 1, x = todayList()[j];
+      if (x) rows.push({ entry: x.e, href: '#/today' + (j ? '?i=' + j : ''), name: 'ここまで', now: false });
+    } else if (p > 0){
+      rows.push({ entry: T[p - 1].entry, href: null, name: stageName(-1, p - 1), now: false });   /* 道の始めでは前が無いので、いまを先頭に */
+    }
+    rows.push({ entry: e, href: null, name: 'いまここ', now: true });
+    lineAhead(e, today).slice(0, 5 - rows.length).forEach((x, k) => rows.push({ entry: x.entry, href: x.href, name: stageName(k + 1, 1), now: false }));
+    return rows;
   }
   function showToday(i, motion){
     const list = todayList();
@@ -478,7 +517,7 @@
     else nextPlan().run();
   }
   /* 一つ前のつながりへ（絵の横の ‹・← キー）。辿る順（S.trail）の一つ前：
-     コンテクストからは道の一つ前の区間、駅（作品ページ）からはそこへ来た区間、Today では一つ前の Choice。
+     コンテクストからは一つ前の区間の出口の駅、駅（作品ページ）からはそこへ来た区間、Today では一つ前の Choice。
      道の始め・最初の Choice（と、道に載っていないページ）では、ふつうに戻る（closeView）。
      一つ前の画面がちょうどその行き先なら、積まずに履歴を戻る（‹ を押すたびに履歴が伸びないように） */
   /* how：押したもの（arrow：絵の横の ‹、key：←） */
@@ -495,8 +534,9 @@
     } else if (here && here.entry && here.step !== 1){
       to = stepHash(here.entry, 1); dir = Math.sign(1 - here.step);
     } else if (here && here.entry){
-      const i = posOf(here.entry.id);
-      if (i > 0) to = '#/c/' + encodeURIComponent(trail()[i - 1].entry.context.slug);
+      /* つながりの一つ前は、前の区間の出口の駅（› の逆。› › ‹ ‹ で元の所に戻る） */
+      const i = posOf(here.entry.id), t = i > 0 ? trail()[i - 1] : null;
+      if (t) to = stepHash(t.entry, t.exit === 'a' ? 0 : 2);
     }
     if (!to || (depth() > rootDepth() && sameHash(stack[stack.length - 2], to))){ closeView(null, v); return; }
     how(v);
@@ -985,9 +1025,8 @@
       return { label: 'その先の駅へ', run: () => goStep(step, null), peek: { work: here.entry[step ? 'b' : 'a'] } };
     }
     if (here && here.work){
-      if (here.entry) return toCtx(after(here.entry.id), '次の区間へ');
-      const t = trail().find(x => x.entry.a.slug === here.slug || x.entry.b.slug === here.slug);
-      if (t) return toCtx(t.entry, 'コンテクストへ');
+      const e = nextFromWork(here.slug, here.entry);
+      if (e) return toCtx(e, '次のつながりへ');
     }
     if (here && here.feed){
       const bottom = document.getElementById('dock').getBoundingClientRect().top;
@@ -996,10 +1035,13 @@
         if (r.bottom < 0 || r.top > bottom) continue;
         const to = routeOfLink(a) || '';
         const e = to.startsWith('#/c/') ? S.byContextSlug(decodeURIComponent(to.slice(4).split('?')[0])) : null;
-        if (e && !readCtx.has(e.id)) return toCtx(e, 'コンテクストへ');
+        if (e && !readCtx.has(e.id)) return toCtx(e, 'つながりへ');
       }
     }
-    return toCtx(after(lastCtx), '続きから');
+    if (lastCtx) return toCtx(after(lastCtx), '続きから');
+    /* まだ何も読んでいない人（案内のページなどから）は、今日のつながりへ */
+    const tl = todayList();
+    return { label: '今日のつながりへ', peek: tl[0] ? { entry: tl[0].e, today: true } : null, run: () => go('#/today', { dir: 1 }) };
   }
   /* 読み下ろしているあいだは、上に浮かぶ ‹ と ≡ を引っ込める（文字に重ねない）。少し上へ戻せば出る（iPhone の Safari の帯と同じ）。
      見た目は ux.css（携帯・タブレットだけ） */
@@ -1029,11 +1071,12 @@
     if (!box) return;
     let p = view.classList.contains('on') && here && !here.list ? plan.peek : null;
     if (hasCard(1)){ const x = todayList()[here.today.i + 1]; if (x) p = { entry: x.e, today: true }; }
-    if (!p || !(p.work || p.entry)){ box.hidden = true; return; }
+    const dn = $('dockNext');
+    if (!p || !(p.work || p.entry)){ box.hidden = true; if (dn) dn.textContent = ''; return; }
     const [small, b, sub] = box.querySelectorAll('.np-txt>*');
     if (p.work){
       box.querySelector('.np-imgs').innerHTML = peekPic(p.work);
-      small.textContent = '次は　その先の駅';
+      small.textContent = '次は　駅';
       b.textContent = p.work.title;
       sub.textContent = (p.work.type || '作品') + (p.work.year ? '・' + p.work.year + '年' : '');
     } else {
@@ -1045,6 +1088,9 @@
     }
     box.setAttribute('aria-label', `次へ：${b.textContent}`);
     box.hidden = false;
+    /* 携帯：同じ字を下の帯の一行に。› の読み上げも同じ行き先を */
+    if (dn) dn.textContent = `${small.textContent}｜${b.textContent}`;
+    viewIn.querySelectorAll('.ctx-nav.next').forEach(n => n.setAttribute('aria-label', `次へ：${b.textContent}`));
   }
   if ($('nextPeek')) $('nextPeek').addEventListener('click', () => { if (view.classList.contains('on')) nextAction('preview'); });
 
@@ -1069,13 +1115,15 @@
        作品（駅）のページでは、いまの所の字はその作品の名。携帯の CONTEXT JOURNEY と同じ並び（journeyOf） */
     const pic = (w) => { const s = R.safeImg(w.image); return s ? `<img src="${R.esc(s)}" alt="" loading="lazy" decoding="async">` : `<i>${R.esc(String(w.title || '').slice(0, 1))}</i>`; };
     const atWork = own >= 0 && here.step !== 1 ? (here.step === 0 ? here.entry.a : here.entry.b) : null;
+    const todayNow = own >= 0 && here.today ? here.today : null;
     /* コンテクストを読んでいるときは、見本 04〜06 のとおり五つとも絵を（案内のページなどは、いまの所だけ） */
     const pics = own >= 0 && here.step === 1 && !here.today;
     box.classList.toggle('pics', pics);
-    const li = journeyOf(T[i].entry).map(x => {
+    const li = journeyOf(T[i].entry, todayNow).map(x => {
       const e = x.entry, lines = String(e.context.headline || '').split('\n').map(R.esc);
-      const text = x.now ? (atWork ? R.esc(atWork.title) : lines.join('<br>')) : lines[0];
-      return `<li class="rm-s${x.now ? ' now' : ''}"><a href="#/c/${encodeURIComponent(e.context.slug)}"${x.now ? ' aria-current="page"' : ''}><i class="rm-dot"></i>` +
+      /* いまの所は題の全部。ほかは路線の名（題の一行目は文の途中で切れる） */
+      const text = x.now ? (atWork ? R.esc(atWork.title) : lines.join('<br>')) : `［${R.esc(e.context.routeName)}］`;
+      return `<li class="rm-s${x.now ? ' now' : ''}"><a href="${R.esc(x.href || '#/c/' + encodeURIComponent(e.context.slug))}"${x.now ? ' aria-current="page"' : ''}><i class="rm-dot"></i>` +
         `<b>${R.esc(x.name)}</b><span>${text}</span>${x.now || pics ? `<em class="rm-pics" aria-hidden="true">${pic(e.a)}${pic(e.b)}</em>` : ''}</a></li>`;
     }).join('');
     /* 列の下に「つながりを辿る」（見本どおり。下の帯のボタンと同じ働き） */
@@ -1100,17 +1148,29 @@
   });
 
   /* はじめてパソコンで開いた人に一度だけ：→ キーか、つながりを辿るで次へ進めること。最初に進むか、8 秒で消える */
-  let hinted = false, hintT = 0;
+  let hinted = false, hintT = 0, hintWait = 0, hintFire = null;
   function hintNext(on){
     const el = $('nextHint');
     if (!el) return;
-    if (!on){ clearTimeout(hintT); el.classList.remove('show'); return; }
+    if (!on){
+      clearTimeout(hintT); clearTimeout(hintWait);
+      if (hintFire){ window.removeEventListener('scroll', hintFire); hintFire = null; }
+      el.classList.remove('show');
+      return;
+    }
     if (hinted || !wide.matches || !view.classList.contains('on') || !here || here.list) return;
     hinted = true;
     try { if (localStorage.getItem('bc-hint-next')) return; localStorage.setItem('bc-hint-next', '1'); } catch (e) {}
-    el.hidden = false;
-    requestAnimationFrame(() => el.classList.add('show'));
-    hintT = setTimeout(() => hintNext(false), 8000);
+    /* 開いてすぐは出さない（読み始めの札に重なる）。少し下へ送ったとき、または 12 秒たったときに一度だけ */
+    hintFire = () => {
+      window.removeEventListener('scroll', hintFire); hintFire = null;
+      clearTimeout(hintWait);
+      el.hidden = false;
+      requestAnimationFrame(() => el.classList.add('show'));
+      hintT = setTimeout(() => hintNext(false), 8000);
+    };
+    window.addEventListener('scroll', hintFire, { passive: true });
+    hintWait = setTimeout(hintFire, 12000);
   }
 
   /* NEXT UNIVERSE：次のつながりへ（行き先はアプリが決める）。戻るのは左の端から払う */

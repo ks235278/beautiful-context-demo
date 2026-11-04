@@ -43,9 +43,9 @@ try { if (sessionStorage.getItem('bc-resume')) document.documentElement.classLis
 <link rel="preload" as="image" href="img/logo-layer-words.png">
 <!-- 台本も先に取りに行く（静的なページは台本より先に本文が描かれる。遅い回線で、触れて動くまでの間を縮める）。
      src と同じアドレス（?v= まで）でないと、二度取りに行く -->
-<link rel="preload" as="script" href="js/seed.js?v=174">
-<link rel="preload" as="script" href="js/app.js?v=174">
-<link rel="manifest" href="manifest.webmanifest?v=174">
+<link rel="preload" as="script" href="js/seed.js?v=175">
+<link rel="preload" as="script" href="js/app.js?v=175">
+<link rel="manifest" href="manifest.webmanifest?v=175">
 <link rel="apple-touch-icon" href="icon-180.png">
 <!-- タブと検索結果に出る小さな印。アプリの印（ホーム画面のアイコン）と同じ形 -->
 <link rel="icon" href="favicon.ico" sizes="16x16 32x32 48x48">
@@ -76,13 +76,13 @@ if (location.hostname === 'beautifulcontext.com'){
   document.head.appendChild(ga);
 }
 </script>
-<script src="js/theme.js?v=174"></script>
-<link rel="stylesheet" href="app.css?v=174">
+<script src="js/theme.js?v=175"></script>
+<link rel="stylesheet" href="app.css?v=175">
 <!-- 読む画面の使い勝手（2026.10.24）。app.css のすぐあと -->
-<link rel="stylesheet" href="ux.css?v=174">
-<link rel="stylesheet" href="fade.css?v=174">
+<link rel="stylesheet" href="ux.css?v=175">
+<link rel="stylesheet" href="fade.css?v=175">
 <!-- editorial-ink（紙・墨・金）：◆ の罫と、紙の上か絵の上かで変わる決まり。ux.css のあと -->
-<link rel="stylesheet" href="ink.css?v=174">
+<link rel="stylesheet" href="ink.css?v=175">
 <!-- 台本（js）が揃うまで：まだ押しても動かないもの（‹・絵の横の ‹ ›・つながりを辿る）を少し薄くし、下の帯の上の縁に細い金の線を走らせる。
      app.js が最後に body.app-ready を付けて外す。すぐ揃うときは何も見せない（0.3 秒待ってから出す） -->
 <style>
@@ -132,6 +132,8 @@ document.addEventListener('click', function (e) {
 <div class="dock" id="dock">
   <div class="map" id="map"></div>
   <p class="sel-hint" id="selHint" aria-live="polite"></p>
+  <!-- 携帯：つながりを辿るの行き先を一行で（パソコンは次の札 next-peek） -->
+  <p class="dock-next" id="dockNext"></p>
   <p class="dock-brand" id="dockBrand">BEAUTIFUL CONTEXT</p>
   <!-- 読む画面（Today・コンテクスト・作品）では NEXT UNIVERSE だけ。戻るのは左の端から右へ払う（iPhone と同じ）か、上の ‹。
        ReMixIt!（つながりを創る）は編集の側の道具なので、UniverseIt! の画面とメニューに置く -->
@@ -192,7 +194,7 @@ document.addEventListener('click', function (e) {
   <div class="view-in" id="viewIn"><!--bc-body-->
       <article class="page cpage">
         <button type="button" class="back-close" data-close="" aria-label="Today's Editor's Choice へ戻る" title="Today's Editor's Choice へ"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 4.5 7.5 12l7.5 7.5"></path></svg></button>
-        <div class="duo-hero"><a class="c-logo on-paper" href="#/" data-top="" aria-label="BEAUTIFUL CONTEXT（TOP へ戻る）"><img src="img/logo-navy.png" alt=""></a><span class="only-sp"><button type="button" class="login-chip" data-login="">Login</button></span><div class="duo"><button type="button" class="duo-go" data-step="0" aria-label="岩明均の作品ページへ"><div class="art"><img src="img/works/iwaaki-hitoshi.jpg" alt="岩明均" data-k="iwaaki-hitoshi" decoding="async" fetchpriority="low"></div></button><button type="button" class="duo-go" data-step="2" aria-label="岩明均『ヒストリエ』の作品ページへ"><div class="art"><img src="img/works/historie.jpg" alt="岩明均『ヒストリエ』" data-k="historie" decoding="async" fetchpriority="low"></div></button><i class="swap" aria-hidden="true">↔</i></div><button type="button" class="ctx-nav prev" data-ctx-go="-1" aria-label="一つ前のつながりへ">‹</button><button type="button" class="ctx-nav next" data-ctx-go="1" aria-label="次のつながりへ">›</button></div>
+        <div class="duo-hero"><a class="c-logo on-paper" href="#/" data-top="" aria-label="BEAUTIFUL CONTEXT（TOP へ戻る）"><img src="img/logo-navy.png" alt=""></a><span class="only-sp"><button type="button" class="login-chip" data-login="">Login</button></span><div class="duo"><button type="button" class="duo-go" data-step="0" aria-label="岩明均の作品ページへ"><div class="art"><img src="img/works/iwaaki-hitoshi.jpg" alt="岩明均" data-k="iwaaki-hitoshi" decoding="async" fetchpriority="low"></div></button><button type="button" class="duo-go" data-step="2" aria-label="岩明均『ヒストリエ』の作品ページへ"><div class="art"><img src="img/works/historie.jpg" alt="岩明均『ヒストリエ』" data-k="historie" decoding="async" fetchpriority="low"></div></button><i class="swap" aria-hidden="true">↔</i></div><button type="button" class="ctx-nav prev" data-ctx-go="-1" aria-label="一つ前のつながりへ">‹</button><button type="button" class="ctx-nav next" data-ctx-go="1" aria-label="次へ：岩明均『ヒストリエ』">›</button></div>
         <section class="context-lead">
           
           <div class="ed-row">
@@ -264,18 +266,6 @@ document.addEventListener('click', function (e) {
         <li class="stop first">
           
           
-          <a class="fstop" href="w/historie/">
-            <span class="st-img"><img src="img/works/historie.jpg" alt="岩明均『ヒストリエ』" data-k="historie" loading="lazy" decoding="async"></span>
-            <span class="st-txt"><small>漫画・2003年</small>
-              <b>岩明均『ヒストリエ』</b><span>アレクサンドロス大王の書記官エウメネスの生涯を描く歴史漫画。</span></span>
-          </a>
-        </li>
-        <li class="stop">
-          
-          <a class="seg" href="c/niji-iro-no-trotsky--historie/">
-            
-            <small>［二つの民族のあいだで］　似ている</small>
-            <b><span class="seg-copy">どちらの民族にも、属しきれない主人公。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
           <a class="fstop" href="w/niji-iro-no-trotsky/?c=niji-iro-no-trotsky--historie">
             <span class="st-img"><img src="img/works/niji-iro-no-trotsky.jpg" alt="安彦良和『虹色のトロツキー』" data-k="niji-iro-no-trotsky" loading="lazy" decoding="async"></span>
             <span class="st-txt"><small>漫画・1990年</small>
@@ -306,97 +296,112 @@ document.addEventListener('click', function (e) {
               <b>安彦良和『機動戦士ガンダム THE ORIGIN』</b><span>テレビアニメ『機動戦士ガンダム』の物語を、安彦良和が自らの手で描き直した漫画。シャアとセイラの少年時代も描かれる。</span></span>
           </a>
         </li>
-        <li class="stop newline">
+        <li class="stop">
           <p class="transfer"><span>別の路線へ</span></p>
-          
-          <a class="fstop" href="w/parasyte/">
-            <span class="st-img"><img src="img/works/parasyte.jpg" alt="岩明均『寄生獣』" data-k="parasyte" loading="lazy" decoding="async"></span>
-            <span class="st-txt"><small>漫画・1989年</small>
-              <b>岩明均『寄生獣』</b><span>人間に寄生する生物が現れた世界で、右手に寄生された高校生・泉新一と「ミギー」の共生を描いた漫画。</span></span>
-          </a>
-        </li>
-        <li class="stop">
-          
-          <a class="seg" href="c/chainsaw-man--parasyte/">
+          <a class="seg" href="c/kill-your-friends--frida-sundemo/">
             
-            <small>［体に宿るもう一つの命］　似ている</small>
-            <b><span class="seg-copy">悪魔の心臓と、右手の寄生生物。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
-          <a class="fstop" href="w/chainsaw-man/?c=chainsaw-man--parasyte">
-            <span class="st-img"><img src="img/works/chainsaw-man.jpg" alt="藤本タツキ『チェンソーマン』" data-k="chainsaw-man" loading="lazy" decoding="async"></span>
-            <span class="st-txt"><small>漫画・2018年</small>
-              <b>藤本タツキ『チェンソーマン』</b><span>悪魔のポチタと一体になり、チェンソーの悪魔の力を得た少年デンジの物語。2018年に週刊少年ジャンプで連載が始まった。</span></span>
-          </a>
-        </li>
-        <li class="stop">
-          
-          <a class="seg" href="c/fujimoto-tatsuki--chainsaw-man/">
-            
-            <small>［悪魔を狩る少年］　作者と作品</small>
-            <b><span class="seg-copy">チェンソーの心臓が、借金を負う少年に宿る。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
-          <a class="fstop" href="w/fujimoto-tatsuki/?c=fujimoto-tatsuki--chainsaw-man">
-            <span class="st-img"><img src="img/works/fujimoto-tatsuki.jpg" alt="藤本タツキ" data-k="fujimoto-tatsuki" loading="lazy" decoding="async"></span>
-            <span class="st-txt"><small>人物</small>
-              <b>藤本タツキ</b><span>『チェンソーマン』『ルックバック』『ファイアパンチ』の漫画家。</span></span>
-          </a>
-        </li>
-        <li class="stop">
-          
-          <a class="seg" href="c/fujimoto-tatsuki--look-back/">
-            
-            <small>［描く人を描く］　作者と作品</small>
-            <b><span class="seg-copy">漫画家が、漫画を描く人を描いた。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
-          <a class="fstop" href="w/look-back/?c=fujimoto-tatsuki--look-back">
-            <span class="st-img"><img src="img/works/look-back.jpg" alt="藤本タツキ『ルックバック』" data-k="look-back" loading="lazy" decoding="async"></span>
-            <span class="st-txt"><small>漫画・2021年</small>
-              <b>藤本タツキ『ルックバック』</b><span>漫画を描くことに打ち込む二人の少女を描いた読み切り。2021年に少年ジャンプ＋で公開され、2024年にアニメーション映画になった。</span></span>
-          </a>
-        </li>
-        <li class="stop">
-          
-          <a class="seg" href="c/kono-sekai-no-katasumi-ni--look-back/">
-            
-            <small>［描く手］　似ている</small>
-            <b><span class="seg-copy">描くことが好きな人が、喪失のあとを生きる。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
-          <a class="fstop" href="w/kono-sekai-no-katasumi-ni/?c=kono-sekai-no-katasumi-ni--look-back">
-            <span class="st-img"><img src="img/works/kono-sekai-no-katasumi-ni.jpg" alt="『この世界の片隅に』" data-k="kono-sekai-no-katasumi-ni" loading="lazy" decoding="async"></span>
-            <span class="st-txt"><small>映画・2016年</small>
-              <b>『この世界の片隅に』</b><span>戦時中の広島と呉を舞台に、絵を描くことが好きな主人公すずの暮らしを描いたアニメーション映画。原作はこうの史代の漫画。</span></span>
-          </a>
-        </li>
-        <li class="stop">
-          
-          <a class="seg" href="c/kanashikute-yarikirenai--kono-sekai-no-katasumi-ni/">
-            
-            <small>［映画のはじまりの歌］　事実</small>
-            <b><span class="seg-copy">戦時下の日常は、この歌から始まる。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
-          <a class="fstop" href="w/kanashikute-yarikirenai/?c=kanashikute-yarikirenai--kono-sekai-no-katasumi-ni">
-            <span class="st-img"><img src="img/works/kanashikute-yarikirenai.jpg" alt="「悲しくてやりきれない」" data-k="kanashikute-yarikirenai" loading="lazy" decoding="async"></span>
-            <span class="st-txt"><small>音楽・1968年</small>
-              <b>「悲しくてやりきれない」</b><span>1968年に発表されたザ・フォーク・クルセダーズの歌。多くの歌い手にうたい継がれてきた。</span></span>
-          </a>
-        </li>
-        <li class="stop">
-          
-          <a class="seg" href="c/kotringo--kanashikute-yarikirenai/">
-            
-            <small>［歌い直された歌］　事実</small>
-            <b><span class="seg-copy">1968年の歌を、静かな声が歌い直した。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
-          <a class="fstop" href="w/kotringo/?c=kotringo--kanashikute-yarikirenai">
-            <span class="st-img"><img src="img/works/kotringo.jpg" alt="コトリンゴ" data-k="kotringo" loading="lazy" decoding="async"></span>
+            <small>［争奪戦の新人バンド］　事実</small>
+            <b><span class="seg-copy">新人バンドの契約を、野心家の男が狙う。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
+          <a class="fstop" href="w/frida-sundemo/?c=kill-your-friends--frida-sundemo">
+            <span class="st-img"><img src="img/works/frida-sundemo.jpg" alt="フリーダ・サンデモ" data-k="frida-sundemo" loading="lazy" decoding="async"></span>
             <span class="st-txt"><small>音楽</small>
-              <b>コトリンゴ</b><span>ピアノと歌のシンガーソングライター。アニメーション映画『この世界の片隅に』の音楽を手がけ、「悲しくてやりきれない」を歌った。</span></span>
+              <b>フリーダ・サンデモ</b><span>スウェーデンのシンガーソングライター。オルタナティブ・ポップの歌い手として紹介され、映画『マッド・ドライヴ』で映画デビューを果たした。</span></span>
           </a>
         </li>
-        <li class="stop branch">
+        <li class="stop">
+          <p class="transfer"><span>別の路線へ</span></p>
+          <a class="seg" href="c/tengoku-film--tengoku-book/">
+            
+            <small>［原作から映画へ］　事実</small>
+            <b><span class="seg-copy">父の語った島を探す旅は映画で別の物語になる。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
+          <a class="fstop" href="w/tengoku-book/?c=tengoku-film--tengoku-book">
+            <span class="st-img"><img src="img/works/tengoku-book.jpg" alt="森村桂『天国にいちばん近い島』" data-k="tengoku-book" loading="lazy" decoding="async"></span>
+            <span class="st-txt"><small>書籍・1966年</small>
+              <b>森村桂『天国にいちばん近い島』</b><span>1964年、ひとりでニューカレドニアへ旅立った著者の旅行記。ベストセラーになった。</span></span>
+          </a>
+        </li>
+        <li class="stop">
           
-          <a class="seg" href="c/kono-sekai-no-katasumi-ni--kure/">
-            <span class="seg-from">この世界の片隅に から分岐</span>
-            <small>［嫁いだ先の町］　事実</small>
-            <b><span class="seg-copy">すずは広島から、軍港の町へ嫁いだ。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
-          <a class="fstop" href="w/kure/?c=kono-sekai-no-katasumi-ni--kure">
-            <span class="st-img"><img src="img/works/kure.jpg" alt="広島県呉市" data-k="kure" loading="lazy" decoding="async"></span>
-            <span class="st-txt"><small>場所</small>
-              <b>広島県呉市</b><span>瀬戸内海に面した港町。明治期に海軍の鎮守府が置かれ、戦艦大和が建造された海軍工廠の町として知られる。</span></span>
+          <a class="seg" href="c/tengoku-book--rebellion-ordre-et-morale/">
+            
+            <small>［天国の島の裏側］　ハブ</small>
+            <b><span class="seg-copy">天国にいちばん近い島は人質事件の島でもある。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
+          <a class="fstop" href="w/rebellion-ordre-et-morale/?c=tengoku-book--rebellion-ordre-et-morale">
+            <span class="st-img"><img src="img/works/rebellion-ordre-et-morale.jpg" alt="映画『裏切りの戦場 葬られた誓い』" data-k="rebellion-ordre-et-morale" loading="lazy" decoding="async"></span>
+            <span class="st-txt"><small>映画・2011年</small>
+              <b>映画『裏切りの戦場 葬られた誓い』</b><span>1988年、フランス領ニューカレドニアのウベア島で起きた人質事件を、交渉にあたった国家憲兵隊の特殊部隊の隊長の視点から描いた。</span></span>
+          </a>
+        </li>
+        <li class="stop">
+          
+          <a class="seg" href="c/tengoku-film--harada-tomoyo/">
+            
+            <small>［主演］　作者と作品</small>
+            <b><span class="seg-copy">亡き父の言葉を頼りに、少女は南の島へ向かう。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
+          <a class="fstop" href="w/harada-tomoyo/?c=tengoku-film--harada-tomoyo">
+            <span class="st-img"><img src="img/works/harada-tomoyo.jpg" alt="原田知世" data-k="harada-tomoyo" loading="lazy" decoding="async"></span>
+            <span class="st-txt"><small>人物・1967年</small>
+              <b>原田知世</b><span>1983年、大林宣彦監督『時をかける少女』で映画に主演。大林監督の『天国にいちばん近い島』にも主演し、歌手としても活動を続けている。</span></span>
+          </a>
+        </li>
+        <li class="stop">
+          <p class="transfer"><span>別の路線へ</span></p>
+          <a class="seg" href="c/sobagome-jiru--grechka/">
+            
+            <small>［そばの実］　ハブ</small>
+            <b><span class="seg-copy">麺にしないそばを、祖谷もロシアも食べる。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
+          <a class="fstop" href="w/grechka/?c=sobagome-jiru--grechka">
+            <span class="st-img"><img src="img/works/grechka.jpg" alt="ロシア「そばの実（グレーチカ）」" data-k="grechka" loading="lazy" decoding="async"></span>
+            <span class="st-txt"><small>料理</small>
+              <b>ロシア「そばの実（グレーチカ）」</b><span>ロシアで粥（カーシャ）にして食べられる、そばの実。ロシア語ではグレーチカと呼ぶ。</span></span>
+          </a>
+        </li>
+        <li class="stop">
+          <p class="transfer"><span>別の路線へ</span></p>
+          <a class="seg" href="c/lorenzos-oil--adrenoleukodystrophy/">
+            
+            <small>［実話の病］　事実</small>
+            <b><span class="seg-copy">息子を救う方法を、両親は自ら探した。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
+          <a class="fstop" href="w/adrenoleukodystrophy/?c=lorenzos-oil--adrenoleukodystrophy">
+            <span class="st-img"><img src="img/works/adrenoleukodystrophy.jpg" alt="副腎白質ジストロフィー（ALD）" data-k="adrenoleukodystrophy" loading="lazy" decoding="async"></span>
+            <span class="st-txt"><small>病気</small>
+              <b>副腎白質ジストロフィー（ALD）</b><span>脳の白質と副腎が侵される遺伝性の病気。主に男の子に発症する。</span></span>
+          </a>
+        </li>
+        <li class="stop">
+          
+          <a class="seg" href="c/highest-2-lowest--high-and-low/">
+            
+            <small>［原作から再解釈へ］　事実</small>
+            <b><span class="seg-copy">誘拐劇は、60年後にアメリカへ戻った。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
+          <a class="fstop" href="w/high-and-low/?c=highest-2-lowest--high-and-low">
+            <span class="st-img"><img src="img/highlow.jpg" alt="黒澤明『天国と地獄』" data-k="high-and-low" loading="lazy" decoding="async"></span>
+            <span class="st-txt"><small>映画・1963年</small>
+              <b>黒澤明『天国と地獄』</b><span>エド・マクベインの小説『King’s Ransom』を原作に、誘拐事件を通じて企業家の倫理と社会の格差を描いた作品。</span></span>
+          </a>
+        </li>
+        <li class="stop">
+          
+          <a class="seg" href="c/high-and-low--kings-ransom/">
+            
+            <small>［小説から映画へ］　事実</small>
+            <b><span class="seg-copy">身代金の電話は、横浜の高台で鳴った。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
+          <a class="fstop" href="w/kings-ransom/?c=high-and-low--kings-ransom">
+            <span class="st-img"><img src="img/kings-ransom.jpg" alt="エド・マクベイン『キングの身代金』" data-k="kings-ransom" loading="lazy" decoding="async"></span>
+            <span class="st-txt"><small>書籍・1959年</small>
+              <b>エド・マクベイン『キングの身代金』</b><span>架空の街アイソラの87分署を舞台にした警察小説シリーズの一作。原題『King’s Ransom』。靴会社の重役のもとに、身代金を要求する電話がかかってくる。</span></span>
+          </a>
+        </li>
+        <li class="stop">
+          
+          <a class="seg" href="c/highest-2-lowest--kings-ransom/">
+            
+            <small>［もう一本の源流］　事実</small>
+            <b><span class="seg-copy">黒澤の映画の前にも、一冊の小説があった。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
+          <a class="fstop" href="w/highest-2-lowest/?c=highest-2-lowest--kings-ransom">
+            <span class="st-img"><img src="img/highest.jpg" alt="『HIGHEST 2 LOWEST』" data-k="highest-2-lowest" loading="lazy" decoding="async"></span>
+            <span class="st-txt"><small>映画・2025年</small>
+              <b>『HIGHEST 2 LOWEST』</b><span>スパイク・リーが、黒澤明『天国と地獄』の構造を現代のニューヨークへ移し替えた作品。富、家族、選択の価値が問われる。</span></span>
           </a>
         </li></ol>
             <div class="rail-more" id="railMore" aria-hidden="true"></div>
@@ -412,17 +417,17 @@ document.addEventListener('click', function (e) {
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 <script type="application/ld+json" id="ld">{"@context":"https://schema.org","@type":"Article","headline":"『寄生獣』の作者は、古代ギリシアを描いた。","alternativeHeadline":"古代を描く","about":[{"@type":"Person","name":"岩明均","description":"『寄生獣』『ヒストリエ』の漫画家。"},{"@type":"CreativeWork","name":"ヒストリエ","description":"アレクサンドロス大王の書記官エウメネスの生涯を描く歴史漫画。","creator":{"@type":"Person","name":"岩明均"}}],"author":{"@type":"Person","name":"生成AI（初稿）"},"datePublished":"2026-09-15T01:50:00.000Z","dateModified":"2026-09-15T01:50:00.000Z","inLanguage":"ja","articleBody":"SFから歴史へ。『ヒストリエ』には「この作者特有の」突き放したような明るさと残酷さがあると、文化庁メディア芸術祭は評した。『ヒストリエ』は『月刊アフタヌーン』で2003年3月号から連載が始まった歴史漫画で、紀元前4世紀の古代ギリシア世界を舞台に、のちにアレクサンドロス大王の書記官となるエウメネスの生涯を描く。作中のエウメネスは、自分がスキタイ人の出身であることを知らずに、都市国家カルディアで育つ。ギリシアとスキタイ、二つの世界にまたがるその立場は、『寄生獣』で人間と寄生生物のあいだに立った新一と重ねて読むこともできる。","url":"https://beautifulcontext.com/c/iwaaki-hitoshi--historie/","citation":[{"@type":"CreativeWork","name":"『ヒストリエ（８）』（岩明 均）｜講談社","url":"https://www.kodansha.co.jp/comic/products/0000047257","publisher":{"@type":"Organization","name":"講談社"}},{"@type":"CreativeWork","name":"『寄生獣（１）』（岩明 均）｜講談社","url":"https://www.kodansha.co.jp/comic/products/0000029944","publisher":{"@type":"Organization","name":"講談社"}},{"@type":"CreativeWork","name":"ヒストリエ - 文化庁メディア芸術祭 - JAPAN MEDIA ARTS FESTIVAL","url":"https://www.bunka.go.jp/j-mediaarts-festival/award/single/historie/index.html","publisher":{"@type":"Organization","name":"文化庁メディア芸術祭"}},{"@type":"CreativeWork","name":"ヒストリエ","url":"https://ja.wikipedia.org/wiki/ヒストリエ","publisher":{"@type":"Organization","name":"Wikipedia"}}],"image":"https://beautifulcontext.com/img/works/iwaaki-hitoshi.jpg"}</script>
 
-<script src="js/config.js?v=174"></script>
-<script src="js/seed.js?v=174"></script>
-<script src="js/sources.js?v=174"></script>
-<script src="js/backend.js?v=174"></script>
-<script src="js/store.js?v=174"></script>
-<script src="js/social.js?v=174"></script>
-<script src="js/render.js?v=174"></script>
-<script src="js/login.js?v=174"></script>
-<script src="js/login-page.js?v=174"></script>
-<script src="js/report.js?v=174"></script>
-<script src="js/transition.js?v=174"></script>
-<script src="js/app.js?v=174"></script>
+<script src="js/config.js?v=175"></script>
+<script src="js/seed.js?v=175"></script>
+<script src="js/sources.js?v=175"></script>
+<script src="js/backend.js?v=175"></script>
+<script src="js/store.js?v=175"></script>
+<script src="js/social.js?v=175"></script>
+<script src="js/render.js?v=175"></script>
+<script src="js/login.js?v=175"></script>
+<script src="js/login-page.js?v=175"></script>
+<script src="js/report.js?v=175"></script>
+<script src="js/transition.js?v=175"></script>
+<script src="js/app.js?v=175"></script>
 </body>
 </html>

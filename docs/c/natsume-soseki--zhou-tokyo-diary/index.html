@@ -43,9 +43,9 @@ try { if (sessionStorage.getItem('bc-resume')) document.documentElement.classLis
 <link rel="preload" as="image" href="img/logo-layer-words.png">
 <!-- 台本も先に取りに行く（静的なページは台本より先に本文が描かれる。遅い回線で、触れて動くまでの間を縮める）。
      src と同じアドレス（?v= まで）でないと、二度取りに行く -->
-<link rel="preload" as="script" href="js/seed.js?v=174">
-<link rel="preload" as="script" href="js/app.js?v=174">
-<link rel="manifest" href="manifest.webmanifest?v=174">
+<link rel="preload" as="script" href="js/seed.js?v=175">
+<link rel="preload" as="script" href="js/app.js?v=175">
+<link rel="manifest" href="manifest.webmanifest?v=175">
 <link rel="apple-touch-icon" href="icon-180.png">
 <!-- タブと検索結果に出る小さな印。アプリの印（ホーム画面のアイコン）と同じ形 -->
 <link rel="icon" href="favicon.ico" sizes="16x16 32x32 48x48">
@@ -76,13 +76,13 @@ if (location.hostname === 'beautifulcontext.com'){
   document.head.appendChild(ga);
 }
 </script>
-<script src="js/theme.js?v=174"></script>
-<link rel="stylesheet" href="app.css?v=174">
+<script src="js/theme.js?v=175"></script>
+<link rel="stylesheet" href="app.css?v=175">
 <!-- 読む画面の使い勝手（2026.10.24）。app.css のすぐあと -->
-<link rel="stylesheet" href="ux.css?v=174">
-<link rel="stylesheet" href="fade.css?v=174">
+<link rel="stylesheet" href="ux.css?v=175">
+<link rel="stylesheet" href="fade.css?v=175">
 <!-- editorial-ink（紙・墨・金）：◆ の罫と、紙の上か絵の上かで変わる決まり。ux.css のあと -->
-<link rel="stylesheet" href="ink.css?v=174">
+<link rel="stylesheet" href="ink.css?v=175">
 <!-- 台本（js）が揃うまで：まだ押しても動かないもの（‹・絵の横の ‹ ›・つながりを辿る）を少し薄くし、下の帯の上の縁に細い金の線を走らせる。
      app.js が最後に body.app-ready を付けて外す。すぐ揃うときは何も見せない（0.3 秒待ってから出す） -->
 <style>
@@ -132,6 +132,8 @@ document.addEventListener('click', function (e) {
 <div class="dock" id="dock">
   <div class="map" id="map"></div>
   <p class="sel-hint" id="selHint" aria-live="polite"></p>
+  <!-- 携帯：つながりを辿るの行き先を一行で（パソコンは次の札 next-peek） -->
+  <p class="dock-next" id="dockNext"></p>
   <p class="dock-brand" id="dockBrand">BEAUTIFUL CONTEXT</p>
   <!-- 読む画面（Today・コンテクスト・作品）では NEXT UNIVERSE だけ。戻るのは左の端から右へ払う（iPhone と同じ）か、上の ‹。
        ReMixIt!（つながりを創る）は編集の側の道具なので、UniverseIt! の画面とメニューに置く -->
@@ -192,7 +194,7 @@ document.addEventListener('click', function (e) {
   <div class="view-in" id="viewIn"><!--bc-body-->
       <article class="page cpage">
         <button type="button" class="back-close" data-close="" aria-label="Today's Editor's Choice へ戻る" title="Today's Editor's Choice へ"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 4.5 7.5 12l7.5 7.5"></path></svg></button>
-        <div class="duo-hero"><a class="c-logo on-paper" href="#/" data-top="" aria-label="BEAUTIFUL CONTEXT（TOP へ戻る）"><img src="img/logo-navy.png" alt=""></a><span class="only-sp"><button type="button" class="login-chip" data-login="">Login</button></span><div class="duo"><button type="button" class="duo-go" data-step="0" aria-label="夏目漱石の作品ページへ"><div class="art"><img src="img/works/natsume-soseki.jpg" alt="夏目漱石" data-k="natsume-soseki" decoding="async" fetchpriority="low"></div></button><button type="button" class="duo-go" data-step="2" aria-label="周恩来『十九歳の東京日記』の作品ページへ"><div class="art"><img src="img/zhou-diary.jpg" alt="周恩来『十九歳の東京日記』" data-k="zhou-tokyo-diary" decoding="async" fetchpriority="low"></div></button><i class="swap" aria-hidden="true">↔</i></div><button type="button" class="ctx-nav prev" data-ctx-go="-1" aria-label="一つ前のつながりへ">‹</button><button type="button" class="ctx-nav next" data-ctx-go="1" aria-label="次のつながりへ">›</button></div>
+        <div class="duo-hero"><a class="c-logo on-paper" href="#/" data-top="" aria-label="BEAUTIFUL CONTEXT（TOP へ戻る）"><img src="img/logo-navy.png" alt=""></a><span class="only-sp"><button type="button" class="login-chip" data-login="">Login</button></span><div class="duo"><button type="button" class="duo-go" data-step="0" aria-label="夏目漱石の作品ページへ"><div class="art"><img src="img/works/natsume-soseki.jpg" alt="夏目漱石" data-k="natsume-soseki" decoding="async" fetchpriority="low"></div></button><button type="button" class="duo-go" data-step="2" aria-label="周恩来『十九歳の東京日記』の作品ページへ"><div class="art"><img src="img/zhou-diary.jpg" alt="周恩来『十九歳の東京日記』" data-k="zhou-tokyo-diary" decoding="async" fetchpriority="low"></div></button><i class="swap" aria-hidden="true">↔</i></div><button type="button" class="ctx-nav prev" data-ctx-go="-1" aria-label="一つ前のつながりへ">‹</button><button type="button" class="ctx-nav next" data-ctx-go="1" aria-label="次へ：周恩来『十九歳の東京日記』">›</button></div>
         <section class="context-lead">
           
           <div class="ed-row">
@@ -264,18 +266,6 @@ document.addEventListener('click', function (e) {
         <li class="stop first">
           
           
-          <a class="fstop" href="w/zhou-tokyo-diary/">
-            <span class="st-img"><img src="img/zhou-diary.jpg" alt="周恩来『十九歳の東京日記』" data-k="zhou-tokyo-diary" loading="lazy" decoding="async"></span>
-            <span class="st-txt"><small>書籍・1918年</small>
-              <b>周恩来『十九歳の東京日記』</b><span>日本に留学していた周恩来が、1918年の東京で書いた日記。日比谷公園、靖国神社、浅草など、19歳の青年が見て回った百年前の東京が記されている。</span></span>
-          </a>
-        </li>
-        <li class="stop">
-          
-          <a class="seg" href="c/kanyoro--zhou-tokyo-diary/">
-            
-            <small>［若き日の東京］　事実</small>
-            <b><span class="seg-copy">百年前の留学生は、神田の街を歩いていた。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
           <a class="fstop" href="w/kanyoro/?c=kanyoro--zhou-tokyo-diary">
             <span class="st-img"><img src="img/kanyoro.jpg" alt="中国名菜『漢陽楼』" data-k="kanyoro" loading="lazy" decoding="async"></span>
             <span class="st-txt"><small>店・1911年</small>
@@ -318,10 +308,10 @@ document.addEventListener('click', function (e) {
               <b>ドメーヌ・テッタ</b><span>岡山県新見市哲多町でぶどうを育て、ワインを造るワイナリー。名前は土地の名から。</span></span>
           </a>
         </li>
-        <li class="stop branch">
+        <li class="stop">
           
           <a class="seg" href="c/daiyame--tanqueray-no-ten/">
-            <span class="seg-from">だいやめ DAIYAME から分岐</span>
+            
             <small>［香りで選ぶ蒸留酒］　似ている</small>
             <b><span class="seg-copy">ライチのような芋焼酎と生の柑橘のジン。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
           <a class="fstop" href="w/tanqueray-no-ten/?c=daiyame--tanqueray-no-ten">
@@ -330,10 +320,10 @@ document.addEventListener('click', function (e) {
               <b>タンカレー No.10</b><span>英国のジン、タンカレーの上位銘柄。生の柑橘を使って蒸留されることで知られる。</span></span>
           </a>
         </li>
-        <li class="stop branch">
+        <li class="stop">
           
           <a class="seg" href="c/kanyoro--nurungji/">
-            <span class="seg-from">漢陽楼 から分岐</span>
+            
             <small>［東京の中の隣国］　似ている</small>
             <b><span class="seg-copy">神田の中国料理と、赤坂の韓国料理。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
           <a class="fstop" href="w/nurungji/?c=kanyoro--nurungji">
@@ -342,10 +332,10 @@ document.addEventListener('click', function (e) {
               <b>ヌルンジ（赤坂）</b><span>東京・赤坂の韓国料理店。店名の「ヌルンジ」は韓国語で、釜の底にできるおこげのこと。</span></span>
           </a>
         </li>
-        <li class="stop branch">
+        <li class="stop">
           
           <a class="seg" href="c/zhou-enlai--zhou-tokyo-diary/">
-            <span class="seg-from">十九歳の東京日記 から分岐</span>
+            
             <small>［書き手と日記］　作者と作品</small>
             <b><span class="seg-copy">のちの総理は、十九歳で東京にいた。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
           <a class="fstop" href="w/zhou-enlai/?c=zhou-enlai--zhou-tokyo-diary">
@@ -354,49 +344,64 @@ document.addEventListener('click', function (e) {
               <b>周恩来</b><span>1917年から1919年まで日本に留学し、帰国後は革命運動に加わった。1949年の建国から亡くなるまで、政務院総理、のち国務院総理を務めた。</span></span>
           </a>
         </li>
-        <li class="stop newline">
-          <p class="transfer"><span>別の路線へ</span></p>
+        <li class="stop">
           
-          <a class="fstop" href="w/kotringo/">
-            <span class="st-img"><img src="img/works/kotringo.jpg" alt="コトリンゴ" data-k="kotringo" loading="lazy" decoding="async"></span>
-            <span class="st-txt"><small>音楽</small>
-              <b>コトリンゴ</b><span>ピアノと歌のシンガーソングライター。アニメーション映画『この世界の片隅に』の音楽を手がけ、「悲しくてやりきれない」を歌った。</span></span>
+          <a class="seg" href="c/minakata-mandala--minakata-toki-letters/">
+            
+            <small>［手紙の中の曼荼羅］　事実</small>
+            <b><span class="seg-copy">その図は、手紙に描かれていた。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
+          <a class="fstop" href="w/minakata-toki-letters/?c=minakata-mandala--minakata-toki-letters">
+            <span class="st-img"><img src="img/works/minakata-toki-letters.jpg" alt="『南方熊楠 土宜法竜 往復書簡』" data-k="minakata-toki-letters" loading="lazy" decoding="async"></span>
+            <span class="st-txt"><small>書籍・1990年</small>
+              <b>『南方熊楠 土宜法竜 往復書簡』</b><span>ロンドンで出会った南方熊楠と、真言宗の僧・土宜法龍が交わした手紙をまとめたもの。二人は仏教と科学をめぐって長い議論を交わした。</span></span>
           </a>
         </li>
         <li class="stop">
           
-          <a class="seg" href="c/kotringo--kanashikute-yarikirenai/">
+          <a class="seg" href="c/james-j-gibson--affordance/">
             
-            <small>［歌い直された歌］　事実</small>
-            <b><span class="seg-copy">1968年の歌を、静かな声が歌い直した。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
-          <a class="fstop" href="w/kanashikute-yarikirenai/?c=kotringo--kanashikute-yarikirenai">
-            <span class="st-img"><img src="img/works/kanashikute-yarikirenai.jpg" alt="「悲しくてやりきれない」" data-k="kanashikute-yarikirenai" loading="lazy" decoding="async"></span>
-            <span class="st-txt"><small>音楽・1968年</small>
-              <b>「悲しくてやりきれない」</b><span>1968年に発表されたザ・フォーク・クルセダーズの歌。多くの歌い手にうたい継がれてきた。</span></span>
+            <small>［名づけた人］　作者と作品</small>
+            <b><span class="seg-copy">椅子は「座る」ことを差し出している。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
+          <a class="fstop" href="w/james-j-gibson/?c=james-j-gibson--affordance">
+            <span class="st-img"><img src="img/works/james-j-gibson.jpg" alt="ジェームズ・J・ギブソン" data-k="james-j-gibson" loading="lazy" decoding="async"></span>
+            <span class="st-txt"><small>人物・1904年</small>
+              <b>ジェームズ・J・ギブソン</b><span>アメリカの知覚心理学者。環境が動物に差し出す行為の可能性を「アフォーダンス」と名づけた。</span></span>
           </a>
         </li>
         <li class="stop">
           
-          <a class="seg" href="c/kanashikute-yarikirenai--kono-sekai-no-katasumi-ni/">
+          <a class="seg" href="c/think-different--uniqlock/">
             
-            <small>［映画のはじまりの歌］　事実</small>
-            <b><span class="seg-copy">戦時下の日常は、この歌から始まる。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
-          <a class="fstop" href="w/kono-sekai-no-katasumi-ni/?c=kanashikute-yarikirenai--kono-sekai-no-katasumi-ni">
-            <span class="st-img"><img src="img/works/kono-sekai-no-katasumi-ni.jpg" alt="『この世界の片隅に』" data-k="kono-sekai-no-katasumi-ni" loading="lazy" decoding="async"></span>
-            <span class="st-txt"><small>映画・2016年</small>
-              <b>『この世界の片隅に』</b><span>戦時中の広島と呉を舞台に、絵を描くことが好きな主人公すずの暮らしを描いたアニメーション映画。原作はこうの史代の漫画。</span></span>
+            <small>［時代を刻んだ広告］　似ている</small>
+            <b><span class="seg-copy">商品の説明をせず、ブランドを語った。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
+          <a class="fstop" href="w/uniqlock/?c=think-different--uniqlock">
+            <span class="st-img"><img src="img/works/uniqlock.jpg" alt="UNIQLOCK" data-k="uniqlock" loading="lazy" decoding="async"></span>
+            <span class="st-txt"><small>CM・2007年</small>
+              <b>UNIQLOCK</b><span>ユニクロのウェブ広告。音楽とダンスと時計を組み合わせ、時刻を刻み続けるブログパーツとして世界に広まった。</span></span>
           </a>
         </li>
         <li class="stop">
           
-          <a class="seg" href="c/kono-sekai-no-katasumi-ni--kure/">
+          <a class="seg" href="c/peter-handke--nobel-literature-laureates/">
             
-            <small>［嫁いだ先の町］　事実</small>
-            <b><span class="seg-copy">すずは広島から、軍港の町へ嫁いだ。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
-          <a class="fstop" href="w/kure/?c=kono-sekai-no-katasumi-ni--kure">
-            <span class="st-img"><img src="img/works/kure.jpg" alt="広島県呉市" data-k="kure" loading="lazy" decoding="async"></span>
-            <span class="st-txt"><small>場所</small>
-              <b>広島県呉市</b><span>瀬戸内海に面した港町。明治期に海軍の鎮守府が置かれ、戦艦大和が建造された海軍工廠の町として知られる。</span></span>
+            <small>［2019年の受賞］　事実</small>
+            <b><span class="seg-copy">『天使の詩』の脚本家がノーベル文学賞を得た。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
+          <a class="fstop" href="w/peter-handke/?c=peter-handke--nobel-literature-laureates">
+            <span class="st-img"><img src="img/works/peter-handke.jpg" alt="ペーター・ハントケ" data-k="peter-handke" loading="lazy" decoding="async"></span>
+            <span class="st-txt"><small>人物</small>
+              <b>ペーター・ハントケ</b><span>オーストリアの作家・劇作家。『ベルリン・天使の詩』の脚本に加わり、2019年にノーベル文学賞を受賞した。</span></span>
+          </a>
+        </li>
+        <li class="stop">
+          
+          <a class="seg" href="c/wings-of-desire--peter-handke/">
+            
+            <small>［天使の言葉］　事実</small>
+            <b><span class="seg-copy">劇中の詩を書いたのはのちのノーベル賞作家。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
+          <a class="fstop" href="w/wings-of-desire/?c=wings-of-desire--peter-handke">
+            <span class="st-img"><img src="img/works/wings-of-desire.jpg" alt="映画『ベルリン・天使の詩』" data-k="wings-of-desire" loading="lazy" decoding="async"></span>
+            <span class="st-txt"><small>映画・ドラマ・1987年</small>
+              <b>映画『ベルリン・天使の詩』</b><span>壁のあった時代のベルリンで、人々の心の声を聞き続けてきた天使が、人間になることを選ぶ物語。</span></span>
           </a>
         </li></ol>
             <div class="rail-more" id="railMore" aria-hidden="true"></div>
@@ -412,17 +417,17 @@ document.addEventListener('click', function (e) {
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 <script type="application/ld+json" id="ld">{"@context":"https://schema.org","@type":"Article","headline":"漱石はロンドンで、周恩来は東京で書いた。","alternativeHeadline":"異国の都の記録","about":[{"@type":"Person","name":"夏目漱石","description":"『吾輩は猫である』『坊っちゃん』『草枕』『こころ』の作家。熊本の第五高等学校で教えたのち、1900年から英国に留学した。"},{"@type":"Book","name":"十九歳の東京日記","description":"日本に留学していた周恩来が、1918年の東京で書いた日記。日比谷公園、靖国神社、浅草など、19歳の青年が見て回った百年前の東京が記されている。","creator":{"@type":"Person","name":"周恩来（矢吹晋 監修・鈴木博 訳）"}}],"author":{"@type":"Person","name":"生成AI（初稿）"},"datePublished":"2026-09-15T08:20:00.000Z","dateModified":"2026-09-15T08:20:00.000Z","inLanguage":"ja","articleBody":"意味の上での近さから結ばれた区間。異国の都で、留学生が自分の学びと向き合いながら書いた。夏目漱石は1900年から約2年間、文部省の留学生としてロンドンに暮らした。下宿にこもって英文学と格闘し、神経をすり減らした日々は、漱石自身が『文学論』の序に書き残している。妻への手紙にも、ロンドンでの孤独を訴える言葉が見える。その十数年後、今度は中国から周恩来が東京にやって来た。受験勉強と挫折、祖国への思いを綴った日記は、のちに『十九歳の東京日記』として読まれている。日本から西洋へ向かった留学生と、中国から日本へ向かった留学生。向きは違っても、異国の都で自分の学びと向き合った記録として、二つは並べて読むことができる。","url":"https://beautifulcontext.com/c/natsume-soseki--zhou-tokyo-diary/","citation":[{"@type":"CreativeWork","name":"夏目漱石 『文学論』序","url":"https://www.aozora.gr.jp/cards/000148/files/60818_74606.html","publisher":{"@type":"Organization","name":"青空文庫"}},{"@type":"CreativeWork","name":"周恩来『十九歳の東京日記』 (小学館文庫) | NDLサーチ | 国立国会図書館","url":"https://ndlsearch.ndl.go.jp/books/R100000002-I000002822397","publisher":{"@type":"Organization","name":"国立国会図書館"}},{"@type":"CreativeWork","name":"旅日日记（一九一八年一月一日——十二月二十三日）","url":"https://www.marxists.org/chinese/pdf/chinese_marxists/zhou_enlai/16.pdf","publisher":{"@type":"Organization","name":"marxists.org"}},{"@type":"CreativeWork","name":"漱石と鏡子 | 夏目 房之介 | 文藝春秋PLUS","url":"https://bunshun.jp/bungeishunju/articles/h6690","publisher":{"@type":"Organization","name":"文藝春秋PLUS"}},{"@type":"CreativeWork","name":"周恩来(シュウオンライ)とは？ 意味や使い方 - コトバンク","url":"https://kotobank.jp/word/%E5%91%A8%E6%81%A9%E6%9D%A5","publisher":{"@type":"Organization","name":"コトバンク（日本大百科全書）"}},{"@type":"CreativeWork","name":"陈明远：周恩来留学日本遭遇的挫折_爱思想","url":"https://www.aisixiang.com/data/72638.html","publisher":{"@type":"Organization","name":"爱思想（陳明遠の論考）"}},{"@type":"CreativeWork","name":"周恩来（１）（世界史用語解説）","url":"https://y-history.net/appendix/wh1601-094.html","publisher":{"@type":"Organization","name":"Y-History 教材工房"}}],"image":"https://beautifulcontext.com/img/works/natsume-soseki.jpg"}</script>
 
-<script src="js/config.js?v=174"></script>
-<script src="js/seed.js?v=174"></script>
-<script src="js/sources.js?v=174"></script>
-<script src="js/backend.js?v=174"></script>
-<script src="js/store.js?v=174"></script>
-<script src="js/social.js?v=174"></script>
-<script src="js/render.js?v=174"></script>
-<script src="js/login.js?v=174"></script>
-<script src="js/login-page.js?v=174"></script>
-<script src="js/report.js?v=174"></script>
-<script src="js/transition.js?v=174"></script>
-<script src="js/app.js?v=174"></script>
+<script src="js/config.js?v=175"></script>
+<script src="js/seed.js?v=175"></script>
+<script src="js/sources.js?v=175"></script>
+<script src="js/backend.js?v=175"></script>
+<script src="js/store.js?v=175"></script>
+<script src="js/social.js?v=175"></script>
+<script src="js/render.js?v=175"></script>
+<script src="js/login.js?v=175"></script>
+<script src="js/login-page.js?v=175"></script>
+<script src="js/report.js?v=175"></script>
+<script src="js/transition.js?v=175"></script>
+<script src="js/app.js?v=175"></script>
 </body>
 </html>

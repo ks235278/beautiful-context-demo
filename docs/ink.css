@@ -1760,3 +1760,15 @@ body.viewing:has(.view-in>.login-page) .login-page .content{padding-bottom:40px}
 @media (min-width:1100px){
   .cpage.today>.context-lead h2{margin-inline:0 -24px;font-size:min(clamp(32px,2.9vw,50px),calc((100cqi + 24px) / 11.05))}
 }
+
+/* ---- 第34段：「次」は一つ（rà soát 4/11 の 2 番目）。押す前に行き先が見える ----
+   ・携帯の下の帯：路線の名の右に「次は　つながり｜…」。パソコンは次の札（next-peek）が同じ字
+   ・この先のつながり（読み終わりの下）の最初の駅は、まだ着いていないので「いまここ」を出さない */
+.dock-next{display:none}
+@media (max-width:1099.98px){
+  body.viewing .dock-next:not(:empty){display:block;position:absolute;z-index:6;right:14px;top:4px;max-width:calc(100% - 172px);margin:0;overflow:hidden;
+    background:var(--paper);color:var(--ink-2);font:500 11px/16px var(--mincho);white-space:nowrap;text-overflow:ellipsis}
+  body.viewing .line-name{max-width:140px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
+  body.on-list .dock-next{display:none}
+}
+.ctx-rail .stop.first .fstop::after{content:none}

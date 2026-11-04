@@ -43,9 +43,9 @@ try { if (sessionStorage.getItem('bc-resume')) document.documentElement.classLis
 <link rel="preload" as="image" href="img/logo-layer-words.png">
 <!-- 台本も先に取りに行く（静的なページは台本より先に本文が描かれる。遅い回線で、触れて動くまでの間を縮める）。
      src と同じアドレス（?v= まで）でないと、二度取りに行く -->
-<link rel="preload" as="script" href="js/seed.js?v=174">
-<link rel="preload" as="script" href="js/app.js?v=174">
-<link rel="manifest" href="manifest.webmanifest?v=174">
+<link rel="preload" as="script" href="js/seed.js?v=175">
+<link rel="preload" as="script" href="js/app.js?v=175">
+<link rel="manifest" href="manifest.webmanifest?v=175">
 <link rel="apple-touch-icon" href="icon-180.png">
 <!-- タブと検索結果に出る小さな印。アプリの印（ホーム画面のアイコン）と同じ形 -->
 <link rel="icon" href="favicon.ico" sizes="16x16 32x32 48x48">
@@ -76,13 +76,13 @@ if (location.hostname === 'beautifulcontext.com'){
   document.head.appendChild(ga);
 }
 </script>
-<script src="js/theme.js?v=174"></script>
-<link rel="stylesheet" href="app.css?v=174">
+<script src="js/theme.js?v=175"></script>
+<link rel="stylesheet" href="app.css?v=175">
 <!-- 読む画面の使い勝手（2026.10.24）。app.css のすぐあと -->
-<link rel="stylesheet" href="ux.css?v=174">
-<link rel="stylesheet" href="fade.css?v=174">
+<link rel="stylesheet" href="ux.css?v=175">
+<link rel="stylesheet" href="fade.css?v=175">
 <!-- editorial-ink（紙・墨・金）：◆ の罫と、紙の上か絵の上かで変わる決まり。ux.css のあと -->
-<link rel="stylesheet" href="ink.css?v=174">
+<link rel="stylesheet" href="ink.css?v=175">
 <!-- 台本（js）が揃うまで：まだ押しても動かないもの（‹・絵の横の ‹ ›・つながりを辿る）を少し薄くし、下の帯の上の縁に細い金の線を走らせる。
      app.js が最後に body.app-ready を付けて外す。すぐ揃うときは何も見せない（0.3 秒待ってから出す） -->
 <style>
@@ -132,6 +132,8 @@ document.addEventListener('click', function (e) {
 <div class="dock" id="dock">
   <div class="map" id="map"></div>
   <p class="sel-hint" id="selHint" aria-live="polite"></p>
+  <!-- 携帯：つながりを辿るの行き先を一行で（パソコンは次の札 next-peek） -->
+  <p class="dock-next" id="dockNext"></p>
   <p class="dock-brand" id="dockBrand">BEAUTIFUL CONTEXT</p>
   <!-- 読む画面（Today・コンテクスト・作品）では NEXT UNIVERSE だけ。戻るのは左の端から右へ払う（iPhone と同じ）か、上の ‹。
        ReMixIt!（つながりを創る）は編集の側の道具なので、UniverseIt! の画面とメニューに置く -->
@@ -192,7 +194,7 @@ document.addEventListener('click', function (e) {
   <div class="view-in" id="viewIn"><!--bc-body-->
       <article class="page cpage">
         <button type="button" class="back-close" data-close="" aria-label="Today's Editor's Choice へ戻る" title="Today's Editor's Choice へ"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 4.5 7.5 12l7.5 7.5"></path></svg></button>
-        <div class="duo-hero"><a class="c-logo on-paper" href="#/" data-top="" aria-label="BEAUTIFUL CONTEXT（TOP へ戻る）"><img src="img/logo-navy.png" alt=""></a><span class="only-sp"><button type="button" class="login-chip" data-login="">Login</button></span><div class="duo"><button type="button" class="duo-go" data-step="0" aria-label="鷲田清一の作品ページへ"><div class="art"><img src="img/works/washida-kiyokazu.jpg" alt="鷲田清一" data-k="washida-kiyokazu" decoding="async" fetchpriority="low"></div></button><button type="button" class="duo-go" data-step="2" aria-label="映画『ホームレス ニューヨークと寝た男』の作品ページへ"><div class="art"><img src="img/works/homme-less.jpg" alt="映画『ホームレス ニューヨークと寝た男』" data-k="homme-less" decoding="async" fetchpriority="low"></div></button><i class="swap" aria-hidden="true">↔</i></div><button type="button" class="ctx-nav prev" data-ctx-go="-1" aria-label="一つ前のつながりへ">‹</button><button type="button" class="ctx-nav next" data-ctx-go="1" aria-label="次のつながりへ">›</button></div>
+        <div class="duo-hero"><a class="c-logo on-paper" href="#/" data-top="" aria-label="BEAUTIFUL CONTEXT（TOP へ戻る）"><img src="img/logo-navy.png" alt=""></a><span class="only-sp"><button type="button" class="login-chip" data-login="">Login</button></span><div class="duo"><button type="button" class="duo-go" data-step="0" aria-label="鷲田清一の作品ページへ"><div class="art"><img src="img/works/washida-kiyokazu.jpg" alt="鷲田清一" data-k="washida-kiyokazu" decoding="async" fetchpriority="low"></div></button><button type="button" class="duo-go" data-step="2" aria-label="映画『ホームレス ニューヨークと寝た男』の作品ページへ"><div class="art"><img src="img/works/homme-less.jpg" alt="映画『ホームレス ニューヨークと寝た男』" data-k="homme-less" decoding="async" fetchpriority="low"></div></button><i class="swap" aria-hidden="true">↔</i></div><button type="button" class="ctx-nav prev" data-ctx-go="-1" aria-label="一つ前のつながりへ">‹</button><button type="button" class="ctx-nav next" data-ctx-go="1" aria-label="次へ：映画『ホームレス ニューヨークと寝た男』">›</button></div>
         <section class="context-lead">
           
           <div class="ed-row">
@@ -264,136 +266,142 @@ document.addEventListener('click', function (e) {
         <li class="stop first">
           
           
-          <a class="fstop" href="w/homme-less/">
-            <span class="st-img"><img src="img/works/homme-less.jpg" alt="映画『ホームレス ニューヨークと寝た男』" data-k="homme-less" loading="lazy" decoding="async"></span>
-            <span class="st-txt"><small>映画・2014年</small>
-              <b>映画『ホームレス ニューヨークと寝た男』</b><span>ファッション写真家で元モデルのマーク・レイは、マンハッタンのアパートの屋上で寝袋にくるまって暮らしていた。その日々を追ったドキュメンタリー。</span></span>
-          </a>
-        </li>
-        <li class="stop">
-          
-          <a class="seg" href="c/homme-less--happy-pharrell/">
-            
-            <small>［屋根のない部屋］　似ている</small>
-            <b><span class="seg-copy">屋根のない部屋でも、手を叩ける。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
           <a class="fstop" href="w/happy-pharrell/?c=homme-less--happy-pharrell">
             <span class="st-img"><img src="img/works/happy-pharrell.jpg" alt="ファレル・ウィリアムス「HAPPY」" data-k="happy-pharrell" loading="lazy" decoding="async"></span>
             <span class="st-txt"><small>音楽・2013年</small>
               <b>ファレル・ウィリアムス「HAPPY」</b><span>映画『怪盗グルーのミニオン危機一発』のために書かれた曲。24時間ぶんのミュージックビデオがロサンゼルスで撮影され、のちに世界各地で人々が踊る動画が投稿された。</span></span>
           </a>
         </li>
-        <li class="stop newline">
-          <p class="transfer"><span>別の路線へ</span></p>
+        <li class="stop">
           
-          <a class="fstop" href="w/tengoku-film/">
-            <span class="st-img"><img src="img/works/tengoku-film.jpg" alt="大林宣彦『天国にいちばん近い島』" data-k="tengoku-film" loading="lazy" decoding="async"></span>
-            <span class="st-txt"><small>映画・1984年</small>
-              <b>大林宣彦『天国にいちばん近い島』</b><span>亡き父から聞いた「天国にいちばん近い島」を探して、ニューカレドニアへ旅立つ少女の物語。主演は原田知世。</span></span>
+          <a class="seg" href="c/martin-heidegger--hannah-arendt/">
+            
+            <small>［師と弟子］　事実</small>
+            <b><span class="seg-copy">哲学者と、その学生だった哲学者。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
+          <a class="fstop" href="w/martin-heidegger/?c=martin-heidegger--hannah-arendt">
+            <span class="st-img"><img src="img/works/martin-heidegger.jpg" alt="マルティン・ハイデッガー" data-k="martin-heidegger" loading="lazy" decoding="async"></span>
+            <span class="st-txt"><small>人物・1889年</small>
+              <b>マルティン・ハイデッガー</b><span>ドイツの哲学者。『存在と時間』で、人間を、世界の中にすでに投げ込まれて生きている存在として捉え直した。</span></span>
           </a>
         </li>
         <li class="stop">
           
-          <a class="seg" href="c/tengoku-film--tengoku-book/">
+          <a class="seg" href="c/affordance--martin-heidegger/">
             
-            <small>［原作から映画へ］　事実</small>
-            <b><span class="seg-copy">父の語った島を探す旅は映画で別の物語になる。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
-          <a class="fstop" href="w/tengoku-book/?c=tengoku-film--tengoku-book">
-            <span class="st-img"><img src="img/works/tengoku-book.jpg" alt="森村桂『天国にいちばん近い島』" data-k="tengoku-book" loading="lazy" decoding="async"></span>
-            <span class="st-txt"><small>書籍・1966年</small>
-              <b>森村桂『天国にいちばん近い島』</b><span>1964年、ひとりでニューカレドニアへ旅立った著者の旅行記。ベストセラーになった。</span></span>
+            <small>［道具の哲学］　似ている</small>
+            <b><span class="seg-copy">金槌は、使うときにだけ現れる。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
+          <a class="fstop" href="w/affordance/?c=affordance--martin-heidegger">
+            <span class="st-img"><img src="img/works/affordance.jpg" alt="アフォーダンス" data-k="affordance" loading="lazy" decoding="async"></span>
+            <span class="st-txt"><small>思想・1979年</small>
+              <b>アフォーダンス</b><span>環境が動物に与える、行為の可能性。椅子は「座る」ことを、取っ手は「つかむ」ことをアフォードする。ギブソンの造語。</span></span>
           </a>
         </li>
         <li class="stop">
           
-          <a class="seg" href="c/tengoku-book--rebellion-ordre-et-morale/">
+          <a class="seg" href="c/affordance--minakata-mandala/">
             
-            <small>［天国の島の裏側］　ハブ</small>
-            <b><span class="seg-copy">天国にいちばん近い島は人質事件の島でもある。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
-          <a class="fstop" href="w/rebellion-ordre-et-morale/?c=tengoku-book--rebellion-ordre-et-morale">
-            <span class="st-img"><img src="img/works/rebellion-ordre-et-morale.jpg" alt="映画『裏切りの戦場 葬られた誓い』" data-k="rebellion-ordre-et-morale" loading="lazy" decoding="async"></span>
-            <span class="st-txt"><small>映画・2011年</small>
-              <b>映画『裏切りの戦場 葬られた誓い』</b><span>1988年、フランス領ニューカレドニアのウベア島で起きた人質事件を、交渉にあたった国家憲兵隊の特殊部隊の隊長の視点から描いた。</span></span>
-          </a>
-        </li>
-        <li class="stop branch">
-          
-          <a class="seg" href="c/tengoku-film--harada-tomoyo/">
-            <span class="seg-from">天国にいちばん近い島 から分岐</span>
-            <small>［主演］　作者と作品</small>
-            <b><span class="seg-copy">亡き父の言葉を頼りに、少女は南の島へ向かう。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
-          <a class="fstop" href="w/harada-tomoyo/?c=tengoku-film--harada-tomoyo">
-            <span class="st-img"><img src="img/works/harada-tomoyo.jpg" alt="原田知世" data-k="harada-tomoyo" loading="lazy" decoding="async"></span>
-            <span class="st-txt"><small>人物・1967年</small>
-              <b>原田知世</b><span>1983年、大林宣彦監督『時をかける少女』で映画に主演。大林監督の『天国にいちばん近い島』にも主演し、歌手としても活動を続けている。</span></span>
-          </a>
-        </li>
-        <li class="stop newline">
-          <p class="transfer"><span>別の路線へ</span></p>
-          
-          <a class="fstop" href="w/the-planets/">
-            <span class="st-img"><img src="img/works/the-planets.jpg" alt="ホルスト『惑星』" data-k="the-planets" loading="lazy" decoding="async"></span>
-            <span class="st-txt"><small>音楽・1918年</small>
-              <b>ホルスト『惑星』</b><span>火星・金星・水星・木星・土星・天王星・海王星の七つの楽章からなる管弦楽組曲。「木星」の旋律は、のちに英国の愛国歌「我は汝に誓う、我が祖国よ」になった。</span></span>
+            <small>［見て、飲む］　似ている</small>
+            <b><span class="seg-copy">物との関わりを、二人は「飲む」を例に書いた。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
+          <a class="fstop" href="w/minakata-mandala/?c=affordance--minakata-mandala">
+            <span class="st-img"><img src="img/works/minakata-mandala.jpg" alt="南方曼荼羅" data-k="minakata-mandala" loading="lazy" decoding="async"></span>
+            <span class="st-txt"><small>思想・1903年</small>
+              <b>南方曼荼羅</b><span>南方熊楠が、世界の因果関係が交錯し連鎖するさまを一枚の図に描いたもの。真言宗の僧・土宜法龍への手紙に記された。</span></span>
           </a>
         </li>
         <li class="stop">
           
-          <a class="seg" href="c/the-planets--the-war-of-the-worlds/">
+          <a class="seg" href="c/minakata-kumagusu--minakata-mandala/">
             
-            <small>［火星、戦争をもたらす者］　似ている</small>
-            <b><span class="seg-copy">組曲の最初の星は、戦争の神だった。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
-          <a class="fstop" href="w/the-war-of-the-worlds/?c=the-planets--the-war-of-the-worlds">
-            <span class="st-img"><img src="img/works/the-war-of-the-worlds.jpg" alt="H・G・ウェルズ『宇宙戦争』" data-k="the-war-of-the-worlds" loading="lazy" decoding="async"></span>
-            <span class="st-txt"><small>書籍・1898年</small>
-              <b>H・G・ウェルズ『宇宙戦争』</b><span>火星人がロンドン近郊に降り立ち、当時最大の植民地帝国だった英国に襲いかかる。侵略SFの古典。</span></span>
+            <small>［書き手と図］　作者と作品</small>
+            <b><span class="seg-copy">世界のつながりを、一枚の図に描いた。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
+          <a class="fstop" href="w/minakata-kumagusu/?c=minakata-kumagusu--minakata-mandala">
+            <span class="st-img"><img src="img/works/minakata-kumagusu.jpg" alt="南方熊楠" data-k="minakata-kumagusu" loading="lazy" decoding="async"></span>
+            <span class="st-txt"><small>人物・1867年</small>
+              <b>南方熊楠</b><span>和歌山生まれの博物学者。粘菌の研究で知られ、若い頃はロンドンの大英博物館に通って学んだ。</span></span>
           </a>
         </li>
         <li class="stop">
           
-          <a class="seg" href="c/the-war-of-the-worlds--war-of-the-worlds-2005/">
+          <a class="seg" href="c/minakata-kumagusu--natsume-soseki/">
             
-            <small>［小説から映画へ］　事実</small>
-            <b><span class="seg-copy">異星人の侵略は、父と子の逃避行になる。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
-          <a class="fstop" href="w/war-of-the-worlds-2005/?c=the-war-of-the-worlds--war-of-the-worlds-2005">
-            <span class="st-img"><img src="img/works/war-of-the-worlds-2005.jpg" alt="スピルバーグ『宇宙戦争』" data-k="war-of-the-worlds-2005" loading="lazy" decoding="async"></span>
-            <span class="st-txt"><small>映画・2005年</small>
-              <b>スピルバーグ『宇宙戦争』</b><span>ウェルズの小説を現代のアメリカに移し、別れた妻のもとで暮らす子どもたちを連れて逃げる父親をトム・クルーズが演じた。</span></span>
+            <small>［ロンドンの入れ違い］　事実</small>
+            <b><span class="seg-copy">同じ年生まれの二人は、ロンドンで入れ違った。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
+          <a class="fstop" href="w/natsume-soseki/?c=minakata-kumagusu--natsume-soseki">
+            <span class="st-img"><img src="img/works/natsume-soseki.jpg" alt="夏目漱石" data-k="natsume-soseki" loading="lazy" decoding="async"></span>
+            <span class="st-txt"><small>人物・1867年</small>
+              <b>夏目漱石</b><span>『吾輩は猫である』『坊っちゃん』『草枕』『こころ』の作家。熊本の第五高等学校で教えたのち、1900年から英国に留学した。</span></span>
           </a>
         </li>
         <li class="stop">
           
-          <a class="seg" href="c/war-of-the-worlds-2005--reacher/">
+          <a class="seg" href="c/kusamakura--natsume-soseki/">
             
-            <small>［クルーズを経由して］　ハブ</small>
-            <b><span class="seg-copy">『宇宙戦争』の主演は、リーチャーも演じた。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
-          <a class="fstop" href="w/reacher/?c=war-of-the-worlds-2005--reacher">
-            <span class="st-img"><img src="img/works/reacher.jpg" alt="『リーチャー 正義のアウトロー』" data-k="reacher" loading="lazy" decoding="async"></span>
-            <span class="st-txt"><small>ドラマ・2022年</small>
-              <b>『リーチャー 正義のアウトロー』</b><span>リー・チャイルドの小説シリーズを原作にしたドラマ。元軍人のジャック・リーチャーが、各地の事件に立ち向かう。</span></span>
-          </a>
-        </li>
-        <li class="stop branch">
-          
-          <a class="seg" href="c/war-of-the-worlds-2005--interstellar/">
-            <span class="seg-from">宇宙戦争 から分岐</span>
-            <small>［スピルバーグを経由して］　ハブ</small>
-            <b><span class="seg-copy">守る父を撮った監督は、旅立つ父の企画にいた。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
-          <a class="fstop" href="w/interstellar/?c=war-of-the-worlds-2005--interstellar">
-            <span class="st-img"><img src="img/works/interstellar.jpg" alt="クリストファー・ノーラン『インターステラー』" data-k="interstellar" loading="lazy" decoding="async"></span>
-            <span class="st-txt"><small>映画・2014年</small>
-              <b>クリストファー・ノーラン『インターステラー』</b><span>砂嵐と作物の枯死に追い詰められた近未来の地球から、人類の移住先を探して宇宙へ向かう元宇宙飛行士と、地球に残された娘の物語。</span></span>
+            <small>［旅が生んだ『草枕』］　作者と作品</small>
+            <b><span class="seg-copy">「非人情」の小説には、漱石の芸術論が表れた。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
+          <a class="fstop" href="w/kusamakura/?c=kusamakura--natsume-soseki">
+            <span class="st-img"><img src="img/kusamakura.jpg" alt="夏目漱石『草枕』" data-k="kusamakura" loading="lazy" decoding="async"></span>
+            <span class="st-txt"><small>書籍・1906年</small>
+              <b>夏目漱石『草枕』</b><span>「智に働けば角が立つ。情に棹させば流される。」で始まる、画工が非人情の世界を求めて旅する小説。</span></span>
           </a>
         </li>
         <li class="stop">
           
-          <a class="seg" href="c/interstellar--christopher-nolan/">
+          <a class="seg" href="c/glenn-gould--kusamakura/">
             
-            <small>［監督と作品］　作者と作品</small>
-            <b><span class="seg-copy">父と娘の時間のずれを、兄弟で書いた。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
-          <a class="fstop" href="w/christopher-nolan/?c=interstellar--christopher-nolan">
-            <span class="st-img"><img src="img/works/christopher-nolan.jpg" alt="クリストファー・ノーラン" data-k="christopher-nolan" loading="lazy" decoding="async"></span>
-            <span class="st-txt"><small>人物・1970年</small>
-              <b>クリストファー・ノーラン</b><span>ロンドン生まれの映画監督。『ダークナイト』『インセプション』『インターステラー』『ダンケルク』『オッペンハイマー』。</span></span>
+            <small>［非人情という共通言語］　事実</small>
+            <b><span class="seg-copy">枕元にあった二冊は、聖書と『草枕』だった。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
+          <a class="fstop" href="w/glenn-gould/?c=glenn-gould--kusamakura">
+            <span class="st-img"><img src="img/gould.jpg" alt="グレン・グールド" data-k="glenn-gould" loading="lazy" decoding="async"></span>
+            <span class="st-txt"><small>人物・1932年</small>
+              <b>グレン・グールド</b><span>バッハ演奏で知られ、クラシック音楽における「演奏とは何か」という考え方そのものを変えた20世紀を代表するピアニスト。</span></span>
+          </a>
+        </li>
+        <li class="stop">
+          
+          <a class="seg" href="c/glenn-gould--goldberg-variations/">
+            
+            <small>［デビューと再録音］　事実</small>
+            <b><span class="seg-copy">デビュー盤と同じ曲を、死の前年に録り直した。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
+          <a class="fstop" href="w/goldberg-variations/?c=glenn-gould--goldberg-variations">
+            <span class="st-img"><img src="img/works/goldberg-variations.jpg" alt="バッハ『ゴールドベルク変奏曲』" data-k="goldberg-variations" loading="lazy" decoding="async"></span>
+            <span class="st-txt"><small>音楽・1741年</small>
+              <b>バッハ『ゴールドベルク変奏曲』</b><span>アリアと30の変奏からなる鍵盤作品。1741年ごろに出版された。グレン・グールドの1955年の録音によって、20世紀に広く聴かれる曲になった。</span></span>
+          </a>
+        </li>
+        <li class="stop">
+          
+          <a class="seg" href="c/goldberg-variations--brad-mehldau/">
+            
+            <small>［バッハを経由して］　ハブ</small>
+            <b><span class="seg-copy">ゴールドベルクの主題にジャズ奏者が応えた。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
+          <a class="fstop" href="w/brad-mehldau/?c=goldberg-variations--brad-mehldau">
+            <span class="st-img"><img src="img/works/brad-mehldau.jpg" alt="ブラッド・メルドー" data-k="brad-mehldau" loading="lazy" decoding="async"></span>
+            <span class="st-txt"><small>音楽・1970年</small>
+              <b>ブラッド・メルドー</b><span>アメリカのジャズ・ピアニスト。ピアノ・トリオでの演奏のほか、バッハやロックの曲を独自に解釈した録音でも知られる。</span></span>
+          </a>
+        </li>
+        <li class="stop">
+          
+          <a class="seg" href="c/kusamakura--nakoikan/">
+            
+            <small>［小説の舞台を訪ねる］　事実</small>
+            <b><span class="seg-copy">「那古井」は、地図の上にもあった。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
+          <a class="fstop" href="w/nakoikan/?c=kusamakura--nakoikan">
+            <span class="st-img"><img src="img/nakoikan.jpg" alt="小天温泉『那古井館』" data-k="nakoikan" loading="lazy" decoding="async"></span>
+            <span class="st-txt"><small>宿・1868年</small>
+              <b>小天温泉『那古井館』</b><span>明治元年創業を掲げる、熊本・小天温泉の宿。</span></span>
+          </a>
+        </li>
+        <li class="stop">
+          
+          <a class="seg" href="c/tsurunoyu--nakoikan/">
+            
+            <small>［湯宿と物語］　似ている</small>
+            <b><span class="seg-copy">小説に描かれた湯と、山奥に守られた湯。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
+          <a class="fstop" href="w/tsurunoyu/?c=tsurunoyu--nakoikan">
+            <span class="st-img"><img src="img/works/tsurunoyu.jpg" alt="乳頭温泉郷「鶴の湯」" data-k="tsurunoyu" loading="lazy" decoding="async"></span>
+            <span class="st-txt"><small>宿</small>
+              <b>乳頭温泉郷「鶴の湯」</b><span>秋田県の乳頭温泉郷でもっとも古いとされる湯宿。茅葺き屋根の長屋と白濁の湯で知られる。</span></span>
           </a>
         </li></ol>
             <div class="rail-more" id="railMore" aria-hidden="true"></div>
@@ -409,17 +417,17 @@ document.addEventListener('click', function (e) {
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 <script type="application/ld+json" id="ld">{"@context":"https://schema.org","@type":"Article","headline":"哲学者は、服を着ることを考えた。","alternativeHeadline":"服を着る哲学","about":[{"@type":"Person","name":"鷲田清一","description":"京都生まれの哲学者。大阪大学総長をつとめた。『モードの迷宮』『「聴く」ことの力』など、ファッションや身体、ケアを哲学の主題にしてきた。"},{"@type":"Movie","name":"ホームレス ニューヨークと寝た男","description":"ファッション写真家で元モデルのマーク・レイは、マンハッタンのアパートの屋上で寝袋にくるまって暮らしていた。その日々を追ったドキュメンタリー。","creator":{"@type":"Person","name":"トーマス・ヴィルテンゾーン監督"}}],"author":{"@type":"Person","name":"生成AI（初稿）"},"datePublished":"2026-09-14T05:30:00.000Z","dateModified":"2026-09-14T05:30:00.000Z","inLanguage":"ja","articleBody":"意味の上での近さから結ばれた区間。鷲田清一は『モードの迷宮』で、衣服とそれを身にまとう自分とは何かを問い、『ちぐはぐな身体』では身体の〈境界〉という問題にも触れてきた。『ホームレス ニューヨークと寝た男』のマーク・レイは、元モデルのファッション写真家で、スーツを着こなす。外から見れば華やかなニューヨークの暮らしを続けながら、夜は屋上の片隅で眠っていた。マーク・レイ本人は2016年の来日時、MODE PRESS の取材に「助けを求めている人間だと思われたくなかったんだ。見た目に関してはプライドもあった。だからビルの屋上でひどい夜を過ごした後でさえ、僕は身なりを整えた」と語っている。衣服とそれを身にまとう自分とは何か。哲学者の問いと、一人の男の暮らしが、重なって見える。","url":"https://beautifulcontext.com/c/washida-kiyokazu--homme-less/","citation":[{"@type":"CreativeWork","name":"『モードの迷宮』鷲田 清一 | 筑摩書房","url":"https://www.chikumashobo.co.jp/product/9784480082442/","publisher":{"@type":"Organization","name":"筑摩書房"}},{"@type":"CreativeWork","name":"『ちぐはぐな身体 』鷲田 清一 | 筑摩書房","url":"https://www.chikumashobo.co.jp/product/9784480420428/","publisher":{"@type":"Organization","name":"筑摩書房"}},{"@type":"CreativeWork","name":"HOMME LESS - DOC NYC","url":"https://www.docnyc.net/film/homme-less/","publisher":{"@type":"Organization","name":"DOC NYC"}},{"@type":"CreativeWork","name":"美しきホームレス、マーク・レイがすべてを失わない理由【後編】","url":"https://www.afpbb.com/articles/-/3110205","publisher":{"@type":"Organization","name":"AFPBB News"}},{"@type":"CreativeWork","name":"美しきホームレス、マーク・レイがそれでもNYを愛する理由【前編】","url":"https://www.afpbb.com/articles/-/3110201","publisher":{"@type":"Organization","name":"AFPBB News（MODE PRESS）"}},{"@type":"CreativeWork","name":"鷲田清一 - Wikipedia","url":"https://ja.wikipedia.org/wiki/鷲田清一","publisher":{"@type":"Organization","name":"Wikipedia"}},{"@type":"CreativeWork","name":"Homme Less - Wikipedia","url":"https://en.wikipedia.org/wiki/Homme_Less","publisher":{"@type":"Organization","name":"Wikipedia"}},{"@type":"CreativeWork","name":"ホームレス ニューヨークと寝た男 作品情報","url":"https://movie.jorudan.co.jp/film/87408/","publisher":{"@type":"Organization","name":"ジョルダン 映画"}}],"image":"https://beautifulcontext.com/img/works/washida-kiyokazu.jpg"}</script>
 
-<script src="js/config.js?v=174"></script>
-<script src="js/seed.js?v=174"></script>
-<script src="js/sources.js?v=174"></script>
-<script src="js/backend.js?v=174"></script>
-<script src="js/store.js?v=174"></script>
-<script src="js/social.js?v=174"></script>
-<script src="js/render.js?v=174"></script>
-<script src="js/login.js?v=174"></script>
-<script src="js/login-page.js?v=174"></script>
-<script src="js/report.js?v=174"></script>
-<script src="js/transition.js?v=174"></script>
-<script src="js/app.js?v=174"></script>
+<script src="js/config.js?v=175"></script>
+<script src="js/seed.js?v=175"></script>
+<script src="js/sources.js?v=175"></script>
+<script src="js/backend.js?v=175"></script>
+<script src="js/store.js?v=175"></script>
+<script src="js/social.js?v=175"></script>
+<script src="js/render.js?v=175"></script>
+<script src="js/login.js?v=175"></script>
+<script src="js/login-page.js?v=175"></script>
+<script src="js/report.js?v=175"></script>
+<script src="js/transition.js?v=175"></script>
+<script src="js/app.js?v=175"></script>
 </body>
 </html>

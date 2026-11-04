@@ -43,9 +43,9 @@ try { if (sessionStorage.getItem('bc-resume')) document.documentElement.classLis
 <link rel="preload" as="image" href="img/logo-layer-words.png">
 <!-- 台本も先に取りに行く（静的なページは台本より先に本文が描かれる。遅い回線で、触れて動くまでの間を縮める）。
      src と同じアドレス（?v= まで）でないと、二度取りに行く -->
-<link rel="preload" as="script" href="js/seed.js?v=174">
-<link rel="preload" as="script" href="js/app.js?v=174">
-<link rel="manifest" href="manifest.webmanifest?v=174">
+<link rel="preload" as="script" href="js/seed.js?v=175">
+<link rel="preload" as="script" href="js/app.js?v=175">
+<link rel="manifest" href="manifest.webmanifest?v=175">
 <link rel="apple-touch-icon" href="icon-180.png">
 <!-- タブと検索結果に出る小さな印。アプリの印（ホーム画面のアイコン）と同じ形 -->
 <link rel="icon" href="favicon.ico" sizes="16x16 32x32 48x48">
@@ -76,13 +76,13 @@ if (location.hostname === 'beautifulcontext.com'){
   document.head.appendChild(ga);
 }
 </script>
-<script src="js/theme.js?v=174"></script>
-<link rel="stylesheet" href="app.css?v=174">
+<script src="js/theme.js?v=175"></script>
+<link rel="stylesheet" href="app.css?v=175">
 <!-- 読む画面の使い勝手（2026.10.24）。app.css のすぐあと -->
-<link rel="stylesheet" href="ux.css?v=174">
-<link rel="stylesheet" href="fade.css?v=174">
+<link rel="stylesheet" href="ux.css?v=175">
+<link rel="stylesheet" href="fade.css?v=175">
 <!-- editorial-ink（紙・墨・金）：◆ の罫と、紙の上か絵の上かで変わる決まり。ux.css のあと -->
-<link rel="stylesheet" href="ink.css?v=174">
+<link rel="stylesheet" href="ink.css?v=175">
 <!-- 台本（js）が揃うまで：まだ押しても動かないもの（‹・絵の横の ‹ ›・つながりを辿る）を少し薄くし、下の帯の上の縁に細い金の線を走らせる。
      app.js が最後に body.app-ready を付けて外す。すぐ揃うときは何も見せない（0.3 秒待ってから出す） -->
 <style>
@@ -132,6 +132,8 @@ document.addEventListener('click', function (e) {
 <div class="dock" id="dock">
   <div class="map" id="map"></div>
   <p class="sel-hint" id="selHint" aria-live="polite"></p>
+  <!-- 携帯：つながりを辿るの行き先を一行で（パソコンは次の札 next-peek） -->
+  <p class="dock-next" id="dockNext"></p>
   <p class="dock-brand" id="dockBrand">BEAUTIFUL CONTEXT</p>
   <!-- 読む画面（Today・コンテクスト・作品）では NEXT UNIVERSE だけ。戻るのは左の端から右へ払う（iPhone と同じ）か、上の ‹。
        ReMixIt!（つながりを創る）は編集の側の道具なので、UniverseIt! の画面とメニューに置く -->
@@ -192,7 +194,7 @@ document.addEventListener('click', function (e) {
   <div class="view-in" id="viewIn"><!--bc-body-->
       <article class="page cpage">
         <button type="button" class="back-close" data-close="" aria-label="Today's Editor's Choice へ戻る" title="Today's Editor's Choice へ"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 4.5 7.5 12l7.5 7.5"></path></svg></button>
-        <div class="duo-hero"><a class="c-logo on-paper" href="#/" data-top="" aria-label="BEAUTIFUL CONTEXT（TOP へ戻る）"><img src="img/logo-navy.png" alt=""></a><span class="only-sp"><button type="button" class="login-chip" data-login="">Login</button></span><div class="duo"><button type="button" class="duo-go" data-step="0" aria-label="広島県呉市の作品ページへ"><div class="art"><img src="img/works/kure.jpg" alt="広島県呉市" data-k="kure" decoding="async" fetchpriority="low"></div></button><button type="button" class="duo-go" data-step="2" aria-label="鳥皮みそ煮の作品ページへ"><div class="art"><img src="img/works/torikawa-misoni.jpg" alt="鳥皮みそ煮" data-k="torikawa-misoni" decoding="async" fetchpriority="low"></div></button><i class="swap" aria-hidden="true">↔</i></div><button type="button" class="ctx-nav prev" data-ctx-go="-1" aria-label="一つ前のつながりへ">‹</button><button type="button" class="ctx-nav next" data-ctx-go="1" aria-label="次のつながりへ">›</button></div>
+        <div class="duo-hero"><a class="c-logo on-paper" href="#/" data-top="" aria-label="BEAUTIFUL CONTEXT（TOP へ戻る）"><img src="img/logo-navy.png" alt=""></a><span class="only-sp"><button type="button" class="login-chip" data-login="">Login</button></span><div class="duo"><button type="button" class="duo-go" data-step="0" aria-label="広島県呉市の作品ページへ"><div class="art"><img src="img/works/kure.jpg" alt="広島県呉市" data-k="kure" decoding="async" fetchpriority="low"></div></button><button type="button" class="duo-go" data-step="2" aria-label="鳥皮みそ煮の作品ページへ"><div class="art"><img src="img/works/torikawa-misoni.jpg" alt="鳥皮みそ煮" data-k="torikawa-misoni" decoding="async" fetchpriority="low"></div></button><i class="swap" aria-hidden="true">↔</i></div><button type="button" class="ctx-nav prev" data-ctx-go="-1" aria-label="一つ前のつながりへ">‹</button><button type="button" class="ctx-nav next" data-ctx-go="1" aria-label="次へ：鳥皮みそ煮">›</button></div>
         <section class="context-lead">
           
           <div class="ed-row">
@@ -264,75 +266,6 @@ document.addEventListener('click', function (e) {
         <li class="stop first">
           
           
-          <a class="fstop" href="w/torikawa-misoni/">
-            <span class="st-img"><img src="img/works/torikawa-misoni.jpg" alt="鳥皮みそ煮" data-k="torikawa-misoni" loading="lazy" decoding="async"></span>
-            <span class="st-txt"><small>料理</small>
-              <b>鳥皮みそ煮</b><span>広島県呉市の名物料理。鶏の皮を味噌で煮込んだ一皿で、呉では「味噌炊き」とも呼ばれる。</span></span>
-          </a>
-        </li>
-        <li class="stop newline">
-          <p class="transfer"><span>別の路線へ</span></p>
-          
-          <a class="fstop" href="w/look-back/">
-            <span class="st-img"><img src="img/works/look-back.jpg" alt="藤本タツキ『ルックバック』" data-k="look-back" loading="lazy" decoding="async"></span>
-            <span class="st-txt"><small>漫画・2021年</small>
-              <b>藤本タツキ『ルックバック』</b><span>漫画を描くことに打ち込む二人の少女を描いた読み切り。2021年に少年ジャンプ＋で公開され、2024年にアニメーション映画になった。</span></span>
-          </a>
-        </li>
-        <li class="stop">
-          
-          <a class="seg" href="c/kono-sekai-no-katasumi-ni--look-back/">
-            
-            <small>［描く手］　似ている</small>
-            <b><span class="seg-copy">描くことが好きな人が、喪失のあとを生きる。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
-          <a class="fstop" href="w/kono-sekai-no-katasumi-ni/?c=kono-sekai-no-katasumi-ni--look-back">
-            <span class="st-img"><img src="img/works/kono-sekai-no-katasumi-ni.jpg" alt="『この世界の片隅に』" data-k="kono-sekai-no-katasumi-ni" loading="lazy" decoding="async"></span>
-            <span class="st-txt"><small>映画・2016年</small>
-              <b>『この世界の片隅に』</b><span>戦時中の広島と呉を舞台に、絵を描くことが好きな主人公すずの暮らしを描いたアニメーション映画。原作はこうの史代の漫画。</span></span>
-          </a>
-        </li>
-        <li class="stop">
-          
-          <a class="seg" href="c/kanashikute-yarikirenai--kono-sekai-no-katasumi-ni/">
-            
-            <small>［映画のはじまりの歌］　事実</small>
-            <b><span class="seg-copy">戦時下の日常は、この歌から始まる。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
-          <a class="fstop" href="w/kanashikute-yarikirenai/?c=kanashikute-yarikirenai--kono-sekai-no-katasumi-ni">
-            <span class="st-img"><img src="img/works/kanashikute-yarikirenai.jpg" alt="「悲しくてやりきれない」" data-k="kanashikute-yarikirenai" loading="lazy" decoding="async"></span>
-            <span class="st-txt"><small>音楽・1968年</small>
-              <b>「悲しくてやりきれない」</b><span>1968年に発表されたザ・フォーク・クルセダーズの歌。多くの歌い手にうたい継がれてきた。</span></span>
-          </a>
-        </li>
-        <li class="stop">
-          
-          <a class="seg" href="c/kotringo--kanashikute-yarikirenai/">
-            
-            <small>［歌い直された歌］　事実</small>
-            <b><span class="seg-copy">1968年の歌を、静かな声が歌い直した。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
-          <a class="fstop" href="w/kotringo/?c=kotringo--kanashikute-yarikirenai">
-            <span class="st-img"><img src="img/works/kotringo.jpg" alt="コトリンゴ" data-k="kotringo" loading="lazy" decoding="async"></span>
-            <span class="st-txt"><small>音楽</small>
-              <b>コトリンゴ</b><span>ピアノと歌のシンガーソングライター。アニメーション映画『この世界の片隅に』の音楽を手がけ、「悲しくてやりきれない」を歌った。</span></span>
-          </a>
-        </li>
-        <li class="stop branch">
-          
-          <a class="seg" href="c/kono-sekai-no-katasumi-ni--kure/">
-            <span class="seg-from">この世界の片隅に から分岐</span>
-            <small>［嫁いだ先の町］　事実</small>
-            <b><span class="seg-copy">すずは広島から、軍港の町へ嫁いだ。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
-          <a class="fstop" href="w/kure/?c=kono-sekai-no-katasumi-ni--kure">
-            <span class="st-img"><img src="img/works/kure.jpg" alt="広島県呉市" data-k="kure" loading="lazy" decoding="async"></span>
-            <span class="st-txt"><small>場所</small>
-              <b>広島県呉市</b><span>瀬戸内海に面した港町。明治期に海軍の鎮守府が置かれ、戦艦大和が建造された海軍工廠の町として知られる。</span></span>
-          </a>
-        </li>
-        <li class="stop branch">
-          
-          <a class="seg" href="c/w-eugene-smith--kono-sekai-no-katasumi-ni/">
-            <span class="seg-from">この世界の片隅に から分岐</span>
-            <small>［1945年の空］　似ている</small>
-            <b><span class="seg-copy">同じ年の戦争を、前線と台所から見た。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
           <a class="fstop" href="w/w-eugene-smith/?c=w-eugene-smith--kono-sekai-no-katasumi-ni">
             <span class="st-img"><img src="img/works/w-eugene-smith.jpg" alt="W・ユージン・スミス" data-k="w-eugene-smith" loading="lazy" decoding="async"></span>
             <span class="st-txt"><small>人物・1918年</small>
@@ -398,6 +331,78 @@ document.addEventListener('click', function (e) {
             <span class="st-txt"><small>映画・2017年</small>
               <b>ヴィルヌーヴ『ブレードランナー 2049』</b><span>前作から30年後の2049年を舞台にした続編。</span></span>
           </a>
+        </li>
+        <li class="stop">
+          
+          <a class="seg" href="c/blade-runner-2049--blade-runner-2099/">
+            
+            <small>［さらに五十年後］　事実</small>
+            <b><span class="seg-copy">2049年の先に、2099年が続く。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
+          <a class="fstop" href="w/blade-runner-2099/?c=blade-runner-2049--blade-runner-2099">
+            <span class="st-img"><img src="img/works/blade-runner-2099.jpg" alt="『ブレードランナー 2099』" data-k="blade-runner-2099" loading="lazy" decoding="async"></span>
+            <span class="st-txt"><small>ドラマ</small>
+              <b>『ブレードランナー 2099』</b><span>2049年からさらに50年後を舞台にしたドラマ・シリーズ。ミシェル・ヨーとハンター・シェイファーが主演し、2026年11月25日から Prime Video で配信される。</span></span>
+          </a>
+        </li>
+        <li class="stop">
+          
+          <a class="seg" href="c/greg-egan--blade-runner-2049/">
+            
+            <small>［記憶は誰のものか］　似ている</small>
+            <b><span class="seg-copy">植えつけられた記憶でもそれは自分なのか。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
+          <a class="fstop" href="w/greg-egan/?c=greg-egan--blade-runner-2049">
+            <span class="st-img"><img src="img/works/greg-egan.jpg" alt="グレッグ・イーガン" data-k="greg-egan" loading="lazy" decoding="async"></span>
+            <span class="st-txt"><small>人物・1961年</small>
+              <b>グレッグ・イーガン</b><span>オーストラリアのSF作家。『順列都市』『ディアスポラ』など、意識や自己を数学と物理から問い直すハードSFで知られる。</span></span>
+          </a>
+        </li>
+        <li class="stop">
+          
+          <a class="seg" href="c/do-androids-dream--blade-runner/">
+            
+            <small>［小説から映画へ］　事実</small>
+            <b><span class="seg-copy">電気羊の夢は、酸性雨の街になった。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
+          <a class="fstop" href="w/do-androids-dream/?c=do-androids-dream--blade-runner">
+            <span class="st-img"><img src="img/works/do-androids-dream.jpg" alt="フィリップ・K・ディック『アンドロイドは電気羊の夢を見るか？』" data-k="do-androids-dream" loading="lazy" decoding="async"></span>
+            <span class="st-txt"><small>書籍・1968年</small>
+              <b>フィリップ・K・ディック『アンドロイドは電気羊の夢を見るか？』</b><span>核戦争のあとの地球で、火星から逃げてきたアンドロイドを追う賞金稼ぎリック・デッカードの物語。映画『ブレードランナー』の原作。</span></span>
+          </a>
+        </li>
+        <li class="stop">
+          
+          <a class="seg" href="c/isaac-asimov--do-androids-dream/">
+            
+            <small>［人に似せて作られたもの］　似ている</small>
+            <b><span class="seg-copy">人に仕えるロボットと、紛れ込むアンドロイド。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
+          <a class="fstop" href="w/isaac-asimov/?c=isaac-asimov--do-androids-dream">
+            <span class="st-img"><img src="img/works/isaac-asimov.jpg" alt="アイザック・アシモフ" data-k="isaac-asimov" loading="lazy" decoding="async"></span>
+            <span class="st-txt"><small>人物・1920年</small>
+              <b>アイザック・アシモフ</b><span>『われはロボット』『ファウンデーション』のSF作家。ロボットが守るべき「ロボット工学三原則」を考えた。</span></span>
+          </a>
+        </li>
+        <li class="stop">
+          
+          <a class="seg" href="c/foundation--isaac-asimov/">
+            
+            <small>［作者と作品］　作者と作品</small>
+            <b><span class="seg-copy">帝国の崩壊を、数学が予言した。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
+          <a class="fstop" href="w/foundation/?c=foundation--isaac-asimov">
+            <span class="st-img"><img src="img/works/foundation.jpg" alt="アイザック・アシモフ『ファウンデーション』" data-k="foundation" loading="lazy" decoding="async"></span>
+            <span class="st-txt"><small>書籍・1951年</small>
+              <b>アイザック・アシモフ『ファウンデーション』</b><span>銀河帝国の崩壊を「心理歴史学」で予見した数学者ハリ・セルダンが、来るべき暗黒時代を短くするための計画を立てる。2021年から Apple TV+ でドラマになった。</span></span>
+          </a>
+        </li>
+        <li class="stop">
+          
+          <a class="seg" href="c/foundation--pluribus/">
+            
+            <small>［同じ配信の窓］　ハブ</small>
+            <b><span class="seg-copy">銀河の帝国と、ひとつになった世界。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
+          <a class="fstop" href="w/pluribus/?c=foundation--pluribus">
+            <span class="st-img"><img src="img/works/pluribus.jpg" alt="ヴィンス・ギリガン『プルリブス』" data-k="pluribus" loading="lazy" decoding="async"></span>
+            <span class="st-txt"><small>ドラマ・2025年</small>
+              <b>ヴィンス・ギリガン『プルリブス』</b><span>『ブレイキング・バッド』のヴィンス・ギリガンが手がけた Apple TV のドラマ。人々の心がひとつに溶け合っていく世界で、その輪に加われない数少ない人間の一人である女性を描く。</span></span>
+          </a>
         </li></ol>
             <div class="rail-more" id="railMore" aria-hidden="true"></div>
           </section>
@@ -412,17 +417,17 @@ document.addEventListener('click', function (e) {
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 <script type="application/ld+json" id="ld">{"@context":"https://schema.org","@type":"Article","headline":"戦後の港町で生まれ、缶ひとつで旅をする味。","alternativeHeadline":"呉の一皿","about":[{"@type":"CreativeWork","name":"広島県呉市","description":"瀬戸内海に面した港町。明治期に海軍の鎮守府が置かれ、戦艦大和が建造された海軍工廠の町として知られる。","creator":{"@type":"Person","name":"広島県"}},{"@type":"CreativeWork","name":"鳥皮みそ煮","description":"広島県呉市の名物料理。鶏の皮を味噌で煮込んだ一皿で、呉では「味噌炊き」とも呼ばれる。","creator":{"@type":"Person","name":"広島県呉市の名物"}}],"author":{"@type":"Person","name":"生成AI（初稿）"},"datePublished":"2026-09-15T07:20:00.000Z","dateModified":"2026-09-15T07:20:00.000Z","inLanguage":"ja","articleBody":"捨てずに食べる工夫が、呉の名物の一皿になった。鳥皮みそ煮は、広島県呉市の名物として知られる料理。鶏の皮を味噌で煮込んだ一品で、呉のとり屋（焼鳥店）では「味噌炊き」の名でも親しまれている。串のまま出す店、串から外して小鉢で出す店、こんにゃくなどと煮込む店と、店ごとに個性がある。生まれたのは食料事情の悪かった戦後復興期。卵を産まなくなった親鳥の硬い皮を、捨てずに食べる方法を考えた結果だという。いまは広島市のヤマトフーズが、缶詰の商品にもしている。『この世界の片隅に』で、すずが配給の食材をやりくりした町。映画が描く時代のあと、同じ町で食料の乏しさから生まれた味を、いまは缶詰でも味わえる。","url":"https://beautifulcontext.com/c/kure--torikawa-misoni/","citation":[{"@type":"CreativeWork","name":"この世界の片隅に【映画】","url":"https://konosekai.jp/","publisher":{"@type":"Organization","name":"映画『この世界の片隅に』公式サイト"}},{"@type":"CreativeWork","name":"鳥皮みそ煮（缶詰）｜商品情報｜よしの味噌","url":"https://www.yoshinomiso.com/products.php?product_number=R-30","publisher":{"@type":"Organization","name":"よしの味噌（広島県呉市）"}},{"@type":"CreativeWork","name":"呉のとり屋がすごい！（実はやきとりシティだった呉市）｜読みもの｜広島県呉市移住定住ポータルサイトKURETO(クレト) / 瀬戸内海のほぼ真ん中で街・里山・島暮らし","url":"https://kureto.city.kure.lg.jp/read/citizen-journal/1325/","publisher":{"@type":"Organization","name":"広島県呉市移住定住ポータルサイトKURETO（呉市・市民ライター記事）"}},{"@type":"CreativeWork","name":"「レモスコ」が躍進。レモン関連品を続々投入 「瀬戸内を世界へ」を合言葉に開発強化 | ひろしま企業図鑑","url":"https://zukan.biz/food/yamato-foods/","publisher":{"@type":"Organization","name":"ひろしま企業図鑑（広島経済研究所）"}}],"image":"https://beautifulcontext.com/img/works/kure.jpg"}</script>
 
-<script src="js/config.js?v=174"></script>
-<script src="js/seed.js?v=174"></script>
-<script src="js/sources.js?v=174"></script>
-<script src="js/backend.js?v=174"></script>
-<script src="js/store.js?v=174"></script>
-<script src="js/social.js?v=174"></script>
-<script src="js/render.js?v=174"></script>
-<script src="js/login.js?v=174"></script>
-<script src="js/login-page.js?v=174"></script>
-<script src="js/report.js?v=174"></script>
-<script src="js/transition.js?v=174"></script>
-<script src="js/app.js?v=174"></script>
+<script src="js/config.js?v=175"></script>
+<script src="js/seed.js?v=175"></script>
+<script src="js/sources.js?v=175"></script>
+<script src="js/backend.js?v=175"></script>
+<script src="js/store.js?v=175"></script>
+<script src="js/social.js?v=175"></script>
+<script src="js/render.js?v=175"></script>
+<script src="js/login.js?v=175"></script>
+<script src="js/login-page.js?v=175"></script>
+<script src="js/report.js?v=175"></script>
+<script src="js/transition.js?v=175"></script>
+<script src="js/app.js?v=175"></script>
 </body>
 </html>

@@ -43,9 +43,9 @@ try { if (sessionStorage.getItem('bc-resume')) document.documentElement.classLis
 <link rel="preload" as="image" href="img/logo-layer-words.png">
 <!-- 台本も先に取りに行く（静的なページは台本より先に本文が描かれる。遅い回線で、触れて動くまでの間を縮める）。
      src と同じアドレス（?v= まで）でないと、二度取りに行く -->
-<link rel="preload" as="script" href="js/seed.js?v=174">
-<link rel="preload" as="script" href="js/app.js?v=174">
-<link rel="manifest" href="manifest.webmanifest?v=174">
+<link rel="preload" as="script" href="js/seed.js?v=175">
+<link rel="preload" as="script" href="js/app.js?v=175">
+<link rel="manifest" href="manifest.webmanifest?v=175">
 <link rel="apple-touch-icon" href="icon-180.png">
 <!-- タブと検索結果に出る小さな印。アプリの印（ホーム画面のアイコン）と同じ形 -->
 <link rel="icon" href="favicon.ico" sizes="16x16 32x32 48x48">
@@ -76,13 +76,13 @@ if (location.hostname === 'beautifulcontext.com'){
   document.head.appendChild(ga);
 }
 </script>
-<script src="js/theme.js?v=174"></script>
-<link rel="stylesheet" href="app.css?v=174">
+<script src="js/theme.js?v=175"></script>
+<link rel="stylesheet" href="app.css?v=175">
 <!-- 読む画面の使い勝手（2026.10.24）。app.css のすぐあと -->
-<link rel="stylesheet" href="ux.css?v=174">
-<link rel="stylesheet" href="fade.css?v=174">
+<link rel="stylesheet" href="ux.css?v=175">
+<link rel="stylesheet" href="fade.css?v=175">
 <!-- editorial-ink（紙・墨・金）：◆ の罫と、紙の上か絵の上かで変わる決まり。ux.css のあと -->
-<link rel="stylesheet" href="ink.css?v=174">
+<link rel="stylesheet" href="ink.css?v=175">
 <!-- 台本（js）が揃うまで：まだ押しても動かないもの（‹・絵の横の ‹ ›・つながりを辿る）を少し薄くし、下の帯の上の縁に細い金の線を走らせる。
      app.js が最後に body.app-ready を付けて外す。すぐ揃うときは何も見せない（0.3 秒待ってから出す） -->
 <style>
@@ -132,6 +132,8 @@ document.addEventListener('click', function (e) {
 <div class="dock" id="dock">
   <div class="map" id="map"></div>
   <p class="sel-hint" id="selHint" aria-live="polite"></p>
+  <!-- 携帯：つながりを辿るの行き先を一行で（パソコンは次の札 next-peek） -->
+  <p class="dock-next" id="dockNext"></p>
   <p class="dock-brand" id="dockBrand">BEAUTIFUL CONTEXT</p>
   <!-- 読む画面（Today・コンテクスト・作品）では NEXT UNIVERSE だけ。戻るのは左の端から右へ払う（iPhone と同じ）か、上の ‹。
        ReMixIt!（つながりを創る）は編集の側の道具なので、UniverseIt! の画面とメニューに置く -->
@@ -192,7 +194,7 @@ document.addEventListener('click', function (e) {
   <div class="view-in" id="viewIn"><!--bc-body-->
       <article class="page cpage">
         <button type="button" class="back-close" data-close="" aria-label="Today's Editor's Choice へ戻る" title="Today's Editor's Choice へ"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 4.5 7.5 12l7.5 7.5"></path></svg></button>
-        <div class="duo-hero"><a class="c-logo on-paper" href="#/" data-top="" aria-label="BEAUTIFUL CONTEXT（TOP へ戻る）"><img src="img/logo-navy.png" alt=""></a><span class="only-sp"><button type="button" class="login-chip" data-login="">Login</button></span><div class="duo"><button type="button" class="duo-go" data-step="0" aria-label="T・S・エリオットの作品ページへ"><div class="art"><img src="img/works/t-s-eliot.jpg" alt="T・S・エリオット" data-k="t-s-eliot" decoding="async" fetchpriority="low"></div></button><button type="button" class="duo-go" data-step="2" aria-label="長編詩『荒地』The Waste Landの作品ページへ"><div class="art"><img src="img/works/the-waste-land.jpg" alt="長編詩『荒地』The Waste Land" data-k="the-waste-land" decoding="async" fetchpriority="low"></div></button><i class="swap" aria-hidden="true">↔</i></div><button type="button" class="ctx-nav prev" data-ctx-go="-1" aria-label="一つ前のつながりへ">‹</button><button type="button" class="ctx-nav next" data-ctx-go="1" aria-label="次のつながりへ">›</button></div>
+        <div class="duo-hero"><a class="c-logo on-paper" href="#/" data-top="" aria-label="BEAUTIFUL CONTEXT（TOP へ戻る）"><img src="img/logo-navy.png" alt=""></a><span class="only-sp"><button type="button" class="login-chip" data-login="">Login</button></span><div class="duo"><button type="button" class="duo-go" data-step="0" aria-label="T・S・エリオットの作品ページへ"><div class="art"><img src="img/works/t-s-eliot.jpg" alt="T・S・エリオット" data-k="t-s-eliot" decoding="async" fetchpriority="low"></div></button><button type="button" class="duo-go" data-step="2" aria-label="長編詩『荒地』The Waste Landの作品ページへ"><div class="art"><img src="img/works/the-waste-land.jpg" alt="長編詩『荒地』The Waste Land" data-k="the-waste-land" decoding="async" fetchpriority="low"></div></button><i class="swap" aria-hidden="true">↔</i></div><button type="button" class="ctx-nav prev" data-ctx-go="-1" aria-label="一つ前のつながりへ">‹</button><button type="button" class="ctx-nav next" data-ctx-go="1" aria-label="次へ：長編詩『荒地』The Waste Land">›</button></div>
         <section class="context-lead">
           
           <div class="ed-row">
@@ -264,139 +266,142 @@ document.addEventListener('click', function (e) {
         <li class="stop first">
           
           
-          <a class="fstop" href="w/the-waste-land/">
-            <span class="st-img"><img src="img/works/the-waste-land.jpg" alt="長編詩『荒地』The Waste Land" data-k="the-waste-land" loading="lazy" decoding="async"></span>
-            <span class="st-txt"><small>詩・1922年</small>
-              <b>長編詩『荒地』The Waste Land</b><span>「四月はいちばん残酷な月」で始まる長編詩。第一次世界大戦後のヨーロッパの荒廃を描いたと読まれてきた、モダニズム詩の代表作。</span></span>
-          </a>
-        </li>
-        <li class="stop">
-          
-          <a class="seg" href="c/ezra-pound--the-waste-land/">
-            
-            <small>［削った友人］　事実</small>
-            <b><span class="seg-copy">友人の赤ペンが、『荒地』を形にした。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
           <a class="fstop" href="w/ezra-pound/?c=ezra-pound--the-waste-land">
             <span class="st-img"><img src="img/works/ezra-pound.jpg" alt="エズラ・パウンド" data-k="ezra-pound" loading="lazy" decoding="async"></span>
             <span class="st-txt"><small>人物</small>
               <b>エズラ・パウンド</b><span>アメリカの詩人。モダニズムの詩を牽引し、エリオットの『荒地』の草稿に大胆に手を入れて仕上げを助けた。</span></span>
           </a>
         </li>
-        <li class="stop newline">
+        <li class="stop">
+          
+          <a class="seg" href="c/merry-christmas-mr-lawrence--minamata/">
+            
+            <small>［坂本龍一を経由して］　ハブ</small>
+            <b><span class="seg-copy">37年を隔てて、音楽は同じ作曲家だ。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
+          <a class="fstop" href="w/merry-christmas-mr-lawrence/?c=merry-christmas-mr-lawrence--minamata">
+            <span class="st-img"><img src="img/works/merry-christmas-mr-lawrence.jpg" alt="大島渚『戦場のメリークリスマス』" data-k="merry-christmas-mr-lawrence" loading="lazy" decoding="async"></span>
+            <span class="st-txt"><small>映画・1983年</small>
+              <b>大島渚『戦場のメリークリスマス』</b><span>1942年、ジャワの日本軍捕虜収容所。デヴィッド・ボウイ、坂本龍一、ビートたけし、トム・コンティが演じた。音楽は坂本龍一。</span></span>
+          </a>
+        </li>
+        <li class="stop">
+          
+          <a class="seg" href="c/david-bowie--merry-christmas-mr-lawrence/">
+            
+            <small>［出演］　作者と作品</small>
+            <b><span class="seg-copy">ロックスターは、捕虜の少佐になった。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
+          <a class="fstop" href="w/david-bowie/?c=david-bowie--merry-christmas-mr-lawrence">
+            <span class="st-img"><img src="img/works/david-bowie.jpg" alt="デヴィッド・ボウイ" data-k="david-bowie" loading="lazy" decoding="async"></span>
+            <span class="st-txt"><small>人物・1947年</small>
+              <b>デヴィッド・ボウイ</b><span>「スペイス・オディティ」「ヒーローズ」の音楽家。俳優としても、大島渚監督『戦場のメリークリスマス』でセリアズ少佐を演じた。</span></span>
+          </a>
+        </li>
+        <li class="stop">
+          
+          <a class="seg" href="c/peter-gabriel--david-bowie/">
+            
+            <small>［「ヒーローズ」］　事実</small>
+            <b><span class="seg-copy">ボウイ「ヒーローズ」をガブリエルが歌い直す。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
+          <a class="fstop" href="w/peter-gabriel/?c=peter-gabriel--david-bowie">
+            <span class="st-img"><img src="img/works/peter-gabriel.jpg" alt="ピーター・ガブリエル" data-k="peter-gabriel" loading="lazy" decoding="async"></span>
+            <span class="st-txt"><small>人物・1950年</small>
+              <b>ピーター・ガブリエル</b><span>ジェネシスのボーカルを経てソロへ。「スレッジハンマー」のほか、世界の音楽を紹介するレーベル「リアル・ワールド」と音楽祭 WOMAD を立ち上げた。</span></span>
+          </a>
+        </li>
+        <li class="stop">
+          
+          <a class="seg" href="c/youssou-ndour--peter-gabriel/">
+            
+            <small>［「イン・ユア・アイズ」］　事実</small>
+            <b><span class="seg-copy">セネガルの声が、英国の曲の最後を歌う。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
+          <a class="fstop" href="w/youssou-ndour/?c=youssou-ndour--peter-gabriel">
+            <span class="st-img"><img src="img/works/youssou-ndour.jpg" alt="ユッスー・ンドゥール" data-k="youssou-ndour" loading="lazy" decoding="async"></span>
+            <span class="st-txt"><small>人物・1959年</small>
+              <b>ユッスー・ンドゥール</b><span>セネガルの歌手。ンバラと呼ばれる音楽を世界に広めた。ピーター・ガブリエルとの共演でも知られる。</span></span>
+          </a>
+        </li>
+        <li class="stop">
+          
+          <a class="seg" href="c/merry-christmas-mr-lawrence--the-seed-and-the-sower/">
+            
+            <small>［小説から映画へ］　事実</small>
+            <b><span class="seg-copy">捕虜の記憶が、一つの映画になった。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
+          <a class="fstop" href="w/the-seed-and-the-sower/?c=merry-christmas-mr-lawrence--the-seed-and-the-sower">
+            <span class="st-img"><img src="img/works/the-seed-and-the-sower.jpg" alt="ヴァン・デル・ポスト『影の獄にて』" data-k="the-seed-and-the-sower" loading="lazy" decoding="async"></span>
+            <span class="st-txt"><small>書籍・1963年</small>
+              <b>ヴァン・デル・ポスト『影の獄にて』</b><span>ジャワの日本軍捕虜収容所での体験をもとにした物語。映画『戦場のメリークリスマス』の原作。</span></span>
+          </a>
+        </li>
+        <li class="stop">
+          
+          <a class="seg" href="c/iwaaki-hitoshi--parasyte/">
+            
+            <small>［作者と代表作］　作者と作品</small>
+            <b><span class="seg-copy">右手に寄生した生き物が人間を問い直す。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
+          <a class="fstop" href="w/iwaaki-hitoshi/?c=iwaaki-hitoshi--parasyte">
+            <span class="st-img"><img src="img/works/iwaaki-hitoshi.jpg" alt="岩明均" data-k="iwaaki-hitoshi" loading="lazy" decoding="async"></span>
+            <span class="st-txt"><small>人物・1960年</small>
+              <b>岩明均</b><span>『寄生獣』『ヒストリエ』の漫画家。</span></span>
+          </a>
+        </li>
+        <li class="stop">
+          
+          <a class="seg" href="c/iwaaki-hitoshi--historie/">
+            
+            <small>［古代を描く］　作者と作品</small>
+            <b><span class="seg-copy">『寄生獣』の作者は、古代ギリシアを描いた。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
+          <a class="fstop" href="w/historie/?c=iwaaki-hitoshi--historie">
+            <span class="st-img"><img src="img/works/historie.jpg" alt="岩明均『ヒストリエ』" data-k="historie" loading="lazy" decoding="async"></span>
+            <span class="st-txt"><small>漫画・2003年</small>
+              <b>岩明均『ヒストリエ』</b><span>アレクサンドロス大王の書記官エウメネスの生涯を描く歴史漫画。</span></span>
+          </a>
+        </li>
+        <li class="stop">
+          
+          <a class="seg" href="c/niji-iro-no-trotsky--historie/">
+            
+            <small>［二つの民族のあいだで］　似ている</small>
+            <b><span class="seg-copy">どちらの民族にも、属しきれない主人公。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
+          <a class="fstop" href="w/niji-iro-no-trotsky/?c=niji-iro-no-trotsky--historie">
+            <span class="st-img"><img src="img/works/niji-iro-no-trotsky.jpg" alt="安彦良和『虹色のトロツキー』" data-k="niji-iro-no-trotsky" loading="lazy" decoding="async"></span>
+            <span class="st-txt"><small>漫画・1990年</small>
+              <b>安彦良和『虹色のトロツキー』</b><span>1938年の満州。日本人とモンゴル人の血を引く青年ウムボルトが、建国大学に送り込まれ、トロツキーをめぐる謀略に巻き込まれていく。</span></span>
+          </a>
+        </li>
+        <li class="stop">
+          
+          <a class="seg" href="c/yasuhiko-yoshikazu--niji-iro-no-trotsky/">
+            
+            <small>［作者と作品］　作者と作品</small>
+            <b><span class="seg-copy">満州の大学に、青年が送り込まれる。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
+          <a class="fstop" href="w/yasuhiko-yoshikazu/?c=yasuhiko-yoshikazu--niji-iro-no-trotsky">
+            <span class="st-img"><img src="img/works/yasuhiko-yoshikazu.jpg" alt="安彦良和" data-k="yasuhiko-yoshikazu" loading="lazy" decoding="async"></span>
+            <span class="st-txt"><small>人物・1947年</small>
+              <b>安彦良和</b><span>テレビアニメ『機動戦士ガンダム』のキャラクターデザインと作画監督をつとめた。漫画家として『虹色のトロツキー』など、歴史を題材にした作品を描く。</span></span>
+          </a>
+        </li>
+        <li class="stop">
+          
+          <a class="seg" href="c/yasuhiko-yoshikazu--gundam-the-origin/">
+            
+            <small>［作者と作品］　作者と作品</small>
+            <b><span class="seg-copy">ガンダムを、自分の手で描き直す。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
+          <a class="fstop" href="w/gundam-the-origin/?c=yasuhiko-yoshikazu--gundam-the-origin">
+            <span class="st-img"><img src="img/works/gundam-the-origin.jpg" alt="安彦良和『機動戦士ガンダム THE ORIGIN』" data-k="gundam-the-origin" loading="lazy" decoding="async"></span>
+            <span class="st-txt"><small>漫画・2001年</small>
+              <b>安彦良和『機動戦士ガンダム THE ORIGIN』</b><span>テレビアニメ『機動戦士ガンダム』の物語を、安彦良和が自らの手で描き直した漫画。シャアとセイラの少年時代も描かれる。</span></span>
+          </a>
+        </li>
+        <li class="stop">
           <p class="transfer"><span>別の路線へ</span></p>
-          
-          <a class="fstop" href="w/the-hollow-men/">
-            <span class="st-img"><img src="img/works/the-hollow-men.jpg" alt="『うつろな人々』The Hollow Men" data-k="the-hollow-men" loading="lazy" decoding="async"></span>
-            <span class="st-txt"><small>詩・1925年</small>
-              <b>『うつろな人々』The Hollow Men</b><span>「世界の終わりはこうだ、爆発ではなく、すすり泣きで」と結ばれる詩。題辞にコンラッド『闇の奥』の一行を掲げる。</span></span>
-          </a>
-        </li>
-        <li class="stop">
-          
-          <a class="seg" href="c/the-hollow-men--heart-of-darkness/">
+          <a class="seg" href="c/kill-your-friends--frida-sundemo/">
             
-            <small>［題辞］　事実</small>
-            <b><span class="seg-copy">詩の冒頭に、小説の一行がある。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
-          <a class="fstop" href="w/heart-of-darkness/?c=the-hollow-men--heart-of-darkness">
-            <span class="st-img"><img src="img/works/heart-of-darkness.jpg" alt="ジョセフ・コンラッド『闇の奥』" data-k="heart-of-darkness" loading="lazy" decoding="async"></span>
-            <span class="st-txt"><small>書籍・1899年</small>
-              <b>ジョセフ・コンラッド『闇の奥』</b><span>象牙交易の奥地へ向かう船乗りマーロウが、消息を絶った交易所の責任者クルツを探す物語。当時のコンゴ自由国が舞台とされる。</span></span>
-          </a>
-        </li>
-        <li class="stop">
-          
-          <a class="seg" href="c/lumumba--heart-of-darkness/">
-            
-            <small>［コンゴという土地］　ハブ</small>
-            <b><span class="seg-copy">植民地の奥地と、独立の叫び。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
-          <a class="fstop" href="w/lumumba/?c=lumumba--heart-of-darkness">
-            <span class="st-img"><img src="img/works/lumumba.jpg" alt="ラウル・ペック『ルムンバの叫び』" data-k="lumumba" loading="lazy" decoding="async"></span>
-            <span class="st-txt"><small>映画・2000年</small>
-              <b>ラウル・ペック『ルムンバの叫び』</b><span>コンゴ独立の指導者パトリス・ルムンバの、首相就任から殺害までを描いた映画。</span></span>
-          </a>
-        </li>
-        <li class="stop branch">
-          
-          <a class="seg" href="c/joseph-conrad--heart-of-darkness/">
-            <span class="seg-from">闇の奥 から分岐</span>
-            <small>［船乗りが見た川］　作者と作品</small>
-            <b><span class="seg-copy">作家は自分で、コンゴ川を遡っていた。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
-          <a class="fstop" href="w/joseph-conrad/?c=joseph-conrad--heart-of-darkness">
-            <span class="st-img"><img src="img/works/joseph-conrad.jpg" alt="ジョセフ・コンラッド" data-k="joseph-conrad" loading="lazy" decoding="async"></span>
-            <span class="st-txt"><small>人物・1857年</small>
-              <b>ジョセフ・コンラッド</b><span>ポーランド生まれの英国の小説家。船乗りとして世界の海を渡ったのち、英語で『闇の奥』『ロード・ジム』などを書いた。</span></span>
-          </a>
-        </li>
-        <li class="stop branch">
-          
-          <a class="seg" href="c/heart-of-darkness--apocalypse-now/">
-            <span class="seg-from">闇の奥 から分岐</span>
-            <small>［川を遡る物語］　事実</small>
-            <b><span class="seg-copy">コンゴの川は、ベトナムの川になった。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
-          <a class="fstop" href="w/apocalypse-now/?c=heart-of-darkness--apocalypse-now">
-            <span class="st-img"><img src="img/works/apocalypse-now.jpg" alt="コッポラ『地獄の黙示録』" data-k="apocalypse-now" loading="lazy" decoding="async"></span>
-            <span class="st-txt"><small>映画・1979年</small>
-              <b>コッポラ『地獄の黙示録』</b><span>ベトナム戦争のさなか、軍を離れて奥地に王国を築いたカーツ大佐の暗殺を命じられた大尉の旅。1979年のカンヌ国際映画祭でパルム・ドールを受けた。</span></span>
-          </a>
-        </li>
-        <li class="stop">
-          
-          <a class="seg" href="c/shoplifters--apocalypse-now/">
-            
-            <small>［パルム・ドールの系譜］　ハブ</small>
-            <b><span class="seg-copy">ジャングルの奥の戦争と東京の片隅の家族。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
-          <a class="fstop" href="w/shoplifters/?c=shoplifters--apocalypse-now">
-            <span class="st-img"><img src="img/works/shoplifters.jpg" alt="是枝裕和『万引き家族』" data-k="shoplifters" loading="lazy" decoding="async"></span>
-            <span class="st-txt"><small>映画・2018年</small>
-              <b>是枝裕和『万引き家族』</b><span>万引きで暮らしを補う一家と、彼らに拾われた少女を描いた映画。2018年のカンヌ国際映画祭でパルム・ドールを受けた。</span></span>
-          </a>
-        </li>
-        <li class="stop">
-          
-          <a class="seg" href="c/koreeda-hirokazu--shoplifters/">
-            
-            <small>［家族とは何か］　作者と作品</small>
-            <b><span class="seg-copy">日本映画が21年ぶりにパルム・ドールを得た。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
-          <a class="fstop" href="w/koreeda-hirokazu/?c=koreeda-hirokazu--shoplifters">
-            <span class="st-img"><img src="img/works/koreeda-hirokazu.jpg" alt="是枝裕和" data-k="koreeda-hirokazu" loading="lazy" decoding="async"></span>
-            <span class="st-txt"><small>人物・1962年</small>
-              <b>是枝裕和</b><span>テレビのドキュメンタリー演出から映画監督になった。『誰も知らない』『万引き家族』『海街diary』などを撮っている。</span></span>
-          </a>
-        </li>
-        <li class="stop">
-          
-          <a class="seg" href="c/koreeda-hirokazu--nobody-knows/">
-            
-            <small>［見過ごされた子どもたち］　作者と作品</small>
-            <b><span class="seg-copy">14歳が、カンヌで最年少の男優賞を得た。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
-          <a class="fstop" href="w/nobody-knows/?c=koreeda-hirokazu--nobody-knows">
-            <span class="st-img"><img src="img/works/nobody-knows.jpg" alt="是枝裕和『誰も知らない』" data-k="nobody-knows" loading="lazy" decoding="async"></span>
-            <span class="st-txt"><small>映画・2004年</small>
-              <b>是枝裕和『誰も知らない』</b><span>母親に置き去りにされた四人のきょうだいの暮らしを描いた映画。長男を演じた柳楽優弥がカンヌ国際映画祭で最優秀男優賞を受けた。</span></span>
-          </a>
-        </li>
-        <li class="stop branch">
-          
-          <a class="seg" href="c/apocalypse-now--francis-ford-coppola/">
-            <span class="seg-from">地獄の黙示録 から分岐</span>
-            <small>［監督も奥地へ］　作者と作品</small>
-            <b><span class="seg-copy">映画の撮影そのものが、地獄の行軍になった。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
-          <a class="fstop" href="w/francis-ford-coppola/?c=apocalypse-now--francis-ford-coppola">
-            <span class="st-img"><img src="img/works/francis-ford-coppola.jpg" alt="フランシス・フォード・コッポラ" data-k="francis-ford-coppola" loading="lazy" decoding="async"></span>
-            <span class="st-txt"><small>人物・1939年</small>
-              <b>フランシス・フォード・コッポラ</b><span>『ゴッドファーザー』『地獄の黙示録』の映画監督。</span></span>
-          </a>
-        </li>
-        <li class="stop">
-          
-          <a class="seg" href="c/francis-ford-coppola--high-and-low/">
-            
-            <small>［黒澤明を経由して］　ハブ</small>
-            <b><span class="seg-copy">コッポラとルーカスが、黒澤の映画を支えた。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
-          <a class="fstop" href="w/high-and-low/?c=francis-ford-coppola--high-and-low">
-            <span class="st-img"><img src="img/highlow.jpg" alt="黒澤明『天国と地獄』" data-k="high-and-low" loading="lazy" decoding="async"></span>
-            <span class="st-txt"><small>映画・1963年</small>
-              <b>黒澤明『天国と地獄』</b><span>エド・マクベインの小説『King’s Ransom』を原作に、誘拐事件を通じて企業家の倫理と社会の格差を描いた作品。</span></span>
+            <small>［争奪戦の新人バンド］　事実</small>
+            <b><span class="seg-copy">新人バンドの契約を、野心家の男が狙う。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
+          <a class="fstop" href="w/frida-sundemo/?c=kill-your-friends--frida-sundemo">
+            <span class="st-img"><img src="img/works/frida-sundemo.jpg" alt="フリーダ・サンデモ" data-k="frida-sundemo" loading="lazy" decoding="async"></span>
+            <span class="st-txt"><small>音楽</small>
+              <b>フリーダ・サンデモ</b><span>スウェーデンのシンガーソングライター。オルタナティブ・ポップの歌い手として紹介され、映画『マッド・ドライヴ』で映画デビューを果たした。</span></span>
           </a>
         </li></ol>
             <div class="rail-more" id="railMore" aria-hidden="true"></div>
@@ -412,17 +417,17 @@ document.addEventListener('click', function (e) {
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 <script type="application/ld+json" id="ld">{"@context":"https://schema.org","@type":"Article","headline":"四月は、いちばん残酷な月。","alternativeHeadline":"詩人と作品","about":[{"@type":"Person","name":"T・S・エリオット","description":"アメリカに生まれ、英国で活躍した詩人・批評家。『荒地』『うつろな人々』を書き、1948年にノーベル文学賞を受賞した。"},{"@type":"CreativeWork","name":"荒地","description":"「四月はいちばん残酷な月」で始まる長編詩。第一次世界大戦後のヨーロッパの荒廃を描いたと読まれてきた、モダニズム詩の代表作。","creator":{"@type":"Person","name":"T・S・エリオット"}}],"author":{"@type":"Person","name":"生成AI（初稿）"},"datePublished":"2026-09-30T06:30:00.000Z","dateModified":"2026-09-30T06:30:00.000Z","inLanguage":"ja","articleBody":"戦争のあとの荒れ果てた世界を、言葉の断片で描いた詩として読まれてきた。『荒地』は1922年に発表された。冒頭の一行は「四月はいちばん残酷な月」だ。ラテン語やギリシア語、ドイツ語、フランス語、サンスクリット語など、さまざまな言語の引用と酒場の会話が、切り替わりを示さないまま並べられる。筋を追うよりも、崩れた文明の破片を拾い集めるように読む詩だと言える。断片を並べるこの手法は、20世紀の詩と文学に大きな影響を与えたとされる。","url":"https://beautifulcontext.com/c/t-s-eliot--the-waste-land/","citation":[{"@type":"CreativeWork","name":"Award ceremony speech - NobelPrize.org","url":"https://www.nobelprize.org/prizes/literature/1948/ceremony-speech/","publisher":{"@type":"Organization","name":"NobelPrize.org（Nobel Prize Outreach）"}},{"@type":"CreativeWork","name":"The Waste Land by T. S. Eliot - Poems | Academy of American Poets","url":"https://poets.org/poem/waste-land","publisher":{"@type":"Organization","name":"Academy of American Poets"}},{"@type":"CreativeWork","name":"About T. S. Eliot | Academy of American Poets","url":"https://poets.org/poet/t-s-eliot","publisher":{"@type":"Organization","name":"Academy of American Poets"}},{"@type":"CreativeWork","name":"The Waste Land - Wikipedia","url":"https://en.wikipedia.org/wiki/The_Waste_Land","publisher":{"@type":"Organization","name":"Wikipedia"}}],"image":"https://beautifulcontext.com/img/works/t-s-eliot.jpg"}</script>
 
-<script src="js/config.js?v=174"></script>
-<script src="js/seed.js?v=174"></script>
-<script src="js/sources.js?v=174"></script>
-<script src="js/backend.js?v=174"></script>
-<script src="js/store.js?v=174"></script>
-<script src="js/social.js?v=174"></script>
-<script src="js/render.js?v=174"></script>
-<script src="js/login.js?v=174"></script>
-<script src="js/login-page.js?v=174"></script>
-<script src="js/report.js?v=174"></script>
-<script src="js/transition.js?v=174"></script>
-<script src="js/app.js?v=174"></script>
+<script src="js/config.js?v=175"></script>
+<script src="js/seed.js?v=175"></script>
+<script src="js/sources.js?v=175"></script>
+<script src="js/backend.js?v=175"></script>
+<script src="js/store.js?v=175"></script>
+<script src="js/social.js?v=175"></script>
+<script src="js/render.js?v=175"></script>
+<script src="js/login.js?v=175"></script>
+<script src="js/login-page.js?v=175"></script>
+<script src="js/report.js?v=175"></script>
+<script src="js/transition.js?v=175"></script>
+<script src="js/app.js?v=175"></script>
 </body>
 </html>

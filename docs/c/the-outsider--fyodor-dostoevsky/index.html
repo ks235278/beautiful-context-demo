@@ -43,9 +43,9 @@ try { if (sessionStorage.getItem('bc-resume')) document.documentElement.classLis
 <link rel="preload" as="image" href="img/logo-layer-words.png">
 <!-- 台本も先に取りに行く（静的なページは台本より先に本文が描かれる。遅い回線で、触れて動くまでの間を縮める）。
      src と同じアドレス（?v= まで）でないと、二度取りに行く -->
-<link rel="preload" as="script" href="js/seed.js?v=174">
-<link rel="preload" as="script" href="js/app.js?v=174">
-<link rel="manifest" href="manifest.webmanifest?v=174">
+<link rel="preload" as="script" href="js/seed.js?v=175">
+<link rel="preload" as="script" href="js/app.js?v=175">
+<link rel="manifest" href="manifest.webmanifest?v=175">
 <link rel="apple-touch-icon" href="icon-180.png">
 <!-- タブと検索結果に出る小さな印。アプリの印（ホーム画面のアイコン）と同じ形 -->
 <link rel="icon" href="favicon.ico" sizes="16x16 32x32 48x48">
@@ -76,13 +76,13 @@ if (location.hostname === 'beautifulcontext.com'){
   document.head.appendChild(ga);
 }
 </script>
-<script src="js/theme.js?v=174"></script>
-<link rel="stylesheet" href="app.css?v=174">
+<script src="js/theme.js?v=175"></script>
+<link rel="stylesheet" href="app.css?v=175">
 <!-- 読む画面の使い勝手（2026.10.24）。app.css のすぐあと -->
-<link rel="stylesheet" href="ux.css?v=174">
-<link rel="stylesheet" href="fade.css?v=174">
+<link rel="stylesheet" href="ux.css?v=175">
+<link rel="stylesheet" href="fade.css?v=175">
 <!-- editorial-ink（紙・墨・金）：◆ の罫と、紙の上か絵の上かで変わる決まり。ux.css のあと -->
-<link rel="stylesheet" href="ink.css?v=174">
+<link rel="stylesheet" href="ink.css?v=175">
 <!-- 台本（js）が揃うまで：まだ押しても動かないもの（‹・絵の横の ‹ ›・つながりを辿る）を少し薄くし、下の帯の上の縁に細い金の線を走らせる。
      app.js が最後に body.app-ready を付けて外す。すぐ揃うときは何も見せない（0.3 秒待ってから出す） -->
 <style>
@@ -132,6 +132,8 @@ document.addEventListener('click', function (e) {
 <div class="dock" id="dock">
   <div class="map" id="map"></div>
   <p class="sel-hint" id="selHint" aria-live="polite"></p>
+  <!-- 携帯：つながりを辿るの行き先を一行で（パソコンは次の札 next-peek） -->
+  <p class="dock-next" id="dockNext"></p>
   <p class="dock-brand" id="dockBrand">BEAUTIFUL CONTEXT</p>
   <!-- 読む画面（Today・コンテクスト・作品）では NEXT UNIVERSE だけ。戻るのは左の端から右へ払う（iPhone と同じ）か、上の ‹。
        ReMixIt!（つながりを創る）は編集の側の道具なので、UniverseIt! の画面とメニューに置く -->
@@ -192,7 +194,7 @@ document.addEventListener('click', function (e) {
   <div class="view-in" id="viewIn"><!--bc-body-->
       <article class="page cpage">
         <button type="button" class="back-close" data-close="" aria-label="Today's Editor's Choice へ戻る" title="Today's Editor's Choice へ"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 4.5 7.5 12l7.5 7.5"></path></svg></button>
-        <div class="duo-hero"><a class="c-logo on-paper" href="#/" data-top="" aria-label="BEAUTIFUL CONTEXT（TOP へ戻る）"><img src="img/logo-navy.png" alt=""></a><span class="only-sp"><button type="button" class="login-chip" data-login="">Login</button></span><div class="duo"><button type="button" class="duo-go" data-step="0" aria-label="コリン・ウィルソン『アウトサイダー』の作品ページへ"><div class="art"><img src="img/works/the-outsider.jpg" alt="コリン・ウィルソン『アウトサイダー』" data-k="the-outsider" decoding="async" fetchpriority="low"></div></button><button type="button" class="duo-go" data-step="2" aria-label="ドストエフスキーの作品ページへ"><div class="art"><img src="img/works/fyodor-dostoevsky.jpg" alt="ドストエフスキー" data-k="fyodor-dostoevsky" decoding="async" fetchpriority="low"></div></button><i class="swap" aria-hidden="true">↔</i></div><button type="button" class="ctx-nav prev" data-ctx-go="-1" aria-label="一つ前のつながりへ">‹</button><button type="button" class="ctx-nav next" data-ctx-go="1" aria-label="次のつながりへ">›</button></div>
+        <div class="duo-hero"><a class="c-logo on-paper" href="#/" data-top="" aria-label="BEAUTIFUL CONTEXT（TOP へ戻る）"><img src="img/logo-navy.png" alt=""></a><span class="only-sp"><button type="button" class="login-chip" data-login="">Login</button></span><div class="duo"><button type="button" class="duo-go" data-step="0" aria-label="コリン・ウィルソン『アウトサイダー』の作品ページへ"><div class="art"><img src="img/works/the-outsider.jpg" alt="コリン・ウィルソン『アウトサイダー』" data-k="the-outsider" decoding="async" fetchpriority="low"></div></button><button type="button" class="duo-go" data-step="2" aria-label="ドストエフスキーの作品ページへ"><div class="art"><img src="img/works/fyodor-dostoevsky.jpg" alt="ドストエフスキー" data-k="fyodor-dostoevsky" decoding="async" fetchpriority="low"></div></button><i class="swap" aria-hidden="true">↔</i></div><button type="button" class="ctx-nav prev" data-ctx-go="-1" aria-label="一つ前のつながりへ">‹</button><button type="button" class="ctx-nav next" data-ctx-go="1" aria-label="次へ：ドストエフスキー">›</button></div>
         <section class="context-lead">
           
           <div class="ed-row">
@@ -264,139 +266,142 @@ document.addEventListener('click', function (e) {
         <li class="stop first">
           
           
-          <a class="fstop" href="w/fyodor-dostoevsky/">
-            <span class="st-img"><img src="img/works/fyodor-dostoevsky.jpg" alt="ドストエフスキー" data-k="fyodor-dostoevsky" loading="lazy" decoding="async"></span>
-            <span class="st-txt"><small>人物</small>
-              <b>ドストエフスキー</b><span>ロシアの作家。『罪と罰』『カラマーゾフの兄弟』などで、人間の内面と信仰を深く描いた。</span></span>
-          </a>
-        </li>
-        <li class="stop">
-          
-          <a class="seg" href="c/crime-and-punishment--fyodor-dostoevsky/">
-            
-            <small>［作家と作品］　作者と作品</small>
-            <b><span class="seg-copy">理屈で殺した青年を、罪の意識が追いつめる。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
           <a class="fstop" href="w/crime-and-punishment/?c=crime-and-punishment--fyodor-dostoevsky">
             <span class="st-img"><img src="img/works/crime-and-punishment.jpg" alt="罪と罰" data-k="crime-and-punishment" loading="lazy" decoding="async"></span>
             <span class="st-txt"><small>書籍・1866年</small>
               <b>罪と罰</b><span>貧しい元学生ラスコーリニコフが、自分の理屈で老婆を殺し、罪の意識に追いつめられていく長編小説。</span></span>
           </a>
         </li>
-        <li class="stop newline">
-          <p class="transfer"><span>別の路線へ</span></p>
+        <li class="stop">
           
-          <a class="fstop" href="w/highest-2-lowest/">
-            <span class="st-img"><img src="img/highest.jpg" alt="『HIGHEST 2 LOWEST』" data-k="highest-2-lowest" loading="lazy" decoding="async"></span>
-            <span class="st-txt"><small>映画・2025年</small>
-              <b>『HIGHEST 2 LOWEST』</b><span>スパイク・リーが、黒澤明『天国と地獄』の構造を現代のニューヨークへ移し替えた作品。富、家族、選択の価値が問われる。</span></span>
+          <a class="seg" href="c/natsume-soseki--zhou-tokyo-diary/">
+            
+            <small>［異国の都の記録］　似ている</small>
+            <b><span class="seg-copy">漱石はロンドンで、周恩来は東京で書いた。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
+          <a class="fstop" href="w/zhou-tokyo-diary/?c=natsume-soseki--zhou-tokyo-diary">
+            <span class="st-img"><img src="img/zhou-diary.jpg" alt="周恩来『十九歳の東京日記』" data-k="zhou-tokyo-diary" loading="lazy" decoding="async"></span>
+            <span class="st-txt"><small>書籍・1918年</small>
+              <b>周恩来『十九歳の東京日記』</b><span>日本に留学していた周恩来が、1918年の東京で書いた日記。日比谷公園、靖国神社、浅草など、19歳の青年が見て回った百年前の東京が記されている。</span></span>
           </a>
         </li>
         <li class="stop">
           
-          <a class="seg" href="c/highest-2-lowest--high-and-low/">
+          <a class="seg" href="c/kanyoro--zhou-tokyo-diary/">
             
-            <small>［原作から再解釈へ］　事実</small>
-            <b><span class="seg-copy">誘拐劇は、60年後にアメリカへ戻った。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
-          <a class="fstop" href="w/high-and-low/?c=highest-2-lowest--high-and-low">
-            <span class="st-img"><img src="img/highlow.jpg" alt="黒澤明『天国と地獄』" data-k="high-and-low" loading="lazy" decoding="async"></span>
-            <span class="st-txt"><small>映画・1963年</small>
-              <b>黒澤明『天国と地獄』</b><span>エド・マクベインの小説『King’s Ransom』を原作に、誘拐事件を通じて企業家の倫理と社会の格差を描いた作品。</span></span>
+            <small>［若き日の東京］　事実</small>
+            <b><span class="seg-copy">百年前の留学生は、神田の街を歩いていた。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
+          <a class="fstop" href="w/kanyoro/?c=kanyoro--zhou-tokyo-diary">
+            <span class="st-img"><img src="img/kanyoro.jpg" alt="中国名菜『漢陽楼』" data-k="kanyoro" loading="lazy" decoding="async"></span>
+            <span class="st-txt"><small>店・1911年</small>
+              <b>中国名菜『漢陽楼』</b><span>明治四十四年創業を掲げる、東京・神田の中国料理店。</span></span>
           </a>
         </li>
         <li class="stop">
           
-          <a class="seg" href="c/high-and-low--kings-ransom/">
+          <a class="seg" href="c/kanyoro--gyoza-sakaba-kachidoki/">
             
-            <small>［小説から映画へ］　事実</small>
-            <b><span class="seg-copy">身代金の電話は、横浜の高台で鳴った。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
-          <a class="fstop" href="w/kings-ransom/?c=high-and-low--kings-ransom">
-            <span class="st-img"><img src="img/kings-ransom.jpg" alt="エド・マクベイン『キングの身代金』" data-k="kings-ransom" loading="lazy" decoding="async"></span>
-            <span class="st-txt"><small>書籍・1959年</small>
-              <b>エド・マクベイン『キングの身代金』</b><span>架空の街アイソラの87分署を舞台にした警察小説シリーズの一作。原題『King’s Ransom』。靴会社の重役のもとに、身代金を要求する電話がかかってくる。</span></span>
-          </a>
-        </li>
-        <li class="stop branch">
-          
-          <a class="seg" href="c/francis-ford-coppola--high-and-low/">
-            <span class="seg-from">天国と地獄 から分岐</span>
-            <small>［黒澤明を経由して］　ハブ</small>
-            <b><span class="seg-copy">コッポラとルーカスが、黒澤の映画を支えた。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
-          <a class="fstop" href="w/francis-ford-coppola/?c=francis-ford-coppola--high-and-low">
-            <span class="st-img"><img src="img/works/francis-ford-coppola.jpg" alt="フランシス・フォード・コッポラ" data-k="francis-ford-coppola" loading="lazy" decoding="async"></span>
-            <span class="st-txt"><small>人物・1939年</small>
-              <b>フランシス・フォード・コッポラ</b><span>『ゴッドファーザー』『地獄の黙示録』の映画監督。</span></span>
+            <small>［勝鬨と留学生］　ハブ</small>
+            <b><span class="seg-copy">勝どきの名も、漢陽楼も日露戦争とつながる。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
+          <a class="fstop" href="w/gyoza-sakaba-kachidoki/?c=kanyoro--gyoza-sakaba-kachidoki">
+            <span class="st-img"><img src="img/works/gyoza-sakaba-kachidoki.jpg" alt="餃子酒場（勝どき店）" data-k="gyoza-sakaba-kachidoki" loading="lazy" decoding="async"></span>
+            <span class="st-txt"><small>店</small>
+              <b>餃子酒場（勝どき店）</b><span>勝どき駅近くの、焼き餃子と酒の店。</span></span>
           </a>
         </li>
         <li class="stop">
           
-          <a class="seg" href="c/apocalypse-now--francis-ford-coppola/">
+          <a class="seg" href="c/gyoza-sakaba-kachidoki--daiyame/">
             
-            <small>［監督も奥地へ］　作者と作品</small>
-            <b><span class="seg-copy">映画の撮影そのものが、地獄の行軍になった。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
-          <a class="fstop" href="w/apocalypse-now/?c=apocalypse-now--francis-ford-coppola">
-            <span class="st-img"><img src="img/works/apocalypse-now.jpg" alt="コッポラ『地獄の黙示録』" data-k="apocalypse-now" loading="lazy" decoding="async"></span>
-            <span class="st-txt"><small>映画・1979年</small>
-              <b>コッポラ『地獄の黙示録』</b><span>ベトナム戦争のさなか、軍を離れて奥地に王国を築いたカーツ大佐の暗殺を命じられた大尉の旅。1979年のカンヌ国際映画祭でパルム・ドールを受けた。</span></span>
+            <small>［今夜のだいやめ］　似ている</small>
+            <b><span class="seg-copy">「だいやめ」とは、つまり今夜の一杯だ。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
+          <a class="fstop" href="w/daiyame/?c=gyoza-sakaba-kachidoki--daiyame">
+            <span class="st-img"><img src="img/works/daiyame.jpg" alt="芋焼酎『だいやめ DAIYAME』" data-k="daiyame" loading="lazy" decoding="async"></span>
+            <span class="st-txt"><small>酒</small>
+              <b>芋焼酎『だいやめ DAIYAME』</b><span>鹿児島の芋焼酎。ライチを思わせる香りで知られる。名前は、一日の疲れを癒やす晩酌を表す鹿児島の言葉から。</span></span>
           </a>
         </li>
         <li class="stop">
           
-          <a class="seg" href="c/shoplifters--apocalypse-now/">
+          <a class="seg" href="c/daiyame--domaine-tetta/">
             
-            <small>［パルム・ドールの系譜］　ハブ</small>
-            <b><span class="seg-copy">ジャングルの奥の戦争と東京の片隅の家族。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
-          <a class="fstop" href="w/shoplifters/?c=shoplifters--apocalypse-now">
-            <span class="st-img"><img src="img/works/shoplifters.jpg" alt="是枝裕和『万引き家族』" data-k="shoplifters" loading="lazy" decoding="async"></span>
-            <span class="st-txt"><small>映画・2018年</small>
-              <b>是枝裕和『万引き家族』</b><span>万引きで暮らしを補う一家と、彼らに拾われた少女を描いた映画。2018年のカンヌ国際映画祭でパルム・ドールを受けた。</span></span>
+            <small>［名前が語る産地］　似ている</small>
+            <b><span class="seg-copy">焼酎の名は晩酌の言葉、ワイナリーの名は地名。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
+          <a class="fstop" href="w/domaine-tetta/?c=daiyame--domaine-tetta">
+            <span class="st-img"><img src="img/works/domaine-tetta.jpg" alt="ドメーヌ・テッタ" data-k="domaine-tetta" loading="lazy" decoding="async"></span>
+            <span class="st-txt"><small>ワイナリー</small>
+              <b>ドメーヌ・テッタ</b><span>岡山県新見市哲多町でぶどうを育て、ワインを造るワイナリー。名前は土地の名から。</span></span>
           </a>
         </li>
         <li class="stop">
           
-          <a class="seg" href="c/koreeda-hirokazu--shoplifters/">
+          <a class="seg" href="c/daiyame--tanqueray-no-ten/">
             
-            <small>［家族とは何か］　作者と作品</small>
-            <b><span class="seg-copy">日本映画が21年ぶりにパルム・ドールを得た。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
-          <a class="fstop" href="w/koreeda-hirokazu/?c=koreeda-hirokazu--shoplifters">
-            <span class="st-img"><img src="img/works/koreeda-hirokazu.jpg" alt="是枝裕和" data-k="koreeda-hirokazu" loading="lazy" decoding="async"></span>
-            <span class="st-txt"><small>人物・1962年</small>
-              <b>是枝裕和</b><span>テレビのドキュメンタリー演出から映画監督になった。『誰も知らない』『万引き家族』『海街diary』などを撮っている。</span></span>
+            <small>［香りで選ぶ蒸留酒］　似ている</small>
+            <b><span class="seg-copy">ライチのような芋焼酎と生の柑橘のジン。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
+          <a class="fstop" href="w/tanqueray-no-ten/?c=daiyame--tanqueray-no-ten">
+            <span class="st-img"><img src="img/works/tanqueray-no-ten.jpg" alt="タンカレー No.10" data-k="tanqueray-no-ten" loading="lazy" decoding="async"></span>
+            <span class="st-txt"><small>酒</small>
+              <b>タンカレー No.10</b><span>英国のジン、タンカレーの上位銘柄。生の柑橘を使って蒸留されることで知られる。</span></span>
           </a>
         </li>
         <li class="stop">
           
-          <a class="seg" href="c/koreeda-hirokazu--nobody-knows/">
+          <a class="seg" href="c/kanyoro--nurungji/">
             
-            <small>［見過ごされた子どもたち］　作者と作品</small>
-            <b><span class="seg-copy">14歳が、カンヌで最年少の男優賞を得た。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
-          <a class="fstop" href="w/nobody-knows/?c=koreeda-hirokazu--nobody-knows">
-            <span class="st-img"><img src="img/works/nobody-knows.jpg" alt="是枝裕和『誰も知らない』" data-k="nobody-knows" loading="lazy" decoding="async"></span>
-            <span class="st-txt"><small>映画・2004年</small>
-              <b>是枝裕和『誰も知らない』</b><span>母親に置き去りにされた四人のきょうだいの暮らしを描いた映画。長男を演じた柳楽優弥がカンヌ国際映画祭で最優秀男優賞を受けた。</span></span>
-          </a>
-        </li>
-        <li class="stop branch">
-          
-          <a class="seg" href="c/heart-of-darkness--apocalypse-now/">
-            <span class="seg-from">地獄の黙示録 から分岐</span>
-            <small>［川を遡る物語］　事実</small>
-            <b><span class="seg-copy">コンゴの川は、ベトナムの川になった。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
-          <a class="fstop" href="w/heart-of-darkness/?c=heart-of-darkness--apocalypse-now">
-            <span class="st-img"><img src="img/works/heart-of-darkness.jpg" alt="ジョセフ・コンラッド『闇の奥』" data-k="heart-of-darkness" loading="lazy" decoding="async"></span>
-            <span class="st-txt"><small>書籍・1899年</small>
-              <b>ジョセフ・コンラッド『闇の奥』</b><span>象牙交易の奥地へ向かう船乗りマーロウが、消息を絶った交易所の責任者クルツを探す物語。当時のコンゴ自由国が舞台とされる。</span></span>
+            <small>［東京の中の隣国］　似ている</small>
+            <b><span class="seg-copy">神田の中国料理と、赤坂の韓国料理。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
+          <a class="fstop" href="w/nurungji/?c=kanyoro--nurungji">
+            <span class="st-img"><img src="img/works/nurungji.jpg" alt="ヌルンジ（赤坂）" data-k="nurungji" loading="lazy" decoding="async"></span>
+            <span class="st-txt"><small>店</small>
+              <b>ヌルンジ（赤坂）</b><span>東京・赤坂の韓国料理店。店名の「ヌルンジ」は韓国語で、釜の底にできるおこげのこと。</span></span>
           </a>
         </li>
         <li class="stop">
           
-          <a class="seg" href="c/lumumba--heart-of-darkness/">
+          <a class="seg" href="c/zhou-enlai--zhou-tokyo-diary/">
             
-            <small>［コンゴという土地］　ハブ</small>
-            <b><span class="seg-copy">植民地の奥地と、独立の叫び。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
-          <a class="fstop" href="w/lumumba/?c=lumumba--heart-of-darkness">
-            <span class="st-img"><img src="img/works/lumumba.jpg" alt="ラウル・ペック『ルムンバの叫び』" data-k="lumumba" loading="lazy" decoding="async"></span>
-            <span class="st-txt"><small>映画・2000年</small>
-              <b>ラウル・ペック『ルムンバの叫び』</b><span>コンゴ独立の指導者パトリス・ルムンバの、首相就任から殺害までを描いた映画。</span></span>
+            <small>［書き手と日記］　作者と作品</small>
+            <b><span class="seg-copy">のちの総理は、十九歳で東京にいた。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
+          <a class="fstop" href="w/zhou-enlai/?c=zhou-enlai--zhou-tokyo-diary">
+            <span class="st-img"><img src="img/works/zhou-enlai.jpg" alt="周恩来" data-k="zhou-enlai" loading="lazy" decoding="async"></span>
+            <span class="st-txt"><small>人物・1898年</small>
+              <b>周恩来</b><span>1917年から1919年まで日本に留学し、帰国後は革命運動に加わった。1949年の建国から亡くなるまで、政務院総理、のち国務院総理を務めた。</span></span>
+          </a>
+        </li>
+        <li class="stop">
+          
+          <a class="seg" href="c/minakata-mandala--minakata-toki-letters/">
+            
+            <small>［手紙の中の曼荼羅］　事実</small>
+            <b><span class="seg-copy">その図は、手紙に描かれていた。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
+          <a class="fstop" href="w/minakata-toki-letters/?c=minakata-mandala--minakata-toki-letters">
+            <span class="st-img"><img src="img/works/minakata-toki-letters.jpg" alt="『南方熊楠 土宜法竜 往復書簡』" data-k="minakata-toki-letters" loading="lazy" decoding="async"></span>
+            <span class="st-txt"><small>書籍・1990年</small>
+              <b>『南方熊楠 土宜法竜 往復書簡』</b><span>ロンドンで出会った南方熊楠と、真言宗の僧・土宜法龍が交わした手紙をまとめたもの。二人は仏教と科学をめぐって長い議論を交わした。</span></span>
+          </a>
+        </li>
+        <li class="stop">
+          
+          <a class="seg" href="c/james-j-gibson--affordance/">
+            
+            <small>［名づけた人］　作者と作品</small>
+            <b><span class="seg-copy">椅子は「座る」ことを差し出している。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
+          <a class="fstop" href="w/james-j-gibson/?c=james-j-gibson--affordance">
+            <span class="st-img"><img src="img/works/james-j-gibson.jpg" alt="ジェームズ・J・ギブソン" data-k="james-j-gibson" loading="lazy" decoding="async"></span>
+            <span class="st-txt"><small>人物・1904年</small>
+              <b>ジェームズ・J・ギブソン</b><span>アメリカの知覚心理学者。環境が動物に差し出す行為の可能性を「アフォーダンス」と名づけた。</span></span>
+          </a>
+        </li>
+        <li class="stop">
+          
+          <a class="seg" href="c/think-different--uniqlock/">
+            
+            <small>［時代を刻んだ広告］　似ている</small>
+            <b><span class="seg-copy">商品の説明をせず、ブランドを語った。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
+          <a class="fstop" href="w/uniqlock/?c=think-different--uniqlock">
+            <span class="st-img"><img src="img/works/uniqlock.jpg" alt="UNIQLOCK" data-k="uniqlock" loading="lazy" decoding="async"></span>
+            <span class="st-txt"><small>CM・2007年</small>
+              <b>UNIQLOCK</b><span>ユニクロのウェブ広告。音楽とダンスと時計を組み合わせ、時刻を刻み続けるブログパーツとして世界に広まった。</span></span>
           </a>
         </li></ol>
             <div class="rail-more" id="railMore" aria-hidden="true"></div>
@@ -412,17 +417,17 @@ document.addEventListener('click', function (e) {
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 <script type="application/ld+json" id="ld">{"@context":"https://schema.org","@type":"Article","headline":"着想の日の回想に、ラスコーリニコフの名。","alternativeHeadline":"アウトサイダーの系譜","about":[{"@type":"Book","name":"アウトサイダー","description":"社会の中に居場所を見いだせない人間＝アウトサイダーを、カミュ、ドストエフスキー、ゴッホらの作品と生涯からたどった評論。20代半ばのデビュー作がベストセラーになった。","creator":{"@type":"Person","name":"コリン・ウィルソン"}},{"@type":"Person","name":"ドストエフスキー","description":"ロシアの作家。『罪と罰』『カラマーゾフの兄弟』などで、人間の内面と信仰を深く描いた。"}],"author":{"@type":"Person","name":"生成AI（初稿）"},"datePublished":"2026-09-30T04:50:00.000Z","dateModified":"2026-09-30T04:50:00.000Z","inLanguage":"ja","articleBody":"『アウトサイダー』の着想は、ラスコーリニコフに自分を重ねた日に生まれた。コリン・ウィルソンの『アウトサイダー』（1956）は、社会の外側に立つ作家や芸術家、思想家たちを論じた本だ。そのなかで、ドストエフスキーも取り上げられている。ウィルソン自身の回想によれば、1954年のクリスマス、彼は一人きりの部屋で日記を書きはじめた。社会から完全に切り離された自分は、好きな小説の登場人物たちと同じ立場にいる。ドストエフスキーのラスコーリニコフ、リルケ『マルテの手記』のマルテ、ハムスン『飢え』の若い作家。それを書き進めるうちに、これは一冊の本になると気づいた。日記の後ろのページの冒頭には、「文学におけるアウトサイダー」という本のためのノートと書きつけた。『罪と罰』のラスコーリニコフは、非凡な人間には法を踏み越える権利があると考えて老婆を殺し、やがて社会から切り離されていく。ウィルソンが自分の姿を重ねたのは、そうして孤立していく青年だったとも読める。","url":"https://beautifulcontext.com/c/the-outsider--fyodor-dostoevsky/","citation":[{"@type":"CreativeWork","name":"Crime and Punishment","url":"https://www.gutenberg.org/files/2554/2554-h/2554-h.htm","publisher":{"@type":"Organization","name":"Project Gutenberg"}},{"@type":"CreativeWork","name":"Colin Wilson","url":"https://en.wikipedia.org/wiki/Colin_Wilson","publisher":{"@type":"Organization","name":"Wikipedia"}},{"@type":"CreativeWork","name":"コリン・ウィルソン","url":"https://ja.wikipedia.org/wiki/%E3%82%B3%E3%83%AA%E3%83%B3%E3%83%BB%E3%82%A6%E3%82%A3%E3%83%AB%E3%82%BD%E3%83%B3","publisher":{"@type":"Organization","name":"Wikipedia"}},{"@type":"CreativeWork","name":"Crime and Punishment","url":"https://en.wikipedia.org/wiki/Crime_and_Punishment","publisher":{"@type":"Organization","name":"Wikipedia"}}],"image":"https://beautifulcontext.com/img/works/the-outsider.jpg"}</script>
 
-<script src="js/config.js?v=174"></script>
-<script src="js/seed.js?v=174"></script>
-<script src="js/sources.js?v=174"></script>
-<script src="js/backend.js?v=174"></script>
-<script src="js/store.js?v=174"></script>
-<script src="js/social.js?v=174"></script>
-<script src="js/render.js?v=174"></script>
-<script src="js/login.js?v=174"></script>
-<script src="js/login-page.js?v=174"></script>
-<script src="js/report.js?v=174"></script>
-<script src="js/transition.js?v=174"></script>
-<script src="js/app.js?v=174"></script>
+<script src="js/config.js?v=175"></script>
+<script src="js/seed.js?v=175"></script>
+<script src="js/sources.js?v=175"></script>
+<script src="js/backend.js?v=175"></script>
+<script src="js/store.js?v=175"></script>
+<script src="js/social.js?v=175"></script>
+<script src="js/render.js?v=175"></script>
+<script src="js/login.js?v=175"></script>
+<script src="js/login-page.js?v=175"></script>
+<script src="js/report.js?v=175"></script>
+<script src="js/transition.js?v=175"></script>
+<script src="js/app.js?v=175"></script>
 </body>
 </html>

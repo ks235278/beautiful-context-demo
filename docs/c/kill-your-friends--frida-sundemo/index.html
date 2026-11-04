@@ -43,9 +43,9 @@ try { if (sessionStorage.getItem('bc-resume')) document.documentElement.classLis
 <link rel="preload" as="image" href="img/logo-layer-words.png">
 <!-- 台本も先に取りに行く（静的なページは台本より先に本文が描かれる。遅い回線で、触れて動くまでの間を縮める）。
      src と同じアドレス（?v= まで）でないと、二度取りに行く -->
-<link rel="preload" as="script" href="js/seed.js?v=174">
-<link rel="preload" as="script" href="js/app.js?v=174">
-<link rel="manifest" href="manifest.webmanifest?v=174">
+<link rel="preload" as="script" href="js/seed.js?v=175">
+<link rel="preload" as="script" href="js/app.js?v=175">
+<link rel="manifest" href="manifest.webmanifest?v=175">
 <link rel="apple-touch-icon" href="icon-180.png">
 <!-- タブと検索結果に出る小さな印。アプリの印（ホーム画面のアイコン）と同じ形 -->
 <link rel="icon" href="favicon.ico" sizes="16x16 32x32 48x48">
@@ -76,13 +76,13 @@ if (location.hostname === 'beautifulcontext.com'){
   document.head.appendChild(ga);
 }
 </script>
-<script src="js/theme.js?v=174"></script>
-<link rel="stylesheet" href="app.css?v=174">
+<script src="js/theme.js?v=175"></script>
+<link rel="stylesheet" href="app.css?v=175">
 <!-- 読む画面の使い勝手（2026.10.24）。app.css のすぐあと -->
-<link rel="stylesheet" href="ux.css?v=174">
-<link rel="stylesheet" href="fade.css?v=174">
+<link rel="stylesheet" href="ux.css?v=175">
+<link rel="stylesheet" href="fade.css?v=175">
 <!-- editorial-ink（紙・墨・金）：◆ の罫と、紙の上か絵の上かで変わる決まり。ux.css のあと -->
-<link rel="stylesheet" href="ink.css?v=174">
+<link rel="stylesheet" href="ink.css?v=175">
 <!-- 台本（js）が揃うまで：まだ押しても動かないもの（‹・絵の横の ‹ ›・つながりを辿る）を少し薄くし、下の帯の上の縁に細い金の線を走らせる。
      app.js が最後に body.app-ready を付けて外す。すぐ揃うときは何も見せない（0.3 秒待ってから出す） -->
 <style>
@@ -132,6 +132,8 @@ document.addEventListener('click', function (e) {
 <div class="dock" id="dock">
   <div class="map" id="map"></div>
   <p class="sel-hint" id="selHint" aria-live="polite"></p>
+  <!-- 携帯：つながりを辿るの行き先を一行で（パソコンは次の札 next-peek） -->
+  <p class="dock-next" id="dockNext"></p>
   <p class="dock-brand" id="dockBrand">BEAUTIFUL CONTEXT</p>
   <!-- 読む画面（Today・コンテクスト・作品）では NEXT UNIVERSE だけ。戻るのは左の端から右へ払う（iPhone と同じ）か、上の ‹。
        ReMixIt!（つながりを創る）は編集の側の道具なので、UniverseIt! の画面とメニューに置く -->
@@ -192,7 +194,7 @@ document.addEventListener('click', function (e) {
   <div class="view-in" id="viewIn"><!--bc-body-->
       <article class="page cpage">
         <button type="button" class="back-close" data-close="" aria-label="Today's Editor's Choice へ戻る" title="Today's Editor's Choice へ"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 4.5 7.5 12l7.5 7.5"></path></svg></button>
-        <div class="duo-hero"><a class="c-logo on-paper" href="#/" data-top="" aria-label="BEAUTIFUL CONTEXT（TOP へ戻る）"><img src="img/logo-navy.png" alt=""></a><span class="only-sp"><button type="button" class="login-chip" data-login="">Login</button></span><div class="duo"><button type="button" class="duo-go" data-step="0" aria-label="映画『マッド・ドライヴ』（原題 Kill Your Friends）の作品ページへ"><div class="art"><img src="img/works/kill-your-friends.jpg" alt="映画『マッド・ドライヴ』（原題 Kill Your Friends）" data-k="kill-your-friends" decoding="async" fetchpriority="low"></div></button><button type="button" class="duo-go" data-step="2" aria-label="フリーダ・サンデモの作品ページへ"><div class="art"><img src="img/works/frida-sundemo.jpg" alt="フリーダ・サンデモ" data-k="frida-sundemo" decoding="async" fetchpriority="low"></div></button><i class="swap" aria-hidden="true">↔</i></div><button type="button" class="ctx-nav prev" data-ctx-go="-1" aria-label="一つ前のつながりへ">‹</button><button type="button" class="ctx-nav next" data-ctx-go="1" aria-label="次のつながりへ">›</button></div>
+        <div class="duo-hero"><a class="c-logo on-paper" href="#/" data-top="" aria-label="BEAUTIFUL CONTEXT（TOP へ戻る）"><img src="img/logo-navy.png" alt=""></a><span class="only-sp"><button type="button" class="login-chip" data-login="">Login</button></span><div class="duo"><button type="button" class="duo-go" data-step="0" aria-label="映画『マッド・ドライヴ』（原題 Kill Your Friends）の作品ページへ"><div class="art"><img src="img/works/kill-your-friends.jpg" alt="映画『マッド・ドライヴ』（原題 Kill Your Friends）" data-k="kill-your-friends" decoding="async" fetchpriority="low"></div></button><button type="button" class="duo-go" data-step="2" aria-label="フリーダ・サンデモの作品ページへ"><div class="art"><img src="img/works/frida-sundemo.jpg" alt="フリーダ・サンデモ" data-k="frida-sundemo" decoding="async" fetchpriority="low"></div></button><i class="swap" aria-hidden="true">↔</i></div><button type="button" class="ctx-nav prev" data-ctx-go="-1" aria-label="一つ前のつながりへ">‹</button><button type="button" class="ctx-nav next" data-ctx-go="1" aria-label="次へ：フリーダ・サンデモ">›</button></div>
         <section class="context-lead">
           
           <div class="ed-row">
@@ -264,139 +266,142 @@ document.addEventListener('click', function (e) {
         <li class="stop first">
           
           
-          <a class="fstop" href="w/frida-sundemo/">
-            <span class="st-img"><img src="img/works/frida-sundemo.jpg" alt="フリーダ・サンデモ" data-k="frida-sundemo" loading="lazy" decoding="async"></span>
-            <span class="st-txt"><small>音楽</small>
-              <b>フリーダ・サンデモ</b><span>スウェーデンのシンガーソングライター。オルタナティブ・ポップの歌い手として紹介され、映画『マッド・ドライヴ』で映画デビューを果たした。</span></span>
+          <a class="fstop" href="w/tengoku-book/?c=tengoku-film--tengoku-book">
+            <span class="st-img"><img src="img/works/tengoku-book.jpg" alt="森村桂『天国にいちばん近い島』" data-k="tengoku-book" loading="lazy" decoding="async"></span>
+            <span class="st-txt"><small>書籍・1966年</small>
+              <b>森村桂『天国にいちばん近い島』</b><span>1964年、ひとりでニューカレドニアへ旅立った著者の旅行記。ベストセラーになった。</span></span>
           </a>
         </li>
-        <li class="stop newline">
+        <li class="stop">
+          
+          <a class="seg" href="c/tengoku-book--rebellion-ordre-et-morale/">
+            
+            <small>［天国の島の裏側］　ハブ</small>
+            <b><span class="seg-copy">天国にいちばん近い島は人質事件の島でもある。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
+          <a class="fstop" href="w/rebellion-ordre-et-morale/?c=tengoku-book--rebellion-ordre-et-morale">
+            <span class="st-img"><img src="img/works/rebellion-ordre-et-morale.jpg" alt="映画『裏切りの戦場 葬られた誓い』" data-k="rebellion-ordre-et-morale" loading="lazy" decoding="async"></span>
+            <span class="st-txt"><small>映画・2011年</small>
+              <b>映画『裏切りの戦場 葬られた誓い』</b><span>1988年、フランス領ニューカレドニアのウベア島で起きた人質事件を、交渉にあたった国家憲兵隊の特殊部隊の隊長の視点から描いた。</span></span>
+          </a>
+        </li>
+        <li class="stop">
+          
+          <a class="seg" href="c/tengoku-film--harada-tomoyo/">
+            
+            <small>［主演］　作者と作品</small>
+            <b><span class="seg-copy">亡き父の言葉を頼りに、少女は南の島へ向かう。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
+          <a class="fstop" href="w/harada-tomoyo/?c=tengoku-film--harada-tomoyo">
+            <span class="st-img"><img src="img/works/harada-tomoyo.jpg" alt="原田知世" data-k="harada-tomoyo" loading="lazy" decoding="async"></span>
+            <span class="st-txt"><small>人物・1967年</small>
+              <b>原田知世</b><span>1983年、大林宣彦監督『時をかける少女』で映画に主演。大林監督の『天国にいちばん近い島』にも主演し、歌手としても活動を続けている。</span></span>
+          </a>
+        </li>
+        <li class="stop">
           <p class="transfer"><span>別の路線へ</span></p>
-          
-          <a class="fstop" href="w/jidai-no-kishimi/">
-            <span class="st-img"><img src="img/works/jidai-no-kishimi.jpg" alt="鷲田清一『時代のきしみ——〈わたし〉と国家のあいだ』" data-k="jidai-no-kishimi" loading="lazy" decoding="async"></span>
-            <span class="st-txt"><small>書籍・2002年</small>
-              <b>鷲田清一『時代のきしみ——〈わたし〉と国家のあいだ』</b><span>法律や制度、習俗や縁といった「生の背景」が、個人の存在をどう編み上げているのかを考える哲学エッセイ集。</span></span>
+          <a class="seg" href="c/sobagome-jiru--grechka/">
+            
+            <small>［そばの実］　ハブ</small>
+            <b><span class="seg-copy">麺にしないそばを、祖谷もロシアも食べる。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
+          <a class="fstop" href="w/grechka/?c=sobagome-jiru--grechka">
+            <span class="st-img"><img src="img/works/grechka.jpg" alt="ロシア「そばの実（グレーチカ）」" data-k="grechka" loading="lazy" decoding="async"></span>
+            <span class="st-txt"><small>料理</small>
+              <b>ロシア「そばの実（グレーチカ）」</b><span>ロシアで粥（カーシャ）にして食べられる、そばの実。ロシア語ではグレーチカと呼ぶ。</span></span>
+          </a>
+        </li>
+        <li class="stop">
+          <p class="transfer"><span>別の路線へ</span></p>
+          <a class="seg" href="c/lorenzos-oil--adrenoleukodystrophy/">
+            
+            <small>［実話の病］　事実</small>
+            <b><span class="seg-copy">息子を救う方法を、両親は自ら探した。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
+          <a class="fstop" href="w/adrenoleukodystrophy/?c=lorenzos-oil--adrenoleukodystrophy">
+            <span class="st-img"><img src="img/works/adrenoleukodystrophy.jpg" alt="副腎白質ジストロフィー（ALD）" data-k="adrenoleukodystrophy" loading="lazy" decoding="async"></span>
+            <span class="st-txt"><small>病気</small>
+              <b>副腎白質ジストロフィー（ALD）</b><span>脳の白質と副腎が侵される遺伝性の病気。主に男の子に発症する。</span></span>
           </a>
         </li>
         <li class="stop">
           
-          <a class="seg" href="c/washida-kiyokazu--jidai-no-kishimi/">
+          <a class="seg" href="c/highest-2-lowest--high-and-low/">
             
-            <small>［書き手と本］　作者と作品</small>
-            <b><span class="seg-copy">時代を拒むほど、時代に絡めとられる。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
-          <a class="fstop" href="w/washida-kiyokazu/?c=washida-kiyokazu--jidai-no-kishimi">
-            <span class="st-img"><img src="img/works/washida-kiyokazu.jpg" alt="鷲田清一" data-k="washida-kiyokazu" loading="lazy" decoding="async"></span>
-            <span class="st-txt"><small>人物・1949年</small>
-              <b>鷲田清一</b><span>京都生まれの哲学者。大阪大学総長をつとめた。『モードの迷宮』『「聴く」ことの力』など、ファッションや身体、ケアを哲学の主題にしてきた。</span></span>
+            <small>［原作から再解釈へ］　事実</small>
+            <b><span class="seg-copy">誘拐劇は、60年後にアメリカへ戻った。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
+          <a class="fstop" href="w/high-and-low/?c=highest-2-lowest--high-and-low">
+            <span class="st-img"><img src="img/highlow.jpg" alt="黒澤明『天国と地獄』" data-k="high-and-low" loading="lazy" decoding="async"></span>
+            <span class="st-txt"><small>映画・1963年</small>
+              <b>黒澤明『天国と地獄』</b><span>エド・マクベインの小説『King’s Ransom』を原作に、誘拐事件を通じて企業家の倫理と社会の格差を描いた作品。</span></span>
           </a>
         </li>
         <li class="stop">
           
-          <a class="seg" href="c/washida-kiyokazu--homme-less/">
+          <a class="seg" href="c/high-and-low--kings-ransom/">
             
-            <small>［服を着る哲学］　似ている</small>
-            <b><span class="seg-copy">哲学者は、服を着ることを考えた。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
-          <a class="fstop" href="w/homme-less/?c=washida-kiyokazu--homme-less">
-            <span class="st-img"><img src="img/works/homme-less.jpg" alt="映画『ホームレス ニューヨークと寝た男』" data-k="homme-less" loading="lazy" decoding="async"></span>
-            <span class="st-txt"><small>映画・2014年</small>
-              <b>映画『ホームレス ニューヨークと寝た男』</b><span>ファッション写真家で元モデルのマーク・レイは、マンハッタンのアパートの屋上で寝袋にくるまって暮らしていた。その日々を追ったドキュメンタリー。</span></span>
-          </a>
-        </li>
-        <li class="stop">
-          
-          <a class="seg" href="c/homme-less--happy-pharrell/">
-            
-            <small>［屋根のない部屋］　似ている</small>
-            <b><span class="seg-copy">屋根のない部屋でも、手を叩ける。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
-          <a class="fstop" href="w/happy-pharrell/?c=homme-less--happy-pharrell">
-            <span class="st-img"><img src="img/works/happy-pharrell.jpg" alt="ファレル・ウィリアムス「HAPPY」" data-k="happy-pharrell" loading="lazy" decoding="async"></span>
-            <span class="st-txt"><small>音楽・2013年</small>
-              <b>ファレル・ウィリアムス「HAPPY」</b><span>映画『怪盗グルーのミニオン危機一発』のために書かれた曲。24時間ぶんのミュージックビデオがロサンゼルスで撮影され、のちに世界各地で人々が踊る動画が投稿された。</span></span>
-          </a>
-        </li>
-        <li class="stop branch">
-          
-          <a class="seg" href="c/jidai-no-kishimi--hannah-arendt/">
-            <span class="seg-from">時代のきしみ——〈わたし〉と国家のあいだ から分岐</span>
-            <small>［個人と国家］　似ている</small>
-            <b><span class="seg-copy">〈わたし〉と国家のあいだに立つ。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
-          <a class="fstop" href="w/hannah-arendt/?c=jidai-no-kishimi--hannah-arendt">
-            <span class="st-img"><img src="img/works/hannah-arendt.jpg" alt="ハンナ・アーレント" data-k="hannah-arendt" loading="lazy" decoding="async"></span>
-            <span class="st-txt"><small>人物・1906年</small>
-              <b>ハンナ・アーレント</b><span>ドイツ生まれの政治哲学者。ナチスを逃れて米国に渡り、『全体主義の起原』『人間の条件』、アイヒマン裁判の報告で「悪の凡庸さ」を論じた。</span></span>
-          </a>
-        </li>
-        <li class="stop">
-          
-          <a class="seg" href="c/hannah-arendt--nineteen-eighty-four/">
-            
-            <small>［全体主義］　似ている</small>
-            <b><span class="seg-copy">人を丸ごと呑み込む国家のしくみ。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
-          <a class="fstop" href="w/nineteen-eighty-four/?c=hannah-arendt--nineteen-eighty-four">
-            <span class="st-img"><img src="img/works/nineteen-eighty-four.jpg" alt="ジョージ・オーウェル『1984年』" data-k="nineteen-eighty-four" loading="lazy" decoding="async"></span>
-            <span class="st-txt"><small>書籍・1949年</small>
-              <b>ジョージ・オーウェル『1984年』</b><span>「ビッグ・ブラザー」がすべてを監視する全体主義国家オセアニアで、真理省に勤めるウィンストンが体制に疑いを抱く。</span></span>
-          </a>
-        </li>
-        <li class="stop">
-          
-          <a class="seg" href="c/nineteen-eighty-four--blade-runner/">
-            
-            <small>［リドリー・スコットを経由して］　ハブ</small>
-            <b><span class="seg-copy">広告「1984」も、スコットが撮っていた。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
-          <a class="fstop" href="w/blade-runner/?c=nineteen-eighty-four--blade-runner">
-            <span class="st-img"><img src="img/works/blade-runner.jpg" alt="リドリー・スコット『ブレードランナー』" data-k="blade-runner" loading="lazy" decoding="async"></span>
-            <span class="st-txt"><small>映画・1982年</small>
-              <b>リドリー・スコット『ブレードランナー』</b><span>フィリップ・K・ディックの小説『アンドロイドは電気羊の夢を見るか？』を原作に、2019年のロサンゼルスで人造人間を追う男を描いた映画。</span></span>
-          </a>
-        </li>
-        <li class="stop">
-          
-          <a class="seg" href="c/blade-runner--blade-runner-2049/">
-            
-            <small>［三十年後のロサンゼルス］　事実</small>
-            <b><span class="seg-copy">2019年の雨の街から、2049年の荒野へ。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
-          <a class="fstop" href="w/blade-runner-2049/?c=blade-runner--blade-runner-2049">
-            <span class="st-img"><img src="img/works/blade-runner-2049.jpg" alt="ヴィルヌーヴ『ブレードランナー 2049』" data-k="blade-runner-2049" loading="lazy" decoding="async"></span>
-            <span class="st-txt"><small>映画・2017年</small>
-              <b>ヴィルヌーヴ『ブレードランナー 2049』</b><span>前作から30年後の2049年を舞台にした続編。</span></span>
-          </a>
-        </li>
-        <li class="stop">
-          
-          <a class="seg" href="c/blade-runner-2049--blade-runner-2099/">
-            
-            <small>［さらに五十年後］　事実</small>
-            <b><span class="seg-copy">2049年の先に、2099年が続く。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
-          <a class="fstop" href="w/blade-runner-2099/?c=blade-runner-2049--blade-runner-2099">
-            <span class="st-img"><img src="img/works/blade-runner-2099.jpg" alt="『ブレードランナー 2099』" data-k="blade-runner-2099" loading="lazy" decoding="async"></span>
-            <span class="st-txt"><small>ドラマ</small>
-              <b>『ブレードランナー 2099』</b><span>2049年からさらに50年後を舞台にしたドラマ・シリーズ。ミシェル・ヨーとハンター・シェイファーが主演し、2026年11月25日から Prime Video で配信される。</span></span>
-          </a>
-        </li>
-        <li class="stop branch">
-          
-          <a class="seg" href="c/greg-egan--blade-runner-2049/">
-            <span class="seg-from">ブレードランナー 2049 から分岐</span>
-            <small>［記憶は誰のものか］　似ている</small>
-            <b><span class="seg-copy">植えつけられた記憶でもそれは自分なのか。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
-          <a class="fstop" href="w/greg-egan/?c=greg-egan--blade-runner-2049">
-            <span class="st-img"><img src="img/works/greg-egan.jpg" alt="グレッグ・イーガン" data-k="greg-egan" loading="lazy" decoding="async"></span>
-            <span class="st-txt"><small>人物・1961年</small>
-              <b>グレッグ・イーガン</b><span>オーストラリアのSF作家。『順列都市』『ディアスポラ』など、意識や自己を数学と物理から問い直すハードSFで知られる。</span></span>
-          </a>
-        </li>
-        <li class="stop branch">
-          
-          <a class="seg" href="c/do-androids-dream--blade-runner/">
-            <span class="seg-from">ブレードランナー から分岐</span>
             <small>［小説から映画へ］　事実</small>
-            <b><span class="seg-copy">電気羊の夢は、酸性雨の街になった。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
-          <a class="fstop" href="w/do-androids-dream/?c=do-androids-dream--blade-runner">
-            <span class="st-img"><img src="img/works/do-androids-dream.jpg" alt="フィリップ・K・ディック『アンドロイドは電気羊の夢を見るか？』" data-k="do-androids-dream" loading="lazy" decoding="async"></span>
-            <span class="st-txt"><small>書籍・1968年</small>
-              <b>フィリップ・K・ディック『アンドロイドは電気羊の夢を見るか？』</b><span>核戦争のあとの地球で、火星から逃げてきたアンドロイドを追う賞金稼ぎリック・デッカードの物語。映画『ブレードランナー』の原作。</span></span>
+            <b><span class="seg-copy">身代金の電話は、横浜の高台で鳴った。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
+          <a class="fstop" href="w/kings-ransom/?c=high-and-low--kings-ransom">
+            <span class="st-img"><img src="img/kings-ransom.jpg" alt="エド・マクベイン『キングの身代金』" data-k="kings-ransom" loading="lazy" decoding="async"></span>
+            <span class="st-txt"><small>書籍・1959年</small>
+              <b>エド・マクベイン『キングの身代金』</b><span>架空の街アイソラの87分署を舞台にした警察小説シリーズの一作。原題『King’s Ransom』。靴会社の重役のもとに、身代金を要求する電話がかかってくる。</span></span>
+          </a>
+        </li>
+        <li class="stop">
+          
+          <a class="seg" href="c/highest-2-lowest--kings-ransom/">
+            
+            <small>［もう一本の源流］　事実</small>
+            <b><span class="seg-copy">黒澤の映画の前にも、一冊の小説があった。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
+          <a class="fstop" href="w/highest-2-lowest/?c=highest-2-lowest--kings-ransom">
+            <span class="st-img"><img src="img/highest.jpg" alt="『HIGHEST 2 LOWEST』" data-k="highest-2-lowest" loading="lazy" decoding="async"></span>
+            <span class="st-txt"><small>映画・2025年</small>
+              <b>『HIGHEST 2 LOWEST』</b><span>スパイク・リーが、黒澤明『天国と地獄』の構造を現代のニューヨークへ移し替えた作品。富、家族、選択の価値が問われる。</span></span>
+          </a>
+        </li>
+        <li class="stop">
+          
+          <a class="seg" href="c/highest-2-lowest--pluribus/">
+            
+            <small>［同じ配信の窓］　事実</small>
+            <b><span class="seg-copy">誘拐劇とSFが、同じ画面から届く。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
+          <a class="fstop" href="w/pluribus/?c=highest-2-lowest--pluribus">
+            <span class="st-img"><img src="img/works/pluribus.jpg" alt="ヴィンス・ギリガン『プルリブス』" data-k="pluribus" loading="lazy" decoding="async"></span>
+            <span class="st-txt"><small>ドラマ・2025年</small>
+              <b>ヴィンス・ギリガン『プルリブス』</b><span>『ブレイキング・バッド』のヴィンス・ギリガンが手がけた Apple TV のドラマ。人々の心がひとつに溶け合っていく世界で、その輪に加われない数少ない人間の一人である女性を描く。</span></span>
+          </a>
+        </li>
+        <li class="stop">
+          
+          <a class="seg" href="c/pluribus--parasyte/">
+            
+            <small>［内側から入れ替わる人類］　似ている</small>
+            <b><span class="seg-copy">隣の人が、昨日までの人ではない。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
+          <a class="fstop" href="w/parasyte/?c=pluribus--parasyte">
+            <span class="st-img"><img src="img/works/parasyte.jpg" alt="岩明均『寄生獣』" data-k="parasyte" loading="lazy" decoding="async"></span>
+            <span class="st-txt"><small>漫画・1989年</small>
+              <b>岩明均『寄生獣』</b><span>人間に寄生する生物が現れた世界で、右手に寄生された高校生・泉新一と「ミギー」の共生を描いた漫画。</span></span>
+          </a>
+        </li>
+        <li class="stop">
+          
+          <a class="seg" href="c/chainsaw-man--parasyte/">
+            
+            <small>［体に宿るもう一つの命］　似ている</small>
+            <b><span class="seg-copy">悪魔の心臓と、右手の寄生生物。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
+          <a class="fstop" href="w/chainsaw-man/?c=chainsaw-man--parasyte">
+            <span class="st-img"><img src="img/works/chainsaw-man.jpg" alt="藤本タツキ『チェンソーマン』" data-k="chainsaw-man" loading="lazy" decoding="async"></span>
+            <span class="st-txt"><small>漫画・2018年</small>
+              <b>藤本タツキ『チェンソーマン』</b><span>悪魔のポチタと一体になり、チェンソーの悪魔の力を得た少年デンジの物語。2018年に週刊少年ジャンプで連載が始まった。</span></span>
+          </a>
+        </li>
+        <li class="stop">
+          
+          <a class="seg" href="c/fujimoto-tatsuki--chainsaw-man/">
+            
+            <small>［悪魔を狩る少年］　作者と作品</small>
+            <b><span class="seg-copy">チェンソーの心臓が、借金を負う少年に宿る。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
+          <a class="fstop" href="w/fujimoto-tatsuki/?c=fujimoto-tatsuki--chainsaw-man">
+            <span class="st-img"><img src="img/works/fujimoto-tatsuki.jpg" alt="藤本タツキ" data-k="fujimoto-tatsuki" loading="lazy" decoding="async"></span>
+            <span class="st-txt"><small>人物</small>
+              <b>藤本タツキ</b><span>『チェンソーマン』『ルックバック』『ファイアパンチ』の漫画家。</span></span>
           </a>
         </li></ol>
             <div class="rail-more" id="railMore" aria-hidden="true"></div>
@@ -412,17 +417,17 @@ document.addEventListener('click', function (e) {
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 <script type="application/ld+json" id="ld">{"@context":"https://schema.org","@type":"Article","headline":"新人バンドの契約を、野心家の男が狙う。","alternativeHeadline":"争奪戦の新人バンド","about":[{"@type":"Movie","name":"マッド・ドライヴ","description":"1990年代、ブリットポップ全盛の英国の音楽業界で、成り上がるために道を踏み外していくレコード会社の男を描いたブラックコメディ。主演はニコラス・ホルト。","creator":{"@type":"Person","name":"オーウェン・ハリス監督（原作 ジョン・ニヴン）"}},{"@type":"MusicRecording","name":"フリーダ・サンデモ","description":"スウェーデンのシンガーソングライター。オルタナティブ・ポップの歌い手として紹介され、映画『マッド・ドライヴ』で映画デビューを果たした。","creator":{"@type":"Person","name":"スウェーデンのシンガーソングライター"}}],"author":{"@type":"Person","name":"生成AI（初稿）"},"datePublished":"2026-09-14T09:00:00.000Z","dateModified":"2026-09-14T09:00:00.000Z","inLanguage":"ja","articleBody":"映画の中の新人バンドのボーカルを、スウェーデンのシンガーソングライターが演じている。『マッド・ドライヴ』の原題は、ジョン・ニヴンの原作小説と同じ『Kill Your Friends』。1990年代のブリットポップに沸く英国で、レコード会社のA&R担当ステルフォックスが、成り上がるために道を踏み外していく。ある英国の映画評は、主人公が音楽も仕事も人生も憎んでいると書いた。作中には、業界が競って契約を狙う、前評判の高い架空の新人バンド「レイジーズ」（The Lazies）が登場する。ステルフォックスも、同業のA&R担当と契約を競い合う。そのボーカルを演じるのが、フリーダ・サンデモである。本人は、その歌手役を「映画の中でほぼ唯一のいい人」と冗談めかして語っている。前田先生は note で、この映画の鍵は「あえて目立たないよう配置されたアーティスト」、つまり彼女にあると書いた。先生によれば、主人公は、音楽を商売にする者に好みを聞くのは、投資家に銘柄を聞くのと同じで無意味だ、と嘯く。その直後、ライブハウスで彼女自身の曲が流れ、主人公は不用意にその音楽性に触れて、うろたえるという。先生は、彼女の仕草や歌いぶりに、本人か監督のノスタルジーが強く表れていると見て、「同年代の私もホロリときてしまった」と書く。彼女の活躍と賞賛を、それまでに多大な努力をしたA&Rの人間への「手向けの花」と読んでいる。","url":"https://beautifulcontext.com/c/kill-your-friends--frida-sundemo/","citation":[{"@type":"CreativeWork","name":"SWEDE IN A BRITFLICK – Frida Sundemo on her role in new visceral black comedy Kill Your Friends","url":"https://essentiallypop.com/epop/2015/11/swede-in-a-britflick-frida-sundemo-on-her-role-in-new-visceral-black-comedy-kill-your-friends/","publisher":{"@type":"Organization","name":"Essentially Pop（本人インタビュー）"}},{"@type":"CreativeWork","name":"映画『マッドドライヴ』とフリーダ・サンデモ","url":"https://note.com/mdkh/n/nd8aae37ea947","publisher":{"@type":"Organization","name":"note（前田邦宏）"}},{"@type":"CreativeWork","name":"映画『Kill your friends』とフリーダ・サンデモ","url":"https://note.com/mdkh/n/n28788452c56f","publisher":{"@type":"Organization","name":"note（前田邦宏）"}},{"@type":"CreativeWork","name":"マッド・ドライヴ","url":"https://ja.wikipedia.org/wiki/マッド・ドライヴ","publisher":{"@type":"Organization","name":"Wikipedia"}},{"@type":"CreativeWork","name":"'Kill Your Friends': Review","url":"https://www.screendaily.com/reviews/kill-your-friends-review/5092260.article","publisher":{"@type":"Organization","name":"Screen Daily"}},{"@type":"CreativeWork","name":"Kill Your Friends (2015) - Film Review","url":"https://www.eyeforfilm.co.uk/review/kill-your-friends-2015-film-review-by-angus-wolfe-murray","publisher":{"@type":"Organization","name":"Eye For Film"}},{"@type":"CreativeWork","name":"Frida Sundemo - Wikipedia","url":"https://sv.wikipedia.org/wiki/Frida_Sundemo","publisher":{"@type":"Organization","name":"Wikipedia（スウェーデン語版）"}}],"image":"https://beautifulcontext.com/img/works/kill-your-friends.jpg"}</script>
 
-<script src="js/config.js?v=174"></script>
-<script src="js/seed.js?v=174"></script>
-<script src="js/sources.js?v=174"></script>
-<script src="js/backend.js?v=174"></script>
-<script src="js/store.js?v=174"></script>
-<script src="js/social.js?v=174"></script>
-<script src="js/render.js?v=174"></script>
-<script src="js/login.js?v=174"></script>
-<script src="js/login-page.js?v=174"></script>
-<script src="js/report.js?v=174"></script>
-<script src="js/transition.js?v=174"></script>
-<script src="js/app.js?v=174"></script>
+<script src="js/config.js?v=175"></script>
+<script src="js/seed.js?v=175"></script>
+<script src="js/sources.js?v=175"></script>
+<script src="js/backend.js?v=175"></script>
+<script src="js/store.js?v=175"></script>
+<script src="js/social.js?v=175"></script>
+<script src="js/render.js?v=175"></script>
+<script src="js/login.js?v=175"></script>
+<script src="js/login-page.js?v=175"></script>
+<script src="js/report.js?v=175"></script>
+<script src="js/transition.js?v=175"></script>
+<script src="js/app.js?v=175"></script>
 </body>
 </html>

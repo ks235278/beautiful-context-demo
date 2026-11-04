@@ -43,9 +43,9 @@ try { if (sessionStorage.getItem('bc-resume')) document.documentElement.classLis
 <link rel="preload" as="image" href="img/logo-layer-words.png">
 <!-- 台本も先に取りに行く（静的なページは台本より先に本文が描かれる。遅い回線で、触れて動くまでの間を縮める）。
      src と同じアドレス（?v= まで）でないと、二度取りに行く -->
-<link rel="preload" as="script" href="js/seed.js?v=174">
-<link rel="preload" as="script" href="js/app.js?v=174">
-<link rel="manifest" href="manifest.webmanifest?v=174">
+<link rel="preload" as="script" href="js/seed.js?v=175">
+<link rel="preload" as="script" href="js/app.js?v=175">
+<link rel="manifest" href="manifest.webmanifest?v=175">
 <link rel="apple-touch-icon" href="icon-180.png">
 <!-- タブと検索結果に出る小さな印。アプリの印（ホーム画面のアイコン）と同じ形 -->
 <link rel="icon" href="favicon.ico" sizes="16x16 32x32 48x48">
@@ -76,13 +76,13 @@ if (location.hostname === 'beautifulcontext.com'){
   document.head.appendChild(ga);
 }
 </script>
-<script src="js/theme.js?v=174"></script>
-<link rel="stylesheet" href="app.css?v=174">
+<script src="js/theme.js?v=175"></script>
+<link rel="stylesheet" href="app.css?v=175">
 <!-- 読む画面の使い勝手（2026.10.24）。app.css のすぐあと -->
-<link rel="stylesheet" href="ux.css?v=174">
-<link rel="stylesheet" href="fade.css?v=174">
+<link rel="stylesheet" href="ux.css?v=175">
+<link rel="stylesheet" href="fade.css?v=175">
 <!-- editorial-ink（紙・墨・金）：◆ の罫と、紙の上か絵の上かで変わる決まり。ux.css のあと -->
-<link rel="stylesheet" href="ink.css?v=174">
+<link rel="stylesheet" href="ink.css?v=175">
 <!-- 台本（js）が揃うまで：まだ押しても動かないもの（‹・絵の横の ‹ ›・つながりを辿る）を少し薄くし、下の帯の上の縁に細い金の線を走らせる。
      app.js が最後に body.app-ready を付けて外す。すぐ揃うときは何も見せない（0.3 秒待ってから出す） -->
 <style>
@@ -132,6 +132,8 @@ document.addEventListener('click', function (e) {
 <div class="dock" id="dock">
   <div class="map" id="map"></div>
   <p class="sel-hint" id="selHint" aria-live="polite"></p>
+  <!-- 携帯：つながりを辿るの行き先を一行で（パソコンは次の札 next-peek） -->
+  <p class="dock-next" id="dockNext"></p>
   <p class="dock-brand" id="dockBrand">BEAUTIFUL CONTEXT</p>
   <!-- 読む画面（Today・コンテクスト・作品）では NEXT UNIVERSE だけ。戻るのは左の端から右へ払う（iPhone と同じ）か、上の ‹。
        ReMixIt!（つながりを創る）は編集の側の道具なので、UniverseIt! の画面とメニューに置く -->
@@ -192,7 +194,7 @@ document.addEventListener('click', function (e) {
   <div class="view-in" id="viewIn"><!--bc-body-->
       <article class="page cpage">
         <button type="button" class="back-close" data-close="" aria-label="Today's Editor's Choice へ戻る" title="Today's Editor's Choice へ"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 4.5 7.5 12l7.5 7.5"></path></svg></button>
-        <div class="duo-hero"><a class="c-logo on-paper" href="#/" data-top="" aria-label="BEAUTIFUL CONTEXT（TOP へ戻る）"><img src="img/logo-navy.png" alt=""></a><span class="only-sp"><button type="button" class="login-chip" data-login="">Login</button></span><div class="duo"><button type="button" class="duo-go" data-step="0" aria-label="ドラマ『ブレイキング・バッド』の作品ページへ"><div class="art"><img src="img/works/breaking-bad.jpg" alt="ドラマ『ブレイキング・バッド』" data-k="breaking-bad" decoding="async" fetchpriority="low"></div></button><button type="button" class="duo-go" data-step="2" aria-label="ヴィンス・ギリガン『プルリブス』の作品ページへ"><div class="art"><img src="img/works/pluribus.jpg" alt="ヴィンス・ギリガン『プルリブス』" data-k="pluribus" decoding="async" fetchpriority="low"></div></button><i class="swap" aria-hidden="true">↔</i></div><button type="button" class="ctx-nav prev" data-ctx-go="-1" aria-label="一つ前のつながりへ">‹</button><button type="button" class="ctx-nav next" data-ctx-go="1" aria-label="次のつながりへ">›</button></div>
+        <div class="duo-hero"><a class="c-logo on-paper" href="#/" data-top="" aria-label="BEAUTIFUL CONTEXT（TOP へ戻る）"><img src="img/logo-navy.png" alt=""></a><span class="only-sp"><button type="button" class="login-chip" data-login="">Login</button></span><div class="duo"><button type="button" class="duo-go" data-step="0" aria-label="ドラマ『ブレイキング・バッド』の作品ページへ"><div class="art"><img src="img/works/breaking-bad.jpg" alt="ドラマ『ブレイキング・バッド』" data-k="breaking-bad" decoding="async" fetchpriority="low"></div></button><button type="button" class="duo-go" data-step="2" aria-label="ヴィンス・ギリガン『プルリブス』の作品ページへ"><div class="art"><img src="img/works/pluribus.jpg" alt="ヴィンス・ギリガン『プルリブス』" data-k="pluribus" decoding="async" fetchpriority="low"></div></button><i class="swap" aria-hidden="true">↔</i></div><button type="button" class="ctx-nav prev" data-ctx-go="-1" aria-label="一つ前のつながりへ">‹</button><button type="button" class="ctx-nav next" data-ctx-go="1" aria-label="次へ：ドラマ『ブレイキング・バッド』">›</button></div>
         <section class="context-lead">
           
           <div class="ed-row">
@@ -264,7 +266,19 @@ document.addEventListener('click', function (e) {
         <li class="stop first">
           
           
-          <a class="fstop" href="w/pluribus/">
+          <a class="fstop" href="w/better-call-saul/?c=breaking-bad--better-call-saul">
+            <span class="st-img"><img src="img/works/better-call-saul.jpg" alt="ドラマ『ベター・コール・ソウル』" data-k="better-call-saul" loading="lazy" decoding="async"></span>
+            <span class="st-txt"><small>ドラマ・2015年</small>
+              <b>ドラマ『ベター・コール・ソウル』</b><span>『ブレイキング・バッド』の悪徳弁護士ソウル・グッドマンが、まだジミー・マッギルという名だった頃からを描くスピンオフ。</span></span>
+          </a>
+        </li>
+        <li class="stop">
+          
+          <a class="seg" href="c/better-call-saul--pluribus/">
+            
+            <small>［レイ・シーホーンを経由して］　事実</small>
+            <b><span class="seg-copy">13人の免疫者の一人をキム役の俳優が演じる。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
+          <a class="fstop" href="w/pluribus/?c=better-call-saul--pluribus">
             <span class="st-img"><img src="img/works/pluribus.jpg" alt="ヴィンス・ギリガン『プルリブス』" data-k="pluribus" loading="lazy" decoding="async"></span>
             <span class="st-txt"><small>ドラマ・2025年</small>
               <b>ヴィンス・ギリガン『プルリブス』</b><span>『ブレイキング・バッド』のヴィンス・ギリガンが手がけた Apple TV のドラマ。人々の心がひとつに溶け合っていく世界で、その輪に加われない数少ない人間の一人である女性を描く。</span></span>
@@ -272,107 +286,83 @@ document.addEventListener('click', function (e) {
         </li>
         <li class="stop">
           
-          <a class="seg" href="c/highest-2-lowest--pluribus/">
+          <a class="seg" href="c/nineteen-eighty-four--blade-runner/">
             
-            <small>［同じ配信の窓］　事実</small>
-            <b><span class="seg-copy">誘拐劇とSFが、同じ画面から届く。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
-          <a class="fstop" href="w/highest-2-lowest/?c=highest-2-lowest--pluribus">
-            <span class="st-img"><img src="img/highest.jpg" alt="『HIGHEST 2 LOWEST』" data-k="highest-2-lowest" loading="lazy" decoding="async"></span>
-            <span class="st-txt"><small>映画・2025年</small>
-              <b>『HIGHEST 2 LOWEST』</b><span>スパイク・リーが、黒澤明『天国と地獄』の構造を現代のニューヨークへ移し替えた作品。富、家族、選択の価値が問われる。</span></span>
+            <small>［リドリー・スコットを経由して］　ハブ</small>
+            <b><span class="seg-copy">広告「1984」も、スコットが撮っていた。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
+          <a class="fstop" href="w/nineteen-eighty-four/?c=nineteen-eighty-four--blade-runner">
+            <span class="st-img"><img src="img/works/nineteen-eighty-four.jpg" alt="ジョージ・オーウェル『1984年』" data-k="nineteen-eighty-four" loading="lazy" decoding="async"></span>
+            <span class="st-txt"><small>書籍・1949年</small>
+              <b>ジョージ・オーウェル『1984年』</b><span>「ビッグ・ブラザー」がすべてを監視する全体主義国家オセアニアで、真理省に勤めるウィンストンが体制に疑いを抱く。</span></span>
           </a>
         </li>
         <li class="stop">
           
-          <a class="seg" href="c/highest-2-lowest--high-and-low/">
+          <a class="seg" href="c/nineteen-eighty-four--brazil/">
             
-            <small>［原作から再解釈へ］　事実</small>
-            <b><span class="seg-copy">誘拐劇は、60年後にアメリカへ戻った。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
-          <a class="fstop" href="w/high-and-low/?c=highest-2-lowest--high-and-low">
-            <span class="st-img"><img src="img/highlow.jpg" alt="黒澤明『天国と地獄』" data-k="high-and-low" loading="lazy" decoding="async"></span>
-            <span class="st-txt"><small>映画・1963年</small>
-              <b>黒澤明『天国と地獄』</b><span>エド・マクベインの小説『King’s Ransom』を原作に、誘拐事件を通じて企業家の倫理と社会の格差を描いた作品。</span></span>
+            <small>［1984½］　事実</small>
+            <b><span class="seg-copy">はじめの題は、『1984½』だった。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
+          <a class="fstop" href="w/brazil/?c=nineteen-eighty-four--brazil">
+            <span class="st-img"><img src="img/works/brazil.jpg" alt="テリー・ギリアム『未来世紀ブラジル』" data-k="brazil" loading="lazy" decoding="async"></span>
+            <span class="st-txt"><small>映画・1985年</small>
+              <b>テリー・ギリアム『未来世紀ブラジル』</b><span>書類と管理に覆われた近未来の社会で、夢に逃げ込む役人を描いた映画。</span></span>
           </a>
         </li>
         <li class="stop">
           
-          <a class="seg" href="c/high-and-low--kings-ransom/">
+          <a class="seg" href="c/the-zero-theorem--brazil/">
             
-            <small>［小説から映画へ］　事実</small>
-            <b><span class="seg-copy">身代金の電話は、横浜の高台で鳴った。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
-          <a class="fstop" href="w/kings-ransom/?c=high-and-low--kings-ransom">
-            <span class="st-img"><img src="img/kings-ransom.jpg" alt="エド・マクベイン『キングの身代金』" data-k="kings-ransom" loading="lazy" decoding="async"></span>
-            <span class="st-txt"><small>書籍・1959年</small>
-              <b>エド・マクベイン『キングの身代金』</b><span>架空の街アイソラの87分署を舞台にした警察小説シリーズの一作。原題『King’s Ransom』。靴会社の重役のもとに、身代金を要求する電話がかかってくる。</span></span>
-          </a>
-        </li>
-        <li class="stop branch">
-          
-          <a class="seg" href="c/francis-ford-coppola--high-and-low/">
-            <span class="seg-from">天国と地獄 から分岐</span>
-            <small>［黒澤明を経由して］　ハブ</small>
-            <b><span class="seg-copy">コッポラとルーカスが、黒澤の映画を支えた。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
-          <a class="fstop" href="w/francis-ford-coppola/?c=francis-ford-coppola--high-and-low">
-            <span class="st-img"><img src="img/works/francis-ford-coppola.jpg" alt="フランシス・フォード・コッポラ" data-k="francis-ford-coppola" loading="lazy" decoding="async"></span>
-            <span class="st-txt"><small>人物・1939年</small>
-              <b>フランシス・フォード・コッポラ</b><span>『ゴッドファーザー』『地獄の黙示録』の映画監督。</span></span>
+            <small>［二つの管理社会］　似ている</small>
+            <b><span class="seg-copy">書類の迷宮から、画面の迷宮へ。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
+          <a class="fstop" href="w/the-zero-theorem/?c=the-zero-theorem--brazil">
+            <span class="st-img"><img src="img/works/the-zero-theorem.jpg" alt="テリー・ギリアム『ゼロの未来』" data-k="the-zero-theorem" loading="lazy" decoding="async"></span>
+            <span class="st-txt"><small>映画・2013年</small>
+              <b>テリー・ギリアム『ゼロの未来』</b><span>巨大企業の管理のもとで、「ゼロの定理」の証明に取り組まされる孤独なプログラマーを描いた映画。主演はクリストフ・ヴァルツ。</span></span>
           </a>
         </li>
         <li class="stop">
           
-          <a class="seg" href="c/apocalypse-now--francis-ford-coppola/">
+          <a class="seg" href="c/terry-gilliam--the-zero-theorem/">
             
-            <small>［監督も奥地へ］　作者と作品</small>
-            <b><span class="seg-copy">映画の撮影そのものが、地獄の行軍になった。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
-          <a class="fstop" href="w/apocalypse-now/?c=apocalypse-now--francis-ford-coppola">
-            <span class="st-img"><img src="img/works/apocalypse-now.jpg" alt="コッポラ『地獄の黙示録』" data-k="apocalypse-now" loading="lazy" decoding="async"></span>
-            <span class="st-txt"><small>映画・1979年</small>
-              <b>コッポラ『地獄の黙示録』</b><span>ベトナム戦争のさなか、軍を離れて奥地に王国を築いたカーツ大佐の暗殺を命じられた大尉の旅。1979年のカンヌ国際映画祭でパルム・ドールを受けた。</span></span>
+            <small>［監督と作品］　作者と作品</small>
+            <b><span class="seg-copy">『ブラジル』の監督が、今の世界の一端を描く。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
+          <a class="fstop" href="w/terry-gilliam/?c=terry-gilliam--the-zero-theorem">
+            <span class="st-img"><img src="img/works/terry-gilliam.jpg" alt="テリー・ギリアム" data-k="terry-gilliam" loading="lazy" decoding="async"></span>
+            <span class="st-txt"><small>人物・1940年</small>
+              <b>テリー・ギリアム</b><span>アメリカ生まれで、英国を拠点にする映画監督。モンティ・パイソンのアニメーションを手がけ、『未来世紀ブラジル』『12モンキーズ』『ゼロの未来』を撮った。</span></span>
           </a>
         </li>
         <li class="stop">
           
-          <a class="seg" href="c/shoplifters--apocalypse-now/">
+          <a class="seg" href="c/terry-gilliam--brazil/">
             
-            <small>［パルム・ドールの系譜］　ハブ</small>
-            <b><span class="seg-copy">ジャングルの奥の戦争と東京の片隅の家族。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
-          <a class="fstop" href="w/shoplifters/?c=shoplifters--apocalypse-now">
-            <span class="st-img"><img src="img/works/shoplifters.jpg" alt="是枝裕和『万引き家族』" data-k="shoplifters" loading="lazy" decoding="async"></span>
-            <span class="st-txt"><small>映画・2018年</small>
-              <b>是枝裕和『万引き家族』</b><span>万引きで暮らしを補う一家と、彼らに拾われた少女を描いた映画。2018年のカンヌ国際映画祭でパルム・ドールを受けた。</span></span>
+            <small>［監督と作品］　作者と作品</small>
+            <b><span class="seg-copy">夢に逃げ込む役人を、ブラックな笑いで描く。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
+          <a class="fstop" href="w/brazil/?c=terry-gilliam--brazil">
+            <span class="st-img"><img src="img/works/brazil.jpg" alt="テリー・ギリアム『未来世紀ブラジル』" data-k="brazil" loading="lazy" decoding="async"></span>
+            <span class="st-txt"><small>映画・1985年</small>
+              <b>テリー・ギリアム『未来世紀ブラジル』</b><span>書類と管理に覆われた近未来の社会で、夢に逃げ込む役人を描いた映画。</span></span>
           </a>
         </li>
         <li class="stop">
           
-          <a class="seg" href="c/koreeda-hirokazu--shoplifters/">
+          <a class="seg" href="c/shooting-an-elephant--nineteen-eighty-four/">
             
-            <small>［家族とは何か］　作者と作品</small>
-            <b><span class="seg-copy">日本映画が21年ぶりにパルム・ドールを得た。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
-          <a class="fstop" href="w/koreeda-hirokazu/?c=koreeda-hirokazu--shoplifters">
-            <span class="st-img"><img src="img/works/koreeda-hirokazu.jpg" alt="是枝裕和" data-k="koreeda-hirokazu" loading="lazy" decoding="async"></span>
-            <span class="st-txt"><small>人物・1962年</small>
-              <b>是枝裕和</b><span>テレビのドキュメンタリー演出から映画監督になった。『誰も知らない』『万引き家族』『海街diary』などを撮っている。</span></span>
+            <small>［ビルマから『1984年』へ］　ハブ</small>
+            <b><span class="seg-copy">『象を撃つ』の作者は、後に監視国家を書いた。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
+          <a class="fstop" href="w/shooting-an-elephant/?c=shooting-an-elephant--nineteen-eighty-four">
+            <span class="st-img"><img src="img/works/shooting-an-elephant.jpg" alt="ジョージ・オーウェル『象を撃つ』" data-k="shooting-an-elephant" loading="lazy" decoding="async"></span>
+            <span class="st-txt"><small>書籍・1936年</small>
+              <b>ジョージ・オーウェル『象を撃つ』</b><span>英領ビルマの警官である語り手「私」が、暴れた象を、群衆の前で「撃たねばならなくなった」ことを書いたエッセイ。作者自身の体験に基づくとされる。</span></span>
           </a>
         </li>
         <li class="stop">
           
-          <a class="seg" href="c/koreeda-hirokazu--nobody-knows/">
+          <a class="seg" href="c/shooting-an-elephant--heart-of-darkness/">
             
-            <small>［見過ごされた子どもたち］　作者と作品</small>
-            <b><span class="seg-copy">14歳が、カンヌで最年少の男優賞を得た。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
-          <a class="fstop" href="w/nobody-knows/?c=koreeda-hirokazu--nobody-knows">
-            <span class="st-img"><img src="img/works/nobody-knows.jpg" alt="是枝裕和『誰も知らない』" data-k="nobody-knows" loading="lazy" decoding="async"></span>
-            <span class="st-txt"><small>映画・2004年</small>
-              <b>是枝裕和『誰も知らない』</b><span>母親に置き去りにされた四人のきょうだいの暮らしを描いた映画。長男を演じた柳楽優弥がカンヌ国際映画祭で最優秀男優賞を受けた。</span></span>
-          </a>
-        </li>
-        <li class="stop branch">
-          
-          <a class="seg" href="c/heart-of-darkness--apocalypse-now/">
-            <span class="seg-from">地獄の黙示録 から分岐</span>
-            <small>［川を遡る物語］　事実</small>
-            <b><span class="seg-copy">コンゴの川は、ベトナムの川になった。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
-          <a class="fstop" href="w/heart-of-darkness/?c=heart-of-darkness--apocalypse-now">
+            <small>［支配する側の闇］　似ている</small>
+            <b><span class="seg-copy">植民地を統べる者の心の奥。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
+          <a class="fstop" href="w/heart-of-darkness/?c=shooting-an-elephant--heart-of-darkness">
             <span class="st-img"><img src="img/works/heart-of-darkness.jpg" alt="ジョセフ・コンラッド『闇の奥』" data-k="heart-of-darkness" loading="lazy" decoding="async"></span>
             <span class="st-txt"><small>書籍・1899年</small>
               <b>ジョセフ・コンラッド『闇の奥』</b><span>象牙交易の奥地へ向かう船乗りマーロウが、消息を絶った交易所の責任者クルツを探す物語。当時のコンゴ自由国が舞台とされる。</span></span>
@@ -390,16 +380,28 @@ document.addEventListener('click', function (e) {
               <b>ラウル・ペック『ルムンバの叫び』</b><span>コンゴ独立の指導者パトリス・ルムンバの、首相就任から殺害までを描いた映画。</span></span>
           </a>
         </li>
-        <li class="stop branch">
+        <li class="stop">
           
           <a class="seg" href="c/joseph-conrad--heart-of-darkness/">
-            <span class="seg-from">闇の奥 から分岐</span>
+            
             <small>［船乗りが見た川］　作者と作品</small>
             <b><span class="seg-copy">作家は自分で、コンゴ川を遡っていた。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
           <a class="fstop" href="w/joseph-conrad/?c=joseph-conrad--heart-of-darkness">
             <span class="st-img"><img src="img/works/joseph-conrad.jpg" alt="ジョセフ・コンラッド" data-k="joseph-conrad" loading="lazy" decoding="async"></span>
             <span class="st-txt"><small>人物・1857年</small>
               <b>ジョセフ・コンラッド</b><span>ポーランド生まれの英国の小説家。船乗りとして世界の海を渡ったのち、英語で『闇の奥』『ロード・ジム』などを書いた。</span></span>
+          </a>
+        </li>
+        <li class="stop">
+          
+          <a class="seg" href="c/heart-of-darkness--apocalypse-now/">
+            
+            <small>［川を遡る物語］　事実</small>
+            <b><span class="seg-copy">コンゴの川は、ベトナムの川になった。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
+          <a class="fstop" href="w/apocalypse-now/?c=heart-of-darkness--apocalypse-now">
+            <span class="st-img"><img src="img/works/apocalypse-now.jpg" alt="コッポラ『地獄の黙示録』" data-k="apocalypse-now" loading="lazy" decoding="async"></span>
+            <span class="st-txt"><small>映画・1979年</small>
+              <b>コッポラ『地獄の黙示録』</b><span>ベトナム戦争のさなか、軍を離れて奥地に王国を築いたカーツ大佐の暗殺を命じられた大尉の旅。1979年のカンヌ国際映画祭でパルム・ドールを受けた。</span></span>
           </a>
         </li></ol>
             <div class="rail-more" id="railMore" aria-hidden="true"></div>
@@ -415,17 +417,17 @@ document.addEventListener('click', function (e) {
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 <script type="application/ld+json" id="ld">{"@context":"https://schema.org","@type":"Article","headline":"化学教師の物語の作者がのちに描く「私たち」。","alternativeHeadline":"ヴィンス・ギリガンを経由して","about":[{"@type":"CreativeWork","name":"ブレイキング・バッド","description":"余命を告げられた高校の化学教師ウォルター・ホワイトが、家族のために麻薬の製造に手を染め、やがて裏社会の大物になっていく。","creator":{"@type":"Person","name":"ヴィンス・ギリガン"}},{"@type":"CreativeWork","name":"プルリブス","description":"『ブレイキング・バッド』のヴィンス・ギリガンが手がけた Apple TV のドラマ。人々の心がひとつに溶け合っていく世界で、その輪に加われない数少ない人間の一人である女性を描く。","creator":{"@type":"Person","name":"ヴィンス・ギリガン"}}],"author":{"@type":"Person","name":"生成AI（初稿）"},"datePublished":"2026-09-14T07:00:00.000Z","dateModified":"2026-09-14T07:00:00.000Z","inLanguage":"ja","articleBody":"ハブは作り手ヴィンス・ギリガン。『ブレイキング・バッド』を生んだヴィンス・ギリガンは、『ベター・コール・ソウル』を経て、Apple TV の『プルリブス』を手がけた。ひとりの男が善悪の境を越えていく物語から、人々の心がひとつに溶け合う世界で「ひとりであること」を問う物語へ。ギリガンは『ベター・コール・ソウル』の制作中にこの着想を得たと語る。悪人を主人公にしてきた作り手が、心がひとつになった世界で、それに加われないひとりを主人公に据えた。","url":"https://beautifulcontext.com/c/breaking-bad--pluribus/","citation":[{"@type":"CreativeWork","name":"Vince Gilligan Is Breaking Good","url":"https://time.com/7328396/vince-gilligan-interview-pluribus/","publisher":{"@type":"Organization","name":"TIME"}},{"@type":"CreativeWork","name":"Pluribus - Apple TV Press","url":"https://www.apple.com/tv-pr/originals/pluribus/","publisher":{"@type":"Organization","name":"Apple TV Press"}},{"@type":"CreativeWork","name":"Breaking Bad","url":"https://en.wikipedia.org/wiki/Breaking_Bad","publisher":{"@type":"Organization","name":"Wikipedia"}},{"@type":"CreativeWork","name":"Better Call Saul","url":"https://en.wikipedia.org/wiki/Better_Call_Saul","publisher":{"@type":"Organization","name":"Wikipedia"}}],"image":"https://beautifulcontext.com/img/works/breaking-bad.jpg"}</script>
 
-<script src="js/config.js?v=174"></script>
-<script src="js/seed.js?v=174"></script>
-<script src="js/sources.js?v=174"></script>
-<script src="js/backend.js?v=174"></script>
-<script src="js/store.js?v=174"></script>
-<script src="js/social.js?v=174"></script>
-<script src="js/render.js?v=174"></script>
-<script src="js/login.js?v=174"></script>
-<script src="js/login-page.js?v=174"></script>
-<script src="js/report.js?v=174"></script>
-<script src="js/transition.js?v=174"></script>
-<script src="js/app.js?v=174"></script>
+<script src="js/config.js?v=175"></script>
+<script src="js/seed.js?v=175"></script>
+<script src="js/sources.js?v=175"></script>
+<script src="js/backend.js?v=175"></script>
+<script src="js/store.js?v=175"></script>
+<script src="js/social.js?v=175"></script>
+<script src="js/render.js?v=175"></script>
+<script src="js/login.js?v=175"></script>
+<script src="js/login-page.js?v=175"></script>
+<script src="js/report.js?v=175"></script>
+<script src="js/transition.js?v=175"></script>
+<script src="js/app.js?v=175"></script>
 </body>
 </html>

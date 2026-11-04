@@ -43,9 +43,9 @@ try { if (sessionStorage.getItem('bc-resume')) document.documentElement.classLis
 <link rel="preload" as="image" href="img/logo-layer-words.png">
 <!-- 台本も先に取りに行く（静的なページは台本より先に本文が描かれる。遅い回線で、触れて動くまでの間を縮める）。
      src と同じアドレス（?v= まで）でないと、二度取りに行く -->
-<link rel="preload" as="script" href="js/seed.js?v=174">
-<link rel="preload" as="script" href="js/app.js?v=174">
-<link rel="manifest" href="manifest.webmanifest?v=174">
+<link rel="preload" as="script" href="js/seed.js?v=175">
+<link rel="preload" as="script" href="js/app.js?v=175">
+<link rel="manifest" href="manifest.webmanifest?v=175">
 <link rel="apple-touch-icon" href="icon-180.png">
 <!-- タブと検索結果に出る小さな印。アプリの印（ホーム画面のアイコン）と同じ形 -->
 <link rel="icon" href="favicon.ico" sizes="16x16 32x32 48x48">
@@ -76,13 +76,13 @@ if (location.hostname === 'beautifulcontext.com'){
   document.head.appendChild(ga);
 }
 </script>
-<script src="js/theme.js?v=174"></script>
-<link rel="stylesheet" href="app.css?v=174">
+<script src="js/theme.js?v=175"></script>
+<link rel="stylesheet" href="app.css?v=175">
 <!-- 読む画面の使い勝手（2026.10.24）。app.css のすぐあと -->
-<link rel="stylesheet" href="ux.css?v=174">
-<link rel="stylesheet" href="fade.css?v=174">
+<link rel="stylesheet" href="ux.css?v=175">
+<link rel="stylesheet" href="fade.css?v=175">
 <!-- editorial-ink（紙・墨・金）：◆ の罫と、紙の上か絵の上かで変わる決まり。ux.css のあと -->
-<link rel="stylesheet" href="ink.css?v=174">
+<link rel="stylesheet" href="ink.css?v=175">
 <!-- 台本（js）が揃うまで：まだ押しても動かないもの（‹・絵の横の ‹ ›・つながりを辿る）を少し薄くし、下の帯の上の縁に細い金の線を走らせる。
      app.js が最後に body.app-ready を付けて外す。すぐ揃うときは何も見せない（0.3 秒待ってから出す） -->
 <style>
@@ -132,6 +132,8 @@ document.addEventListener('click', function (e) {
 <div class="dock" id="dock">
   <div class="map" id="map"></div>
   <p class="sel-hint" id="selHint" aria-live="polite"></p>
+  <!-- 携帯：つながりを辿るの行き先を一行で（パソコンは次の札 next-peek） -->
+  <p class="dock-next" id="dockNext"></p>
   <p class="dock-brand" id="dockBrand">BEAUTIFUL CONTEXT</p>
   <!-- 読む画面（Today・コンテクスト・作品）では NEXT UNIVERSE だけ。戻るのは左の端から右へ払う（iPhone と同じ）か、上の ‹。
        ReMixIt!（つながりを創る）は編集の側の道具なので、UniverseIt! の画面とメニューに置く -->
@@ -192,7 +194,7 @@ document.addEventListener('click', function (e) {
   <div class="view-in" id="viewIn"><!--bc-body-->
       <article class="page cpage">
         <button type="button" class="back-close" data-close="" aria-label="Today's Editor's Choice へ戻る" title="Today's Editor's Choice へ"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 4.5 7.5 12l7.5 7.5"></path></svg></button>
-        <div class="duo-hero"><a class="c-logo on-paper" href="#/" data-top="" aria-label="BEAUTIFUL CONTEXT（TOP へ戻る）"><img src="img/logo-navy.png" alt=""></a><span class="only-sp"><button type="button" class="login-chip" data-login="">Login</button></span><div class="duo"><button type="button" class="duo-go" data-step="0" aria-label="ジョージ・オーウェル『象を撃つ』の作品ページへ"><div class="art"><img src="img/works/shooting-an-elephant.jpg" alt="ジョージ・オーウェル『象を撃つ』" data-k="shooting-an-elephant" decoding="async" fetchpriority="low"></div></button><button type="button" class="duo-go" data-step="2" aria-label="ジョージ・オーウェル『1984年』の作品ページへ"><div class="art"><img src="img/works/nineteen-eighty-four.jpg" alt="ジョージ・オーウェル『1984年』" data-k="nineteen-eighty-four" decoding="async" fetchpriority="low"></div></button><i class="swap" aria-hidden="true">↔</i></div><button type="button" class="ctx-nav prev" data-ctx-go="-1" aria-label="一つ前のつながりへ">‹</button><button type="button" class="ctx-nav next" data-ctx-go="1" aria-label="次のつながりへ">›</button></div>
+        <div class="duo-hero"><a class="c-logo on-paper" href="#/" data-top="" aria-label="BEAUTIFUL CONTEXT（TOP へ戻る）"><img src="img/logo-navy.png" alt=""></a><span class="only-sp"><button type="button" class="login-chip" data-login="">Login</button></span><div class="duo"><button type="button" class="duo-go" data-step="0" aria-label="ジョージ・オーウェル『象を撃つ』の作品ページへ"><div class="art"><img src="img/works/shooting-an-elephant.jpg" alt="ジョージ・オーウェル『象を撃つ』" data-k="shooting-an-elephant" decoding="async" fetchpriority="low"></div></button><button type="button" class="duo-go" data-step="2" aria-label="ジョージ・オーウェル『1984年』の作品ページへ"><div class="art"><img src="img/works/nineteen-eighty-four.jpg" alt="ジョージ・オーウェル『1984年』" data-k="nineteen-eighty-four" decoding="async" fetchpriority="low"></div></button><i class="swap" aria-hidden="true">↔</i></div><button type="button" class="ctx-nav prev" data-ctx-go="-1" aria-label="一つ前のつながりへ">‹</button><button type="button" class="ctx-nav next" data-ctx-go="1" aria-label="次へ：ジョージ・オーウェル『象を撃つ』">›</button></div>
         <section class="context-lead">
           
           <div class="ed-row">
@@ -264,127 +266,115 @@ document.addEventListener('click', function (e) {
         <li class="stop first">
           
           
-          <a class="fstop" href="w/nineteen-eighty-four/">
-            <span class="st-img"><img src="img/works/nineteen-eighty-four.jpg" alt="ジョージ・オーウェル『1984年』" data-k="nineteen-eighty-four" loading="lazy" decoding="async"></span>
-            <span class="st-txt"><small>書籍・1949年</small>
-              <b>ジョージ・オーウェル『1984年』</b><span>「ビッグ・ブラザー」がすべてを監視する全体主義国家オセアニアで、真理省に勤めるウィンストンが体制に疑いを抱く。</span></span>
+          <a class="fstop" href="w/heart-of-darkness/?c=shooting-an-elephant--heart-of-darkness">
+            <span class="st-img"><img src="img/works/heart-of-darkness.jpg" alt="ジョセフ・コンラッド『闇の奥』" data-k="heart-of-darkness" loading="lazy" decoding="async"></span>
+            <span class="st-txt"><small>書籍・1899年</small>
+              <b>ジョセフ・コンラッド『闇の奥』</b><span>象牙交易の奥地へ向かう船乗りマーロウが、消息を絶った交易所の責任者クルツを探す物語。当時のコンゴ自由国が舞台とされる。</span></span>
           </a>
         </li>
         <li class="stop">
           
-          <a class="seg" href="c/nineteen-eighty-four--blade-runner/">
+          <a class="seg" href="c/lumumba--heart-of-darkness/">
             
-            <small>［リドリー・スコットを経由して］　ハブ</small>
-            <b><span class="seg-copy">広告「1984」も、スコットが撮っていた。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
-          <a class="fstop" href="w/blade-runner/?c=nineteen-eighty-four--blade-runner">
-            <span class="st-img"><img src="img/works/blade-runner.jpg" alt="リドリー・スコット『ブレードランナー』" data-k="blade-runner" loading="lazy" decoding="async"></span>
-            <span class="st-txt"><small>映画・1982年</small>
-              <b>リドリー・スコット『ブレードランナー』</b><span>フィリップ・K・ディックの小説『アンドロイドは電気羊の夢を見るか？』を原作に、2019年のロサンゼルスで人造人間を追う男を描いた映画。</span></span>
+            <small>［コンゴという土地］　ハブ</small>
+            <b><span class="seg-copy">植民地の奥地と、独立の叫び。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
+          <a class="fstop" href="w/lumumba/?c=lumumba--heart-of-darkness">
+            <span class="st-img"><img src="img/works/lumumba.jpg" alt="ラウル・ペック『ルムンバの叫び』" data-k="lumumba" loading="lazy" decoding="async"></span>
+            <span class="st-txt"><small>映画・2000年</small>
+              <b>ラウル・ペック『ルムンバの叫び』</b><span>コンゴ独立の指導者パトリス・ルムンバの、首相就任から殺害までを描いた映画。</span></span>
           </a>
         </li>
         <li class="stop">
           
-          <a class="seg" href="c/blade-runner--blade-runner-2049/">
+          <a class="seg" href="c/joseph-conrad--heart-of-darkness/">
             
-            <small>［三十年後のロサンゼルス］　事実</small>
-            <b><span class="seg-copy">2019年の雨の街から、2049年の荒野へ。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
-          <a class="fstop" href="w/blade-runner-2049/?c=blade-runner--blade-runner-2049">
-            <span class="st-img"><img src="img/works/blade-runner-2049.jpg" alt="ヴィルヌーヴ『ブレードランナー 2049』" data-k="blade-runner-2049" loading="lazy" decoding="async"></span>
-            <span class="st-txt"><small>映画・2017年</small>
-              <b>ヴィルヌーヴ『ブレードランナー 2049』</b><span>前作から30年後の2049年を舞台にした続編。</span></span>
+            <small>［船乗りが見た川］　作者と作品</small>
+            <b><span class="seg-copy">作家は自分で、コンゴ川を遡っていた。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
+          <a class="fstop" href="w/joseph-conrad/?c=joseph-conrad--heart-of-darkness">
+            <span class="st-img"><img src="img/works/joseph-conrad.jpg" alt="ジョセフ・コンラッド" data-k="joseph-conrad" loading="lazy" decoding="async"></span>
+            <span class="st-txt"><small>人物・1857年</small>
+              <b>ジョセフ・コンラッド</b><span>ポーランド生まれの英国の小説家。船乗りとして世界の海を渡ったのち、英語で『闇の奥』『ロード・ジム』などを書いた。</span></span>
           </a>
         </li>
         <li class="stop">
           
-          <a class="seg" href="c/blade-runner-2049--blade-runner-2099/">
+          <a class="seg" href="c/heart-of-darkness--apocalypse-now/">
             
-            <small>［さらに五十年後］　事実</small>
-            <b><span class="seg-copy">2049年の先に、2099年が続く。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
-          <a class="fstop" href="w/blade-runner-2099/?c=blade-runner-2049--blade-runner-2099">
-            <span class="st-img"><img src="img/works/blade-runner-2099.jpg" alt="『ブレードランナー 2099』" data-k="blade-runner-2099" loading="lazy" decoding="async"></span>
-            <span class="st-txt"><small>ドラマ</small>
-              <b>『ブレードランナー 2099』</b><span>2049年からさらに50年後を舞台にしたドラマ・シリーズ。ミシェル・ヨーとハンター・シェイファーが主演し、2026年11月25日から Prime Video で配信される。</span></span>
-          </a>
-        </li>
-        <li class="stop branch">
-          
-          <a class="seg" href="c/greg-egan--blade-runner-2049/">
-            <span class="seg-from">ブレードランナー 2049 から分岐</span>
-            <small>［記憶は誰のものか］　似ている</small>
-            <b><span class="seg-copy">植えつけられた記憶でもそれは自分なのか。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
-          <a class="fstop" href="w/greg-egan/?c=greg-egan--blade-runner-2049">
-            <span class="st-img"><img src="img/works/greg-egan.jpg" alt="グレッグ・イーガン" data-k="greg-egan" loading="lazy" decoding="async"></span>
-            <span class="st-txt"><small>人物・1961年</small>
-              <b>グレッグ・イーガン</b><span>オーストラリアのSF作家。『順列都市』『ディアスポラ』など、意識や自己を数学と物理から問い直すハードSFで知られる。</span></span>
-          </a>
-        </li>
-        <li class="stop branch">
-          
-          <a class="seg" href="c/do-androids-dream--blade-runner/">
-            <span class="seg-from">ブレードランナー から分岐</span>
-            <small>［小説から映画へ］　事実</small>
-            <b><span class="seg-copy">電気羊の夢は、酸性雨の街になった。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
-          <a class="fstop" href="w/do-androids-dream/?c=do-androids-dream--blade-runner">
-            <span class="st-img"><img src="img/works/do-androids-dream.jpg" alt="フィリップ・K・ディック『アンドロイドは電気羊の夢を見るか？』" data-k="do-androids-dream" loading="lazy" decoding="async"></span>
-            <span class="st-txt"><small>書籍・1968年</small>
-              <b>フィリップ・K・ディック『アンドロイドは電気羊の夢を見るか？』</b><span>核戦争のあとの地球で、火星から逃げてきたアンドロイドを追う賞金稼ぎリック・デッカードの物語。映画『ブレードランナー』の原作。</span></span>
+            <small>［川を遡る物語］　事実</small>
+            <b><span class="seg-copy">コンゴの川は、ベトナムの川になった。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
+          <a class="fstop" href="w/apocalypse-now/?c=heart-of-darkness--apocalypse-now">
+            <span class="st-img"><img src="img/works/apocalypse-now.jpg" alt="コッポラ『地獄の黙示録』" data-k="apocalypse-now" loading="lazy" decoding="async"></span>
+            <span class="st-txt"><small>映画・1979年</small>
+              <b>コッポラ『地獄の黙示録』</b><span>ベトナム戦争のさなか、軍を離れて奥地に王国を築いたカーツ大佐の暗殺を命じられた大尉の旅。1979年のカンヌ国際映画祭でパルム・ドールを受けた。</span></span>
           </a>
         </li>
         <li class="stop">
           
-          <a class="seg" href="c/isaac-asimov--do-androids-dream/">
+          <a class="seg" href="c/shoplifters--apocalypse-now/">
             
-            <small>［人に似せて作られたもの］　似ている</small>
-            <b><span class="seg-copy">人に仕えるロボットと、紛れ込むアンドロイド。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
-          <a class="fstop" href="w/isaac-asimov/?c=isaac-asimov--do-androids-dream">
-            <span class="st-img"><img src="img/works/isaac-asimov.jpg" alt="アイザック・アシモフ" data-k="isaac-asimov" loading="lazy" decoding="async"></span>
-            <span class="st-txt"><small>人物・1920年</small>
-              <b>アイザック・アシモフ</b><span>『われはロボット』『ファウンデーション』のSF作家。ロボットが守るべき「ロボット工学三原則」を考えた。</span></span>
+            <small>［パルム・ドールの系譜］　ハブ</small>
+            <b><span class="seg-copy">ジャングルの奥の戦争と東京の片隅の家族。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
+          <a class="fstop" href="w/shoplifters/?c=shoplifters--apocalypse-now">
+            <span class="st-img"><img src="img/works/shoplifters.jpg" alt="是枝裕和『万引き家族』" data-k="shoplifters" loading="lazy" decoding="async"></span>
+            <span class="st-txt"><small>映画・2018年</small>
+              <b>是枝裕和『万引き家族』</b><span>万引きで暮らしを補う一家と、彼らに拾われた少女を描いた映画。2018年のカンヌ国際映画祭でパルム・ドールを受けた。</span></span>
           </a>
         </li>
         <li class="stop">
           
-          <a class="seg" href="c/foundation--isaac-asimov/">
+          <a class="seg" href="c/koreeda-hirokazu--shoplifters/">
             
-            <small>［作者と作品］　作者と作品</small>
-            <b><span class="seg-copy">帝国の崩壊を、数学が予言した。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
-          <a class="fstop" href="w/foundation/?c=foundation--isaac-asimov">
-            <span class="st-img"><img src="img/works/foundation.jpg" alt="アイザック・アシモフ『ファウンデーション』" data-k="foundation" loading="lazy" decoding="async"></span>
-            <span class="st-txt"><small>書籍・1951年</small>
-              <b>アイザック・アシモフ『ファウンデーション』</b><span>銀河帝国の崩壊を「心理歴史学」で予見した数学者ハリ・セルダンが、来るべき暗黒時代を短くするための計画を立てる。2021年から Apple TV+ でドラマになった。</span></span>
+            <small>［家族とは何か］　作者と作品</small>
+            <b><span class="seg-copy">日本映画が21年ぶりにパルム・ドールを得た。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
+          <a class="fstop" href="w/koreeda-hirokazu/?c=koreeda-hirokazu--shoplifters">
+            <span class="st-img"><img src="img/works/koreeda-hirokazu.jpg" alt="是枝裕和" data-k="koreeda-hirokazu" loading="lazy" decoding="async"></span>
+            <span class="st-txt"><small>人物・1962年</small>
+              <b>是枝裕和</b><span>テレビのドキュメンタリー演出から映画監督になった。『誰も知らない』『万引き家族』『海街diary』などを撮っている。</span></span>
           </a>
         </li>
         <li class="stop">
           
-          <a class="seg" href="c/foundation--pluribus/">
+          <a class="seg" href="c/koreeda-hirokazu--nobody-knows/">
             
-            <small>［同じ配信の窓］　ハブ</small>
-            <b><span class="seg-copy">銀河の帝国と、ひとつになった世界。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
-          <a class="fstop" href="w/pluribus/?c=foundation--pluribus">
-            <span class="st-img"><img src="img/works/pluribus.jpg" alt="ヴィンス・ギリガン『プルリブス』" data-k="pluribus" loading="lazy" decoding="async"></span>
-            <span class="st-txt"><small>ドラマ・2025年</small>
-              <b>ヴィンス・ギリガン『プルリブス』</b><span>『ブレイキング・バッド』のヴィンス・ギリガンが手がけた Apple TV のドラマ。人々の心がひとつに溶け合っていく世界で、その輪に加われない数少ない人間の一人である女性を描く。</span></span>
+            <small>［見過ごされた子どもたち］　作者と作品</small>
+            <b><span class="seg-copy">14歳が、カンヌで最年少の男優賞を得た。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
+          <a class="fstop" href="w/nobody-knows/?c=koreeda-hirokazu--nobody-knows">
+            <span class="st-img"><img src="img/works/nobody-knows.jpg" alt="是枝裕和『誰も知らない』" data-k="nobody-knows" loading="lazy" decoding="async"></span>
+            <span class="st-txt"><small>映画・2004年</small>
+              <b>是枝裕和『誰も知らない』</b><span>母親に置き去りにされた四人のきょうだいの暮らしを描いた映画。長男を演じた柳楽優弥がカンヌ国際映画祭で最優秀男優賞を受けた。</span></span>
           </a>
         </li>
         <li class="stop">
           
-          <a class="seg" href="c/highest-2-lowest--pluribus/">
+          <a class="seg" href="c/nobody-knows--shoplifters/">
             
-            <small>［同じ配信の窓］　事実</small>
-            <b><span class="seg-copy">誘拐劇とSFが、同じ画面から届く。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
-          <a class="fstop" href="w/highest-2-lowest/?c=highest-2-lowest--pluribus">
-            <span class="st-img"><img src="img/highest.jpg" alt="『HIGHEST 2 LOWEST』" data-k="highest-2-lowest" loading="lazy" decoding="async"></span>
-            <span class="st-txt"><small>映画・2025年</small>
-              <b>『HIGHEST 2 LOWEST』</b><span>スパイク・リーが、黒澤明『天国と地獄』の構造を現代のニューヨークへ移し替えた作品。富、家族、選択の価値が問われる。</span></span>
+            <small>［誰にも見えない家］　似ている</small>
+            <b><span class="seg-copy">社会の外側で、子どもたちは暮らした。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
+          <a class="fstop" href="w/shoplifters/?c=nobody-knows--shoplifters">
+            <span class="st-img"><img src="img/works/shoplifters.jpg" alt="是枝裕和『万引き家族』" data-k="shoplifters" loading="lazy" decoding="async"></span>
+            <span class="st-txt"><small>映画・2018年</small>
+              <b>是枝裕和『万引き家族』</b><span>万引きで暮らしを補う一家と、彼らに拾われた少女を描いた映画。2018年のカンヌ国際映画祭でパルム・ドールを受けた。</span></span>
           </a>
         </li>
         <li class="stop">
           
-          <a class="seg" href="c/highest-2-lowest--high-and-low/">
+          <a class="seg" href="c/apocalypse-now--francis-ford-coppola/">
             
-            <small>［原作から再解釈へ］　事実</small>
-            <b><span class="seg-copy">誘拐劇は、60年後にアメリカへ戻った。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
-          <a class="fstop" href="w/high-and-low/?c=highest-2-lowest--high-and-low">
+            <small>［監督も奥地へ］　作者と作品</small>
+            <b><span class="seg-copy">映画の撮影そのものが、地獄の行軍になった。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
+          <a class="fstop" href="w/francis-ford-coppola/?c=apocalypse-now--francis-ford-coppola">
+            <span class="st-img"><img src="img/works/francis-ford-coppola.jpg" alt="フランシス・フォード・コッポラ" data-k="francis-ford-coppola" loading="lazy" decoding="async"></span>
+            <span class="st-txt"><small>人物・1939年</small>
+              <b>フランシス・フォード・コッポラ</b><span>『ゴッドファーザー』『地獄の黙示録』の映画監督。</span></span>
+          </a>
+        </li>
+        <li class="stop">
+          
+          <a class="seg" href="c/francis-ford-coppola--high-and-low/">
+            
+            <small>［黒澤明を経由して］　ハブ</small>
+            <b><span class="seg-copy">コッポラとルーカスが、黒澤の映画を支えた。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
+          <a class="fstop" href="w/high-and-low/?c=francis-ford-coppola--high-and-low">
             <span class="st-img"><img src="img/highlow.jpg" alt="黒澤明『天国と地獄』" data-k="high-and-low" loading="lazy" decoding="async"></span>
             <span class="st-txt"><small>映画・1963年</small>
               <b>黒澤明『天国と地獄』</b><span>エド・マクベインの小説『King’s Ransom』を原作に、誘拐事件を通じて企業家の倫理と社会の格差を描いた作品。</span></span>
@@ -392,14 +382,26 @@ document.addEventListener('click', function (e) {
         </li>
         <li class="stop">
           
-          <a class="seg" href="c/high-and-low--kings-ransom/">
+          <a class="seg" href="c/the-hollow-men--apocalypse-now/">
             
-            <small>［小説から映画へ］　事実</small>
-            <b><span class="seg-copy">身代金の電話は、横浜の高台で鳴った。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
-          <a class="fstop" href="w/kings-ransom/?c=high-and-low--kings-ransom">
-            <span class="st-img"><img src="img/kings-ransom.jpg" alt="エド・マクベイン『キングの身代金』" data-k="kings-ransom" loading="lazy" decoding="async"></span>
-            <span class="st-txt"><small>書籍・1959年</small>
-              <b>エド・マクベイン『キングの身代金』</b><span>架空の街アイソラの87分署を舞台にした警察小説シリーズの一作。原題『King’s Ransom』。靴会社の重役のもとに、身代金を要求する電話がかかってくる。</span></span>
+            <small>［カーツ大佐の朗読］　事実</small>
+            <b><span class="seg-copy">ジャングルの奥で、カーツ大佐が詩を読む。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
+          <a class="fstop" href="w/the-hollow-men/?c=the-hollow-men--apocalypse-now">
+            <span class="st-img"><img src="img/works/the-hollow-men.jpg" alt="『うつろな人々』The Hollow Men" data-k="the-hollow-men" loading="lazy" decoding="async"></span>
+            <span class="st-txt"><small>詩・1925年</small>
+              <b>『うつろな人々』The Hollow Men</b><span>「世界の終わりはこうだ、爆発ではなく、すすり泣きで」と結ばれる詩。題辞にコンラッド『闇の奥』の一行を掲げる。</span></span>
+          </a>
+        </li>
+        <li class="stop">
+          
+          <a class="seg" href="c/the-hollow-men--heart-of-darkness/">
+            
+            <small>［題辞］　事実</small>
+            <b><span class="seg-copy">詩の冒頭に、小説の一行がある。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
+          <a class="fstop" href="w/heart-of-darkness/?c=the-hollow-men--heart-of-darkness">
+            <span class="st-img"><img src="img/works/heart-of-darkness.jpg" alt="ジョセフ・コンラッド『闇の奥』" data-k="heart-of-darkness" loading="lazy" decoding="async"></span>
+            <span class="st-txt"><small>書籍・1899年</small>
+              <b>ジョセフ・コンラッド『闇の奥』</b><span>象牙交易の奥地へ向かう船乗りマーロウが、消息を絶った交易所の責任者クルツを探す物語。当時のコンゴ自由国が舞台とされる。</span></span>
           </a>
         </li></ol>
             <div class="rail-more" id="railMore" aria-hidden="true"></div>
@@ -415,17 +417,17 @@ document.addEventListener('click', function (e) {
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 <script type="application/ld+json" id="ld">{"@context":"https://schema.org","@type":"Article","headline":"『象を撃つ』の作者は、後に監視国家を書いた。","alternativeHeadline":"ビルマから『1984年』へ","about":[{"@type":"Book","name":"象を撃つ","description":"英領ビルマの警官である語り手「私」が、暴れた象を、群衆の前で「撃たねばならなくなった」ことを書いたエッセイ。作者自身の体験に基づくとされる。","creator":{"@type":"Person","name":"ジョージ・オーウェル"}},{"@type":"Book","name":"1984年","description":"「ビッグ・ブラザー」がすべてを監視する全体主義国家オセアニアで、真理省に勤めるウィンストンが体制に疑いを抱く。","creator":{"@type":"Person","name":"ジョージ・オーウェル"}}],"author":{"@type":"Person","name":"生成AI（初稿）"},"datePublished":"2026-09-14T08:00:00.000Z","dateModified":"2026-09-14T08:00:00.000Z","inLanguage":"ja","articleBody":"ハブは書き手オーウェル。権力の側に立った経験から、権力の物語が生まれた。本名エリック・ブレアは、1920年代に英領ビルマで警察官をしていた。『象を撃つ』は、暴れた象を、群衆の期待に押されて撃たねばならなくなった警官の「私」を書いたエッセイである。作者自身の体験に基づくとされるが、事実か創作かは確定していない。オーウェルはやがて警官を辞め、ビルマを舞台にした小説『ビルマの日々』を書いた。前田先生は note で、この小説にも『象を撃つ』と同じく統治する側の人間の内面的な敗北が描かれていて、それこそ警官を辞めた理由そのものだと書いている。オーウェルの目は、『動物農場』『1984年』で、国家が人を支配するしくみそのものへ向かっていく。前田先生の2018年の note によれば、ビルマ（現ミャンマー）では少し前まで、この二冊が出版禁止の「禁書」だった。軍事独裁の暗い歴史を予言し、批判する内容だったからだという。エマ・ラーキンは『Finding George Orwell in Burma』で、この二冊がビルマの軍事独裁を予見していたと論じている。ラーキンが旅した当時のビルマには、オーウェルを「予言者」と呼ぶ人がいたという。","url":"https://beautifulcontext.com/c/shooting-an-elephant--nineteen-eighty-four/","citation":[{"@type":"CreativeWork","name":"Shooting an Elephant | The Orwell Foundation","url":"https://www.orwellfoundation.com/the-orwell-foundation/orwell/essays-and-other-works/shooting-an-elephant/","publisher":{"@type":"Organization","name":"The Orwell Foundation"}},{"@type":"CreativeWork","name":"ビルマからミャンマーへ, ラングーンからヤンゴンへ","url":"https://note.com/mdkh/n/n4dec6741097a","publisher":{"@type":"Organization","name":"note（前田邦宏）"}},{"@type":"CreativeWork","name":"Shooting an Elephant - Wikipedia","url":"https://en.wikipedia.org/wiki/Shooting_an_Elephant","publisher":{"@type":"Organization","name":"Wikipedia"}},{"@type":"CreativeWork","name":"George Orwell - Wikipedia","url":"https://en.wikipedia.org/wiki/George_Orwell","publisher":{"@type":"Organization","name":"Wikipedia"}},{"@type":"CreativeWork","name":"ジョージ・オーウェル - Wikipedia","url":"https://ja.wikipedia.org/wiki/%E3%82%B8%E3%83%A7%E3%83%BC%E3%82%B8%E3%83%BB%E3%82%AA%E3%83%BC%E3%82%A6%E3%82%A7%E3%83%AB","publisher":{"@type":"Organization","name":"Wikipedia"}},{"@type":"CreativeWork","name":"Emma Larkin - Wikipedia","url":"https://en.wikipedia.org/wiki/Emma_Larkin","publisher":{"@type":"Organization","name":"Wikipedia"}},{"@type":"CreativeWork","name":"Big Brother’s Burmese Comeback","url":"https://foreignpolicy.com/2014/02/15/big-brothers-burmese-comeback/","publisher":{"@type":"Organization","name":"Foreign Policy"}},{"@type":"CreativeWork","name":"Big Brother Is Watching","url":"https://www.newsweek.com/big-brother-watching-121511","publisher":{"@type":"Organization","name":"Newsweek"}},{"@type":"CreativeWork","name":"Nineteen Eighty-Four - Wikipedia","url":"https://en.wikipedia.org/wiki/Nineteen_Eighty-Four","publisher":{"@type":"Organization","name":"Wikipedia"}}],"image":"https://beautifulcontext.com/img/works/shooting-an-elephant.jpg"}</script>
 
-<script src="js/config.js?v=174"></script>
-<script src="js/seed.js?v=174"></script>
-<script src="js/sources.js?v=174"></script>
-<script src="js/backend.js?v=174"></script>
-<script src="js/store.js?v=174"></script>
-<script src="js/social.js?v=174"></script>
-<script src="js/render.js?v=174"></script>
-<script src="js/login.js?v=174"></script>
-<script src="js/login-page.js?v=174"></script>
-<script src="js/report.js?v=174"></script>
-<script src="js/transition.js?v=174"></script>
-<script src="js/app.js?v=174"></script>
+<script src="js/config.js?v=175"></script>
+<script src="js/seed.js?v=175"></script>
+<script src="js/sources.js?v=175"></script>
+<script src="js/backend.js?v=175"></script>
+<script src="js/store.js?v=175"></script>
+<script src="js/social.js?v=175"></script>
+<script src="js/render.js?v=175"></script>
+<script src="js/login.js?v=175"></script>
+<script src="js/login-page.js?v=175"></script>
+<script src="js/report.js?v=175"></script>
+<script src="js/transition.js?v=175"></script>
+<script src="js/app.js?v=175"></script>
 </body>
 </html>

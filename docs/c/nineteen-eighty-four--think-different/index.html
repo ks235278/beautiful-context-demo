@@ -43,9 +43,9 @@ try { if (sessionStorage.getItem('bc-resume')) document.documentElement.classLis
 <link rel="preload" as="image" href="img/logo-layer-words.png">
 <!-- 台本も先に取りに行く（静的なページは台本より先に本文が描かれる。遅い回線で、触れて動くまでの間を縮める）。
      src と同じアドレス（?v= まで）でないと、二度取りに行く -->
-<link rel="preload" as="script" href="js/seed.js?v=174">
-<link rel="preload" as="script" href="js/app.js?v=174">
-<link rel="manifest" href="manifest.webmanifest?v=174">
+<link rel="preload" as="script" href="js/seed.js?v=175">
+<link rel="preload" as="script" href="js/app.js?v=175">
+<link rel="manifest" href="manifest.webmanifest?v=175">
 <link rel="apple-touch-icon" href="icon-180.png">
 <!-- タブと検索結果に出る小さな印。アプリの印（ホーム画面のアイコン）と同じ形 -->
 <link rel="icon" href="favicon.ico" sizes="16x16 32x32 48x48">
@@ -76,13 +76,13 @@ if (location.hostname === 'beautifulcontext.com'){
   document.head.appendChild(ga);
 }
 </script>
-<script src="js/theme.js?v=174"></script>
-<link rel="stylesheet" href="app.css?v=174">
+<script src="js/theme.js?v=175"></script>
+<link rel="stylesheet" href="app.css?v=175">
 <!-- 読む画面の使い勝手（2026.10.24）。app.css のすぐあと -->
-<link rel="stylesheet" href="ux.css?v=174">
-<link rel="stylesheet" href="fade.css?v=174">
+<link rel="stylesheet" href="ux.css?v=175">
+<link rel="stylesheet" href="fade.css?v=175">
 <!-- editorial-ink（紙・墨・金）：◆ の罫と、紙の上か絵の上かで変わる決まり。ux.css のあと -->
-<link rel="stylesheet" href="ink.css?v=174">
+<link rel="stylesheet" href="ink.css?v=175">
 <!-- 台本（js）が揃うまで：まだ押しても動かないもの（‹・絵の横の ‹ ›・つながりを辿る）を少し薄くし、下の帯の上の縁に細い金の線を走らせる。
      app.js が最後に body.app-ready を付けて外す。すぐ揃うときは何も見せない（0.3 秒待ってから出す） -->
 <style>
@@ -132,6 +132,8 @@ document.addEventListener('click', function (e) {
 <div class="dock" id="dock">
   <div class="map" id="map"></div>
   <p class="sel-hint" id="selHint" aria-live="polite"></p>
+  <!-- 携帯：つながりを辿るの行き先を一行で（パソコンは次の札 next-peek） -->
+  <p class="dock-next" id="dockNext"></p>
   <p class="dock-brand" id="dockBrand">BEAUTIFUL CONTEXT</p>
   <!-- 読む画面（Today・コンテクスト・作品）では NEXT UNIVERSE だけ。戻るのは左の端から右へ払う（iPhone と同じ）か、上の ‹。
        ReMixIt!（つながりを創る）は編集の側の道具なので、UniverseIt! の画面とメニューに置く -->
@@ -192,7 +194,7 @@ document.addEventListener('click', function (e) {
   <div class="view-in" id="viewIn"><!--bc-body-->
       <article class="page cpage">
         <button type="button" class="back-close" data-close="" aria-label="Today's Editor's Choice へ戻る" title="Today's Editor's Choice へ"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 4.5 7.5 12l7.5 7.5"></path></svg></button>
-        <div class="duo-hero"><a class="c-logo on-paper" href="#/" data-top="" aria-label="BEAUTIFUL CONTEXT（TOP へ戻る）"><img src="img/logo-navy.png" alt=""></a><span class="only-sp"><button type="button" class="login-chip" data-login="">Login</button></span><div class="duo"><button type="button" class="duo-go" data-step="0" aria-label="ジョージ・オーウェル『1984年』の作品ページへ"><div class="art"><img src="img/works/nineteen-eighty-four.jpg" alt="ジョージ・オーウェル『1984年』" data-k="nineteen-eighty-four" decoding="async" fetchpriority="low"></div></button><button type="button" class="duo-go" data-step="2" aria-label="アップル「Think Different」の作品ページへ"><div class="art"><img src="img/works/think-different.jpg" alt="アップル「Think Different」" data-k="think-different" decoding="async" fetchpriority="low"></div></button><i class="swap" aria-hidden="true">↔</i></div><button type="button" class="ctx-nav prev" data-ctx-go="-1" aria-label="一つ前のつながりへ">‹</button><button type="button" class="ctx-nav next" data-ctx-go="1" aria-label="次のつながりへ">›</button></div>
+        <div class="duo-hero"><a class="c-logo on-paper" href="#/" data-top="" aria-label="BEAUTIFUL CONTEXT（TOP へ戻る）"><img src="img/logo-navy.png" alt=""></a><span class="only-sp"><button type="button" class="login-chip" data-login="">Login</button></span><div class="duo"><button type="button" class="duo-go" data-step="0" aria-label="ジョージ・オーウェル『1984年』の作品ページへ"><div class="art"><img src="img/works/nineteen-eighty-four.jpg" alt="ジョージ・オーウェル『1984年』" data-k="nineteen-eighty-four" decoding="async" fetchpriority="low"></div></button><button type="button" class="duo-go" data-step="2" aria-label="アップル「Think Different」の作品ページへ"><div class="art"><img src="img/works/think-different.jpg" alt="アップル「Think Different」" data-k="think-different" decoding="async" fetchpriority="low"></div></button><i class="swap" aria-hidden="true">↔</i></div><button type="button" class="ctx-nav prev" data-ctx-go="-1" aria-label="一つ前のつながりへ">‹</button><button type="button" class="ctx-nav next" data-ctx-go="1" aria-label="次へ：ジョージ・オーウェル『1984年』">›</button></div>
         <section class="context-lead">
           
           <div class="ed-row">
@@ -264,142 +266,142 @@ document.addEventListener('click', function (e) {
         <li class="stop first">
           
           
-          <a class="fstop" href="w/think-different/">
-            <span class="st-img"><img src="img/works/think-different.jpg" alt="アップル「Think Different」" data-k="think-different" loading="lazy" decoding="async"></span>
-            <span class="st-txt"><small>広告・1997年</small>
-              <b>アップル「Think Different」</b><span>1997年にアップルが始めた広告キャンペーン。アインシュタイン、ガンディー、ピカソら、世界を変えた「クレイジーな人たち」への賛辞を掲げた。</span></span>
+          <a class="fstop" href="w/hannah-arendt/?c=hannah-arendt--nineteen-eighty-four">
+            <span class="st-img"><img src="img/works/hannah-arendt.jpg" alt="ハンナ・アーレント" data-k="hannah-arendt" loading="lazy" decoding="async"></span>
+            <span class="st-txt"><small>人物・1906年</small>
+              <b>ハンナ・アーレント</b><span>ドイツ生まれの政治哲学者。ナチスを逃れて米国に渡り、『全体主義の起原』『人間の条件』、アイヒマン裁判の報告で「悪の凡庸さ」を論じた。</span></span>
           </a>
         </li>
         <li class="stop">
           
-          <a class="seg" href="c/buckminster-fuller--think-different/">
+          <a class="seg" href="c/jidai-no-kishimi--hannah-arendt/">
             
-            <small>［クレイジーな人たち］　事実</small>
-            <b><span class="seg-copy">世界を変えられると本気で信じる一人。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
-          <a class="fstop" href="w/buckminster-fuller/?c=buckminster-fuller--think-different">
-            <span class="st-img"><img src="img/works/buckminster-fuller.jpg" alt="バックミンスター・フラー" data-k="buckminster-fuller" loading="lazy" decoding="async"></span>
-            <span class="st-txt"><small>人物・1895年</small>
-              <b>バックミンスター・フラー</b><span>ジオデシック・ドームで知られるアメリカの思想家・建築家。「宇宙船地球号」という言葉を広めた。</span></span>
+            <small>［個人と国家］　似ている</small>
+            <b><span class="seg-copy">〈わたし〉と国家のあいだに立つ。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
+          <a class="fstop" href="w/jidai-no-kishimi/?c=jidai-no-kishimi--hannah-arendt">
+            <span class="st-img"><img src="img/works/jidai-no-kishimi.jpg" alt="鷲田清一『時代のきしみ——〈わたし〉と国家のあいだ』" data-k="jidai-no-kishimi" loading="lazy" decoding="async"></span>
+            <span class="st-txt"><small>書籍・2002年</small>
+              <b>鷲田清一『時代のきしみ——〈わたし〉と国家のあいだ』</b><span>法律や制度、習俗や縁といった「生の背景」が、個人の存在をどう編み上げているのかを考える哲学エッセイ集。</span></span>
           </a>
         </li>
         <li class="stop">
           
-          <a class="seg" href="c/buckminster-fuller--spaceship-earth/">
+          <a class="seg" href="c/washida-kiyokazu--jidai-no-kishimi/">
             
-            <small>［作者と作品］　作者と作品</small>
-            <b><span class="seg-copy">地球には、操縦マニュアルがない。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
-          <a class="fstop" href="w/spaceship-earth/?c=buckminster-fuller--spaceship-earth">
-            <span class="st-img"><img src="img/works/spaceship-earth.jpg" alt="バックミンスター・フラー『宇宙船地球号 操縦マニュアル』" data-k="spaceship-earth" loading="lazy" decoding="async"></span>
-            <span class="st-txt"><small>書籍・1969年</small>
-              <b>バックミンスター・フラー『宇宙船地球号 操縦マニュアル』</b><span>地球を、限られた資源で航行する一隻の宇宙船にたとえ、人類はその操縦のしかたを学ばねばならないと説いた。</span></span>
+            <small>［書き手と本］　作者と作品</small>
+            <b><span class="seg-copy">時代を拒むほど、時代に絡めとられる。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
+          <a class="fstop" href="w/washida-kiyokazu/?c=washida-kiyokazu--jidai-no-kishimi">
+            <span class="st-img"><img src="img/works/washida-kiyokazu.jpg" alt="鷲田清一" data-k="washida-kiyokazu" loading="lazy" decoding="async"></span>
+            <span class="st-txt"><small>人物・1949年</small>
+              <b>鷲田清一</b><span>京都生まれの哲学者。大阪大学総長をつとめた。『モードの迷宮』『「聴く」ことの力』など、ファッションや身体、ケアを哲学の主題にしてきた。</span></span>
           </a>
         </li>
         <li class="stop">
           
-          <a class="seg" href="c/interstellar--spaceship-earth/">
+          <a class="seg" href="c/washida-kiyokazu--homme-less/">
             
-            <small>［地球という船］　似ている</small>
-            <b><span class="seg-copy">人類は、船を乗り換えられるか。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
-          <a class="fstop" href="w/interstellar/?c=interstellar--spaceship-earth">
-            <span class="st-img"><img src="img/works/interstellar.jpg" alt="クリストファー・ノーラン『インターステラー』" data-k="interstellar" loading="lazy" decoding="async"></span>
+            <small>［服を着る哲学］　似ている</small>
+            <b><span class="seg-copy">哲学者は、服を着ることを考えた。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
+          <a class="fstop" href="w/homme-less/?c=washida-kiyokazu--homme-less">
+            <span class="st-img"><img src="img/works/homme-less.jpg" alt="映画『ホームレス ニューヨークと寝た男』" data-k="homme-less" loading="lazy" decoding="async"></span>
             <span class="st-txt"><small>映画・2014年</small>
-              <b>クリストファー・ノーラン『インターステラー』</b><span>砂嵐と作物の枯死に追い詰められた近未来の地球から、人類の移住先を探して宇宙へ向かう元宇宙飛行士と、地球に残された娘の物語。</span></span>
+              <b>映画『ホームレス ニューヨークと寝た男』</b><span>ファッション写真家で元モデルのマーク・レイは、マンハッタンのアパートの屋上で寝袋にくるまって暮らしていた。その日々を追ったドキュメンタリー。</span></span>
           </a>
         </li>
         <li class="stop">
           
-          <a class="seg" href="c/interstellar--christopher-nolan/">
+          <a class="seg" href="c/homme-less--happy-pharrell/">
             
-            <small>［監督と作品］　作者と作品</small>
-            <b><span class="seg-copy">父と娘の時間のずれを、兄弟で書いた。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
-          <a class="fstop" href="w/christopher-nolan/?c=interstellar--christopher-nolan">
-            <span class="st-img"><img src="img/works/christopher-nolan.jpg" alt="クリストファー・ノーラン" data-k="christopher-nolan" loading="lazy" decoding="async"></span>
-            <span class="st-txt"><small>人物・1970年</small>
-              <b>クリストファー・ノーラン</b><span>ロンドン生まれの映画監督。『ダークナイト』『インセプション』『インターステラー』『ダンケルク』『オッペンハイマー』。</span></span>
-          </a>
-        </li>
-        <li class="stop branch">
-          
-          <a class="seg" href="c/interstellar--the-grapes-of-wrath/">
-            <span class="seg-from">インターステラー から分岐</span>
-            <small>［ダストボウル］　事実</small>
-            <b><span class="seg-copy">砂嵐の農場から、星の海へ。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
-          <a class="fstop" href="w/the-grapes-of-wrath/?c=interstellar--the-grapes-of-wrath">
-            <span class="st-img"><img src="img/works/the-grapes-of-wrath.jpg" alt="ジョン・スタインベック『怒りの葡萄』" data-k="the-grapes-of-wrath" loading="lazy" decoding="async"></span>
-            <span class="st-txt"><small>書籍・1939年</small>
-              <b>ジョン・スタインベック『怒りの葡萄』</b><span>干ばつと砂嵐、そして差し押さえで土地を追われたオクラホマの農民ジョード一家が、仕事を求めてカリフォルニアへ向かう。ピューリッツァー賞を受けた。</span></span>
+            <small>［屋根のない部屋］　似ている</small>
+            <b><span class="seg-copy">屋根のない部屋でも、手を叩ける。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
+          <a class="fstop" href="w/happy-pharrell/?c=homme-less--happy-pharrell">
+            <span class="st-img"><img src="img/works/happy-pharrell.jpg" alt="ファレル・ウィリアムス「HAPPY」" data-k="happy-pharrell" loading="lazy" decoding="async"></span>
+            <span class="st-txt"><small>音楽・2013年</small>
+              <b>ファレル・ウィリアムス「HAPPY」</b><span>映画『怪盗グルーのミニオン危機一発』のために書かれた曲。24時間ぶんのミュージックビデオがロサンゼルスで撮影され、のちに世界各地で人々が踊る動画が投稿された。</span></span>
           </a>
         </li>
         <li class="stop">
           
-          <a class="seg" href="c/the-grapes-of-wrath--nobel-literature-laureates/">
+          <a class="seg" href="c/martin-heidegger--hannah-arendt/">
             
-            <small>［1962年の受賞］　ハブ</small>
-            <b><span class="seg-copy">砂嵐の時代を描く作家はノーベル文学賞を得た。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
-          <a class="fstop" href="w/nobel-literature-laureates/?c=the-grapes-of-wrath--nobel-literature-laureates">
-            <span class="st-img"><img src="img/works/nobel-literature-laureates.jpg" alt="ノーベル文学賞受賞者" data-k="nobel-literature-laureates" loading="lazy" decoding="async"></span>
-            <span class="st-txt"><small>人物・1901–年</small>
-              <b>ノーベル文学賞受賞者</b><span>1901年から続くノーベル文学賞を受けた作家たち。</span></span>
+            <small>［師と弟子］　事実</small>
+            <b><span class="seg-copy">哲学者と、その学生だった哲学者。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
+          <a class="fstop" href="w/martin-heidegger/?c=martin-heidegger--hannah-arendt">
+            <span class="st-img"><img src="img/works/martin-heidegger.jpg" alt="マルティン・ハイデッガー" data-k="martin-heidegger" loading="lazy" decoding="async"></span>
+            <span class="st-txt"><small>人物・1889年</small>
+              <b>マルティン・ハイデッガー</b><span>ドイツの哲学者。『存在と時間』で、人間を、世界の中にすでに投げ込まれて生きている存在として捉え直した。</span></span>
           </a>
         </li>
         <li class="stop">
           
-          <a class="seg" href="c/peter-handke--nobel-literature-laureates/">
+          <a class="seg" href="c/affordance--martin-heidegger/">
             
-            <small>［2019年の受賞］　事実</small>
-            <b><span class="seg-copy">『天使の詩』の脚本家がノーベル文学賞を得た。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
-          <a class="fstop" href="w/peter-handke/?c=peter-handke--nobel-literature-laureates">
-            <span class="st-img"><img src="img/works/peter-handke.jpg" alt="ペーター・ハントケ" data-k="peter-handke" loading="lazy" decoding="async"></span>
-            <span class="st-txt"><small>人物</small>
-              <b>ペーター・ハントケ</b><span>オーストリアの作家・劇作家。『ベルリン・天使の詩』の脚本に加わり、2019年にノーベル文学賞を受賞した。</span></span>
+            <small>［道具の哲学］　似ている</small>
+            <b><span class="seg-copy">金槌は、使うときにだけ現れる。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
+          <a class="fstop" href="w/affordance/?c=affordance--martin-heidegger">
+            <span class="st-img"><img src="img/works/affordance.jpg" alt="アフォーダンス" data-k="affordance" loading="lazy" decoding="async"></span>
+            <span class="st-txt"><small>思想・1979年</small>
+              <b>アフォーダンス</b><span>環境が動物に与える、行為の可能性。椅子は「座る」ことを、取っ手は「つかむ」ことをアフォードする。ギブソンの造語。</span></span>
           </a>
         </li>
         <li class="stop">
           
-          <a class="seg" href="c/wings-of-desire--peter-handke/">
+          <a class="seg" href="c/affordance--minakata-mandala/">
             
-            <small>［天使の言葉］　事実</small>
-            <b><span class="seg-copy">劇中の詩を書いたのはのちのノーベル賞作家。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
-          <a class="fstop" href="w/wings-of-desire/?c=wings-of-desire--peter-handke">
-            <span class="st-img"><img src="img/works/wings-of-desire.jpg" alt="映画『ベルリン・天使の詩』" data-k="wings-of-desire" loading="lazy" decoding="async"></span>
-            <span class="st-txt"><small>映画・ドラマ・1987年</small>
-              <b>映画『ベルリン・天使の詩』</b><span>壁のあった時代のベルリンで、人々の心の声を聞き続けてきた天使が、人間になることを選ぶ物語。</span></span>
+            <small>［見て、飲む］　似ている</small>
+            <b><span class="seg-copy">物との関わりを、二人は「飲む」を例に書いた。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
+          <a class="fstop" href="w/minakata-mandala/?c=affordance--minakata-mandala">
+            <span class="st-img"><img src="img/works/minakata-mandala.jpg" alt="南方曼荼羅" data-k="minakata-mandala" loading="lazy" decoding="async"></span>
+            <span class="st-txt"><small>思想・1903年</small>
+              <b>南方曼荼羅</b><span>南方熊楠が、世界の因果関係が交錯し連鎖するさまを一枚の図に描いたもの。真言宗の僧・土宜法龍への手紙に記された。</span></span>
           </a>
         </li>
         <li class="stop">
           
-          <a class="seg" href="c/bruno-ganz--wings-of-desire/">
+          <a class="seg" href="c/minakata-kumagusu--minakata-mandala/">
             
-            <small>［天使ダミエル］　作者と作品</small>
-            <b><span class="seg-copy">人の心の声を聞く天使はやがて人間になった。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
-          <a class="fstop" href="w/bruno-ganz/?c=bruno-ganz--wings-of-desire">
-            <span class="st-img"><img src="img/works/bruno-ganz.jpg" alt="ブルーノ・ガンツ" data-k="bruno-ganz" loading="lazy" decoding="async"></span>
-            <span class="st-txt"><small>人物</small>
-              <b>ブルーノ・ガンツ</b><span>スイス出身の俳優。『ベルリン・天使の詩』の天使ダミエル、『ヒトラー〜最期の12日間〜』のヒトラーを演じた。</span></span>
+            <small>［書き手と図］　作者と作品</small>
+            <b><span class="seg-copy">世界のつながりを、一枚の図に描いた。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
+          <a class="fstop" href="w/minakata-kumagusu/?c=minakata-kumagusu--minakata-mandala">
+            <span class="st-img"><img src="img/works/minakata-kumagusu.jpg" alt="南方熊楠" data-k="minakata-kumagusu" loading="lazy" decoding="async"></span>
+            <span class="st-txt"><small>人物・1867年</small>
+              <b>南方熊楠</b><span>和歌山生まれの博物学者。粘菌の研究で知られ、若い頃はロンドンの大英博物館に通って学んだ。</span></span>
           </a>
         </li>
         <li class="stop">
           
-          <a class="seg" href="c/downfall--bruno-ganz/">
+          <a class="seg" href="c/minakata-kumagusu--natsume-soseki/">
             
-            <small>［ヒトラーを演じた人］　作者と作品</small>
-            <b><span class="seg-copy">天使を演じた俳優が、独裁者を演じた。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
-          <a class="fstop" href="w/downfall/?c=downfall--bruno-ganz">
-            <span class="st-img"><img src="img/works/downfall.jpg" alt="映画『ヒトラー〜最期の12日間〜』" data-k="downfall" loading="lazy" decoding="async"></span>
-            <span class="st-txt"><small>映画・ドラマ・2004年</small>
-              <b>映画『ヒトラー〜最期の12日間〜』</b><span>ベルリン陥落直前、総統地下壕で過ごしたヒトラーの最期の日々を、秘書の証言などをもとに描いたドイツ映画。</span></span>
+            <small>［ロンドンの入れ違い］　事実</small>
+            <b><span class="seg-copy">同じ年生まれの二人は、ロンドンで入れ違った。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
+          <a class="fstop" href="w/natsume-soseki/?c=minakata-kumagusu--natsume-soseki">
+            <span class="st-img"><img src="img/works/natsume-soseki.jpg" alt="夏目漱石" data-k="natsume-soseki" loading="lazy" decoding="async"></span>
+            <span class="st-txt"><small>人物・1867年</small>
+              <b>夏目漱石</b><span>『吾輩は猫である』『坊っちゃん』『草枕』『こころ』の作家。熊本の第五高等学校で教えたのち、1900年から英国に留学した。</span></span>
           </a>
         </li>
         <li class="stop">
           
-          <a class="seg" href="c/the-bunker--downfall/">
+          <a class="seg" href="c/kusamakura--natsume-soseki/">
             
-            <small>［同じ地下壕］　ハブ</small>
-            <b><span class="seg-copy">地下壕の最後の日々を、二本の映画が描いた。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
-          <a class="fstop" href="w/the-bunker-1981/?c=the-bunker--downfall">
-            <span class="st-img"><span class="ph">ザ</span></span>
-            <span class="st-txt"><small>映画・ドラマ・1981年</small>
-              <b>テレビ映画『ザ・バンカー』</b><span>ベルリンの総統地下壕で過ごしたヒトラーの最後の日々を、ジェームズ・P・オドネルの著書をもとに描いたアメリカのテレビ映画。アンソニー・ホプキンスがヒトラーを演じ、エミー賞（主演男優賞）を受けた。</span></span>
+            <small>［旅が生んだ『草枕』］　作者と作品</small>
+            <b><span class="seg-copy">「非人情」の小説には、漱石の芸術論が表れた。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
+          <a class="fstop" href="w/kusamakura/?c=kusamakura--natsume-soseki">
+            <span class="st-img"><img src="img/kusamakura.jpg" alt="夏目漱石『草枕』" data-k="kusamakura" loading="lazy" decoding="async"></span>
+            <span class="st-txt"><small>書籍・1906年</small>
+              <b>夏目漱石『草枕』</b><span>「智に働けば角が立つ。情に棹させば流される。」で始まる、画工が非人情の世界を求めて旅する小説。</span></span>
+          </a>
+        </li>
+        <li class="stop">
+          
+          <a class="seg" href="c/glenn-gould--kusamakura/">
+            
+            <small>［非人情という共通言語］　事実</small>
+            <b><span class="seg-copy">枕元にあった二冊は、聖書と『草枕』だった。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
+          <a class="fstop" href="w/glenn-gould/?c=glenn-gould--kusamakura">
+            <span class="st-img"><img src="img/gould.jpg" alt="グレン・グールド" data-k="glenn-gould" loading="lazy" decoding="async"></span>
+            <span class="st-txt"><small>人物・1932年</small>
+              <b>グレン・グールド</b><span>バッハ演奏で知られ、クラシック音楽における「演奏とは何か」という考え方そのものを変えた20世紀を代表するピアニスト。</span></span>
           </a>
         </li></ol>
             <div class="rail-more" id="railMore" aria-hidden="true"></div>
@@ -415,17 +417,17 @@ document.addEventListener('click', function (e) {
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 <script type="application/ld+json" id="ld">{"@context":"https://schema.org","@type":"Article","headline":"ビッグ・ブラザーを、ハンマーが打ち砕いた。","alternativeHeadline":"1984年は『1984年』のようにはならない","about":[{"@type":"Book","name":"1984年","description":"「ビッグ・ブラザー」がすべてを監視する全体主義国家オセアニアで、真理省に勤めるウィンストンが体制に疑いを抱く。","creator":{"@type":"Person","name":"ジョージ・オーウェル"}},{"@type":"CreativeWork","name":"アップル「Think Different」","description":"1997年にアップルが始めた広告キャンペーン。アインシュタイン、ガンディー、ピカソら、世界を変えた「クレイジーな人たち」への賛辞を掲げた。","creator":{"@type":"Person","name":"アップル"}}],"author":{"@type":"Person","name":"生成AI（初稿）"},"datePublished":"2026-09-14T07:40:00.000Z","dateModified":"2026-09-14T07:40:00.000Z","inLanguage":"ja","articleBody":"ハブは、1984年のアップルの広告。1984年1月22日、アップルはスーパーボウルの中継で、2日後に発表する最初の Macintosh のテレビ広告を流した。オーウェルの『1984年』を下敷きにしたこの広告では、画面の独裁者に向かって女性がハンマーを投げつける。監督はリドリー・スコット、女性を演じたのはアニャ・メジャーである。13年後の1997年、アップルは「Think Different」で、世界を変えた「クレイジーな人たち」を讃えた。1984年の広告は Chiat/Day が、1997年の「Think Different」は TBWA\\Chiat\\Day のロサンゼルス事務所が手がけた。「1984」は体制に挑む一人の女性を、「Think Different」は世界を変える「クレイジーな人たち」を主役にしている。群衆ではなく個人に光を当てた広告として、二つは並べて読める。","url":"https://beautifulcontext.com/c/nineteen-eighty-four--think-different/","citation":[{"@type":"CreativeWork","name":"Folklore.org: 1984","url":"https://www.folklore.org/1984.html","publisher":{"@type":"Organization","name":"Folklore.org（Andy Hertzfeld）"}},{"@type":"CreativeWork","name":"Macintosh 128K - Wikipedia","url":"https://en.wikipedia.org/wiki/Macintosh_128K","publisher":{"@type":"Organization","name":"Wikipedia"}},{"@type":"CreativeWork","name":"Think different - Wikipedia","url":"https://en.wikipedia.org/wiki/Think_different","publisher":{"@type":"Organization","name":"Wikipedia"}},{"@type":"CreativeWork","name":"Think different - Wikipedia","url":"https://ja.wikipedia.org/wiki/Think_different","publisher":{"@type":"Organization","name":"Wikipedia"}}],"image":"https://beautifulcontext.com/img/works/nineteen-eighty-four.jpg"}</script>
 
-<script src="js/config.js?v=174"></script>
-<script src="js/seed.js?v=174"></script>
-<script src="js/sources.js?v=174"></script>
-<script src="js/backend.js?v=174"></script>
-<script src="js/store.js?v=174"></script>
-<script src="js/social.js?v=174"></script>
-<script src="js/render.js?v=174"></script>
-<script src="js/login.js?v=174"></script>
-<script src="js/login-page.js?v=174"></script>
-<script src="js/report.js?v=174"></script>
-<script src="js/transition.js?v=174"></script>
-<script src="js/app.js?v=174"></script>
+<script src="js/config.js?v=175"></script>
+<script src="js/seed.js?v=175"></script>
+<script src="js/sources.js?v=175"></script>
+<script src="js/backend.js?v=175"></script>
+<script src="js/store.js?v=175"></script>
+<script src="js/social.js?v=175"></script>
+<script src="js/render.js?v=175"></script>
+<script src="js/login.js?v=175"></script>
+<script src="js/login-page.js?v=175"></script>
+<script src="js/report.js?v=175"></script>
+<script src="js/transition.js?v=175"></script>
+<script src="js/app.js?v=175"></script>
 </body>
 </html>

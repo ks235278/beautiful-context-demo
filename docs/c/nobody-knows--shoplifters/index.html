@@ -43,9 +43,9 @@ try { if (sessionStorage.getItem('bc-resume')) document.documentElement.classLis
 <link rel="preload" as="image" href="img/logo-layer-words.png">
 <!-- 台本も先に取りに行く（静的なページは台本より先に本文が描かれる。遅い回線で、触れて動くまでの間を縮める）。
      src と同じアドレス（?v= まで）でないと、二度取りに行く -->
-<link rel="preload" as="script" href="js/seed.js?v=174">
-<link rel="preload" as="script" href="js/app.js?v=174">
-<link rel="manifest" href="manifest.webmanifest?v=174">
+<link rel="preload" as="script" href="js/seed.js?v=175">
+<link rel="preload" as="script" href="js/app.js?v=175">
+<link rel="manifest" href="manifest.webmanifest?v=175">
 <link rel="apple-touch-icon" href="icon-180.png">
 <!-- タブと検索結果に出る小さな印。アプリの印（ホーム画面のアイコン）と同じ形 -->
 <link rel="icon" href="favicon.ico" sizes="16x16 32x32 48x48">
@@ -76,13 +76,13 @@ if (location.hostname === 'beautifulcontext.com'){
   document.head.appendChild(ga);
 }
 </script>
-<script src="js/theme.js?v=174"></script>
-<link rel="stylesheet" href="app.css?v=174">
+<script src="js/theme.js?v=175"></script>
+<link rel="stylesheet" href="app.css?v=175">
 <!-- 読む画面の使い勝手（2026.10.24）。app.css のすぐあと -->
-<link rel="stylesheet" href="ux.css?v=174">
-<link rel="stylesheet" href="fade.css?v=174">
+<link rel="stylesheet" href="ux.css?v=175">
+<link rel="stylesheet" href="fade.css?v=175">
 <!-- editorial-ink（紙・墨・金）：◆ の罫と、紙の上か絵の上かで変わる決まり。ux.css のあと -->
-<link rel="stylesheet" href="ink.css?v=174">
+<link rel="stylesheet" href="ink.css?v=175">
 <!-- 台本（js）が揃うまで：まだ押しても動かないもの（‹・絵の横の ‹ ›・つながりを辿る）を少し薄くし、下の帯の上の縁に細い金の線を走らせる。
      app.js が最後に body.app-ready を付けて外す。すぐ揃うときは何も見せない（0.3 秒待ってから出す） -->
 <style>
@@ -132,6 +132,8 @@ document.addEventListener('click', function (e) {
 <div class="dock" id="dock">
   <div class="map" id="map"></div>
   <p class="sel-hint" id="selHint" aria-live="polite"></p>
+  <!-- 携帯：つながりを辿るの行き先を一行で（パソコンは次の札 next-peek） -->
+  <p class="dock-next" id="dockNext"></p>
   <p class="dock-brand" id="dockBrand">BEAUTIFUL CONTEXT</p>
   <!-- 読む画面（Today・コンテクスト・作品）では NEXT UNIVERSE だけ。戻るのは左の端から右へ払う（iPhone と同じ）か、上の ‹。
        ReMixIt!（つながりを創る）は編集の側の道具なので、UniverseIt! の画面とメニューに置く -->
@@ -192,7 +194,7 @@ document.addEventListener('click', function (e) {
   <div class="view-in" id="viewIn"><!--bc-body-->
       <article class="page cpage">
         <button type="button" class="back-close" data-close="" aria-label="Today's Editor's Choice へ戻る" title="Today's Editor's Choice へ"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 4.5 7.5 12l7.5 7.5"></path></svg></button>
-        <div class="duo-hero"><a class="c-logo on-paper" href="#/" data-top="" aria-label="BEAUTIFUL CONTEXT（TOP へ戻る）"><img src="img/logo-navy.png" alt=""></a><span class="only-sp"><button type="button" class="login-chip" data-login="">Login</button></span><div class="duo"><button type="button" class="duo-go" data-step="0" aria-label="是枝裕和『誰も知らない』の作品ページへ"><div class="art"><img src="img/works/nobody-knows.jpg" alt="是枝裕和『誰も知らない』" data-k="nobody-knows" decoding="async" fetchpriority="low"></div></button><button type="button" class="duo-go" data-step="2" aria-label="是枝裕和『万引き家族』の作品ページへ"><div class="art"><img src="img/works/shoplifters.jpg" alt="是枝裕和『万引き家族』" data-k="shoplifters" decoding="async" fetchpriority="low"></div></button><i class="swap" aria-hidden="true">↔</i></div><button type="button" class="ctx-nav prev" data-ctx-go="-1" aria-label="一つ前のつながりへ">‹</button><button type="button" class="ctx-nav next" data-ctx-go="1" aria-label="次のつながりへ">›</button></div>
+        <div class="duo-hero"><a class="c-logo on-paper" href="#/" data-top="" aria-label="BEAUTIFUL CONTEXT（TOP へ戻る）"><img src="img/logo-navy.png" alt=""></a><span class="only-sp"><button type="button" class="login-chip" data-login="">Login</button></span><div class="duo"><button type="button" class="duo-go" data-step="0" aria-label="是枝裕和『誰も知らない』の作品ページへ"><div class="art"><img src="img/works/nobody-knows.jpg" alt="是枝裕和『誰も知らない』" data-k="nobody-knows" decoding="async" fetchpriority="low"></div></button><button type="button" class="duo-go" data-step="2" aria-label="是枝裕和『万引き家族』の作品ページへ"><div class="art"><img src="img/works/shoplifters.jpg" alt="是枝裕和『万引き家族』" data-k="shoplifters" decoding="async" fetchpriority="low"></div></button><i class="swap" aria-hidden="true">↔</i></div><button type="button" class="ctx-nav prev" data-ctx-go="-1" aria-label="一つ前のつながりへ">‹</button><button type="button" class="ctx-nav next" data-ctx-go="1" aria-label="次へ：是枝裕和『万引き家族』">›</button></div>
         <section class="context-lead">
           
           <div class="ed-row">
@@ -264,55 +266,43 @@ document.addEventListener('click', function (e) {
         <li class="stop first">
           
           
-          <a class="fstop" href="w/shoplifters/">
-            <span class="st-img"><img src="img/works/shoplifters.jpg" alt="是枝裕和『万引き家族』" data-k="shoplifters" loading="lazy" decoding="async"></span>
-            <span class="st-txt"><small>映画・2018年</small>
-              <b>是枝裕和『万引き家族』</b><span>万引きで暮らしを補う一家と、彼らに拾われた少女を描いた映画。2018年のカンヌ国際映画祭でパルム・ドールを受けた。</span></span>
+          <a class="fstop" href="w/francis-ford-coppola/?c=apocalypse-now--francis-ford-coppola">
+            <span class="st-img"><img src="img/works/francis-ford-coppola.jpg" alt="フランシス・フォード・コッポラ" data-k="francis-ford-coppola" loading="lazy" decoding="async"></span>
+            <span class="st-txt"><small>人物・1939年</small>
+              <b>フランシス・フォード・コッポラ</b><span>『ゴッドファーザー』『地獄の黙示録』の映画監督。</span></span>
           </a>
         </li>
         <li class="stop">
           
-          <a class="seg" href="c/koreeda-hirokazu--shoplifters/">
+          <a class="seg" href="c/francis-ford-coppola--high-and-low/">
             
-            <small>［家族とは何か］　作者と作品</small>
-            <b><span class="seg-copy">日本映画が21年ぶりにパルム・ドールを得た。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
-          <a class="fstop" href="w/koreeda-hirokazu/?c=koreeda-hirokazu--shoplifters">
-            <span class="st-img"><img src="img/works/koreeda-hirokazu.jpg" alt="是枝裕和" data-k="koreeda-hirokazu" loading="lazy" decoding="async"></span>
-            <span class="st-txt"><small>人物・1962年</small>
-              <b>是枝裕和</b><span>テレビのドキュメンタリー演出から映画監督になった。『誰も知らない』『万引き家族』『海街diary』などを撮っている。</span></span>
+            <small>［黒澤明を経由して］　ハブ</small>
+            <b><span class="seg-copy">コッポラとルーカスが、黒澤の映画を支えた。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
+          <a class="fstop" href="w/high-and-low/?c=francis-ford-coppola--high-and-low">
+            <span class="st-img"><img src="img/highlow.jpg" alt="黒澤明『天国と地獄』" data-k="high-and-low" loading="lazy" decoding="async"></span>
+            <span class="st-txt"><small>映画・1963年</small>
+              <b>黒澤明『天国と地獄』</b><span>エド・マクベインの小説『King’s Ransom』を原作に、誘拐事件を通じて企業家の倫理と社会の格差を描いた作品。</span></span>
           </a>
         </li>
         <li class="stop">
           
-          <a class="seg" href="c/koreeda-hirokazu--nobody-knows/">
+          <a class="seg" href="c/the-hollow-men--apocalypse-now/">
             
-            <small>［見過ごされた子どもたち］　作者と作品</small>
-            <b><span class="seg-copy">14歳が、カンヌで最年少の男優賞を得た。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
-          <a class="fstop" href="w/nobody-knows/?c=koreeda-hirokazu--nobody-knows">
-            <span class="st-img"><img src="img/works/nobody-knows.jpg" alt="是枝裕和『誰も知らない』" data-k="nobody-knows" loading="lazy" decoding="async"></span>
-            <span class="st-txt"><small>映画・2004年</small>
-              <b>是枝裕和『誰も知らない』</b><span>母親に置き去りにされた四人のきょうだいの暮らしを描いた映画。長男を演じた柳楽優弥がカンヌ国際映画祭で最優秀男優賞を受けた。</span></span>
-          </a>
-        </li>
-        <li class="stop branch">
-          
-          <a class="seg" href="c/shoplifters--apocalypse-now/">
-            <span class="seg-from">万引き家族 から分岐</span>
-            <small>［パルム・ドールの系譜］　ハブ</small>
-            <b><span class="seg-copy">ジャングルの奥の戦争と東京の片隅の家族。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
-          <a class="fstop" href="w/apocalypse-now/?c=shoplifters--apocalypse-now">
-            <span class="st-img"><img src="img/works/apocalypse-now.jpg" alt="コッポラ『地獄の黙示録』" data-k="apocalypse-now" loading="lazy" decoding="async"></span>
-            <span class="st-txt"><small>映画・1979年</small>
-              <b>コッポラ『地獄の黙示録』</b><span>ベトナム戦争のさなか、軍を離れて奥地に王国を築いたカーツ大佐の暗殺を命じられた大尉の旅。1979年のカンヌ国際映画祭でパルム・ドールを受けた。</span></span>
+            <small>［カーツ大佐の朗読］　事実</small>
+            <b><span class="seg-copy">ジャングルの奥で、カーツ大佐が詩を読む。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
+          <a class="fstop" href="w/the-hollow-men/?c=the-hollow-men--apocalypse-now">
+            <span class="st-img"><img src="img/works/the-hollow-men.jpg" alt="『うつろな人々』The Hollow Men" data-k="the-hollow-men" loading="lazy" decoding="async"></span>
+            <span class="st-txt"><small>詩・1925年</small>
+              <b>『うつろな人々』The Hollow Men</b><span>「世界の終わりはこうだ、爆発ではなく、すすり泣きで」と結ばれる詩。題辞にコンラッド『闇の奥』の一行を掲げる。</span></span>
           </a>
         </li>
         <li class="stop">
           
-          <a class="seg" href="c/heart-of-darkness--apocalypse-now/">
+          <a class="seg" href="c/the-hollow-men--heart-of-darkness/">
             
-            <small>［川を遡る物語］　事実</small>
-            <b><span class="seg-copy">コンゴの川は、ベトナムの川になった。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
-          <a class="fstop" href="w/heart-of-darkness/?c=heart-of-darkness--apocalypse-now">
+            <small>［題辞］　事実</small>
+            <b><span class="seg-copy">詩の冒頭に、小説の一行がある。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
+          <a class="fstop" href="w/heart-of-darkness/?c=the-hollow-men--heart-of-darkness">
             <span class="st-img"><img src="img/works/heart-of-darkness.jpg" alt="ジョセフ・コンラッド『闇の奥』" data-k="heart-of-darkness" loading="lazy" decoding="async"></span>
             <span class="st-txt"><small>書籍・1899年</small>
               <b>ジョセフ・コンラッド『闇の奥』</b><span>象牙交易の奥地へ向かう船乗りマーロウが、消息を絶った交易所の責任者クルツを探す物語。当時のコンゴ自由国が舞台とされる。</span></span>
@@ -320,86 +310,98 @@ document.addEventListener('click', function (e) {
         </li>
         <li class="stop">
           
-          <a class="seg" href="c/lumumba--heart-of-darkness/">
+          <a class="seg" href="c/t-s-eliot--the-hollow-men/">
             
-            <small>［コンゴという土地］　ハブ</small>
-            <b><span class="seg-copy">植民地の奥地と、独立の叫び。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
-          <a class="fstop" href="w/lumumba/?c=lumumba--heart-of-darkness">
-            <span class="st-img"><img src="img/works/lumumba.jpg" alt="ラウル・ペック『ルムンバの叫び』" data-k="lumumba" loading="lazy" decoding="async"></span>
-            <span class="st-txt"><small>映画・2000年</small>
-              <b>ラウル・ペック『ルムンバの叫び』</b><span>コンゴ独立の指導者パトリス・ルムンバの、首相就任から殺害までを描いた映画。</span></span>
-          </a>
-        </li>
-        <li class="stop branch">
-          
-          <a class="seg" href="c/joseph-conrad--heart-of-darkness/">
-            <span class="seg-from">闇の奥 から分岐</span>
-            <small>［船乗りが見た川］　作者と作品</small>
-            <b><span class="seg-copy">作家は自分で、コンゴ川を遡っていた。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
-          <a class="fstop" href="w/joseph-conrad/?c=joseph-conrad--heart-of-darkness">
-            <span class="st-img"><img src="img/works/joseph-conrad.jpg" alt="ジョセフ・コンラッド" data-k="joseph-conrad" loading="lazy" decoding="async"></span>
-            <span class="st-txt"><small>人物・1857年</small>
-              <b>ジョセフ・コンラッド</b><span>ポーランド生まれの英国の小説家。船乗りとして世界の海を渡ったのち、英語で『闇の奥』『ロード・ジム』などを書いた。</span></span>
-          </a>
-        </li>
-        <li class="stop branch">
-          
-          <a class="seg" href="c/shooting-an-elephant--heart-of-darkness/">
-            <span class="seg-from">闇の奥 から分岐</span>
-            <small>［支配する側の闇］　似ている</small>
-            <b><span class="seg-copy">植民地を統べる者の心の奥。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
-          <a class="fstop" href="w/shooting-an-elephant/?c=shooting-an-elephant--heart-of-darkness">
-            <span class="st-img"><img src="img/works/shooting-an-elephant.jpg" alt="ジョージ・オーウェル『象を撃つ』" data-k="shooting-an-elephant" loading="lazy" decoding="async"></span>
-            <span class="st-txt"><small>書籍・1936年</small>
-              <b>ジョージ・オーウェル『象を撃つ』</b><span>英領ビルマの警官である語り手「私」が、暴れた象を、群衆の前で「撃たねばならなくなった」ことを書いたエッセイ。作者自身の体験に基づくとされる。</span></span>
+            <small>［詩人と作品］　作者と作品</small>
+            <b><span class="seg-copy">爆発ではなく、すすり泣きで。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
+          <a class="fstop" href="w/t-s-eliot/?c=t-s-eliot--the-hollow-men">
+            <span class="st-img"><img src="img/works/t-s-eliot.jpg" alt="T・S・エリオット" data-k="t-s-eliot" loading="lazy" decoding="async"></span>
+            <span class="st-txt"><small>人物</small>
+              <b>T・S・エリオット</b><span>アメリカに生まれ、英国で活躍した詩人・批評家。『荒地』『うつろな人々』を書き、1948年にノーベル文学賞を受賞した。</span></span>
           </a>
         </li>
         <li class="stop">
           
-          <a class="seg" href="c/shooting-an-elephant--nineteen-eighty-four/">
+          <a class="seg" href="c/t-s-eliot--nobel-literature-laureates/">
             
-            <small>［ビルマから『1984年』へ］　ハブ</small>
-            <b><span class="seg-copy">『象を撃つ』の作者は、後に監視国家を書いた。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
-          <a class="fstop" href="w/nineteen-eighty-four/?c=shooting-an-elephant--nineteen-eighty-four">
-            <span class="st-img"><img src="img/works/nineteen-eighty-four.jpg" alt="ジョージ・オーウェル『1984年』" data-k="nineteen-eighty-four" loading="lazy" decoding="async"></span>
-            <span class="st-txt"><small>書籍・1949年</small>
-              <b>ジョージ・オーウェル『1984年』</b><span>「ビッグ・ブラザー」がすべてを監視する全体主義国家オセアニアで、真理省に勤めるウィンストンが体制に疑いを抱く。</span></span>
+            <small>［1948年の受賞］　事実</small>
+            <b><span class="seg-copy">『荒地』の詩人は、1948年に受賞した。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
+          <a class="fstop" href="w/nobel-literature-laureates/?c=t-s-eliot--nobel-literature-laureates">
+            <span class="st-img"><img src="img/works/nobel-literature-laureates.jpg" alt="ノーベル文学賞受賞者" data-k="nobel-literature-laureates" loading="lazy" decoding="async"></span>
+            <span class="st-txt"><small>人物・1901–年</small>
+              <b>ノーベル文学賞受賞者</b><span>1901年から続くノーベル文学賞を受けた作家たち。</span></span>
           </a>
         </li>
         <li class="stop">
           
-          <a class="seg" href="c/nineteen-eighty-four--blade-runner/">
+          <a class="seg" href="c/the-grapes-of-wrath--nobel-literature-laureates/">
             
-            <small>［リドリー・スコットを経由して］　ハブ</small>
-            <b><span class="seg-copy">広告「1984」も、スコットが撮っていた。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
-          <a class="fstop" href="w/blade-runner/?c=nineteen-eighty-four--blade-runner">
-            <span class="st-img"><img src="img/works/blade-runner.jpg" alt="リドリー・スコット『ブレードランナー』" data-k="blade-runner" loading="lazy" decoding="async"></span>
-            <span class="st-txt"><small>映画・1982年</small>
-              <b>リドリー・スコット『ブレードランナー』</b><span>フィリップ・K・ディックの小説『アンドロイドは電気羊の夢を見るか？』を原作に、2019年のロサンゼルスで人造人間を追う男を描いた映画。</span></span>
+            <small>［1962年の受賞］　ハブ</small>
+            <b><span class="seg-copy">砂嵐の時代を描く作家はノーベル文学賞を得た。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
+          <a class="fstop" href="w/the-grapes-of-wrath/?c=the-grapes-of-wrath--nobel-literature-laureates">
+            <span class="st-img"><img src="img/works/the-grapes-of-wrath.jpg" alt="ジョン・スタインベック『怒りの葡萄』" data-k="the-grapes-of-wrath" loading="lazy" decoding="async"></span>
+            <span class="st-txt"><small>書籍・1939年</small>
+              <b>ジョン・スタインベック『怒りの葡萄』</b><span>干ばつと砂嵐、そして差し押さえで土地を追われたオクラホマの農民ジョード一家が、仕事を求めてカリフォルニアへ向かう。ピューリッツァー賞を受けた。</span></span>
           </a>
         </li>
         <li class="stop">
           
-          <a class="seg" href="c/blade-runner--blade-runner-2049/">
+          <a class="seg" href="c/interstellar--the-grapes-of-wrath/">
             
-            <small>［三十年後のロサンゼルス］　事実</small>
-            <b><span class="seg-copy">2019年の雨の街から、2049年の荒野へ。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
-          <a class="fstop" href="w/blade-runner-2049/?c=blade-runner--blade-runner-2049">
-            <span class="st-img"><img src="img/works/blade-runner-2049.jpg" alt="ヴィルヌーヴ『ブレードランナー 2049』" data-k="blade-runner-2049" loading="lazy" decoding="async"></span>
-            <span class="st-txt"><small>映画・2017年</small>
-              <b>ヴィルヌーヴ『ブレードランナー 2049』</b><span>前作から30年後の2049年を舞台にした続編。</span></span>
+            <small>［ダストボウル］　事実</small>
+            <b><span class="seg-copy">砂嵐の農場から、星の海へ。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
+          <a class="fstop" href="w/interstellar/?c=interstellar--the-grapes-of-wrath">
+            <span class="st-img"><img src="img/works/interstellar.jpg" alt="クリストファー・ノーラン『インターステラー』" data-k="interstellar" loading="lazy" decoding="async"></span>
+            <span class="st-txt"><small>映画・2014年</small>
+              <b>クリストファー・ノーラン『インターステラー』</b><span>砂嵐と作物の枯死に追い詰められた近未来の地球から、人類の移住先を探して宇宙へ向かう元宇宙飛行士と、地球に残された娘の物語。</span></span>
           </a>
         </li>
         <li class="stop">
           
-          <a class="seg" href="c/blade-runner-2049--blade-runner-2099/">
+          <a class="seg" href="c/interstellar--christopher-nolan/">
             
-            <small>［さらに五十年後］　事実</small>
-            <b><span class="seg-copy">2049年の先に、2099年が続く。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
-          <a class="fstop" href="w/blade-runner-2099/?c=blade-runner-2049--blade-runner-2099">
-            <span class="st-img"><img src="img/works/blade-runner-2099.jpg" alt="『ブレードランナー 2099』" data-k="blade-runner-2099" loading="lazy" decoding="async"></span>
-            <span class="st-txt"><small>ドラマ</small>
-              <b>『ブレードランナー 2099』</b><span>2049年からさらに50年後を舞台にしたドラマ・シリーズ。ミシェル・ヨーとハンター・シェイファーが主演し、2026年11月25日から Prime Video で配信される。</span></span>
+            <small>［監督と作品］　作者と作品</small>
+            <b><span class="seg-copy">父と娘の時間のずれを、兄弟で書いた。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
+          <a class="fstop" href="w/christopher-nolan/?c=interstellar--christopher-nolan">
+            <span class="st-img"><img src="img/works/christopher-nolan.jpg" alt="クリストファー・ノーラン" data-k="christopher-nolan" loading="lazy" decoding="async"></span>
+            <span class="st-txt"><small>人物・1970年</small>
+              <b>クリストファー・ノーラン</b><span>ロンドン生まれの映画監督。『ダークナイト』『インセプション』『インターステラー』『ダンケルク』『オッペンハイマー』。</span></span>
+          </a>
+        </li>
+        <li class="stop">
+          
+          <a class="seg" href="c/war-of-the-worlds-2005--interstellar/">
+            
+            <small>［スピルバーグを経由して］　ハブ</small>
+            <b><span class="seg-copy">守る父を撮った監督は、旅立つ父の企画にいた。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
+          <a class="fstop" href="w/war-of-the-worlds-2005/?c=war-of-the-worlds-2005--interstellar">
+            <span class="st-img"><img src="img/works/war-of-the-worlds-2005.jpg" alt="スピルバーグ『宇宙戦争』" data-k="war-of-the-worlds-2005" loading="lazy" decoding="async"></span>
+            <span class="st-txt"><small>映画・2005年</small>
+              <b>スピルバーグ『宇宙戦争』</b><span>ウェルズの小説を現代のアメリカに移し、別れた妻のもとで暮らす子どもたちを連れて逃げる父親をトム・クルーズが演じた。</span></span>
+          </a>
+        </li>
+        <li class="stop">
+          
+          <a class="seg" href="c/war-of-the-worlds-2005--reacher/">
+            
+            <small>［クルーズを経由して］　ハブ</small>
+            <b><span class="seg-copy">『宇宙戦争』の主演は、リーチャーも演じた。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
+          <a class="fstop" href="w/reacher/?c=war-of-the-worlds-2005--reacher">
+            <span class="st-img"><img src="img/works/reacher.jpg" alt="『リーチャー 正義のアウトロー』" data-k="reacher" loading="lazy" decoding="async"></span>
+            <span class="st-txt"><small>ドラマ・2022年</small>
+              <b>『リーチャー 正義のアウトロー』</b><span>リー・チャイルドの小説シリーズを原作にしたドラマ。元軍人のジャック・リーチャーが、各地の事件に立ち向かう。</span></span>
+          </a>
+        </li>
+        <li class="stop">
+          
+          <a class="seg" href="c/the-war-of-the-worlds--war-of-the-worlds-2005/">
+            
+            <small>［小説から映画へ］　事実</small>
+            <b><span class="seg-copy">異星人の侵略は、父と子の逃避行になる。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
+          <a class="fstop" href="w/the-war-of-the-worlds/?c=the-war-of-the-worlds--war-of-the-worlds-2005">
+            <span class="st-img"><img src="img/works/the-war-of-the-worlds.jpg" alt="H・G・ウェルズ『宇宙戦争』" data-k="the-war-of-the-worlds" loading="lazy" decoding="async"></span>
+            <span class="st-txt"><small>書籍・1898年</small>
+              <b>H・G・ウェルズ『宇宙戦争』</b><span>火星人がロンドン近郊に降り立ち、当時最大の植民地帝国だった英国に襲いかかる。侵略SFの古典。</span></span>
           </a>
         </li></ol>
             <div class="rail-more" id="railMore" aria-hidden="true"></div>
@@ -415,17 +417,17 @@ document.addEventListener('click', function (e) {
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 <script type="application/ld+json" id="ld">{"@context":"https://schema.org","@type":"Article","headline":"社会の外側で、子どもたちは暮らした。","alternativeHeadline":"誰にも見えない家","about":[{"@type":"Movie","name":"誰も知らない","description":"母親に置き去りにされた四人のきょうだいの暮らしを描いた映画。長男を演じた柳楽優弥がカンヌ国際映画祭で最優秀男優賞を受けた。","creator":{"@type":"Person","name":"是枝裕和監督"}},{"@type":"Movie","name":"万引き家族","description":"万引きで暮らしを補う一家と、彼らに拾われた少女を描いた映画。2018年のカンヌ国際映画祭でパルム・ドールを受けた。","creator":{"@type":"Person","name":"是枝裕和監督"}}],"author":{"@type":"Person","name":"生成AI（初稿）"},"datePublished":"2026-09-15T06:10:00.000Z","dateModified":"2026-09-15T06:10:00.000Z","inLanguage":"ja","articleBody":"同じ監督が、14年を隔てて同じ場所を見つめた。『誰も知らない』の子どもたちは、母に置いていかれ、学校にも通わず、アパートの一室で暮らす。『万引き家族』の少年と少女は、血のつながらない大人たちの家で、万引きを覚えながら育つ。どちらの子どもも、制度の網から外れた場所にいる。周りの大人の目が届きにくいまま続いていく暮らしを、是枝裕和は、誰かを悪者にして断じることなく、近くで見つめる。二本を続けて観ると、そのまなざしがどちらにも通っているように見えてくる。","url":"https://beautifulcontext.com/c/nobody-knows--shoplifters/","citation":[{"@type":"CreativeWork","name":"Film of the week: Shoplifters reveals Koreeda's masterfully light touch","url":"https://www.bfi.org.uk/sight-and-sound/reviews/film-week-shoplifters-reveals-koreedas-masterfully-light-touch","publisher":{"@type":"Organization","name":"BFI Sight and Sound"}},{"@type":"CreativeWork","name":"Watch Nobody Knows online - BFI Player","url":"https://player.bfi.org.uk/subscription/film/watch-nobody-knows-2003-online","publisher":{"@type":"Organization","name":"BFI（英国映画協会）"}},{"@type":"CreativeWork","name":"誰も知らない - Wikipedia","url":"https://ja.wikipedia.org/wiki/%E8%AA%B0%E3%82%82%E7%9F%A5%E3%82%89%E3%81%AA%E3%81%84","publisher":{"@type":"Organization","name":"Wikipedia"}},{"@type":"CreativeWork","name":"万引き家族 - Wikipedia","url":"https://ja.wikipedia.org/wiki/%E4%B8%87%E5%BC%95%E3%81%8D%E5%AE%B6%E6%97%8F","publisher":{"@type":"Organization","name":"Wikipedia"}},{"@type":"CreativeWork","name":"是枝裕和 - Wikipedia","url":"https://ja.wikipedia.org/wiki/%E6%98%AF%E6%9E%9D%E8%A3%95%E5%92%8C","publisher":{"@type":"Organization","name":"Wikipedia"}}],"image":"https://beautifulcontext.com/img/works/nobody-knows.jpg"}</script>
 
-<script src="js/config.js?v=174"></script>
-<script src="js/seed.js?v=174"></script>
-<script src="js/sources.js?v=174"></script>
-<script src="js/backend.js?v=174"></script>
-<script src="js/store.js?v=174"></script>
-<script src="js/social.js?v=174"></script>
-<script src="js/render.js?v=174"></script>
-<script src="js/login.js?v=174"></script>
-<script src="js/login-page.js?v=174"></script>
-<script src="js/report.js?v=174"></script>
-<script src="js/transition.js?v=174"></script>
-<script src="js/app.js?v=174"></script>
+<script src="js/config.js?v=175"></script>
+<script src="js/seed.js?v=175"></script>
+<script src="js/sources.js?v=175"></script>
+<script src="js/backend.js?v=175"></script>
+<script src="js/store.js?v=175"></script>
+<script src="js/social.js?v=175"></script>
+<script src="js/render.js?v=175"></script>
+<script src="js/login.js?v=175"></script>
+<script src="js/login-page.js?v=175"></script>
+<script src="js/report.js?v=175"></script>
+<script src="js/transition.js?v=175"></script>
+<script src="js/app.js?v=175"></script>
 </body>
 </html>

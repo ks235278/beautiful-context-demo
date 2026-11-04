@@ -134,7 +134,7 @@
      step があれば data-step のボタン（作品ページから、いま来た区間へ）、なければそのつながりへのリンク */
   /* 読む時間（見本の「約20秒で読む」）。札の路線の名の行の右に小さく。本文の長さから（readLabel） */
   const rt = (c) => c && c.body ? `<i class="rt">${readLabel(c.body)}</i>` : '';
-  function ctxCard(x, step){
+  function ctxCard(x, step, href){
     const h = String(x.context.headline || '').replace(/\n/g, '');
     const pic = (w) => { const u = safeImg(w.image); return u ? `<img src="${attr(u)}" alt="" loading="lazy" decoding="async">` : `<i>${esc(initial(w))}</i>`; };
     const inner = `<span class="cc-pics" aria-hidden="true">${pic(x.a)}${pic(x.b)}</span>` +
@@ -143,7 +143,7 @@
     const al = ` aria-label="${attr(h + '：' + x.a.title + ' ＋ ' + x.b.title)}"`;
     return step != null
       ? `<button type="button" class="ctx-card" data-step="${step}"${al}>${inner}</button>`
-      : `<a class="ctx-card" href="${attr(pathOf('c', x.context.slug))}"${al}>${inner}</a>`;
+      : `<a class="ctx-card" href="${attr(href || pathOf('c', x.context.slug))}"${al}>${inner}</a>`;
   }
 
   /* 同じ作品をルーツに共有するコンテクスト */
@@ -398,7 +398,7 @@
       const inner = `<i class="jr-dot"></i><span class="jr-t"><b>${esc(x.name)}</b><small>${esc(String(e.context.headline || '').replace(/\n/g, ''))}</small></span>` +
         `<span class="jr-pics" aria-hidden="true">${pic(e.a)}${pic(e.b)}</span>`;
       return `<li${x.now ? ' class="now"' : ''}>${x.now ? `<span class="jr-row" aria-current="step">${inner}</span>`
-        : `<a class="jr-row" href="${attr(pathOf('c', e.context.slug))}">${inner}</a>`}</li>`;
+        : `<a class="jr-row" href="${attr(x.href || pathOf('c', e.context.slug))}">${inner}</a>`}</li>`;
     };
     return `
         <section class="journey" aria-label="CONTEXT JOURNEY">
@@ -415,7 +415,7 @@
     return `
           <section class="next-ctx" aria-label="次に読むつながり">
             <p class="meta">NEXT CONTEXT<small>次に読むつながり</small></p>
-            ${ctxCard(nx.entry)}
+            ${ctxCard(nx.entry, null, nx.href)}
           </section>`;
   }
   /* コンテクストページのいちばん下：検索などから来た人が、このメディアのどこへでも行ける小さな入口 */
@@ -518,10 +518,11 @@
       const n = from + i, w = it.work, c = it.entry && it.entry.context;
       const parent = it.parent && items.find(x => x.slug === it.parent);
       const s = safeImg(w.image);
-      const href = pathOf('w', it.slug, c ? '?c=' + encodeURIComponent(c.slug) : '');
+      const via = c || (it.via && it.via.context);
+      const href = pathOf('w', it.slug, via ? '?c=' + encodeURIComponent(via.slug) : '');
       return `
         <li class="stop${n === 0 ? ' first' : ''}${it.branch ? ' branch' : ''}${!c && n > 0 ? ' newline' : ''}">
-          ${!c && n > 0 ? `<p class="transfer"><span>別の路線へ</span></p>` : ''}
+          ${(!c && n > 0) || it.jump ? `<p class="transfer"><span>別の路線へ</span></p>` : ''}
           ${c ? `<a class="seg" href="${attr(pathOf('c', c.slug))}">
             ${it.branch && parent ? `<span class="seg-from">${esc(tagText(parent.work))} から分岐</span>` : ''}
             <small>［${esc(c.routeName)}］${c.kind ? `　${esc(c.kind)}` : ''}</small>

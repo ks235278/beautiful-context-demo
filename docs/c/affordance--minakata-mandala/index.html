@@ -43,9 +43,9 @@ try { if (sessionStorage.getItem('bc-resume')) document.documentElement.classLis
 <link rel="preload" as="image" href="img/logo-layer-words.png">
 <!-- 台本も先に取りに行く（静的なページは台本より先に本文が描かれる。遅い回線で、触れて動くまでの間を縮める）。
      src と同じアドレス（?v= まで）でないと、二度取りに行く -->
-<link rel="preload" as="script" href="js/seed.js?v=174">
-<link rel="preload" as="script" href="js/app.js?v=174">
-<link rel="manifest" href="manifest.webmanifest?v=174">
+<link rel="preload" as="script" href="js/seed.js?v=175">
+<link rel="preload" as="script" href="js/app.js?v=175">
+<link rel="manifest" href="manifest.webmanifest?v=175">
 <link rel="apple-touch-icon" href="icon-180.png">
 <!-- タブと検索結果に出る小さな印。アプリの印（ホーム画面のアイコン）と同じ形 -->
 <link rel="icon" href="favicon.ico" sizes="16x16 32x32 48x48">
@@ -76,13 +76,13 @@ if (location.hostname === 'beautifulcontext.com'){
   document.head.appendChild(ga);
 }
 </script>
-<script src="js/theme.js?v=174"></script>
-<link rel="stylesheet" href="app.css?v=174">
+<script src="js/theme.js?v=175"></script>
+<link rel="stylesheet" href="app.css?v=175">
 <!-- 読む画面の使い勝手（2026.10.24）。app.css のすぐあと -->
-<link rel="stylesheet" href="ux.css?v=174">
-<link rel="stylesheet" href="fade.css?v=174">
+<link rel="stylesheet" href="ux.css?v=175">
+<link rel="stylesheet" href="fade.css?v=175">
 <!-- editorial-ink（紙・墨・金）：◆ の罫と、紙の上か絵の上かで変わる決まり。ux.css のあと -->
-<link rel="stylesheet" href="ink.css?v=174">
+<link rel="stylesheet" href="ink.css?v=175">
 <!-- 台本（js）が揃うまで：まだ押しても動かないもの（‹・絵の横の ‹ ›・つながりを辿る）を少し薄くし、下の帯の上の縁に細い金の線を走らせる。
      app.js が最後に body.app-ready を付けて外す。すぐ揃うときは何も見せない（0.3 秒待ってから出す） -->
 <style>
@@ -132,6 +132,8 @@ document.addEventListener('click', function (e) {
 <div class="dock" id="dock">
   <div class="map" id="map"></div>
   <p class="sel-hint" id="selHint" aria-live="polite"></p>
+  <!-- 携帯：つながりを辿るの行き先を一行で（パソコンは次の札 next-peek） -->
+  <p class="dock-next" id="dockNext"></p>
   <p class="dock-brand" id="dockBrand">BEAUTIFUL CONTEXT</p>
   <!-- 読む画面（Today・コンテクスト・作品）では NEXT UNIVERSE だけ。戻るのは左の端から右へ払う（iPhone と同じ）か、上の ‹。
        ReMixIt!（つながりを創る）は編集の側の道具なので、UniverseIt! の画面とメニューに置く -->
@@ -192,7 +194,7 @@ document.addEventListener('click', function (e) {
   <div class="view-in" id="viewIn"><!--bc-body-->
       <article class="page cpage">
         <button type="button" class="back-close" data-close="" aria-label="Today's Editor's Choice へ戻る" title="Today's Editor's Choice へ"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 4.5 7.5 12l7.5 7.5"></path></svg></button>
-        <div class="duo-hero"><a class="c-logo on-paper" href="#/" data-top="" aria-label="BEAUTIFUL CONTEXT（TOP へ戻る）"><img src="img/logo-navy.png" alt=""></a><span class="only-sp"><button type="button" class="login-chip" data-login="">Login</button></span><div class="duo"><button type="button" class="duo-go" data-step="0" aria-label="アフォーダンスの作品ページへ"><div class="art"><img src="img/works/affordance.jpg" alt="アフォーダンス" data-k="affordance" decoding="async" fetchpriority="low"></div></button><button type="button" class="duo-go" data-step="2" aria-label="南方曼荼羅の作品ページへ"><div class="art"><img src="img/works/minakata-mandala.jpg" alt="南方曼荼羅" data-k="minakata-mandala" decoding="async" fetchpriority="low"></div></button><i class="swap" aria-hidden="true">↔</i></div><button type="button" class="ctx-nav prev" data-ctx-go="-1" aria-label="一つ前のつながりへ">‹</button><button type="button" class="ctx-nav next" data-ctx-go="1" aria-label="次のつながりへ">›</button></div>
+        <div class="duo-hero"><a class="c-logo on-paper" href="#/" data-top="" aria-label="BEAUTIFUL CONTEXT（TOP へ戻る）"><img src="img/logo-navy.png" alt=""></a><span class="only-sp"><button type="button" class="login-chip" data-login="">Login</button></span><div class="duo"><button type="button" class="duo-go" data-step="0" aria-label="アフォーダンスの作品ページへ"><div class="art"><img src="img/works/affordance.jpg" alt="アフォーダンス" data-k="affordance" decoding="async" fetchpriority="low"></div></button><button type="button" class="duo-go" data-step="2" aria-label="南方曼荼羅の作品ページへ"><div class="art"><img src="img/works/minakata-mandala.jpg" alt="南方曼荼羅" data-k="minakata-mandala" decoding="async" fetchpriority="low"></div></button><i class="swap" aria-hidden="true">↔</i></div><button type="button" class="ctx-nav prev" data-ctx-go="-1" aria-label="一つ前のつながりへ">‹</button><button type="button" class="ctx-nav next" data-ctx-go="1" aria-label="次へ：南方曼荼羅">›</button></div>
         <section class="context-lead">
           
           <div class="ed-row">
@@ -264,18 +266,6 @@ document.addEventListener('click', function (e) {
         <li class="stop first">
           
           
-          <a class="fstop" href="w/minakata-mandala/">
-            <span class="st-img"><img src="img/works/minakata-mandala.jpg" alt="南方曼荼羅" data-k="minakata-mandala" loading="lazy" decoding="async"></span>
-            <span class="st-txt"><small>思想・1903年</small>
-              <b>南方曼荼羅</b><span>南方熊楠が、世界の因果関係が交錯し連鎖するさまを一枚の図に描いたもの。真言宗の僧・土宜法龍への手紙に記された。</span></span>
-          </a>
-        </li>
-        <li class="stop">
-          
-          <a class="seg" href="c/minakata-kumagusu--minakata-mandala/">
-            
-            <small>［書き手と図］　作者と作品</small>
-            <b><span class="seg-copy">世界のつながりを、一枚の図に描いた。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
           <a class="fstop" href="w/minakata-kumagusu/?c=minakata-kumagusu--minakata-mandala">
             <span class="st-img"><img src="img/works/minakata-kumagusu.jpg" alt="南方熊楠" data-k="minakata-kumagusu" loading="lazy" decoding="async"></span>
             <span class="st-txt"><small>人物・1867年</small>
@@ -342,10 +332,10 @@ document.addEventListener('click', function (e) {
               <b>ブラッド・メルドー</b><span>アメリカのジャズ・ピアニスト。ピアノ・トリオでの演奏のほか、バッハやロックの曲を独自に解釈した録音でも知られる。</span></span>
           </a>
         </li>
-        <li class="stop branch">
+        <li class="stop">
           
           <a class="seg" href="c/kusamakura--nakoikan/">
-            <span class="seg-from">草枕 から分岐</span>
+            
             <small>［小説の舞台を訪ねる］　事実</small>
             <b><span class="seg-copy">「那古井」は、地図の上にもあった。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
           <a class="fstop" href="w/nakoikan/?c=kusamakura--nakoikan">
@@ -390,10 +380,22 @@ document.addEventListener('click', function (e) {
               <b>韓国ドラマ『アイリス』</b><span>韓国の特殊工作員を主人公にしたアクション・ドラマ。秋田県でのロケが行われ、日本でも話題になった。</span></span>
           </a>
         </li>
-        <li class="stop branch">
+        <li class="stop">
+          
+          <a class="seg" href="c/iris--tsurunoyu/">
+            
+            <small>［画面の中の湯宿］　事実</small>
+            <b><span class="seg-copy">主役二人の温泉デートは秋田の湯宿で撮られた。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
+          <a class="fstop" href="w/tsurunoyu/?c=iris--tsurunoyu">
+            <span class="st-img"><img src="img/works/tsurunoyu.jpg" alt="乳頭温泉郷「鶴の湯」" data-k="tsurunoyu" loading="lazy" decoding="async"></span>
+            <span class="st-txt"><small>宿</small>
+              <b>乳頭温泉郷「鶴の湯」</b><span>秋田県の乳頭温泉郷でもっとも古いとされる湯宿。茅葺き屋根の長屋と白濁の湯で知られる。</span></span>
+          </a>
+        </li>
+        <li class="stop">
           
           <a class="seg" href="c/tanaka-isson--kusamakura/">
-            <span class="seg-from">草枕 から分岐</span>
+            
             <small>［世を離れて描く］　似ている</small>
             <b><span class="seg-copy">小説の画工を、生きたかのような画家。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
           <a class="fstop" href="w/tanaka-isson/?c=tanaka-isson--kusamakura">
@@ -415,17 +417,17 @@ document.addEventListener('click', function (e) {
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 <script type="application/ld+json" id="ld">{"@context":"https://schema.org","@type":"Article","headline":"物との関わりを、二人は「飲む」を例に書いた。","alternativeHeadline":"見て、飲む","about":[{"@type":"CreativeWork","name":"アフォーダンス","description":"環境が動物に与える、行為の可能性。椅子は「座る」ことを、取っ手は「つかむ」ことをアフォードする。ギブソンの造語。","creator":{"@type":"Person","name":"ジェームズ・J・ギブソン"}},{"@type":"CreativeWork","name":"南方曼荼羅","description":"南方熊楠が、世界の因果関係が交錯し連鎖するさまを一枚の図に描いたもの。真言宗の僧・土宜法龍への手紙に記された。","creator":{"@type":"Person","name":"南方熊楠"}}],"author":{"@type":"Person","name":"生成AI（初稿）"},"datePublished":"2026-09-14T02:20:00.000Z","dateModified":"2026-09-14T02:20:00.000Z","inLanguage":"ja","articleBody":"ものとの関わりを説くのに、二つの文章は「飲む」を例にした。1903年8月8日、那智の南方熊楠は、真言宗の僧・土宜法龍に宛てた手紙で自分の曼荼羅を説いた。心と物が反応して事が生じる、という考えである。例に引いたのは酒だ。熊楠（心）が酒（物）を見る。酒のよさを人から聞いたことを思い出し、飲む。ジェームズ・J・ギブソンは、1979年の『生態学的視覚論』第8章で、アフォーダンスを「環境が動物に差し出すもの」と定義した。辞書にない自分の造語だと断り、動物と環境が補い合うことを含む、と書いた。同じ章でギブソンは、ゲシュタルト心理学者コフカ（1935年）の一節も引く。果物は「私を食べろ」と言い、水は「私を飲め」と言う。ここで結ぶのは影響関係ではなく、同じ「飲む」という例である。76年を隔てた二つの文章は、説明の道すじが違う。熊楠の例には、人から聞いた話を思い出す一段が入る。ギブソンは、ものの価値や意味は直接知覚できる、という仮説を立てた。","url":"https://beautifulcontext.com/c/affordance--minakata-mandala/","citation":[{"@type":"CreativeWork","name":"土宜法龍宛書簡（南方マンダラほか）","url":"https://www.minakata.org/facility/collections/minakatamandala/","publisher":{"@type":"Organization","name":"南方熊楠顕彰館（南方熊楠邸）"}},{"@type":"CreativeWork","name":"The Ecological Approach to Visual Perception: Classic Edition","url":"https://www.routledge.com/The-Ecological-Approach-to-Visual-Perception-Classic-Edition/Gibson/p/book/9781848725782","publisher":{"@type":"Organization","name":"Routledge / Psychology Press"}},{"@type":"CreativeWork","name":"南方熊楠略年譜","url":"https://www.minakata.org/minakatakumagusu/lifetime13/","publisher":{"@type":"Organization","name":"南方熊楠顕彰館（南方熊楠邸）"}},{"@type":"CreativeWork","name":"南方マンダラ","url":"https://ja.wikipedia.org/wiki/%E5%8D%97%E6%96%B9%E3%83%9E%E3%83%B3%E3%83%80%E3%83%A9","publisher":{"@type":"Organization","name":"Wikipedia（日本語版）"}},{"@type":"CreativeWork","name":"第二話 『南方熊楠・土宜法竜 往復書簡』 物／事／心／理と言葉","url":"https://uedanobutaka.com/minakata-kumagusu-and-toki-horyu-the-letters-of-exchange/","publisher":{"@type":"Organization","name":"植田信隆 公式サイト"}},{"@type":"CreativeWork","name":"アフォーダンス","url":"https://ja.wikipedia.org/wiki/%E3%82%A2%E3%83%95%E3%82%A9%E3%83%BC%E3%83%80%E3%83%B3%E3%82%B9","publisher":{"@type":"Organization","name":"Wikipedia（日本語版）"}},{"@type":"CreativeWork","name":"In Defense of Introspective Affordances（David Miguel Gray）","url":"https://link.springer.com/article/10.1007/s13164-024-00734-z","publisher":{"@type":"Organization","name":"Review of Philosophy and Psychology（Springer, 2025／オープンアクセス）"}},{"@type":"CreativeWork","name":"Designing Smart Objects to Support Affording Situations: Exploiting Affordance Through an Understanding of Forms of Engagement（Chris Baber）","url":"https://www.frontiersin.org/journals/psychology/articles/10.3389/fpsyg.2018.00292/full","publisher":{"@type":"Organization","name":"Frontiers in Psychology（2018）"}},{"@type":"CreativeWork","name":"James J. Gibson’s Affordance Examples（Edward Baggs）","url":"https://www.ovid.com/journals/hipsy/fulltext/10.1037/hop0000295~james-j-gibsons-affordance-examples","publisher":{"@type":"Organization","name":"History of Psychology（APA, 29(2), 2026）"}}],"image":"https://beautifulcontext.com/img/works/affordance.jpg"}</script>
 
-<script src="js/config.js?v=174"></script>
-<script src="js/seed.js?v=174"></script>
-<script src="js/sources.js?v=174"></script>
-<script src="js/backend.js?v=174"></script>
-<script src="js/store.js?v=174"></script>
-<script src="js/social.js?v=174"></script>
-<script src="js/render.js?v=174"></script>
-<script src="js/login.js?v=174"></script>
-<script src="js/login-page.js?v=174"></script>
-<script src="js/report.js?v=174"></script>
-<script src="js/transition.js?v=174"></script>
-<script src="js/app.js?v=174"></script>
+<script src="js/config.js?v=175"></script>
+<script src="js/seed.js?v=175"></script>
+<script src="js/sources.js?v=175"></script>
+<script src="js/backend.js?v=175"></script>
+<script src="js/store.js?v=175"></script>
+<script src="js/social.js?v=175"></script>
+<script src="js/render.js?v=175"></script>
+<script src="js/login.js?v=175"></script>
+<script src="js/login-page.js?v=175"></script>
+<script src="js/report.js?v=175"></script>
+<script src="js/transition.js?v=175"></script>
+<script src="js/app.js?v=175"></script>
 </body>
 </html>
