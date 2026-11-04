@@ -754,7 +754,8 @@
        2020年の同名の映画（Apple TV+）とは別の作品。安全に使える絵がまだないので、文字の札で立てる */
     bunker: {
       title: 'テレビ映画『ザ・バンカー』', type: '映画・ドラマ', year: '1981', creator: 'ジョージ・シェーファー監督（米 CBS）',
-      slug: 'the-bunker-1981', order: 106.5,
+      slug: 'the-bunker-1981', order: 106.5, image: 'img/works/the-bunker-1981.jpg',
+      credit: '舞台となった総統地下壕の跡／Bundesarchiv, Bild 183-M1204-319／CC BY-SA 3.0 DE／Wikimedia Commons', creditUrl: 'https://commons.wikimedia.org/wiki/File:Bundesarchiv_Bild_183-M1204-319,_Berlin,_Reichskanzlei,_gesprengter_F%C3%BChrerbunker.jpg',
       summary: 'ベルリンの総統地下壕で過ごしたヒトラーの最後の日々を、ジェームズ・P・オドネルの著書をもとに描いたアメリカのテレビ映画。アンソニー・ホプキンスがヒトラーを演じ、エミー賞（主演男優賞）を受けた。'
     },
     foster: {
