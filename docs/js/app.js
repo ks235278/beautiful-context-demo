@@ -61,6 +61,18 @@
       setTimeout(() => { el.classList.remove('rv', 'rv-in'); el.style.removeProperty('--rv-d'); }, 760 + d);
     });
   }, { rootMargin: '0px 0px -4% 0px' }) : null;
+  /* 利用規約の目次：いま読んでいる節に印（見本の左の列） */
+  let tocIO = null;
+  function tocSpy(){
+    if (tocIO){ tocIO.disconnect(); tocIO = null; }
+    const items = [...viewIn.querySelectorAll('[data-toc]')];
+    if (!items.length || !('IntersectionObserver' in window)) return;
+    tocIO = new IntersectionObserver(es => es.forEach(en => {
+      if (!en.isIntersecting) return;
+      items.forEach(b => { if (b.dataset.toc === en.target.id) b.setAttribute('aria-current', 'true'); else b.removeAttribute('aria-current'); });
+    }), { rootMargin: '-10% 0px -75% 0px' });
+    items.forEach(b => { const to = document.getElementById(b.dataset.toc); if (to) tocIO.observe(to); });
+  }
   function reveal(root){
     if (!rvIO || !motionOK() || !root) return;
     root.querySelectorAll(RV).forEach(el => { if (!el.classList.contains('rv')){ el.classList.add('rv'); rvIO.observe(el); } });
@@ -766,6 +778,7 @@
     if (rvIO) rvIO.disconnect();
     viewIn.innerHTML = html;
     reveal(viewIn);
+    tocSpy();
     view.setAttribute('aria-label', title || '');
     document.title = (title ? title + '｜' : '') + brand;
     count(page);
@@ -1051,31 +1064,19 @@
     }
     body.classList.toggle('has-route', i >= 0);
     if (i < 0){ box.innerHTML = ''; return; }
-    const cur = 2 * i + (own >= 0 && here.step === 1 ? 0 : 1);
-    /* 区間と駅を交互に六つ：いまの二つ前から三つ先まで。道の始めでは前が無いぶん先を多く、
-       道の終わりを越えたら、はじめへ回る（つながりを辿る・携帯の CONTEXT JOURNEY と同じ。以前は今日の一本が道の最後なので、列の下半分が空いていた） */
-    const N = 2 * T.length, back = Math.min(2, cur);
-    let li = '';
-    for (let j = 0; j < Math.min(6, N); j++){
-      const o = j - back, k = (cur + o) % N;
-      const t = T[k >> 1], e = t.entry, now = o === 0;
-      const cur_ = now ? ' aria-current="page"' : '';
-      if (k % 2 === 0){
-        if (j > 0 && k === 0) li += '<li class="rm-break"><span>はじめの路線へ</span></li>';
-        else if (j > 0 && (t.jump || t.from)){
-          const fw = t.from && (e.a.slug === t.from ? e.a : e.b);
-          li += `<li class="rm-break"><span>${t.jump ? '別の路線へ' : R.esc(fw.title) + 'から分岐'}</span></li>`;
-        }
-        /* 区間には、二つの作品の絵を小さく（いまの区間は金の縁）。絵の無い作品は頭文字 */
-        const pic = (w) => { const s = R.safeImg(w.image); return s ? `<img src="${R.esc(s)}" alt="" loading="lazy" decoding="async">` : `<i>${R.esc(String(w.title || '').slice(0, 1))}</i>`; };
-        li += `<li class="rm-seg${now ? ' now' : ''}"><a href="#/c/${encodeURIComponent(e.context.slug)}"${cur_}>` +
-          `<em class="rm-stage">${stageName(o / 2, k >> 1)}</em><small>［${R.esc(e.context.routeName)}］</small><span>${R.esc(String(e.context.headline || '').replace(/\n/g, ''))}</span>` +
-          `<b class="rm-pic" aria-hidden="true">${pic(e.a)}${pic(e.b)}</b></a></li>`;
-      } else {
-        const w = e[t.exit];
-        li += `<li class="rm-st${now ? ' now' : ''}"><a href="${stepHash(e, t.exit === 'a' ? 0 : 2)}"${cur_}><i></i><span>${now ? '<em class="rm-stage">いまここ</em>' : ''}${R.esc(w.title)}</span></a></li>`;
-      }
-    }
+    /* 見本どおり、道の上の五つ（一つ前・いま・三つ先）：名と題の頭。いまの所だけ題を全部と、二つの作品の絵（金の縁）。
+       作品（駅）のページでは、いまの所の字はその作品の名。携帯の CONTEXT JOURNEY と同じ並び（journeyOf） */
+    const pic = (w) => { const s = R.safeImg(w.image); return s ? `<img src="${R.esc(s)}" alt="" loading="lazy" decoding="async">` : `<i>${R.esc(String(w.title || '').slice(0, 1))}</i>`; };
+    const atWork = own >= 0 && here.step !== 1 ? (here.step === 0 ? here.entry.a : here.entry.b) : null;
+    /* コンテクストを読んでいるときは、見本 04〜06 のとおり五つとも絵を（案内のページなどは、いまの所だけ） */
+    const pics = own >= 0 && here.step === 1 && !here.today;
+    box.classList.toggle('pics', pics);
+    const li = journeyOf(T[i].entry).map(x => {
+      const e = x.entry, lines = String(e.context.headline || '').split('\n').map(R.esc);
+      const text = x.now ? (atWork ? R.esc(atWork.title) : lines.join('<br>')) : lines[0];
+      return `<li class="rm-s${x.now ? ' now' : ''}"><a href="#/c/${encodeURIComponent(e.context.slug)}"${x.now ? ' aria-current="page"' : ''}><i class="rm-dot"></i>` +
+        `<b>${R.esc(x.name)}</b><span>${text}</span>${x.now || pics ? `<em class="rm-pics" aria-hidden="true">${pic(e.a)}${pic(e.b)}</em>` : ''}</a></li>`;
+    }).join('');
     /* 列の下に「つながりを辿る」（見本どおり。下の帯のボタンと同じ働き） */
     box.innerHTML = `<p class="rm-title">CONTEXT<br>JOURNEY</p><ol class="rm">${li}</ol>` +
       `<button type="button" class="rm-next"><img src="img/logo-mark.png" alt=""><span><b>つながりを辿る</b><small>NEXT CONTEXT</small></span><i aria-hidden="true">↓</i></button>`;
@@ -1325,6 +1326,8 @@
       else openLogin();
       return;
     }
+    const toc = t.closest('[data-toc]');
+    if (toc){ const to = document.getElementById(toc.dataset.toc); if (to) to.scrollIntoView({ block: 'start', behavior: motionOK() ? 'smooth' : 'auto' }); return; }
     if (t.closest('[data-account]')){ ev.preventDefault(); openMenu(false); openAccount(); return; }
     /* コメントの「…」：運営に知らせる・この人のコメントを表示しない（js/report.js）。「すべて表示する」で戻す */
     const more = t.closest('[data-cm-more]');
