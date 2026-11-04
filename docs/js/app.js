@@ -121,6 +121,7 @@
     how('open');
     toUni(false);
     openToday();
+    landingNote();
   }
   function armIdle(){
     clearTimeout(idle);
@@ -1938,7 +1939,8 @@
   let firstVisit = false;
   try { firstVisit = !localStorage.getItem('bc-seen'); localStorage.setItem('bc-seen', '1'); } catch (e) {}
   function landingNote(){
-    if (!firstVisit || !isDirect()) return;
+    if (!firstVisit || !(isDirect() || (here && here.today))) return;
+    if (viewIn.querySelector('.landing-note')) return;
     const at = viewIn.querySelector('.cpage>.context-lead, .wpage>.content');
     if (!at) return;
     at.insertAdjacentHTML('afterbegin', '<p class="landing-note">二つの作品のあいだの、意外なつながりを辿るメディア ― <a href="about/">Beautiful Context とは ›</a></p>');

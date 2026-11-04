@@ -4339,7 +4339,14 @@
     { id: 'chief', authors: [AUTHOR, '編集部'], name: '眞江田國廣', mark: '眞', role: 'EDITOR IN CHIEF',
       photo: 'img/editors/chief.jpg', note: 'mdkh',
       bio: '思いがけない二つのあいだに、確かめられる一本の線を引く。その線を一日に一本ずつ選んでいます。' },
+    /* todayPool：今日の一本に出す候補。はじめての人が最初に見る画面なので、絵が強く、誰でも知っている組から選ぶ */
     { id: 'desk', authors: [AI], name: 'BC 編集部', mark: '部', role: 'EDITORIAL DESK',
+      todayPool: ['seed-merry-christmas-mr-lawrence--the-seed-and-the-sower', 'seed-david-bowie--merry-christmas-mr-lawrence', 'seed-merry-christmas-mr-lawrence--minamata',
+        'seed-highest-2-lowest--kings-ransom', 'seed-chainsaw-man--parasyte', 'seed-pluribus--parasyte', 'seed-kono-sekai-no-katasumi-ni--look-back',
+        'seed-nobody-knows--shoplifters', 'seed-shoplifters--apocalypse-now', 'seed-blade-runner--blade-runner-2049', 'seed-blade-runner--brazil',
+        'seed-do-androids-dream--blade-runner', 'seed-tengoku-film--tengoku-book', 'seed-the-war-of-the-worlds--war-of-the-worlds-2005',
+        'seed-war-of-the-worlds-2005--interstellar', 'seed-interstellar--the-grapes-of-wrath', 'seed-niji-iro-no-trotsky--historie', 'seed-homme-less--happy-pharrell',
+        'seed-iris--tsurunoyu', 'seed-tazawako--tsurunoyu'],
       bio: '生成AIが書いた初稿を並べています。編集者が事実と出典まで確かめたものには「確認済み」と記します。' }
   ];
 

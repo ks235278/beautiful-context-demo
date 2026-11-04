@@ -1737,3 +1737,26 @@ body.viewing:has(.view-in>.login-page) .login-page .content{padding-bottom:40px}
   .info-page.big .ip-hero .lead{font-size:11px}
   .info-about .ip-hero .lead{max-width:68%}
 }
+
+/* ---- 第33段：最初の画面で目を奪う（rà soát 4/11 の 1 番目）。主役は作品の絵と題 ----
+   ・絵は 2:3 のまま大きく（携帯は左右 14px まで）。絵の後ろの灰色のかたまりをやめる
+   ・携帯：題を大きく。編集者の行は「読む」の下へ（題と読むボタンが最初の画面に入るように。HTML の順は変えない。要・先生の確認）
+   ・パソコン Today：題と絵のあいだを空ける。墨と山の切り口は透明へ溶かす */
+:is(.cpage,.wpage)>.duo-hero::before{content:none}
+:is(.cpage,.wpage)>.duo-hero::after{-webkit-mask-image:linear-gradient(180deg,transparent,#000 22%);mask-image:linear-gradient(180deg,transparent,#000 22%)}
+:is(.cpage,.wpage)>.duo-hero .duo::before{-webkit-mask-image:linear-gradient(90deg,transparent,#000 18%,#000 82%,transparent);mask-image:linear-gradient(90deg,transparent,#000 18%,#000 82%,transparent)}
+@media (max-width:1099.98px){
+  :is(.cpage,.wpage)>.duo-hero{padding-left:14px;padding-right:14px}
+  .cpage>.context-lead{display:flex;flex-direction:column;align-items:stretch}
+  .cpage>.context-lead>.read{order:5}
+  .cpage>.context-lead>.ed-row{order:6;margin:16px 0 0}
+  .cpage>.context-lead>.story-cue{order:7}
+  .cpage>.context-lead h2{font-size:min(30px,calc((100vw - 44px) / 11.05));max-width:none}
+  .cpage>.context-lead .landing-note{margin:0 0 10px;text-align:center}
+}
+@media (min-width:760px) and (max-width:1099.98px){
+  .cpage>.context-lead h2{font-size:30px}
+}
+@media (min-width:1100px){
+  .cpage.today>.context-lead h2{margin-inline:0 -24px;font-size:min(clamp(32px,2.9vw,50px),calc((100cqi + 24px) / 11.05))}
+}
