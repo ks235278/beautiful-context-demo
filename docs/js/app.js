@@ -100,6 +100,8 @@
     root.setProperty('--headh', Math.ceil(uniHead.offsetHeight + 4) + 'px');
   }
   window.addEventListener('resize', measureDock);
+  /* 帯が元の高さに戻り終わったら測り直す（縮めたままページが替わると、路線図の有無で高さが違うことがある） */
+  dock.addEventListener('transitionend', (ev) => { if (ev.propertyName === 'height') measureDock(); });
 
   /* ---------- 表紙 → UniverseIt! ----------
      構成図 flowchart2 の「一定時間もしくはクリックで次へ」。 */
@@ -818,6 +820,7 @@
     settleAll();
     toUni(false);
     openMenu(false);
+    body.classList.remove('scrolled-down');   /* 新しいページは上から。下の帯も ≡ も出す */
     motion = motion || {};
     if (!motion.dir && here && here.entry && page.entry && here.entry.id === page.entry.id){
       motion.dir = Math.sign(page.step - here.step);
