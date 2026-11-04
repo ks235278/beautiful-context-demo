@@ -49,16 +49,17 @@
   /* 札や区切りは、画面に入るときに下から少し浮かんで現れる（CTO 2026.11.03「motion を、uyển chuyển に」。ink.css 第26段の .rv）。
      同じときに入ったものは 55ms ずつ遅らせて、上から順に。出終わったら印を外す（札の「押すと沈む」動きを元の速さに戻す）。
      動きを減らす設定の端末では何もしない（初めから見えている）。触れる所・読み上げは変えない */
-  const RV = '.src-cards,.journey,.context-body>h3,.context-body>.meta,.axes,.refs,.next-ctx,.ctx-cards>*,.ls-row,.ed-item,.nf-card,.ab-feats>li,.rail>.stop,.disc,.c-ad,.ctx-rail>.meta,.lp-card';
+  /* 長い一覧（.ls-row・.ed-item・.rail>.stop）には付けない。速く送ると、空の行が 0.7 秒ほど見えていた */
+  const RV = '.src-cards,.journey,.context-body>h3,.context-body>.meta,.axes,.refs,.next-ctx,.ctx-cards>*,.nf-card,.ab-feats>li,.disc,.c-ad,.ctx-rail>.meta,.lp-card';
   const rvIO = 'IntersectionObserver' in window ? new IntersectionObserver(es => {
     let k = 0;
     es.forEach(en => {
       if (!en.isIntersecting) return;
-      const el = en.target, d = Math.min(k++, 6) * 55;
+      const el = en.target, d = Math.min(k++, 2) * 40;
       rvIO.unobserve(el);
       el.style.setProperty('--rv-d', d + 'ms');
       el.classList.add('rv-in');
-      setTimeout(() => { el.classList.remove('rv', 'rv-in'); el.style.removeProperty('--rv-d'); }, 760 + d);
+      setTimeout(() => { el.classList.remove('rv', 'rv-in'); el.style.removeProperty('--rv-d'); }, 420 + d);
     });
   }, { rootMargin: '0px 0px -4% 0px' }) : null;
   /* 利用規約の目次：いま読んでいる節に印（見本の左の列） */
@@ -93,7 +94,8 @@
   const uniHead = $('uniHead');
   function measureDock(){
     const root = document.documentElement.style;
-    root.setProperty('--dockh', Math.ceil(dock.getBoundingClientRect().height) + 'px');
+    /* 読み進めている間は帯が縮む（第36段）。そのときの高さを覚えると本文の下の余白が動くので、測らない */
+    if (!body.classList.contains('scrolled-down') || !root.getPropertyValue('--dockh')) root.setProperty('--dockh', Math.ceil(dock.getBoundingClientRect().height) + 'px');
     /* 見出しは上に留めてあり、言葉の一覧はその下から始まる */
     root.setProperty('--headh', Math.ceil(uniHead.offsetHeight + 4) + 'px');
   }
@@ -1061,7 +1063,8 @@
   window.addEventListener('scroll', () => {
     if (!body.classList.contains('viewing')) return;
     const y = window.scrollY, d = y - lastY;
-    if (y < 80){ body.classList.remove('scrolled-down'); lastY = y; return; }
+    /* いちばん上と、読み終わり（下の端の近く）では、帯も ≡ もすべて出す */
+    if (y < 80 || y + window.innerHeight > document.documentElement.scrollHeight - 120){ body.classList.remove('scrolled-down'); lastY = y; return; }
     if (Math.abs(d) < 8) return;
     body.classList.toggle('scrolled-down', d > 0);
     lastY = y;
@@ -1075,7 +1078,7 @@
 
   /* ---------- パソコン：次の行き先の予告・右の路線図・はじめての案内 ---------- */
   /* 次のつながりの予告：つながりを辿るの行き先を、絵と題で先に見せる（次のエピソードのように）。触れても同じく次へ */
-  const peekPic = (w) => { const s = R.safeImg(w.image);
+  const peekPic = (w) => { const s = R.thumb(R.safeImg(w.image));
     return s ? `<img src="${R.esc(s)}" alt="" decoding="async">` : `<i>${R.esc(String(w.title || '?').replace(/[『』「」]/g, '').charAt(0))}</i>`; };
   function paintNext(){
     const plan = nextPlan(), box = $('nextPeek');
@@ -1083,6 +1086,7 @@
     if (!box) return;
     let p = view.classList.contains('on') && here && !here.list ? plan.peek : null;
     if (hasCard(1)){ const x = todayList()[here.today.i + 1]; if (x) p = { entry: x.e, today: true }; }
+    preloadNext(p);
     const dn = $('dockNext');
     if (!p || !(p.work || p.entry)){ box.hidden = true; if (dn) dn.textContent = ''; return; }
     const [small, b, sub] = box.querySelectorAll('.np-txt>*');
@@ -1101,7 +1105,8 @@
     box.setAttribute('aria-label', `次へ：${b.textContent}`);
     box.hidden = false;
     /* 携帯：同じ字を下の帯の一行に。› の読み上げも同じ行き先を */
-    if (dn) dn.textContent = `${small.textContent}｜${b.textContent}`;
+    /* 路線図の無い帯（編集者・路線のページ）には置く所が無いので出さない。ボタンの字だけで足りる */
+    if (dn) dn.textContent = here && here.kind === 'route' ? `${small.textContent}｜${b.textContent}` : '';
     viewIn.querySelectorAll('.ctx-nav.next').forEach(n => n.setAttribute('aria-label', `次へ：${b.textContent}`));
   }
   if ($('nextPeek')) $('nextPeek').addEventListener('click', () => { if (view.classList.contains('on')) nextAction('preview'); });
@@ -1125,7 +1130,7 @@
     if (i < 0){ box.innerHTML = ''; return; }
     /* 見本どおり、道の上の五つ（一つ前・いま・三つ先）：名と題の頭。いまの所だけ題を全部と、二つの作品の絵（金の縁）。
        作品（駅）のページは workRows、それ以外は journeyOf。どちらも携帯の CONTEXT JOURNEY と同じ並び */
-    const pic = (w) => { const s = R.safeImg(w.image); return s ? `<img src="${R.esc(s)}" alt="" loading="lazy" decoding="async">` : `<i>${R.esc(String(w.title || '').slice(0, 1))}</i>`; };
+    const pic = (w) => { const s = R.thumb(R.safeImg(w.image)); return s ? `<img src="${R.esc(s)}" alt="" loading="lazy" decoding="async">` : `<i>${R.esc(String(w.title || '').slice(0, 1))}</i>`; };
     const todayNow = own >= 0 && here.today ? here.today : null;
     /* コンテクストを読んでいるときは、見本 04〜06 のとおり五つとも絵を（案内のページなどは、いまの所だけ） */
     const pics = own >= 0 && !here.today;
@@ -1955,17 +1960,19 @@
   window.addEventListener('storage', ev => { if (ev.key === S.KEY) rebuild(); });
   window.addEventListener('pageshow', ev => { if (ev.persisted) rebuild(); });
 
-  /* 絵を先に読んでおく。運ぶ途中で白くならないように。
-     50 近い駅があるので、一度に投げずに二本の列で順に読む */
-  const preload = () => {
-    const q = [...new Set(S.visible().flatMap(e => [e.a.image, e.b.image]).map(R.safeImg).filter(Boolean))];
-    const next = () => {
-      const s = q.shift(); if (!s) return;
-      const i = new Image(); i.decoding = 'async'; i.fetchPriority = 'low';
-      i.onload = i.onerror = next; i.src = s;
-    };
-    next(); next();
-  };
+  /* 絵を先に読んでおく。運ぶ途中で白くならないように。次に行く所と、その次だけ（四枚まで）。
+     以前はどのページを開いてもサイトの絵を全部（136 枚、13MB）読んでいた。データ節約・遅い回線・裏に回っているときは読まない */
+  const preloaded = new Set();
+  function preloadNext(p){
+    const c = navigator.connection;
+    if (!p || !here || here.kind !== 'route' || document.hidden || (c && (c.saveData || /2g|3g/.test(c.effectiveType || '')))) return;
+    const first = p.entry || (here.entry ? after(here.entry.id) : null), second = first ? after(first.id) : null;
+    [p.work, first && first.a, first && first.b, second && second.a, second && second.b]
+      .map(w => w && R.safeImg(w.image)).filter(s => s && !preloaded.has(s)).slice(0, 4).forEach(s => {
+        preloaded.add(s);
+        const i = new Image(); i.decoding = 'async'; i.fetchPriority = 'low'; i.src = s;
+      });
+  }
 
   /* 運営者メニューのプレビューから段階を指定できるように */
   window.BCApp = {
@@ -1999,8 +2006,15 @@
     } catch (e) { return null; }
   }
   if ('serviceWorker' in navigator && location.protocol === 'https:'){
-    let updateReady = false;
-    navigator.serviceWorker.addEventListener('message', (ev) => { if (ev.data && ev.data.type === 'bc-updated') updateReady = true; });
+    /* 開いてすぐ（まだ触れていない）に新しい版が揃ったら、その場で読み直す。以前は裏に回るまで待つので、
+       開いた人には古い版が見え続けた（2026.11.03 CTO「変わっていない」）。読み始めていたら、これまでどおり裏に回ったときに */
+    let updateReady = false, touched = false;
+    ['pointerdown', 'keydown', 'wheel', 'touchstart'].forEach(t => window.addEventListener(t, () => { touched = true; }, { once: true, passive: true }));
+    navigator.serviceWorker.addEventListener('message', (ev) => {
+      if (!ev.data || ev.data.type !== 'bc-updated') return;
+      updateReady = true;
+      if (!touched && performance.now() < 8000){ saveResume(); location.reload(); }
+    });
     window.addEventListener('load', () => { navigator.serviceWorker.register('sw.js').catch(() => {}); });
     document.addEventListener('visibilitychange', () => {
       if (document.hidden){ if (updateReady){ saveResume(); location.reload(); } }
@@ -2061,7 +2075,6 @@
   paintMenu();
   window.addEventListener('load', measureDock, { once: true });
   if (document.fonts && document.fonts.ready) document.fonts.ready.then(measureDock);
-  (window.requestIdleCallback || ((f) => setTimeout(f, 800)))(preload);
 
   /* 起き上がった（index.html の、読み込み中の薄さと金の線を外す）。
      読み込みのあいだに触れた一回（index.html の小さな script が window.__early に覚えている）を、ここで一度だけ行う */

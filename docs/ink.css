@@ -904,7 +904,7 @@ body.viewing .dock{border-top-color:transparent;box-shadow:0 -16px 26px -18px rg
 
 /* 画面に入るとき、下から少し浮かんで現れる（app.js の reveal が .rv と .rv-in を付け外しする） */
 .rv{opacity:0;transform:translateY(18px)}
-.rv.rv-in{opacity:1;transform:none;transition:opacity .55s var(--ease-out) var(--rv-d,0ms),transform .72s var(--ease-out) var(--rv-d,0ms)}
+.rv.rv-in{opacity:1;transform:none;transition:opacity .32s var(--ease-out) var(--rv-d,0ms),transform .36s var(--ease-out) var(--rv-d,0ms)}
 
 /* ページが開くと、墨と金の筆が筆で掃くように左から現れ、絵の後ろの墨はにじむように濃くなる */
 @keyframes ink-draw{from{clip-path:inset(0 100% 0 0)}to{clip-path:inset(0 0 0 0)}}
@@ -1837,4 +1837,44 @@ body.viewing:has(.view-in>.login-page) .login-page .content{padding-bottom:40px}
   .wpage .w-lines .ctx-card.is-next::after{background:var(--navy);color:#fff}
   .wpage .w-lines .cc-tag{border-radius:8px 0 8px 0}
   .wpage .img-credit{margin-top:14px}
+}
+
+/* ---- 第36段：携帯で軽く、読めて、押せる（rà soát 4/11 の 4 番目） ----
+   ・読み進めている間は、下の帯は「つながりを辿る」だけに（路線図をしまう）。上へ戻す・読み終わりで出る
+   ・検索と案内のページの下の帯は出さない（見本 12・14）。行き先はページの中のボタンと ≡
+   ・本文 15px。小さな字の下限 11px。押せる所は 44px（見た目の線は変えず、透明な余白で） */
+@media (max-width:1099.98px){
+  body.viewing .dock .map{overflow:hidden;transition:height .22s var(--ease-out),opacity .16s ease}
+  body.viewing.scrolled-down:not(.on-list) .dock .map{height:0;opacity:0;pointer-events:none}
+  body.viewing .dock-next{transition:opacity .16s ease}
+  body.viewing.scrolled-down .dock-next{opacity:0}
+  body.viewing:has(.view-in>:is(.search-page,.info-page)) .dock{display:none}
+  .cpage>.context-body>p,.cpage>.context-body>ul,.cpage>.context-body>ol{font-size:15px;line-height:1.9}
+  .wpage .w-lead p:not(.meta):not(.by){font-size:14px;line-height:1.85}
+
+  /* 字の下限 */
+  .ad-copy small,.cm-note,.byline,.img-credit,.dc em,.dc small,.ab-flow span,.info-page li>span,.ip-hero>.meta,.ip-tag,
+  .ls-mark,.ls-no,.ls-sep span,.rt,.rn,.jr-t small,.w-journey .jr-t small,.journey>.meta a,.seek-keys a,.seek-keys small,.seek-sub span,
+  .seg small,.ed-row small,.ad-mark,.src-t em,.src-t i,.src-t small,.st-txt small,.today-bar time,.station,.line-name,.section-label,.cc-t small{font-size:11px !important}
+  .section-label{padding:1px 6px;letter-spacing:.04em}
+  .ip-tag{letter-spacing:.08em}
+  .seek-keys a{padding-block:7px}
+
+  /* 押せる所 */
+  .login-chip::after,.ed-link::after,.note-link::after,.chip::after,.ls-cats button::after,.seek-keys a::after,.seek-go::after,.journey>.meta a::after,.lp-tabs button::after,.lp-terms a::after,.c-logo::after{content:"";position:absolute;inset:-7px -2px}
+  .ed-link,.note-link,.chip,.ls-cats button,.seek-keys a,.seek-go,.journey>.meta a,.lp-tabs button,.lp-terms a{position:relative}
+  .seek-go::after{inset:-3px}
+  .seek-keys a::after{inset:-6px -2px}
+  .station::after{content:"";position:absolute;inset:-14px -7px}
+  .c-foot a{display:inline-block;padding-block:14px}
+  .dot::after{inset:-12px}
+  .login-page .lp-send{position:relative}
+  .login-page .lp-send::before{content:"";position:absolute;inset:-12px 0}
+  .disc .meta a,.disc-all{position:relative}
+  .disc .meta a::after,.disc-all::after{content:"";position:absolute;inset:-14px -4px}
+  .seek input{height:44px;margin-block:-8px}
+}
+@media (hover:none){
+  .login-page .lp-field input{font-size:16px}
+  .login-page .lp-field input::placeholder{font-size:15px}
 }

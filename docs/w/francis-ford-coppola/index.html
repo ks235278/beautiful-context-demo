@@ -43,9 +43,9 @@ try { if (sessionStorage.getItem('bc-resume')) document.documentElement.classLis
 <link rel="preload" as="image" href="img/logo-layer-words.png">
 <!-- 台本も先に取りに行く（静的なページは台本より先に本文が描かれる。遅い回線で、触れて動くまでの間を縮める）。
      src と同じアドレス（?v= まで）でないと、二度取りに行く -->
-<link rel="preload" as="script" href="js/seed.js?v=176">
-<link rel="preload" as="script" href="js/app.js?v=176">
-<link rel="manifest" href="manifest.webmanifest?v=176">
+<link rel="preload" as="script" href="js/seed.js?v=177">
+<link rel="preload" as="script" href="js/app.js?v=177">
+<link rel="manifest" href="manifest.webmanifest?v=177">
 <link rel="apple-touch-icon" href="icon-180.png">
 <!-- タブと検索結果に出る小さな印。アプリの印（ホーム画面のアイコン）と同じ形 -->
 <link rel="icon" href="favicon.ico" sizes="16x16 32x32 48x48">
@@ -76,13 +76,13 @@ if (location.hostname === 'beautifulcontext.com'){
   document.head.appendChild(ga);
 }
 </script>
-<script src="js/theme.js?v=176"></script>
-<link rel="stylesheet" href="app.css?v=176">
+<script src="js/theme.js?v=177"></script>
+<link rel="stylesheet" href="app.css?v=177">
 <!-- 読む画面の使い勝手（2026.10.24）。app.css のすぐあと -->
-<link rel="stylesheet" href="ux.css?v=176">
-<link rel="stylesheet" href="fade.css?v=176">
+<link rel="stylesheet" href="ux.css?v=177">
+<link rel="stylesheet" href="fade.css?v=177">
 <!-- editorial-ink（紙・墨・金）：◆ の罫と、紙の上か絵の上かで変わる決まり。ux.css のあと -->
-<link rel="stylesheet" href="ink.css?v=176">
+<link rel="stylesheet" href="ink.css?v=177">
 <!-- 台本（js）が揃うまで：まだ押しても動かないもの（‹・絵の横の ‹ ›・つながりを辿る）を少し薄くし、下の帯の上の縁に細い金の線を走らせる。
      app.js が最後に body.app-ready を付けて外す。すぐ揃うときは何も見せない（0.3 秒待ってから出す） -->
 <style>
@@ -205,11 +205,11 @@ document.addEventListener('click', function (e) {
         <section class="journey w-journey" aria-label="CONTEXT JOURNEY">
           <p class="meta">CONTEXT JOURNEY<a href="#/list">一覧で見る　→</a></p>
           <p class="jr-sub">この作品から、たどる道</p>
-          <ol class="jr"><li class="now"><span class="jr-row" aria-current="step"><i class="jr-dot"></i><b>いまここ</b><span class="jr-art"><img src="img/works/francis-ford-coppola.jpg" alt="" loading="lazy" decoding="async"></span><span class="jr-t"><small>人物・1939</small><strong>フランシス・フォード・コッポラ</strong><em>映画監督</em></span></span></li><li><a class="jr-row" href="c/apocalypse-now--francis-ford-coppola/"><i class="jr-dot"></i><b>つぎへ</b><span class="jr-art"><img src="img/works/apocalypse-now.jpg" alt="" loading="lazy" decoding="async"></span><span class="jr-t"><small>［監督も奥地へ］</small><strong>映画の撮影そのものが、地獄の行軍になった。</strong><em>コッポラ『地獄の黙示録』 ＋ フランシス・フォード・コッポラ</em></span></a></li><li><a class="jr-row" href="c/francis-ford-coppola--high-and-low/"><i class="jr-dot"></i><b>さらに</b><span class="jr-art"><img src="img/highlow.jpg" alt="" loading="lazy" decoding="async"></span><span class="jr-t"><small>［黒澤明を経由して］</small><strong>コッポラとルーカスが、黒澤の映画を支えた。</strong><em>フランシス・フォード・コッポラ ＋ 黒澤明『天国と地獄』</em></span></a></li><li><a class="jr-row" href="c/the-hollow-men--apocalypse-now/"><i class="jr-dot"></i><b>その先へ</b><span class="jr-art"><img src="img/works/the-hollow-men.jpg" alt="" loading="lazy" decoding="async"></span><span class="jr-t"><small>［カーツ大佐の朗読］</small><strong>ジャングルの奥で、カーツ大佐が詩を読む。</strong><em>『うつろな人々』The Hollow Men ＋ コッポラ『地獄の黙示録』</em></span></a></li></ol>
+          <ol class="jr"><li class="now"><span class="jr-row" aria-current="step"><i class="jr-dot"></i><b>いまここ</b><span class="jr-art"><img src="img/thumb/francis-ford-coppola.jpg" alt="" loading="lazy" decoding="async"></span><span class="jr-t"><small>人物・1939</small><strong>フランシス・フォード・コッポラ</strong><em>映画監督</em></span></span></li><li><a class="jr-row" href="c/apocalypse-now--francis-ford-coppola/"><i class="jr-dot"></i><b>つぎへ</b><span class="jr-art"><img src="img/thumb/apocalypse-now.jpg" alt="" loading="lazy" decoding="async"></span><span class="jr-t"><small>［監督も奥地へ］</small><strong>映画の撮影そのものが、地獄の行軍になった。</strong><em>コッポラ『地獄の黙示録』 ＋ フランシス・フォード・コッポラ</em></span></a></li><li><a class="jr-row" href="c/francis-ford-coppola--high-and-low/"><i class="jr-dot"></i><b>さらに</b><span class="jr-art"><img src="img/thumb/highlow.jpg" alt="" loading="lazy" decoding="async"></span><span class="jr-t"><small>［黒澤明を経由して］</small><strong>コッポラとルーカスが、黒澤の映画を支えた。</strong><em>フランシス・フォード・コッポラ ＋ 黒澤明『天国と地獄』</em></span></a></li><li><a class="jr-row" href="c/the-hollow-men--apocalypse-now/"><i class="jr-dot"></i><b>その先へ</b><span class="jr-art"><img src="img/thumb/the-hollow-men.jpg" alt="" loading="lazy" decoding="async"></span><span class="jr-t"><small>［カーツ大佐の朗読］</small><strong>ジャングルの奥で、カーツ大佐が詩を読む。</strong><em>『うつろな人々』The Hollow Men ＋ コッポラ『地獄の黙示録』</em></span></a></li></ol>
         </section>
         <div class="content w-lines">
           <p class="meta more-label">この作品から延びるつながり　2本</p>
-          <div class="ctx-cards"><button type="button" class="ctx-card is-next" data-step="1" aria-label="映画の撮影そのものが、地獄の行軍になった。：コッポラ『地獄の黙示録』 ＋ フランシス・フォード・コッポラ"><span class="cc-tag">つぎへ</span><span class="cc-pics" aria-hidden="true"><img src="img/works/apocalypse-now.jpg" alt="" loading="lazy" decoding="async"><img src="img/works/francis-ford-coppola.jpg" alt="" loading="lazy" decoding="async"></span><span class="cc-t"><small><span class="rn">［監督も奥地へ］</span><i class="rt">約30秒</i></small><b>映画の撮影そのものが、地獄の行軍になった。</b><em>コッポラ『地獄の黙示録』 ＋ <span class="nb">フランシス・フォード・コッポラ</span></em></span><span class="cc-go" aria-hidden="true">›</span></button><a class="ctx-card" href="c/francis-ford-coppola--high-and-low/" aria-label="コッポラとルーカスが、黒澤の映画を支えた。：フランシス・フォード・コッポラ ＋ 黒澤明『天国と地獄』"><span class="cc-pics" aria-hidden="true"><img src="img/works/francis-ford-coppola.jpg" alt="" loading="lazy" decoding="async"><img src="img/highlow.jpg" alt="" loading="lazy" decoding="async"></span><span class="cc-t"><small><span class="rn">［黒澤明を経由して］</span><i class="rt">約35秒</i></small><b>コッポラとルーカスが、黒澤の映画を支えた。</b><em>フランシス・フォード・コッポラ ＋ <span class="nb">黒澤明『天国と地獄』</span></em></span><span class="cc-go" aria-hidden="true">›</span></a></div>
+          <div class="ctx-cards"><button type="button" class="ctx-card is-next" data-step="1" aria-label="映画の撮影そのものが、地獄の行軍になった。：コッポラ『地獄の黙示録』 ＋ フランシス・フォード・コッポラ"><span class="cc-tag">つぎへ</span><span class="cc-pics" aria-hidden="true"><img src="img/thumb/apocalypse-now.jpg" alt="" loading="lazy" decoding="async"><img src="img/thumb/francis-ford-coppola.jpg" alt="" loading="lazy" decoding="async"></span><span class="cc-t"><small><span class="rn">［監督も奥地へ］</span><i class="rt">約30秒</i></small><b>映画の撮影そのものが、地獄の行軍になった。</b><em>コッポラ『地獄の黙示録』 ＋ <span class="nb">フランシス・フォード・コッポラ</span></em></span><span class="cc-go" aria-hidden="true">›</span></button><a class="ctx-card" href="c/francis-ford-coppola--high-and-low/" aria-label="コッポラとルーカスが、黒澤の映画を支えた。：フランシス・フォード・コッポラ ＋ 黒澤明『天国と地獄』"><span class="cc-pics" aria-hidden="true"><img src="img/thumb/francis-ford-coppola.jpg" alt="" loading="lazy" decoding="async"><img src="img/thumb/highlow.jpg" alt="" loading="lazy" decoding="async"></span><span class="cc-t"><small><span class="rn">［黒澤明を経由して］</span><i class="rt">約35秒</i></small><b>コッポラとルーカスが、黒澤の映画を支えた。</b><em>フランシス・フォード・コッポラ ＋ <span class="nb">黒澤明『天国と地獄』</span></em></span><span class="cc-go" aria-hidden="true">›</span></a></div>
           <p class="img-credit">画像：撮影 Colleen Sturtevant／CC BY-SA 4.0／Wikimedia Commons</p>
         </div>
       </article><!--/bc-body--></div>
@@ -220,17 +220,17 @@ document.addEventListener('click', function (e) {
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 <script type="application/ld+json" id="ld">{"@context":"https://schema.org","@type":"Person","name":"フランシス・フォード・コッポラ","description":"『ゴッドファーザー』『地獄の黙示録』の映画監督。","url":"https://beautifulcontext.com/w/francis-ford-coppola/","image":"https://beautifulcontext.com/img/works/francis-ford-coppola.jpg","subjectOf":[{"@type":"Article","headline":"映画の撮影そのものが、地獄の行軍になった。","url":"https://beautifulcontext.com/c/apocalypse-now--francis-ford-coppola/"},{"@type":"Article","headline":"コッポラとルーカスが、黒澤の映画を支えた。","url":"https://beautifulcontext.com/c/francis-ford-coppola--high-and-low/"}]}</script>
 
-<script src="js/config.js?v=176"></script>
-<script src="js/seed.js?v=176"></script>
-<script src="js/sources.js?v=176"></script>
-<script src="js/backend.js?v=176"></script>
-<script src="js/store.js?v=176"></script>
-<script src="js/social.js?v=176"></script>
-<script src="js/render.js?v=176"></script>
-<script src="js/login.js?v=176"></script>
-<script src="js/login-page.js?v=176"></script>
-<script src="js/report.js?v=176"></script>
-<script src="js/transition.js?v=176"></script>
-<script src="js/app.js?v=176"></script>
+<script src="js/config.js?v=177"></script>
+<script src="js/seed.js?v=177"></script>
+<script src="js/sources.js?v=177"></script>
+<script src="js/backend.js?v=177"></script>
+<script src="js/store.js?v=177"></script>
+<script src="js/social.js?v=177"></script>
+<script src="js/render.js?v=177"></script>
+<script src="js/login.js?v=177"></script>
+<script src="js/login-page.js?v=177"></script>
+<script src="js/report.js?v=177"></script>
+<script src="js/transition.js?v=177"></script>
+<script src="js/app.js?v=177"></script>
 </body>
 </html>

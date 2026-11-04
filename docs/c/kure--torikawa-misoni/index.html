@@ -43,9 +43,9 @@ try { if (sessionStorage.getItem('bc-resume')) document.documentElement.classLis
 <link rel="preload" as="image" href="img/logo-layer-words.png">
 <!-- 台本も先に取りに行く（静的なページは台本より先に本文が描かれる。遅い回線で、触れて動くまでの間を縮める）。
      src と同じアドレス（?v= まで）でないと、二度取りに行く -->
-<link rel="preload" as="script" href="js/seed.js?v=176">
-<link rel="preload" as="script" href="js/app.js?v=176">
-<link rel="manifest" href="manifest.webmanifest?v=176">
+<link rel="preload" as="script" href="js/seed.js?v=177">
+<link rel="preload" as="script" href="js/app.js?v=177">
+<link rel="manifest" href="manifest.webmanifest?v=177">
 <link rel="apple-touch-icon" href="icon-180.png">
 <!-- タブと検索結果に出る小さな印。アプリの印（ホーム画面のアイコン）と同じ形 -->
 <link rel="icon" href="favicon.ico" sizes="16x16 32x32 48x48">
@@ -76,13 +76,13 @@ if (location.hostname === 'beautifulcontext.com'){
   document.head.appendChild(ga);
 }
 </script>
-<script src="js/theme.js?v=176"></script>
-<link rel="stylesheet" href="app.css?v=176">
+<script src="js/theme.js?v=177"></script>
+<link rel="stylesheet" href="app.css?v=177">
 <!-- 読む画面の使い勝手（2026.10.24）。app.css のすぐあと -->
-<link rel="stylesheet" href="ux.css?v=176">
-<link rel="stylesheet" href="fade.css?v=176">
+<link rel="stylesheet" href="ux.css?v=177">
+<link rel="stylesheet" href="fade.css?v=177">
 <!-- editorial-ink（紙・墨・金）：◆ の罫と、紙の上か絵の上かで変わる決まり。ux.css のあと -->
-<link rel="stylesheet" href="ink.css?v=176">
+<link rel="stylesheet" href="ink.css?v=177">
 <!-- 台本（js）が揃うまで：まだ押しても動かないもの（‹・絵の横の ‹ ›・つながりを辿る）を少し薄くし、下の帯の上の縁に細い金の線を走らせる。
      app.js が最後に body.app-ready を付けて外す。すぐ揃うときは何も見せない（0.3 秒待ってから出す） -->
 <style>
@@ -209,13 +209,13 @@ document.addEventListener('click', function (e) {
         
         <section class="src-cards" aria-label="つながる二つの作品">
           <p class="meta">SOURCE CONNECTION</p>
-          <div class="src-row"><button type="button" class="src" data-step="0" aria-label="広島県呉市の作品ページへ"><img src="img/works/kure.jpg" alt="" loading="lazy" decoding="async"><span class="src-t"><small>場所</small><b>広島県呉市</b><em>広島県</em><span class="src-s">瀬戸内海に面した港町。明治期に海軍の鎮守府が置かれ、戦艦大和が建造された海軍工廠の町として知られる。</span><i aria-hidden="true">作品ページへ　→</i></span></button><span class="src-link" aria-hidden="true">↔</span><button type="button" class="src" data-step="2" aria-label="鳥皮みそ煮の作品ページへ"><img src="img/works/torikawa-misoni.jpg" alt="" loading="lazy" decoding="async"><span class="src-t"><small>料理</small><b>鳥皮みそ煮</b><em>広島県呉市の名物</em><span class="src-s">広島県呉市の名物料理。鶏の皮を味噌で煮込んだ一皿で、呉では「味噌炊き」とも呼ばれる。</span><i aria-hidden="true">作品ページへ　→</i></span></button></div>
+          <div class="src-row"><button type="button" class="src" data-step="0" aria-label="広島県呉市の作品ページへ"><img src="img/thumb/kure.jpg" alt="" loading="lazy" decoding="async"><span class="src-t"><small>場所</small><b>広島県呉市</b><em>広島県</em><span class="src-s">瀬戸内海に面した港町。明治期に海軍の鎮守府が置かれ、戦艦大和が建造された海軍工廠の町として知られる。</span><i aria-hidden="true">作品ページへ　→</i></span></button><span class="src-link" aria-hidden="true">↔</span><button type="button" class="src" data-step="2" aria-label="鳥皮みそ煮の作品ページへ"><img src="img/thumb/torikawa-misoni.jpg" alt="" loading="lazy" decoding="async"><span class="src-t"><small>料理</small><b>鳥皮みそ煮</b><em>広島県呉市の名物</em><span class="src-s">広島県呉市の名物料理。鶏の皮を味噌で煮込んだ一皿で、呉では「味噌炊き」とも呼ばれる。</span><i aria-hidden="true">作品ページへ　→</i></span></button></div>
         </section>
         
         <section class="journey" aria-label="CONTEXT JOURNEY">
           <p class="meta">CONTEXT JOURNEY<a href="#/list">一覧で見る　→</a></p>
           <p class="jr-sub">このつながりから、たどる道</p>
-          <ol class="jr"><li><a class="jr-row" href="c/kono-sekai-no-katasumi-ni--kure/"><i class="jr-dot"></i><span class="jr-t"><b>ここまで</b><small>すずは広島から、軍港の町へ嫁いだ。</small></span><span class="jr-pics" aria-hidden="true"><img src="img/works/kono-sekai-no-katasumi-ni.jpg" alt="" loading="lazy" decoding="async"><img src="img/works/kure.jpg" alt="" loading="lazy" decoding="async"></span></a></li><li class="now"><span class="jr-row" aria-current="step"><i class="jr-dot"></i><span class="jr-t"><b>いまここ</b><small>戦後の港町で生まれ、缶ひとつで旅をする味。</small></span><span class="jr-pics" aria-hidden="true"><img src="img/works/kure.jpg" alt="" loading="lazy" decoding="async"><img src="img/works/torikawa-misoni.jpg" alt="" loading="lazy" decoding="async"></span></span></li><li><a class="jr-row" href="c/w-eugene-smith--kono-sekai-no-katasumi-ni/"><i class="jr-dot"></i><span class="jr-t"><b>つぎへ</b><small>同じ年の戦争を、前線と台所から見た。</small></span><span class="jr-pics" aria-hidden="true"><img src="img/works/w-eugene-smith.jpg" alt="" loading="lazy" decoding="async"><img src="img/works/kono-sekai-no-katasumi-ni.jpg" alt="" loading="lazy" decoding="async"></span></a></li><li><a class="jr-row" href="c/w-eugene-smith--minamata/"><i class="jr-dot"></i><span class="jr-t"><b>さらに</b><small>写真が、世界に水俣を伝えた。</small></span><span class="jr-pics" aria-hidden="true"><img src="img/works/w-eugene-smith.jpg" alt="" loading="lazy" decoding="async"><img src="img/works/minamata.jpg" alt="" loading="lazy" decoding="async"></span></a></li><li><a class="jr-row" href="c/johnny-depp--minamata/"><i class="jr-dot"></i><span class="jr-t"><b>その先へ</b><small>海賊を演じた俳優が、水俣の写真家になった。</small></span><span class="jr-pics" aria-hidden="true"><img src="img/works/johnny-depp.jpg" alt="" loading="lazy" decoding="async"><img src="img/works/minamata.jpg" alt="" loading="lazy" decoding="async"></span></a></li></ol>
+          <ol class="jr"><li><a class="jr-row" href="c/kono-sekai-no-katasumi-ni--kure/"><i class="jr-dot"></i><span class="jr-t"><b>ここまで</b><small>すずは広島から、軍港の町へ嫁いだ。</small></span><span class="jr-pics" aria-hidden="true"><img src="img/thumb/kono-sekai-no-katasumi-ni.jpg" alt="" loading="lazy" decoding="async"><img src="img/thumb/kure.jpg" alt="" loading="lazy" decoding="async"></span></a></li><li class="now"><span class="jr-row" aria-current="step"><i class="jr-dot"></i><span class="jr-t"><b>いまここ</b><small>戦後の港町で生まれ、缶ひとつで旅をする味。</small></span><span class="jr-pics" aria-hidden="true"><img src="img/thumb/kure.jpg" alt="" loading="lazy" decoding="async"><img src="img/thumb/torikawa-misoni.jpg" alt="" loading="lazy" decoding="async"></span></span></li><li><a class="jr-row" href="c/w-eugene-smith--kono-sekai-no-katasumi-ni/"><i class="jr-dot"></i><span class="jr-t"><b>つぎへ</b><small>同じ年の戦争を、前線と台所から見た。</small></span><span class="jr-pics" aria-hidden="true"><img src="img/thumb/w-eugene-smith.jpg" alt="" loading="lazy" decoding="async"><img src="img/thumb/kono-sekai-no-katasumi-ni.jpg" alt="" loading="lazy" decoding="async"></span></a></li><li><a class="jr-row" href="c/w-eugene-smith--minamata/"><i class="jr-dot"></i><span class="jr-t"><b>さらに</b><small>写真が、世界に水俣を伝えた。</small></span><span class="jr-pics" aria-hidden="true"><img src="img/thumb/w-eugene-smith.jpg" alt="" loading="lazy" decoding="async"><img src="img/thumb/minamata.jpg" alt="" loading="lazy" decoding="async"></span></a></li><li><a class="jr-row" href="c/johnny-depp--minamata/"><i class="jr-dot"></i><span class="jr-t"><b>その先へ</b><small>海賊を演じた俳優が、水俣の写真家になった。</small></span><span class="jr-pics" aria-hidden="true"><img src="img/thumb/johnny-depp.jpg" alt="" loading="lazy" decoding="async"><img src="img/thumb/minamata.jpg" alt="" loading="lazy" decoding="async"></span></a></li></ol>
         </section>
         <article class="context-body" id="story">
           <p class="meta">CONTEXT STORY</p>
@@ -244,7 +244,7 @@ document.addEventListener('click', function (e) {
         </form>
         <p class="cm-note">送るときに、名前を一つ作ります。コメントは編集者が確かめてから表示されます。</p>
       </section>
-          <p class="meta more-label">同じ作品から出るつながり</p><div class="ctx-cards"><a class="ctx-card" href="c/kono-sekai-no-katasumi-ni--kure/" aria-label="すずは広島から、軍港の町へ嫁いだ。：『この世界の片隅に』 ＋ 広島県呉市"><span class="cc-pics" aria-hidden="true"><img src="img/works/kono-sekai-no-katasumi-ni.jpg" alt="" loading="lazy" decoding="async"><img src="img/works/kure.jpg" alt="" loading="lazy" decoding="async"></span><span class="cc-t"><small><span class="rn">［嫁いだ先の町］</span><i class="rt">約35秒</i></small><b>すずは広島から、軍港の町へ嫁いだ。</b><em>『この世界の片隅に』 ＋ <span class="nb">広島県呉市</span></em></span><span class="cc-go" aria-hidden="true">›</span></a></div>
+          <p class="meta more-label">同じ作品から出るつながり</p><div class="ctx-cards"><a class="ctx-card" href="c/kono-sekai-no-katasumi-ni--kure/" aria-label="すずは広島から、軍港の町へ嫁いだ。：『この世界の片隅に』 ＋ 広島県呉市"><span class="cc-pics" aria-hidden="true"><img src="img/thumb/kono-sekai-no-katasumi-ni.jpg" alt="" loading="lazy" decoding="async"><img src="img/thumb/kure.jpg" alt="" loading="lazy" decoding="async"></span><span class="cc-t"><small><span class="rn">［嫁いだ先の町］</span><i class="rt">約35秒</i></small><b>すずは広島から、軍港の町へ嫁いだ。</b><em>『この世界の片隅に』 ＋ <span class="nb">広島県呉市</span></em></span><span class="cc-go" aria-hidden="true">›</span></a></div>
           
       <aside class="c-ad" aria-label="広告">
         <a href="#/ad">
@@ -257,7 +257,7 @@ document.addEventListener('click', function (e) {
           
           <section class="next-ctx" aria-label="次に読むつながり">
             <p class="meta">NEXT CONTEXT<small>次に読むつながり</small></p>
-            <a class="ctx-card" href="c/w-eugene-smith--kono-sekai-no-katasumi-ni/" aria-label="同じ年の戦争を、前線と台所から見た。：W・ユージン・スミス ＋ 『この世界の片隅に』"><span class="cc-pics" aria-hidden="true"><img src="img/works/w-eugene-smith.jpg" alt="" loading="lazy" decoding="async"><img src="img/works/kono-sekai-no-katasumi-ni.jpg" alt="" loading="lazy" decoding="async"></span><span class="cc-t"><small><span class="rn">［1945年の空］</span><i class="rt">約35秒</i></small><b>同じ年の戦争を、前線と台所から見た。</b><em>W・ユージン・スミス ＋ <span class="nb">『この世界の片隅に』</span></em></span><span class="cc-go" aria-hidden="true">›</span></a>
+            <a class="ctx-card" href="c/w-eugene-smith--kono-sekai-no-katasumi-ni/" aria-label="同じ年の戦争を、前線と台所から見た。：W・ユージン・スミス ＋ 『この世界の片隅に』"><span class="cc-pics" aria-hidden="true"><img src="img/thumb/w-eugene-smith.jpg" alt="" loading="lazy" decoding="async"><img src="img/thumb/kono-sekai-no-katasumi-ni.jpg" alt="" loading="lazy" decoding="async"></span><span class="cc-t"><small><span class="rn">［1945年の空］</span><i class="rt">約35秒</i></small><b>同じ年の戦争を、前線と台所から見た。</b><em>W・ユージン・スミス ＋ <span class="nb">『この世界の片隅に』</span></em></span><span class="cc-go" aria-hidden="true">›</span></a>
           </section>
           
           <section class="ctx-rail" aria-label="この先のつながり">
@@ -417,17 +417,17 @@ document.addEventListener('click', function (e) {
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 <script type="application/ld+json" id="ld">{"@context":"https://schema.org","@type":"Article","headline":"戦後の港町で生まれ、缶ひとつで旅をする味。","alternativeHeadline":"呉の一皿","about":[{"@type":"CreativeWork","name":"広島県呉市","description":"瀬戸内海に面した港町。明治期に海軍の鎮守府が置かれ、戦艦大和が建造された海軍工廠の町として知られる。","creator":{"@type":"Person","name":"広島県"}},{"@type":"CreativeWork","name":"鳥皮みそ煮","description":"広島県呉市の名物料理。鶏の皮を味噌で煮込んだ一皿で、呉では「味噌炊き」とも呼ばれる。","creator":{"@type":"Person","name":"広島県呉市の名物"}}],"author":{"@type":"Person","name":"生成AI（初稿）"},"datePublished":"2026-09-15T07:20:00.000Z","dateModified":"2026-09-15T07:20:00.000Z","inLanguage":"ja","articleBody":"捨てずに食べる工夫が、呉の名物の一皿になった。鳥皮みそ煮は、広島県呉市の名物として知られる料理。鶏の皮を味噌で煮込んだ一品で、呉のとり屋（焼鳥店）では「味噌炊き」の名でも親しまれている。串のまま出す店、串から外して小鉢で出す店、こんにゃくなどと煮込む店と、店ごとに個性がある。生まれたのは食料事情の悪かった戦後復興期。卵を産まなくなった親鳥の硬い皮を、捨てずに食べる方法を考えた結果だという。いまは広島市のヤマトフーズが、缶詰の商品にもしている。『この世界の片隅に』で、すずが配給の食材をやりくりした町。映画が描く時代のあと、同じ町で食料の乏しさから生まれた味を、いまは缶詰でも味わえる。","url":"https://beautifulcontext.com/c/kure--torikawa-misoni/","citation":[{"@type":"CreativeWork","name":"この世界の片隅に【映画】","url":"https://konosekai.jp/","publisher":{"@type":"Organization","name":"映画『この世界の片隅に』公式サイト"}},{"@type":"CreativeWork","name":"鳥皮みそ煮（缶詰）｜商品情報｜よしの味噌","url":"https://www.yoshinomiso.com/products.php?product_number=R-30","publisher":{"@type":"Organization","name":"よしの味噌（広島県呉市）"}},{"@type":"CreativeWork","name":"呉のとり屋がすごい！（実はやきとりシティだった呉市）｜読みもの｜広島県呉市移住定住ポータルサイトKURETO(クレト) / 瀬戸内海のほぼ真ん中で街・里山・島暮らし","url":"https://kureto.city.kure.lg.jp/read/citizen-journal/1325/","publisher":{"@type":"Organization","name":"広島県呉市移住定住ポータルサイトKURETO（呉市・市民ライター記事）"}},{"@type":"CreativeWork","name":"「レモスコ」が躍進。レモン関連品を続々投入 「瀬戸内を世界へ」を合言葉に開発強化 | ひろしま企業図鑑","url":"https://zukan.biz/food/yamato-foods/","publisher":{"@type":"Organization","name":"ひろしま企業図鑑（広島経済研究所）"}}],"image":"https://beautifulcontext.com/img/works/kure.jpg"}</script>
 
-<script src="js/config.js?v=176"></script>
-<script src="js/seed.js?v=176"></script>
-<script src="js/sources.js?v=176"></script>
-<script src="js/backend.js?v=176"></script>
-<script src="js/store.js?v=176"></script>
-<script src="js/social.js?v=176"></script>
-<script src="js/render.js?v=176"></script>
-<script src="js/login.js?v=176"></script>
-<script src="js/login-page.js?v=176"></script>
-<script src="js/report.js?v=176"></script>
-<script src="js/transition.js?v=176"></script>
-<script src="js/app.js?v=176"></script>
+<script src="js/config.js?v=177"></script>
+<script src="js/seed.js?v=177"></script>
+<script src="js/sources.js?v=177"></script>
+<script src="js/backend.js?v=177"></script>
+<script src="js/store.js?v=177"></script>
+<script src="js/social.js?v=177"></script>
+<script src="js/render.js?v=177"></script>
+<script src="js/login.js?v=177"></script>
+<script src="js/login-page.js?v=177"></script>
+<script src="js/report.js?v=177"></script>
+<script src="js/transition.js?v=177"></script>
+<script src="js/app.js?v=177"></script>
 </body>
 </html>

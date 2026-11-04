@@ -293,6 +293,11 @@ fs.writeFileSync(path.join(DOCS, 'sitemap.xml'),
   urls.map((u) => `  <url><loc>${esc(u.loc)}</loc><lastmod>${u.lastmod}</lastmod></url>`).join('\n') + '\n</urlset>\n');
 fs.writeFileSync(path.join(DOCS, 'robots.txt'), `User-agent: *\nAllow: /\n\nSitemap: ${SITE}/sitemap.xml\n`);
 
+/* 札の小さな絵の控え（img/thumb）が揃っているか。無いまま出すと絵が欠ける */
+const noThumb = new Set();
+for (const [, html] of writes) for (const m of html.matchAll(/img\/thumb\/[^"'\s)]+/g)) if (!fs.existsSync(path.join(DOCS, m[0]))) noThumb.add(m[0]);
+if (noThumb.size) throw new Error(`絵の控えがありません（py tools/make-thumbs.py を走らせてください）：${[...noThumb].slice(0, 5).join(' ')}`);
+
 /* ページと、移ったアドレスのページを書く */
 for (const [file, html] of [...writes, ...redirects]) {
   fs.mkdirSync(path.dirname(file), { recursive: true });

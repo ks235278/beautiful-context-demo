@@ -43,9 +43,9 @@ try { if (sessionStorage.getItem('bc-resume')) document.documentElement.classLis
 <link rel="preload" as="image" href="img/logo-layer-words.png">
 <!-- 台本も先に取りに行く（静的なページは台本より先に本文が描かれる。遅い回線で、触れて動くまでの間を縮める）。
      src と同じアドレス（?v= まで）でないと、二度取りに行く -->
-<link rel="preload" as="script" href="js/seed.js?v=176">
-<link rel="preload" as="script" href="js/app.js?v=176">
-<link rel="manifest" href="manifest.webmanifest?v=176">
+<link rel="preload" as="script" href="js/seed.js?v=177">
+<link rel="preload" as="script" href="js/app.js?v=177">
+<link rel="manifest" href="manifest.webmanifest?v=177">
 <link rel="apple-touch-icon" href="icon-180.png">
 <!-- タブと検索結果に出る小さな印。アプリの印（ホーム画面のアイコン）と同じ形 -->
 <link rel="icon" href="favicon.ico" sizes="16x16 32x32 48x48">
@@ -76,13 +76,13 @@ if (location.hostname === 'beautifulcontext.com'){
   document.head.appendChild(ga);
 }
 </script>
-<script src="js/theme.js?v=176"></script>
-<link rel="stylesheet" href="app.css?v=176">
+<script src="js/theme.js?v=177"></script>
+<link rel="stylesheet" href="app.css?v=177">
 <!-- 読む画面の使い勝手（2026.10.24）。app.css のすぐあと -->
-<link rel="stylesheet" href="ux.css?v=176">
-<link rel="stylesheet" href="fade.css?v=176">
+<link rel="stylesheet" href="ux.css?v=177">
+<link rel="stylesheet" href="fade.css?v=177">
 <!-- editorial-ink（紙・墨・金）：◆ の罫と、紙の上か絵の上かで変わる決まり。ux.css のあと -->
-<link rel="stylesheet" href="ink.css?v=176">
+<link rel="stylesheet" href="ink.css?v=177">
 <!-- 台本（js）が揃うまで：まだ押しても動かないもの（‹・絵の横の ‹ ›・つながりを辿る）を少し薄くし、下の帯の上の縁に細い金の線を走らせる。
      app.js が最後に body.app-ready を付けて外す。すぐ揃うときは何も見せない（0.3 秒待ってから出す） -->
 <style>
@@ -209,13 +209,13 @@ document.addEventListener('click', function (e) {
         
         <section class="src-cards" aria-label="つながる二つの作品">
           <p class="meta">SOURCE CONNECTION</p>
-          <div class="src-row"><button type="button" class="src" data-step="0" aria-label="安彦良和の作品ページへ"><img src="img/works/yasuhiko-yoshikazu.jpg" alt="" loading="lazy" decoding="async"><span class="src-t"><small>人物・1947</small><b>安彦良和</b><em>漫画家・アニメーター</em><span class="src-s">テレビアニメ『機動戦士ガンダム』のキャラクターデザインと作画監督をつとめた。漫画家として『虹色のトロツキー』など、歴史を題材にした作品を描く。</span><i aria-hidden="true">作品ページへ　→</i></span></button><span class="src-link" aria-hidden="true">↔</span><button type="button" class="src" data-step="2" aria-label="安彦良和『虹色のトロツキー』の作品ページへ"><img src="img/works/niji-iro-no-trotsky.jpg" alt="" loading="lazy" decoding="async"><span class="src-t"><small>漫画・1990</small><b>安彦良和『虹色のトロツキー』</b><em>安彦良和</em><span class="src-s">1938年の満州。日本人とモンゴル人の血を引く青年ウムボルトが、建国大学に送り込まれ、トロツキーをめぐる謀略に巻き込まれていく。</span><i aria-hidden="true">作品ページへ　→</i></span></button></div>
+          <div class="src-row"><button type="button" class="src" data-step="0" aria-label="安彦良和の作品ページへ"><img src="img/thumb/yasuhiko-yoshikazu.jpg" alt="" loading="lazy" decoding="async"><span class="src-t"><small>人物・1947</small><b>安彦良和</b><em>漫画家・アニメーター</em><span class="src-s">テレビアニメ『機動戦士ガンダム』のキャラクターデザインと作画監督をつとめた。漫画家として『虹色のトロツキー』など、歴史を題材にした作品を描く。</span><i aria-hidden="true">作品ページへ　→</i></span></button><span class="src-link" aria-hidden="true">↔</span><button type="button" class="src" data-step="2" aria-label="安彦良和『虹色のトロツキー』の作品ページへ"><img src="img/thumb/niji-iro-no-trotsky.jpg" alt="" loading="lazy" decoding="async"><span class="src-t"><small>漫画・1990</small><b>安彦良和『虹色のトロツキー』</b><em>安彦良和</em><span class="src-s">1938年の満州。日本人とモンゴル人の血を引く青年ウムボルトが、建国大学に送り込まれ、トロツキーをめぐる謀略に巻き込まれていく。</span><i aria-hidden="true">作品ページへ　→</i></span></button></div>
         </section>
         
         <section class="journey" aria-label="CONTEXT JOURNEY">
           <p class="meta">CONTEXT JOURNEY<a href="#/list">一覧で見る　→</a></p>
           <p class="jr-sub">このつながりから、たどる道</p>
-          <ol class="jr"><li><a class="jr-row" href="c/niji-iro-no-trotsky--historie/"><i class="jr-dot"></i><span class="jr-t"><b>ここまで</b><small>どちらの民族にも、属しきれない主人公。</small></span><span class="jr-pics" aria-hidden="true"><img src="img/works/niji-iro-no-trotsky.jpg" alt="" loading="lazy" decoding="async"><img src="img/works/historie.jpg" alt="" loading="lazy" decoding="async"></span></a></li><li class="now"><span class="jr-row" aria-current="step"><i class="jr-dot"></i><span class="jr-t"><b>いまここ</b><small>満州の大学に、青年が送り込まれる。</small></span><span class="jr-pics" aria-hidden="true"><img src="img/works/yasuhiko-yoshikazu.jpg" alt="" loading="lazy" decoding="async"><img src="img/works/niji-iro-no-trotsky.jpg" alt="" loading="lazy" decoding="async"></span></span></li><li><a class="jr-row" href="c/yasuhiko-yoshikazu--gundam-the-origin/"><i class="jr-dot"></i><span class="jr-t"><b>つぎへ</b><small>ガンダムを、自分の手で描き直す。</small></span><span class="jr-pics" aria-hidden="true"><img src="img/works/yasuhiko-yoshikazu.jpg" alt="" loading="lazy" decoding="async"><img src="img/works/gundam-the-origin.jpg" alt="" loading="lazy" decoding="async"></span></a></li><li><a class="jr-row" href="c/kill-your-friends--frida-sundemo/"><i class="jr-dot"></i><span class="jr-t"><b>さらに</b><small>新人バンドの契約を、野心家の男が狙う。</small></span><span class="jr-pics" aria-hidden="true"><img src="img/works/kill-your-friends.jpg" alt="" loading="lazy" decoding="async"><img src="img/works/frida-sundemo.jpg" alt="" loading="lazy" decoding="async"></span></a></li><li><a class="jr-row" href="c/tengoku-film--tengoku-book/"><i class="jr-dot"></i><span class="jr-t"><b>その先へ</b><small>父の語った島を探す旅は映画で別の物語になる。</small></span><span class="jr-pics" aria-hidden="true"><img src="img/works/tengoku-film.jpg" alt="" loading="lazy" decoding="async"><img src="img/works/tengoku-book.jpg" alt="" loading="lazy" decoding="async"></span></a></li></ol>
+          <ol class="jr"><li><a class="jr-row" href="c/niji-iro-no-trotsky--historie/"><i class="jr-dot"></i><span class="jr-t"><b>ここまで</b><small>どちらの民族にも、属しきれない主人公。</small></span><span class="jr-pics" aria-hidden="true"><img src="img/thumb/niji-iro-no-trotsky.jpg" alt="" loading="lazy" decoding="async"><img src="img/thumb/historie.jpg" alt="" loading="lazy" decoding="async"></span></a></li><li class="now"><span class="jr-row" aria-current="step"><i class="jr-dot"></i><span class="jr-t"><b>いまここ</b><small>満州の大学に、青年が送り込まれる。</small></span><span class="jr-pics" aria-hidden="true"><img src="img/thumb/yasuhiko-yoshikazu.jpg" alt="" loading="lazy" decoding="async"><img src="img/thumb/niji-iro-no-trotsky.jpg" alt="" loading="lazy" decoding="async"></span></span></li><li><a class="jr-row" href="c/yasuhiko-yoshikazu--gundam-the-origin/"><i class="jr-dot"></i><span class="jr-t"><b>つぎへ</b><small>ガンダムを、自分の手で描き直す。</small></span><span class="jr-pics" aria-hidden="true"><img src="img/thumb/yasuhiko-yoshikazu.jpg" alt="" loading="lazy" decoding="async"><img src="img/thumb/gundam-the-origin.jpg" alt="" loading="lazy" decoding="async"></span></a></li><li><a class="jr-row" href="c/kill-your-friends--frida-sundemo/"><i class="jr-dot"></i><span class="jr-t"><b>さらに</b><small>新人バンドの契約を、野心家の男が狙う。</small></span><span class="jr-pics" aria-hidden="true"><img src="img/thumb/kill-your-friends.jpg" alt="" loading="lazy" decoding="async"><img src="img/thumb/frida-sundemo.jpg" alt="" loading="lazy" decoding="async"></span></a></li><li><a class="jr-row" href="c/tengoku-film--tengoku-book/"><i class="jr-dot"></i><span class="jr-t"><b>その先へ</b><small>父の語った島を探す旅は映画で別の物語になる。</small></span><span class="jr-pics" aria-hidden="true"><img src="img/thumb/tengoku-film.jpg" alt="" loading="lazy" decoding="async"><img src="img/thumb/tengoku-book.jpg" alt="" loading="lazy" decoding="async"></span></a></li></ol>
         </section>
         <article class="context-body" id="story">
           <p class="meta">CONTEXT STORY</p>
@@ -244,7 +244,7 @@ document.addEventListener('click', function (e) {
         </form>
         <p class="cm-note">送るときに、名前を一つ作ります。コメントは編集者が確かめてから表示されます。</p>
       </section>
-          <p class="meta more-label">同じ作品から出るつながり</p><div class="ctx-cards"><a class="ctx-card" href="c/yasuhiko-yoshikazu--gundam-the-origin/" aria-label="ガンダムを、自分の手で描き直す。：安彦良和 ＋ 安彦良和『機動戦士ガンダム THE ORIGIN』"><span class="cc-pics" aria-hidden="true"><img src="img/works/yasuhiko-yoshikazu.jpg" alt="" loading="lazy" decoding="async"><img src="img/works/gundam-the-origin.jpg" alt="" loading="lazy" decoding="async"></span><span class="cc-t"><small><span class="rn">［作者と作品］</span><i class="rt">約25秒</i></small><b>ガンダムを、自分の手で描き直す。</b><em>安彦良和 ＋ <span class="nb">安彦良和『機動戦士ガンダム THE ORIGIN』</span></em></span><span class="cc-go" aria-hidden="true">›</span></a><a class="ctx-card" href="c/niji-iro-no-trotsky--historie/" aria-label="どちらの民族にも、属しきれない主人公。：安彦良和『虹色のトロツキー』 ＋ 岩明均『ヒストリエ』"><span class="cc-pics" aria-hidden="true"><img src="img/works/niji-iro-no-trotsky.jpg" alt="" loading="lazy" decoding="async"><img src="img/works/historie.jpg" alt="" loading="lazy" decoding="async"></span><span class="cc-t"><small><span class="rn">［二つの民族のあいだで］</span><i class="rt">約30秒</i></small><b>どちらの民族にも、属しきれない主人公。</b><em>安彦良和『虹色のトロツキー』 ＋ <span class="nb">岩明均『ヒストリエ』</span></em></span><span class="cc-go" aria-hidden="true">›</span></a></div>
+          <p class="meta more-label">同じ作品から出るつながり</p><div class="ctx-cards"><a class="ctx-card" href="c/yasuhiko-yoshikazu--gundam-the-origin/" aria-label="ガンダムを、自分の手で描き直す。：安彦良和 ＋ 安彦良和『機動戦士ガンダム THE ORIGIN』"><span class="cc-pics" aria-hidden="true"><img src="img/thumb/yasuhiko-yoshikazu.jpg" alt="" loading="lazy" decoding="async"><img src="img/thumb/gundam-the-origin.jpg" alt="" loading="lazy" decoding="async"></span><span class="cc-t"><small><span class="rn">［作者と作品］</span><i class="rt">約25秒</i></small><b>ガンダムを、自分の手で描き直す。</b><em>安彦良和 ＋ <span class="nb">安彦良和『機動戦士ガンダム THE ORIGIN』</span></em></span><span class="cc-go" aria-hidden="true">›</span></a><a class="ctx-card" href="c/niji-iro-no-trotsky--historie/" aria-label="どちらの民族にも、属しきれない主人公。：安彦良和『虹色のトロツキー』 ＋ 岩明均『ヒストリエ』"><span class="cc-pics" aria-hidden="true"><img src="img/thumb/niji-iro-no-trotsky.jpg" alt="" loading="lazy" decoding="async"><img src="img/thumb/historie.jpg" alt="" loading="lazy" decoding="async"></span><span class="cc-t"><small><span class="rn">［二つの民族のあいだで］</span><i class="rt">約30秒</i></small><b>どちらの民族にも、属しきれない主人公。</b><em>安彦良和『虹色のトロツキー』 ＋ <span class="nb">岩明均『ヒストリエ』</span></em></span><span class="cc-go" aria-hidden="true">›</span></a></div>
           
       <aside class="c-ad" aria-label="広告">
         <a href="#/ad">
@@ -257,7 +257,7 @@ document.addEventListener('click', function (e) {
           
           <section class="next-ctx" aria-label="次に読むつながり">
             <p class="meta">NEXT CONTEXT<small>次に読むつながり</small></p>
-            <a class="ctx-card" href="c/yasuhiko-yoshikazu--gundam-the-origin/" aria-label="ガンダムを、自分の手で描き直す。：安彦良和 ＋ 安彦良和『機動戦士ガンダム THE ORIGIN』"><span class="cc-pics" aria-hidden="true"><img src="img/works/yasuhiko-yoshikazu.jpg" alt="" loading="lazy" decoding="async"><img src="img/works/gundam-the-origin.jpg" alt="" loading="lazy" decoding="async"></span><span class="cc-t"><small><span class="rn">［作者と作品］</span><i class="rt">約25秒</i></small><b>ガンダムを、自分の手で描き直す。</b><em>安彦良和 ＋ <span class="nb">安彦良和『機動戦士ガンダム THE ORIGIN』</span></em></span><span class="cc-go" aria-hidden="true">›</span></a>
+            <a class="ctx-card" href="c/yasuhiko-yoshikazu--gundam-the-origin/" aria-label="ガンダムを、自分の手で描き直す。：安彦良和 ＋ 安彦良和『機動戦士ガンダム THE ORIGIN』"><span class="cc-pics" aria-hidden="true"><img src="img/thumb/yasuhiko-yoshikazu.jpg" alt="" loading="lazy" decoding="async"><img src="img/thumb/gundam-the-origin.jpg" alt="" loading="lazy" decoding="async"></span><span class="cc-t"><small><span class="rn">［作者と作品］</span><i class="rt">約25秒</i></small><b>ガンダムを、自分の手で描き直す。</b><em>安彦良和 ＋ <span class="nb">安彦良和『機動戦士ガンダム THE ORIGIN』</span></em></span><span class="cc-go" aria-hidden="true">›</span></a>
           </section>
           
           <section class="ctx-rail" aria-label="この先のつながり">
@@ -417,17 +417,17 @@ document.addEventListener('click', function (e) {
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 <script type="application/ld+json" id="ld">{"@context":"https://schema.org","@type":"Article","headline":"満州の大学に、青年が送り込まれる。","alternativeHeadline":"作者と作品","about":[{"@type":"Person","name":"安彦良和","description":"テレビアニメ『機動戦士ガンダム』のキャラクターデザインと作画監督をつとめた。漫画家として『虹色のトロツキー』など、歴史を題材にした作品を描く。"},{"@type":"CreativeWork","name":"虹色のトロツキー","description":"1938年の満州。日本人とモンゴル人の血を引く青年ウムボルトが、建国大学に送り込まれ、トロツキーをめぐる謀略に巻き込まれていく。","creator":{"@type":"Person","name":"安彦良和"}}],"author":{"@type":"Person","name":"生成AI（初稿）"},"datePublished":"2026-09-14T00:50:00.000Z","dateModified":"2026-09-14T00:50:00.000Z","inLanguage":"ja","articleBody":"ガンダムの作り手が描いた、満州の歴史。『虹色のトロツキー』は、1938年の満州を舞台に、日本人とモンゴル人の血を引く青年ウムボルトが、建国大学に送り込まれ、トロツキーを満州に招くという謀略に巻き込まれていく物語である。石原莞爾ら実在の人物が登場し、ノモンハン事件へと向かう歴史を背景にしている。安彦良和は、アニメーターから漫画家に転じたあと、『王道の狗』『天の血脈』など、歴史を題材にした作品を数多く手がけている。","url":"https://beautifulcontext.com/c/yasuhiko-yoshikazu--niji-iro-no-trotsky/","citation":[{"@type":"CreativeWork","name":"「満州」とは何だったのか――安彦良和×三浦英之","url":"https://imidas.jp/special/t-02-022-25-06-g241/","publisher":{"@type":"Organization","name":"imidas（集英社）"}},{"@type":"CreativeWork","name":"虹色のトロツキー （1） - 安彦良和 | BOOK☆WALKER","url":"https://bookwalker.jp/de35478e47-5c3d-45e2-87cf-64f6a0a6867d/","publisher":{"@type":"Organization","name":"BOOK☆WALKER（潮出版社の紹介文を掲載）"}},{"@type":"CreativeWork","name":"虹色のトロツキー","url":"https://ja.wikipedia.org/wiki/虹色のトロツキー","publisher":{"@type":"Organization","name":"Wikipedia（日本語版）"}},{"@type":"CreativeWork","name":"安彦良和","url":"https://ja.wikipedia.org/wiki/安彦良和","publisher":{"@type":"Organization","name":"Wikipedia（日本語版）"}},{"@type":"CreativeWork","name":"Kenkoku University","url":"https://en.wikipedia.org/wiki/Kenkoku_University","publisher":{"@type":"Organization","name":"Wikipedia"}}],"image":"https://beautifulcontext.com/img/works/yasuhiko-yoshikazu.jpg"}</script>
 
-<script src="js/config.js?v=176"></script>
-<script src="js/seed.js?v=176"></script>
-<script src="js/sources.js?v=176"></script>
-<script src="js/backend.js?v=176"></script>
-<script src="js/store.js?v=176"></script>
-<script src="js/social.js?v=176"></script>
-<script src="js/render.js?v=176"></script>
-<script src="js/login.js?v=176"></script>
-<script src="js/login-page.js?v=176"></script>
-<script src="js/report.js?v=176"></script>
-<script src="js/transition.js?v=176"></script>
-<script src="js/app.js?v=176"></script>
+<script src="js/config.js?v=177"></script>
+<script src="js/seed.js?v=177"></script>
+<script src="js/sources.js?v=177"></script>
+<script src="js/backend.js?v=177"></script>
+<script src="js/store.js?v=177"></script>
+<script src="js/social.js?v=177"></script>
+<script src="js/render.js?v=177"></script>
+<script src="js/login.js?v=177"></script>
+<script src="js/login-page.js?v=177"></script>
+<script src="js/report.js?v=177"></script>
+<script src="js/transition.js?v=177"></script>
+<script src="js/app.js?v=177"></script>
 </body>
 </html>

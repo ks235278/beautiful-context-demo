@@ -43,9 +43,9 @@ try { if (sessionStorage.getItem('bc-resume')) document.documentElement.classLis
 <link rel="preload" as="image" href="img/logo-layer-words.png">
 <!-- 台本も先に取りに行く（静的なページは台本より先に本文が描かれる。遅い回線で、触れて動くまでの間を縮める）。
      src と同じアドレス（?v= まで）でないと、二度取りに行く -->
-<link rel="preload" as="script" href="js/seed.js?v=176">
-<link rel="preload" as="script" href="js/app.js?v=176">
-<link rel="manifest" href="manifest.webmanifest?v=176">
+<link rel="preload" as="script" href="js/seed.js?v=177">
+<link rel="preload" as="script" href="js/app.js?v=177">
+<link rel="manifest" href="manifest.webmanifest?v=177">
 <link rel="apple-touch-icon" href="icon-180.png">
 <!-- タブと検索結果に出る小さな印。アプリの印（ホーム画面のアイコン）と同じ形 -->
 <link rel="icon" href="favicon.ico" sizes="16x16 32x32 48x48">
@@ -76,13 +76,13 @@ if (location.hostname === 'beautifulcontext.com'){
   document.head.appendChild(ga);
 }
 </script>
-<script src="js/theme.js?v=176"></script>
-<link rel="stylesheet" href="app.css?v=176">
+<script src="js/theme.js?v=177"></script>
+<link rel="stylesheet" href="app.css?v=177">
 <!-- 読む画面の使い勝手（2026.10.24）。app.css のすぐあと -->
-<link rel="stylesheet" href="ux.css?v=176">
-<link rel="stylesheet" href="fade.css?v=176">
+<link rel="stylesheet" href="ux.css?v=177">
+<link rel="stylesheet" href="fade.css?v=177">
 <!-- editorial-ink（紙・墨・金）：◆ の罫と、紙の上か絵の上かで変わる決まり。ux.css のあと -->
-<link rel="stylesheet" href="ink.css?v=176">
+<link rel="stylesheet" href="ink.css?v=177">
 <!-- 台本（js）が揃うまで：まだ押しても動かないもの（‹・絵の横の ‹ ›・つながりを辿る）を少し薄くし、下の帯の上の縁に細い金の線を走らせる。
      app.js が最後に body.app-ready を付けて外す。すぐ揃うときは何も見せない（0.3 秒待ってから出す） -->
 <style>
@@ -209,13 +209,13 @@ document.addEventListener('click', function (e) {
         
         <section class="src-cards" aria-label="つながる二つの作品">
           <p class="meta">SOURCE CONNECTION</p>
-          <div class="src-row"><button type="button" class="src" data-step="0" aria-label="餃子酒場（勝どき店）の作品ページへ"><img src="img/works/gyoza-sakaba-kachidoki.jpg" alt="" loading="lazy" decoding="async"><span class="src-t"><small>店</small><b>餃子酒場（勝どき店）</b><em>東京・勝どき</em><span class="src-s">勝どき駅近くの、焼き餃子と酒の店。</span><i aria-hidden="true">作品ページへ　→</i></span></button><span class="src-link" aria-hidden="true">↔</span><button type="button" class="src" data-step="2" aria-label="芋焼酎『だいやめ DAIYAME』の作品ページへ"><img src="img/works/daiyame.jpg" alt="" loading="lazy" decoding="async"><span class="src-t"><small>酒</small><b>芋焼酎『だいやめ DAIYAME』</b><em>濵田酒造（鹿児島）</em><span class="src-s">鹿児島の芋焼酎。ライチを思わせる香りで知られる。名前は、一日の疲れを癒やす晩酌を表す鹿児島の言葉から。</span><i aria-hidden="true">作品ページへ　→</i></span></button></div>
+          <div class="src-row"><button type="button" class="src" data-step="0" aria-label="餃子酒場（勝どき店）の作品ページへ"><img src="img/thumb/gyoza-sakaba-kachidoki.jpg" alt="" loading="lazy" decoding="async"><span class="src-t"><small>店</small><b>餃子酒場（勝どき店）</b><em>東京・勝どき</em><span class="src-s">勝どき駅近くの、焼き餃子と酒の店。</span><i aria-hidden="true">作品ページへ　→</i></span></button><span class="src-link" aria-hidden="true">↔</span><button type="button" class="src" data-step="2" aria-label="芋焼酎『だいやめ DAIYAME』の作品ページへ"><img src="img/thumb/daiyame.jpg" alt="" loading="lazy" decoding="async"><span class="src-t"><small>酒</small><b>芋焼酎『だいやめ DAIYAME』</b><em>濵田酒造（鹿児島）</em><span class="src-s">鹿児島の芋焼酎。ライチを思わせる香りで知られる。名前は、一日の疲れを癒やす晩酌を表す鹿児島の言葉から。</span><i aria-hidden="true">作品ページへ　→</i></span></button></div>
         </section>
         
         <section class="journey" aria-label="CONTEXT JOURNEY">
           <p class="meta">CONTEXT JOURNEY<a href="#/list">一覧で見る　→</a></p>
           <p class="jr-sub">このつながりから、たどる道</p>
-          <ol class="jr"><li><a class="jr-row" href="c/kanyoro--gyoza-sakaba-kachidoki/"><i class="jr-dot"></i><span class="jr-t"><b>ここまで</b><small>勝どきの名も、漢陽楼も日露戦争とつながる。</small></span><span class="jr-pics" aria-hidden="true"><img src="img/kanyoro.jpg" alt="" loading="lazy" decoding="async"><img src="img/works/gyoza-sakaba-kachidoki.jpg" alt="" loading="lazy" decoding="async"></span></a></li><li class="now"><span class="jr-row" aria-current="step"><i class="jr-dot"></i><span class="jr-t"><b>いまここ</b><small>「だいやめ」とは、つまり今夜の一杯だ。</small></span><span class="jr-pics" aria-hidden="true"><img src="img/works/gyoza-sakaba-kachidoki.jpg" alt="" loading="lazy" decoding="async"><img src="img/works/daiyame.jpg" alt="" loading="lazy" decoding="async"></span></span></li><li><a class="jr-row" href="c/daiyame--domaine-tetta/"><i class="jr-dot"></i><span class="jr-t"><b>つぎへ</b><small>焼酎の名は晩酌の言葉、ワイナリーの名は地名。</small></span><span class="jr-pics" aria-hidden="true"><img src="img/works/daiyame.jpg" alt="" loading="lazy" decoding="async"><img src="img/works/domaine-tetta.jpg" alt="" loading="lazy" decoding="async"></span></a></li><li><a class="jr-row" href="c/daiyame--tanqueray-no-ten/"><i class="jr-dot"></i><span class="jr-t"><b>さらに</b><small>ライチのような芋焼酎と生の柑橘のジン。</small></span><span class="jr-pics" aria-hidden="true"><img src="img/works/daiyame.jpg" alt="" loading="lazy" decoding="async"><img src="img/works/tanqueray-no-ten.jpg" alt="" loading="lazy" decoding="async"></span></a></li><li><a class="jr-row" href="c/kanyoro--nurungji/"><i class="jr-dot"></i><span class="jr-t"><b>その先へ</b><small>神田の中国料理と、赤坂の韓国料理。</small></span><span class="jr-pics" aria-hidden="true"><img src="img/kanyoro.jpg" alt="" loading="lazy" decoding="async"><img src="img/works/nurungji.jpg" alt="" loading="lazy" decoding="async"></span></a></li></ol>
+          <ol class="jr"><li><a class="jr-row" href="c/kanyoro--gyoza-sakaba-kachidoki/"><i class="jr-dot"></i><span class="jr-t"><b>ここまで</b><small>勝どきの名も、漢陽楼も日露戦争とつながる。</small></span><span class="jr-pics" aria-hidden="true"><img src="img/thumb/kanyoro.jpg" alt="" loading="lazy" decoding="async"><img src="img/thumb/gyoza-sakaba-kachidoki.jpg" alt="" loading="lazy" decoding="async"></span></a></li><li class="now"><span class="jr-row" aria-current="step"><i class="jr-dot"></i><span class="jr-t"><b>いまここ</b><small>「だいやめ」とは、つまり今夜の一杯だ。</small></span><span class="jr-pics" aria-hidden="true"><img src="img/thumb/gyoza-sakaba-kachidoki.jpg" alt="" loading="lazy" decoding="async"><img src="img/thumb/daiyame.jpg" alt="" loading="lazy" decoding="async"></span></span></li><li><a class="jr-row" href="c/daiyame--domaine-tetta/"><i class="jr-dot"></i><span class="jr-t"><b>つぎへ</b><small>焼酎の名は晩酌の言葉、ワイナリーの名は地名。</small></span><span class="jr-pics" aria-hidden="true"><img src="img/thumb/daiyame.jpg" alt="" loading="lazy" decoding="async"><img src="img/thumb/domaine-tetta.jpg" alt="" loading="lazy" decoding="async"></span></a></li><li><a class="jr-row" href="c/daiyame--tanqueray-no-ten/"><i class="jr-dot"></i><span class="jr-t"><b>さらに</b><small>ライチのような芋焼酎と生の柑橘のジン。</small></span><span class="jr-pics" aria-hidden="true"><img src="img/thumb/daiyame.jpg" alt="" loading="lazy" decoding="async"><img src="img/thumb/tanqueray-no-ten.jpg" alt="" loading="lazy" decoding="async"></span></a></li><li><a class="jr-row" href="c/kanyoro--nurungji/"><i class="jr-dot"></i><span class="jr-t"><b>その先へ</b><small>神田の中国料理と、赤坂の韓国料理。</small></span><span class="jr-pics" aria-hidden="true"><img src="img/thumb/kanyoro.jpg" alt="" loading="lazy" decoding="async"><img src="img/thumb/nurungji.jpg" alt="" loading="lazy" decoding="async"></span></a></li></ol>
         </section>
         <article class="context-body" id="story">
           <p class="meta">CONTEXT STORY</p>
@@ -244,7 +244,7 @@ document.addEventListener('click', function (e) {
         </form>
         <p class="cm-note">送るときに、名前を一つ作ります。コメントは編集者が確かめてから表示されます。</p>
       </section>
-          <p class="meta more-label">同じ作品から出るつながり</p><div class="ctx-cards"><a class="ctx-card" href="c/daiyame--domaine-tetta/" aria-label="焼酎の名は晩酌の言葉、ワイナリーの名は地名。：芋焼酎『だいやめ DAIYAME』 ＋ ドメーヌ・テッタ"><span class="cc-pics" aria-hidden="true"><img src="img/works/daiyame.jpg" alt="" loading="lazy" decoding="async"><img src="img/works/domaine-tetta.jpg" alt="" loading="lazy" decoding="async"></span><span class="cc-t"><small><span class="rn">［名前が語る産地］</span><i class="rt">約25秒</i></small><b>焼酎の名は晩酌の言葉、ワイナリーの名は地名。</b><em>芋焼酎『だいやめ DAIYAME』 ＋ <span class="nb">ドメーヌ・テッタ</span></em></span><span class="cc-go" aria-hidden="true">›</span></a><a class="ctx-card" href="c/daiyame--tanqueray-no-ten/" aria-label="ライチのような芋焼酎と生の柑橘のジン。：芋焼酎『だいやめ DAIYAME』 ＋ タンカレー No.10"><span class="cc-pics" aria-hidden="true"><img src="img/works/daiyame.jpg" alt="" loading="lazy" decoding="async"><img src="img/works/tanqueray-no-ten.jpg" alt="" loading="lazy" decoding="async"></span><span class="cc-t"><small><span class="rn">［香りで選ぶ蒸留酒］</span><i class="rt">約30秒</i></small><b>ライチのような芋焼酎と生の柑橘のジン。</b><em>芋焼酎『だいやめ DAIYAME』 ＋ <span class="nb">タンカレー No.10</span></em></span><span class="cc-go" aria-hidden="true">›</span></a><a class="ctx-card" href="c/kanyoro--gyoza-sakaba-kachidoki/" aria-label="勝どきの名も、漢陽楼も日露戦争とつながる。：中国名菜『漢陽楼』 ＋ 餃子酒場（勝どき店）"><span class="cc-pics" aria-hidden="true"><img src="img/kanyoro.jpg" alt="" loading="lazy" decoding="async"><img src="img/works/gyoza-sakaba-kachidoki.jpg" alt="" loading="lazy" decoding="async"></span><span class="cc-t"><small><span class="rn">［勝鬨と留学生］</span><i class="rt">約55秒</i></small><b>勝どきの名も、漢陽楼も日露戦争とつながる。</b><em>中国名菜『漢陽楼』 ＋ <span class="nb">餃子酒場（勝どき店）</span></em></span><span class="cc-go" aria-hidden="true">›</span></a></div>
+          <p class="meta more-label">同じ作品から出るつながり</p><div class="ctx-cards"><a class="ctx-card" href="c/daiyame--domaine-tetta/" aria-label="焼酎の名は晩酌の言葉、ワイナリーの名は地名。：芋焼酎『だいやめ DAIYAME』 ＋ ドメーヌ・テッタ"><span class="cc-pics" aria-hidden="true"><img src="img/thumb/daiyame.jpg" alt="" loading="lazy" decoding="async"><img src="img/thumb/domaine-tetta.jpg" alt="" loading="lazy" decoding="async"></span><span class="cc-t"><small><span class="rn">［名前が語る産地］</span><i class="rt">約25秒</i></small><b>焼酎の名は晩酌の言葉、ワイナリーの名は地名。</b><em>芋焼酎『だいやめ DAIYAME』 ＋ <span class="nb">ドメーヌ・テッタ</span></em></span><span class="cc-go" aria-hidden="true">›</span></a><a class="ctx-card" href="c/daiyame--tanqueray-no-ten/" aria-label="ライチのような芋焼酎と生の柑橘のジン。：芋焼酎『だいやめ DAIYAME』 ＋ タンカレー No.10"><span class="cc-pics" aria-hidden="true"><img src="img/thumb/daiyame.jpg" alt="" loading="lazy" decoding="async"><img src="img/thumb/tanqueray-no-ten.jpg" alt="" loading="lazy" decoding="async"></span><span class="cc-t"><small><span class="rn">［香りで選ぶ蒸留酒］</span><i class="rt">約30秒</i></small><b>ライチのような芋焼酎と生の柑橘のジン。</b><em>芋焼酎『だいやめ DAIYAME』 ＋ <span class="nb">タンカレー No.10</span></em></span><span class="cc-go" aria-hidden="true">›</span></a><a class="ctx-card" href="c/kanyoro--gyoza-sakaba-kachidoki/" aria-label="勝どきの名も、漢陽楼も日露戦争とつながる。：中国名菜『漢陽楼』 ＋ 餃子酒場（勝どき店）"><span class="cc-pics" aria-hidden="true"><img src="img/thumb/kanyoro.jpg" alt="" loading="lazy" decoding="async"><img src="img/thumb/gyoza-sakaba-kachidoki.jpg" alt="" loading="lazy" decoding="async"></span><span class="cc-t"><small><span class="rn">［勝鬨と留学生］</span><i class="rt">約55秒</i></small><b>勝どきの名も、漢陽楼も日露戦争とつながる。</b><em>中国名菜『漢陽楼』 ＋ <span class="nb">餃子酒場（勝どき店）</span></em></span><span class="cc-go" aria-hidden="true">›</span></a></div>
           
       <aside class="c-ad" aria-label="広告">
         <a href="#/ad">
@@ -257,7 +257,7 @@ document.addEventListener('click', function (e) {
           
           <section class="next-ctx" aria-label="次に読むつながり">
             <p class="meta">NEXT CONTEXT<small>次に読むつながり</small></p>
-            <a class="ctx-card" href="c/daiyame--domaine-tetta/" aria-label="焼酎の名は晩酌の言葉、ワイナリーの名は地名。：芋焼酎『だいやめ DAIYAME』 ＋ ドメーヌ・テッタ"><span class="cc-pics" aria-hidden="true"><img src="img/works/daiyame.jpg" alt="" loading="lazy" decoding="async"><img src="img/works/domaine-tetta.jpg" alt="" loading="lazy" decoding="async"></span><span class="cc-t"><small><span class="rn">［名前が語る産地］</span><i class="rt">約25秒</i></small><b>焼酎の名は晩酌の言葉、ワイナリーの名は地名。</b><em>芋焼酎『だいやめ DAIYAME』 ＋ <span class="nb">ドメーヌ・テッタ</span></em></span><span class="cc-go" aria-hidden="true">›</span></a>
+            <a class="ctx-card" href="c/daiyame--domaine-tetta/" aria-label="焼酎の名は晩酌の言葉、ワイナリーの名は地名。：芋焼酎『だいやめ DAIYAME』 ＋ ドメーヌ・テッタ"><span class="cc-pics" aria-hidden="true"><img src="img/thumb/daiyame.jpg" alt="" loading="lazy" decoding="async"><img src="img/thumb/domaine-tetta.jpg" alt="" loading="lazy" decoding="async"></span><span class="cc-t"><small><span class="rn">［名前が語る産地］</span><i class="rt">約25秒</i></small><b>焼酎の名は晩酌の言葉、ワイナリーの名は地名。</b><em>芋焼酎『だいやめ DAIYAME』 ＋ <span class="nb">ドメーヌ・テッタ</span></em></span><span class="cc-go" aria-hidden="true">›</span></a>
           </section>
           
           <section class="ctx-rail" aria-label="この先のつながり">
@@ -417,17 +417,17 @@ document.addEventListener('click', function (e) {
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 <script type="application/ld+json" id="ld">{"@context":"https://schema.org","@type":"Article","headline":"「だいやめ」とは、つまり今夜の一杯だ。","alternativeHeadline":"今夜のだいやめ","about":[{"@type":"Restaurant","name":"餃子酒場（勝どき店）","description":"勝どき駅近くの、焼き餃子と酒の店。"},{"@type":"CreativeWork","name":"だいやめ DAIYAME","description":"鹿児島の芋焼酎。ライチを思わせる香りで知られる。名前は、一日の疲れを癒やす晩酌を表す鹿児島の言葉から。","creator":{"@type":"Person","name":"濵田酒造（鹿児島）"}}],"author":{"@type":"Person","name":"生成AI（初稿）"},"datePublished":"2026-09-15T05:30:00.000Z","dateModified":"2026-09-15T05:30:00.000Z","inLanguage":"ja","articleBody":"意味の上での近さから結ばれた区間。「だいやめ」は、晩酌して疲れを癒やすことを表す鹿児島の言葉である。濵田酒造は、家族や友人と晩酌しながら、一日を無事に過ごせたことに感謝して明日を迎える習慣だと紹介している。勝どきの餃子酒場は、勝どき駅から徒歩2分、手作りの焼餃子と約70種のドリンクを出す店である。ひとつは瓶の名前に、ひとつは町の店に。どちらも、一日の終わりに杯を傾ける時間に結びついていると読める。","url":"https://beautifulcontext.com/c/gyoza-sakaba-kachidoki--daiyame/","citation":[{"@type":"CreativeWork","name":"だいやめ～DAIYAME～特設サイト | 濵田酒造","url":"https://www.hamadasyuzou.co.jp/daiyame_brand/","publisher":{"@type":"Organization","name":"濵田酒造"}},{"@type":"CreativeWork","name":"ファンとの共創Spotifyプレイリスト「明日がより楽しくなるだいやめミュージック」公開！ | 濵田酒造のプレスリリース | 共同通信PRワイヤー","url":"https://kyodonewsprwire.jp/release/202304205077","publisher":{"@type":"Organization","name":"共同通信PRワイヤー（濵田酒造）"}},{"@type":"CreativeWork","name":"餃子酒場 勝どき店（晴海/居酒屋） - 楽天ぐるなび","url":"https://r.gnavi.co.jp/e636802/","publisher":{"@type":"Organization","name":"楽天ぐるなび"}}],"image":"https://beautifulcontext.com/img/works/gyoza-sakaba-kachidoki.jpg"}</script>
 
-<script src="js/config.js?v=176"></script>
-<script src="js/seed.js?v=176"></script>
-<script src="js/sources.js?v=176"></script>
-<script src="js/backend.js?v=176"></script>
-<script src="js/store.js?v=176"></script>
-<script src="js/social.js?v=176"></script>
-<script src="js/render.js?v=176"></script>
-<script src="js/login.js?v=176"></script>
-<script src="js/login-page.js?v=176"></script>
-<script src="js/report.js?v=176"></script>
-<script src="js/transition.js?v=176"></script>
-<script src="js/app.js?v=176"></script>
+<script src="js/config.js?v=177"></script>
+<script src="js/seed.js?v=177"></script>
+<script src="js/sources.js?v=177"></script>
+<script src="js/backend.js?v=177"></script>
+<script src="js/store.js?v=177"></script>
+<script src="js/social.js?v=177"></script>
+<script src="js/render.js?v=177"></script>
+<script src="js/login.js?v=177"></script>
+<script src="js/login-page.js?v=177"></script>
+<script src="js/report.js?v=177"></script>
+<script src="js/transition.js?v=177"></script>
+<script src="js/app.js?v=177"></script>
 </body>
 </html>

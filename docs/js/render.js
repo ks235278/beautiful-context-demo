@@ -49,6 +49,9 @@
     const s = String(u || '').trim();
     return !UNSAFE.test(s) && /^(https?:\/\/|img\/|data:image\/(png|jpe?g|webp|gif);base64,)/i.test(s) ? s : '';
   };
+  /* 札や列の小さな絵は軽い控え（幅 300px。tools/make-thumbs.py が作り、prerender が有無を確かめる）。
+     大きく見せる絵（frame）は元のまま。投稿された外の絵はそのまま */
+  const thumb = (u) => { const m = /^img\/(?:works\/)?([^/]+\.jpg)$/.exec(u || ''); return m ? 'img/thumb/' + m[1] : u; };
 
   /* ページの道。作品・区間・編集者は、本物のアドレス（c/区間/、w/作品/、e/編集者/）を持つ。
      検索エンジンや生成AIが一つひとつのページとして読めるように。アプリの中で触れたときは、
@@ -136,7 +139,7 @@
   const rt = (c) => c && c.body ? `<i class="rt">${readLabel(c.body)}</i>` : '';
   function ctxCard(x, step, href, tag){
     const h = String(x.context.headline || '').replace(/\n/g, '');
-    const pic = (w) => { const u = safeImg(w.image); return u ? `<img src="${attr(u)}" alt="" loading="lazy" decoding="async">` : `<i>${esc(initial(w))}</i>`; };
+    const pic = (w) => { const u = thumb(safeImg(w.image)); return u ? `<img src="${attr(u)}" alt="" loading="lazy" decoding="async">` : `<i>${esc(initial(w))}</i>`; };
     const inner = (tag ? `<span class="cc-tag">${esc(tag)}</span>` : '') + `<span class="cc-pics" aria-hidden="true">${pic(x.a)}${pic(x.b)}</span>` +
       `<span class="cc-t"><small><span class="rn">［${esc(x.context.routeName)}］</span>${rt(x.context)}</small><b>${esc(h)}</b><em>${esc(x.a.title)} ＋ ${nb(x.b.title)}</em></span>` +
       `<span class="cc-go" aria-hidden="true">›</span>`;
@@ -400,7 +403,7 @@
      触れるとその作品（駅）のページへ（上の二枚の絵と同じ data-step）。絵には data-k を付けない（ページが替わるときに運ぶ絵は上の二枚だけ） */
   function sourceCards(e){
     const card = (w, step) => {
-      const s = safeImg(w.image);
+      const s = thumb(safeImg(w.image));
       return `<button type="button" class="src" data-step="${step}" aria-label="${attr(w.title)}の作品ページへ">` +
         (s ? `<img src="${attr(s)}" alt="" loading="lazy" decoding="async">` : `<span class="ph">${esc(initial(w))}</span>`) +
         `<span class="src-t"><small>${esc(w.type || '作品')}${w.year ? '・' + esc(w.year) : ''}</small><b>${esc(w.title)}</b>` +
@@ -418,7 +421,7 @@
      触れるとその区間へ。パソコンでは右の列が同じものなので出さない（ink.css） */
   function journey(list){
     if (!list || list.length < 2) return '';
-    const pic = (w) => { const u = safeImg(w.image); return u ? `<img src="${attr(u)}" alt="" loading="lazy" decoding="async">` : `<i>${esc(initial(w))}</i>`; };
+    const pic = (w) => { const u = thumb(safeImg(w.image)); return u ? `<img src="${attr(u)}" alt="" loading="lazy" decoding="async">` : `<i>${esc(initial(w))}</i>`; };
     const stop = (x) => {
       const e = x.entry;
       const inner = `<i class="jr-dot"></i><span class="jr-t"><b>${esc(x.name)}</b><small>${esc(String(e.context.headline || '').replace(/\n/g, ''))}</small></span>` +
@@ -450,7 +453,7 @@
 
   /* ---------- 編集者のページ ----------
      名前・ひとこと・フォロー。その人が選んだコンテクストの一覧 */
-  const mini = (w) => { const s = safeImg(w.image); return s ? `<img src="${attr(s)}" alt="" loading="lazy" decoding="async">` : `<span class="ph">${esc(initial(w))}</span>`; };
+  const mini = (w) => { const s = thumb(safeImg(w.image)); return s ? `<img src="${attr(s)}" alt="" loading="lazy" decoding="async">` : `<span class="ph">${esc(initial(w))}</span>`; };
   function editorPage(ed, list, on){
     const items = list.map(e => `
       <a class="ed-item" href="${attr(pathOf('c', e.context.slug))}">
@@ -595,7 +598,7 @@
     const seen = new Set(), list = [];
     S.trail().some(({ entry: e }) => { [e.a, e.b].forEach(w => { if (w && !seen.has(w.slug)) { seen.add(w.slug); list.push(w); } }); return list.length >= 10; });
     if (!list.length) return '';
-    const card = (w) => { const u = safeImg(w.image);
+    const card = (w) => { const u = thumb(safeImg(w.image));
       return `<a class="dc" href="${attr(pathOf('w', w.slug))}"><span class="dc-img">${u ? `<img src="${attr(u)}" alt="" loading="lazy" decoding="async">` : `<i>${esc(initial(w))}</i>`}</span>` +
         `<small>${esc(String(w.type || '作品').split('・')[0])}</small><b>${esc(w.title)}</b>${w.creator ? `<em>${esc(w.creator)}${w.year ? `（${esc(w.year)}）` : ''}</em>` : ''}</a>`; };
     return `
@@ -893,7 +896,7 @@
   const linePath = (n) => smooth(SHAPES[Math.abs(n | 0) % SHAPES.length]);
 
   window.BCRender = {
-    pathOf, urlOf, thing, esc, clean, safeUrl, safeImg, art, roots, ad, workPage, contextPage, editorPage, listPage, comments, loginChip, search, page,
+    pathOf, urlOf, thing, esc, clean, safeUrl, safeImg, thumb, art, roots, ad, workPage, contextPage, editorPage, listPage, comments, loginChip, search, page,
     mapMarkup, jsonLd, listLd, aboutLd, ABOUT_DESC, buildTags, tagText, readLabel, feedPage, feedStops, lineColor, linePath, ICON,
     PALETTE, SHAPE_COUNT: SHAPES.length
   };

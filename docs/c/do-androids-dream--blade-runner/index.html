@@ -43,9 +43,9 @@ try { if (sessionStorage.getItem('bc-resume')) document.documentElement.classLis
 <link rel="preload" as="image" href="img/logo-layer-words.png">
 <!-- 台本も先に取りに行く（静的なページは台本より先に本文が描かれる。遅い回線で、触れて動くまでの間を縮める）。
      src と同じアドレス（?v= まで）でないと、二度取りに行く -->
-<link rel="preload" as="script" href="js/seed.js?v=176">
-<link rel="preload" as="script" href="js/app.js?v=176">
-<link rel="manifest" href="manifest.webmanifest?v=176">
+<link rel="preload" as="script" href="js/seed.js?v=177">
+<link rel="preload" as="script" href="js/app.js?v=177">
+<link rel="manifest" href="manifest.webmanifest?v=177">
 <link rel="apple-touch-icon" href="icon-180.png">
 <!-- タブと検索結果に出る小さな印。アプリの印（ホーム画面のアイコン）と同じ形 -->
 <link rel="icon" href="favicon.ico" sizes="16x16 32x32 48x48">
@@ -76,13 +76,13 @@ if (location.hostname === 'beautifulcontext.com'){
   document.head.appendChild(ga);
 }
 </script>
-<script src="js/theme.js?v=176"></script>
-<link rel="stylesheet" href="app.css?v=176">
+<script src="js/theme.js?v=177"></script>
+<link rel="stylesheet" href="app.css?v=177">
 <!-- 読む画面の使い勝手（2026.10.24）。app.css のすぐあと -->
-<link rel="stylesheet" href="ux.css?v=176">
-<link rel="stylesheet" href="fade.css?v=176">
+<link rel="stylesheet" href="ux.css?v=177">
+<link rel="stylesheet" href="fade.css?v=177">
 <!-- editorial-ink（紙・墨・金）：◆ の罫と、紙の上か絵の上かで変わる決まり。ux.css のあと -->
-<link rel="stylesheet" href="ink.css?v=176">
+<link rel="stylesheet" href="ink.css?v=177">
 <!-- 台本（js）が揃うまで：まだ押しても動かないもの（‹・絵の横の ‹ ›・つながりを辿る）を少し薄くし、下の帯の上の縁に細い金の線を走らせる。
      app.js が最後に body.app-ready を付けて外す。すぐ揃うときは何も見せない（0.3 秒待ってから出す） -->
 <style>
@@ -209,13 +209,13 @@ document.addEventListener('click', function (e) {
         
         <section class="src-cards" aria-label="つながる二つの作品">
           <p class="meta">SOURCE CONNECTION</p>
-          <div class="src-row"><button type="button" class="src" data-step="0" aria-label="フィリップ・K・ディック『アンドロイドは電気羊の夢を見るか？』の作品ページへ"><img src="img/works/do-androids-dream.jpg" alt="" loading="lazy" decoding="async"><span class="src-t"><small>書籍・1968</small><b>フィリップ・K・ディック『アンドロイドは電気羊の夢を見るか？』</b><em>フィリップ・K・ディック</em><span class="src-s">核戦争のあとの地球で、火星から逃げてきたアンドロイドを追う賞金稼ぎリック・デッカードの物語。映画『ブレードランナー』の原作。</span><i aria-hidden="true">作品ページへ　→</i></span></button><span class="src-link" aria-hidden="true">↔</span><button type="button" class="src" data-step="2" aria-label="リドリー・スコット『ブレードランナー』の作品ページへ"><img src="img/works/blade-runner.jpg" alt="" loading="lazy" decoding="async"><span class="src-t"><small>映画・1982</small><b>リドリー・スコット『ブレードランナー』</b><em>リドリー・スコット監督</em><span class="src-s">フィリップ・K・ディックの小説『アンドロイドは電気羊の夢を見るか？』を原作に、2019年のロサンゼルスで人造人間を追う男を描いた映画。</span><i aria-hidden="true">作品ページへ　→</i></span></button></div>
+          <div class="src-row"><button type="button" class="src" data-step="0" aria-label="フィリップ・K・ディック『アンドロイドは電気羊の夢を見るか？』の作品ページへ"><img src="img/thumb/do-androids-dream.jpg" alt="" loading="lazy" decoding="async"><span class="src-t"><small>書籍・1968</small><b>フィリップ・K・ディック『アンドロイドは電気羊の夢を見るか？』</b><em>フィリップ・K・ディック</em><span class="src-s">核戦争のあとの地球で、火星から逃げてきたアンドロイドを追う賞金稼ぎリック・デッカードの物語。映画『ブレードランナー』の原作。</span><i aria-hidden="true">作品ページへ　→</i></span></button><span class="src-link" aria-hidden="true">↔</span><button type="button" class="src" data-step="2" aria-label="リドリー・スコット『ブレードランナー』の作品ページへ"><img src="img/thumb/blade-runner.jpg" alt="" loading="lazy" decoding="async"><span class="src-t"><small>映画・1982</small><b>リドリー・スコット『ブレードランナー』</b><em>リドリー・スコット監督</em><span class="src-s">フィリップ・K・ディックの小説『アンドロイドは電気羊の夢を見るか？』を原作に、2019年のロサンゼルスで人造人間を追う男を描いた映画。</span><i aria-hidden="true">作品ページへ　→</i></span></button></div>
         </section>
         
         <section class="journey" aria-label="CONTEXT JOURNEY">
           <p class="meta">CONTEXT JOURNEY<a href="#/list">一覧で見る　→</a></p>
           <p class="jr-sub">このつながりから、たどる道</p>
-          <ol class="jr"><li><a class="jr-row" href="c/greg-egan--blade-runner-2049/"><i class="jr-dot"></i><span class="jr-t"><b>ここまで</b><small>植えつけられた記憶でもそれは自分なのか。</small></span><span class="jr-pics" aria-hidden="true"><img src="img/works/greg-egan.jpg" alt="" loading="lazy" decoding="async"><img src="img/works/blade-runner-2049.jpg" alt="" loading="lazy" decoding="async"></span></a></li><li class="now"><span class="jr-row" aria-current="step"><i class="jr-dot"></i><span class="jr-t"><b>いまここ</b><small>電気羊の夢は、酸性雨の街になった。</small></span><span class="jr-pics" aria-hidden="true"><img src="img/works/do-androids-dream.jpg" alt="" loading="lazy" decoding="async"><img src="img/works/blade-runner.jpg" alt="" loading="lazy" decoding="async"></span></span></li><li><a class="jr-row" href="c/isaac-asimov--do-androids-dream/"><i class="jr-dot"></i><span class="jr-t"><b>つぎへ</b><small>人に仕えるロボットと、紛れ込むアンドロイド。</small></span><span class="jr-pics" aria-hidden="true"><img src="img/works/isaac-asimov.jpg" alt="" loading="lazy" decoding="async"><img src="img/works/do-androids-dream.jpg" alt="" loading="lazy" decoding="async"></span></a></li><li><a class="jr-row" href="c/foundation--isaac-asimov/"><i class="jr-dot"></i><span class="jr-t"><b>さらに</b><small>帝国の崩壊を、数学が予言した。</small></span><span class="jr-pics" aria-hidden="true"><img src="img/works/foundation.jpg" alt="" loading="lazy" decoding="async"><img src="img/works/isaac-asimov.jpg" alt="" loading="lazy" decoding="async"></span></a></li><li><a class="jr-row" href="c/foundation--pluribus/"><i class="jr-dot"></i><span class="jr-t"><b>その先へ</b><small>銀河の帝国と、ひとつになった世界。</small></span><span class="jr-pics" aria-hidden="true"><img src="img/works/foundation.jpg" alt="" loading="lazy" decoding="async"><img src="img/works/pluribus.jpg" alt="" loading="lazy" decoding="async"></span></a></li></ol>
+          <ol class="jr"><li><a class="jr-row" href="c/greg-egan--blade-runner-2049/"><i class="jr-dot"></i><span class="jr-t"><b>ここまで</b><small>植えつけられた記憶でもそれは自分なのか。</small></span><span class="jr-pics" aria-hidden="true"><img src="img/thumb/greg-egan.jpg" alt="" loading="lazy" decoding="async"><img src="img/thumb/blade-runner-2049.jpg" alt="" loading="lazy" decoding="async"></span></a></li><li class="now"><span class="jr-row" aria-current="step"><i class="jr-dot"></i><span class="jr-t"><b>いまここ</b><small>電気羊の夢は、酸性雨の街になった。</small></span><span class="jr-pics" aria-hidden="true"><img src="img/thumb/do-androids-dream.jpg" alt="" loading="lazy" decoding="async"><img src="img/thumb/blade-runner.jpg" alt="" loading="lazy" decoding="async"></span></span></li><li><a class="jr-row" href="c/isaac-asimov--do-androids-dream/"><i class="jr-dot"></i><span class="jr-t"><b>つぎへ</b><small>人に仕えるロボットと、紛れ込むアンドロイド。</small></span><span class="jr-pics" aria-hidden="true"><img src="img/thumb/isaac-asimov.jpg" alt="" loading="lazy" decoding="async"><img src="img/thumb/do-androids-dream.jpg" alt="" loading="lazy" decoding="async"></span></a></li><li><a class="jr-row" href="c/foundation--isaac-asimov/"><i class="jr-dot"></i><span class="jr-t"><b>さらに</b><small>帝国の崩壊を、数学が予言した。</small></span><span class="jr-pics" aria-hidden="true"><img src="img/thumb/foundation.jpg" alt="" loading="lazy" decoding="async"><img src="img/thumb/isaac-asimov.jpg" alt="" loading="lazy" decoding="async"></span></a></li><li><a class="jr-row" href="c/foundation--pluribus/"><i class="jr-dot"></i><span class="jr-t"><b>その先へ</b><small>銀河の帝国と、ひとつになった世界。</small></span><span class="jr-pics" aria-hidden="true"><img src="img/thumb/foundation.jpg" alt="" loading="lazy" decoding="async"><img src="img/thumb/pluribus.jpg" alt="" loading="lazy" decoding="async"></span></a></li></ol>
         </section>
         <article class="context-body" id="story">
           <p class="meta">CONTEXT STORY</p>
@@ -244,7 +244,7 @@ document.addEventListener('click', function (e) {
         </form>
         <p class="cm-note">送るときに、名前を一つ作ります。コメントは編集者が確かめてから表示されます。</p>
       </section>
-          <p class="meta more-label">同じ作品から出るつながり</p><div class="ctx-cards"><a class="ctx-card" href="c/blade-runner--blade-runner-2049/" aria-label="2019年の雨の街から、2049年の荒野へ。：リドリー・スコット『ブレードランナー』 ＋ ヴィルヌーヴ『ブレードランナー 2049』"><span class="cc-pics" aria-hidden="true"><img src="img/works/blade-runner.jpg" alt="" loading="lazy" decoding="async"><img src="img/works/blade-runner-2049.jpg" alt="" loading="lazy" decoding="async"></span><span class="cc-t"><small><span class="rn">［三十年後のロサンゼルス］</span><i class="rt">約35秒</i></small><b>2019年の雨の街から、2049年の荒野へ。</b><em>リドリー・スコット『ブレードランナー』 ＋ <span class="nb">ヴィルヌーヴ『ブレードランナー 2049』</span></em></span><span class="cc-go" aria-hidden="true">›</span></a><a class="ctx-card" href="c/blade-runner--brazil/" aria-label="雨とネオンの未来と、書類に埋もれた未来。：リドリー・スコット『ブレードランナー』 ＋ テリー・ギリアム『未来世紀ブラジル』"><span class="cc-pics" aria-hidden="true"><img src="img/works/blade-runner.jpg" alt="" loading="lazy" decoding="async"><img src="img/works/brazil.jpg" alt="" loading="lazy" decoding="async"></span><span class="cc-t"><small><span class="rn">［八〇年代が描いた未来］</span><i class="rt">約35秒</i></small><b>雨とネオンの未来と、書類に埋もれた未来。</b><em>リドリー・スコット『ブレードランナー』 ＋ <span class="nb">テリー・ギリアム『未来世紀ブラジル』</span></em></span><span class="cc-go" aria-hidden="true">›</span></a><a class="ctx-card" href="c/nineteen-eighty-four--blade-runner/" aria-label="広告「1984」も、スコットが撮っていた。：ジョージ・オーウェル『1984年』 ＋ リドリー・スコット『ブレードランナー』"><span class="cc-pics" aria-hidden="true"><img src="img/works/nineteen-eighty-four.jpg" alt="" loading="lazy" decoding="async"><img src="img/works/blade-runner.jpg" alt="" loading="lazy" decoding="async"></span><span class="cc-t"><small><span class="rn">［リドリー・スコットを経由して］</span><i class="rt">約40秒</i></small><b>広告「1984」も、スコットが撮っていた。</b><em>ジョージ・オーウェル『1984年』 ＋ <span class="nb">リドリー・スコット『ブレードランナー』</span></em></span><span class="cc-go" aria-hidden="true">›</span></a></div>
+          <p class="meta more-label">同じ作品から出るつながり</p><div class="ctx-cards"><a class="ctx-card" href="c/blade-runner--blade-runner-2049/" aria-label="2019年の雨の街から、2049年の荒野へ。：リドリー・スコット『ブレードランナー』 ＋ ヴィルヌーヴ『ブレードランナー 2049』"><span class="cc-pics" aria-hidden="true"><img src="img/thumb/blade-runner.jpg" alt="" loading="lazy" decoding="async"><img src="img/thumb/blade-runner-2049.jpg" alt="" loading="lazy" decoding="async"></span><span class="cc-t"><small><span class="rn">［三十年後のロサンゼルス］</span><i class="rt">約35秒</i></small><b>2019年の雨の街から、2049年の荒野へ。</b><em>リドリー・スコット『ブレードランナー』 ＋ <span class="nb">ヴィルヌーヴ『ブレードランナー 2049』</span></em></span><span class="cc-go" aria-hidden="true">›</span></a><a class="ctx-card" href="c/blade-runner--brazil/" aria-label="雨とネオンの未来と、書類に埋もれた未来。：リドリー・スコット『ブレードランナー』 ＋ テリー・ギリアム『未来世紀ブラジル』"><span class="cc-pics" aria-hidden="true"><img src="img/thumb/blade-runner.jpg" alt="" loading="lazy" decoding="async"><img src="img/thumb/brazil.jpg" alt="" loading="lazy" decoding="async"></span><span class="cc-t"><small><span class="rn">［八〇年代が描いた未来］</span><i class="rt">約35秒</i></small><b>雨とネオンの未来と、書類に埋もれた未来。</b><em>リドリー・スコット『ブレードランナー』 ＋ <span class="nb">テリー・ギリアム『未来世紀ブラジル』</span></em></span><span class="cc-go" aria-hidden="true">›</span></a><a class="ctx-card" href="c/nineteen-eighty-four--blade-runner/" aria-label="広告「1984」も、スコットが撮っていた。：ジョージ・オーウェル『1984年』 ＋ リドリー・スコット『ブレードランナー』"><span class="cc-pics" aria-hidden="true"><img src="img/thumb/nineteen-eighty-four.jpg" alt="" loading="lazy" decoding="async"><img src="img/thumb/blade-runner.jpg" alt="" loading="lazy" decoding="async"></span><span class="cc-t"><small><span class="rn">［リドリー・スコットを経由して］</span><i class="rt">約40秒</i></small><b>広告「1984」も、スコットが撮っていた。</b><em>ジョージ・オーウェル『1984年』 ＋ <span class="nb">リドリー・スコット『ブレードランナー』</span></em></span><span class="cc-go" aria-hidden="true">›</span></a></div>
           
       <aside class="c-ad" aria-label="広告">
         <a href="#/ad">
@@ -257,7 +257,7 @@ document.addEventListener('click', function (e) {
           
           <section class="next-ctx" aria-label="次に読むつながり">
             <p class="meta">NEXT CONTEXT<small>次に読むつながり</small></p>
-            <a class="ctx-card" href="c/isaac-asimov--do-androids-dream/" aria-label="人に仕えるロボットと、紛れ込むアンドロイド。：アイザック・アシモフ ＋ フィリップ・K・ディック『アンドロイドは電気羊の夢を見るか？』"><span class="cc-pics" aria-hidden="true"><img src="img/works/isaac-asimov.jpg" alt="" loading="lazy" decoding="async"><img src="img/works/do-androids-dream.jpg" alt="" loading="lazy" decoding="async"></span><span class="cc-t"><small><span class="rn">［人に似せて作られたもの］</span><i class="rt">約35秒</i></small><b>人に仕えるロボットと、紛れ込むアンドロイド。</b><em>アイザック・アシモフ ＋ <span class="nb">フィリップ・K・ディック『アンドロイドは電気羊の夢を見るか？』</span></em></span><span class="cc-go" aria-hidden="true">›</span></a>
+            <a class="ctx-card" href="c/isaac-asimov--do-androids-dream/" aria-label="人に仕えるロボットと、紛れ込むアンドロイド。：アイザック・アシモフ ＋ フィリップ・K・ディック『アンドロイドは電気羊の夢を見るか？』"><span class="cc-pics" aria-hidden="true"><img src="img/thumb/isaac-asimov.jpg" alt="" loading="lazy" decoding="async"><img src="img/thumb/do-androids-dream.jpg" alt="" loading="lazy" decoding="async"></span><span class="cc-t"><small><span class="rn">［人に似せて作られたもの］</span><i class="rt">約35秒</i></small><b>人に仕えるロボットと、紛れ込むアンドロイド。</b><em>アイザック・アシモフ ＋ <span class="nb">フィリップ・K・ディック『アンドロイドは電気羊の夢を見るか？』</span></em></span><span class="cc-go" aria-hidden="true">›</span></a>
           </section>
           
           <section class="ctx-rail" aria-label="この先のつながり">
@@ -417,17 +417,17 @@ document.addEventListener('click', function (e) {
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 <script type="application/ld+json" id="ld">{"@context":"https://schema.org","@type":"Article","headline":"電気羊の夢は、酸性雨の街になった。","alternativeHeadline":"小説から映画へ","about":[{"@type":"Book","name":"アンドロイドは電気羊の夢を見るか？","description":"核戦争のあとの地球で、火星から逃げてきたアンドロイドを追う賞金稼ぎリック・デッカードの物語。映画『ブレードランナー』の原作。","creator":{"@type":"Person","name":"フィリップ・K・ディック"}},{"@type":"Movie","name":"ブレードランナー","description":"フィリップ・K・ディックの小説『アンドロイドは電気羊の夢を見るか？』を原作に、2019年のロサンゼルスで人造人間を追う男を描いた映画。","creator":{"@type":"Person","name":"リドリー・スコット監督"}}],"author":{"@type":"Person","name":"生成AI（初稿）"},"datePublished":"2026-09-14T05:20:00.000Z","dateModified":"2026-09-14T05:20:00.000Z","inLanguage":"ja","articleBody":"原作の題は、問いの形をしている。ディックの小説で、賞金稼ぎリック・デッカードが追うのは、人間と見分けのつかないアンドロイドである。本物の動物を飼うことが豊かさのしるしになった世界で、彼は電気仕掛けの羊を飼っている。リドリー・スコットの『ブレードランナー』は、題も舞台も大きく変え、ロサンゼルスの酸性雨の夜を描いた。それでも、共感できることが人間の証なのかという原作の問いは、形を変えながら、映画の終盤の雨の場面にまで流れている。前田先生は note で、ディックの別の長編『去年を待ちながら』（1966）から、主人公が自律走行タクシーに問いかける場面を引いている。重病で回復の見込みのない妻を捨てるのか、それともそばにいるのか。そう尋ねられたタクシーは、自分には妻がいないと断ったうえで、「わたしならそばにいてやりますね」と言い切る。答えを先に口にしたのは機械で、主人公はそのあと、自分も妻のそばにいることにする。共感が人間の証なのだとすれば、この機械はどちら側に立つのだろう。原作者のディックは1981年、アンドロイドを「生理的には人間なのに、人間らしくふるまわない人々」の比喩だと語った。同じ年の終わりごろ、完成前の映画の一部を見たあと、「原作と映画は戦わず、互いを補強する」と述べている。","url":"https://beautifulcontext.com/c/do-androids-dream--blade-runner/","citation":[{"@type":"CreativeWork","name":"Blade Runner: anatomy of a classic | BFI","url":"https://www.bfi.org.uk/features/blade-runner","publisher":{"@type":"Organization","name":"BFI（英国映画協会）"}},{"@type":"CreativeWork","name":"フィリップ・K・ディックの作品に見る自律運転タクシーの未来","url":"https://note.com/mdkh/n/n79480c92b6a9","publisher":{"@type":"Organization","name":"note（前田邦宏）"}},{"@type":"CreativeWork","name":"去年を待ちながら : 新訳版","url":"https://ndlsearch.ndl.go.jp/books/R100000002-I028498841","publisher":{"@type":"Organization","name":"国立国会図書館サーチ"}},{"@type":"CreativeWork","name":"Blade Runner at 30: Celebrating Ridley Scott’s Dystopian Vision","url":"https://time.com/3834604/blade-runner-ridley-scott-harrison-ford/","publisher":{"@type":"Organization","name":"TIME"}},{"@type":"CreativeWork","name":"Do Androids Dream of Electric Sheep? - Wikipedia","url":"https://en.wikipedia.org/wiki/Do_Androids_Dream_of_Electric_Sheep%3F","publisher":{"@type":"Organization","name":"Wikipedia"}},{"@type":"CreativeWork","name":"Blade Runner - Wikipedia","url":"https://en.wikipedia.org/wiki/Blade_Runner","publisher":{"@type":"Organization","name":"Wikipedia"}},{"@type":"CreativeWork","name":"ブレードランナー - Wikipedia","url":"https://ja.wikipedia.org/wiki/ブレードランナー","publisher":{"@type":"Organization","name":"Wikipedia"}},{"@type":"CreativeWork","name":"Now Wait for Last Year - Wikipedia","url":"https://en.wikipedia.org/wiki/Now_Wait_for_Last_Year","publisher":{"@type":"Organization","name":"Wikipedia"}}],"image":"https://beautifulcontext.com/img/works/do-androids-dream.jpg"}</script>
 
-<script src="js/config.js?v=176"></script>
-<script src="js/seed.js?v=176"></script>
-<script src="js/sources.js?v=176"></script>
-<script src="js/backend.js?v=176"></script>
-<script src="js/store.js?v=176"></script>
-<script src="js/social.js?v=176"></script>
-<script src="js/render.js?v=176"></script>
-<script src="js/login.js?v=176"></script>
-<script src="js/login-page.js?v=176"></script>
-<script src="js/report.js?v=176"></script>
-<script src="js/transition.js?v=176"></script>
-<script src="js/app.js?v=176"></script>
+<script src="js/config.js?v=177"></script>
+<script src="js/seed.js?v=177"></script>
+<script src="js/sources.js?v=177"></script>
+<script src="js/backend.js?v=177"></script>
+<script src="js/store.js?v=177"></script>
+<script src="js/social.js?v=177"></script>
+<script src="js/render.js?v=177"></script>
+<script src="js/login.js?v=177"></script>
+<script src="js/login-page.js?v=177"></script>
+<script src="js/report.js?v=177"></script>
+<script src="js/transition.js?v=177"></script>
+<script src="js/app.js?v=177"></script>
 </body>
 </html>
