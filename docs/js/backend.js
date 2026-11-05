@@ -115,12 +115,14 @@
       return u.href;
     } catch (e) { return 'js/vendor/supabase.js'; }
   };
-  /* 電波の悪いところで画面を待たせない。timeoutMs を超えた通信は打ち切る（書き込みは outbox に残る） */
+  /* 電波の悪いところで画面を待たせない。timeoutMs を超えた通信は打ち切る（書き込みは outbox に残る）。
+     メールを送る POST だけは長く待つ（サーバーが SMTP の返事を待っている。ふつうは 2〜3 秒、サーバー側の上限は 10 秒） */
+  const sendsMail = (u) => /\/auth\/v1\/(signup|recover|resend|otp)(\?|$)/.test(String((u && u.url) || u));
   const fetchT = (input, init) => {
     const ctl = new AbortController();
     const outer = init && init.signal;
     if (outer) { if (outer.aborted) ctl.abort(); else outer.addEventListener('abort', () => ctl.abort(), { once: true }); }
-    const t = setTimeout(() => ctl.abort(), +C.timeoutMs || 6000);
+    const t = setTimeout(() => ctl.abort(), sendsMail(input) ? 15000 : (+C.timeoutMs || 6000));
     return window.fetch(input, Object.assign({}, init, { signal: ctl.signal })).finally(() => clearTimeout(t));
   };
   /* 最初の一コマを描き終えたか（load のあと、次の描画のあと、手が空いたとき）。それまで supabase-js を読み込まない。
@@ -139,6 +141,17 @@
       if (t && t.access_token) await fetchT(`${C.supabaseUrl}/auth/v1/logout?scope=local`, { method: 'POST', headers: Object.assign({ Authorization: 'Bearer ' + t.access_token }, h) });
     } catch (e) {}
   }
+  /* いまのセッションを、すぐに取り消す。access token がまだ生きていれば logout だけで済む（ページを閉じても届くように keepalive） */
+  function revokeNow(raw) {
+    try {
+      const s = JSON.parse(raw);
+      if (s && s.access_token && s.expires_at * 1000 > Date.now() + 5000) {
+        return fetchT(`${C.supabaseUrl}/auth/v1/logout?scope=local`, { method: 'POST', keepalive: true,
+          headers: { apikey: C.supabaseAnonKey, Authorization: 'Bearer ' + s.access_token } });
+      }
+    } catch (e) {}
+    return revoke(raw);
+  }
   /* Google の画面で取りやめたときなどは ?error=（または #error=）が付いて戻る。# は画面の道にすぐ書き換わるので、読み込んだときに控える */
   let backErr = (() => {
     const q = new URLSearchParams(location.search), h = new URLSearchParams(location.hash.slice(1));
@@ -148,12 +161,16 @@
     const go = () => requestAnimationFrame(() => setTimeout(() => idle(resolve), 0));
     if (document.readyState === 'complete') go(); else window.addEventListener('load', go, { once: true });
   });
+  /* 人が押した操作は、ページの画像を待たない（最初の一コマを待つのは、裏で動くものだけ） */
+  let wakeUp = null;
+  const woken = new Promise((resolve) => { wakeUp = resolve; });
   let client = null, loading = null;
+  const loadNow = () => { wakeUp(); return load(); };
   function load() {
     if (!ON) return Promise.reject(new Error('off'));
     if (client) return Promise.resolve(client);
     if (loading) return loading;
-    loading = (URGENT ? Promise.resolve() : painted).then(() => new Promise((resolve, reject) => {
+    loading = (URGENT ? Promise.resolve() : Promise.race([painted, woken])).then(() => new Promise((resolve, reject) => {
       const make = () => {
         try {
           client = window.supabase.createClient(C.supabaseUrl, C.supabaseAnonKey, {
@@ -191,24 +208,30 @@
     return '';
   }
   const fail = (code, extra) => Object.assign(new Error(code), { code }, extra || {});
-  const isNetwork = (e) => !e || e.message === 'load' || e.name === 'AuthRetryableFetchError' || e.name === 'AbortError' ||
+  const isNetwork = (e) => !e || e.status === 0 || e.message === 'load' || e.name === 'AuthRetryableFetchError' || e.name === 'AbortError' ||
     (!e.code && /fetch|network|abort|load failed|timeout/i.test(String(e.message || e)));
   function message(e) {
     const code = String((e && e.code) || '');
-    if (isNetwork(e)) return 'ネットにつながっていません。少し時間をおいて、もう一度どうぞ';
+    /* 5xx はネットではなくサーバー側の失敗（例：確認メールを送れない）。isNetwork は送り直しの判断にも使うので、ここで先に分ける */
+    if (e && e.status >= 500) return `こちらの不具合でうまくいきませんでした（${e.status}）。少し時間をおいて、もう一度どうぞ`;
+    /* 切れているのか、遅くて打ち切ったのかは見分けられない */
+    if (isNetwork(e)) return 'つながりにくいようです。少し時間をおいて、もう一度どうぞ';
+    /* プロジェクト全体の 1 時間の上限（同じアドレスの 60 秒とは別。code は同じで message だけが違う） */
+    if (code === 'over_email_send_rate_limit' && /^email rate limit/i.test(e.message || '')) return 'いま、メールの送信が混み合っています。しばらくたってから（長くて1時間ほど）、もう一度どうぞ';
+    if (e && e.status === 401) return 'ログインの期限が切れました。もう一度ログインしてください';
     if (code === 'over_email_send_rate_limit' || code === 'over_request_rate_limit' || (e && e.status === 429))
       return '短い時間に何度も送られています。少し時間をおいてください';
     /* パスワードでのログイン（signIn が e.via = 'password' を付ける）。どちらが違うかは言わない（登録の有無を漏らさない） */
     if (code === 'invalid_credentials' && e.via === 'password') return 'メールアドレスかパスワードが違います';
     if (code === 'otp_expired' || code === 'invalid_credentials') return 'コードが違うか、期限が切れています。もう一度送ってください';
-    if (code === 'email_not_confirmed') return 'メールアドレスの確認がまだです。届いたメールのコードを入れるか、リンクを開いてください';
+    if (code === 'email_not_confirmed') return 'メールアドレスの確認がまだです。届いたメールのコードを入れてください';
     if (code === 'weak_password' || code === 'bc_weak_password') return e.detail || 'もっと強いパスワードにしてください（英字と数字を組み合わせて8文字以上）';
     if (code === 'same_password') return 'いまと同じパスワードです。別のものにしてください';
     if (code === 'user_already_exists' || code === 'email_exists') return 'このメールアドレスはもう登録されています。ログインしてください';
     if (code === 'bc_name') return '表示名を入れてください';
     if (code === 'bc_terms') return '利用規約・プライバシーポリシーへの同意が要ります';
     if (code === 'bc_off' || code === 'provider_disabled' || code === 'email_provider_disabled') return 'いまはこの方法でログインできません（準備中です）';
-    if (code === 'reauthentication_needed' || code === 'session_not_found') return 'もう一度ログインしてから変えてください';
+    if (code === 'reauthentication_needed' || code === 'session_not_found' || (e && e.name === 'AuthSessionMissingError')) return 'もう一度ログインしてから変えてください';
     if (code === 'email_address_invalid' || code === 'validation_failed') return 'メールアドレスを確かめてください';
     if (code === 'email_address_not_authorized') return 'いまはこのアドレスにメールを送れません（準備中です）';
     if (code === 'signup_disabled') return 'いまは新しいアカウントを作れません';
@@ -231,9 +254,9 @@
       const c = await load();
       const ids = {}, rev = {}, stats = {};
       for (let from = 0; ; from += 1000) {
-        const { data, error } = await c.from('contexts').select('id, legacy_id, slug, context_stats(reactions, comments)')
+        const { data, error, status } = await c.from('contexts').select('id, legacy_id, slug, context_stats(reactions, comments)')
           .order('id').range(from, from + 999);
-        if (error) throw error;
+        if (error) throw Object.assign(error, { status });
         data.forEach((x) => {
           ids[x.id] = x.id; ids['slug:' + x.slug] = x.id;
           if (x.legacy_id) ids[x.legacy_id] = x.id;
@@ -261,7 +284,8 @@
   async function loadMine() {
     if (!me) return;
     const c = await load();
-    if (!cache.idsAt) await loadIds();
+    /* 作品の一覧（大きい）は待たない。遅いだけで名前を読めず、「名前がまだ」と間違えないように */
+    if (!cache.idsAt) quiet(loadIds().then(() => { if (me) emit('auth', { event: 'profile' }); }));   // 読めたら共感を id に直して揃え直す
     const uid = me.uid;
     const [p, f, r] = await Promise.all([
       c.from('profiles').select('display_name, role, status, created_at').eq('id', uid).maybeSingle(),
@@ -278,6 +302,7 @@
     } catch (e) {}
     if (!me || me.uid !== uid) return;
     if (p.data) { me.name = p.data.display_name || ''; me.role = p.data.role; me.status = p.data.status; }
+    delete me.nameUnknown;
     write(K.me, me);
     cache.mine = { uid, follows: f.data.map((x) => x.editor_id), liked: r.data.map((x) => x.context_id), mutes, at: Date.now() };
     save(); changed();
@@ -307,8 +332,8 @@
       const q = op.on
         ? c.from('follows').upsert({ editor_id: op.key }, { onConflict: 'user_id,editor_id', ignoreDuplicates: true })
         : c.from('follows').delete().eq('user_id', op.uid).eq('editor_id', op.key);
-      const { error } = await q;
-      if (error && error.code !== '23505') throw error;
+      const { error, status } = await q;
+      if (error && error.code !== '23505') throw Object.assign(error, { status });
       if (mineOk()) {
         const s = new Set(cache.mine.follows);
         if (op.on) s.add(op.key); else s.delete(op.key);
@@ -320,9 +345,9 @@
       const q = op.on
         ? c.from('user_mutes').upsert({ muted_user_id: op.key }, { onConflict: 'user_id,muted_user_id', ignoreDuplicates: true })
         : c.from('user_mutes').delete().eq('user_id', op.uid).eq('muted_user_id', op.key);
-      const { error } = await q;
+      const { error, status } = await q;
       /* 相手が退会した（23503）・表がまだ無い（migration 13 の前）：この端末の中だけで隠しておく（知らせない） */
-      if (error && !['23505', '23503', '42P01', 'PGRST205'].includes(error.code)) throw error;
+      if (error && !['23505', '23503', '42P01', 'PGRST205'].includes(error.code)) throw Object.assign(error, { status });
       if (mineOk() && cache.mine.mutes) {
         const s = new Set(cache.mine.mutes);
         if (op.on) s.add(op.key); else s.delete(op.key);
@@ -337,8 +362,8 @@
       const q = op.on
         ? c.from('reactions').upsert({ context_id: id }, { onConflict: 'user_id,context_id', ignoreDuplicates: true })
         : c.from('reactions').delete().eq('user_id', op.uid).eq('context_id', id);
-      const { error } = await q;
-      if (error && error.code !== '23505') throw error;
+      const { error, status } = await q;
+      if (error && error.code !== '23505') throw Object.assign(error, { status });
       if (mineOk()) {
         const s = new Set(cache.mine.liked);
         if (op.on) s.add(id); else s.delete(id);
@@ -349,8 +374,8 @@
     }
     if (op.kind === 'comment') {
       /* 表示名・書いた人・確認待ちは、サーバーのトリガーが入れる。送るのは本文だけ */
-      const { data, error } = await c.from('comments').insert({ context_id: id, body: op.item.text }).select(COLS).single();
-      if (error) throw error;
+      const { data, error, status } = await c.from('comments').insert({ context_id: id, body: op.item.text }).select(COLS).single();
+      if (error) throw Object.assign(error, { status });
       const hit = cache.comments[op.key] || (cache.comments[op.key] = { at: Date.now(), list: [] });
       hit.list = hit.list.filter((x) => x.id !== data.id).concat(toComment(data));
       return 'comment';
@@ -373,6 +398,11 @@
           drop(op);
         } catch (err) {
           if (isNetwork(err)) break;   // ネットが無い：残して、次の機会に
+          /* サーバーの不調・混雑・トークンの期限切れも一時のもの。残して次の機会に。ただし、ずっと失敗する一件で後ろを止め続けない */
+          if (err && (err.status >= 500 || err.status === 429 || err.status === 401)) {
+            op.tries = (op.tries || 0) + 1;
+            if (op.tries < 20) { keep(); break; }
+          }
           drop(op);
           emit('notice', op.kind === 'comment' ? 'コメントを送れませんでした：' + message(err) : message(err));
         }
@@ -393,12 +423,27 @@
   let logging = false;
   /* パスワードを忘れた人が、メールのリンクで戻ってきた（supabase-js の PASSWORD_RECOVERY） */
   let recovering = false;
+  /* 名前を読めなかった：名前が無いと決めつけない（聞いてしまうと、公開中の名前を上書きしてしまう）。少しおいて読み直す */
+  const RETRY = [5000, 20000, 60000];
+  function retryMine(i) {
+    if (i >= RETRY.length) return;
+    setTimeout(() => {
+      if (!me || !me.nameUnknown) return;
+      loadMine().catch(() => retryMine(i + 1));
+    }, RETRY[i]);
+  }
+  function mineFailed() {
+    if (!me || me.name) return;
+    me.nameUnknown = true; write(K.me, me);
+    retryMine(0);
+  }
   /* 確かめ待ちの登録（このページの中だけ。confirmSignup が使ったら消す） */
   let pending = null;
   /* method：'password' | 'email'（コード）| 'google' | 'apple'（この画面でログインした。GA に数える）、null（ほかのタブ・ほかの道でログインした） */
   async function afterLogin(method, user) {
     logging = true;
     const isNew = isNewUser(user);
+    let known = false;   // profiles を読めたか
     try {
       if (!me || me.uid !== user.id) me = { uid: user.id, name: '', role: 'reader' };
       write(K.me, me);
@@ -408,18 +453,19 @@
       (providers.liked ? providers.liked() : []).forEach((e) => queue({ kind: 'react', key: e.id, slug: e.context.slug, on: true, uid: user.id }));
       (providers.mutes ? providers.mutes() : []).forEach((id) => { if (id !== user.id) queue({ kind: 'mute', key: id, on: true, uid: user.id }); });
       await flush();
-      try { await loadMine(); } catch (e) {}
+      try { await loadMine(); known = true; } catch (e) { mineFailed(); }
       quiet(loadCounts());
       cache.comments = {};   // 自分の確認待ちのコメントを読み直す
       save();
     } finally { logging = false; }
-    const needsName = !me.name;
+    /* 読めなかったときは、名前が無いとは言えない（聞いてしまうと、公開中の名前を上書きしてしまう） */
+    const needsName = known && !me.name;
     emit('auth', method ? { event: 'login', method, isNew, needsName } : { event: 'in', needsName });
     return { isNew, needsName };
   }
   async function resume(user) {
     if (!me || me.uid !== user.id) { me = { uid: user.id, name: '', role: 'reader' }; write(K.me, me); cache.mine = null; }
-    try { await flush(); await loadMine(); } catch (e) {}
+    try { await flush(); await loadMine(); } catch (e) { mineFailed(); }
     emit('auth', { event: 'in' });
   }
   function signedOut() {
@@ -529,7 +575,7 @@
   const outComments = (e) => (me && e ? outbox.filter((o) => o.kind === 'comment' && o.key === e.id && o.uid === me.uid).map((o) => o.item) : []);
   function addComment(e, text) {
     if (!me || !e) return null;
-    const item = { id: 'tmp-' + Date.now().toString(36) + Math.random().toString(36).slice(2, 6), uid: me.uid, name: me.name || '',
+    const item = { id: 'tmp-' + Date.now().toString(36) + Math.random().toString(36).slice(2, 6), uid: me.uid, name: me.name || 'あなた',
       text: String(text).slice(0, 600), at: new Date().toISOString(), pending: true, hidden: false };
     queue({ kind: 'comment', key: e.id, slug: e.context.slug, uid: me.uid, item });
     quiet(flush());
@@ -548,7 +594,7 @@
   };
   /* メールの 6桁のコードを確かめる。type：'email'（コードでログイン）・'signup'（登録の確かめ）・'recovery'（パスワードを忘れた） */
   async function verify(mail, code, type, method) {
-    const c = await load();
+    const c = await loadNow();
     logging = true;   // verifyOtp の中で来る SIGNED_IN は、ここの afterLogin が受け持つ
     let r;
     try { r = await c.auth.verifyOtp({ email: mailOf(mail), token: String(code || '').replace(/\D/g, ''), type }); }
@@ -579,7 +625,7 @@
     /* メールのコード。新しいアドレスなら、ここでアカウントが作られる（handle_new_user が profiles を作る）。
        メールの雛形に {{ .Token }} が無いと、コードではなくリンクが届く。リンクでも同じ端末なら ?code= で戻ってログインできる */
     async sendCode(email) {
-      const c = await load();
+      const c = await loadNow();
       const { error } = await c.auth.signInWithOtp({ email: String(email || '').trim(),
         options: { shouldCreateUser: true, emailRedirectTo: location.origin + location.pathname } });
       if (error) throw error;
@@ -596,7 +642,7 @@
       if (!n) throw fail('bc_name');
       if (agreed === false) throw fail('bc_terms');
       if (bad) throw fail('bc_weak_password', { detail: bad });
-      const c = await load();
+      const c = await loadNow();
       setRemember(remember !== false);
       logging = true;
       let r;
@@ -604,10 +650,19 @@
         r = await c.auth.signUp({ email: mailOf(email), password: String(password), options: {
           emailRedirectTo: backTo(), data: { display_name: n, terms_agreed_at: new Date().toISOString() } } });
       } finally { logging = false; }
-      if (r.error) throw r.error;
+      if (r.error) {
+        /* 60 秒以内の二度目：一通目のコードで続ける。この画面で入れた値は、確かめたあとで入れる */
+        if (r.error.code === 'over_email_send_rate_limit' && !/^email rate limit/i.test(r.error.message || ''))
+          pending = { email: mailOf(email).toLowerCase(), password: String(password), name: n };
+        throw r.error;
+      }
       const u = r.data.user;
       if (u && Array.isArray(u.identities) && !u.identities.length) throw fail('user_already_exists');
-      if (!r.data.session) { pending = { email: mailOf(email).toLowerCase(), password: String(password), name: n }; return { needsConfirm: true }; }
+      if (!r.data.session) {
+        pending = { email: mailOf(email).toLowerCase(), password: String(password), name: n };
+        /* 二度目の登録か（サーバーの時刻どうしで見る）。一度目のパスワードのままなので、確かめたあとで入れ直す値が要る */
+        return { needsConfirm: true, existed: Date.parse(u && u.confirmation_sent_at) - Date.parse(u && u.created_at) > 5000 };
+      }
       return Object.assign({ needsConfirm: false }, await afterLogin('password', u));
     },
     /* 登録の確かめ（Confirm signup の雛形に {{ .Token }} を入れておく）。届かないときは resendConfirm。
@@ -617,15 +672,28 @@
       setRemember(remember);
       const r = await verify(email, code, 'signup', 'password');
       const p = pending; pending = null;
+      r.passwordSet = false;   // この画面で入れたパスワードがサーバーに入ったか（読み直した・通信に失敗したら false）
       if (p && p.email === mailOf(email).toLowerCase()) {
-        const c = await load();
-        try { await c.auth.updateUser({ password: p.password }); } catch (e) {}   // 同じなら same_password。どちらでもよい
+        const c = await loadNow();
+        try {
+          const { error } = await c.auth.updateUser({ password: p.password });
+          r.passwordSet = !error || error.code === 'same_password';   // 同じなら same_password。どちらでもよい
+        } catch (e) {}
         if (me && me.name !== p.name) { try { await this.setName(p.name); r.needsName = false; } catch (e) {} }
       }
       return r;
     },
+    /* 二度目の登録で、この画面で入れた値を入れられなかったとき：一度目の人のパスワードを、いますぐ使えなくする。
+       値はどこにも残さない乱数。本人はこのあと決め直す（閉じてしまっても「パスワードを忘れた方」で決められる） */
+    async burnPassword() {
+      const b = new Uint8Array(24);
+      crypto.getRandomValues(b);
+      const c = await loadNow();
+      const { error } = await c.auth.updateUser({ password: [...b].map((x) => x.toString(16).padStart(2, '0')).join('') + 'aA1' });
+      return !error;
+    },
     async resendConfirm(email) {
-      const c = await load();
+      const c = await loadNow();
       const { error } = await c.auth.resend({ type: 'signup', email: mailOf(email), options: { emailRedirectTo: backTo() } });
       if (error) throw error;
     },
@@ -633,21 +701,25 @@
     /* メールアドレスとパスワードでログイン（見本の「ログイン」）。remember：「ログインしたままにする」（既定 true）。
        まだ確かめていない登録は email_not_confirmed（→ confirmSignup か resendConfirm） */
     async signIn({ email, password, remember } = {}) {
-      const c = await load();
+      const c = await loadNow();
       setRemember(remember !== false);
       logging = true;
       let r;
       try { r = await c.auth.signInWithPassword({ email: mailOf(email), password: String(password || '') }); }
       finally { logging = false; }
-      if (r.error) throw Object.assign(r.error, { via: 'password' });
+      if (r.error) {
+        /* まだ確かめていない：サーバーはパスワードを先に確かめるので、いま入れたものが正しい。前に入れた値で上書きしない */
+        if (r.error.code === 'email_not_confirmed' && pending && pending.email === mailOf(email).toLowerCase()) pending = null;
+        throw Object.assign(r.error, { via: 'password' });
+      }
       return afterLogin('password', r.data.user);
     },
 
-    /* パスワードを忘れた（見本の「パスワードをお忘れの方」）。メールに 6桁のコードとリンクが届く（Reset password の雛形に {{ .Token }}）。
+    /* パスワードを忘れた（見本の「パスワードをお忘れの方」）。メールに 6桁のコードが届く（2026-11-05 から雛形はコードだけ。リンクは機械に先に開かれ、コードごと使えなくなるので外した。?code= の道は古いメールと Google・Apple のために残す）。
        コードなら verifyRecovery(email, code)、リンクで戻ってきたら 'auth' の { event: 'recovery' }。どちらもそのあと updatePassword。
        登録の無いアドレスでも成功のように返る（登録の有無を漏らさない）。コードだけでもメールで続けられる（OTP でログインしていた人も、ここでパスワードを作れる） */
     async resetPassword(email, { returnTo } = {}) {
-      const c = await load();
+      const c = await loadNow();
       leaving(returnTo);
       const { error } = await c.auth.resetPasswordForEmail(mailOf(email), { redirectTo: backTo() });
       if (error) throw error;
@@ -660,7 +732,7 @@
       const bad = passwordProblem(password);
       if (bad) throw fail('bc_weak_password', { detail: bad });
       if (!me) throw fail('session_not_found');
-      const c = await load();
+      const c = await loadNow();
       const { error } = await c.auth.updateUser({ password: String(password) });
       if (error) throw error;
     },
@@ -669,7 +741,7 @@
        はじめての人は表示名がまだ無い（'auth' の needsName）。Google・Apple の名前は使わない */
     async oauth(provider, { remember, returnTo } = {}) {
       if (!/^(google|apple)$/.test(provider) || !this.methods()[provider]) throw fail('bc_off');
-      const c = await load();
+      const c = await loadNow();
       setRemember(remember !== false);
       leaving(returnTo, provider);
       const { error } = await c.auth.signInWithOAuth({ provider, options: { redirectTo: backTo() } });
@@ -680,27 +752,30 @@
     async setName(name) {
       const n = String(name || '').trim().slice(0, 24);
       if (!n || !me) throw new Error('name');
-      const c = await load();
-      const { error } = await c.from('profiles').update({ display_name: n }).eq('id', me.uid);
-      if (error) throw error;
+      const c = await loadNow();
+      const { error, status } = await c.from('profiles').update({ display_name: n }).eq('id', me.uid);
+      if (error) throw Object.assign(error, { status });
       me.name = n; write(K.me, me);
       emit('auth', { event: 'profile' });
       return me;
     },
     /* この端末だけログアウト（ほかの端末はそのまま）。サーバーから読んだフォロー・共感は、共用の端末に残さない */
     async signOut() {
+      /* 先にこの端末のセッションを消す（すぐ閉じても、回線が悪くても、次に開いた人が前の人で入らないように）。サーバーでの取り消しは裏で */
+      let raw = null;
+      try { raw = localStorage.getItem(K.auth); localStorage.removeItem(K.auth); localStorage.removeItem(K.auth + '-user'); } catch (e) {}
       signedOut();
+      if (raw) quiet(revokeNow(raw));
       if (client) { try { await client.auth.signOut({ scope: 'local' }); } catch (e) {} }
-      else write(K.auth, null);
     },
     /* 退会（App Store 5.1.1(v)）：サーバーの delete_my_account() が、アカウント・フォロー・共感・コメント（公開中のものも）・
        お知らせを消す（backend/migrations/12）。消えたら、この端末の控えも消してログアウトする。
        失敗（ネット・編集者は消せない など）は投げる。画面は BCBackend.message(err) で一言にする */
     async deleteAccount() {
       if (!me) { const e = new Error('ログインしていません'); e.code = '42501'; throw e; }
-      const c = await load();
-      const { error } = await c.rpc('delete_my_account');
-      if (error) throw error;
+      const c = await loadNow();
+      const { error, status } = await c.rpc('delete_my_account');
+      if (error) throw Object.assign(error, { status });
       signedOut();
       /* サーバーのセッションはもう無い（auth.users ごと消えた）。端末のトークンだけを捨てる */
       try { await c.auth.signOut({ scope: 'local' }); } catch (e) {}
@@ -722,7 +797,7 @@
     /* 共感 */
     react(e, on) { if (!me || !e) return; queue({ kind: 'react', key: e.id, slug: e.context.slug, on: !!on, uid: me.uid }); quiet(flush()); },
     myLiked() {
-      if (!mineOk()) return null;
+      if (!mineOk() || !cache.idsAt) return null;   // 作品の一覧がまだ：サーバーの id のまま渡さない
       const s = new Set(cache.mine.liked.map((id) => cache.rev[id] || id));
       outbox.forEach((o) => { if (o.kind === 'react' && o.uid === me.uid) { if (o.on) s.add(o.key); else s.delete(o.key); } });
       return [...s];
@@ -811,6 +886,7 @@
   window.addEventListener('online', () => { if (client) poll(); else kick(); });
   document.addEventListener('visibilitychange', () => {
     if (document.visibilityState !== 'visible' || !client) return;
-    if (Date.now() - lastPoll > 5 * MINUTE) poll(); else quiet(flush());
+    if (Date.now() - lastPoll > 5 * MINUTE) poll();
+    else { quiet(flush()); if (me && me.nameUnknown) quiet(loadMine()); }
   });
 })();

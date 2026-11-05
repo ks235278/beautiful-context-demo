@@ -34,7 +34,7 @@
     me() {
       if (!B) return st.me || null;
       const m = B.me();
-      return m ? { uid: m.uid, name: m.name || 'あなた', named: !!m.name, role: m.role || 'reader' } : null;
+      return m ? { uid: m.uid, name: m.name || 'あなた', named: !!m.name || !!m.nameUnknown, nameUnknown: !!m.nameUnknown, role: m.role || 'reader' } : null;
     },
     /* 前の見本で作った名前（表示名の欄の初期値に使う） */
     demoName() { return (st.me && st.me.name) || ''; },
@@ -70,6 +70,7 @@
     /* { email, password, remember? } → { isNew, needsName }（見本の signIn(name) とは別。あちらは 'local' の見本用） */
     signInWithPassword(o) { return B ? B.signIn(o) : Promise.reject(new Error('off')); },
     resetPassword(email, opts) { return B ? B.resetPassword(email, opts) : Promise.reject(new Error('off')); },
+    burnPassword() { return B ? B.burnPassword() : Promise.resolve(false); },
     verifyRecovery(email, code, opts) { return B ? B.verifyRecovery(email, code, opts) : Promise.reject(new Error('off')); },
     updatePassword(pw) { return B ? B.updatePassword(pw) : Promise.reject(new Error('off')); },
     signInWithApple(opts) { return B ? B.apple(opts) : Promise.reject(new Error('off')); },
