@@ -143,7 +143,7 @@
     const inner = (tag ? `<span class="cc-tag">${esc(tag)}</span>` : '') + `<span class="cc-pics" aria-hidden="true">${pic(x.a)}${pic(x.b)}</span>` +
       `<span class="cc-t"><small><span class="rn">［${esc(x.context.routeName)}］</span>${rt(x.context)}</small><b>${esc(h)}</b><em>${esc(x.a.title)} ＋ ${nb(x.b.title)}</em></span>` +
       `<span class="cc-go" aria-hidden="true">›</span>`;
-    const al = ` aria-label="${attr(h + '：' + x.a.title + ' ＋ ' + x.b.title)}"`;
+    const al = ` aria-label="${attr((tag ? tag + '：' : '') + h + '：' + x.a.title + ' ＋ ' + x.b.title)}"`;
     return step != null
       ? `<button type="button" class="ctx-card${tag ? ' is-next' : ''}" data-step="${step}"${al}>${inner}</button>`
       : `<a class="ctx-card${tag ? ' is-next' : ''}" href="${attr(href || pathOf('c', x.context.slug))}"${al}>${inner}</a>`;
@@ -355,8 +355,7 @@
     /* ‹ › はどのコンテクストページにも（BC修正要望 2026.10.22）。› は NEXT と同じ、‹ は一つ前のつながりへ。
        最初の画面には戻る先がないので ‹ は出さない（body.at-root） */
     const nav = navArrows();
-    const dots = td && td.n > 1
-      ? `<span class="today-dots" aria-label="${td.n} 本のうち ${td.i + 1} 本目">${Array.from({ length: td.n }, (_, k) => `<i${k === td.i ? ' class="on"' : ''}></i>`).join('')}</span>` : '';
+    const dots = todayDots(td);
     /* 読む時間は見出しの行（route-label）から外し、ボタンの中に小さく残すだけ。「読了時間30秒」の札は要らない、
        代わりに続きを読みたくなる誘導を（開発会議 2026.10.23 §3.2）。ボタンの ↓ はゆっくり上下し、
        ボタンの下の .story-cue（金の細い線）が本文へ向かって流れる。携帯だけ。見開きでは本文が横に見えている */
@@ -398,6 +397,12 @@
           ${cfoot()}
         </article>
       </article>`;
+  }
+  /* 今日の何本目か（フォローで本数が変わると描き直す。空でも席を残す） */
+  function todayDots(td){
+    return td && td.n > 1 && td.i >= 0
+      ? `<span class="today-dots" aria-label="${td.n} 本のうち ${td.i + 1} 本目">${Array.from({ length: td.n }, (_, k) => `<i${k === td.i ? ' class="on"' : ''}></i>`).join('')}</span>`
+      : '<span class="today-dots" hidden></span>';
   }
   /* 二つの作品の札（見本の SOURCE CONNECTION）。題の下に、左右の作品を絵・種類・名前・作り手・ひとことで。
      触れるとその作品（駅）のページへ（上の二枚の絵と同じ data-step）。絵には data-k を付けない（ページが替わるときに運ぶ絵は上の二枚だけ） */
@@ -657,9 +662,9 @@
       <p class="lead only-sp">Beautiful Context（ビューティフル・コンテクスト）は、映画・本・音楽・人物・場所など、二つの作品のあいだにある意外なつながりを、編集者が一本の「コンテクスト」として書き、届けるメディアです。</p>
       <p class="meta ab-feat-h">BEAUTIFUL CONTEXT の <em>3</em>つの特徴</p>
       <ol class="ab-feats big-feats" role="list">
-        <li class="f-uni"><small>01</small><b>辿る</b><span>UniverseIt! ── 言葉から、既にある区間を辿る</span><img class="only-pc" src="img/deco/ab-f1.png" alt="" loading="lazy"></li>
-        <li class="f-read"><small>02</small><b>読む</b><span>作品の駅から、二駅間の区間へ。区間を読んで、別の駅へ</span><img class="only-pc" src="img/deco/ab-f2.png" alt="" loading="lazy"></li>
-        <li class="f-remix"><small>03</small><b>創る</b><span>ReMixIt! ── 二つの作品の間に、新しい区間をつくる</span><img class="only-pc" src="img/deco/ab-f3.png" alt="" loading="lazy"></li>
+        <li class="f-uni"><small>01</small><b>辿る</b><span>UniverseIt! ── 言葉から、既にある区間を辿る</span><img class="only-pc" src="img/deco/ab-f1.png" alt="" width="377" height="188" loading="lazy"></li>
+        <li class="f-read"><small>02</small><b>読む</b><span>作品の駅から、二駅間の区間へ。区間を読んで、別の駅へ</span><img class="only-pc" src="img/deco/ab-f2.png" alt="" width="340" height="188" loading="lazy"></li>
+        <li class="f-remix"><small>03</small><b>創る</b><span>ReMixIt! ── 二つの作品の間に、新しい区間をつくる</span><img class="only-pc" src="img/deco/ab-f3.png" alt="" width="336" height="188" loading="lazy"></li>
       </ol>
       <p>たとえば、ピアニストのグレン・グールドが生涯の愛読書にしていたのが、夏目漱石の『草枕』だったこと。二つの作品のどちらにも属さないその関係を、独立した一本の読み物として読めるようにしています。</p>
       <p>私たちは、作品を「駅」、二つの作品のあいだにある関係を「区間」と呼んでいます。駅にあたる作品は、それぞれの作者や権利者のものです。Beautiful Context がつくるのは、駅と駅のあいだの区間のほうです。区間を一本読み終えると次の駅に着き、そこからまた別の区間へ。作品から作品へ、つながりを辿っていけます。</p>
@@ -762,7 +767,7 @@
     const card = (href, pic, kind, text, extra) => `<a class="nf-card" href="${attr(href)}"${extra || ''}><span class="nf-img">${pic
       ? `<img src="${attr(pic)}" alt="" loading="lazy" decoding="async">` : ''}</span><small>${kind}</small><b>${esc(text)}</b></a>`;
     const more = S.trail().slice(0, 2).map(({ entry: e }) =>
-      card(pathOf('c', e.context.slug), safeImg(e.a.image) || safeImg(e.b.image), 'CONTEXT', String(e.context.headline || '').split('\n')[0])).join('');
+      card(pathOf('c', e.context.slug), safeImg(e.a.image) || safeImg(e.b.image), 'CONTEXT', String(e.context.headline || '').replace(/\n/g, ''))).join('');
     return shell('お探しのページは<br>見つかりませんでした。', `
       <section class="nf-more" aria-label="DISCOVER MORE">
         <p class="meta">DISCOVER MORE<small>ここからも辿れます</small></p>
@@ -896,7 +901,7 @@
   const linePath = (n) => smooth(SHAPES[Math.abs(n | 0) % SHAPES.length]);
 
   window.BCRender = {
-    pathOf, urlOf, thing, esc, clean, safeUrl, safeImg, thumb, art, roots, ad, workPage, contextPage, editorPage, listPage, comments, loginChip, search, page,
+    pathOf, urlOf, thing, esc, clean, safeUrl, safeImg, thumb, art, roots, ad, workPage, contextPage, editorPage, journey, nextCtx, todayDots, listPage, comments, loginChip, search, page,
     mapMarkup, jsonLd, listLd, aboutLd, ABOUT_DESC, buildTags, tagText, readLabel, feedPage, feedStops, lineColor, linePath, ICON,
     PALETTE, SHAPE_COUNT: SHAPES.length
   };

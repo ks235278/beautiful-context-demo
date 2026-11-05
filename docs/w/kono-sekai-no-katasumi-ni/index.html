@@ -43,9 +43,9 @@ try { if (sessionStorage.getItem('bc-resume')) document.documentElement.classLis
 <link rel="preload" as="image" href="img/logo-layer-words.png">
 <!-- 台本も先に取りに行く（静的なページは台本より先に本文が描かれる。遅い回線で、触れて動くまでの間を縮める）。
      src と同じアドレス（?v= まで）でないと、二度取りに行く -->
-<link rel="preload" as="script" href="js/seed.js?v=179">
-<link rel="preload" as="script" href="js/app.js?v=179">
-<link rel="manifest" href="manifest.webmanifest?v=179">
+<link rel="preload" as="script" href="js/seed.js?v=180">
+<link rel="preload" as="script" href="js/app.js?v=180">
+<link rel="manifest" href="manifest.webmanifest?v=180">
 <link rel="apple-touch-icon" href="icon-180.png">
 <!-- タブと検索結果に出る小さな印。アプリの印（ホーム画面のアイコン）と同じ形 -->
 <link rel="icon" href="favicon.ico" sizes="16x16 32x32 48x48">
@@ -76,13 +76,13 @@ if (location.hostname === 'beautifulcontext.com'){
   document.head.appendChild(ga);
 }
 </script>
-<script src="js/theme.js?v=179"></script>
-<link rel="stylesheet" href="app.css?v=179">
+<script src="js/theme.js?v=180"></script>
+<link rel="stylesheet" href="app.css?v=180">
 <!-- 読む画面の使い勝手（2026.10.24）。app.css のすぐあと -->
-<link rel="stylesheet" href="ux.css?v=179">
-<link rel="stylesheet" href="fade.css?v=179">
+<link rel="stylesheet" href="ux.css?v=180">
+<link rel="stylesheet" href="fade.css?v=180">
 <!-- editorial-ink（紙・墨・金）：◆ の罫と、紙の上か絵の上かで変わる決まり。ux.css のあと -->
-<link rel="stylesheet" href="ink.css?v=179">
+<link rel="stylesheet" href="ink.css?v=180">
 <!-- 台本（js）が揃うまで：まだ押しても動かないもの（‹・絵の横の ‹ ›・つながりを辿る）を少し薄くし、下の帯の上の縁に細い金の線を走らせる。
      app.js が最後に body.app-ready を付けて外す。すぐ揃うときは何も見せない（0.3 秒待ってから出す） -->
 <style>
@@ -209,7 +209,7 @@ document.addEventListener('click', function (e) {
         </section>
         <div class="content w-lines">
           <p class="meta more-label">この作品から延びるつながり　4本</p>
-          <div class="ctx-cards"><button type="button" class="ctx-card is-next" data-step="1" aria-label="戦時下の日常は、この歌から始まる。：「悲しくてやりきれない」 ＋ 『この世界の片隅に』"><span class="cc-tag">つぎへ</span><span class="cc-pics" aria-hidden="true"><img src="img/thumb/kanashikute-yarikirenai.jpg" alt="" loading="lazy" decoding="async"><img src="img/thumb/kono-sekai-no-katasumi-ni.jpg" alt="" loading="lazy" decoding="async"></span><span class="cc-t"><small><span class="rn">［映画のはじまりの歌］</span><i class="rt">約30秒</i></small><b>戦時下の日常は、この歌から始まる。</b><em>「悲しくてやりきれない」 ＋ <span class="nb">『この世界の片隅に』</span></em></span><span class="cc-go" aria-hidden="true">›</span></button><a class="ctx-card" href="c/kono-sekai-no-katasumi-ni--kure/" aria-label="すずは広島から、軍港の町へ嫁いだ。：『この世界の片隅に』 ＋ 広島県呉市"><span class="cc-pics" aria-hidden="true"><img src="img/thumb/kono-sekai-no-katasumi-ni.jpg" alt="" loading="lazy" decoding="async"><img src="img/thumb/kure.jpg" alt="" loading="lazy" decoding="async"></span><span class="cc-t"><small><span class="rn">［嫁いだ先の町］</span><i class="rt">約35秒</i></small><b>すずは広島から、軍港の町へ嫁いだ。</b><em>『この世界の片隅に』 ＋ <span class="nb">広島県呉市</span></em></span><span class="cc-go" aria-hidden="true">›</span></a><a class="ctx-card" href="c/kono-sekai-no-katasumi-ni--look-back/" aria-label="描くことが好きな人が、喪失のあとを生きる。：『この世界の片隅に』 ＋ 藤本タツキ『ルックバック』"><span class="cc-pics" aria-hidden="true"><img src="img/thumb/kono-sekai-no-katasumi-ni.jpg" alt="" loading="lazy" decoding="async"><img src="img/thumb/look-back.jpg" alt="" loading="lazy" decoding="async"></span><span class="cc-t"><small><span class="rn">［描く手］</span><i class="rt">約30秒</i></small><b>描くことが好きな人が、喪失のあとを生きる。</b><em>『この世界の片隅に』 ＋ <span class="nb">藤本タツキ『ルックバック』</span></em></span><span class="cc-go" aria-hidden="true">›</span></a><a class="ctx-card" href="c/w-eugene-smith--kono-sekai-no-katasumi-ni/" aria-label="同じ年の戦争を、前線と台所から見た。：W・ユージン・スミス ＋ 『この世界の片隅に』"><span class="cc-pics" aria-hidden="true"><img src="img/thumb/w-eugene-smith.jpg" alt="" loading="lazy" decoding="async"><img src="img/thumb/kono-sekai-no-katasumi-ni.jpg" alt="" loading="lazy" decoding="async"></span><span class="cc-t"><small><span class="rn">［1945年の空］</span><i class="rt">約35秒</i></small><b>同じ年の戦争を、前線と台所から見た。</b><em>W・ユージン・スミス ＋ <span class="nb">『この世界の片隅に』</span></em></span><span class="cc-go" aria-hidden="true">›</span></a></div>
+          <div class="ctx-cards"><button type="button" class="ctx-card is-next" data-step="1" aria-label="つぎへ：戦時下の日常は、この歌から始まる。：「悲しくてやりきれない」 ＋ 『この世界の片隅に』"><span class="cc-tag">つぎへ</span><span class="cc-pics" aria-hidden="true"><img src="img/thumb/kanashikute-yarikirenai.jpg" alt="" loading="lazy" decoding="async"><img src="img/thumb/kono-sekai-no-katasumi-ni.jpg" alt="" loading="lazy" decoding="async"></span><span class="cc-t"><small><span class="rn">［映画のはじまりの歌］</span><i class="rt">約30秒</i></small><b>戦時下の日常は、この歌から始まる。</b><em>「悲しくてやりきれない」 ＋ <span class="nb">『この世界の片隅に』</span></em></span><span class="cc-go" aria-hidden="true">›</span></button><a class="ctx-card" href="c/kono-sekai-no-katasumi-ni--kure/" aria-label="すずは広島から、軍港の町へ嫁いだ。：『この世界の片隅に』 ＋ 広島県呉市"><span class="cc-pics" aria-hidden="true"><img src="img/thumb/kono-sekai-no-katasumi-ni.jpg" alt="" loading="lazy" decoding="async"><img src="img/thumb/kure.jpg" alt="" loading="lazy" decoding="async"></span><span class="cc-t"><small><span class="rn">［嫁いだ先の町］</span><i class="rt">約35秒</i></small><b>すずは広島から、軍港の町へ嫁いだ。</b><em>『この世界の片隅に』 ＋ <span class="nb">広島県呉市</span></em></span><span class="cc-go" aria-hidden="true">›</span></a><a class="ctx-card" href="c/kono-sekai-no-katasumi-ni--look-back/" aria-label="描くことが好きな人が、喪失のあとを生きる。：『この世界の片隅に』 ＋ 藤本タツキ『ルックバック』"><span class="cc-pics" aria-hidden="true"><img src="img/thumb/kono-sekai-no-katasumi-ni.jpg" alt="" loading="lazy" decoding="async"><img src="img/thumb/look-back.jpg" alt="" loading="lazy" decoding="async"></span><span class="cc-t"><small><span class="rn">［描く手］</span><i class="rt">約30秒</i></small><b>描くことが好きな人が、喪失のあとを生きる。</b><em>『この世界の片隅に』 ＋ <span class="nb">藤本タツキ『ルックバック』</span></em></span><span class="cc-go" aria-hidden="true">›</span></a><a class="ctx-card" href="c/w-eugene-smith--kono-sekai-no-katasumi-ni/" aria-label="同じ年の戦争を、前線と台所から見た。：W・ユージン・スミス ＋ 『この世界の片隅に』"><span class="cc-pics" aria-hidden="true"><img src="img/thumb/w-eugene-smith.jpg" alt="" loading="lazy" decoding="async"><img src="img/thumb/kono-sekai-no-katasumi-ni.jpg" alt="" loading="lazy" decoding="async"></span><span class="cc-t"><small><span class="rn">［1945年の空］</span><i class="rt">約35秒</i></small><b>同じ年の戦争を、前線と台所から見た。</b><em>W・ユージン・スミス ＋ <span class="nb">『この世界の片隅に』</span></em></span><span class="cc-go" aria-hidden="true">›</span></a></div>
           <p class="img-credit">画像：© 2019 こうの史代・コアミックス／「この世界の片隅に」製作委員会／出典 映画.com　<a href="https://eiga.com/movie/82278/" target="_blank" rel="noopener nofollow">出典</a></p>
         </div>
       </article><!--/bc-body--></div>
@@ -220,17 +220,17 @@ document.addEventListener('click', function (e) {
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 <script type="application/ld+json" id="ld">{"@context":"https://schema.org","@type":"Movie","name":"この世界の片隅に","description":"戦時中の広島と呉を舞台に、絵を描くことが好きな主人公すずの暮らしを描いたアニメーション映画。原作はこうの史代の漫画。","creator":{"@type":"Person","name":"片渕須直監督（原作 こうの史代）"},"url":"https://beautifulcontext.com/w/kono-sekai-no-katasumi-ni/","image":"https://beautifulcontext.com/img/works/kono-sekai-no-katasumi-ni.jpg","subjectOf":[{"@type":"Article","headline":"戦時下の日常は、この歌から始まる。","url":"https://beautifulcontext.com/c/kanashikute-yarikirenai--kono-sekai-no-katasumi-ni/"},{"@type":"Article","headline":"すずは広島から、軍港の町へ嫁いだ。","url":"https://beautifulcontext.com/c/kono-sekai-no-katasumi-ni--kure/"},{"@type":"Article","headline":"描くことが好きな人が、喪失のあとを生きる。","url":"https://beautifulcontext.com/c/kono-sekai-no-katasumi-ni--look-back/"},{"@type":"Article","headline":"同じ年の戦争を、前線と台所から見た。","url":"https://beautifulcontext.com/c/w-eugene-smith--kono-sekai-no-katasumi-ni/"}]}</script>
 
-<script src="js/config.js?v=179"></script>
-<script src="js/seed.js?v=179"></script>
-<script src="js/sources.js?v=179"></script>
-<script src="js/backend.js?v=179"></script>
-<script src="js/store.js?v=179"></script>
-<script src="js/social.js?v=179"></script>
-<script src="js/render.js?v=179"></script>
-<script src="js/login.js?v=179"></script>
-<script src="js/login-page.js?v=179"></script>
-<script src="js/report.js?v=179"></script>
-<script src="js/transition.js?v=179"></script>
-<script src="js/app.js?v=179"></script>
+<script src="js/config.js?v=180"></script>
+<script src="js/seed.js?v=180"></script>
+<script src="js/sources.js?v=180"></script>
+<script src="js/backend.js?v=180"></script>
+<script src="js/store.js?v=180"></script>
+<script src="js/social.js?v=180"></script>
+<script src="js/render.js?v=180"></script>
+<script src="js/login.js?v=180"></script>
+<script src="js/login-page.js?v=180"></script>
+<script src="js/report.js?v=180"></script>
+<script src="js/transition.js?v=180"></script>
+<script src="js/app.js?v=180"></script>
 </body>
 </html>

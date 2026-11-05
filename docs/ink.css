@@ -1064,8 +1064,8 @@ body.viewing .dock{border-top-color:transparent;box-shadow:0 -16px 26px -18px rg
 }
 
 /* ログインの画面では、下の帯（つながりを辿る）を出さない（見本どおり。ここは読む画面ではない） */
-body.viewing:has(.view-in>.login-page) .dock{display:none}
-body.viewing:has(.view-in>.login-page) .login-page .content{padding-bottom:40px}
+body.viewing:has(#viewIn>.login-page) .dock{display:none}
+body.viewing:has(#viewIn>.login-page) .login-page .content{padding-bottom:40px}
 /* パソコンの幅が狭いとき（読む列が 700px 未満）は、二つの札を縦に（以前は一枚 271px で、ボタンの字と → が重なった） */
 @media (min-width:1100px){
   .login-page .lp-cards{grid-template-columns:repeat(auto-fit,minmax(340px,1fr))}
@@ -1293,7 +1293,7 @@ body.viewing:has(.view-in>.login-page) .login-page .content{padding-bottom:40px}
 }
 /* 十一回目：パソコンでは読む列（.view-in）の幅の決まりを外し、絵を左の列・右の列に接する端から（見本は紙の列の端から） */
 @media (min-width:1100px){
-  body.viewing:has(.view-in>.login-page) .view-in{max-width:none}
+  body.viewing:has(#viewIn>.login-page) .view-in{max-width:none}
   .login-page .lp-art.pl,.login-page .lp-art.pr{top:0}
 }
 
@@ -1752,7 +1752,7 @@ body.viewing:has(.view-in>.login-page) .login-page .content{padding-bottom:40px}
   .cpage>.context-lead>.ed-row{order:6;margin:16px 0 0}
   .cpage>.context-lead>.story-cue{order:7}
   .cpage>.context-lead h2{font-size:min(30px,calc((100vw - 44px) / 11.05));max-width:none}
-  .cpage>.context-lead .landing-note{margin:0 0 10px;text-align:center}
+  .cpage>.context-lead .landing-note{order:6;margin:12px 0 0;text-align:center}
 }
 @media (min-width:760px) and (max-width:1099.98px){
   .cpage>.context-lead h2{font-size:30px}
@@ -1766,7 +1766,7 @@ body.viewing:has(.view-in>.login-page) .login-page .content{padding-bottom:40px}
    ・この先のつながり（読み終わりの下）の最初の駅は、まだ着いていないので「いまここ」を出さない */
 .dock-next{display:none}
 @media (max-width:1099.98px){
-  body.viewing .dock-next:not(:empty){display:block;position:absolute;z-index:6;right:14px;top:4px;max-width:calc(100% - 172px);margin:0;overflow:hidden;
+  body.viewing .dock-next:not(:empty){display:block;position:absolute;z-index:6;right:14px;top:4px;max-width:calc(100% - 188px);margin:0;overflow:hidden;
     background:var(--paper);color:var(--ink-2);font:500 11px/16px var(--mincho);white-space:nowrap;text-overflow:ellipsis}
   body.viewing .line-name{max-width:140px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
   body.on-list .dock-next{display:none}
@@ -1815,7 +1815,6 @@ body.viewing:has(.view-in>.login-page) .login-page .content{padding-bottom:40px}
   .w-journey .jr-row{grid-template-columns:20px 54px 92px minmax(0,1fr) 10px;column-gap:12px}
   .w-journey .jr-t strong{font-size:16px}
   .wpage .w-lead h2{font-size:30px}
-  .wpage .w-lines .ctx-cards{grid-template-columns:repeat(2,minmax(0,1fr))}
 }
 @media (min-width:1100px){
   .wpage{grid-template-rows:auto auto 1fr}
@@ -1848,7 +1847,7 @@ body.viewing:has(.view-in>.login-page) .login-page .content{padding-bottom:40px}
   body.viewing.scrolled-down:not(.on-list) .dock .map{height:0;opacity:0;pointer-events:none}
   body.viewing .dock-next{transition:opacity .16s ease}
   body.viewing.scrolled-down .dock-next{opacity:0}
-  body.viewing:has(.view-in>:is(.search-page,.info-page)) .dock{display:none}
+  body.viewing:has(#viewIn>:is(.search-page,.info-page)) .dock{display:none}
   .cpage>.context-body>p,.cpage>.context-body>ul,.cpage>.context-body>ol{font-size:15px;line-height:1.9}
   .wpage .w-lead p:not(.meta):not(.by){font-size:14px;line-height:1.85}
 
@@ -1865,7 +1864,6 @@ body.viewing:has(.view-in>.login-page) .login-page .content{padding-bottom:40px}
   .ed-link,.note-link,.chip,.ls-cats button,.seek-keys a,.seek-go,.journey>.meta a,.lp-tabs button,.lp-terms a{position:relative}
   .seek-go::after{inset:-3px}
   .seek-keys a::after{inset:-6px -2px}
-  .station::after{content:"";position:absolute;inset:-14px -7px}
   .c-foot a{display:inline-block;padding-block:14px}
   .dot::after{inset:-12px}
   .login-page .lp-send{position:relative}
@@ -1923,4 +1921,64 @@ body.viewing:has(.view-in>.login-page) .login-page .content{padding-bottom:40px}
   .editor-page .ed-item::after{content:"›";position:absolute;right:10px;top:50%;display:grid;place-items:center;width:26px;height:26px;margin-top:-13px;padding-bottom:2px;box-sizing:border-box;border-radius:50%;background:var(--navy);color:#fff;font:400 16px/1 "Lato",sans-serif}
   .editor-page .ed-item .ed-txt b{font:700 14px/1.45 var(--mincho)}
   .editor-page .ed-chose{margin-bottom:14px !important}
+}
+
+/* ---- 第38段：最後の検査で見つかった所 ---- */
+/* 次は の一行は読むだけ。消えていても残っていても、下のボタンの触れる所を奪わない */
+.dock-next{pointer-events:none}
+.today-dots[hidden]{display:none}
+/* はじめての人への一行は、題の上でなく塊のいちばん下に */
+.landing-note,.wpage .content p.landing-note{margin:12px 0 0}
+/* 右の列：いま開いているページの行は押せない */
+.rm-s a:not([href]){cursor:default}
+/* 作品のページの CURRENT STATION も、ほかと同じ金の札 */
+.wpage .w-lead>.meta{color:var(--gold-ink)}
+/* 探した結果を押し下げない。横に送る帯が無い画面（広い画面・マウス）では、作品の札を出さない */
+@media (min-width:760px),(hover:hover) and (pointer:fine){
+  .search-page .disc.only-sp{display:none}
+}
+@media (max-width:1099.98px){
+  /* 札の列：触れる余白を列の内側に取り、縦には動かない（縦に払うとページが動く） */
+  .ls-cats{overflow-y:hidden;margin-top:-7px;margin-bottom:1px;padding-block:7px}
+  .search-page .seek-keys{overflow-y:hidden;margin-top:-6px;margin-bottom:4px;padding-block:6px}
+  /* 駅の名：字の位置はそのまま、触れる所を上下に広げる */
+  .station{margin-top:-10px;padding-block:12px}
+  /* 利用規約・クレジットの絵は、下の切り口を紙に溶かす。字に掛かる所は薄く */
+  .info-terms .ip-art,.info-credits .ip-art{-webkit-mask-image:linear-gradient(#000 40%,transparent 94%);mask-image:linear-gradient(#000 40%,transparent 94%)}
+}
+/* 字の下限がタブレットの大きな字まで縮めないように（広告のページの三つの札） */
+@media (min-width:760px) and (max-width:1099.98px){
+  .info-page .ab-feats li>span{font-size:13.5px !important}
+}
+/* 札の「作品ページへ」：字の列（80px ほど）では切れるので、札の幅いっぱいに。二枚の札で下を揃える */
+@media (max-width:459.98px){
+  .src-row{align-items:stretch}
+  .src{position:relative;padding-bottom:38px}
+  .src-t i{position:absolute;left:0;right:0;bottom:0;box-sizing:border-box;width:auto;max-width:none;margin:0;overflow:visible;text-align:center}
+}
+/* 狭い携帯：頭の金の札が絵に掛からないように（下限の 11px のまま、字の間を詰める） */
+@media (max-width:374.98px){
+  .info-page.big .ip-hero>.kick{letter-spacing:.06em !important}
+}
+
+/* 案内のページの二つ目のボタンは、絵に重なっても読めるように紙の地を持つ（見本 21） */
+.info-page .content a.pill.sub{background:var(--paper)}
+@media (hover:hover) and (pointer:fine){
+  .info-page .content a.pill.sub:hover{background:linear-gradient(rgba(7,26,48,.06),rgba(7,26,48,.06)),var(--paper)}
+}
+/* 一覧：絞って札が少なくなっても、絞り込みの帯は下のまま（携帯・タブレット） */
+@media (max-width:1099.98px){
+  .list-page .content{min-height:calc(100svh + 18px)}
+  .list-page .ls,.list-page .ls-none:not([hidden]){margin-bottom:auto}
+}
+/* 一覧：印のある札は印と読む時間を残す（路線の名に押されて、読む時間が札の外へ切れていた） */
+@media (min-width:1100px) and (max-width:1599.98px){
+  .list-page .ls-row:is(.done,.now) .ed-txt small .rn{display:none}
+}
+@media (min-width:1100px) and (max-width:1239.98px){
+  .list-page .ed-txt small .ls-mark~.rt{display:none}
+}
+/* 狭い PC：路線の名が［… だけになるなら、出さない */
+@media (min-width:1100px) and (max-width:1179.98px){
+  :is(.search-page,.list-page) :is(.cc-t,.ed-txt) small .rn{display:none}
 }

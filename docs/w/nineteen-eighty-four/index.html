@@ -43,9 +43,9 @@ try { if (sessionStorage.getItem('bc-resume')) document.documentElement.classLis
 <link rel="preload" as="image" href="img/logo-layer-words.png">
 <!-- 台本も先に取りに行く（静的なページは台本より先に本文が描かれる。遅い回線で、触れて動くまでの間を縮める）。
      src と同じアドレス（?v= まで）でないと、二度取りに行く -->
-<link rel="preload" as="script" href="js/seed.js?v=179">
-<link rel="preload" as="script" href="js/app.js?v=179">
-<link rel="manifest" href="manifest.webmanifest?v=179">
+<link rel="preload" as="script" href="js/seed.js?v=180">
+<link rel="preload" as="script" href="js/app.js?v=180">
+<link rel="manifest" href="manifest.webmanifest?v=180">
 <link rel="apple-touch-icon" href="icon-180.png">
 <!-- タブと検索結果に出る小さな印。アプリの印（ホーム画面のアイコン）と同じ形 -->
 <link rel="icon" href="favicon.ico" sizes="16x16 32x32 48x48">
@@ -76,13 +76,13 @@ if (location.hostname === 'beautifulcontext.com'){
   document.head.appendChild(ga);
 }
 </script>
-<script src="js/theme.js?v=179"></script>
-<link rel="stylesheet" href="app.css?v=179">
+<script src="js/theme.js?v=180"></script>
+<link rel="stylesheet" href="app.css?v=180">
 <!-- 読む画面の使い勝手（2026.10.24）。app.css のすぐあと -->
-<link rel="stylesheet" href="ux.css?v=179">
-<link rel="stylesheet" href="fade.css?v=179">
+<link rel="stylesheet" href="ux.css?v=180">
+<link rel="stylesheet" href="fade.css?v=180">
 <!-- editorial-ink（紙・墨・金）：◆ の罫と、紙の上か絵の上かで変わる決まり。ux.css のあと -->
-<link rel="stylesheet" href="ink.css?v=179">
+<link rel="stylesheet" href="ink.css?v=180">
 <!-- 台本（js）が揃うまで：まだ押しても動かないもの（‹・絵の横の ‹ ›・つながりを辿る）を少し薄くし、下の帯の上の縁に細い金の線を走らせる。
      app.js が最後に body.app-ready を付けて外す。すぐ揃うときは何も見せない（0.3 秒待ってから出す） -->
 <style>
@@ -209,7 +209,7 @@ document.addEventListener('click', function (e) {
         </section>
         <div class="content w-lines">
           <p class="meta more-label">この作品から延びるつながり　5本</p>
-          <div class="ctx-cards"><button type="button" class="ctx-card is-next" data-step="1" aria-label="『象を撃つ』の作者は、後に監視国家を書いた。：ジョージ・オーウェル『象を撃つ』 ＋ ジョージ・オーウェル『1984年』"><span class="cc-tag">つぎへ</span><span class="cc-pics" aria-hidden="true"><img src="img/thumb/shooting-an-elephant.jpg" alt="" loading="lazy" decoding="async"><img src="img/thumb/nineteen-eighty-four.jpg" alt="" loading="lazy" decoding="async"></span><span class="cc-t"><small><span class="rn">［ビルマから『1984年』へ］</span><i class="rt">約1分</i></small><b>『象を撃つ』の作者は、後に監視国家を書いた。</b><em>ジョージ・オーウェル『象を撃つ』 ＋ <span class="nb">ジョージ・オーウェル『1984年』</span></em></span><span class="cc-go" aria-hidden="true">›</span></button><a class="ctx-card" href="c/nineteen-eighty-four--think-different/" aria-label="ビッグ・ブラザーを、ハンマーが打ち砕いた。：ジョージ・オーウェル『1984年』 ＋ アップル「Think Different」"><span class="cc-pics" aria-hidden="true"><img src="img/thumb/nineteen-eighty-four.jpg" alt="" loading="lazy" decoding="async"><img src="img/thumb/think-different.jpg" alt="" loading="lazy" decoding="async"></span><span class="cc-t"><small><span class="rn">［1984年は『1984年』のようにはならない］</span><i class="rt">約50秒</i></small><b>ビッグ・ブラザーを、ハンマーが打ち砕いた。</b><em>ジョージ・オーウェル『1984年』 ＋ <span class="nb">アップル「Think Different」</span></em></span><span class="cc-go" aria-hidden="true">›</span></a><a class="ctx-card" href="c/nineteen-eighty-four--blade-runner/" aria-label="広告「1984」も、スコットが撮っていた。：ジョージ・オーウェル『1984年』 ＋ リドリー・スコット『ブレードランナー』"><span class="cc-pics" aria-hidden="true"><img src="img/thumb/nineteen-eighty-four.jpg" alt="" loading="lazy" decoding="async"><img src="img/thumb/blade-runner.jpg" alt="" loading="lazy" decoding="async"></span><span class="cc-t"><small><span class="rn">［リドリー・スコットを経由して］</span><i class="rt">約40秒</i></small><b>広告「1984」も、スコットが撮っていた。</b><em>ジョージ・オーウェル『1984年』 ＋ <span class="nb">リドリー・スコット『ブレードランナー』</span></em></span><span class="cc-go" aria-hidden="true">›</span></a><a class="ctx-card" href="c/nineteen-eighty-four--brazil/" aria-label="はじめの題は、『1984½』だった。：ジョージ・オーウェル『1984年』 ＋ テリー・ギリアム『未来世紀ブラジル』"><span class="cc-pics" aria-hidden="true"><img src="img/thumb/nineteen-eighty-four.jpg" alt="" loading="lazy" decoding="async"><img src="img/thumb/brazil.jpg" alt="" loading="lazy" decoding="async"></span><span class="cc-t"><small><span class="rn">［1984½］</span><i class="rt">約50秒</i></small><b>はじめの題は、『1984½』だった。</b><em>ジョージ・オーウェル『1984年』 ＋ <span class="nb">テリー・ギリアム『未来世紀ブラジル』</span></em></span><span class="cc-go" aria-hidden="true">›</span></a><a class="ctx-card" href="c/hannah-arendt--nineteen-eighty-four/" aria-label="人を丸ごと呑み込む国家のしくみ。：ハンナ・アーレント ＋ ジョージ・オーウェル『1984年』"><span class="cc-pics" aria-hidden="true"><img src="img/thumb/hannah-arendt.jpg" alt="" loading="lazy" decoding="async"><img src="img/thumb/nineteen-eighty-four.jpg" alt="" loading="lazy" decoding="async"></span><span class="cc-t"><small><span class="rn">［全体主義］</span><i class="rt">約35秒</i></small><b>人を丸ごと呑み込む国家のしくみ。</b><em>ハンナ・アーレント ＋ <span class="nb">ジョージ・オーウェル『1984年』</span></em></span><span class="cc-go" aria-hidden="true">›</span></a></div>
+          <div class="ctx-cards"><button type="button" class="ctx-card is-next" data-step="1" aria-label="つぎへ：『象を撃つ』の作者は、後に監視国家を書いた。：ジョージ・オーウェル『象を撃つ』 ＋ ジョージ・オーウェル『1984年』"><span class="cc-tag">つぎへ</span><span class="cc-pics" aria-hidden="true"><img src="img/thumb/shooting-an-elephant.jpg" alt="" loading="lazy" decoding="async"><img src="img/thumb/nineteen-eighty-four.jpg" alt="" loading="lazy" decoding="async"></span><span class="cc-t"><small><span class="rn">［ビルマから『1984年』へ］</span><i class="rt">約1分</i></small><b>『象を撃つ』の作者は、後に監視国家を書いた。</b><em>ジョージ・オーウェル『象を撃つ』 ＋ <span class="nb">ジョージ・オーウェル『1984年』</span></em></span><span class="cc-go" aria-hidden="true">›</span></button><a class="ctx-card" href="c/nineteen-eighty-four--think-different/" aria-label="ビッグ・ブラザーを、ハンマーが打ち砕いた。：ジョージ・オーウェル『1984年』 ＋ アップル「Think Different」"><span class="cc-pics" aria-hidden="true"><img src="img/thumb/nineteen-eighty-four.jpg" alt="" loading="lazy" decoding="async"><img src="img/thumb/think-different.jpg" alt="" loading="lazy" decoding="async"></span><span class="cc-t"><small><span class="rn">［1984年は『1984年』のようにはならない］</span><i class="rt">約50秒</i></small><b>ビッグ・ブラザーを、ハンマーが打ち砕いた。</b><em>ジョージ・オーウェル『1984年』 ＋ <span class="nb">アップル「Think Different」</span></em></span><span class="cc-go" aria-hidden="true">›</span></a><a class="ctx-card" href="c/nineteen-eighty-four--blade-runner/" aria-label="広告「1984」も、スコットが撮っていた。：ジョージ・オーウェル『1984年』 ＋ リドリー・スコット『ブレードランナー』"><span class="cc-pics" aria-hidden="true"><img src="img/thumb/nineteen-eighty-four.jpg" alt="" loading="lazy" decoding="async"><img src="img/thumb/blade-runner.jpg" alt="" loading="lazy" decoding="async"></span><span class="cc-t"><small><span class="rn">［リドリー・スコットを経由して］</span><i class="rt">約40秒</i></small><b>広告「1984」も、スコットが撮っていた。</b><em>ジョージ・オーウェル『1984年』 ＋ <span class="nb">リドリー・スコット『ブレードランナー』</span></em></span><span class="cc-go" aria-hidden="true">›</span></a><a class="ctx-card" href="c/nineteen-eighty-four--brazil/" aria-label="はじめの題は、『1984½』だった。：ジョージ・オーウェル『1984年』 ＋ テリー・ギリアム『未来世紀ブラジル』"><span class="cc-pics" aria-hidden="true"><img src="img/thumb/nineteen-eighty-four.jpg" alt="" loading="lazy" decoding="async"><img src="img/thumb/brazil.jpg" alt="" loading="lazy" decoding="async"></span><span class="cc-t"><small><span class="rn">［1984½］</span><i class="rt">約50秒</i></small><b>はじめの題は、『1984½』だった。</b><em>ジョージ・オーウェル『1984年』 ＋ <span class="nb">テリー・ギリアム『未来世紀ブラジル』</span></em></span><span class="cc-go" aria-hidden="true">›</span></a><a class="ctx-card" href="c/hannah-arendt--nineteen-eighty-four/" aria-label="人を丸ごと呑み込む国家のしくみ。：ハンナ・アーレント ＋ ジョージ・オーウェル『1984年』"><span class="cc-pics" aria-hidden="true"><img src="img/thumb/hannah-arendt.jpg" alt="" loading="lazy" decoding="async"><img src="img/thumb/nineteen-eighty-four.jpg" alt="" loading="lazy" decoding="async"></span><span class="cc-t"><small><span class="rn">［全体主義］</span><i class="rt">約35秒</i></small><b>人を丸ごと呑み込む国家のしくみ。</b><em>ハンナ・アーレント ＋ <span class="nb">ジョージ・オーウェル『1984年』</span></em></span><span class="cc-go" aria-hidden="true">›</span></a></div>
           <p class="img-credit">画像：ハヤカワepi文庫［新訳版］の表紙／© 早川書房／出典 早川書房　<a href="https://www.hayakawa-online.co.jp/shop/g/g0000310053/" target="_blank" rel="noopener nofollow">出典</a></p>
         </div>
       </article><!--/bc-body--></div>
@@ -220,17 +220,17 @@ document.addEventListener('click', function (e) {
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 <script type="application/ld+json" id="ld">{"@context":"https://schema.org","@type":"Book","name":"1984年","description":"「ビッグ・ブラザー」がすべてを監視する全体主義国家オセアニアで、真理省に勤めるウィンストンが体制に疑いを抱く。","creator":{"@type":"Person","name":"ジョージ・オーウェル"},"url":"https://beautifulcontext.com/w/nineteen-eighty-four/","image":"https://beautifulcontext.com/img/works/nineteen-eighty-four.jpg","subjectOf":[{"@type":"Article","headline":"『象を撃つ』の作者は、後に監視国家を書いた。","url":"https://beautifulcontext.com/c/shooting-an-elephant--nineteen-eighty-four/"},{"@type":"Article","headline":"ビッグ・ブラザーを、ハンマーが打ち砕いた。","url":"https://beautifulcontext.com/c/nineteen-eighty-four--think-different/"},{"@type":"Article","headline":"広告「1984」も、スコットが撮っていた。","url":"https://beautifulcontext.com/c/nineteen-eighty-four--blade-runner/"},{"@type":"Article","headline":"はじめの題は、『1984½』だった。","url":"https://beautifulcontext.com/c/nineteen-eighty-four--brazil/"},{"@type":"Article","headline":"人を丸ごと呑み込む国家のしくみ。","url":"https://beautifulcontext.com/c/hannah-arendt--nineteen-eighty-four/"}]}</script>
 
-<script src="js/config.js?v=179"></script>
-<script src="js/seed.js?v=179"></script>
-<script src="js/sources.js?v=179"></script>
-<script src="js/backend.js?v=179"></script>
-<script src="js/store.js?v=179"></script>
-<script src="js/social.js?v=179"></script>
-<script src="js/render.js?v=179"></script>
-<script src="js/login.js?v=179"></script>
-<script src="js/login-page.js?v=179"></script>
-<script src="js/report.js?v=179"></script>
-<script src="js/transition.js?v=179"></script>
-<script src="js/app.js?v=179"></script>
+<script src="js/config.js?v=180"></script>
+<script src="js/seed.js?v=180"></script>
+<script src="js/sources.js?v=180"></script>
+<script src="js/backend.js?v=180"></script>
+<script src="js/store.js?v=180"></script>
+<script src="js/social.js?v=180"></script>
+<script src="js/render.js?v=180"></script>
+<script src="js/login.js?v=180"></script>
+<script src="js/login-page.js?v=180"></script>
+<script src="js/report.js?v=180"></script>
+<script src="js/transition.js?v=180"></script>
+<script src="js/app.js?v=180"></script>
 </body>
 </html>
