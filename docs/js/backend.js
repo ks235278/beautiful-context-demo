@@ -16,7 +16,7 @@
   const C = window.BC_CONFIG || {};
   const ON = C.backend === 'supabase' && !!C.supabaseUrl && !!C.supabaseAnonKey;
   const SRC = document.currentScript ? document.currentScript.src : '';
-  const K = { auth: 'bc-auth', me: 'bc-me', outbox: 'bc-outbox', cache: 'bc-cache-v3' };
+  const K = { auth: 'bc-auth', me: 'bc-me', outbox: 'bc-outbox', cache: 'bc-cache-v3', burn: 'bc-burn' };
   const MINUTE = 60 * 1000;
 
   const read = (k, d) => { try { const v = JSON.parse(localStorage.getItem(k)); return v == null ? d : v; } catch (e) { return d; } };
@@ -460,12 +460,14 @@
     } finally { logging = false; }
     /* 読めなかったときは、名前が無いとは言えない（聞いてしまうと、公開中の名前を上書きしてしまう） */
     const needsName = known && !me.name;
+    retryBurn();
     emit('auth', method ? { event: 'login', method, isNew, needsName } : { event: 'in', needsName });
     return { isNew, needsName };
   }
   async function resume(user) {
     if (!me || me.uid !== user.id) { me = { uid: user.id, name: '', role: 'reader' }; write(K.me, me); cache.mine = null; }
     try { await flush(); await loadMine(); } catch (e) { mineFailed(); }
+    retryBurn();
     emit('auth', { event: 'in' });
   }
   function signedOut() {
@@ -536,6 +538,7 @@
   function poll() {
     if (!client) return;
     lastPoll = Date.now();
+    retryBurn();
     quiet((async () => {
       await flush();
       if (me) await loadMine();
@@ -593,14 +596,51 @@
     } catch (e) {}
   };
   /* メールの 6桁のコードを確かめる。type：'email'（コードでログイン）・'signup'（登録の確かめ）・'recovery'（パスワードを忘れた） */
+  /* このログインで、はじめてメールアドレスが確かめられたか（サーバーの時刻どうし。同じ手続きの中なので差は数十ミリ秒） */
+  const justConfirmed = (u) => {
+    const c = Date.parse(u && (u.email_confirmed_at || u.confirmed_at)), l = Date.parse(u && u.last_sign_in_at);
+    return Number.isNaN(l) ? Math.abs(Date.now() - c) < 2 * MINUTE : Math.abs(l - c) < 5000;
+  };
+  /* パスワードを、どこにも残さない乱数に替える（いまのセッションは続く）。
+     届くまで K.burn に覚えておき、次の機会（読み直した・画面に戻った）にもう一度。本人がパスワードを決めたら、もう替えない */
+  let burning = false;
+  const burn = async (c, uid) => {
+    if (burning) return false;
+    burning = true;
+    write(K.burn, uid);
+    let ok = false;
+    try {
+      const b = new Uint8Array(24);
+      crypto.getRandomValues(b);
+      const { error } = await c.auth.updateUser({ password: [...b].map((x) => x.toString(16).padStart(2, '0')).join('') + 'aA1!' });
+      ok = !error;
+    } catch (e) {}
+    burning = false;
+    if (ok && read(K.burn) === uid) write(K.burn, null);
+    return ok;
+  };
+  function retryBurn() {
+    if (client && me && read(K.burn) === me.uid) quiet(burn(client, me.uid));
+  }
   async function verify(mail, code, type, method) {
     const c = await loadNow();
     logging = true;   // verifyOtp の中で来る SIGNED_IN は、ここの afterLogin が受け持つ
-    let r;
-    try { r = await c.auth.verifyOtp({ email: mailOf(mail), token: String(code || '').replace(/\D/g, ''), type }); }
-    finally { logging = false; }
+    let r, burned = false;
+    try {
+      r = await c.auth.verifyOtp({ email: mailOf(mail), token: String(code || '').replace(/\D/g, ''), type });
+      /* コードで「はじめて確かめた」アカウントには、別の人が先に登録したパスワードが残っていることがある
+         （サーバーは未確認のアカウントのパスワードを変えない）。コードの道の本人はパスワードを入れていないので、ここで使えなくする。
+         'signup' はアカウント作成の札の道（入れた値を confirmSignup が入れ直す。ログインの札からはパスワードを確かめ済み）なので触らない */
+      if (!r.error && type !== 'signup' && justConfirmed(r.data.user)) {
+        burned = true;
+        await burn(c, r.data.user.id);
+      }
+    } finally { logging = false; }
     if (r.error) throw r.error;
-    return afterLogin(method, r.data.user);
+    const out = await afterLogin(method, r.data.user);
+    /* 表示名も別の人が決めたものかもしれない：コメントに出す前に聞く（パスワードを忘れた人の道では聞かない） */
+    if (burned && type === 'email') out.needsName = true;
+    return out;
   }
 
   /* ---------- 公開する関数 ---------- */
@@ -685,13 +725,7 @@
     },
     /* 二度目の登録で、この画面で入れた値を入れられなかったとき：一度目の人のパスワードを、いますぐ使えなくする。
        値はどこにも残さない乱数。本人はこのあと決め直す（閉じてしまっても「パスワードを忘れた方」で決められる） */
-    async burnPassword() {
-      const b = new Uint8Array(24);
-      crypto.getRandomValues(b);
-      const c = await loadNow();
-      const { error } = await c.auth.updateUser({ password: [...b].map((x) => x.toString(16).padStart(2, '0')).join('') + 'aA1' });
-      return !error;
-    },
+    async burnPassword() { return burn(await loadNow(), me && me.uid); },
     async resendConfirm(email) {
       const c = await loadNow();
       const { error } = await c.auth.resend({ type: 'signup', email: mailOf(email), options: { emailRedirectTo: backTo() } });
@@ -712,6 +746,7 @@
         if (r.error.code === 'email_not_confirmed' && pending && pending.email === mailOf(email).toLowerCase()) pending = null;
         throw Object.assign(r.error, { via: 'password' });
       }
+      if (read(K.burn) === r.data.user.id) write(K.burn, null);   // パスワードで入れた：替えると、いま入れた本人が困る
       return afterLogin('password', r.data.user);
     },
 
@@ -733,8 +768,13 @@
       if (bad) throw fail('bc_weak_password', { detail: bad });
       if (!me) throw fail('session_not_found');
       const c = await loadNow();
+      const flagged = read(K.burn);
+      write(K.burn, null);   // 本人が決める：もう乱数に替えない（送る前に消す。乱数があとから届いて上書きしないように）
       const { error } = await c.auth.updateUser({ password: String(password) });
-      if (error) throw error;
+      if (error) {
+        if (flagged && error.code !== 'same_password') write(K.burn, flagged);
+        throw error;
+      }
     },
 
     /* Google・Apple（methods() で開いているものだけ）。出かける前の画面（returnTo、無ければいまの # の道）を覚えて、戻ってきたら ready() が戻す。
@@ -776,6 +816,7 @@
       const c = await loadNow();
       const { error, status } = await c.rpc('delete_my_account');
       if (error) throw Object.assign(error, { status });
+      write(K.burn, null);
       signedOut();
       /* サーバーのセッションはもう無い（auth.users ごと消えた）。端末のトークンだけを捨てる */
       try { await c.auth.signOut({ scope: 'local' }); } catch (e) {}
@@ -887,6 +928,6 @@
   document.addEventListener('visibilitychange', () => {
     if (document.visibilityState !== 'visible' || !client) return;
     if (Date.now() - lastPoll > 5 * MINUTE) poll();
-    else { quiet(flush()); if (me && me.nameUnknown) quiet(loadMine()); }
+    else { retryBurn(); quiet(flush()); if (me && me.nameUnknown) quiet(loadMine()); }
   });
 })();
