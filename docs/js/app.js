@@ -239,6 +239,7 @@
      何も起きない間ができてしまうため。自分で積んだ道筋を覚えておく。 */
   const stack = [];
   let poppedHash = null;   /* いちばん最近戻ったページ。ブラウザの「進む」でそこへ着いたら、道筋に積み直す */
+  let pathKnown = true;    /* 道筋を覚えているか。読み直し・履歴の飛び移りのあと、深い所にいるあいだは false（一つ前が何か分からない） */
   const depth = () => (history.state && history.state.bcDepth) || 0;
   /* 最初の画面（Today か UniverseIt!）が、履歴のどの深さにあるか。ふつうは 0（いちばん奥）。
      検索などからページを直接開いた人が ‹ を押すと、そのページの上に Today を積む（積んだ Today が 1）。
@@ -247,6 +248,7 @@
   const mark = (d, r) => (d || r ? { bcDepth: d, bcRoot: r } : null);
   /* アプリの根（index.html のある所）。静的なページ（c/…/）から入っても、道筋は根の # に積む */
   const base = () => body.dataset.route ? new URL('./', document.baseURI).pathname : location.pathname + location.search;
+  const bootPath = location.pathname;   /* この文書を読み込んだ所 */
   /* › ・つながりを辿る で進んだ一歩には印を付ける（履歴の一つ一つが自分の来かたを覚えている）。‹ はこの印を見て、その一歩を戻す */
   let nextMove = false;
   function go(hash, motion, replace){
@@ -269,6 +271,7 @@
     from = from || stack[stack.length - 1];
     history.pushState(mark(depth() + 1, depth() + 1), '', base() + hash);
     stack.length = 0;
+    pathKnown = true;
     if (hash){ if (from) stack.push(from); stack.push(hash); }
   }
   /* いま履歴が指している道。静的なページ（c/…/ など）のアドレスそのものなら、その道（body の data-route）。
@@ -296,9 +299,9 @@
          ページ（UniverseIt! ではない）。そこへ UniverseIt! を一瞬はさむと、絵が点滅して見えた */
       const to = stack[stack.length - 1];
       if (to && to !== '#' && to !== '#/') routeTo(to, motion || null);
-      /* 道筋を覚えていない（読み直し・ブラウザの進むのあと）とき、深い所の一つ前は UniverseIt! ではない。
+      /* 道筋を覚えていない（読み直し・履歴の飛び移りのあと）ときは、一つ前が UniverseIt! とは限らない。
          絵を消さず、履歴が戻ってから開く（onHistory） */
-      else if (to !== undefined || d - 1 <= rootDepth()) hideView(motion || { toCenter: true });
+      else if (pathKnown) hideView(motion || { toCenter: true });
       history.back();
     } else {
       /* リンクから直接開いたページの一つ前は、最初の画面（Today's Editor's Choice）。
@@ -324,6 +327,7 @@
   function openToday(){
     history.replaceState(null, '', base() + '#/today');
     stack.length = 0; stack.push('#/today');
+    pathKnown = true;
     routeTo('#/today', { fade: true });
   }
   function goHome(){
@@ -336,12 +340,20 @@
   }
   /* ブラウザの戻る・進むで動いたときは、覚えている道筋を合わせてから開く */
   function onHistory(){
+    /* 読み直したあとの根の文書（index.html）から、静的なページ（c/…/）の履歴へ戻った。ブラウザは読み込まずにアドレスだけ替えるので、
+       このままだと c/…/ の上で UniverseIt! が開き、絵の相対の道も壊れる。本物のページを開き直す */
+    if (!body.dataset.route && location.pathname !== bootPath){
+      if (homing || networking) location.replace(bootPath + (homing ? '#/today' : ''));
+      else location.reload();
+      return;
+    }
     /* Today へ・UniverseIt! へ、一度で戻ったところ（goHome・toNetwork）。いちばん奥のアドレスを、行き先に書き換える。
        いちばん奥が、直接開いたページ（Today でも UniverseIt! でもない）なら、書き換えずにその上に積む
        （ブラウザの戻るで、読んでいたページへ帰れるように。‹ と同じ） */
     if (homing || networking){
       const hash = homing ? '#/today' : '';
       homing = networking = false;
+      pathKnown = true;
       const at = hereHash();
       if (isRootHash(at)){ history.replaceState(history.state, '', base() + hash); stack.length = 0; if (hash) stack.push(hash); }
       else pushRoot(hash, at);
@@ -354,11 +366,11 @@
     /* 静的なページ（c/…/ など）で開いたときの最初の画面は、その道（body の data-route） */
     if (!via) how('history');   /* ブラウザの戻る・進む */
     const h = hereHash();
-    if (!h || h === '#' || h === '#/') stack.length = 0;
+    if (!h || h === '#' || h === '#/'){ stack.length = 0; pathKnown = true; }
     else if (stack[stack.length - 1] !== h){
       if (stack[stack.length - 2] === h){ poppedHash = stack.pop(); backNav = true; }
       else if (h === poppedHash){ stack.push(h); poppedHash = null; }
-      else { stack.length = 0; stack.push(h); }
+      else { stack.length = 0; stack.push(h); pathKnown = depth() <= rootDepth(); }
     }
     routeTo(h, null);
     /* 戻るボタンは履歴が戻りきる前に絵を動かすので、最初の画面か・直接開いたページかは、戻ったあとで決め直す。
@@ -529,7 +541,7 @@
     const list = todayList();
     if (!list.length){ hideView(motion); return; }
     i = Math.max(0, Math.min(list.length - 1, i));
-    const x = list[i], today = { i, n: list.length };
+    const x = list[i], today = { i, n: list.length, sig: list.map(y => y.e.id).join('|') };
     const opts = ctxOpts(x.e, Object.assign({ day: dayLabel() }, today));
     return show({ key: 'today:' + i + ':' + x.e.id, kind: 'route', entry: x.e, step: 1, today, feed: opts.rail },
       R.contextPage(x.e, pickAd(x.e), opts), motion, "Today's Editor's Choice");
@@ -1153,7 +1165,7 @@
     const last = lastCtx ? posOf(lastCtx) : -1;
     if (last >= 0 && after(lastCtx).id === to.id) return journeyOf(trail()[last].entry, null);
     return [{ entry: to, href: peek.today ? '#/today' : null, name: 'つぎへ', now: false, big: true }]
-      .concat(lineAhead(to, peek.today ? { i: 0 } : null).slice(0, 3).map((x, k) => ({ entry: x.entry, href: x.href, name: stageName(k + 2, 1), now: false })));
+      .concat(lineAhead(to, peek.today ? { i: 0 } : null).slice(0, 2).map((x, k) => ({ entry: x.entry, href: x.href, name: stageName(k + 2, 1), now: false })));
   }
   function paintRoute(){
     const box = $('routeMini');
@@ -1647,10 +1659,15 @@
      以前は開いたときの本数を持ち続け、一本に減ったあと NEXT・›・払う・→ のどれも進まなかった */
   function syncToday(){
     if (!here || !here.today) return;
-    const list = todayList(), j = list.findIndex(x => x.e.id === here.entry.id);
-    if (j >= 0 && j !== here.today.i){
-      const h = '#/today' + (j ? '?i=' + j : '');
-      here.key = 'today:' + j + ':' + here.entry.id;
+    /* 知らせはコメントの読み直しなどでも来る。並びが同じなら何もしない（路線を描き直すと、読んでいる所から飛ばされる） */
+    const list = todayList(), sig = list.map(x => x.e.id).join('|');
+    if (sig === here.today.sig) return;
+    here.today.sig = sig;
+    const j = list.findIndex(x => x.e.id === here.entry.id);
+    if (j !== here.today.i){
+      /* 読んでいる記事が並びから外れたら、履歴のこの一段はその記事のページに（‹ でここへ戻れる） */
+      const h = j >= 0 ? '#/today' + (j ? '?i=' + j : '') : '#/c/' + encodeURIComponent(here.entry.context.slug);
+      if (j >= 0) here.key = 'today:' + j + ':' + here.entry.id;
       history.replaceState(history.state, '', base() + h);
       if (stack.length) stack[stack.length - 1] = h;
     }
@@ -1665,6 +1682,9 @@
     swap('.next-ctx', R.nextCtx(opts.journey));
     paintNext();
     paintRoute();
+    /* 一つ前の履歴も同じ記事になったら、一歩戻って重ねる（押しても何も変わらない ‹ を残さない） */
+    const prev = /^#\/today(?:\?i=(\d+))?$/.exec(stack[stack.length - 2] || '');
+    if (j >= 0 && prev && +(prev[1] || 0) === j && depth() > rootDepth()){ stack.pop(); history.back(); }
   }
   Social.onChange(paintSocial);
   paintSocial();
@@ -1984,14 +2004,19 @@
           S0.shot.remove(); dropUnderlay(); peek(false);
           return;
         }
+        const was = here;
         closeView({ swipe: true });
         view.style.visibility = 'hidden';
         S0.shot.remove();
+        /* 道筋を覚えていないとき、ページは履歴が戻ってから替わる。替わる前の古いページを見せ直さない */
+        const moved = here === was ? new Promise(r => { window.addEventListener('popstate', r, { once: true }); setTimeout(r, 1200); }) : Promise.resolve();
         /* 本物の絵が描けてから、後ろの写しを外して本物を見せる（一コマでも空いた枠を見せない） */
-        const H = window.innerHeight;
-        const imgs = [...viewIn.querySelectorAll('img')].filter(im => { const r = im.getBoundingClientRect(); return r.bottom > 0 && r.top < H; });
         const show = () => { view.style.visibility = ''; requestAnimationFrame(() => { dropUnderlay(); peek(false); }); };
-        Promise.race([Promise.all(imgs.map(im => im.decode().catch(() => {}))), new Promise(r => setTimeout(r, 400))]).then(show);
+        moved.then(() => {
+          const H = window.innerHeight;
+          const imgs = [...viewIn.querySelectorAll('img')].filter(im => { const r = im.getBoundingClientRect(); return r.bottom > 0 && r.top < H; });
+          return Promise.race([Promise.all(imgs.map(im => im.decode().catch(() => {}))), new Promise(r => setTimeout(r, 400))]);
+        }).then(show);
       };
     }
     edge.addEventListener('touchstart', e => {
@@ -2144,6 +2169,8 @@
   } else {
     armIdle();
   }
+  /* 深い所で読み直した：覚えている道筋はこのページだけ */
+  if (depth() > rootDepth() && stack.length < 2) pathKnown = false;
   paintMenu();
   window.addEventListener('load', measureDock, { once: true });
   if (document.fonts && document.fonts.ready) document.fonts.ready.then(measureDock);

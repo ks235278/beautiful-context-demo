@@ -495,7 +495,7 @@ body.on-list .view-in{background:var(--paper)}
 .cc-go{position:absolute;right:10px;top:50%;display:grid;place-items:center;width:26px;height:26px;margin-top:-13px;padding-bottom:2px;border-radius:50%;
   background:var(--navy);color:#fff;font:400 16px/1 "Lato",sans-serif}
 @media (hover:hover) and (pointer:fine){.ctx-card:hover{border-color:var(--gold);background:#fff}}
-@media (min-width:760px){
+@media (min-width:1100px){
   .search-page .ctx-cards,.cpage .context-body .ctx-cards{grid-template-columns:repeat(2,minmax(0,1fr))}
 }
 @media (min-width:1100px){
@@ -1929,6 +1929,11 @@ body.viewing:has(#viewIn>.login-page) .login-page .content{padding-bottom:40px}
 .today-dots[hidden]{display:none}
 /* はじめての人への一行は、題の上でなく塊のいちばん下に */
 .landing-note,.wpage .content p.landing-note{margin:12px 0 0}
+.cpage:not(.today)>.context-lead>.landing-note{order:6}
+/* 書き出したページ（携帯）：路線図の高さを先に取っておく。起きたときに下の帯が一段伸びないように */
+@media (max-width:1099.98px){
+  :is(body[data-route^="#/c/"],body[data-route^="#/w/"]):not(.app-ready) .dock .map:empty{display:block}
+}
 /* 右の列：いま開いているページの行は押せない */
 .rm-s a:not([href]){cursor:default}
 /* 作品のページの CURRENT STATION も、ほかと同じ金の札 */
@@ -1972,7 +1977,7 @@ body.viewing:has(#viewIn>.login-page) .login-page .content{padding-bottom:40px}
   .list-page .ls,.list-page .ls-none:not([hidden]){margin-bottom:auto}
 }
 /* 一覧：印のある札は印と読む時間を残す（路線の名に押されて、読む時間が札の外へ切れていた） */
-@media (min-width:1100px) and (max-width:1599.98px){
+@media (min-width:1100px) and (max-width:1679.98px){
   .list-page .ls-row:is(.done,.now) .ed-txt small .rn{display:none}
 }
 @media (min-width:1100px) and (max-width:1239.98px){
