@@ -260,8 +260,9 @@
     if (!here || !here.entry || step < 0 || step > 2 || step === here.step) return;
     go(stepHash(here.entry, step), { dir: Math.sign(step - here.step), origin: from || null });
   }
-  /* Today が最初の画面（履歴のいちばん奥）なら、そこより前はない */
-  const atRoot = () => !!(here && here.today) && depth() <= rootDepth();
+  /* Today の一本目が最初の画面（履歴のいちばん奥）なら、そこより前はない。
+     二本目以降が奥に来たとき（?i=1 を直接開いた・フォローを外して並びが増えた）は、‹ で一本目へ（closeView がその上に積む） */
+  const atRoot = () => !!(here && here.today) && here.today.i === 0 && depth() <= rootDepth();
   /* 検索や共有のリンクから、ページを直接開いたところ（アプリの中で辿ってきた道がない）。‹ の先は Today */
   const isDirect = () => !!(here && !here.today) && view.classList.contains('on') && depth() <= rootDepth();
   /* ‹ の行き先。closeView・左の端から払う・絵を持ち上げたときの後ろの画面は、どれもこの決め方（null は奥の UniverseIt!） */
@@ -288,8 +289,11 @@
     if (direct){ b.title = "Today's Editor's Choice へ"; b.setAttribute('aria-label', "Today's Editor's Choice へ戻る"); }
     else { b.removeAttribute('title'); b.setAttribute('aria-label', '戻る'); }
   }
+  /* 道筋を覚えていないときの戻るは、履歴が戻るまで絵を動かせない。押したときの動きを覚えておき、着いたときに使う。
+     待っているあいだの二度押しは数えない（戻りすぎて、サイトの外へ出ていた） */
+  let backWait = null;
   function closeView(motion, by){
-    if (!view.classList.contains('on') || atRoot()) return;
+    if (!view.classList.contains('on') || atRoot() || backWait) return;
     how(by || (motion && motion.swipe ? 'back_swipe' : motion && motion.dismiss ? 'back_drag' : 'back'));
     const d = depth();
     backNav = true;
@@ -302,6 +306,10 @@
       /* 道筋を覚えていない（読み直し・履歴の飛び移りのあと）ときは、一つ前が UniverseIt! とは限らない。
          絵を消さず、履歴が戻ってから開く（onHistory） */
       else if (pathKnown) hideView(motion || { toCenter: true });
+      else {
+        const w = backWait = { motion: motion || null };
+        setTimeout(() => { if (backWait === w) backWait = null; }, 1200);
+      }
       history.back();
     } else {
       /* リンクから直接開いたページの一つ前は、最初の画面（Today's Editor's Choice）。
@@ -340,10 +348,17 @@
   }
   /* ブラウザの戻る・進むで動いたときは、覚えている道筋を合わせてから開く */
   function onHistory(){
+    const waited = backWait;
+    backWait = null;
     /* 読み直したあとの根の文書（index.html）から、静的なページ（c/…/）の履歴へ戻った。ブラウザは読み込まずにアドレスだけ替えるので、
        このままだと c/…/ の上で UniverseIt! が開き、絵の相対の道も壊れる。本物のページを開き直す */
     if (!body.dataset.route && location.pathname !== bootPath){
-      if (homing || networking) location.replace(bootPath + (homing ? '#/today' : ''));
+      if (homing || networking){
+        /* UniverseIt! へ：開き直しても表紙を通らないように（通ると、そのまま Today へ進んでしまう） */
+        if (networking) saveResume();
+        /* 置き換えずに積む（ブラウザの戻るで、読んでいたページへ帰れる。下の書き換えない場合と同じ） */
+        location.assign(bootPath + (homing ? '#/today' : ''));
+      }
       else location.reload();
       return;
     }
@@ -372,7 +387,7 @@
       else if (h === poppedHash){ stack.push(h); poppedHash = null; }
       else { stack.length = 0; stack.push(h); pathKnown = depth() <= rootDepth(); }
     }
-    routeTo(h, null);
+    routeTo(h, waited ? waited.motion : null);
     /* 戻るボタンは履歴が戻りきる前に絵を動かすので、最初の画面か・直接開いたページかは、戻ったあとで決め直す。
        それで下の帯が出入りするので、高さも測り直す（測り損ねると、ページの下の端が帯の下に隠れる） */
     paintRoot();
@@ -380,6 +395,8 @@
   }
   window.addEventListener('popstate', onHistory);
   window.addEventListener('hashchange', onHistory);
+  /* 上で積んで離れた根の文書へ、ブラウザの戻るで帰ってきた（読み込みなしで復元されたとき）。静的なページのアドレスなので、本物を開く */
+  window.addEventListener('pageshow', (ev) => { if (ev.persisted && !body.dataset.route && location.pathname !== bootPath) location.reload(); });
 
   function routeTo(hash, motion){
     routed = hash;
@@ -580,7 +597,8 @@
     if (history.state && history.state.bcNext && depth() > rootDepth()){ closeView({ dir: -1 }, v); return; }
     let to = null, dir = -1;
     if (here && here.today){
-      if (hasCard(-1)){ const j = here.today.i - 1; to = '#/today' + (j ? '?i=' + j : ''); }
+      /* 履歴のいちばん奥にいるときは closeView（一本目をその上に積み、そこが新しい奥になる） */
+      if (hasCard(-1) && depth() > rootDepth()){ const j = here.today.i - 1; to = '#/today' + (j ? '?i=' + j : ''); }
     } else if (here && here.work && !here.from){
       /* つながりを読んで来たのではない作品のページ（検索から直接・一覧から）：一つ前のつながりは無いので、ふつうに戻る。
          以前はその作品の最初のつながりへ進み、‹ と › が同じ所へ行っていた */
@@ -1682,6 +1700,7 @@
     swap('.next-ctx', R.nextCtx(opts.journey));
     paintNext();
     paintRoute();
+    paintRoot();
     /* 一つ前の履歴も同じ記事になったら、一歩戻って重ねる（押しても何も変わらない ‹ を残さない） */
     const prev = /^#\/today(?:\?i=(\d+))?$/.exec(stack[stack.length - 2] || '');
     if (j >= 0 && prev && +(prev[1] || 0) === j && depth() > rootDepth()){ stack.pop(); history.back(); }
@@ -1858,9 +1877,9 @@
       g.img.style.visibility = 'hidden';
       g.img.parentElement.classList.add('landing');   /* 元の場所は空になる */
       g.o = 1;
-      /* 後ろには、来た画面（なければ UniverseIt!）を置く */
+      /* 後ろには、来た画面（なければ UniverseIt!）を置く。一つ前が分からないときは何も置かない（違う画面を約束しない） */
       g.back = underlay(g.img.dataset.k);
-      if (!g.back) peek(true);
+      if (!g.back && pathKnown) peek(true);
     }
     const liftScale = (dx, dy) => Math.max(0.42, 1 - Math.max(0, dy) / (vh() * 1.05) - Math.abs(dx) / (vw() * 8));
     const liftFade = (dy) => Math.max(0, Math.min(1, 1 - Math.max(0, dy) / (vh() * 0.38)));
@@ -1973,7 +1992,7 @@
       /* 戻り先：closeView と同じ決め方（null は奥の UniverseIt!） */
       const to = backHash();
       const under = to ? underlay(null, to) : false;
-      if (!under && !to) peek(true);
+      if (!under && !to && pathKnown) peek(true);
       s.under = document.querySelector('.underlay');
       s.shot = snapshot(false);
       s.shot.classList.add('edge-shot');
