@@ -89,7 +89,7 @@
     t.textContent = msg;
     t.classList.add('show');
     clearTimeout(toast.t);
-    toast.t = setTimeout(() => t.classList.remove('show'), 1800);
+    toast.t = setTimeout(() => t.classList.remove('show'), Math.min(8000, Math.max(1800, String(msg).length * 120)));
   }
 
   const listLd = () => JSON.stringify(R.listLd(S.visible(), brand));
@@ -1669,7 +1669,7 @@
     /* 「ログインしています」「新しいパスワード」の画面のままログアウトした：ログインの欄に描き直す */
     if (!me && here && (here.key === 'login:signed' || here.key === 'login:reset')) setTimeout(() => { if (Social.me() || !here || !/^login:/.test(here.key)) return; history.replaceState(history.state, '', '#/login'); routeTo('#/login'); }, 0);
     /* data-stay：パスワードを決め直している途中（コードを確かめた時点でログインになるが、保存し終えるまで離れない） */
-    if (me && me.named !== false && here && here.key === 'login' && !viewIn.querySelector('.login-page.signed, .login-page[data-stay]')) setTimeout(leaveLogin, 0);
+    if (me && me.named !== false && here && here.key === 'login' && !viewIn.querySelector('.login-page.signed, .login-page[data-stay]') && !(me.nameUnknown && viewIn.querySelector('.login-page.naming'))) setTimeout(leaveLogin, 0);
     redrawComments();
     syncToday();
   }
@@ -1729,6 +1729,7 @@
         if (!S.addComment(id, { uid: me.uid, name: me.name, text })) return;
         track('comment_submit', { context: (S.byId(id) || { context: {} }).context.slug });
         f.elements.text.value = '';
+        const box = viewIn.querySelector('#comments textarea'); if (box) box.value = '';   // ログインのあとでフォームが描き直されていても、残さない（もう一度押して二重に送らないように）
         redrawComments();
         toast('送りました。編集者が確かめてから表示されます');
       };

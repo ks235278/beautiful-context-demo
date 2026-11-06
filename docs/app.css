@@ -535,7 +535,7 @@ body.viewing.peek #bg{visibility:visible}
 
 /* ---------- 共通 ---------- */
 .toast{position:fixed;z-index:60;left:50%;bottom:calc(var(--dockh) + 18px + env(safe-area-inset-bottom));transform:translateX(-50%);
-  padding:8px 14px;border-radius:16px;background:rgba(10,31,58,.94);color:#fff;font:11px var(--gothic);white-space:nowrap;
+  padding:8px 14px;border-radius:16px;background:rgba(10,31,58,.94);color:#fff;font:11px var(--gothic);width:max-content;max-width:calc(100vw - 32px);text-align:center;
   opacity:0;pointer-events:none;transition:opacity .18s}
 .toast.show{opacity:1}
 

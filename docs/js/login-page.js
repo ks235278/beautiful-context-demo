@@ -51,11 +51,24 @@
   let current = null, hooked = false;
   /* アカウント作成の下書き。規約を読みに出て戻っても、札と入れたものを残す（パスワードは持たない）。ログインできたら消す */
   let draft = { tab: '', name: '', email: '', agree: false };
+  /* メールのコードを待っている途中か（パスワードは置かない）。メールを読むあいだにサファリがタブを読み直しても、別の画面から戻っても、
+     コードを入れられるように。kind：'new'（アカウント作成の確かめ）・'confirm'（ログインの札での確かめ）・'recover'（パスワードを忘れた） */
+  const STEP = 'bc-lp-step';
+  const step = {
+    get() { try { const v = JSON.parse(sessionStorage.getItem(STEP)); return v && v.email && Date.now() - v.at < 3600000 ? v : null; } catch (e) { return null; } },
+    set(kind, email, existed, name) { try { sessionStorage.setItem(STEP, JSON.stringify({ kind, email, existed: !!existed, name: name || '', at: Date.now() })); } catch (e) {} },
+    touch() { const v = this.get(); if (v) this.set(v.kind, v.email, v.existed, v.name); },   // メールを送り直した
+    clear() { try { sessionStorage.removeItem(STEP); } catch (e) {} }
+  };
+  /* 同じアドレスに 60 秒以内にもう送っている（プロジェクト全体の上限とは別）：さきほどのメールのコードで続けられる */
+  const sentJustNow = (err) => !!err && err.code === 'over_email_send_rate_limit' && !/^email rate limit/i.test(err.message || '');
+  const SENT_BEFORE = '少し前に送ったメールのコードを入れてください。届いていなければ、1分ほどおいて送り直してください。';
   const hook = () => {
     if (hooked) return;
     hooked = true;
     /* Google・Apple から戻った人のログインが済んだ：名前がまだなら、この画面で聞く */
     if (window.BCBackend) BCBackend.on('auth', (ev) => {
+      if (ev.event === 'login' || ev.event === 'in') step.clear();   // ほかの道でログインした：待っていたコードは要らない
       if (current && current.page.isConnected && ev.event === 'login' && ev.needsName) current.askName();
     });
     /* Google・Apple の画面から「戻る」で帰ってきた（ページがそのまま戻る）：ボタンをもう一度押せるように */
@@ -79,7 +92,7 @@
         <div class="content">${hero()}
           <section class="lp-card lp-me" aria-label="新しいパスワード">
             <h3>新しいパスワード</h3>
-            <p class="lp-lead">メールのリンクから戻りました。<br>新しいパスワードを決めてください。</p>
+            <p class="lp-lead">メールアドレスを確かめました。<br>新しいパスワードを決めてください。</p>
             <form data-lp-newpw novalidate>
               ${pwField('パスワード', '8文字以上で入力', PW_HINT, 'new-password')}
               ${go('パスワードを変える')}
@@ -180,7 +193,7 @@
       page.dataset.wired = '1';
       const Social = window.BCSocial;
       const acc = page.querySelector('[data-lp-account]');
-      if (acc) { acc.addEventListener('click', () => ui.account()); return; }
+      if (acc) { step.clear(); acc.addEventListener('click', () => ui.account()); return; }
 
       /* 目の印：押すとパスワードが見え、もう一度で隠れる */
       page.addEventListener('click', (ev) => {
@@ -193,12 +206,21 @@
         eye.setAttribute('aria-label', on ? 'パスワードを隠す' : 'パスワードを表示');
         try { input.focus({ preventScroll: true }); } catch (e) {}
       });
-      page.addEventListener('input', (ev) => { if (ev.target.matches('input')) ev.target.removeAttribute('aria-invalid'); });
+      page.addEventListener('input', (ev) => {
+        if (!ev.target.matches('input')) return;
+        ev.target.removeAttribute('aria-invalid');
+        /* 赤い一言は、直し始めたら消す（前の失敗が残って、いまの状態に見えないように） */
+        const card = ev.target.closest('.lp-card'), m = card && card.querySelector('[data-lp-msg].bad');
+        if (m) { m.textContent = ''; m.classList.remove('bad'); }
+      });
+      /* Enter の押しっぱなしで送り続けない（ボタンは送っているあいだしか止まらない） */
+      page.addEventListener('keydown', (ev) => { if (ev.key === 'Enter' && ev.repeat && ev.target.matches('input')) ev.preventDefault(); });
 
       const done = (fresh) => {
         const me = Social.me();
+        step.clear();
         draft = { tab: '', name: '', email: '', agree: false };
-        ui.toast(`${me.name} として${fresh ? 'はじめました' : 'ログインしました'}`);
+        ui.toast(me.nameUnknown ? 'ログインしました' : `${me.name} として${fresh ? 'はじめました' : 'ログインしました'}`);
         ui.done(me);
       };
       /* 一つの札の道具：欄の出し分け・一言・送っているあいだのボタン */
@@ -220,7 +242,7 @@
            job が投げたら一言にする。handled(err) が true を返したら、その札が受け持つ */
         const busy = async (f, label, job, handled) => {
           const b = f.querySelector('button[type=submit]'), was = b.innerHTML;
-          b.disabled = true; b.textContent = label;
+          b.disabled = true; b.textContent = label; say('');
           try { return await job(); }
           catch (err) { if (!(handled && handled(err))) say(Social.message(err), true); return null; }
           finally { b.disabled = false; b.innerHTML = was; }
@@ -230,13 +252,14 @@
         /* 「コードを送り直す」：送るあいだと、送ってから 60 秒は押せない（Supabase も 60 秒に一通まで） */
         let cool = 0;
         const unlock = (b) => { clearTimeout(cool); b.disabled = false; };   // 別のアドレスになったら、待たずに押せる
+        const hold = (b, ms) => { clearTimeout(cool); b.disabled = true; cool = setTimeout(() => { b.disabled = false; }, ms || 60000); };
         const resend = (b, to) => {
           if (b.disabled) return;
           b.disabled = true;
-          Social.resendConfirm(to()).then(() => { say(`${to()} にメールを送り直しました。`); cool = setTimeout(() => { b.disabled = false; }, 60000); },
+          Social.resendConfirm(to()).then(() => { say(`${to()} にメールを送り直しました。前のメールのコードは使えなくなります。`); step.touch(); hold(b); },
             (err) => { say(Social.message(err), true); b.disabled = false; });
         };
-        return { $, say, show, focus, busy, bad, codeOf, resend, unlock };
+        return { $, say, show, focus, busy, bad, codeOf, resend, unlock, hold };
       };
 
       /* メールのリンクから戻った：新しいパスワードだけ */
@@ -248,7 +271,8 @@
           ev.preventDefault();
           const pw = renew.elements.password, why = Social.passwordProblem(pw.value);
           if (why) return k.bad(pw, why);
-          const ok = await k.busy(renew, '変えています…', () => Social.updatePassword(pw.value).then(() => true));
+          const ok = await k.busy(renew, '変えています…', () => Social.updatePassword(pw.value).then(() => true)
+            .catch((e) => { if (e.code === 'same_password') return true; throw e; }));   // 同じなら、もう入っている
           if (!ok) return;
           delete page.dataset.stay;
           ui.toast('パスワードを変えました');
@@ -287,7 +311,7 @@
         inCard.querySelector('.lp-lead').innerHTML = 'ログインしました。<br>コメントに出す名前を決めてください。';
         K1.show(f.name); K1.say(''); K1.focus(f.name.elements.name);
       };
-      const after = (r) => { if (r.needsName) askName(); else done(false); };
+      const after = (r) => { step.clear(); if (r.needsName) askName(); else done(false); };
       f.pass.addEventListener('submit', async (ev) => {
         ev.preventDefault();
         const em = f.pass.elements.email, pw = f.pass.elements.password, v = em.value.trim();
@@ -299,8 +323,8 @@
             if (err.code !== 'email_not_confirmed') return false;
             /* 登録したまま、メールを確かめていない：その場で 6桁のコードを聞く */
             if (email !== v) K1.unlock(K1.$('[data-lp-resend]'));
-            email = v; K1.show(f.confirm);
-            K1.say(`${v} の確認がまだです。登録のときに届いたメールのコードを入れるか、メールのリンクを同じブラウザで開いてください（届いていなければ「メールを送り直す」）。`);
+            email = v; step.set('confirm', v); K1.show(f.confirm);
+            K1.say(`${v} の確認がまだです。登録のときに届いたメールのコードを入れてください（届いていなければ「メールを送り直す」）。`);
             K1.focus(f.confirm.elements.code);
             return true;
           });
@@ -314,7 +338,7 @@
         if (r) after(r);
       });
       K1.$('[data-lp-forgot]').addEventListener('click', () => {
-        f.reset.elements.email.value = f.pass.elements.email.value;
+        f.reset.elements.email.value = f.pass.elements.email.value || email;
         K1.show(f.reset);
         K1.say('登録したメールアドレスに、パスワードを決め直すためのメールを送ります。');
         K1.focus(f.reset.elements.email);
@@ -323,12 +347,19 @@
         ev.preventDefault();
         const em = f.reset.elements.email, v = em.value.trim();
         if (!MAIL.test(v)) return K1.bad(em, 'メールアドレスを確かめてください');
-        const ok = await K1.busy(f.reset, '送っています…', () => Social.resetPassword(v, { returnTo: '#/login' }).then(() => true));
+        const openRecover = () => {
+          email = v; verified = false; step.set('recover', v);
+          f.recover.elements.code.closest('.lp-label').hidden = false;
+          K1.show(f.recover);
+        };
+        const ok = await K1.busy(f.reset, '送っています…', () => Social.resetPassword(v, { returnTo: '#/login' }).then(() => true), (err) => {
+          if (!sentJustNow(err)) return false;
+          openRecover(); K1.say(SENT_BEFORE); K1.focus(f.recover.elements.code);
+          return true;
+        });
         if (!ok) return;
-        email = v; verified = false;
-        f.recover.elements.code.closest('.lp-label').hidden = false;
-        K1.show(f.recover);
-        K1.say(`${v} にメールを送りました（登録の無いアドレスには届きません）。メールのコードを入れるか、メールのリンクを同じブラウザで開いてください。届かないときは、迷惑メールのフォルダも見てください。`);
+        openRecover();
+        K1.say(`${v} にメールを送りました（登録の無いアドレスには届きません）。メールのコードを入れてください。届かないときは、迷惑メールのフォルダも見てください。`);
         K1.focus(f.recover.elements.code);
       });
       f.recover.addEventListener('submit', async (ev) => {
@@ -339,10 +370,13 @@
         /* コードを確かめるとログインになる。新しいパスワードを保存し終えるまで、この画面から離れない */
         page.dataset.stay = '1';
         const r = await K1.busy(f.recover, '変えています…', async () => {
+          const again = verified;
           const v = verified ? { needsName: !Social.me() || Social.me().named === false } : await Social.verifyRecovery(email, code, { remember: remember() });
-          verified = true;
+          verified = true; step.clear();
           f.recover.elements.code.closest('.lp-label').hidden = true;   // 確かめ済み。パスワードだけ直してもう一度
-          await Social.updatePassword(pw.value);
+          /* もう一度のときの same_password は、前の一回が届いていた（返事だけ切れた）。変わっているので成功 */
+          try { await Social.updatePassword(pw.value); }
+          catch (e) { if (!(again && e.code === 'same_password')) throw e; }
           return v;
         });
         if (!r) { if (!verified) delete page.dataset.stay; return; }
@@ -354,7 +388,11 @@
       });
       inCard.querySelectorAll('[data-lp-back]').forEach((b) => b.addEventListener('click', () => {
         /* コードはもう確かめた（ログインしている）のに、パスワードを保存できずに戻る：ログインの欄は出さず、画面を離れる */
-        if (verified && Social.me()) { delete page.dataset.stay; ui.done(Social.me()); return; }
+        if (verified && Social.me()) { delete page.dataset.stay; ui.toast('パスワードは変わっていません'); ui.done(Social.me()); return; }
+        delete page.dataset.stay; verified = false;
+        if ((step.get() || {}).kind !== 'new') step.clear();   // 右の札（パソコン）で待っているコードは消さない
+        const typed = f.reset.elements.email.value.trim() || email;
+        if (typed && !f.pass.elements.email.value) f.pass.elements.email.value = typed;
         K1.show(f.pass); K1.say('');
         inCard.querySelectorAll('input[name=code]').forEach((x) => { x.value = ''; });
         K1.focus(f.pass.elements.email);
@@ -386,7 +424,7 @@
       const make = K2.$('[data-lp-make]'), conf = K2.$('[data-lp-confirm]');
       make.elements.name.value = draft.name; make.elements.email.value = draft.email; make.elements.agree.checked = draft.agree;
       make.addEventListener('input', () => { draft.name = make.elements.name.value; draft.email = make.elements.email.value; draft.agree = make.elements.agree.checked; });
-      let newMail = '';
+      let newMail = '', newExisted = false, newName = '';   // newExisted：二度目の登録（一度目の人のパスワードのままになっている）
       make.addEventListener('submit', async (ev) => {
         ev.preventDefault();
         const n = make.elements.name, em = make.elements.email, pw = make.elements.password, v = em.value.trim();
@@ -395,25 +433,63 @@
         const why = Social.passwordProblem(pw.value);
         if (why) return K2.bad(pw, why);
         if (!make.elements.agree.checked) return K2.bad(make.elements.agree, '利用規約・プライバシーポリシーへの同意が必要です');
-        const r = await K2.busy(make, '送っています…', () => Social.signUp({ name: n.value.trim(), email: v, password: pw.value, agreed: true }));
+        const r = await K2.busy(make, '送っています…', () => Social.signUp({ name: n.value.trim(), email: v, password: pw.value, agreed: true }), (err) => {
+          if (!sentJustNow(err)) return false;
+          newMail = v; newExisted = true; newName = n.value.trim(); step.set('new', v, true, newName); K2.hold(K2.$('[data-lp-resend]'));
+          K2.show(conf); K2.say(SENT_BEFORE); K2.focus(conf.elements.code);
+          return true;
+        });
         if (!r) return;
         if (!r.needsConfirm) { if (r.needsName) askName(); else done(true); return; }
-        if (newMail !== v) K2.unlock(K2.$('[data-lp-resend]'));
-        newMail = v;
+        newMail = v; newExisted = !!r.existed; newName = n.value.trim(); step.set('new', v, newExisted, newName);
+        K2.hold(K2.$('[data-lp-resend]'));   // サーバーも 60 秒に一通まで。早く押すと赤い一言になるだけ
         K2.show(conf);
-        K2.say(`${v} に確認のメールを送りました。メールのコードを入れるか、メールのリンクを同じブラウザで開いてください。届かないときは、迷惑メールのフォルダも見てください。`);
+        K2.say(`${v} に確認のメールを送りました。メールのコードを入れてください。届かないときは、迷惑メールのフォルダも見てください。`);
         K2.focus(conf.elements.code);
       });
       conf.addEventListener('submit', async (ev) => {
         ev.preventDefault();
         const code = K2.codeOf(conf);
         if (code.length < 6) return K2.bad(conf.elements.code, '6桁の数字を入れてください');
-        const r = await K2.busy(conf, '確かめています…', () => Social.confirmSignup(newMail, code));
-        if (!r) return;
+        if (newExisted) page.dataset.stay = '1';   // 確かめるとログインになる。決め直すことになるかもしれないので、まだ離れない
+        const r = await K2.busy(conf, '確かめています…', async () => {
+          const v = await Social.confirmSignup(newMail, code);
+          /* 二度目の登録で、この画面で入れた値を入れられなかった（読み直した・通信に失敗した）：
+             一度目の人のパスワードをすぐ使えなくして、決め直してもらう */
+          if (newExisted && !v.passwordSet) {
+            v.renew = true;
+            try { await Social.burnPassword(); } catch (e) {}
+            const me = Social.me();
+            if (newName && me && me.name !== newName) { try { await Social.setName(newName); v.needsName = false; } catch (e) {} }
+          }
+          return v;
+        });
+        if (!r) { delete page.dataset.stay; return; }
+        step.clear();
+        if (r.renew) { draft = { tab: '', name: '', email: '', agree: false }; location.hash = '#/login?reset=1'; return; }
+        delete page.dataset.stay;
         if (r.needsName) askName(); else done(true);
       });
       K2.$('[data-lp-resend]').addEventListener('click', (ev) => K2.resend(ev.currentTarget, () => newMail));
-      K2.$('[data-lp-back]').addEventListener('click', () => { K2.show(make); K2.say(''); conf.elements.code.value = ''; K2.focus(make.elements.name); });
+      K2.$('[data-lp-back]').addEventListener('click', () => {
+        step.clear(); newExisted = false; newName = '';
+        if (!make.elements.email.value) make.elements.email.value = newMail;
+        K2.show(make); K2.say(''); conf.elements.code.value = ''; K2.focus(make.elements.name);
+      });
+
+      /* コードを待っている途中で、タブが読み直された・別の画面から戻った：コードを入れるところから続ける */
+      const wait = step.get();
+      if (wait && !Social.me()) {
+        const again = `${wait.email} に送ったメールのコードを入れてください。届かないときは、迷惑メールのフォルダも見てください。`;
+        if (wait.kind === 'new') {
+          pick('new'); newMail = wait.email; newExisted = !!wait.existed; newName = wait.name || ''; K2.show(conf); K2.say(again);
+          const left = 60000 - (Date.now() - wait.at);
+          if (left > 0) K2.hold(K2.$('[data-lp-resend]'), left);
+        } else {
+          pick('in'); email = wait.email; K1.show(wait.kind === 'confirm' ? f.confirm : f.recover); K1.say(again);
+        }
+      }
     }
   };
+  if (window.BCBackend) hook();   // ログインの画面を開く前でも、ほかのタブ・ほかの道でのログインを聞く
 })();
