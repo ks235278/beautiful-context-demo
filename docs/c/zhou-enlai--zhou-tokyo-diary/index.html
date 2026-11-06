@@ -43,9 +43,9 @@ try { if (sessionStorage.getItem('bc-resume')) document.documentElement.classLis
 <link rel="preload" as="image" href="img/logo-layer-words.png">
 <!-- 台本も先に取りに行く（静的なページは台本より先に本文が描かれる。遅い回線で、触れて動くまでの間を縮める）。
      src と同じアドレス（?v= まで）でないと、二度取りに行く -->
-<link rel="preload" as="script" href="js/seed.js?v=174">
-<link rel="preload" as="script" href="js/app.js?v=174">
-<link rel="manifest" href="manifest.webmanifest?v=174">
+<link rel="preload" as="script" href="js/seed.js?v=183">
+<link rel="preload" as="script" href="js/app.js?v=183">
+<link rel="manifest" href="manifest.webmanifest?v=183">
 <link rel="apple-touch-icon" href="icon-180.png">
 <!-- タブと検索結果に出る小さな印。アプリの印（ホーム画面のアイコン）と同じ形 -->
 <link rel="icon" href="favicon.ico" sizes="16x16 32x32 48x48">
@@ -63,7 +63,7 @@ try { if (sessionStorage.getItem('bc-resume')) document.documentElement.classLis
 <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Lato:wght@300;400;700&display=swap" onload="this.onload=null;this.rel='stylesheet'">
 <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Lato:wght@300;400;700&display=swap"></noscript>
 <!-- ログインの画面の題（見本の太い明朝）。使う字だけを取る（text=。題の言葉を変えたら、ここの字も足す） -->
-<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@700;800;900&display=swap&text=%E3%80%81%E3%80%82%E3%81%84%E3%81%86%E3%81%8C%E3%81%8F%E3%81%97%E3%81%99%E3%81%A0%E3%81%A4%E3%81%A6%E3%81%A7%E3%81%A8%E3%81%AA%E3%81%AB%E3%81%AC%E3%81%BE%E3%82%8B%E3%82%8C%E3%82%92%E3%82%A2%E3%82%A4%E3%82%A6%E3%82%AB%E3%82%B0%E3%83%88%E3%83%AD%E3%83%B3%E4%B8%96%E4%BC%9A%E4%BD%9C%E5%87%BA%E6%96%87%E6%96%B0%E6%98%A0%E7%94%BB%E7%95%8C%E8%84%88%E8%91%89%E8%A6%8B%E8%A8%80" onload="this.onload=null;this.rel='stylesheet'">
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@700;800;900&display=swap&text=Geglo%E3%80%81%E3%80%82%E3%80%8C%E3%80%8D%E3%81%82%E3%81%84%E3%81%86%E3%81%88%E3%81%8A%E3%81%8B%E3%81%8C%E3%81%8F%E3%81%91%E3%81%93%E3%81%97%E3%81%99%E3%81%9B%E3%81%9F%E3%81%A0%E3%81%A3%E3%81%A4%E3%81%A6%E3%81%A7%E3%81%A8%E3%81%AA%E3%81%AB%E3%81%AC%E3%81%AE%E3%81%AF%E3%81%B8%E3%81%B9%E3%81%BE%E3%81%BF%E3%82%82%E3%82%86%E3%82%89%E3%82%8A%E3%82%8B%E3%82%8C%E3%82%92%E3%82%93%E3%82%A2%E3%82%A4%E3%82%A6%E3%82%AB%E3%82%AF%E3%82%B0%E3%82%B3%E3%82%B7%E3%82%B8%E3%82%B9%E3%82%BB%E3%82%BF%E3%83%86%E3%83%87%E3%83%88%E3%83%89%E3%83%90%E3%83%96%E3%83%97%E3%83%9A%E3%83%9E%E3%83%A1%E3%83%A9%E3%83%AD%E3%83%B3%E3%83%BB%E3%83%BC%E4%B8%80%E4%B8%96%E4%BC%9A%E4%BD%9C%E4%BE%A1%E4%BF%9D%E4%BF%A1%E5%80%A4%E5%83%8F%E5%85%88%E5%85%B8%E5%87%BA%E5%88%A9%E5%89%8A%E5%8A%9B%E5%8C%96%E5%93%81%E5%A0%B1%E5%A4%96%E5%AD%98%E5%AE%B6%E6%80%9D%E6%8E%A2%E6%96%87%E6%96%B0%E6%96%B9%E6%98%A0%E6%9E%90%E6%9E%9C%E6%A4%9C%E6%B7%B1%E7%82%B9%E7%89%A9%E7%94%9F%E7%94%A8%E7%94%BB%E7%95%8C%E7%99%BD%E7%9F%A5%E7%A4%BA%E7%AB%A0%E7%B4%84%E7%B4%A2%E7%B5%90%E8%84%88%E8%91%89%E8%A1%A8%E8%A6%8B%E8%A6%8F%E8%A6%96%E8%A7%A3%E8%A8%80%E8%AA%9E%E8%AA%AD%E8%AA%B0%E8%B1%8A%E9%80%81%E9%80%9A%E9%83%A8%E9%99%A4%E9%9D%A2%EF%BC%88%EF%BC%89" onload="this.onload=null;this.rel='stylesheet'">
 <!-- アクセス解析（Google アナリティクス 4）。表示を待たせないよう非同期で読む。何を送るかは 利用規約・プライバシー に書いた。
      本番のアドレスで開いたときだけ数える（静的なページの書き出しや、手元での確かめは数えない）。
      ページの表示は app.js が画面の替わるたびに送る（ここで送ると、表紙と # の先の道が数えられない） -->
@@ -76,13 +76,13 @@ if (location.hostname === 'beautifulcontext.com'){
   document.head.appendChild(ga);
 }
 </script>
-<script src="js/theme.js?v=174"></script>
-<link rel="stylesheet" href="app.css?v=174">
+<script src="js/theme.js?v=183"></script>
+<link rel="stylesheet" href="app.css?v=183">
 <!-- 読む画面の使い勝手（2026.10.24）。app.css のすぐあと -->
-<link rel="stylesheet" href="ux.css?v=174">
-<link rel="stylesheet" href="fade.css?v=174">
+<link rel="stylesheet" href="ux.css?v=183">
+<link rel="stylesheet" href="fade.css?v=183">
 <!-- editorial-ink（紙・墨・金）：◆ の罫と、紙の上か絵の上かで変わる決まり。ux.css のあと -->
-<link rel="stylesheet" href="ink.css?v=174">
+<link rel="stylesheet" href="ink.css?v=183">
 <!-- 台本（js）が揃うまで：まだ押しても動かないもの（‹・絵の横の ‹ ›・つながりを辿る）を少し薄くし、下の帯の上の縁に細い金の線を走らせる。
      app.js が最後に body.app-ready を付けて外す。すぐ揃うときは何も見せない（0.3 秒待ってから出す） -->
 <style>
@@ -94,7 +94,7 @@ body:not(.app-ready) .dock::before{content:"";position:absolute;z-index:3;left:0
 @keyframes bc-load{from{transform:translateX(0)}to{transform:translateX(257%)}}
 </style>
 </head>
-<body class="stage-uni viewing route" data-route="#/c/zhou-enlai--zhou-tokyo-diary">
+<body class="stage-uni viewing has-route route" data-route="#/c/zhou-enlai--zhou-tokyo-diary">
 <!-- 台本が届く前に触れた一回を覚えておく（つながりを辿る・‹・絵の横の ‹ ›）。app.js が起き上がったら、その一回を行う。
      遅い回線で「押したのに何も起きない」を無くす -->
 <script>
@@ -132,6 +132,8 @@ document.addEventListener('click', function (e) {
 <div class="dock" id="dock">
   <div class="map" id="map"></div>
   <p class="sel-hint" id="selHint" aria-live="polite"></p>
+  <!-- 携帯：つながりを辿るの行き先を一行で（パソコンは次の札 next-peek） -->
+  <p class="dock-next" id="dockNext"></p>
   <p class="dock-brand" id="dockBrand">BEAUTIFUL CONTEXT</p>
   <!-- 読む画面（Today・コンテクスト・作品）では NEXT UNIVERSE だけ。戻るのは左の端から右へ払う（iPhone と同じ）か、上の ‹。
        ReMixIt!（つながりを創る）は編集の側の道具なので、UniverseIt! の画面とメニューに置く -->
@@ -192,7 +194,7 @@ document.addEventListener('click', function (e) {
   <div class="view-in" id="viewIn"><!--bc-body-->
       <article class="page cpage">
         <button type="button" class="back-close" data-close="" aria-label="Today's Editor's Choice へ戻る" title="Today's Editor's Choice へ"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 4.5 7.5 12l7.5 7.5"></path></svg></button>
-        <div class="duo-hero"><a class="c-logo on-paper" href="#/" data-top="" aria-label="BEAUTIFUL CONTEXT（TOP へ戻る）"><img src="img/logo-navy.png" alt=""></a><div class="duo"><button type="button" class="duo-go" data-step="0" aria-label="周恩来の作品ページへ"><div class="art"><img src="img/works/zhou-enlai.jpg" alt="周恩来" data-k="zhou-enlai" decoding="async" fetchpriority="low"></div></button><button type="button" class="duo-go" data-step="2" aria-label="周恩来『十九歳の東京日記』の作品ページへ"><div class="art"><img src="img/zhou-diary.jpg" alt="周恩来『十九歳の東京日記』" data-k="zhou-tokyo-diary" decoding="async" fetchpriority="low"></div></button><i class="swap" aria-hidden="true">↔</i></div><button type="button" class="ctx-nav prev" data-ctx-go="-1" aria-label="一つ前のつながりへ">‹</button><button type="button" class="ctx-nav next" data-ctx-go="1" aria-label="次のつながりへ">›</button></div>
+        <div class="duo-hero"><a class="c-logo on-paper" href="#/" data-top="" aria-label="BEAUTIFUL CONTEXT（TOP へ戻る）"><img src="img/logo-navy.png" alt=""></a><span class="only-sp"><button type="button" class="login-chip" data-login="">Login</button></span><div class="duo"><button type="button" class="duo-go" data-step="0" aria-label="周恩来の作品ページへ"><div class="art"><img src="img/works/zhou-enlai.jpg" alt="周恩来" data-k="zhou-enlai" decoding="async" fetchpriority="low"></div></button><button type="button" class="duo-go" data-step="2" aria-label="周恩来『十九歳の東京日記』の作品ページへ"><div class="art"><img src="img/zhou-diary.jpg" alt="周恩来『十九歳の東京日記』" data-k="zhou-tokyo-diary" decoding="async" fetchpriority="low"></div></button><i class="swap" aria-hidden="true">↔</i></div><button type="button" class="ctx-nav prev" data-ctx-go="-1" aria-label="一つ前のつながりへ">‹</button><button type="button" class="ctx-nav next" data-ctx-go="1" aria-label="次へ：周恩来">›</button></div>
         <section class="context-lead">
           
           <div class="ed-row">
@@ -207,13 +209,13 @@ document.addEventListener('click', function (e) {
         
         <section class="src-cards" aria-label="つながる二つの作品">
           <p class="meta">SOURCE CONNECTION</p>
-          <div class="src-row"><button type="button" class="src" data-step="0" aria-label="周恩来の作品ページへ"><img src="img/works/zhou-enlai.jpg" alt="" loading="lazy" decoding="async"><span class="src-t"><small>人物・1898</small><b>周恩来</b><em>中華人民共和国 初代国務院総理（1898–1976）</em><span class="src-s">1917年から1919年まで日本に留学し、帰国後は革命運動に加わった。1949年の建国から亡くなるまで、政務院総理、のち国務院総理を務めた。</span><i aria-hidden="true">作品ページへ　→</i></span></button><span class="src-link" aria-hidden="true">↔</span><button type="button" class="src" data-step="2" aria-label="周恩来『十九歳の東京日記』の作品ページへ"><img src="img/zhou-diary.jpg" alt="" loading="lazy" decoding="async"><span class="src-t"><small>書籍・1918</small><b>周恩来『十九歳の東京日記』</b><em>周恩来（矢吹晋 監修・鈴木博 訳）</em><span class="src-s">日本に留学していた周恩来が、1918年の東京で書いた日記。日比谷公園、靖国神社、浅草など、19歳の青年が見て回った百年前の東京が記されている。</span><i aria-hidden="true">作品ページへ　→</i></span></button></div>
+          <div class="src-row"><button type="button" class="src" data-step="0" aria-label="周恩来の作品ページへ"><img src="img/thumb/zhou-enlai.jpg" alt="" loading="lazy" decoding="async"><span class="src-t"><small>人物・1898</small><b>周恩来</b><em>中華人民共和国 初代国務院総理（1898–1976）</em><span class="src-s">1917年から1919年まで日本に留学し、帰国後は革命運動に加わった。1949年の建国から亡くなるまで、政務院総理、のち国務院総理を務めた。</span><i aria-hidden="true">作品ページへ　→</i></span></button><span class="src-link" aria-hidden="true">↔</span><button type="button" class="src" data-step="2" aria-label="周恩来『十九歳の東京日記』の作品ページへ"><img src="img/thumb/zhou-diary.jpg" alt="" loading="lazy" decoding="async"><span class="src-t"><small>書籍・1918</small><b>周恩来『十九歳の東京日記』</b><em>周恩来（矢吹晋 監修・鈴木博 訳）</em><span class="src-s">日本に留学していた周恩来が、1918年の東京で書いた日記。日比谷公園、靖国神社、浅草など、19歳の青年が見て回った百年前の東京が記されている。</span><i aria-hidden="true">作品ページへ　→</i></span></button></div>
         </section>
         
         <section class="journey" aria-label="CONTEXT JOURNEY">
           <p class="meta">CONTEXT JOURNEY<a href="#/list">一覧で見る　→</a></p>
           <p class="jr-sub">このつながりから、たどる道</p>
-          <ol class="jr"><li><a class="jr-row" href="c/kanyoro--nurungji/"><i class="jr-dot"></i><span class="jr-t"><b>ここまで</b><small>神田の中国料理と、赤坂の韓国料理。</small></span><span class="jr-pics" aria-hidden="true"><img src="img/kanyoro.jpg" alt="" loading="lazy" decoding="async"><img src="img/works/nurungji.jpg" alt="" loading="lazy" decoding="async"></span></a></li><li class="now"><span class="jr-row" aria-current="step"><i class="jr-dot"></i><span class="jr-t"><b>いまここ</b><small>のちの総理は、十九歳で東京にいた。</small></span><span class="jr-pics" aria-hidden="true"><img src="img/works/zhou-enlai.jpg" alt="" loading="lazy" decoding="async"><img src="img/zhou-diary.jpg" alt="" loading="lazy" decoding="async"></span></span></li><li><a class="jr-row" href="c/minakata-mandala--minakata-toki-letters/"><i class="jr-dot"></i><span class="jr-t"><b>つぎへ</b><small>その図は、手紙に描かれていた。</small></span><span class="jr-pics" aria-hidden="true"><img src="img/works/minakata-mandala.jpg" alt="" loading="lazy" decoding="async"><img src="img/works/minakata-toki-letters.jpg" alt="" loading="lazy" decoding="async"></span></a></li><li><a class="jr-row" href="c/james-j-gibson--affordance/"><i class="jr-dot"></i><span class="jr-t"><b>さらに</b><small>椅子は「座る」ことを差し出している。</small></span><span class="jr-pics" aria-hidden="true"><img src="img/works/james-j-gibson.jpg" alt="" loading="lazy" decoding="async"><img src="img/works/affordance.jpg" alt="" loading="lazy" decoding="async"></span></a></li><li><a class="jr-row" href="c/think-different--uniqlock/"><i class="jr-dot"></i><span class="jr-t"><b>その先へ</b><small>商品の説明をせず、ブランドを語った。</small></span><span class="jr-pics" aria-hidden="true"><img src="img/works/think-different.jpg" alt="" loading="lazy" decoding="async"><img src="img/works/uniqlock.jpg" alt="" loading="lazy" decoding="async"></span></a></li></ol>
+          <ol class="jr"><li><a class="jr-row" href="c/kanyoro--nurungji/"><i class="jr-dot"></i><span class="jr-t"><b>ここまで</b><small>神田の中国料理と、赤坂の韓国料理。</small></span><span class="jr-pics" aria-hidden="true"><img src="img/thumb/kanyoro.jpg" alt="" loading="lazy" decoding="async"><img src="img/thumb/nurungji.jpg" alt="" loading="lazy" decoding="async"></span></a></li><li class="now"><span class="jr-row" aria-current="step"><i class="jr-dot"></i><span class="jr-t"><b>いまここ</b><small>のちの総理は、十九歳で東京にいた。</small></span><span class="jr-pics" aria-hidden="true"><img src="img/thumb/zhou-enlai.jpg" alt="" loading="lazy" decoding="async"><img src="img/thumb/zhou-diary.jpg" alt="" loading="lazy" decoding="async"></span></span></li><li><a class="jr-row" href="c/minakata-mandala--minakata-toki-letters/"><i class="jr-dot"></i><span class="jr-t"><b>つぎへ</b><small>その図は、手紙に描かれていた。</small></span><span class="jr-pics" aria-hidden="true"><img src="img/thumb/minakata-mandala.jpg" alt="" loading="lazy" decoding="async"><img src="img/thumb/minakata-toki-letters.jpg" alt="" loading="lazy" decoding="async"></span></a></li><li><a class="jr-row" href="c/james-j-gibson--affordance/"><i class="jr-dot"></i><span class="jr-t"><b>さらに</b><small>椅子は「座る」ことを差し出している。</small></span><span class="jr-pics" aria-hidden="true"><img src="img/thumb/james-j-gibson.jpg" alt="" loading="lazy" decoding="async"><img src="img/thumb/affordance.jpg" alt="" loading="lazy" decoding="async"></span></a></li><li><a class="jr-row" href="c/think-different--uniqlock/"><i class="jr-dot"></i><span class="jr-t"><b>その先へ</b><small>商品の説明をせず、ブランドを語った。</small></span><span class="jr-pics" aria-hidden="true"><img src="img/thumb/think-different.jpg" alt="" loading="lazy" decoding="async"><img src="img/thumb/uniqlock.jpg" alt="" loading="lazy" decoding="async"></span></a></li></ol>
         </section>
         <article class="context-body" id="story">
           <p class="meta">CONTEXT STORY</p>
@@ -242,7 +244,7 @@ document.addEventListener('click', function (e) {
         </form>
         <p class="cm-note">送るときに、名前を一つ作ります。コメントは編集者が確かめてから表示されます。</p>
       </section>
-          <p class="meta more-label">同じルーツのコンテクスト</p><div class="ctx-cards"><a class="ctx-card" href="c/kanyoro--zhou-tokyo-diary/" aria-label="百年前の留学生は、神田の街を歩いていた。：中国名菜『漢陽楼』 ＋ 周恩来『十九歳の東京日記』"><span class="cc-pics" aria-hidden="true"><img src="img/kanyoro.jpg" alt="" loading="lazy" decoding="async"><img src="img/zhou-diary.jpg" alt="" loading="lazy" decoding="async"></span><span class="cc-t"><small><span class="rn">［若き日の東京］</span><i class="rt">約45秒</i></small><b>百年前の留学生は、神田の街を歩いていた。</b><em>中国名菜『漢陽楼』 ＋ <span class="nb">周恩来『十九歳の東京日記』</span></em></span><span class="cc-go" aria-hidden="true">›</span></a><a class="ctx-card" href="c/natsume-soseki--zhou-tokyo-diary/" aria-label="漱石はロンドンで、周恩来は東京で書いた。：夏目漱石 ＋ 周恩来『十九歳の東京日記』"><span class="cc-pics" aria-hidden="true"><img src="img/works/natsume-soseki.jpg" alt="" loading="lazy" decoding="async"><img src="img/zhou-diary.jpg" alt="" loading="lazy" decoding="async"></span><span class="cc-t"><small><span class="rn">［異国の都の記録］</span><i class="rt">約40秒</i></small><b>漱石はロンドンで、周恩来は東京で書いた。</b><em>夏目漱石 ＋ <span class="nb">周恩来『十九歳の東京日記』</span></em></span><span class="cc-go" aria-hidden="true">›</span></a></div>
+          <p class="meta more-label">同じ作品から出るつながり</p><div class="ctx-cards"><a class="ctx-card" href="c/kanyoro--zhou-tokyo-diary/" aria-label="百年前の留学生は、神田の街を歩いていた。：中国名菜『漢陽楼』 ＋ 周恩来『十九歳の東京日記』"><span class="cc-pics" aria-hidden="true"><img src="img/thumb/kanyoro.jpg" alt="" loading="lazy" decoding="async"><img src="img/thumb/zhou-diary.jpg" alt="" loading="lazy" decoding="async"></span><span class="cc-t"><small><span class="rn">［若き日の東京］</span><i class="rt">約45秒</i></small><b>百年前の留学生は、神田の街を歩いていた。</b><em>中国名菜『漢陽楼』 ＋ <span class="nb">周恩来『十九歳の東京日記』</span></em></span><span class="cc-go" aria-hidden="true">›</span></a><a class="ctx-card" href="c/natsume-soseki--zhou-tokyo-diary/" aria-label="漱石はロンドンで、周恩来は東京で書いた。：夏目漱石 ＋ 周恩来『十九歳の東京日記』"><span class="cc-pics" aria-hidden="true"><img src="img/thumb/natsume-soseki.jpg" alt="" loading="lazy" decoding="async"><img src="img/thumb/zhou-diary.jpg" alt="" loading="lazy" decoding="async"></span><span class="cc-t"><small><span class="rn">［異国の都の記録］</span><i class="rt">約40秒</i></small><b>漱石はロンドンで、周恩来は東京で書いた。</b><em>夏目漱石 ＋ <span class="nb">周恩来『十九歳の東京日記』</span></em></span><span class="cc-go" aria-hidden="true">›</span></a></div>
           
       <aside class="c-ad" aria-label="広告">
         <a href="#/ad">
@@ -255,7 +257,7 @@ document.addEventListener('click', function (e) {
           
           <section class="next-ctx" aria-label="次に読むつながり">
             <p class="meta">NEXT CONTEXT<small>次に読むつながり</small></p>
-            <a class="ctx-card" href="c/minakata-mandala--minakata-toki-letters/" aria-label="その図は、手紙に描かれていた。：南方曼荼羅 ＋ 『南方熊楠 土宜法竜 往復書簡』"><span class="cc-pics" aria-hidden="true"><img src="img/works/minakata-mandala.jpg" alt="" loading="lazy" decoding="async"><img src="img/works/minakata-toki-letters.jpg" alt="" loading="lazy" decoding="async"></span><span class="cc-t"><small><span class="rn">［手紙の中の曼荼羅］</span><i class="rt">約40秒</i></small><b>その図は、手紙に描かれていた。</b><em>南方曼荼羅 ＋ <span class="nb">『南方熊楠 土宜法竜 往復書簡』</span></em></span><span class="cc-go" aria-hidden="true">›</span></a>
+            <a class="ctx-card" href="c/minakata-mandala--minakata-toki-letters/" aria-label="その図は、手紙に描かれていた。：南方曼荼羅 ＋ 『南方熊楠 土宜法竜 往復書簡』"><span class="cc-pics" aria-hidden="true"><img src="img/thumb/minakata-mandala.jpg" alt="" loading="lazy" decoding="async"><img src="img/thumb/minakata-toki-letters.jpg" alt="" loading="lazy" decoding="async"></span><span class="cc-t"><small><span class="rn">［手紙の中の曼荼羅］</span><i class="rt">約40秒</i></small><b>その図は、手紙に描かれていた。</b><em>南方曼荼羅 ＋ <span class="nb">『南方熊楠 土宜法竜 往復書簡』</span></em></span><span class="cc-go" aria-hidden="true">›</span></a>
           </section>
           
           <section class="ctx-rail" aria-label="この先のつながり">
@@ -264,142 +266,142 @@ document.addEventListener('click', function (e) {
         <li class="stop first">
           
           
-          <a class="fstop" href="w/zhou-tokyo-diary/">
-            <span class="st-img"><img src="img/zhou-diary.jpg" alt="周恩来『十九歳の東京日記』" data-k="zhou-tokyo-diary" loading="lazy" decoding="async"></span>
-            <span class="st-txt"><small>書籍・1918年</small>
-              <b>周恩来『十九歳の東京日記』</b><span>日本に留学していた周恩来が、1918年の東京で書いた日記。日比谷公園、靖国神社、浅草など、19歳の青年が見て回った百年前の東京が記されている。</span></span>
+          <a class="fstop" href="w/minakata-toki-letters/?c=minakata-mandala--minakata-toki-letters">
+            <span class="st-img"><img src="img/works/minakata-toki-letters.jpg" alt="『南方熊楠 土宜法竜 往復書簡』" data-k="minakata-toki-letters" loading="lazy" decoding="async"></span>
+            <span class="st-txt"><small>書籍・1990年</small>
+              <b>『南方熊楠 土宜法竜 往復書簡』</b><span>ロンドンで出会った南方熊楠と、真言宗の僧・土宜法龍が交わした手紙をまとめたもの。二人は仏教と科学をめぐって長い議論を交わした。</span></span>
           </a>
         </li>
         <li class="stop">
           
-          <a class="seg" href="c/natsume-soseki--zhou-tokyo-diary/">
+          <a class="seg" href="c/james-j-gibson--affordance/">
             
-            <small>［異国の都の記録］　似ている</small>
-            <b><span class="seg-copy">漱石はロンドンで、周恩来は東京で書いた。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
-          <a class="fstop" href="w/natsume-soseki/?c=natsume-soseki--zhou-tokyo-diary">
-            <span class="st-img"><img src="img/works/natsume-soseki.jpg" alt="夏目漱石" data-k="natsume-soseki" loading="lazy" decoding="async"></span>
-            <span class="st-txt"><small>人物・1867年</small>
-              <b>夏目漱石</b><span>『吾輩は猫である』『坊っちゃん』『草枕』『こころ』の作家。熊本の第五高等学校で教えたのち、1900年から英国に留学した。</span></span>
+            <small>［名づけた人］　作者と作品</small>
+            <b><span class="seg-copy">椅子は「座る」ことを差し出している。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
+          <a class="fstop" href="w/james-j-gibson/?c=james-j-gibson--affordance">
+            <span class="st-img"><img src="img/works/james-j-gibson.jpg" alt="ジェームズ・J・ギブソン" data-k="james-j-gibson" loading="lazy" decoding="async"></span>
+            <span class="st-txt"><small>人物・1904年</small>
+              <b>ジェームズ・J・ギブソン</b><span>アメリカの知覚心理学者。環境が動物に差し出す行為の可能性を「アフォーダンス」と名づけた。</span></span>
           </a>
         </li>
         <li class="stop">
           
-          <a class="seg" href="c/kusamakura--natsume-soseki/">
+          <a class="seg" href="c/think-different--uniqlock/">
             
-            <small>［旅が生んだ『草枕』］　作者と作品</small>
-            <b><span class="seg-copy">「非人情」の小説には、漱石の芸術論が表れた。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
-          <a class="fstop" href="w/kusamakura/?c=kusamakura--natsume-soseki">
-            <span class="st-img"><img src="img/kusamakura.jpg" alt="夏目漱石『草枕』" data-k="kusamakura" loading="lazy" decoding="async"></span>
-            <span class="st-txt"><small>書籍・1906年</small>
-              <b>夏目漱石『草枕』</b><span>「智に働けば角が立つ。情に棹させば流される。」で始まる、画工が非人情の世界を求めて旅する小説。</span></span>
+            <small>［時代を刻んだ広告］　似ている</small>
+            <b><span class="seg-copy">商品の説明をせず、ブランドを語った。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
+          <a class="fstop" href="w/uniqlock/?c=think-different--uniqlock">
+            <span class="st-img"><img src="img/works/uniqlock.jpg" alt="UNIQLOCK" data-k="uniqlock" loading="lazy" decoding="async"></span>
+            <span class="st-txt"><small>CM・2007年</small>
+              <b>UNIQLOCK</b><span>ユニクロのウェブ広告。音楽とダンスと時計を組み合わせ、時刻を刻み続けるブログパーツとして世界に広まった。</span></span>
           </a>
         </li>
         <li class="stop">
           
-          <a class="seg" href="c/glenn-gould--kusamakura/">
+          <a class="seg" href="c/peter-handke--nobel-literature-laureates/">
             
-            <small>［非人情という共通言語］　事実</small>
-            <b><span class="seg-copy">枕元にあった二冊は、聖書と『草枕』だった。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
-          <a class="fstop" href="w/glenn-gould/?c=glenn-gould--kusamakura">
-            <span class="st-img"><img src="img/gould.jpg" alt="グレン・グールド" data-k="glenn-gould" loading="lazy" decoding="async"></span>
-            <span class="st-txt"><small>人物・1932年</small>
-              <b>グレン・グールド</b><span>バッハ演奏で知られ、クラシック音楽における「演奏とは何か」という考え方そのものを変えた20世紀を代表するピアニスト。</span></span>
+            <small>［2019年の受賞］　事実</small>
+            <b><span class="seg-copy">『天使の詩』の脚本家がノーベル文学賞を得た。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
+          <a class="fstop" href="w/peter-handke/?c=peter-handke--nobel-literature-laureates">
+            <span class="st-img"><img src="img/works/peter-handke.jpg" alt="ペーター・ハントケ" data-k="peter-handke" loading="lazy" decoding="async"></span>
+            <span class="st-txt"><small>人物</small>
+              <b>ペーター・ハントケ</b><span>オーストリアの作家・劇作家。『ベルリン・天使の詩』の脚本に加わり、2019年にノーベル文学賞を受賞した。</span></span>
           </a>
         </li>
         <li class="stop">
           
-          <a class="seg" href="c/glenn-gould--goldberg-variations/">
+          <a class="seg" href="c/wings-of-desire--peter-handke/">
             
-            <small>［デビューと再録音］　事実</small>
-            <b><span class="seg-copy">デビュー盤と同じ曲を、死の前年に録り直した。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
-          <a class="fstop" href="w/goldberg-variations/?c=glenn-gould--goldberg-variations">
-            <span class="st-img"><img src="img/works/goldberg-variations.jpg" alt="バッハ『ゴールドベルク変奏曲』" data-k="goldberg-variations" loading="lazy" decoding="async"></span>
-            <span class="st-txt"><small>音楽・1741年</small>
-              <b>バッハ『ゴールドベルク変奏曲』</b><span>アリアと30の変奏からなる鍵盤作品。1741年ごろに出版された。グレン・グールドの1955年の録音によって、20世紀に広く聴かれる曲になった。</span></span>
+            <small>［天使の言葉］　事実</small>
+            <b><span class="seg-copy">劇中の詩を書いたのはのちのノーベル賞作家。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
+          <a class="fstop" href="w/wings-of-desire/?c=wings-of-desire--peter-handke">
+            <span class="st-img"><img src="img/works/wings-of-desire.jpg" alt="映画『ベルリン・天使の詩』" data-k="wings-of-desire" loading="lazy" decoding="async"></span>
+            <span class="st-txt"><small>映画・ドラマ・1987年</small>
+              <b>映画『ベルリン・天使の詩』</b><span>壁のあった時代のベルリンで、人々の心の声を聞き続けてきた天使が、人間になることを選ぶ物語。</span></span>
           </a>
         </li>
         <li class="stop">
           
-          <a class="seg" href="c/goldberg-variations--brad-mehldau/">
+          <a class="seg" href="c/bruno-ganz--wings-of-desire/">
             
-            <small>［バッハを経由して］　ハブ</small>
-            <b><span class="seg-copy">ゴールドベルクの主題にジャズ奏者が応えた。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
-          <a class="fstop" href="w/brad-mehldau/?c=goldberg-variations--brad-mehldau">
-            <span class="st-img"><img src="img/works/brad-mehldau.jpg" alt="ブラッド・メルドー" data-k="brad-mehldau" loading="lazy" decoding="async"></span>
-            <span class="st-txt"><small>音楽・1970年</small>
-              <b>ブラッド・メルドー</b><span>アメリカのジャズ・ピアニスト。ピアノ・トリオでの演奏のほか、バッハやロックの曲を独自に解釈した録音でも知られる。</span></span>
-          </a>
-        </li>
-        <li class="stop branch">
-          
-          <a class="seg" href="c/kusamakura--nakoikan/">
-            <span class="seg-from">草枕 から分岐</span>
-            <small>［小説の舞台を訪ねる］　事実</small>
-            <b><span class="seg-copy">「那古井」は、地図の上にもあった。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
-          <a class="fstop" href="w/nakoikan/?c=kusamakura--nakoikan">
-            <span class="st-img"><img src="img/nakoikan.jpg" alt="小天温泉『那古井館』" data-k="nakoikan" loading="lazy" decoding="async"></span>
-            <span class="st-txt"><small>宿・1868年</small>
-              <b>小天温泉『那古井館』</b><span>明治元年創業を掲げる、熊本・小天温泉の宿。</span></span>
+            <small>［天使ダミエル］　作者と作品</small>
+            <b><span class="seg-copy">人の心の声を聞く天使はやがて人間になった。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
+          <a class="fstop" href="w/bruno-ganz/?c=bruno-ganz--wings-of-desire">
+            <span class="st-img"><img src="img/works/bruno-ganz.jpg" alt="ブルーノ・ガンツ" data-k="bruno-ganz" loading="lazy" decoding="async"></span>
+            <span class="st-txt"><small>人物</small>
+              <b>ブルーノ・ガンツ</b><span>スイス出身の俳優。『ベルリン・天使の詩』の天使ダミエル、『ヒトラー〜最期の12日間〜』のヒトラーを演じた。</span></span>
           </a>
         </li>
         <li class="stop">
           
-          <a class="seg" href="c/tsurunoyu--nakoikan/">
+          <a class="seg" href="c/downfall--bruno-ganz/">
             
-            <small>［湯宿と物語］　似ている</small>
-            <b><span class="seg-copy">小説に描かれた湯と、山奥に守られた湯。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
-          <a class="fstop" href="w/tsurunoyu/?c=tsurunoyu--nakoikan">
-            <span class="st-img"><img src="img/works/tsurunoyu.jpg" alt="乳頭温泉郷「鶴の湯」" data-k="tsurunoyu" loading="lazy" decoding="async"></span>
-            <span class="st-txt"><small>宿</small>
-              <b>乳頭温泉郷「鶴の湯」</b><span>秋田県の乳頭温泉郷でもっとも古いとされる湯宿。茅葺き屋根の長屋と白濁の湯で知られる。</span></span>
+            <small>［ヒトラーを演じた人］　作者と作品</small>
+            <b><span class="seg-copy">天使を演じた俳優が、独裁者を演じた。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
+          <a class="fstop" href="w/downfall/?c=downfall--bruno-ganz">
+            <span class="st-img"><img src="img/works/downfall.jpg" alt="映画『ヒトラー〜最期の12日間〜』" data-k="downfall" loading="lazy" decoding="async"></span>
+            <span class="st-txt"><small>映画・ドラマ・2004年</small>
+              <b>映画『ヒトラー〜最期の12日間〜』</b><span>ベルリン陥落直前、総統地下壕で過ごしたヒトラーの最期の日々を、秘書の証言などをもとに描いたドイツ映画。</span></span>
           </a>
         </li>
         <li class="stop">
           
-          <a class="seg" href="c/tazawako--tsurunoyu/">
+          <a class="seg" href="c/the-bunker--downfall/">
             
-            <small>［仙北の湖と秘湯］　ハブ</small>
-            <b><span class="seg-copy">日本一深い湖から、山の奥の湯宿へ。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
-          <a class="fstop" href="w/tazawako/?c=tazawako--tsurunoyu">
-            <span class="st-img"><img src="img/works/tazawako.jpg" alt="田沢湖" data-k="tazawako" loading="lazy" decoding="async"></span>
-            <span class="st-txt"><small>場所</small>
-              <b>田沢湖</b><span>秋田県仙北市の湖。水深は日本一で、湖畔には辰子の伝説が残る。</span></span>
+            <small>［同じ地下壕］　ハブ</small>
+            <b><span class="seg-copy">地下壕の最後の日々を、二本の映画が描いた。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
+          <a class="fstop" href="w/the-bunker-1981/?c=the-bunker--downfall">
+            <span class="st-img"><img src="img/works/the-bunker-1981.jpg" alt="テレビ映画『ザ・バンカー』" data-k="the-bunker-1981" loading="lazy" decoding="async"></span>
+            <span class="st-txt"><small>映画・ドラマ・1981年</small>
+              <b>テレビ映画『ザ・バンカー』</b><span>ベルリンの総統地下壕で過ごしたヒトラーの最後の日々を、ジェームズ・P・オドネルの著書をもとに描いたアメリカのテレビ映画。アンソニー・ホプキンスがヒトラーを演じ、エミー賞（主演男優賞）を受けた。</span></span>
           </a>
         </li>
         <li class="stop">
           
-          <a class="seg" href="c/iris--tazawako/">
+          <a class="seg" href="c/anthony-hopkins--the-bunker/">
             
-            <small>［ロケ地になった湖］　事実</small>
-            <b><span class="seg-copy">韓国ドラマのロケ地に、秋田の田沢湖もあった。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
-          <a class="fstop" href="w/iris/?c=iris--tazawako">
-            <span class="st-img"><img src="img/works/iris.jpg" alt="韓国ドラマ『アイリス』" data-k="iris" loading="lazy" decoding="async"></span>
-            <span class="st-txt"><small>ドラマ・2009年</small>
-              <b>韓国ドラマ『アイリス』</b><span>韓国の特殊工作員を主人公にしたアクション・ドラマ。秋田県でのロケが行われ、日本でも話題になった。</span></span>
-          </a>
-        </li>
-        <li class="stop branch">
-          
-          <a class="seg" href="c/tanaka-isson--kusamakura/">
-            <span class="seg-from">草枕 から分岐</span>
-            <small>［世を離れて描く］　似ている</small>
-            <b><span class="seg-copy">小説の画工を、生きたかのような画家。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
-          <a class="fstop" href="w/tanaka-isson/?c=tanaka-isson--kusamakura">
-            <span class="st-img"><img src="img/works/tanaka-isson.jpg" alt="田中一村" data-k="tanaka-isson" loading="lazy" decoding="async"></span>
-            <span class="st-txt"><small>人物・1908年</small>
-              <b>田中一村</b><span>50歳で奄美大島に移り住み、亜熱帯の植物や鳥を描き続けた日本画家。中央の画壇から離れて暮らした。</span></span>
+            <small>［ヒトラーとレクター］　作者と作品</small>
+            <b><span class="seg-copy">レクター博士も、ヒトラーを演じていた。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
+          <a class="fstop" href="w/anthony-hopkins/?c=anthony-hopkins--the-bunker">
+            <span class="st-img"><img src="img/works/anthony-hopkins.jpg" alt="アンソニー・ホプキンス" data-k="anthony-hopkins" loading="lazy" decoding="async"></span>
+            <span class="st-txt"><small>人物</small>
+              <b>アンソニー・ホプキンス</b><span>英国ウェールズ出身の俳優。『羊たちの沈黙』のハンニバル・レクター役でアカデミー主演男優賞を受賞した。</span></span>
           </a>
         </li>
         <li class="stop">
           
-          <a class="seg" href="c/adan--tanaka-isson/">
+          <a class="seg" href="c/the-silence-of-the-lambs--anthony-hopkins/">
             
-            <small>［奄美の海辺］　事実</small>
-            <b><span class="seg-copy">アダンの海辺は、一村の「閻魔大王への土産」。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
-          <a class="fstop" href="w/adan/?c=adan--tanaka-isson">
-            <span class="st-img"><img src="img/works/adan.jpg" alt="アダン" data-k="adan" loading="lazy" decoding="async"></span>
-            <span class="st-txt"><small>植物</small>
-              <b>アダン</b><span>奄美や沖縄の海辺に生えるタコノキ科の木。パイナップルに似た実をつける。田中一村が「アダンの海辺」に描いた。</span></span>
+            <small>［レクター博士］　作者と作品</small>
+            <b><span class="seg-copy">16分ほどの出演で、主演男優賞をとった。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
+          <a class="fstop" href="w/the-silence-of-the-lambs/?c=the-silence-of-the-lambs--anthony-hopkins">
+            <span class="st-img"><img src="img/works/the-silence-of-the-lambs.jpg" alt="映画『羊たちの沈黙』" data-k="the-silence-of-the-lambs" loading="lazy" decoding="async"></span>
+            <span class="st-txt"><small>映画・ドラマ・1991年</small>
+              <b>映画『羊たちの沈黙』</b><span>FBI訓練生クラリスが、収監中の精神科医ハンニバル・レクターの助言を得て連続殺人犯を追うサスペンス。アカデミー賞の主要5部門を受賞した。</span></span>
+          </a>
+        </li>
+        <li class="stop">
+          
+          <a class="seg" href="c/the-silence-of-the-lambs--jonathan-demme/">
+            
+            <small>［監督と作品］　作者と作品</small>
+            <b><span class="seg-copy">ライブ映画の監督が、サスペンスを撮った。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
+          <a class="fstop" href="w/jonathan-demme/?c=the-silence-of-the-lambs--jonathan-demme">
+            <span class="st-img"><img src="img/works/jonathan-demme.jpg" alt="ジョナサン・デミ" data-k="jonathan-demme" loading="lazy" decoding="async"></span>
+            <span class="st-txt"><small>人物</small>
+              <b>ジョナサン・デミ</b><span>アメリカの映画監督。『羊たちの沈黙』でアカデミー監督賞。『フィラデルフィア』や、トーキング・ヘッズのライブ映画『ストップ・メイキング・センス』も手がけた。</span></span>
+          </a>
+        </li>
+        <li class="stop">
+          
+          <a class="seg" href="c/the-silence-of-the-lambs--jodie-foster/">
+            
+            <small>［クラリス・スターリング］　作者と作品</small>
+            <b><span class="seg-copy">怪物と向き合ったのは、一人の訓練生だった。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
+          <a class="fstop" href="w/jodie-foster/?c=the-silence-of-the-lambs--jodie-foster">
+            <span class="st-img"><img src="img/works/jodie-foster.jpg" alt="ジョディ・フォスター" data-k="jodie-foster" loading="lazy" decoding="async"></span>
+            <span class="st-txt"><small>人物</small>
+              <b>ジョディ・フォスター</b><span>アメリカの俳優・映画監督。子役から活躍し、『羊たちの沈黙』のクラリス役で二度目のアカデミー主演女優賞を受賞した。</span></span>
           </a>
         </li></ol>
             <div class="rail-more" id="railMore" aria-hidden="true"></div>
@@ -415,17 +417,17 @@ document.addEventListener('click', function (e) {
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 <script type="application/ld+json" id="ld">{"@context":"https://schema.org","@type":"Article","headline":"のちの総理は、十九歳で東京にいた。","alternativeHeadline":"書き手と日記","about":[{"@type":"Person","name":"周恩来","description":"1917年から1919年まで日本に留学し、帰国後は革命運動に加わった。1949年の建国から亡くなるまで、政務院総理、のち国務院総理を務めた。"},{"@type":"Book","name":"十九歳の東京日記","description":"日本に留学していた周恩来が、1918年の東京で書いた日記。日比谷公園、靖国神社、浅草など、19歳の青年が見て回った百年前の東京が記されている。","creator":{"@type":"Person","name":"周恩来（矢吹晋 監修・鈴木博 訳）"}}],"author":{"@type":"Person","name":"生成AI（初稿）"},"datePublished":"2026-09-15T08:10:00.000Z","dateModified":"2026-09-15T08:10:00.000Z","inLanguage":"ja","articleBody":"日記を書いたのは、まだ何者でもない青年だった。1917年秋に来日した周恩来は、東京・神田の東亜高等予備学校で日本語を学びながら、東京高等師範学校などの受験に備えた。『十九歳の東京日記』は、その翌1918年の1月1日から12月23日までの日記で、日比谷公園、靖国神社、浅草などを見て回った記録が残る。1919年に帰国した青年は革命運動に加わり、1949年の建国から亡くなるまで、中華人民共和国の政務院総理、のち国務院総理を務めた。その人生のはじまりの一年が、東京という街とともに記録されている。","url":"https://beautifulcontext.com/c/zhou-enlai--zhou-tokyo-diary/","citation":[{"@type":"CreativeWork","name":"周恩来『十九歳の東京日記』 (小学館文庫) | NDLサーチ | 国立国会図書館","url":"https://ndlsearch.ndl.go.jp/books/R100000002-I000002822397","publisher":{"@type":"Organization","name":"国立国会図書館サーチ"}},{"@type":"CreativeWork","name":"旅日日记（一九一八年一月一日——十二月二十三日）","url":"https://www.marxists.org/chinese/pdf/chinese_marxists/zhou_enlai/16.pdf","publisher":{"@type":"Organization","name":"marxists.org"}},{"@type":"CreativeWork","name":"周恩来(シュウオンライ)とは？ 意味や使い方 - コトバンク","url":"https://kotobank.jp/word/%E5%91%A8%E6%81%A9%E6%9D%A5-76764","publisher":{"@type":"Organization","name":"コトバンク（日本大百科全書・世界大百科事典ほか）"}},{"@type":"CreativeWork","name":"周恩来 - Wikipedia","url":"https://ja.wikipedia.org/wiki/周恩来","publisher":{"@type":"Organization","name":"Wikipedia"}},{"@type":"CreativeWork","name":"周恩来 - 维基百科，自由的百科全书","url":"https://zh.wikipedia.org/wiki/%E5%91%A8%E6%81%A9%E6%9D%A5","publisher":{"@type":"Organization","name":"Wikipedia（中国語版）"}}],"image":"https://beautifulcontext.com/img/works/zhou-enlai.jpg"}</script>
 
-<script src="js/config.js?v=174"></script>
-<script src="js/seed.js?v=174"></script>
-<script src="js/sources.js?v=174"></script>
-<script src="js/backend.js?v=174"></script>
-<script src="js/store.js?v=174"></script>
-<script src="js/social.js?v=174"></script>
-<script src="js/render.js?v=174"></script>
-<script src="js/login.js?v=174"></script>
-<script src="js/login-page.js?v=174"></script>
-<script src="js/report.js?v=174"></script>
-<script src="js/transition.js?v=174"></script>
-<script src="js/app.js?v=174"></script>
+<script src="js/config.js?v=183"></script>
+<script src="js/seed.js?v=183"></script>
+<script src="js/sources.js?v=183"></script>
+<script src="js/backend.js?v=183"></script>
+<script src="js/store.js?v=183"></script>
+<script src="js/social.js?v=183"></script>
+<script src="js/render.js?v=183"></script>
+<script src="js/login.js?v=183"></script>
+<script src="js/login-page.js?v=183"></script>
+<script src="js/report.js?v=183"></script>
+<script src="js/transition.js?v=183"></script>
+<script src="js/app.js?v=183"></script>
 </body>
 </html>

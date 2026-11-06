@@ -420,7 +420,7 @@ body.on-list .view-in{background:var(--paper)}
 .list-page .meta{color:var(--gold-ink)}
 .list-page h2{color:var(--ink);font-weight:700}
 .ls-count{color:var(--muted)}
-.ls-item{border-color:var(--hair);background:var(--paper-card);color:var(--ink);box-shadow:0 1px 4px rgba(90,70,30,.08)}
+.ls-item{background:var(--paper-card);color:var(--ink)}
 .ls-no{color:var(--muted)}
 .ls-item .ed-txt b{color:var(--ink)}
 .ls-item .ed-txt span{color:var(--muted)}
@@ -481,8 +481,8 @@ body.on-list .view-in{background:var(--paper)}
 
 /* ---- 第16段：つながりの札を見本どおり絵入りに（検索の結果・作品（駅）の区間・同じルーツ） ---- */
 .ctx-cards{display:grid;gap:10px;margin:12px 0 18px}
-.ctx-card{position:relative;display:flex;align-items:center;gap:12px;width:100%;min-width:0;padding:10px 44px 10px 10px;border:1px solid var(--hair);border-radius:10px;
-  background:var(--paper-card);box-shadow:0 1px 4px rgba(90,70,30,.1);color:var(--ink);font:inherit;text-align:left;text-decoration:none;cursor:pointer;
+.ctx-card{position:relative;display:flex;align-items:center;gap:12px;width:100%;min-width:0;padding:10px 44px 10px 10px;border:1px solid transparent;
+  background:var(--paper-card);color:var(--ink);font:inherit;text-align:left;text-decoration:none;cursor:pointer;
   transition:transform .2s ease,border-color .2s}
 .ctx-card:active{transform:scale(.985);transition-duration:.06s}
 .cc-pics{flex:0 0 auto;display:flex;gap:3px}
@@ -495,7 +495,7 @@ body.on-list .view-in{background:var(--paper)}
 .cc-go{position:absolute;right:10px;top:50%;display:grid;place-items:center;width:26px;height:26px;margin-top:-13px;padding-bottom:2px;border-radius:50%;
   background:var(--navy);color:#fff;font:400 16px/1 "Lato",sans-serif}
 @media (hover:hover) and (pointer:fine){.ctx-card:hover{border-color:var(--gold);background:#fff}}
-@media (min-width:760px){
+@media (min-width:1100px){
   .search-page .ctx-cards,.cpage .context-body .ctx-cards{grid-template-columns:repeat(2,minmax(0,1fr))}
 }
 @media (min-width:1100px){
@@ -904,7 +904,7 @@ body.viewing .dock{border-top-color:transparent;box-shadow:0 -16px 26px -18px rg
 
 /* 画面に入るとき、下から少し浮かんで現れる（app.js の reveal が .rv と .rv-in を付け外しする） */
 .rv{opacity:0;transform:translateY(18px)}
-.rv.rv-in{opacity:1;transform:none;transition:opacity .55s var(--ease-out) var(--rv-d,0ms),transform .72s var(--ease-out) var(--rv-d,0ms)}
+.rv.rv-in{opacity:1;transform:none;transition:opacity .32s var(--ease-out) var(--rv-d,0ms),transform .36s var(--ease-out) var(--rv-d,0ms)}
 
 /* ページが開くと、墨と金の筆が筆で掃くように左から現れ、絵の後ろの墨はにじむように濃くなる */
 @keyframes ink-draw{from{clip-path:inset(0 100% 0 0)}to{clip-path:inset(0 0 0 0)}}
@@ -1064,8 +1064,8 @@ body.viewing .dock{border-top-color:transparent;box-shadow:0 -16px 26px -18px rg
 }
 
 /* ログインの画面では、下の帯（つながりを辿る）を出さない（見本どおり。ここは読む画面ではない） */
-body.viewing:has(.view-in>.login-page) .dock{display:none}
-body.viewing:has(.view-in>.login-page) .login-page .content{padding-bottom:40px}
+body.viewing:has(#viewIn>.login-page) .dock{display:none}
+body.viewing:has(#viewIn>.login-page) .login-page .content{padding-bottom:40px}
 /* パソコンの幅が狭いとき（読む列が 700px 未満）は、二つの札を縦に（以前は一枚 271px で、ボタンの字と → が重なった） */
 @media (min-width:1100px){
   .login-page .lp-cards{grid-template-columns:repeat(auto-fit,minmax(340px,1fr))}
@@ -1293,7 +1293,7 @@ body.viewing:has(.view-in>.login-page) .login-page .content{padding-bottom:40px}
 }
 /* 十一回目：パソコンでは読む列（.view-in）の幅の決まりを外し、絵を左の列・右の列に接する端から（見本は紙の列の端から） */
 @media (min-width:1100px){
-  body.viewing:has(.view-in>.login-page) .view-in{max-width:none}
+  body.viewing:has(#viewIn>.login-page) .view-in{max-width:none}
   .login-page .lp-art.pl,.login-page .lp-art.pr{top:0}
 }
 
@@ -1341,4 +1341,649 @@ body.viewing:has(.view-in>.login-page) .login-page .content{padding-bottom:40px}
 @media (min-width:1241px) and (max-width:1439.98px){
   .login-page .lp-socials .lp-alt{gap:6px;font-size:13px}
   .login-page .lp-socials .lp-alt svg{width:18px;height:18px}
+}
+
+/* ---- 第32段：見本の枠と大きな頭（CTO 2026.11.04「sửa nốt mấy chỗ UI khác」。数は見本 1672×941 の点を測ったもの） ----
+   ・パソコンの枠：左の列 303・紙 1073・右の列 296（幅に比例）。隙間なし。--mu・--ru は見本の 1px にあたる長さ
+   ・右の列：道の上の五つ。いまの所だけ題の全部と絵。地は見本の駅のホーム（見本を重ねて字を消した img/deco/rail-station.jpg）
+   ・案内のページ・検索・一覧：見本の大きな頭。右の絵は見本から切り出したもの（img/deco/pg-*.png）
+   ・.only-pc / .only-sp：見本の言葉や部品が携帯とパソコンで違う所 */
+:root{--lp-serif:"Noto Serif JP",var(--mincho)}
+@media (max-width:1099.98px){.only-pc{display:none!important}}
+@media (min-width:1100px){.only-sp{display:none!important}}
+
+@media (min-width:1100px){
+  :root{--side:clamp(248px,18.12vw,360px);--rail:clamp(232px,18.9vw,370px);
+    --mu:min(calc(var(--side) / 303),calc(100vh / 941));--ru:min(calc(var(--rail) / 316),calc(100vh / 941))}
+  body.has-route{--col:calc(100vw - var(--side) - var(--rail))}
+
+  /* 左の列 */
+  .menu{padding:calc(39 * var(--mu)) calc(27 * var(--mu)) calc(29 * var(--mu))}
+  .menu .menu-logo{margin:0 0 calc(30 * var(--mu))}
+  .menu-logo img{width:100%;max-width:none}
+  .menu .seek{margin:0 0 calc(10 * var(--mu));padding:0 0 calc(14 * var(--mu))}
+  .menu .seek svg{flex-basis:calc(19 * var(--mu));width:calc(19 * var(--mu));height:calc(19 * var(--mu))}
+  .menu .seek input{font-size:calc(17 * var(--mu))}
+  #menu>a,#menu>.menu-account{padding-left:0}
+  #menu>a::after,#menu>.menu-account::after{content:none}
+  .menu a,.menu-account{padding-top:calc(16 * var(--mu));padding-bottom:calc(16 * var(--mu));font-size:calc(19.5 * var(--mu));line-height:1.2}
+  .menu a[aria-current="page"]::before,.menu .menu-account[aria-current="page"]::before{left:calc(-27 * var(--mu))}
+  .menu a small,.menu-account small{margin-top:calc(4 * var(--mu));font-size:calc(14 * var(--mu));line-height:1.3}
+  .menu-foot{padding-top:calc(18 * var(--mu))}
+  .menu .menu-foot a{margin:0 calc(18 * var(--mu)) calc(15 * var(--mu)) 0;padding:0;font-size:calc(14.5 * var(--mu));line-height:1.3;color:rgba(255,255,255,.82)}
+  .menu-foot .theme-pick{margin-top:calc(10 * var(--mu))}
+  .menu-foot .theme-pick button{padding:calc(11 * var(--mu)) 4px;border-radius:calc(10 * var(--mu));font-size:calc(11.5 * var(--mu))}
+
+  /* 右の列 */
+  .route-mini{justify-content:flex-start;padding:calc(71 * var(--ru)) calc(24 * var(--ru)) calc(44 * var(--ru)) calc(55 * var(--ru));border-left:0;
+    background:#0b1522 url(img/deco/rail-station.jpg) right center/cover no-repeat}
+  .rm-title{margin:0 0 calc(48 * var(--ru));font:700 calc(15.5 * var(--ru))/1.36 "Lato",sans-serif;letter-spacing:.22em}
+  .rm-title::after{width:calc(30 * var(--ru));margin-top:calc(12 * var(--ru))}
+  .rm::before{content:none}
+  .rm{flex:0 1 auto;min-height:0;overflow:hidden}
+  .rm-s a{display:block;position:relative;padding:0 0 calc(50 * var(--ru)) calc(43 * var(--ru));color:#fff}
+  /* 丸と丸をつなぐ線（いまの所から次までは金） */
+  .rm-s a::before{content:"";position:absolute;left:calc(9 * var(--ru));top:calc(10 * var(--ru));bottom:calc(-10 * var(--ru));width:calc(2.5 * var(--ru));background:#bdbcb8}
+  .rm-s.now a::before{background:var(--gold-lite)}
+  .rm-s:last-child a::before{bottom:0}
+  .rm-dot{position:absolute;z-index:1;left:0;top:0;box-sizing:border-box;width:calc(20 * var(--ru));height:calc(20 * var(--ru));border:calc(3 * var(--ru)) solid #cfcdc8;border-radius:50%;background:#141c26}
+  .rm-s.now .rm-dot{left:calc(-4 * var(--ru));top:calc(-4 * var(--ru));width:calc(28 * var(--ru));height:calc(28 * var(--ru));border:calc(2 * var(--ru)) solid var(--gold-lite);
+    background:radial-gradient(circle,var(--gold-lite) 0 56%,#141c26 59%)}
+  .rm-s b{display:block;margin-bottom:calc(2 * var(--ru));color:#fff;font:700 calc(15.5 * var(--ru))/1.4 var(--gothic);letter-spacing:.06em}
+  .rm-s.now b{color:var(--gold-lite)}
+  .rm-s span{display:block;overflow:hidden;color:#efeeea;font:500 calc(14.5 * var(--ru))/1.72 var(--gothic);letter-spacing:.03em;white-space:nowrap;text-overflow:ellipsis}
+  .rm-s.now span{white-space:normal}
+  .rm a:hover span{color:#fff}
+  .rm-pics{display:grid;grid-template-columns:1fr 1fr;gap:1.5px;box-sizing:border-box;width:calc(100% - calc(4 * var(--ru)));height:calc(106 * var(--ru));margin-top:calc(12 * var(--ru));overflow:hidden;
+    border:calc(3 * var(--ru)) solid var(--gold-lite);border-radius:calc(12 * var(--ru));background:#0a1f3a;font-style:normal}
+  .rm-pics img,.rm-pics i{display:grid;place-items:center;width:100%;height:100%;min-height:0;object-fit:cover;color:var(--gold-lite);font:16px/1 var(--mincho);font-style:normal}
+  .rm-next{gap:calc(12 * var(--ru));width:calc(100% + calc(12 * var(--ru)));min-height:calc(78 * var(--ru));margin:auto 0 0 calc(-12 * var(--ru));padding:calc(12 * var(--ru)) calc(14 * var(--ru)) calc(12 * var(--ru)) calc(18 * var(--ru));
+    border:1.5px solid rgba(255,255,255,.92);border-radius:calc(16 * var(--ru));background:#0b2350}
+  .rm-next img{width:calc(46 * var(--ru));height:calc(46 * var(--ru))}
+  .rm-next b{font-size:calc(15.5 * var(--ru))}
+  .rm-next small{font-size:calc(14.5 * var(--ru))}
+  .rm-next i{font-size:calc(22 * var(--ru))}
+
+  /* NEXT CONTEXT は右の列にある。下の帯は見本どおり Today だけ */
+  body.viewing.has-route:not(.at-root) .dock{display:none}
+  /* コンテクストを読んでいるとき：列の上を詰め、五つとも絵を */
+  .route-mini.pics{padding-top:calc(44 * var(--ru))}
+  .pics .rm-title{margin-bottom:calc(24 * var(--ru))}
+  .pics .rm-s a{padding-bottom:calc(12 * var(--ru))}
+  .pics .rm-pics{height:calc(52 * var(--ru));margin-top:calc(6 * var(--ru));border-width:0;border-radius:calc(6 * var(--ru))}
+  .pics .rm-s.now .rm-pics{height:calc(78 * var(--ru));border-width:calc(3 * var(--ru));border-radius:calc(10 * var(--ru))}
+
+  /* 読む画面：見本（1672）の大きさ。題は 11 字が札の幅に入る決まりのまま上限だけ上げる。本文の列は --tw、右の余りに墨の絵 */
+  .cpage,.wpage{--lx:clamp(26px,1.92vw,34px);--tw:clamp(560px,43vw,720px)}
+  .cpage>.context-lead h2{font-size:min(clamp(32px,2.9vw,50px),calc((100cqi + 48px) / 11.05))}
+  .cpage:not(.today)>.context-lead{padding-left:var(--lx)}
+  .cpage:not(.today)>.context-lead>h2{font-size:min(clamp(36px,3.1vw,52px),calc(100cqi / 11.1))}
+  .cpage:not(.today)>.context-lead>.pair{font-size:clamp(14.5px,1.02vw,17px)}
+  .cpage .route-label{font-size:clamp(11px,.8vw,13.5px)}
+  .cpage .src-cards{padding-left:var(--lx);padding-right:var(--lx)}
+  .cpage .src-t b{font-size:clamp(18px,1.3vw,22px)}
+  .cpage .src-t em,.cpage .src-s{font-size:clamp(12.5px,.84vw,14px)}
+  .cpage>.context-body{padding-left:var(--lx)}
+  .cpage>.context-body>p,.cpage>.context-body>ul,.cpage>.context-body>ol{font-size:clamp(15px,1vw,16.5px)}
+  .cpage>.context-body>h2{font-size:clamp(24px,2vw,34px)}
+  .cpage>.context-body>h3{font-size:clamp(17px,1.3vw,22px)}
+}
+@media (min-width:1280px){
+  .cpage>.context-body>*{max-width:var(--tw)}
+  .cpage>.context-body::after{width:min(calc(100% - var(--lx) - var(--tw) - 8px),330px)}
+}
+@media (min-width:1100px){
+}
+
+/* ---------- 大きな頭（共通） ---------- */
+.ip-hero{position:relative;z-index:0}
+.ip-art{position:absolute;z-index:-1;pointer-events:none;background:right top/100% auto no-repeat}
+.info-page.big .content::before,.info-page.big .content::after,.search-page .content::after,.list-page .content::after{content:none}
+.info-page.big .ip-hero h2::before,.info-page.big .ip-hero h2::after{content:none}
+.info-page.big .ip-hero h2{margin:0;color:var(--ink);font-family:var(--lp-serif)}
+.info-page.big .ip-hero p{text-align:left}
+.ms-mark{display:flex;align-items:center;gap:14px;margin:30px 0 16px;color:var(--gold-ink);font:700 12px/1.4 "Lato",var(--gothic);letter-spacing:.22em;white-space:nowrap}
+.ms-mark::before,.ms-mark::after{content:"";flex:1;height:1px;background:var(--gold)}
+.info-page .content .ms-h{display:block;margin:0 0 12px;font:700 19px/1.5 var(--lp-serif)}
+.info-page .content .ms-h::after{content:none}
+.ms-story{display:grid;gap:12px;margin:0 0 18px;padding:0;list-style:none}
+.info-page .content .ms-story li{display:grid;grid-template-columns:76px minmax(0,1fr);gap:12px;align-items:center;margin:0}
+.ms-story img{display:block;width:76px;height:96px;border-radius:3px;object-fit:cover}
+.ms-story small{display:inline-block;margin-right:8px;color:var(--gold-ink);font:700 13px/1.4 "Lato",var(--gothic)}
+.ms-story b{color:var(--ink);font:700 16px/1.5 var(--mincho)}
+.ms-story span{display:block;margin-top:3px;color:var(--ink-2);font:400 12.5px/1.7 var(--mincho)}
+.ad-sub{margin:10px 0 0;color:var(--ink-2);text-align:left}
+.ms-mark.is-left{margin-bottom:0}
+.ms-mark.is-left::before{content:none}
+/* 利用規約の目次 */
+.tm-toc ol{display:grid;gap:0;margin:0;padding:0;list-style:none}
+.info-page .content .tm-toc li{margin:0;padding:0}
+.tm-toc button{display:flex;align-items:center;gap:12px;width:100%;min-height:44px;padding:6px 12px;border:0;border-bottom:1px solid var(--hair);background:none;color:var(--ink);cursor:pointer;
+  font:600 14px/1.45 var(--mincho);text-align:left}
+.tm-toc i{flex:0 0 auto;color:var(--gold-ink);font:700 12px/1 "Lato",var(--gothic);font-style:normal}
+.info-terms .content h3{display:block;scroll-margin-top:72px}
+.info-terms .content h3::before{content:none}
+.info-terms .content h3::after{display:block;flex:none;width:56px;height:2px;margin-top:8px;background:var(--gold)}
+.info-terms .content h3 small{display:block;margin-bottom:2px;color:var(--gold-ink);font:700 14px/1.3 "Lato",var(--gothic)}
+.tm-k span+span::before{content:"";display:inline-block;width:34px;height:1px;margin:0 12px;background:var(--gold);vertical-align:middle}
+.tm-sub{margin:10px 0 8px;color:var(--ink);font:700 15px/1.6 var(--mincho);text-align:left}
+/* 404：大きな数字は見本の絵（携帯）。パソコンの見本には無い */
+.info-404 .content::before{content:none}
+.nf-rule{max-width:360px;margin:14px auto}
+
+/* 見本どおり、案内のページ・検索・一覧には ‹ を置かない（≡・ロゴ・左の列・端から払う、で戻れる）。ロゴは真ん中 */
+.view-in>.page>.back-close{display:none}
+.ip-tag{position:absolute;z-index:7;left:0;right:0;top:calc(env(safe-area-inset-top) + 44px);margin:0;color:var(--gold-ink);font:700 8px/1.3 "Lato",var(--gothic);letter-spacing:.14em;text-align:center}
+
+/* ---------- 携帯（〜1099px）：大きな頭 ---------- */
+@media (max-width:1099.98px){
+  .info-page.big,.search-page,.list-page{--pad:20px;--u:1vw}
+  .info-page.big .content,.search-page .content,.list-page .content{padding-left:var(--pad);padding-right:var(--pad);overflow-x:clip}
+  .info-page.big .ip-hero{padding-bottom:6px}
+  body :is(.info-page.big,.search-page,.list-page)>.c-logo{left:50%;top:calc(env(safe-area-inset-top) + 18px)}
+  body :is(.info-page.big,.search-page,.list-page)>.c-logo img{height:min(23.5px,calc((100vw - 170px) / 7.35))}
+  .info-page.big .ip-hero .kick{margin:0 0 8px;font-size:10.5px;letter-spacing:.18em}
+  .info-page.big .ip-hero h2{font-size:min(28px,7.2vw);font-weight:800;line-height:1.3;letter-spacing:-.01em;text-shadow:0 0 10px var(--paper)}
+  .info-about .ip-hero h2{font-size:min(24px,6.15vw);line-height:1.4}
+  .info-page.big .ip-hero .lead{margin:10px 0 0;font:500 12px/1.7 var(--mincho);text-shadow:0 0 8px var(--paper)}
+  .info-about .ip-hero .lead{max-width:60%}
+  .info-page.big .content>.ms-mark:first-of-type{margin-top:20px}
+  .info-about .ip-art{top:-22px;right:calc(-1 * var(--pad));width:calc(44.9 * var(--u));aspect-ratio:383/608;background-image:url(img/deco/pg-about-sp.png)}
+  .info-about .ip-hero{min-height:calc(58 * var(--u))}
+  .info-mission .ip-art{top:0;right:calc(-1 * var(--pad));width:calc(42.6 * var(--u));aspect-ratio:363/520;background-image:url(img/deco/pg-mission-sp.png)}
+  .info-mission .ip-hero{min-height:calc(56 * var(--u))}
+  .info-mission .ip-hero .lead{max-width:56%}
+  .info-ad .ip-art{top:-18px;right:calc(-1 * var(--pad));width:calc(50.8 * var(--u));aspect-ratio:433/590;background-image:url(img/deco/pg-ad-sp.png)}
+  .info-ad .ip-hero{min-height:calc(60 * var(--u))}
+  .info-ad .ip-hero .lead,.info-ad .ad-sub{max-width:50%}
+  .info-ad .ad-sub{font-size:11.5px;line-height:1.7}
+  .info-terms .ip-art,.info-credits .ip-art{top:-6px;right:calc(-1 * var(--pad));width:calc(42 * var(--u));aspect-ratio:292/190;background-image:url(img/deco/pg-terms.png);opacity:.8}
+  .tm-sub{font-size:13px;text-wrap:balance}
+  .info-terms .ip-hero .lead{max-width:none}
+  .disc .meta,.search-page .content>.meta{font-size:11px;letter-spacing:.2em}
+  .info-terms .tm-toc{margin:14px 0 6px;border-top:1px solid var(--hair)}
+  .info-404 .ip-art{position:relative;display:block;width:calc(100 * var(--u));margin:18px calc(-1 * var(--pad)) 0;aspect-ratio:853/300;background:url(img/deco/pg-404-sp.png) center top/100% auto no-repeat}
+  .info-404 .ip-hero{text-align:center}
+  .info-404 .kick{margin:0 auto 6px!important}
+  .info-404 .ip-hero h2{font-size:min(28px,7.2vw);text-align:center}
+  .info-page.big.info-404 .ip-hero p{text-align:center}
+  .info-404 .ip-hero .lead{font-size:12px}
+  /* 検索：題は真ん中、上に見本の墨と金の筆。探す欄の右に紺の丸い → */
+  .sk-hero{padding-top:8px;text-align:center}
+  .sk-hero .ip-art{top:-13px;left:calc(-1 * var(--pad));right:calc(-1 * var(--pad));aspect-ratio:853/160;background:url(img/deco/pg-search-sp.png) center top/100% auto no-repeat}
+  .search-page .seek-title{margin:0 0 4px;font:800 min(21.5px,5.5vw)/1.35 var(--lp-serif);letter-spacing:.01em;text-align:center}
+  .search-page .seek-sub{margin:0 0 12px;font-size:10.5px;text-align:center}
+  .search-page .seek.big input::placeholder{font-size:12.5px}
+  .search-page .seek-keys{flex-wrap:nowrap;gap:5px;margin:0 calc(-1 * var(--pad)) 10px;padding:0 var(--pad);overflow-x:auto;scrollbar-width:none}
+  .search-page .seek-keys::-webkit-scrollbar{display:none}
+  .search-page .seek-keys small{flex:0 0 auto;font-size:9.5px}
+  .search-page .seek-keys a{flex:0 0 auto;padding:3px 9px;font-size:10.5px}
+  .search-page .disc{margin-top:14px}
+  .search-page .disc-t{margin:2px 0 8px;font:700 min(17.5px,4.5vw)/1.4 var(--lp-serif)}
+  .content a.dc{flex-basis:100px}
+  .search-page .seek.big{height:46px;padding:0 4px 0 14px;background:rgba(255,255,255,.88);text-align:left}
+  .seek-go{flex:0 0 auto;display:grid;place-items:center;width:38px;height:38px;border:0;border-radius:50%;background:var(--navy);color:#fff;cursor:pointer;font:400 17px/1 var(--gothic)}
+  .seek-go i{font-style:normal}
+  /* 一覧：題の頭。札は大きな絵一枚と字と丸い › 。絞り込みの帯は、先生の要望どおり下のまま（並びは order で下へ） */
+  .list-page .content{display:flex;flex-direction:column}
+  .list-page .content>*{min-width:0}
+  .ls-hero{padding-bottom:12px}
+  .ls-hero .ip-art{top:-16px;right:calc(-1 * var(--pad));width:calc(48.3 * var(--u));aspect-ratio:412/214;background-image:url(img/deco/pg-list-sp.png)}
+  .ls-hero .meta{margin:0 0 8px;font-size:10.5px}
+  .list-page .ls-hero h2{margin:0 0 8px;font:800 min(22px,5.6vw)/1.36 var(--lp-serif);letter-spacing:-.01em;text-shadow:0 0 8px var(--paper)}
+  .ls-lead{margin:0;color:var(--ink-2);font:500 12px/1.7 var(--mincho)}
+  .list-page .ls-bar{order:9;display:flex;flex-direction:column-reverse;margin:14px calc(-1 * var(--pad)) 0}
+  .list-page .ls-item{position:relative;display:grid;grid-template-columns:96px minmax(0,1fr) 28px;gap:0 12px;align-items:center;padding:8px 10px 8px 8px}
+  .list-page .ls-item>.ed-thumbs{display:block}
+  .list-page .ls-item>.ed-thumbs>:nth-child(2){display:none}
+  .list-page .ls-item>.ed-thumbs img,.list-page .ls-item>.ed-thumbs .ph{width:96px;height:126px;border-radius:3px}
+  .list-page .ls-no{position:absolute;z-index:1;left:12px;top:12px;width:auto;flex:none;padding:3px 6px;border-radius:999px;background:rgba(250,247,241,.94);color:var(--ink);text-align:left}
+  .list-page .ls-item::after{content:"›";display:grid;place-items:center;width:28px;height:28px;padding-bottom:2px;box-sizing:border-box;border-radius:50%;background:var(--navy);color:#fff;font:400 17px/1 "Lato",sans-serif}
+  .list-page .ls-item .ed-txt b{font-size:15px;line-height:1.45}
+  /* 上の帯：≡ は紺の丸、ロゴは真ん中（‹ が無いので）、右に紙の上の Login */
+  body.viewing:not(.at-root):has(#viewIn>.list-page) .menu-btn{background:var(--navy);box-shadow:none;-webkit-backdrop-filter:none;backdrop-filter:none}
+  body .view-in .c-logo:not(.today-logo){left:50%;top:calc(env(safe-area-inset-top) + 18px)}
+  body .view-in .c-logo:not(.today-logo) img{height:min(23.5px,calc((100vw - 170px) / 7.35))}
+  .view-in .login-chip:not(.me){border:1.5px solid var(--navy);background:var(--paper-card);color:var(--navy)}
+  /* About の三つ：見本の携帯は札にせず、細い線で分けて、印と題と字 */
+  .info-page .content .big-feats{gap:0;margin:8px 0 22px}
+  .info-page .content .big-feats li{padding:2px 6px 0;border:0;border-left:1px solid #d9c9a8;border-radius:0;background:none;box-shadow:none}
+  .info-page .content .big-feats li:first-child{border-left:0}
+  .big-feats small{display:none}
+  .big-feats b{font-size:13.5px}
+  .big-feats span{font-size:10.5px}
+  /* 携帯のメニュー：見本の右下の墨の山と左下の金の筆 */
+  .menu .menu-foot::after{right:-26px;bottom:calc(-30px - env(safe-area-inset-bottom));width:190px;height:167px;background:url(img/deco/menu-br.png) right bottom/100% auto no-repeat;opacity:1}
+  .menu .menu-foot::before{content:"";position:absolute;z-index:-1;left:-26px;bottom:calc(-30px - env(safe-area-inset-bottom));width:150px;aspect-ratio:330/184;pointer-events:none;background:url(img/deco/menu-bl.png) 0 100%/100% auto no-repeat}
+  #menu>a.menu-logo{right:auto;width:min(176px,calc(100% - 130px))}
+  .menu .menu-logo img.on-paper{width:100%;margin:0}
+  #menu>a.menu-logo::after{content:"TODAY'S EDITOR'S CHOICE";position:static;display:block;width:auto;height:auto;margin:5px 0 0;background:none;-webkit-mask:none;mask:none;opacity:1;color:var(--gold-ink);font:700 8px/1.3 "Lato",var(--gothic);letter-spacing:.14em;text-align:center}
+  .menu::before{content:"";position:absolute;z-index:0;right:0;top:0;width:clamp(70px,29%,96px);aspect-ratio:233/290;pointer-events:none;background:url(img/deco/menu-tr.png) right top/100% auto no-repeat}
+}
+
+/* タブレット（読む列 460px）：見本の携帯の絵の幅は列に対して。ログインの画面の四隅も */
+@media (min-width:760px) and (max-width:1099.98px){
+  .info-page.big,.search-page,.list-page{--u:4.6px}
+  .login-page .lp-art.tl{width:189px}
+  .login-page .lp-art.tr{width:228px}
+  .login-page .lp-art.bl{width:200px}
+  .login-page .lp-art.br{width:190px}
+}
+
+/* ---------- パソコン：大きな頭 ---------- */
+@media (min-width:1100px){
+  .info-page.big,.search-page,.list-page{--pad:clamp(26px,1.92vw,34px)}
+  .info-page.big .content,.search-page .content,.list-page .content{max-width:none;margin:0;padding:0 var(--pad) 56px}
+  .ip-hero{margin:0 calc(-1 * var(--pad));padding:clamp(30px,3.1vw,52px) var(--pad) clamp(16px,1.5vw,26px)}
+  .ip-art{top:0;right:0}
+  .info-page.big .ip-hero .kick{margin:0 0 clamp(10px,1.1vw,18px);font:700 clamp(11px,.84vw,14px)/1.4 "Lato",var(--gothic);letter-spacing:.22em;color:var(--gold-ink)}
+  .info-page.big .ip-hero h2{font-size:clamp(30px,3.5vw,60px);font-weight:700;line-height:1.24;letter-spacing:.005em}
+  .info-page.big .ip-hero .lead{max-width:56%;margin:clamp(12px,1.2vw,20px) 0 0;font:500 clamp(13px,1vw,16.5px)/1.85 var(--mincho)}
+  .ab-go{margin:clamp(14px,1.3vw,22px) 0 0}
+  .info-page.big .content>p,.info-page.big .content>h3,.info-page.big .content>ul,.info-page.big .content>a.tease{max-width:780px}
+  .info-about .ip-art{width:50.9%;aspect-ratio:536/462;background-image:url(img/deco/pg-about.png)}
+  .info-about .ip-hero{min-height:27.4vw}
+  .info-about .ab-feat-h{display:flex;align-items:baseline;gap:6px;max-width:none!important;margin:0 0 12px;font-size:clamp(12px,.9vw,15px)}
+  .info-about .ab-feat-h em{color:var(--gold-ink);font:500 clamp(18px,1.6vw,26px)/1 var(--mincho)}
+  .info-about .ab-feat-h::after{content:"";flex:1;height:1px;margin-left:12px;align-self:center;background:var(--gold)}
+  .info-page .content .big-feats{gap:clamp(8px,.8vw,14px);margin-bottom:30px}
+  .info-page .content .big-feats li{align-items:stretch;padding:clamp(14px,1.2vw,20px) clamp(14px,1.2vw,20px) 0;overflow:hidden}
+  .big-feats li::before{content:none}
+  .big-feats b{font-size:clamp(20px,1.85vw,32px)}
+  .big-feats img{display:block;width:calc(100% + clamp(28px,2.4vw,40px));max-width:none;margin:10px calc(-1 * clamp(14px,1.2vw,20px)) 0;height:auto}
+  .info-mission .ip-art{width:48%;aspect-ratio:506/372;background-image:url(img/deco/pg-mission.png)}
+  .info-mission .ip-hero{min-height:22vw}
+  .ms-mark{margin:clamp(18px,1.6vw,28px) 0 clamp(12px,1.1vw,20px);font-size:clamp(11px,.84vw,14px)}
+  .ms-mani{position:relative;z-index:0;min-height:17vw}
+  .ms-mani-art{position:absolute;z-index:-1;right:calc(-1 * var(--pad));top:clamp(30px,3vw,52px);width:50%;aspect-ratio:636/266;background:url(img/deco/pg-mission2.png) right top/100% auto no-repeat}
+  .info-page .content .ms-h{max-width:none;margin:0 0 14px;font-size:clamp(20px,1.95vw,32px)}
+  .ms-mani>p{max-width:47%;font-size:clamp(13px,.92vw,15.5px);line-height:1.85;text-align:left}
+  .ms-story{grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(14px,1.5vw,26px)}
+  .info-page .content .ms-story li{grid-template-columns:clamp(64px,6vw,100px) minmax(0,1fr);gap:clamp(10px,1vw,16px)}
+  .ms-story img{width:100%;height:auto;aspect-ratio:100/126}
+  .info-ad .ip-art{width:52.8%;aspect-ratio:556/484;background-image:url(img/deco/pg-ad.png)}
+  .info-ad .ip-hero{min-height:28.8vw}
+  .info-ad .ip-hero .lead,.info-ad .ad-sub{max-width:42%}
+  .info-ad .ad-sub{font:500 clamp(12.5px,.92vw,15px)/1.8 var(--mincho)}
+  .info-ad .content h3{margin-top:6px}
+  .info-page .content .ab-feats.rows li{background:none;border-radius:0;box-shadow:none;border-left:1px solid var(--hair)}
+  .info-page .content .ab-feats.rows li:first-child{border-left:0}
+  .ab-feats.rows small{color:var(--gold-ink);font:400 clamp(30px,2.9vw,48px)/1 var(--mincho)}
+  .ab-feats.rows small::after{content:none}
+  .info-terms .ip-art,.info-credits .ip-art{width:27.7%;aspect-ratio:292/360;background-image:url(img/deco/pg-terms.png)}
+  .info-terms .ip-hero,.info-credits .ip-hero{min-height:21.5vw}
+  .info-terms .ip-hero::before,.info-credits .ip-hero::before{content:"";position:absolute;z-index:-1;left:0;top:0;width:5.6%;aspect-ratio:59/240;background:url(img/deco/pg-terms-l.png) 0 0/100% auto no-repeat;pointer-events:none}
+  .info-terms .ip-hero h2,.info-credits .ip-hero h2{max-width:74%;font-size:clamp(30px,3.85vw,66px)}
+  .info-terms .ip-hero .kick{color:var(--ink)}
+  .tm-sub{margin:clamp(8px,.9vw,14px) 0 0;font-size:clamp(14px,1.2vw,20px)}
+  .info-terms .ip-hero .lead{margin-top:clamp(6px,.7vw,12px)}
+  .tm-wrap{display:grid;grid-template-columns:clamp(180px,14.6vw,245px) minmax(0,1fr);gap:clamp(20px,2vw,34px);margin:0 calc(-1 * var(--pad));padding:0 var(--pad);border-top:1px solid var(--hair)}
+  .tm-toc{position:sticky;top:14px;align-self:start;padding:clamp(14px,1.4vw,24px) 0}
+  .tm-toc button{min-height:clamp(36px,3vw,48px);border-bottom:0;border-radius:2px;font-size:clamp(12.5px,.9vw,15px)}
+  .tm-toc button[aria-current]{background:#f3ecdc;box-shadow:inset 3px 0 0 var(--gold)}
+  .tm-body{padding:clamp(12px,1.2vw,20px) 0 0;border-left:1px solid var(--hair);padding-left:clamp(20px,2vw,34px)}
+  .tm-body>p{max-width:760px}
+  .info-terms .content h3{margin:clamp(20px,1.8vw,30px) 0 10px;font:700 clamp(20px,1.85vw,30px)/1.35 var(--lp-serif)}
+  .info-terms .content h3::after{width:60px}
+  .info-404 .ip-art{width:62.3%;aspect-ratio:656/640;background-image:url(img/deco/pg-404.png)}
+  .info-404 .ip-hero{min-height:37.6vw;padding-top:clamp(70px,7.2vw,122px);padding-left:clamp(36px,3.6vw,60px)}
+  .info-404 .ip-hero h2{font-size:clamp(30px,3.35vw,58px)}
+  .info-page.big .content a.pill{min-height:clamp(42px,3.1vw,54px);font-size:clamp(13px,1vw,16.5px)}
+  .info-404 .kick{margin:0 0 clamp(14px,1.4vw,24px)!important;width:auto}
+  .info-404 .kick::before,.info-404 .kick::after{content:none}
+  .info-404 .ip-hero h2{margin:0;text-align:left}
+  .info-404 .content .nf-rule{max-width:52%;margin:clamp(12px,1.2vw,20px) 0}
+  .info-404 .ip-hero .lead{max-width:44%;margin-top:0}
+  .info-404 .nf-acts{justify-content:flex-start}
+  .info-404 .after{max-width:44%;text-align:left}
+  .nf-more{margin-top:8px;padding-top:clamp(12px,1.2vw,20px);border-top:0}
+  .nf-cards{gap:clamp(10px,1vw,18px)}
+  .content a.nf-card{padding:0;border:0;border-radius:0;background:none;box-shadow:none;overflow:visible}
+  .nf-img{aspect-ratio:142/80;margin-bottom:8px;border-radius:3px}
+  .nf-card small{padding:0}
+  .nf-card b{display:flex;justify-content:space-between;gap:8px;padding:0;font-size:clamp(13px,1vw,16.5px);-webkit-line-clamp:none}
+  .nf-card b::after{content:"→";flex:0 0 auto;font:400 1.2em/1.1 var(--gothic)}
+  /* 検索 */
+  .sk-hero{padding-top:clamp(20px,1.7vw,28px);padding-bottom:0}
+  .sk-hero .ip-art{width:33.8%;aspect-ratio:356/170;background-image:url(img/deco/pg-search.png)}
+  .sk-hero .meta{margin:0 0 6px;font-size:clamp(10.5px,.72vw,12px);letter-spacing:.16em}
+  .search-page .seek-title{margin:0 0 clamp(8px,.8vw,14px);font:700 clamp(24px,2.65vw,44px)/1.3 var(--lp-serif);letter-spacing:.01em}
+  .search-page .seek-sub{margin:0;font:500 clamp(12.5px,.96vw,16px)/1.75 var(--mincho)}
+  .search-page .seek.big,.list-page .ls-seek{height:clamp(46px,3.5vw,58px);margin:clamp(12px,1.1vw,18px) 0 clamp(10px,.9vw,14px);padding:0 5px 0 clamp(16px,1.3vw,22px);border:1.5px solid var(--navy);border-radius:999px;background:#fff}
+  .seek-go{flex:0 0 auto;display:flex;align-items:center;gap:clamp(12px,1.2vw,20px);height:calc(100% - 8px);padding:0 clamp(14px,1.2vw,20px) 0 clamp(18px,1.6vw,26px);border:0;border-radius:999px;background:var(--navy);color:#fff;cursor:pointer;
+    font:700 clamp(13px,.96vw,16px)/1 var(--gothic);letter-spacing:.06em;white-space:nowrap}
+  .seek-go i{font:400 1.25em/1 var(--gothic);font-style:normal}
+  .search-page .seek-keys{gap:8px 10px;margin:0 0 clamp(12px,1.1vw,18px)}
+  .search-page .seek-keys a{padding:clamp(5px,.5vw,8px) clamp(14px,1.2vw,20px);font-size:clamp(12px,.84vw,14px)}
+  .search-page .seek-keys a[aria-current]{border-color:var(--gold-btn);background:var(--gold-btn);color:#fff}
+  .disc-t{font-size:clamp(18px,1.5vw,24px)}
+  .search-page .seek-res{align-items:center;margin:clamp(8px,.8vw,14px) 0 12px;font:700 clamp(17px,1.3vw,22px)/1.4 var(--mincho)}
+  .search-page .seek-res::after{content:"";flex:1;height:1px;background:var(--gold)}
+  .search-page .ctx-cards{grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(8px,.7vw,12px)}
+  .search-page .ctx-card{display:grid;grid-template-columns:minmax(0,46%) minmax(0,1fr);gap:0;align-items:start;height:100%;padding:0 0 12px;overflow:hidden;border-radius:6px}
+  .search-page .cc-pics{display:block}
+  .search-page .cc-pics>:nth-child(2){display:none}
+  .search-page .cc-pics img,.search-page .cc-pics i{width:100%;height:clamp(96px,8.6vw,146px);border-radius:0}
+  .search-page .cc-t{gap:3px;padding:8px 10px 6px}
+  .search-page .cc-t b{-webkit-line-clamp:3;font-size:clamp(13px,1vw,16.5px)}
+  .search-page .cc-t em{white-space:normal;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical}
+  .search-page .cc-go{display:none}
+  .search-page .ctx-card::after{content:"このつながりを読む　→";grid-column:1/-1;justify-self:center;margin-top:10px;padding:6px 16px;border:1px solid var(--navy);border-radius:999px;color:var(--navy);font:600 clamp(11px,.78vw,13px)/1.3 var(--gothic)}
+  /* 一覧 */
+  .ls-hero{padding-bottom:0}
+  .ls-hero .ip-art{width:45.2%;aspect-ratio:476/186;background-image:url(img/deco/pg-list.png)}
+  .ls-hero>.meta{display:none}
+  .ls-en{position:absolute;right:var(--pad);top:clamp(24px,2vw,34px);margin:0;color:var(--ink);font:700 clamp(10.5px,.78vw,13px)/1.5 "Lato",sans-serif;letter-spacing:.24em;text-align:right}
+  .ls-en small{display:block;font-size:.72em;letter-spacing:.18em}
+  .list-page .ls-hero h2{margin:0 0 clamp(8px,.8vw,14px);padding-left:clamp(12px,1vw,16px);border-left:3px solid var(--gold);color:var(--ink);font:700 clamp(30px,3.15vw,54px)/1.2 var(--lp-serif);letter-spacing:.02em}
+  .ls-lead{margin:0;color:var(--ink-2);font:500 clamp(13px,1vw,16.5px)/1.75 var(--mincho)}
+  .list-page .ls-bar{position:sticky;top:0;z-index:8;margin:0 calc(-1 * var(--pad));padding:2px var(--pad) 8px;border:0;background:rgba(250,247,241,.96)}
+  .list-page .ls-seek{width:auto;max-width:none;margin-top:clamp(8px,.7vw,12px);margin-bottom:clamp(8px,.7vw,12px)}
+  .list-page .ls-cats{margin:0;gap:6px}
+  .list-page .ls-cats button{height:clamp(30px,2.3vw,38px);padding:0 clamp(9px,.85vw,16px);font-size:clamp(12px,.84vw,14px)}
+  .list-page .ls-count{margin:4px 0 8px}
+  .list-page .ls{grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(8px,.7vw,12px)}
+  .list-page .ls-item{display:grid;grid-template-columns:minmax(0,44%) minmax(0,1fr);grid-template-rows:auto 1fr;gap:0;align-items:start;height:100%;box-sizing:border-box}
+  .list-page .ls-item>.ed-thumbs{grid-column:1;grid-row:1;display:block}
+  .list-page .ls-item>.ed-thumbs>:nth-child(2){display:none}
+  .list-page .ls-item>.ed-thumbs img,.list-page .ls-item>.ed-thumbs .ph{width:100%;height:clamp(104px,9.2vw,156px)}
+  .list-page .ls-item .ed-txt{grid-column:2;grid-row:1;gap:4px;padding:8px 10px 6px}
+  .list-page .ls-item .ed-txt b{font-size:clamp(13.5px,1.08vw,18px);line-height:1.42}
+  .list-page .ls-item .ed-txt>span{display:none}
+  .ls-works{grid-column:1/-1;grid-row:2;display:grid;padding:4px 10px 6px}
+  .ls-w{display:grid;grid-template-columns:clamp(26px,2vw,34px) minmax(0,1fr) 10px;gap:10px;align-items:center;padding:clamp(4px,.45vw,7px) 0;border-top:1px solid var(--hair)}
+  .ls-w::after{content:"";width:6px;height:6px;border-top:1.5px solid var(--muted);border-right:1.5px solid var(--muted);transform:rotate(45deg)}
+  .ls-w img,.ls-w .ph{display:grid;place-items:center;width:clamp(26px,2vw,34px);height:clamp(26px,2vw,34px);border-radius:50%;object-fit:cover;background:#0a1f3a;color:var(--gold-lite);font:12px var(--mincho)}
+  .ls-w>span{display:grid;min-width:0}
+  .ls-w b{overflow:hidden;color:var(--ink);font:600 clamp(11.5px,.8vw,13.5px)/1.4 var(--mincho);white-space:nowrap;text-overflow:ellipsis}
+  .ls-w small{overflow:hidden;color:var(--muted);font:400 clamp(10px,.68vw,11.5px)/1.4 var(--gothic);white-space:nowrap;text-overflow:ellipsis}
+  /* 編集者：見本の大きな名前・数の段の線の印・主なコンテンツの見出し（写真は先生の MyBeautifulContext のとおり大きいまま） */
+  .editor-page{padding:0 var(--pad,clamp(26px,1.92vw,34px))}
+  .editor-page>.back-close{display:none}
+  .editor-page .ed-head{padding-top:clamp(40px,4vw,68px)}
+  .editor-page .ed-title span{font:700 clamp(22px,2.3vw,38px)/1.25 var(--mincho)}
+  .editor-page .ed-title b{font-size:clamp(26px,2.85vw,46px)}
+  .editor-page .ed-head .meta{font-size:clamp(11px,.84vw,14px)}
+  .editor-page .ed-bio{max-width:30em;font-size:clamp(13px,.96vw,16px)}
+  .editor-page .ed-head::after{top:clamp(16px,2vw,34px)}
+  .ed-stats{justify-content:flex-start;margin:6px 0 10px}
+  .ed-stats div{display:grid;grid-template-columns:auto auto;grid-template-rows:auto auto;column-gap:10px;align-items:center;min-width:0;padding:0 clamp(14px,1.3vw,22px)}
+  .ed-stats div:first-child{padding-left:0;align-items:center}
+  .ed-stats div::before{content:"";grid-row:1/span 2;width:clamp(18px,1.4vw,24px);height:clamp(18px,1.4vw,24px);background:var(--ink-2);-webkit-mask:var(--ic) center/contain no-repeat;mask:var(--ic) center/contain no-repeat}
+  .ed-stats div:first-child{--ic:var(--i-doc)}
+  .ed-stats div:last-child{--ic:var(--i-user)}
+  .ed-stats dt{grid-column:2;grid-row:1;margin:0;font-size:clamp(10.5px,.72vw,12px)}
+  .ed-stats dd{grid-column:2;grid-row:2;font-size:clamp(16px,1.25vw,21px)}
+  .editor-page .ed-chose{display:flex;align-items:center;gap:14px;margin-top:6px !important;padding:clamp(14px,1.2vw,20px) 0 0;border:0;border-top:0;font:700 clamp(18px,1.6vw,27px)/1.4 var(--mincho) !important}
+  .editor-page .ed-chose small{display:none}
+  .editor-page .ed-chose::after{content:"";flex:1;height:1px;background:var(--gold)}
+  .editor-page .ed-list{gap:clamp(10px,1vw,16px)}
+  .editor-page .ed-item .ed-thumbs img,.editor-page .ed-item .ed-thumbs .ph{height:clamp(120px,11.4vw,190px)}
+  .editor-page .ed-item .ed-txt b{font-size:clamp(14px,1.2vw,20px)}
+  .editor-page>.ed-cover.empty{-webkit-mask:none;mask:none;background:url(img/deco/pg-editor.png) right top/100% auto no-repeat}
+  /* 路線（フィード）：紙の幅に */
+  .feed-page .content{max-width:min(960px,92%)}
+  .feed-page .content>h2{font:700 clamp(24px,2.4vw,40px)/1.3 var(--mincho)}
+}
+/* タブレット：メニューを開いたら ✕ はメニューの左上に（読む列の左のままだと、メニューの名前に重なる） */
+@media (min-width:760px) and (max-width:1099.98px){
+  body.viewing .menu-btn[aria-expanded="true"]{left:10px}
+}
+/* 目には見えず、検索エンジンと読み上げには届く字 */
+.vh{position:absolute;width:1px;height:1px;margin:-1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+/* 狭い携帯（375px 未満）：頭の字を少し小さく、絵に沈まないように */
+@media (max-width:374.98px){
+  .info-page.big .ip-hero .kick{font-size:9.5px;letter-spacing:.1em}
+  .info-page.big .ip-hero .lead{font-size:11px}
+  .info-about .ip-hero .lead{max-width:68%}
+}
+
+/* ---- 第33段：最初の画面で目を奪う（rà soát 4/11 の 1 番目）。主役は作品の絵と題 ----
+   ・絵は 2:3 のまま大きく（携帯は左右 14px まで）。絵の後ろの灰色のかたまりをやめる
+   ・携帯：題を大きく。編集者の行は「読む」の下へ（題と読むボタンが最初の画面に入るように。HTML の順は変えない。要・先生の確認）
+   ・パソコン Today：題と絵のあいだを空ける。墨と山の切り口は透明へ溶かす */
+:is(.cpage,.wpage)>.duo-hero::before{content:none}
+:is(.cpage,.wpage)>.duo-hero::after{-webkit-mask-image:linear-gradient(180deg,transparent,#000 22%);mask-image:linear-gradient(180deg,transparent,#000 22%)}
+:is(.cpage,.wpage)>.duo-hero .duo::before{-webkit-mask-image:linear-gradient(90deg,transparent,#000 18%,#000 82%,transparent);mask-image:linear-gradient(90deg,transparent,#000 18%,#000 82%,transparent)}
+@media (max-width:1099.98px){
+  :is(.cpage,.wpage)>.duo-hero{padding-left:14px;padding-right:14px}
+  .cpage>.context-lead{display:flex;flex-direction:column;align-items:stretch}
+  .cpage>.context-lead>.read{order:5}
+  .cpage>.context-lead>.ed-row{order:6;margin:16px 0 0}
+  .cpage>.context-lead>.story-cue{order:7}
+  .cpage>.context-lead h2{font-size:min(30px,calc((100vw - 44px) / 11.05));max-width:none}
+  .cpage>.context-lead .landing-note{order:6;margin:12px 0 0;text-align:center}
+}
+@media (min-width:760px) and (max-width:1099.98px){
+  .cpage>.context-lead h2{font-size:30px}
+}
+@media (min-width:1100px){
+  .cpage.today>.context-lead h2{margin-inline:0 -24px;font-size:min(clamp(32px,2.9vw,50px),calc((100cqi + 24px) / 11.05))}
+}
+
+/* ---- 第34段：「次」は一つ（rà soát 4/11 の 2 番目）。押す前に行き先が見える ----
+   ・携帯の下の帯：路線の名の右に「次は　つながり｜…」。パソコンは次の札（next-peek）が同じ字
+   ・この先のつながり（読み終わりの下）の最初の駅は、まだ着いていないので「いまここ」を出さない */
+.dock-next{display:none}
+@media (max-width:1099.98px){
+  body.viewing .dock-next:not(:empty){display:block;position:absolute;z-index:6;right:14px;top:4px;max-width:calc(100% - 188px);margin:0;overflow:hidden;
+    background:var(--paper);color:var(--ink-2);font:500 11px/16px var(--mincho);white-space:nowrap;text-overflow:ellipsis}
+  body.viewing .line-name{max-width:140px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
+  body.on-list .dock-next{display:none}
+}
+.ctx-rail .stop.first .fstop::after{content:none}
+
+/* ---- 第35段：作品（駅）のページを、その作品のページに（rà soát 4/11 の 3 番目） ----
+   ・右の席（＋）は位置はそのまま、紙の地に。画面でいちばん暗いものを作品の絵に戻す（席を外すかは 要・先生の確認）
+   ・名前を大きく。パソコンは絵と名前の下に、札を横いっぱいに（下の空きを無くす）
+   ・携帯の CONTEXT JOURNEY は見本 08 のように大きな絵で。並びはパソコンの右の列と同じ */
+.duo-add{border:1px dashed #c2903e;background:#fcfaf4;color:var(--navy)}
+.duo-add span{background:none;box-shadow:0 0 0 1.5px var(--navy)}
+.duo-add small{color:#8a5f10;font-size:11px}
+.duo-add:active span{background:rgba(10,31,58,.08)}
+@media (hover:hover) and (pointer:fine){.duo-add:hover span{background:rgba(10,31,58,.08)}}
+.wpage .w-lead{padding-bottom:6px}
+.wpage .w-lead h2{margin-bottom:10px;color:var(--ink);font:700 min(30px,calc((100vw - 44px) / 11.05))/1.3 var(--mincho);text-wrap:balance}
+.wpage .w-lead p{color:var(--ink-2)}
+.wpage .w-lines{padding-top:0}
+.wpage .w-lines .more-label{margin-top:6px !important}
+/* つぎへ の札：つながりを辿るの行き先 */
+.ctx-card.is-next{border-color:var(--gold);box-shadow:0 8px 20px -14px rgba(90,70,30,.45)}
+.ctx-card.is-next .cc-pics{margin-top:12px}
+.cc-tag{position:absolute;left:-1px;top:-1px;z-index:1;padding:3px 12px;border-radius:10px 0 8px 0;background:var(--gold-btn);color:#fff;font:700 11px/1.4 var(--gothic);letter-spacing:.1em}
+/* CONTEXT JOURNEY（作品ページ） */
+.w-journey{padding-top:10px}
+/* 行の高さが揃わないので、線は丸から次の行の丸まで（丸は行の上から 20px） */
+.w-journey .jr-row{height:auto;grid-template-columns:20px 50px clamp(68px,20.5vw,92px) minmax(0,1fr) 10px;align-items:start;column-gap:8px;padding:12px 0}
+.w-journey .jr li::before{content:"";position:absolute;z-index:0;left:9.25px;top:20px;bottom:-20px;height:auto;width:1.5px;background:var(--gold)}
+.w-journey .jr li:last-child::before{content:none}
+.w-journey .jr-dot{margin-top:3px}
+.w-journey .now .jr-dot{margin-top:1px}
+.w-journey .jr-row>b{color:var(--navy);font:700 12px/1.5 var(--gothic);letter-spacing:.02em;white-space:nowrap}
+.w-journey .now .jr-row>b{color:var(--gold-ink)}
+.jr-art{display:block}
+.jr-art img,.jr-art .ph{display:grid;place-items:center;width:100%;aspect-ratio:2/3;border-radius:4px;object-fit:cover;background:#0a1f3a;color:var(--gold-lite);font:18px/1 var(--mincho);box-shadow:0 8px 14px -10px rgba(6,20,43,.55)}
+.w-journey .now .jr-art img,.w-journey .now .jr-art .ph{outline:1.5px solid var(--gold);outline-offset:2px}
+.w-journey .jr-t{gap:3px}
+.w-journey .jr-t small{overflow:visible;color:var(--gold-ink);font:700 10.5px/1.4 var(--gothic);letter-spacing:.02em;white-space:normal}
+.w-journey .jr-t strong{display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;color:var(--ink);font:700 clamp(13.5px,3.7vw,15.5px)/1.45 var(--mincho)}
+.w-journey .jr-t em{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;color:var(--muted);font:400 11px/1.5 var(--gothic);font-style:normal}
+.w-journey a.jr-row::after{align-self:center}
+#routeMini .rm-pics.one{grid-template-columns:1fr}
+#routeMini .rm-pics.one img{object-position:50% 30%}
+@media (min-width:760px) and (max-width:1099.98px){
+  .w-journey .jr-row{grid-template-columns:20px 54px 92px minmax(0,1fr) 10px;column-gap:12px}
+  .w-journey .jr-t strong{font-size:16px}
+  .wpage .w-lead h2{font-size:30px}
+}
+@media (min-width:1100px){
+  .wpage{grid-template-rows:auto auto 1fr}
+  .wpage>.w-lead{grid-column:2;grid-row:1;align-self:center;min-height:0;padding:86px 40px 34px 14px}
+  .wpage .w-lead h2{margin-bottom:14px;font-size:min(clamp(36px,3.1vw,52px),calc(100cqi / 8))}
+  .wpage .w-lead p{font-size:clamp(14px,1vw,16.5px);line-height:1.9;text-align:left}
+  .wpage .w-lead .by{margin-top:0;font-size:clamp(13px,.9vw,15px)}
+  .wpage>.w-journey{display:none}
+  .wpage>.w-lines{grid-column:1/-1;grid-row:2;min-height:0;padding:0 var(--lx) clamp(40px,4vw,64px)}
+  .wpage .w-lines .ctx-cards{grid-template-columns:repeat(auto-fill,minmax(clamp(210px,17vw,270px),1fr));gap:clamp(10px,1vw,18px);margin-top:clamp(12px,1vw,18px)}
+  .wpage .w-lines .ctx-card{flex-direction:column;align-items:stretch;gap:0;height:100%;padding:0 0 14px;overflow:hidden;border-radius:8px}
+  .wpage .w-lines .cc-pics{display:grid;grid-template-columns:1fr 1fr;gap:2px;margin:0}
+  .wpage .w-lines .cc-pics img,.wpage .w-lines .cc-pics i{width:100%;height:auto;aspect-ratio:2/2.6;border-radius:0}
+  .wpage .w-lines .cc-t{flex:1;align-content:start;gap:4px;padding:12px 14px 4px}
+  .wpage .w-lines .cc-t b{-webkit-line-clamp:3;font-size:clamp(14.5px,1.1vw,18px)}
+  .wpage .w-lines .cc-t em{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;white-space:normal}
+  .wpage .w-lines .cc-go{display:none}
+  .wpage .w-lines .ctx-card::after{content:"このつながりを読む　→";align-self:center;margin-top:10px;padding:6px 16px;border:1px solid var(--navy);border-radius:999px;color:var(--navy);font:600 clamp(11px,.78vw,13px)/1.3 var(--gothic)}
+  .wpage .w-lines .ctx-card.is-next::after{background:var(--navy);color:#fff}
+  .wpage .w-lines .cc-tag{border-radius:8px 0 8px 0}
+  .wpage .img-credit{margin-top:14px}
+}
+
+/* ---- 第36段：携帯で軽く、読めて、押せる（rà soát 4/11 の 4 番目） ----
+   ・読み進めている間は、下の帯は「つながりを辿る」だけに（路線図をしまう）。上へ戻す・読み終わりで出る
+   ・検索と案内のページの下の帯は出さない（見本 12・14）。行き先はページの中のボタンと ≡
+   ・本文 15px。小さな字の下限 11px。押せる所は 44px（見た目の線は変えず、透明な余白で） */
+@media (max-width:1099.98px){
+  body.viewing .dock .map{overflow:hidden;transition:height .22s var(--ease-out),opacity .16s ease}
+  body.viewing.scrolled-down:not(.on-list) .dock .map{height:0;opacity:0;pointer-events:none}
+  body.viewing .dock-next{transition:opacity .16s ease}
+  body.viewing.scrolled-down .dock-next{opacity:0}
+  body.viewing:has(#viewIn>:is(.search-page,.info-page)) .dock{display:none}
+  .cpage>.context-body>p,.cpage>.context-body>ul,.cpage>.context-body>ol{font-size:15px;line-height:1.9}
+  .wpage .w-lead p:not(.meta):not(.by){font-size:14px;line-height:1.85}
+
+  /* 字の下限 */
+  .ad-copy small,.cm-note,.byline,.img-credit,.dc em,.dc small,.ab-flow span,.info-page li>span,.ip-hero>.meta,.ip-tag,
+  .ls-mark,.ls-no,.ls-sep span,.rt,.rn,.jr-t small,.w-journey .jr-t small,.journey>.meta a,.seek-keys a,.seek-keys small,.seek-sub span,
+  .seg small,.ed-row small,.ad-mark,.src-t em,.src-t i,.src-t small,.st-txt small,.today-bar time,.station,.line-name,.section-label,.cc-t small{font-size:11px !important}
+  .section-label{padding:1px 6px;letter-spacing:.04em}
+  .ip-tag{letter-spacing:.08em}
+  .seek-keys a{padding-block:7px}
+
+  /* 押せる所 */
+  .login-chip::after,.ed-link::after,.note-link::after,.chip::after,.ls-cats button::after,.seek-keys a::after,.seek-go::after,.journey>.meta a::after,.lp-tabs button::after,.lp-terms a::after,.c-logo::after{content:"";position:absolute;inset:-7px -2px}
+  .ed-link,.note-link,.chip,.ls-cats button,.seek-keys a,.seek-go,.journey>.meta a,.lp-tabs button,.lp-terms a{position:relative}
+  .seek-go::after{inset:-3px}
+  .seek-keys a::after{inset:-6px -2px}
+  .c-foot a{display:inline-block;padding-block:14px}
+  .dot::after{inset:-12px}
+  .login-page .lp-send{position:relative}
+  .login-page .lp-send::before{content:"";position:absolute;inset:-12px 0}
+  .disc .meta a,.disc-all{position:relative}
+  .disc .meta a::after,.disc-all::after{content:"";position:absolute;inset:-14px -4px}
+  .seek input{height:44px;margin-block:-8px}
+}
+@media (hover:none){
+  .login-page .lp-field input{font-size:16px}
+  .login-page .lp-field input::placeholder{font-size:15px}
+}
+
+/* ---- 第37段：一つの部品（rà soát 4/11 の 5 番目）。同じ役目は同じ形 ----
+   小さな金の札（--kick）：題の上の一行。大きな金の札（--kick-lg）：節の見出し。この二つだけ
+   小見出し：明朝 700。主のボタン：紺の丸い棒 48px、14px/700。従のボタン：細い縁の丸 36px、12px/700。絞り込みの札：32px、12px */
+:root{--kick-fs:11px;--kick-lg-fs:13px}
+@media (min-width:1100px){:root{--kick-fs:clamp(11px,.8vw,13.5px);--kick-lg-fs:clamp(13px,1.02vw,16px)}}
+:is(.route-label,.today-bar>b,.ip-hero>.meta,.content>.meta,.disc>.meta,.src-cards>.meta,.journey>.meta,.ed-head>.meta,.nf-card>small){
+  color:var(--gold-ink);font-family:"Lato",var(--gothic) !important;font-weight:700;font-size:var(--kick-fs) !important;letter-spacing:.22em !important}
+:is(.context-body>.meta,.axes>.meta,.refs>.meta,.comments>.meta,.next-ctx>.meta,.ctx-rail>.meta,.nf-more>.meta,.content>.ab-feat-h,.content>.more-label){
+  color:var(--gold-ink);font-family:"Lato",var(--gothic) !important;font-weight:700;font-size:var(--kick-lg-fs) !important;letter-spacing:.16em !important}
+.meta{text-align:left}
+.ed-head>.meta{text-align:inherit}
+/* 小見出し */
+:is(.ed-chose,.disc-t,.seek-res,.context-body>h3){font-family:var(--mincho) !important;font-weight:700 !important;font-size:17px !important;line-height:1.45 !important}
+.search-page .seek-res small{font-family:var(--mincho);font-weight:400;font-size:13px}
+@media (min-width:1100px){:is(.ed-chose,.disc-t,.seek-res,.context-body>h3){font-size:clamp(17px,1.3vw,22px) !important}}
+/* 頁の大きな題 */
+:is(.ip-hero h2,.search-page .seek-title,.list-page .ls-hero h2){font-weight:700 !important}
+/* 主のボタン */
+:is(.read,.pill){min-height:48px;box-sizing:border-box;border-radius:999px;font-family:var(--gothic) !important;font-size:14px !important;font-weight:700 !important}
+.read small{font-weight:400}
+.pill{display:inline-flex;align-items:center;justify-content:center}
+@media (min-width:1100px){:is(.read,.pill){min-height:46px !important;height:auto}}
+/* 従のボタン */
+:is(.follow,.note-link,.journey>.meta a){display:inline-flex;align-items:center;min-height:36px;height:36px;box-sizing:border-box;padding:0 14px;border:1px solid var(--navy) !important;border-radius:999px;font-family:var(--gothic);font-size:12px !important;font-weight:700}
+.note-link b{font-size:13px}
+.note-link span{font-size:11px;font-weight:400}
+/* 絞り込み・言葉の札 */
+:is(.ls-cats button,.search-page .seek-keys a,.chip){min-height:32px;box-sizing:border-box;font-size:12px !important}
+.search-page .seek-keys a{display:inline-flex;align-items:center;padding-block:0 !important}
+.cm-form textarea{border-radius:var(--card-r)}
+/* 検索の頭：説明の字が墨に掛かっても読めるように */
+.search-page .seek-sub{color:var(--muted);text-shadow:0 0 5px var(--paper),0 0 2px var(--paper)}
+/* 編集者のページ：ロゴは絵の上に載せず、上の紙の帯に（以前は余白の折りたたみで頁ごと下がり、写真に重なっていた） */
+@media (max-width:1099.98px){
+  .editor-page{padding-top:calc(env(safe-area-inset-top) + 58px)}
+  .editor-page .ed-cover{margin-top:0}
+}
+/* 編集者の選んだ札を、ほかの札と同じ形に（携帯）。› の丸も同じ */
+@media (max-width:759.98px){
+  .editor-page .ed-list{gap:10px}
+  .editor-page .ed-item{position:relative;align-items:center;padding:10px 44px 10px 10px;border:1px solid transparent;border-radius:var(--card-r);background:var(--paper-card);box-shadow:var(--card-sh)}
+  .editor-page .ed-item::after{content:"›";position:absolute;right:10px;top:50%;display:grid;place-items:center;width:26px;height:26px;margin-top:-13px;padding-bottom:2px;box-sizing:border-box;border-radius:50%;background:var(--navy);color:#fff;font:400 16px/1 "Lato",sans-serif}
+  .editor-page .ed-item .ed-txt b{font:700 14px/1.45 var(--mincho)}
+  .editor-page .ed-chose{margin-bottom:14px !important}
+}
+
+/* ---- 第38段：最後の検査で見つかった所 ---- */
+/* 次は の一行は読むだけ。消えていても残っていても、下のボタンの触れる所を奪わない */
+.dock-next{pointer-events:none}
+.today-dots[hidden]{display:none}
+/* はじめての人への一行は、題の上でなく塊のいちばん下に */
+.landing-note,.wpage .content p.landing-note{margin:12px 0 0}
+.cpage:not(.today)>.context-lead>.landing-note{order:6}
+/* 書き出したページ（携帯）：路線図の高さを先に取っておく。起きたときに下の帯が一段伸びないように */
+@media (max-width:1099.98px){
+  :is(body[data-route^="#/c/"],body[data-route^="#/w/"]):not(.app-ready) .dock .map:empty{display:block}
+}
+/* 右の列：いま開いているページの行は押せない */
+.rm-s a:not([href]){cursor:default}
+/* 作品のページの CURRENT STATION も、ほかと同じ金の札 */
+.wpage .w-lead>.meta{color:var(--gold-ink)}
+/* 探した結果を押し下げない。横に送る帯が無い画面（広い画面・マウス）では、作品の札を出さない */
+@media (min-width:760px),(hover:hover) and (pointer:fine){
+  .search-page .disc.only-sp{display:none}
+}
+@media (max-width:1099.98px){
+  /* 札の列：触れる余白を列の内側に取り、縦には動かない（縦に払うとページが動く） */
+  .ls-cats{overflow-y:hidden;margin-top:-7px;margin-bottom:1px;padding-block:7px}
+  .search-page .seek-keys{overflow-y:hidden;margin-top:-6px;margin-bottom:4px;padding-block:6px}
+  /* 駅の名：字の位置はそのまま、触れる所を上下に広げる */
+  .station{margin-top:-10px;padding-block:12px}
+  /* 利用規約・クレジットの絵は、下の切り口を紙に溶かす。字に掛かる所は薄く */
+  .info-terms .ip-art,.info-credits .ip-art{-webkit-mask-image:linear-gradient(#000 40%,transparent 94%);mask-image:linear-gradient(#000 40%,transparent 94%)}
+}
+/* 字の下限がタブレットの大きな字まで縮めないように（広告のページの三つの札） */
+@media (min-width:760px) and (max-width:1099.98px){
+  .info-page .ab-feats li>span{font-size:13.5px !important}
+}
+/* 札の「作品ページへ」：字の列（80px ほど）では切れるので、札の幅いっぱいに。二枚の札で下を揃える */
+@media (max-width:459.98px){
+  .src-row{align-items:stretch}
+  .src{position:relative;padding-bottom:38px}
+  .src-t i{position:absolute;left:0;right:0;bottom:0;box-sizing:border-box;width:auto;max-width:none;margin:0;overflow:visible;text-align:center}
+}
+/* 狭い携帯：頭の金の札が絵に掛からないように（下限の 11px のまま、字の間を詰める） */
+@media (max-width:374.98px){
+  .info-page.big .ip-hero>.kick{letter-spacing:.06em !important}
+}
+
+/* 案内のページの二つ目のボタンは、絵に重なっても読めるように紙の地を持つ（見本 21） */
+.info-page .content a.pill.sub{background:var(--paper)}
+@media (hover:hover) and (pointer:fine){
+  .info-page .content a.pill.sub:hover{background:linear-gradient(rgba(7,26,48,.06),rgba(7,26,48,.06)),var(--paper)}
+}
+/* 一覧：絞って札が少なくなっても、絞り込みの帯は下のまま（携帯・タブレット） */
+@media (max-width:1099.98px){
+  .list-page .content{min-height:calc(100svh + 18px)}
+  .list-page .ls,.list-page .ls-none:not([hidden]){margin-bottom:auto}
+}
+/* 一覧：印のある札は印と読む時間を残す（路線の名に押されて、読む時間が札の外へ切れていた） */
+@media (min-width:1100px) and (max-width:1679.98px){
+  .list-page .ls-row:is(.done,.now) .ed-txt small .rn{display:none}
+}
+@media (min-width:1100px) and (max-width:1239.98px){
+  .list-page .ed-txt small .ls-mark~.rt{display:none}
+}
+/* 狭い PC：路線の名が［… だけになるなら、出さない */
+@media (min-width:1100px) and (max-width:1179.98px){
+  :is(.search-page,.list-page) :is(.cc-t,.ed-txt) small .rn{display:none}
 }

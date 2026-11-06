@@ -136,7 +136,8 @@ function page(s, got){
   h = h.replace(/<meta property="og:description" content="[^"]*">/, () => `<meta property="og:description" content="${esc(got.desc)}">`);
   if (got.image) h = h.replace(/<meta property="og:image" content="[^"]*">/, () => `<meta property="og:image" content="${esc(got.image)}">`);
   swap('<script type="application/ld+json" id="ld"></script>', `<script type="application/ld+json" id="ld">${got.ld.replace(/</g, '\\u003c')}</script>`);
-  swap('<body class="stage-intro">', `<body class="stage-uni viewing${s.body}" data-route="${s.route}">`);
+  /* has-route：パソコンの右の列の席を最初から空けておく（台本が起きてから列が出ると、紙が横にずれた） */
+  swap('<body class="stage-intro">', `<body class="stage-uni viewing has-route${s.body}" data-route="${s.route}">`);
   const VIEW = /<div class="view" id="view" role="dialog" aria-modal="true">\s*<div class="view-in" id="viewIn"><\/div>/;
   if (!VIEW.test(h)) throw new Error('index.html の形が変わっています：#view');
   /* 本文を印で挟む（sitemap の lastmod を決めるとき、枠ではなくこの中身で比べる） */
@@ -291,6 +292,11 @@ fs.writeFileSync(path.join(DOCS, 'sitemap.xml'),
   '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' +
   urls.map((u) => `  <url><loc>${esc(u.loc)}</loc><lastmod>${u.lastmod}</lastmod></url>`).join('\n') + '\n</urlset>\n');
 fs.writeFileSync(path.join(DOCS, 'robots.txt'), `User-agent: *\nAllow: /\n\nSitemap: ${SITE}/sitemap.xml\n`);
+
+/* 札の小さな絵の控え（img/thumb）が揃っているか。無いまま出すと絵が欠ける */
+const noThumb = new Set();
+for (const [, html] of writes) for (const m of html.matchAll(/img\/thumb\/[^"'\s)]+/g)) if (!fs.existsSync(path.join(DOCS, m[0]))) noThumb.add(m[0]);
+if (noThumb.size) throw new Error(`絵の控えがありません（py tools/make-thumbs.py を走らせてください）：${[...noThumb].slice(0, 5).join(' ')}`);
 
 /* ページと、移ったアドレスのページを書く */
 for (const [file, html] of [...writes, ...redirects]) {

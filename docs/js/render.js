@@ -49,6 +49,9 @@
     const s = String(u || '').trim();
     return !UNSAFE.test(s) && /^(https?:\/\/|img\/|data:image\/(png|jpe?g|webp|gif);base64,)/i.test(s) ? s : '';
   };
+  /* 札や列の小さな絵は軽い控え（幅 300px。tools/make-thumbs.py が作り、prerender が有無を確かめる）。
+     大きく見せる絵（frame）は元のまま。投稿された外の絵はそのまま */
+  const thumb = (u) => { const m = /^img\/(?:works\/)?([^/]+\.jpg)$/.exec(u || ''); return m ? 'img/thumb/' + m[1] : u; };
 
   /* ページの道。作品・区間・編集者は、本物のアドレス（c/区間/、w/作品/、e/編集者/）を持つ。
      検索エンジンや生成AIが一つひとつのページとして読めるように。アプリの中で触れたときは、
@@ -134,16 +137,16 @@
      step があれば data-step のボタン（作品ページから、いま来た区間へ）、なければそのつながりへのリンク */
   /* 読む時間（見本の「約20秒で読む」）。札の路線の名の行の右に小さく。本文の長さから（readLabel） */
   const rt = (c) => c && c.body ? `<i class="rt">${readLabel(c.body)}</i>` : '';
-  function ctxCard(x, step){
+  function ctxCard(x, step, href, tag){
     const h = String(x.context.headline || '').replace(/\n/g, '');
-    const pic = (w) => { const u = safeImg(w.image); return u ? `<img src="${attr(u)}" alt="" loading="lazy" decoding="async">` : `<i>${esc(initial(w))}</i>`; };
-    const inner = `<span class="cc-pics" aria-hidden="true">${pic(x.a)}${pic(x.b)}</span>` +
+    const pic = (w) => { const u = thumb(safeImg(w.image)); return u ? `<img src="${attr(u)}" alt="" loading="lazy" decoding="async">` : `<i>${esc(initial(w))}</i>`; };
+    const inner = (tag ? `<span class="cc-tag">${esc(tag)}</span>` : '') + `<span class="cc-pics" aria-hidden="true">${pic(x.a)}${pic(x.b)}</span>` +
       `<span class="cc-t"><small><span class="rn">［${esc(x.context.routeName)}］</span>${rt(x.context)}</small><b>${esc(h)}</b><em>${esc(x.a.title)} ＋ ${nb(x.b.title)}</em></span>` +
       `<span class="cc-go" aria-hidden="true">›</span>`;
-    const al = ` aria-label="${attr(h + '：' + x.a.title + ' ＋ ' + x.b.title)}"`;
+    const al = ` aria-label="${attr((tag ? tag + '：' : '') + h + '：' + x.a.title + ' ＋ ' + x.b.title)}"`;
     return step != null
-      ? `<button type="button" class="ctx-card" data-step="${step}"${al}>${inner}</button>`
-      : `<a class="ctx-card" href="${attr(pathOf('c', x.context.slug))}"${al}>${inner}</a>`;
+      ? `<button type="button" class="ctx-card${tag ? ' is-next' : ''}" data-step="${step}"${al}>${inner}</button>`
+      : `<a class="ctx-card${tag ? ' is-next' : ''}" href="${attr(href || pathOf('c', x.context.slug))}"${al}>${inner}</a>`;
   }
 
   /* 同じ作品をルーツに共有するコンテクスト */
@@ -198,29 +201,55 @@
   /* ---------- 作品ページ（駅） ----------
      demo-1 の作品ページ A／B。上に絵、下に紙の地で作品固有の解説だけ。
      他作品との関係はコンテクストページで読む。 */
-  function workPage(hit, e){
-    const w = hit.work;
-    const side = e && e.b.slug === w.slug ? 'b' : 'a';
-    const other = e ? e[side === 'a' ? 'b' : 'a'] : null;
-    const others = hit.contexts.filter(x => !e || x.entry.id !== e.id);
-    const more = others.length ? `<div class="ctx-cards">${others.map(({ entry }) => ctxCard(entry)).join('')}</div>` : '';
+  function workPage(hit, e, o){
+    o = o || {};
+    const w = hit.work, nx = o.next || null, from = o.from || null, own = hit.contexts.map(x => x.entry);
+    /* 札の順：次に行くつながりを先頭に（つぎへ。つながりを辿ると同じ行き先）、読んできたものは最後に。
+       道の都合で次がこの作品のつながりでないとき（路線の乗り換え）は、札を見出しの上に分ける */
+    const card = (x, tag) => ctxCard(x, e && x.id === e.id ? 1 : null, null, tag);
+    const inOwn = !!nx && own.some(x => x.id === nx.id);
+    const rest = own.filter(x => !nx || x.id !== nx.id);
+    const list = rest.filter(x => !from || x.id !== from.id).concat(rest.filter(x => from && x.id === from.id));
+    const lines = (nx && !inOwn ? `<div class="ctx-cards">${card(nx, 'つぎへ')}</div>` : '') +
+      (own.length ? `<p class="meta more-label">この作品から延びるつながり　${own.length}本</p>
+          <div class="ctx-cards">${inOwn ? card(nx, 'つぎへ') : ''}${list.map(x => card(x)).join('')}</div>` : '');
     /* 作品ページもコンテクストページと同じ形に（BC修正要望 2026.10.22「全ての Content は Context に」）。
        左にその作品、右はまだ誰も結んでいない席：＋ でエディターを開き、この作品から新しいつながりを創る */
     return `
       <article class="page wpage">
         ${backTop()}
-        <div class="duo-hero">${topLogo('on-paper')}<div class="duo">${frame(w, 'art')}<a class="duo-add" href="editor.html?from=${attr(encodeURIComponent(w.slug))}" aria-label="${attr(w.title)}から、新しいつながりを創る" title="この作品から、新しいつながりを創る（ReMixIt!・編集者向け）"><span aria-hidden="true">＋</span><small>つながりを創る</small></a></div>${navArrows()}</div>
-        <div class="content">
+        <div class="duo-hero">${topLogo('on-paper')}${topExtras()}<div class="duo">${frame(w, 'art')}<a class="duo-add" href="editor.html?from=${attr(encodeURIComponent(w.slug))}" aria-label="${attr(w.title)}から、新しいつながりを創る" title="この作品から、新しいつながりを創る（ReMixIt!・編集者向け）"><span aria-hidden="true">＋</span><small>つながりを創る</small></a></div>${navArrows()}</div>
+        <div class="content w-lead">
           <p class="meta">${esc(w.type || '作品')}${w.year ? '・' + esc(w.year) + '年' : ''}　CURRENT STATION</p>
-          <p class="meta-sub">駅：この作品を起点に、次の区間へ</p>
           <h2>${esc(w.title)}</h2>
           ${w.creator ? `<p class="by">${esc(w.creator)}</p>` : ''}
           ${w.summary ? `<p>${esc(w.summary)}</p>` : ''}
-          ${e ? `<div class="ctx-cards">${ctxCard(e, 1)}</div>` : ''}
-          ${more ? `<p class="meta more-label">この駅から延びるほかの区間　${others.length}本</p>${more}` : ''}
+        </div>
+        ${workJourney(o.journey)}
+        <div class="content w-lines">
+          ${lines}
           ${credit(w)}
         </div>
       </article>`;
+  }
+  /* 作品ページの CONTEXT JOURNEY（携帯）：パソコンの右の列と同じ並びを、見本 08 のように大きな絵で。
+     ここまで＝読んできたつながり、いまここ＝この作品、つぎへ＝つながりを辿るの行き先（app.js workRows） */
+  function workJourney(list){
+    if (!list || list.length < 2) return '';
+    const row = (x) => {
+      const c = x.entry && x.entry.context, w = x.work;
+      const inner = `<i class="jr-dot"></i><b>${esc(x.name)}</b><span class="jr-art">${mini(w || x.pic)}</span><span class="jr-t">` + (c
+        ? `<small>［${esc(c.routeName)}］</small><strong>${esc(String(c.headline || '').replace(/\n/g, ''))}</strong><em>${esc(x.entry.a.title)} ＋ ${esc(x.entry.b.title)}</em>`
+        : `<small>${esc(w.type || '作品')}${w.year ? '・' + esc(w.year) : ''}</small><strong>${esc(w.title)}</strong>${w.creator ? `<em>${esc(w.creator)}</em>` : ''}`) + `</span>`;
+      return `<li${x.now ? ' class="now"' : ''}>${x.now ? `<span class="jr-row" aria-current="step">${inner}</span>`
+        : `<a class="jr-row" href="${attr(x.href || pathOf('c', c.slug))}">${inner}</a>`}</li>`;
+    };
+    return `
+        <section class="journey w-journey" aria-label="CONTEXT JOURNEY">
+          <p class="meta">CONTEXT JOURNEY<a href="#/list">一覧で見る　→</a></p>
+          <p class="jr-sub">この作品から、たどる道</p>
+          <ol class="jr">${list.map(row).join('')}</ol>
+        </section>`;
   }
 
   /* つながりの型と四軸。先生の資料（事業計画書）の採点軸をそのまま並べる。
@@ -326,8 +355,7 @@
     /* ‹ › はどのコンテクストページにも（BC修正要望 2026.10.22）。› は NEXT と同じ、‹ は一つ前のつながりへ。
        最初の画面には戻る先がないので ‹ は出さない（body.at-root） */
     const nav = navArrows();
-    const dots = td && td.n > 1
-      ? `<span class="today-dots" aria-label="${td.n} 本のうち ${td.i + 1} 本目">${Array.from({ length: td.n }, (_, k) => `<i${k === td.i ? ' class="on"' : ''}></i>`).join('')}</span>` : '';
+    const dots = todayDots(td);
     /* 読む時間は見出しの行（route-label）から外し、ボタンの中に小さく残すだけ。「読了時間30秒」の札は要らない、
        代わりに続きを読みたくなる誘導を（開発会議 2026.10.23 §3.2）。ボタンの ↓ はゆっくり上下し、
        ボタンの下の .story-cue（金の細い線）が本文へ向かって流れる。携帯だけ。見開きでは本文が横に見えている */
@@ -336,7 +364,7 @@
         ${td ? '' : backTop()}
         <div class="duo-hero">${td
           ? `${topLogo('on-paper today-logo')}<div class="today-bar"><b>TODAY'S EDITOR'S CHOICE</b><span><time>${esc(td.day)}</time>${dots}</span></div>${loginChip(o.me)}`
-          : topLogo('on-paper')}<div class="duo"><button type="button" class="duo-go" data-step="0" aria-label="${attr(e.a.title)}の作品ページへ">${frame(e.a, 'art')}</button><button type="button" class="duo-go" data-step="2" aria-label="${attr(e.b.title)}の作品ページへ">${frame(e.b, 'art')}</button><i class="swap" aria-hidden="true">↔</i></div>${nav}</div>
+          : `${topLogo('on-paper')}<span class="only-sp">${loginChip(o.me)}</span>`}<div class="duo"><button type="button" class="duo-go" data-step="0" aria-label="${attr(e.a.title)}の作品ページへ">${frame(e.a, 'art')}</button><button type="button" class="duo-go" data-step="2" aria-label="${attr(e.b.title)}の作品ページへ">${frame(e.b, 'art')}</button><i class="swap" aria-hidden="true">↔</i></div>${nav}</div>
         <section class="context-lead">
           ${state}
           ${editorRow(o.editor, o.following)}
@@ -356,7 +384,7 @@
           ${refs(c)}
           <p class="byline">${esc(o.editor ? o.editor.name : c.author)}　·　${esc(new Date(e.updatedAt).toLocaleDateString('ja-JP'))}</p>
           ${comments(e, o.comments || S.visibleComments(e), o.mine, o.me)}
-          ${rel.length ? `<p class="meta more-label">同じルーツのコンテクスト</p>${roots(e, rel)}` : ''}
+          ${rel.length ? `<p class="meta more-label">同じ作品から出るつながり</p>${roots(e, rel)}` : ''}
           ${ad(adItem)}
           ${credit(e.a)}${credit(e.b)}
           ${nextCtx(o.journey)}
@@ -370,11 +398,17 @@
         </article>
       </article>`;
   }
+  /* 今日の何本目か（フォローで本数が変わると描き直す。空でも席を残す） */
+  function todayDots(td){
+    return td && td.n > 1 && td.i >= 0
+      ? `<span class="today-dots" aria-label="${td.n} 本のうち ${td.i + 1} 本目">${Array.from({ length: td.n }, (_, k) => `<i${k === td.i ? ' class="on"' : ''}></i>`).join('')}</span>`
+      : '<span class="today-dots" hidden></span>';
+  }
   /* 二つの作品の札（見本の SOURCE CONNECTION）。題の下に、左右の作品を絵・種類・名前・作り手・ひとことで。
      触れるとその作品（駅）のページへ（上の二枚の絵と同じ data-step）。絵には data-k を付けない（ページが替わるときに運ぶ絵は上の二枚だけ） */
   function sourceCards(e){
     const card = (w, step) => {
-      const s = safeImg(w.image);
+      const s = thumb(safeImg(w.image));
       return `<button type="button" class="src" data-step="${step}" aria-label="${attr(w.title)}の作品ページへ">` +
         (s ? `<img src="${attr(s)}" alt="" loading="lazy" decoding="async">` : `<span class="ph">${esc(initial(w))}</span>`) +
         `<span class="src-t"><small>${esc(w.type || '作品')}${w.year ? '・' + esc(w.year) : ''}</small><b>${esc(w.title)}</b>` +
@@ -392,13 +426,13 @@
      触れるとその区間へ。パソコンでは右の列が同じものなので出さない（ink.css） */
   function journey(list){
     if (!list || list.length < 2) return '';
-    const pic = (w) => { const u = safeImg(w.image); return u ? `<img src="${attr(u)}" alt="" loading="lazy" decoding="async">` : `<i>${esc(initial(w))}</i>`; };
+    const pic = (w) => { const u = thumb(safeImg(w.image)); return u ? `<img src="${attr(u)}" alt="" loading="lazy" decoding="async">` : `<i>${esc(initial(w))}</i>`; };
     const stop = (x) => {
       const e = x.entry;
       const inner = `<i class="jr-dot"></i><span class="jr-t"><b>${esc(x.name)}</b><small>${esc(String(e.context.headline || '').replace(/\n/g, ''))}</small></span>` +
         `<span class="jr-pics" aria-hidden="true">${pic(e.a)}${pic(e.b)}</span>`;
       return `<li${x.now ? ' class="now"' : ''}>${x.now ? `<span class="jr-row" aria-current="step">${inner}</span>`
-        : `<a class="jr-row" href="${attr(pathOf('c', e.context.slug))}">${inner}</a>`}</li>`;
+        : `<a class="jr-row" href="${attr(x.href || pathOf('c', e.context.slug))}">${inner}</a>`}</li>`;
     };
     return `
         <section class="journey" aria-label="CONTEXT JOURNEY">
@@ -415,7 +449,7 @@
     return `
           <section class="next-ctx" aria-label="次に読むつながり">
             <p class="meta">NEXT CONTEXT<small>次に読むつながり</small></p>
-            ${ctxCard(nx.entry)}
+            ${ctxCard(nx.entry, null, nx.href)}
           </section>`;
   }
   /* コンテクストページのいちばん下：検索などから来た人が、このメディアのどこへでも行ける小さな入口 */
@@ -424,7 +458,7 @@
 
   /* ---------- 編集者のページ ----------
      名前・ひとこと・フォロー。その人が選んだコンテクストの一覧 */
-  const mini = (w) => { const s = safeImg(w.image); return s ? `<img src="${attr(s)}" alt="" loading="lazy" decoding="async">` : `<span class="ph">${esc(initial(w))}</span>`; };
+  const mini = (w) => { const s = thumb(safeImg(w.image)); return s ? `<img src="${attr(s)}" alt="" loading="lazy" decoding="async">` : `<span class="ph">${esc(initial(w))}</span>`; };
   function editorPage(ed, list, on){
     const items = list.map(e => `
       <a class="ed-item" href="${attr(pathOf('c', e.context.slug))}">
@@ -437,7 +471,7 @@
     const note = /^[A-Za-z0-9_]{1,40}$/.test(ed.note || '') ? ed.note : '';
     return `
       <article class="page text-page editor-page">
-        ${backTop()}${topLogo('on-paper')}
+        ${backTop()}${topLogo('on-paper')}${topExtras()}
         <div class="ed-cover${pic ? '' : ' empty'}">${pic
           ? `<img src="${attr(pic)}" alt="${attr(ed.name)}" decoding="async">`
           : avatar(ed.mark || ed.name, 'big')}<span class="ed-down" aria-hidden="true"></span></div>
@@ -450,7 +484,7 @@
             <div class="ed-acts">${followBtn(ed, on)}${note
               ? `<a class="note-link" href="https://note.com/${attr(note)}" target="_blank" rel="noopener"><b>note</b><span>note.com/${esc(note)}</span></a>` : ''}</div>
           </div>
-          <h3 class="ed-chose">${esc(ed.name)}が選んだつながり<small>この編集者が選んだつながり　${list.length}</small></h3>
+          <h3 class="ed-chose">${esc(ed.name)}が選んだつながり</h3>
           <div class="ed-list">${items || '<p>まだありません。</p>'}</div>
         </div>
       </article>`;
@@ -475,29 +509,35 @@
           <a class="ls-item" href="${attr(pathOf('c', c.slug))}">
             <span class="ls-no">${String(i + 1).padStart(3, '0')}</span>
             <span class="ed-thumbs">${mini(e.a)}${mini(e.b)}</span>
+            <span class="ls-works only-pc">${[e.a, e.b].map(w => `<span class="ls-w">${mini(w)}<span><b>${esc(w.title)}</b>${w.creator ? `<small>${esc(w.creator)}</small>` : ''}</span></span>`).join('')}</span>
             <span class="ed-txt"><small><span class="rn">［${esc(c.routeName)}］</span>${now ? '<i class="ls-mark now">いまここ</i>' : done ? '<i class="ls-mark">読んだ</i>' : ''}${rt(c)}</small>
               <b>${esc(c.headline).replace(/\n/g, '')}</b>
               <span>${from ? `${esc(tagText(from))}から分岐　` : ''}${esc(e.a.title)} ＋ ${esc(e.b.title)}</span></span></a></li>`;
     }).join('');
     return `
       <article class="page list-page">
-        ${backTop()}${topLogo('on-paper')}
+        ${backTop()}${topLogo('on-paper')}${topExtras('ALL CONTEXTS')}
         <div class="content">
-          <p class="meta">つながりを辿る順</p>
-          <h2>つながりの一覧</h2>
+          <header class="ip-hero ls-hero"><i class="ip-art" aria-hidden="true"></i>
+            <p class="meta">CONTEXT</p>
+            <p class="ls-en only-pc">ALL CONTEXTS<small>BEAUTIFUL CONTEXT</small></p>
+            <h2><span class="only-pc">すべての文脈</span><span class="only-sp">すべてのつながりから、<br>新しい視点を見つける。</span></h2>
+            <p class="ls-lead"><span class="only-pc">映画・小説・音楽・美術・人・社会──<br>あらゆる作品と出来事が、思いがけないつながりで出会う。</span><span class="only-sp">小説・映画・音楽・アートなど、<br>ことばから広がる多様な文脈をめぐる旅。</span></p>
+          </header>
+          <div class="ls-bar">
+            <form class="seek ls-seek" role="search" data-ls-seek>
+              ${ICON.seek}<input type="search" name="q" placeholder="一覧から探す（作品・人・言葉）" enterkeyhint="search" aria-label="一覧から探す">
+              <button type="submit" class="seek-go only-pc" aria-label="一覧から探す"><span>検索</span><i aria-hidden="true">→</i></button>
+            </form>
+            <div class="ls-cats" role="group" aria-label="種類で分ける">
+              <button type="button" class="on" data-cat="" aria-pressed="true">すべて</button>
+              <button type="button" data-cat=":read" aria-pressed="false">読んだ</button>
+              ${cats.map(k => `<button type="button" data-cat="${attr(k)}" aria-pressed="false">${esc(k)}</button>`).join('')}
+            </div>
+          </div>
           <p class="ls-count">${items.length} のつながり　·　読んだ ${read}</p>
           <ol class="ls" id="ls">${rows}</ol>
           <p class="ls-none" id="lsNone" hidden>見つかりませんでした。別の言葉で探してみてください。</p>
-        </div>
-        <div class="ls-bar">
-          <div class="ls-cats" role="group" aria-label="種類で分ける">
-            <button type="button" class="on" data-cat="" aria-pressed="true">すべて</button>
-            <button type="button" data-cat=":read" aria-pressed="false">読んだ</button>
-            ${cats.map(k => `<button type="button" data-cat="${attr(k)}" aria-pressed="false">${esc(k)}</button>`).join('')}
-          </div>
-          <form class="seek ls-seek" role="search" data-ls-seek>
-            ${ICON.seek}<input type="search" name="q" placeholder="一覧から探す（作品・人・言葉）" enterkeyhint="search" aria-label="一覧から探す">
-          </form>
         </div>
       </article>`;
   }
@@ -512,10 +552,11 @@
       const n = from + i, w = it.work, c = it.entry && it.entry.context;
       const parent = it.parent && items.find(x => x.slug === it.parent);
       const s = safeImg(w.image);
-      const href = pathOf('w', it.slug, c ? '?c=' + encodeURIComponent(c.slug) : '');
+      const via = c || (it.via && it.via.context);
+      const href = pathOf('w', it.slug, via ? '?c=' + encodeURIComponent(via.slug) : '');
       return `
         <li class="stop${n === 0 ? ' first' : ''}${it.branch ? ' branch' : ''}${!c && n > 0 ? ' newline' : ''}">
-          ${!c && n > 0 ? `<p class="transfer"><span>別の路線へ</span></p>` : ''}
+          ${(!c && n > 0) || it.jump ? `<p class="transfer"><span>別の路線へ</span></p>` : ''}
           ${c ? `<a class="seg" href="${attr(pathOf('c', c.slug))}">
             ${it.branch && parent ? `<span class="seg-from">${esc(tagText(parent.work))} から分岐</span>` : ''}
             <small>［${esc(c.routeName)}］${c.kind ? `　${esc(c.kind)}` : ''}</small>
@@ -543,6 +584,8 @@
       </article>`;
   }
 
+  /* 見本の携帯の上の帯：ロゴの下の一言と、右上の Login（パソコンは左の列にログインがある。ink.css 第32段） */
+  const topExtras = (tag) => `${tag ? `<p class="ip-tag only-sp">${esc(tag)}</p>` : ''}<span class="only-sp">${loginChip(window.BCSocial ? BCSocial.me() : null)}</span>`;
   /* ---------- 検索 ---------- */
   /* 見本の「注目のキーワード」：作品の種類（映画・書籍・人物…）を、多い順に。触れるとその言葉で辿る */
   function keywords(q){
@@ -551,20 +594,20 @@
     S.works().forEach(({ work: w }) => String(w.type || '').split('・').filter(Boolean).forEach(t => { n[t] = (n[t] || 0) + 1; }));
     const top = Object.keys(n).sort((x, y) => n[y] - n[x]).slice(0, 8);
     if (!top.length) return '';
-    return `<p class="seek-keys"><small>注目のキーワード</small>${top.map(k =>
+    return `<p class="seek-keys"><small class="only-sp">注目のキーワード</small><a class="only-pc" href="#/search"${top.includes(q) ? '' : ' aria-current="true"'}>すべて</a>${top.map(k =>
       `<a href="#/search?q=${encodeURIComponent(k)}"${k === q ? ' aria-current="true"' : ''}>${esc(k)}</a>`).join('')}</p>`;
   }
   /* 見本の DISCOVERY：辿る道のはじめのほうに出てくる作品を、絵の札で横に並べる（触れるとその作品（駅）へ）。
      言葉を入れていなければ結果の場所に、入れていれば結果の下に置く（探した結果を押し下げない） */
-  function discovery(){
+  function discovery(q){
     const seen = new Set(), list = [];
     S.trail().some(({ entry: e }) => { [e.a, e.b].forEach(w => { if (w && !seen.has(w.slug)) { seen.add(w.slug); list.push(w); } }); return list.length >= 10; });
     if (!list.length) return '';
-    const card = (w) => { const u = safeImg(w.image);
+    const card = (w) => { const u = thumb(safeImg(w.image));
       return `<a class="dc" href="${attr(pathOf('w', w.slug))}"><span class="dc-img">${u ? `<img src="${attr(u)}" alt="" loading="lazy" decoding="async">` : `<i>${esc(initial(w))}</i>`}</span>` +
         `<small>${esc(String(w.type || '作品').split('・')[0])}</small><b>${esc(w.title)}</b>${w.creator ? `<em>${esc(w.creator)}${w.year ? `（${esc(w.year)}）` : ''}</em>` : ''}</a>`; };
     return `
-          <section class="disc" aria-label="DISCOVERY">
+          <section class="disc${q ? ' only-sp' : ''}" aria-label="DISCOVERY">
             <p class="meta">DISCOVERY<a href="#/list">すべて見る　→</a></p>
             <h3 class="disc-t">作品から見つける</h3>
             <div class="dc-row">${list.slice(0, 10).map(card).join('')}</div>
@@ -577,21 +620,23 @@
     const none = !res.contexts.length && !res.works.length;
     return `
       <article class="page text-page search-page">
-        ${backTop()}${topLogo('on-paper')}
+        ${backTop()}${topLogo('on-paper')}${topExtras('言葉で、つながる。')}
         <div class="content">
-          <p class="meta">SEARCH</p>
-          <h2 class="seek-title">作品・作家・テーマを検索</h2>
-          <p class="seek-sub">小説から映画へ、言葉から始まるつながりを見つける。</p>
+          <header class="ip-hero sk-hero"><i class="ip-art" aria-hidden="true"></i>
+          <p class="meta only-pc">SEARCH</p>
+          <h2 class="seek-title"><span class="only-pc">知りたいことから、思いがけないつながりへ。</span><span class="only-sp">作品・作家・テーマを検索</span></h2>
+          <p class="seek-sub"><span class="only-pc">映画・小説・音楽・人物・時代など、<br>さまざまなメディアと言葉を横断して、あなただけのつながりを見つけます。</span><span class="only-sp">小説から映画へ、言葉から新たなつながりを見つける。</span></p>
           <form class="seek big" role="search" data-seek>
             ${ICON.seek}<input type="search" name="q" value="${attr(q)}" placeholder="作品名・作家名・テーマなどで検索" enterkeyhint="search" aria-label="検索">
+            <button type="submit" class="seek-go" aria-label="検索する"><span class="only-pc">検索する</span><i aria-hidden="true">→</i></button>
           </form>
           ${keywords(q)}
-          ${q ? '' : discovery()}
-          ${q ? `<p class="meta">SEARCH RESULTS</p><h3 class="seek-res">「${esc(q)}」の検索結果<small>${res.contexts.length}件</small></h3>` : ''}
+          </header>
+          ${discovery(q)}
+          ${q ? `<p class="meta only-sp">SEARCH RESULTS</p><h3 class="seek-res">「${esc(q)}」の検索結果<small>${res.contexts.length}件</small></h3>` : ''}
           ${none && q ? `<p>見つかりませんでした。別の言葉で辿ってみてください。</p>` : ''}
           ${ctx}
           ${works ? `<p class="meta more-label">作品</p><div class="chips">${works}</div>` : ''}
-          ${q ? discovery() : ''}
         </div>
       </article>`;
   }
@@ -600,22 +645,26 @@
   /* 「Beautiful Context とは」の説明文（検索結果の説明と、構造化データで同じものを使う） */
   const ABOUT_DESC = 'Beautiful Context（ビューティフル・コンテクスト）は、映画・本・音楽・人物・場所など、二つの作品のあいだにある意外なつながりを、編集者が一本の「コンテクスト」として届けるメディアです。読み方、生成AIの初稿の扱いを含む編集の方針、運営について。';
   function page(name){
-    const shell = (title, body, kick) => `
-      <article class="page text-page info-page info-${name}">
-        ${backTop()}${topLogo('on-paper')}
-        <div class="content">${kick ? `<p class="meta kick">${kick}</p>` : ''}<h2>${title}</h2>${body}</div>
+    /* big：見本の大きな頭。左に金の札・大きな題・文、右に見本の絵（.ip-art。ink.css 第32段）。題は携帯とパソコンで別のことがある */
+    /* 見本の題に替えても、ページの名前（検索エンジン・読み上げ）は見出しの中に残す（.vh は目に見えない） */
+    const duo = (pc, sp) => sp ? `<span class="only-pc">${pc}</span><span class="only-sp">${sp}</span>` : pc;
+    const shell = (title, body, kick, big) => `
+      <article class="page text-page info-page info-${name}${big ? ' big' : ''}">
+        ${backTop()}${topLogo('on-paper')}${big ? topExtras(big.tag) : ''}
+        <div class="content">${big
+          ? `<header class="ip-hero"><i class="ip-art" aria-hidden="true"></i>${kick ? `<p class="meta kick">${kick}</p>` : ''}<h2>${big.pc ? `<span class="vh">${title}</span>` : ''}${duo(big.pc || title, big.sp)}</h2>${big.head || ''}</header>`
+          : `${kick ? `<p class="meta kick">${kick}</p>` : ''}<h2>${title}</h2>`}${body}</div>
       </article>`;
     /* 見本の紺の丸いボタン（→ 付き）と、縁だけのボタン */
     const pill = (href, text, sub, extra) => `<a class="pill${sub ? ' sub' : ''}" href="${attr(href)}"${extra || ''}>${text}<i aria-hidden="true">→</i></a>`;
     /* About（開発会議 2026.10.23：検索エンジンが BC を「カードのデータベース」としか読めていないため、最優先で用意） */
     if (name === 'about') return shell('Beautiful Context とは', `
-      <p class="lead">Beautiful Context（ビューティフル・コンテクスト）は、映画・本・音楽・人物・場所など、二つの作品のあいだにある意外なつながりを、編集者が一本の「コンテクスト」として書き、届けるメディアです。</p>
-      <p class="ab-go">${pill('#/today', '今日のつながりを読む', 0, ' data-home')}</p>
-      <p class="meta ab-feat-h">BEAUTIFUL CONTEXT の 3つの特徴</p>
-      <ol class="ab-feats" role="list">
-        <li class="f-uni"><small>01</small><b>辿る</b><span>UniverseIt! ── 言葉から、既にある区間を辿る</span></li>
-        <li class="f-read"><small>02</small><b>読む</b><span>作品の駅から、二駅間の区間へ。区間を読んで、別の駅へ</span></li>
-        <li class="f-remix"><small>03</small><b>創る</b><span>ReMixIt! ── 二つの作品の間に、新しい区間をつくる</span></li>
+      <p class="lead only-sp">Beautiful Context（ビューティフル・コンテクスト）は、映画・本・音楽・人物・場所など、二つの作品のあいだにある意外なつながりを、編集者が一本の「コンテクスト」として書き、届けるメディアです。</p>
+      <p class="meta ab-feat-h">BEAUTIFUL CONTEXT の <em>3</em>つの特徴</p>
+      <ol class="ab-feats big-feats" role="list">
+        <li class="f-uni"><small>01</small><b>辿る</b><span>UniverseIt! ── 言葉から、既にある区間を辿る</span><img class="only-pc" src="img/deco/ab-f1.png" alt="" width="377" height="188" loading="lazy"></li>
+        <li class="f-read"><small>02</small><b>読む</b><span>作品の駅から、二駅間の区間へ。区間を読んで、別の駅へ</span><img class="only-pc" src="img/deco/ab-f2.png" alt="" width="340" height="188" loading="lazy"></li>
+        <li class="f-remix"><small>03</small><b>創る</b><span>ReMixIt! ── 二つの作品の間に、新しい区間をつくる</span><img class="only-pc" src="img/deco/ab-f3.png" alt="" width="336" height="188" loading="lazy"></li>
       </ol>
       <p>たとえば、ピアニストのグレン・グールドが生涯の愛読書にしていたのが、夏目漱石の『草枕』だったこと。二つの作品のどちらにも属さないその関係を、独立した一本の読み物として読めるようにしています。</p>
       <p>私たちは、作品を「駅」、二つの作品のあいだにある関係を「区間」と呼んでいます。駅にあたる作品は、それぞれの作者や権利者のものです。Beautiful Context がつくるのは、駅と駅のあいだの区間のほうです。区間を一本読み終えると次の駅に着き、そこからまた別の区間へ。作品から作品へ、つながりを辿っていけます。</p>
@@ -638,41 +687,58 @@
       <p class="org">運営：（会社名）<br>代表：前田邦宏<br>連絡先：info@beautifulcontext.com（準備中）</p>
       ${tease('#/terms', '利用規約・プライバシー')}
       ${tease('#/credits', '画像の出典')}
-      ${tease('#/ad', '広告枠のご案内')}`, 'BEAUTIFUL CONTEXT について');
+      ${tease('#/ad', '広告枠のご案内')}`, 'BEAUTIFUL CONTEXT について', {
+        tag: 'CONTEXTを、もっと深く、美しく',
+        pc: '一つの作品から、<br>世界がつながっていく。',
+        sp: '映画は、<br>つながりで<br>もっと面白くなる。',
+        head: `<p class="lead only-pc">Beautiful Context（ビューティフル・コンテクスト）は、映画・本・音楽・人物・場所など、二つの作品のあいだにある意外なつながりを、編集者が一本の「コンテクスト」として書き、届けるメディアです。</p>
+          <p class="lead only-sp">小説、歴史、人物、音楽──<br>作品をめぐる多様な文脈をたどり、<br>まだ見ぬ発見に出会える<br>メディアです。</p>
+          <p class="ab-go">${pill('#/today', '今日のつながりを読む', 0, ' data-home')}</p>` });
     /* 辿る・読む・創るの三つは、About の三つの特徴と同じ線の印の札に（見本の Our Mission。2026.11.03 番号の丸から）。印の無い ol を
        Safari の読み上げが「リスト」と読まないことがあるので、role="list" を付ける（見た目は変わらない） */
     if (name === 'mission') return shell('Our Mission', `
-      <p class="lead">意外な関係を持つ二つの情報を、つなぎ、読める場所をつくる。</p>
+      <p class="ms-mark"><span>OUR MANIFESTO</span></p>
+      <section class="ms-mani"><i class="ms-mani-art only-pc" aria-hidden="true"></i>
+      <h3 class="ms-h">あらゆる知が、<br class="only-sp">誰かの物語につながっている。</h3>
       <p>たとえば、自分が見た海外の映画に原作があり、それが日本の著名な映画監督によってすでに撮られていたと気づいたとき。その発見は、二つの作品のどちらにも属さない、独立した一つの読み物になる。</p>
       <p>作品は駅、コンテクストは二駅間の区間。駅にあたる作品やブランドは他者のものであり、ここで生み出すのは区間のほうである。</p>
       <p>関係の初稿は生成AIが書き、採否と最終稿は人が担う。二つを組み合わせるだけで、音楽の DJ のように、つながりを活かした美しい空間が編み出されていく。</p>
-      <ol class="ab-feats ms-feats" role="list">
-        <li class="f-uni"><small>01</small><b>辿る</b><span>UniverseIt! ── 言葉から、既にある区間を辿る</span></li>
-        <li class="f-read"><small>02</small><b>読む</b><span>作品の駅から、二駅間の区間へ。区間を読んで、別の駅へ</span></li>
-        <li class="f-remix"><small>03</small><b>創る</b><span>ReMixIt! ── 二つの作品の間に、新しい区間をつくる</span></li>
+      </section>
+      <p class="ms-mark"><span>OUR STORY</span></p>
+      <ol class="ms-story" role="list">
+        <li><img src="img/deco/ms-1.jpg" alt="" loading="lazy"><div><small>01</small><b>辿る</b><span>UniverseIt! ── 言葉から、既にある区間を辿る</span></div></li>
+        <li><img src="img/deco/ms-2.jpg" alt="" loading="lazy"><div><small>02</small><b>読む</b><span>作品の駅から、二駅間の区間へ。区間を読んで、別の駅へ</span></div></li>
+        <li><img src="img/deco/ms-3.jpg" alt="" loading="lazy"><div><small>03</small><b>創る</b><span>ReMixIt! ── 二つの作品の間に、新しい区間をつくる</span></div></li>
       </ol>
       <p class="motto">YOUR CONTEXT WILL VISUALIZE BY US</p>
-      <p class="ab-go ms-go">${pill('#/today', '今日のつながりを読む', 0, ' data-home')}</p>`, 'OUR MISSION');
+      <p class="ab-go ms-go">${pill('#/today', '今日のつながりを読む', 0, ' data-home')}</p>`, 'OUR MISSION', {
+        tag: "TODAY'S EDITOR'S CHOICE",
+        pc: '世界を、<br>つながりで読み解く。',
+        sp: '言葉で、<br>世界の見え方を<br>豊かにする。',
+        head: '<p class="lead">意外な関係を持つ二つの情報を、つなぎ、読める場所をつくる。</p>' });
     if (name === 'terms') return shell('利用規約・<wbr>プライバシー', `
-      <p class="lead">これはデモ版です。正式な利用規約とプライバシーポリシーは、サービス公開時に用意します。</p>
-      <h3>データの保存先</h3>
+      <div class="tm-wrap"><nav class="tm-toc" aria-label="目次"><ol role="list"><li><button type="button" data-toc="tm-1" aria-current="true"><i>01</i>データの保存先</button></li><li><button type="button" data-toc="tm-2"><i>02</i>アクセス解析（外部送信）</button></li><li><button type="button" data-toc="tm-3"><i>03</i>ログインとコメント（外部送信）</button></li><li><button type="button" data-toc="tm-4"><i>04</i>Google・Apple でのログイン（外部送信）</button></li><li><button type="button" data-toc="tm-5"><i>05</i>コメントの通報と「表示しない」</button></li><li><button type="button" data-toc="tm-6"><i>06</i>アカウントの削除</button></li><li><button type="button" data-toc="tm-7"><i>07</i>画像と文章</button></li></ol></nav><div class="tm-body">
+      <h3 id="tm-1"><small>01</small>データの保存先</h3>
       <p>作成したコンテクストや設定は、お使いの端末のブラウザ（localStorage）にだけ保存されます。サーバーへ送信することはありません。別の端末や別の人には見えません。</p>
       <p>ログインした場合のアカウント・表示名・フォロー・共感・コメントは、下の Supabase に保存されます。</p>
-      <h3>アクセス解析（外部送信）</h3>
+      <h3 id="tm-2"><small>02</small>アクセス解析（外部送信）</h3>
       <p>サイトの改善と利用状況の把握のため、Google LLC の「Google アナリティクス」を使っています。ページを開くと、閲覧したページのアドレス、参照元、おおよその地域、端末やブラウザの種類などの情報が、Cookie などを通じて Google に送信されます。氏名やメールアドレスなど、個人を直接特定する情報は送りません。</p>
       <p>送信される情報の扱いは <a href="https://policies.google.com/technologies/partner-sites?hl=ja" target="_blank" rel="noopener">Google のポリシー</a> をご覧ください。送信を止めたい場合は <a href="https://tools.google.com/dlpage/gaoptout?hl=ja" target="_blank" rel="noopener">Google アナリティクス オプトアウト アドオン</a> を使えます。</p>
-      <h3>ログインとコメント（外部送信）</h3>
+      <h3 id="tm-3"><small>03</small>ログインとコメント（外部送信）</h3>
       <p>ログイン・フォロー・コメントのために、Supabase Inc. の「Supabase」を使っています。送信するのは、ログインに使うメールアドレス（確かめのコードやパスワードの再設定を届けるため）とパスワード（Supabase が復元できない形（ハッシュ）にして保存し、運営も見られません）、コメントに出す表示名、フォローした編集者、共感したコンテクスト、書いたコメントです。データは Supabase の東京リージョン（日本国内のサーバー）に保存されます。</p>
       <p>メールアドレスはログインのためだけに使い、ほかの読者には見えません。コメントは編集者が確かめてから、表示名とともに公開されます。ログインしないで読むときも、公開中のコメントやフォロワーの数を読むために Supabase へ接続します（このとき送られるのは通信に伴う IP アドレスやブラウザの種類などで、名前やメールアドレスは送りません）。扱いは <a href="https://supabase.com/privacy" target="_blank" rel="noopener">Supabase のプライバシーポリシー</a> をご覧ください。</p>
-      <h3>Google・Apple でのログイン（外部送信）</h3>
+      <h3 id="tm-4"><small>04</small>Google・Apple でのログイン（外部送信）</h3>
       <p>「Google で続ける」「Apple で続ける」を選ぶと、Google LLC または Apple Inc. のログインの画面に移ります。そこから、メールアドレスと、アカウントの名前・プロフィール画像のアドレス（Apple では名前だけ。メールアドレスを隠す設定にすると、Apple の転送用のアドレス）を受け取り、上の Supabase に保存します。サイトに出すのは、ログインのあとで決めた表示名だけで、Google や Apple の名前・画像は表示しません。アカウントを削除すると、これらも消えます。どのアカウントでログインしたかは Google・Apple にも記録されます。扱いは <a href="https://policies.google.com/privacy?hl=ja" target="_blank" rel="noopener">Google のプライバシーポリシー</a>・<a href="https://www.apple.com/jp/legal/privacy/" target="_blank" rel="noopener">Apple のプライバシーポリシー</a> をご覧ください。</p>
-      <h3>コメントの通報と「表示しない」</h3>
+      <h3 id="tm-5"><small>05</small>コメントの通報と「表示しない」</h3>
       <p>コメントは編集者が確かめてから表示します。表示されたコメントに問題があれば、コメントの「…」から運営に知らせてください（ログインしていなくても送れます）。運営が確かめ、この規約に反するものは表示を止めます。「…」から「表示しない」を選ぶと、その人のコメントがあなたの画面に出なくなります（相手には知らされません。コメント欄からいつでも戻せます）。自分のコメントは、同じ「…」からいつでも削除できます。</p>
-      <h3>アカウントの削除</h3>
+      <h3 id="tm-6"><small>06</small>アカウントの削除</h3>
       <p>アカウントは、メニューの「アカウント」からいつでも削除できます。削除すると、メールアドレス・表示名・フォロー・共感と、書いたコメント（公開中のものも）がすぐに消え、元には戻せません。お送りいただいた通報・削除の依頼は、対応の記録として内容だけを残し、送った方との結びつき（アカウント・お名前・メールアドレス）を外します。</p>
-      <h3>画像と文章</h3>
+      <h3 id="tm-7"><small>07</small>画像と文章</h3>
       <p>見本の作品画像は、作品紹介を目的として引用しています。著作権は各権利者に帰属します。出典は<a href="#/credits">画像の出典</a>にまとめています。見本の解説文は、確かめられる事実に基づいて書いた見本です。</p>
-      <p>このメディアの目的と読み方は<a href="#/about">Beautiful Context とは</a>をご覧ください。</p>`, 'INFORMATION');
+      <p>このメディアの目的と読み方は<a href="#/about">Beautiful Context とは</a>をご覧ください。</p></div></div>`, '<span class="only-pc tm-k"><span>BEAUTIFUL CONTEXT</span><span>TERMS &amp; PRIVACY</span></span><span class="only-sp">INFORMATION</span>', {
+        tag: "TODAY'S EDITOR'S CHOICE",
+        sp: '利用規約・<br>プライバシーポリシー',
+        head: `<p class="tm-sub">物語と向き合うすべての方に、安心してご利用いただくために。</p><p class="lead">これはデモ版です。正式な利用規約とプライバシーポリシーは、サービス公開時に用意します。</p>` });
     if (name === 'credits'){
       /* 画像の出典。CC BY / BY-SA の表示義務もここで満たす */
       const rows = S.works(S.all()).filter(h => h.work.credit).map(({ work: w, slug }) => `
@@ -681,31 +747,35 @@
       return shell('画像の出典', `
         <p class="lead">作品の画像は、作品紹介のための引用、または自由な利用が許された写真です。著作権は各権利者に帰属します。</p>
         <p>クリエイティブ・コモンズ（CC BY／CC BY-SA）の写真は、撮影者と条件をここに記しています。ポスター・表紙・キービジュアルは、デモでの作品紹介のために掲載しています。公開の前に権利を確かめ、必要なものは差し替えます。背景の墨と和紙の絵は、Beautiful Context のために制作したものです。</p>
-        <ul class="credits">${rows}</ul>`, 'SOURCES');
+        <ul class="credits">${rows}</ul>`, 'SOURCES', {});
     }
     if (name === 'ad') return shell('広告枠のご案内', `
-      <p class="lead">コンテクストページの読み終わりに、その区間の世界観と重なる広告を一枠だけ置きます。</p>
-      <p>映画・音楽・書籍・イベントなど、読み終えた人がその作品を買える・観られる・訪ねられる入口を置く。つながりを辿った先が、そのまま体験への入口になります。</p>
+      <p class="ms-mark is-left"><span>OUR VALUE</span></p>
       <h3>想定している仕組み</h3>
       <ol class="ab-feats rows" role="list">
         <li class="f-doc"><small>01</small><b>記事単位の枠</b><span>記事単位で販売する出稿枠。記事の主題と広告主の世界観が重なることを根拠にする</span></li>
         <li class="f-card"><small>02</small><b>購入と価格</b><span>クレジットカードで購入できる枠、表示の割合やタグ指定による価格設定（本番で実装）</span></li>
         <li class="f-edit"><small>03</small><b>管理画面で編集</b><span>管理画面から、枠の画像・文言・リンク先・表示の有無を編集できる（デモで動作）</span></li>
       </ol>
-      ${tease('manage.html#ads', '管理画面で広告枠を見る')}`, 'ADVERTISING WITH CONTEXT');
+      ${tease('manage.html#ads', '管理画面で広告枠を見る')}`, '<span class="only-pc">FOR OUR PARTNERS</span><span class="only-sp">ADVERTISING<br>WITH CONTEXT</span>', {
+        tag: 'FOR PARTNERS',
+        pc: '文化のつながりが、<br>新しい価値を生み出す。',
+        sp: '物語の力で、<br>ブランドを<br>もっと深く。',
+        head: `<p class="lead">コンテクストページの読み終わりに、その区間の世界観と重なる広告を一枠だけ置きます。</p>
+          <p class="ad-sub">映画・音楽・書籍・イベントなど、読み終えた人がその作品を買える・観られる・訪ねられる入口を置く。つながりを辿った先が、そのまま体験への入口になります。</p>` });
     /* DISCOVER MORE：辿る道のはじめの二本と、UniverseIt!・ReMixIt!（どの端末でも同じものが出る） */
     const card = (href, pic, kind, text, extra) => `<a class="nf-card" href="${attr(href)}"${extra || ''}><span class="nf-img">${pic
       ? `<img src="${attr(pic)}" alt="" loading="lazy" decoding="async">` : ''}</span><small>${kind}</small><b>${esc(text)}</b></a>`;
     const more = S.trail().slice(0, 2).map(({ entry: e }) =>
-      card(pathOf('c', e.context.slug), safeImg(e.a.image) || safeImg(e.b.image), 'CONTEXT', String(e.context.headline || '').split('\n')[0])).join('');
+      card(pathOf('c', e.context.slug), safeImg(e.a.image) || safeImg(e.b.image), 'CONTEXT', String(e.context.headline || '').replace(/\n/g, ''))).join('');
     return shell('お探しのページは<br>見つかりませんでした。', `
-      <p class="lead">お探しのページは移動したか、公開が終了した可能性があります。</p>
-      <p class="nf-acts">${pill('#/today', '今日のつながりへ戻る', 0, ' data-home')}${pill('#/list', 'つながりの一覧へ', 1)}</p>
-      <p class="after">はじめての方は<a href="#/about">Beautiful Context とは</a>へ。</p>
       <section class="nf-more" aria-label="DISCOVER MORE">
         <p class="meta">DISCOVER MORE<small>ここからも辿れます</small></p>
         <div class="nf-cards">${more}${card('#/', 'img/deco/ink-scene.png', 'UNIVERSEIT!', 'すべての言葉から辿る', ' data-uni')}${card('editor.html?new=1', 'img/deco/ink-palms.png', 'REMIXIT!', 'つながりを創る', ' data-remix')}</div>
-      </section>`, 'NOT FOUND');
+      </section>`, 'NOT FOUND', { tag: "TODAY'S EDITOR'S CHOICE", head: `<hr class="rule-d nf-rule">
+        <p class="lead">お探しのページは移動したか、公開が終了した可能性があります。</p>
+        <p class="nf-acts">${pill('#/today', '今日のつながりへ戻る', 0, ' data-home')}${pill('#/list', 'つながりの一覧へ', 1)}</p>
+        <p class="after">はじめての方は<a href="#/about">Beautiful Context とは</a>へ。</p>` });
   }
 
   /* 「Beautiful Context とは」の構造化データ：AboutPage と、運営する Organization（名前・アドレス・ロゴ） */
@@ -831,7 +901,7 @@
   const linePath = (n) => smooth(SHAPES[Math.abs(n | 0) % SHAPES.length]);
 
   window.BCRender = {
-    pathOf, urlOf, thing, esc, clean, safeUrl, safeImg, art, roots, ad, workPage, contextPage, editorPage, listPage, comments, loginChip, search, page,
+    pathOf, urlOf, thing, esc, clean, safeUrl, safeImg, thumb, art, roots, ad, workPage, contextPage, editorPage, journey, nextCtx, todayDots, listPage, comments, loginChip, search, page,
     mapMarkup, jsonLd, listLd, aboutLd, ABOUT_DESC, buildTags, tagText, readLabel, feedPage, feedStops, lineColor, linePath, ICON,
     PALETTE, SHAPE_COUNT: SHAPES.length
   };

@@ -24,7 +24,7 @@
   const B = window.BCBackend && window.BCBackend.enabled() ? window.BCBackend : null;
   const OLD_KEY = 'beautiful-context-store-v1';
   /* 見本を足したら上げる。端末に残っているデータへ、新しい見本だけを足し込む */
-  const SEED_VERSION = 9;
+  const SEED_VERSION = 10;
 
   const DEFAULT_SETTINGS = {
     brand: 'Beautiful Context',
@@ -547,7 +547,10 @@
 
     /* 編集者の「今日の一本」。日付で決まり、同じ日はどの端末でも同じものになる */
     todayPick(id, day) {
-      const list = this.byEditor(id).sort((a, b) => (a.id < b.id ? -1 : 1));
+      const all = this.byEditor(id).sort((a, b) => (a.id < b.id ? -1 : 1));
+      /* 編集者に候補（seed.js の todayPool）があれば、その中から。公開中のものが一つも無ければ、これまでどおり全部から */
+      const ed = this.editorById(id), pool = ed && ed.todayPool ? all.filter((e) => ed.todayPool.includes(e.id)) : [];
+      const list = pool.length ? pool : all;
       if (!list.length) return null;
       let h = 0; for (const ch of id + '|' + day) h = (h * 31 + ch.charCodeAt(0)) | 0;
       return list[Math.abs(h) % list.length];

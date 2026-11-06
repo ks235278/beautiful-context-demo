@@ -383,7 +383,7 @@ body.viewing .uni{display:none}
   body.direct .c-logo img,body[data-route]:not(.app-ready) .c-logo img{height:clamp(16px,calc((100vw - 161px) / 7.35),24px)}
 }
 .duo{position:relative;display:grid;grid-template-columns:1fr 1fr;gap:7px}
-.duo .art{aspect-ratio:3/4.08}
+.duo .art{aspect-ratio:2/3}   /* img/works はどれも 720×1080。枠を同じ比にして端を切らない（2026.11.04） */
 .duo-go{display:block;padding:0;border:0;background:none;cursor:pointer;-webkit-tap-highlight-color:transparent;touch-action:manipulation}
 .duo-go:active .art{opacity:.85}
 /* 二枚の絵は指に付いてくる帯。縦はスクロール、横は指で運ぶ */
@@ -391,7 +391,7 @@ body.viewing .uni{display:none}
 .cpage .duo,.wpage .duo{touch-action:pan-y;will-change:transform}
 /* 作品ページの右の席：まだ誰も結んでいない。＋ でエディターへ（この作品から新しいつながりを創る）。
    紺の墨の帯の上に、金の点線で縁取った空いた席。＋ は白い縁の丸（縁は内側に引くので、隣の絵と同じ大きさのまま） */
-.duo-add{display:grid;place-content:center;justify-items:center;gap:10px;aspect-ratio:3/4.08;border:1px dashed rgba(239,176,47,.6);background:#0a1f3a;color:#fff;text-decoration:none}
+.duo-add{display:grid;place-content:center;justify-items:center;gap:10px;aspect-ratio:2/3;border:1px dashed rgba(239,176,47,.6);background:#0a1f3a;color:#fff;text-decoration:none}
 .duo-add span{display:grid;place-items:center;width:64px;height:64px;border-radius:50%;background:rgba(255,255,255,.04);box-shadow:0 0 0 1.5px rgba(255,255,255,.85);
   font:300 36px/1 "Lato",sans-serif;transition:transform .2s ease,background-color .2s}
 .duo-add small{color:rgba(255,255,255,.78);font:700 10px/1.4 var(--gothic);letter-spacing:.12em}
@@ -832,7 +832,7 @@ html[data-theme="white"] .to-today{color:var(--gold-ink)}
   .cpage>.context-lead{grid-row:1;padding:56px 48px 30px;container-type:inline-size}
   .cpage>.context-body{grid-row:2;padding:34px 48px 48px}
   .wpage>.content{grid-row:1;min-height:calc(100vh - var(--dockh));padding:64px 48px 48px}
-  .duo-hero .duo{width:100%;max-width:calc((100vh - var(--dockh) - 120px) * 1.47);margin:0 auto}
+  .duo-hero .duo{width:100%;max-width:calc((100vh - var(--dockh) - 120px) * 1.33);margin:0 auto}
   .duo-hero .ctx-nav.prev{left:9px}.duo-hero .ctx-nav.next{right:9px}
   /* 見出しは 2 行に。本文の列が 12em（336px）より細いとき（およそ 1100〜1430px）は、見出しだけ左右の余白に最大 24px ずつはみ出させ、
      それでも 1 行 11 字が入らないとき（およそ 1100〜1260px）は字を小さくする。広い幅では 12em・28px・中央のまま */

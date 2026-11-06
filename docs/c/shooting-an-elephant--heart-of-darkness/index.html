@@ -43,9 +43,9 @@ try { if (sessionStorage.getItem('bc-resume')) document.documentElement.classLis
 <link rel="preload" as="image" href="img/logo-layer-words.png">
 <!-- 台本も先に取りに行く（静的なページは台本より先に本文が描かれる。遅い回線で、触れて動くまでの間を縮める）。
      src と同じアドレス（?v= まで）でないと、二度取りに行く -->
-<link rel="preload" as="script" href="js/seed.js?v=174">
-<link rel="preload" as="script" href="js/app.js?v=174">
-<link rel="manifest" href="manifest.webmanifest?v=174">
+<link rel="preload" as="script" href="js/seed.js?v=183">
+<link rel="preload" as="script" href="js/app.js?v=183">
+<link rel="manifest" href="manifest.webmanifest?v=183">
 <link rel="apple-touch-icon" href="icon-180.png">
 <!-- タブと検索結果に出る小さな印。アプリの印（ホーム画面のアイコン）と同じ形 -->
 <link rel="icon" href="favicon.ico" sizes="16x16 32x32 48x48">
@@ -63,7 +63,7 @@ try { if (sessionStorage.getItem('bc-resume')) document.documentElement.classLis
 <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Lato:wght@300;400;700&display=swap" onload="this.onload=null;this.rel='stylesheet'">
 <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Lato:wght@300;400;700&display=swap"></noscript>
 <!-- ログインの画面の題（見本の太い明朝）。使う字だけを取る（text=。題の言葉を変えたら、ここの字も足す） -->
-<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@700;800;900&display=swap&text=%E3%80%81%E3%80%82%E3%81%84%E3%81%86%E3%81%8C%E3%81%8F%E3%81%97%E3%81%99%E3%81%A0%E3%81%A4%E3%81%A6%E3%81%A7%E3%81%A8%E3%81%AA%E3%81%AB%E3%81%AC%E3%81%BE%E3%82%8B%E3%82%8C%E3%82%92%E3%82%A2%E3%82%A4%E3%82%A6%E3%82%AB%E3%82%B0%E3%83%88%E3%83%AD%E3%83%B3%E4%B8%96%E4%BC%9A%E4%BD%9C%E5%87%BA%E6%96%87%E6%96%B0%E6%98%A0%E7%94%BB%E7%95%8C%E8%84%88%E8%91%89%E8%A6%8B%E8%A8%80" onload="this.onload=null;this.rel='stylesheet'">
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@700;800;900&display=swap&text=Geglo%E3%80%81%E3%80%82%E3%80%8C%E3%80%8D%E3%81%82%E3%81%84%E3%81%86%E3%81%88%E3%81%8A%E3%81%8B%E3%81%8C%E3%81%8F%E3%81%91%E3%81%93%E3%81%97%E3%81%99%E3%81%9B%E3%81%9F%E3%81%A0%E3%81%A3%E3%81%A4%E3%81%A6%E3%81%A7%E3%81%A8%E3%81%AA%E3%81%AB%E3%81%AC%E3%81%AE%E3%81%AF%E3%81%B8%E3%81%B9%E3%81%BE%E3%81%BF%E3%82%82%E3%82%86%E3%82%89%E3%82%8A%E3%82%8B%E3%82%8C%E3%82%92%E3%82%93%E3%82%A2%E3%82%A4%E3%82%A6%E3%82%AB%E3%82%AF%E3%82%B0%E3%82%B3%E3%82%B7%E3%82%B8%E3%82%B9%E3%82%BB%E3%82%BF%E3%83%86%E3%83%87%E3%83%88%E3%83%89%E3%83%90%E3%83%96%E3%83%97%E3%83%9A%E3%83%9E%E3%83%A1%E3%83%A9%E3%83%AD%E3%83%B3%E3%83%BB%E3%83%BC%E4%B8%80%E4%B8%96%E4%BC%9A%E4%BD%9C%E4%BE%A1%E4%BF%9D%E4%BF%A1%E5%80%A4%E5%83%8F%E5%85%88%E5%85%B8%E5%87%BA%E5%88%A9%E5%89%8A%E5%8A%9B%E5%8C%96%E5%93%81%E5%A0%B1%E5%A4%96%E5%AD%98%E5%AE%B6%E6%80%9D%E6%8E%A2%E6%96%87%E6%96%B0%E6%96%B9%E6%98%A0%E6%9E%90%E6%9E%9C%E6%A4%9C%E6%B7%B1%E7%82%B9%E7%89%A9%E7%94%9F%E7%94%A8%E7%94%BB%E7%95%8C%E7%99%BD%E7%9F%A5%E7%A4%BA%E7%AB%A0%E7%B4%84%E7%B4%A2%E7%B5%90%E8%84%88%E8%91%89%E8%A1%A8%E8%A6%8B%E8%A6%8F%E8%A6%96%E8%A7%A3%E8%A8%80%E8%AA%9E%E8%AA%AD%E8%AA%B0%E8%B1%8A%E9%80%81%E9%80%9A%E9%83%A8%E9%99%A4%E9%9D%A2%EF%BC%88%EF%BC%89" onload="this.onload=null;this.rel='stylesheet'">
 <!-- アクセス解析（Google アナリティクス 4）。表示を待たせないよう非同期で読む。何を送るかは 利用規約・プライバシー に書いた。
      本番のアドレスで開いたときだけ数える（静的なページの書き出しや、手元での確かめは数えない）。
      ページの表示は app.js が画面の替わるたびに送る（ここで送ると、表紙と # の先の道が数えられない） -->
@@ -76,13 +76,13 @@ if (location.hostname === 'beautifulcontext.com'){
   document.head.appendChild(ga);
 }
 </script>
-<script src="js/theme.js?v=174"></script>
-<link rel="stylesheet" href="app.css?v=174">
+<script src="js/theme.js?v=183"></script>
+<link rel="stylesheet" href="app.css?v=183">
 <!-- 読む画面の使い勝手（2026.10.24）。app.css のすぐあと -->
-<link rel="stylesheet" href="ux.css?v=174">
-<link rel="stylesheet" href="fade.css?v=174">
+<link rel="stylesheet" href="ux.css?v=183">
+<link rel="stylesheet" href="fade.css?v=183">
 <!-- editorial-ink（紙・墨・金）：◆ の罫と、紙の上か絵の上かで変わる決まり。ux.css のあと -->
-<link rel="stylesheet" href="ink.css?v=174">
+<link rel="stylesheet" href="ink.css?v=183">
 <!-- 台本（js）が揃うまで：まだ押しても動かないもの（‹・絵の横の ‹ ›・つながりを辿る）を少し薄くし、下の帯の上の縁に細い金の線を走らせる。
      app.js が最後に body.app-ready を付けて外す。すぐ揃うときは何も見せない（0.3 秒待ってから出す） -->
 <style>
@@ -94,7 +94,7 @@ body:not(.app-ready) .dock::before{content:"";position:absolute;z-index:3;left:0
 @keyframes bc-load{from{transform:translateX(0)}to{transform:translateX(257%)}}
 </style>
 </head>
-<body class="stage-uni viewing route" data-route="#/c/shooting-an-elephant--heart-of-darkness">
+<body class="stage-uni viewing has-route route" data-route="#/c/shooting-an-elephant--heart-of-darkness">
 <!-- 台本が届く前に触れた一回を覚えておく（つながりを辿る・‹・絵の横の ‹ ›）。app.js が起き上がったら、その一回を行う。
      遅い回線で「押したのに何も起きない」を無くす -->
 <script>
@@ -132,6 +132,8 @@ document.addEventListener('click', function (e) {
 <div class="dock" id="dock">
   <div class="map" id="map"></div>
   <p class="sel-hint" id="selHint" aria-live="polite"></p>
+  <!-- 携帯：つながりを辿るの行き先を一行で（パソコンは次の札 next-peek） -->
+  <p class="dock-next" id="dockNext"></p>
   <p class="dock-brand" id="dockBrand">BEAUTIFUL CONTEXT</p>
   <!-- 読む画面（Today・コンテクスト・作品）では NEXT UNIVERSE だけ。戻るのは左の端から右へ払う（iPhone と同じ）か、上の ‹。
        ReMixIt!（つながりを創る）は編集の側の道具なので、UniverseIt! の画面とメニューに置く -->
@@ -192,7 +194,7 @@ document.addEventListener('click', function (e) {
   <div class="view-in" id="viewIn"><!--bc-body-->
       <article class="page cpage">
         <button type="button" class="back-close" data-close="" aria-label="Today's Editor's Choice へ戻る" title="Today's Editor's Choice へ"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 4.5 7.5 12l7.5 7.5"></path></svg></button>
-        <div class="duo-hero"><a class="c-logo on-paper" href="#/" data-top="" aria-label="BEAUTIFUL CONTEXT（TOP へ戻る）"><img src="img/logo-navy.png" alt=""></a><div class="duo"><button type="button" class="duo-go" data-step="0" aria-label="ジョージ・オーウェル『象を撃つ』の作品ページへ"><div class="art"><img src="img/works/shooting-an-elephant.jpg" alt="ジョージ・オーウェル『象を撃つ』" data-k="shooting-an-elephant" decoding="async" fetchpriority="low"></div></button><button type="button" class="duo-go" data-step="2" aria-label="ジョセフ・コンラッド『闇の奥』の作品ページへ"><div class="art"><img src="img/works/heart-of-darkness.jpg" alt="ジョセフ・コンラッド『闇の奥』" data-k="heart-of-darkness" decoding="async" fetchpriority="low"></div></button><i class="swap" aria-hidden="true">↔</i></div><button type="button" class="ctx-nav prev" data-ctx-go="-1" aria-label="一つ前のつながりへ">‹</button><button type="button" class="ctx-nav next" data-ctx-go="1" aria-label="次のつながりへ">›</button></div>
+        <div class="duo-hero"><a class="c-logo on-paper" href="#/" data-top="" aria-label="BEAUTIFUL CONTEXT（TOP へ戻る）"><img src="img/logo-navy.png" alt=""></a><span class="only-sp"><button type="button" class="login-chip" data-login="">Login</button></span><div class="duo"><button type="button" class="duo-go" data-step="0" aria-label="ジョージ・オーウェル『象を撃つ』の作品ページへ"><div class="art"><img src="img/works/shooting-an-elephant.jpg" alt="ジョージ・オーウェル『象を撃つ』" data-k="shooting-an-elephant" decoding="async" fetchpriority="low"></div></button><button type="button" class="duo-go" data-step="2" aria-label="ジョセフ・コンラッド『闇の奥』の作品ページへ"><div class="art"><img src="img/works/heart-of-darkness.jpg" alt="ジョセフ・コンラッド『闇の奥』" data-k="heart-of-darkness" decoding="async" fetchpriority="low"></div></button><i class="swap" aria-hidden="true">↔</i></div><button type="button" class="ctx-nav prev" data-ctx-go="-1" aria-label="一つ前のつながりへ">‹</button><button type="button" class="ctx-nav next" data-ctx-go="1" aria-label="次へ：ジョセフ・コンラッド『闇の奥』">›</button></div>
         <section class="context-lead">
           
           <div class="ed-row">
@@ -207,13 +209,13 @@ document.addEventListener('click', function (e) {
         
         <section class="src-cards" aria-label="つながる二つの作品">
           <p class="meta">SOURCE CONNECTION</p>
-          <div class="src-row"><button type="button" class="src" data-step="0" aria-label="ジョージ・オーウェル『象を撃つ』の作品ページへ"><img src="img/works/shooting-an-elephant.jpg" alt="" loading="lazy" decoding="async"><span class="src-t"><small>書籍・1936</small><b>ジョージ・オーウェル『象を撃つ』</b><em>ジョージ・オーウェル</em><span class="src-s">英領ビルマの警官である語り手「私」が、暴れた象を、群衆の前で「撃たねばならなくなった」ことを書いたエッセイ。作者自身の体験に基づくとされる。</span><i aria-hidden="true">作品ページへ　→</i></span></button><span class="src-link" aria-hidden="true">↔</span><button type="button" class="src" data-step="2" aria-label="ジョセフ・コンラッド『闇の奥』の作品ページへ"><img src="img/works/heart-of-darkness.jpg" alt="" loading="lazy" decoding="async"><span class="src-t"><small>書籍・1899</small><b>ジョセフ・コンラッド『闇の奥』</b><em>ジョセフ・コンラッド</em><span class="src-s">象牙交易の奥地へ向かう船乗りマーロウが、消息を絶った交易所の責任者クルツを探す物語。当時のコンゴ自由国が舞台とされる。</span><i aria-hidden="true">作品ページへ　→</i></span></button></div>
+          <div class="src-row"><button type="button" class="src" data-step="0" aria-label="ジョージ・オーウェル『象を撃つ』の作品ページへ"><img src="img/thumb/shooting-an-elephant.jpg" alt="" loading="lazy" decoding="async"><span class="src-t"><small>書籍・1936</small><b>ジョージ・オーウェル『象を撃つ』</b><em>ジョージ・オーウェル</em><span class="src-s">英領ビルマの警官である語り手「私」が、暴れた象を、群衆の前で「撃たねばならなくなった」ことを書いたエッセイ。作者自身の体験に基づくとされる。</span><i aria-hidden="true">作品ページへ　→</i></span></button><span class="src-link" aria-hidden="true">↔</span><button type="button" class="src" data-step="2" aria-label="ジョセフ・コンラッド『闇の奥』の作品ページへ"><img src="img/thumb/heart-of-darkness.jpg" alt="" loading="lazy" decoding="async"><span class="src-t"><small>書籍・1899</small><b>ジョセフ・コンラッド『闇の奥』</b><em>ジョセフ・コンラッド</em><span class="src-s">象牙交易の奥地へ向かう船乗りマーロウが、消息を絶った交易所の責任者クルツを探す物語。当時のコンゴ自由国が舞台とされる。</span><i aria-hidden="true">作品ページへ　→</i></span></button></div>
         </section>
         
         <section class="journey" aria-label="CONTEXT JOURNEY">
           <p class="meta">CONTEXT JOURNEY<a href="#/list">一覧で見る　→</a></p>
           <p class="jr-sub">このつながりから、たどる道</p>
-          <ol class="jr"><li><a class="jr-row" href="c/shooting-an-elephant--nineteen-eighty-four/"><i class="jr-dot"></i><span class="jr-t"><b>ここまで</b><small>『象を撃つ』の作者は、後に監視国家を書いた。</small></span><span class="jr-pics" aria-hidden="true"><img src="img/works/shooting-an-elephant.jpg" alt="" loading="lazy" decoding="async"><img src="img/works/nineteen-eighty-four.jpg" alt="" loading="lazy" decoding="async"></span></a></li><li class="now"><span class="jr-row" aria-current="step"><i class="jr-dot"></i><span class="jr-t"><b>いまここ</b><small>植民地を統べる者の心の奥。</small></span><span class="jr-pics" aria-hidden="true"><img src="img/works/shooting-an-elephant.jpg" alt="" loading="lazy" decoding="async"><img src="img/works/heart-of-darkness.jpg" alt="" loading="lazy" decoding="async"></span></span></li><li><a class="jr-row" href="c/lumumba--heart-of-darkness/"><i class="jr-dot"></i><span class="jr-t"><b>つぎへ</b><small>植民地の奥地と、独立の叫び。</small></span><span class="jr-pics" aria-hidden="true"><img src="img/works/lumumba.jpg" alt="" loading="lazy" decoding="async"><img src="img/works/heart-of-darkness.jpg" alt="" loading="lazy" decoding="async"></span></a></li><li><a class="jr-row" href="c/joseph-conrad--heart-of-darkness/"><i class="jr-dot"></i><span class="jr-t"><b>さらに</b><small>作家は自分で、コンゴ川を遡っていた。</small></span><span class="jr-pics" aria-hidden="true"><img src="img/works/joseph-conrad.jpg" alt="" loading="lazy" decoding="async"><img src="img/works/heart-of-darkness.jpg" alt="" loading="lazy" decoding="async"></span></a></li><li><a class="jr-row" href="c/heart-of-darkness--apocalypse-now/"><i class="jr-dot"></i><span class="jr-t"><b>その先へ</b><small>コンゴの川は、ベトナムの川になった。</small></span><span class="jr-pics" aria-hidden="true"><img src="img/works/heart-of-darkness.jpg" alt="" loading="lazy" decoding="async"><img src="img/works/apocalypse-now.jpg" alt="" loading="lazy" decoding="async"></span></a></li></ol>
+          <ol class="jr"><li><a class="jr-row" href="c/shooting-an-elephant--nineteen-eighty-four/"><i class="jr-dot"></i><span class="jr-t"><b>ここまで</b><small>『象を撃つ』の作者は、後に監視国家を書いた。</small></span><span class="jr-pics" aria-hidden="true"><img src="img/thumb/shooting-an-elephant.jpg" alt="" loading="lazy" decoding="async"><img src="img/thumb/nineteen-eighty-four.jpg" alt="" loading="lazy" decoding="async"></span></a></li><li class="now"><span class="jr-row" aria-current="step"><i class="jr-dot"></i><span class="jr-t"><b>いまここ</b><small>植民地を統べる者の心の奥。</small></span><span class="jr-pics" aria-hidden="true"><img src="img/thumb/shooting-an-elephant.jpg" alt="" loading="lazy" decoding="async"><img src="img/thumb/heart-of-darkness.jpg" alt="" loading="lazy" decoding="async"></span></span></li><li><a class="jr-row" href="c/lumumba--heart-of-darkness/"><i class="jr-dot"></i><span class="jr-t"><b>つぎへ</b><small>植民地の奥地と、独立の叫び。</small></span><span class="jr-pics" aria-hidden="true"><img src="img/thumb/lumumba.jpg" alt="" loading="lazy" decoding="async"><img src="img/thumb/heart-of-darkness.jpg" alt="" loading="lazy" decoding="async"></span></a></li><li><a class="jr-row" href="c/joseph-conrad--heart-of-darkness/"><i class="jr-dot"></i><span class="jr-t"><b>さらに</b><small>作家は自分で、コンゴ川を遡っていた。</small></span><span class="jr-pics" aria-hidden="true"><img src="img/thumb/joseph-conrad.jpg" alt="" loading="lazy" decoding="async"><img src="img/thumb/heart-of-darkness.jpg" alt="" loading="lazy" decoding="async"></span></a></li><li><a class="jr-row" href="c/heart-of-darkness--apocalypse-now/"><i class="jr-dot"></i><span class="jr-t"><b>その先へ</b><small>コンゴの川は、ベトナムの川になった。</small></span><span class="jr-pics" aria-hidden="true"><img src="img/thumb/heart-of-darkness.jpg" alt="" loading="lazy" decoding="async"><img src="img/thumb/apocalypse-now.jpg" alt="" loading="lazy" decoding="async"></span></a></li></ol>
         </section>
         <article class="context-body" id="story">
           <p class="meta">CONTEXT STORY</p>
@@ -242,7 +244,7 @@ document.addEventListener('click', function (e) {
         </form>
         <p class="cm-note">送るときに、名前を一つ作ります。コメントは編集者が確かめてから表示されます。</p>
       </section>
-          <p class="meta more-label">同じルーツのコンテクスト</p><div class="ctx-cards"><a class="ctx-card" href="c/the-hollow-men--heart-of-darkness/" aria-label="詩の冒頭に、小説の一行がある。：『うつろな人々』The Hollow Men ＋ ジョセフ・コンラッド『闇の奥』"><span class="cc-pics" aria-hidden="true"><img src="img/works/the-hollow-men.jpg" alt="" loading="lazy" decoding="async"><img src="img/works/heart-of-darkness.jpg" alt="" loading="lazy" decoding="async"></span><span class="cc-t"><small><span class="rn">［題辞］</span><i class="rt">約20秒</i></small><b>詩の冒頭に、小説の一行がある。</b><em>『うつろな人々』The Hollow Men ＋ <span class="nb">ジョセフ・コンラッド『闇の奥』</span></em></span><span class="cc-go" aria-hidden="true">›</span></a><a class="ctx-card" href="c/lumumba--heart-of-darkness/" aria-label="植民地の奥地と、独立の叫び。：ラウル・ペック『ルムンバの叫び』 ＋ ジョセフ・コンラッド『闇の奥』"><span class="cc-pics" aria-hidden="true"><img src="img/works/lumumba.jpg" alt="" loading="lazy" decoding="async"><img src="img/works/heart-of-darkness.jpg" alt="" loading="lazy" decoding="async"></span><span class="cc-t"><small><span class="rn">［コンゴという土地］</span><i class="rt">約30秒</i></small><b>植民地の奥地と、独立の叫び。</b><em>ラウル・ペック『ルムンバの叫び』 ＋ <span class="nb">ジョセフ・コンラッド『闇の奥』</span></em></span><span class="cc-go" aria-hidden="true">›</span></a><a class="ctx-card" href="c/joseph-conrad--heart-of-darkness/" aria-label="作家は自分で、コンゴ川を遡っていた。：ジョセフ・コンラッド ＋ ジョセフ・コンラッド『闇の奥』"><span class="cc-pics" aria-hidden="true"><img src="img/works/joseph-conrad.jpg" alt="" loading="lazy" decoding="async"><img src="img/works/heart-of-darkness.jpg" alt="" loading="lazy" decoding="async"></span><span class="cc-t"><small><span class="rn">［船乗りが見た川］</span><i class="rt">約20秒</i></small><b>作家は自分で、コンゴ川を遡っていた。</b><em>ジョセフ・コンラッド ＋ <span class="nb">ジョセフ・コンラッド『闇の奥』</span></em></span><span class="cc-go" aria-hidden="true">›</span></a></div>
+          <p class="meta more-label">同じ作品から出るつながり</p><div class="ctx-cards"><a class="ctx-card" href="c/the-hollow-men--heart-of-darkness/" aria-label="詩の冒頭に、小説の一行がある。：『うつろな人々』The Hollow Men ＋ ジョセフ・コンラッド『闇の奥』"><span class="cc-pics" aria-hidden="true"><img src="img/thumb/the-hollow-men.jpg" alt="" loading="lazy" decoding="async"><img src="img/thumb/heart-of-darkness.jpg" alt="" loading="lazy" decoding="async"></span><span class="cc-t"><small><span class="rn">［題辞］</span><i class="rt">約20秒</i></small><b>詩の冒頭に、小説の一行がある。</b><em>『うつろな人々』The Hollow Men ＋ <span class="nb">ジョセフ・コンラッド『闇の奥』</span></em></span><span class="cc-go" aria-hidden="true">›</span></a><a class="ctx-card" href="c/lumumba--heart-of-darkness/" aria-label="植民地の奥地と、独立の叫び。：ラウル・ペック『ルムンバの叫び』 ＋ ジョセフ・コンラッド『闇の奥』"><span class="cc-pics" aria-hidden="true"><img src="img/thumb/lumumba.jpg" alt="" loading="lazy" decoding="async"><img src="img/thumb/heart-of-darkness.jpg" alt="" loading="lazy" decoding="async"></span><span class="cc-t"><small><span class="rn">［コンゴという土地］</span><i class="rt">約30秒</i></small><b>植民地の奥地と、独立の叫び。</b><em>ラウル・ペック『ルムンバの叫び』 ＋ <span class="nb">ジョセフ・コンラッド『闇の奥』</span></em></span><span class="cc-go" aria-hidden="true">›</span></a><a class="ctx-card" href="c/joseph-conrad--heart-of-darkness/" aria-label="作家は自分で、コンゴ川を遡っていた。：ジョセフ・コンラッド ＋ ジョセフ・コンラッド『闇の奥』"><span class="cc-pics" aria-hidden="true"><img src="img/thumb/joseph-conrad.jpg" alt="" loading="lazy" decoding="async"><img src="img/thumb/heart-of-darkness.jpg" alt="" loading="lazy" decoding="async"></span><span class="cc-t"><small><span class="rn">［船乗りが見た川］</span><i class="rt">約20秒</i></small><b>作家は自分で、コンゴ川を遡っていた。</b><em>ジョセフ・コンラッド ＋ <span class="nb">ジョセフ・コンラッド『闇の奥』</span></em></span><span class="cc-go" aria-hidden="true">›</span></a></div>
           
       <aside class="c-ad" aria-label="広告">
         <a href="#/ad">
@@ -255,7 +257,7 @@ document.addEventListener('click', function (e) {
           
           <section class="next-ctx" aria-label="次に読むつながり">
             <p class="meta">NEXT CONTEXT<small>次に読むつながり</small></p>
-            <a class="ctx-card" href="c/lumumba--heart-of-darkness/" aria-label="植民地の奥地と、独立の叫び。：ラウル・ペック『ルムンバの叫び』 ＋ ジョセフ・コンラッド『闇の奥』"><span class="cc-pics" aria-hidden="true"><img src="img/works/lumumba.jpg" alt="" loading="lazy" decoding="async"><img src="img/works/heart-of-darkness.jpg" alt="" loading="lazy" decoding="async"></span><span class="cc-t"><small><span class="rn">［コンゴという土地］</span><i class="rt">約30秒</i></small><b>植民地の奥地と、独立の叫び。</b><em>ラウル・ペック『ルムンバの叫び』 ＋ <span class="nb">ジョセフ・コンラッド『闇の奥』</span></em></span><span class="cc-go" aria-hidden="true">›</span></a>
+            <a class="ctx-card" href="c/lumumba--heart-of-darkness/" aria-label="植民地の奥地と、独立の叫び。：ラウル・ペック『ルムンバの叫び』 ＋ ジョセフ・コンラッド『闇の奥』"><span class="cc-pics" aria-hidden="true"><img src="img/thumb/lumumba.jpg" alt="" loading="lazy" decoding="async"><img src="img/thumb/heart-of-darkness.jpg" alt="" loading="lazy" decoding="async"></span><span class="cc-t"><small><span class="rn">［コンゴという土地］</span><i class="rt">約30秒</i></small><b>植民地の奥地と、独立の叫び。</b><em>ラウル・ペック『ルムンバの叫び』 ＋ <span class="nb">ジョセフ・コンラッド『闇の奥』</span></em></span><span class="cc-go" aria-hidden="true">›</span></a>
           </section>
           
           <section class="ctx-rail" aria-label="この先のつながり">
@@ -264,28 +266,16 @@ document.addEventListener('click', function (e) {
         <li class="stop first">
           
           
-          <a class="fstop" href="w/heart-of-darkness/">
-            <span class="st-img"><img src="img/works/heart-of-darkness.jpg" alt="ジョセフ・コンラッド『闇の奥』" data-k="heart-of-darkness" loading="lazy" decoding="async"></span>
-            <span class="st-txt"><small>書籍・1899年</small>
-              <b>ジョセフ・コンラッド『闇の奥』</b><span>象牙交易の奥地へ向かう船乗りマーロウが、消息を絶った交易所の責任者クルツを探す物語。当時のコンゴ自由国が舞台とされる。</span></span>
-          </a>
-        </li>
-        <li class="stop">
-          
-          <a class="seg" href="c/lumumba--heart-of-darkness/">
-            
-            <small>［コンゴという土地］　ハブ</small>
-            <b><span class="seg-copy">植民地の奥地と、独立の叫び。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
           <a class="fstop" href="w/lumumba/?c=lumumba--heart-of-darkness">
             <span class="st-img"><img src="img/works/lumumba.jpg" alt="ラウル・ペック『ルムンバの叫び』" data-k="lumumba" loading="lazy" decoding="async"></span>
             <span class="st-txt"><small>映画・2000年</small>
               <b>ラウル・ペック『ルムンバの叫び』</b><span>コンゴ独立の指導者パトリス・ルムンバの、首相就任から殺害までを描いた映画。</span></span>
           </a>
         </li>
-        <li class="stop branch">
+        <li class="stop">
           
           <a class="seg" href="c/joseph-conrad--heart-of-darkness/">
-            <span class="seg-from">闇の奥 から分岐</span>
+            
             <small>［船乗りが見た川］　作者と作品</small>
             <b><span class="seg-copy">作家は自分で、コンゴ川を遡っていた。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
           <a class="fstop" href="w/joseph-conrad/?c=joseph-conrad--heart-of-darkness">
@@ -294,10 +284,10 @@ document.addEventListener('click', function (e) {
               <b>ジョセフ・コンラッド</b><span>ポーランド生まれの英国の小説家。船乗りとして世界の海を渡ったのち、英語で『闇の奥』『ロード・ジム』などを書いた。</span></span>
           </a>
         </li>
-        <li class="stop branch">
+        <li class="stop">
           
           <a class="seg" href="c/heart-of-darkness--apocalypse-now/">
-            <span class="seg-from">闇の奥 から分岐</span>
+            
             <small>［川を遡る物語］　事実</small>
             <b><span class="seg-copy">コンゴの川は、ベトナムの川になった。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
           <a class="fstop" href="w/apocalypse-now/?c=heart-of-darkness--apocalypse-now">
@@ -342,10 +332,22 @@ document.addEventListener('click', function (e) {
               <b>是枝裕和『誰も知らない』</b><span>母親に置き去りにされた四人のきょうだいの暮らしを描いた映画。長男を演じた柳楽優弥がカンヌ国際映画祭で最優秀男優賞を受けた。</span></span>
           </a>
         </li>
-        <li class="stop branch">
+        <li class="stop">
+          
+          <a class="seg" href="c/nobody-knows--shoplifters/">
+            
+            <small>［誰にも見えない家］　似ている</small>
+            <b><span class="seg-copy">社会の外側で、子どもたちは暮らした。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
+          <a class="fstop" href="w/shoplifters/?c=nobody-knows--shoplifters">
+            <span class="st-img"><img src="img/works/shoplifters.jpg" alt="是枝裕和『万引き家族』" data-k="shoplifters" loading="lazy" decoding="async"></span>
+            <span class="st-txt"><small>映画・2018年</small>
+              <b>是枝裕和『万引き家族』</b><span>万引きで暮らしを補う一家と、彼らに拾われた少女を描いた映画。2018年のカンヌ国際映画祭でパルム・ドールを受けた。</span></span>
+          </a>
+        </li>
+        <li class="stop">
           
           <a class="seg" href="c/apocalypse-now--francis-ford-coppola/">
-            <span class="seg-from">地獄の黙示録 から分岐</span>
+            
             <small>［監督も奥地へ］　作者と作品</small>
             <b><span class="seg-copy">映画の撮影そのものが、地獄の行軍になった。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
           <a class="fstop" href="w/francis-ford-coppola/?c=apocalypse-now--francis-ford-coppola">
@@ -368,38 +370,38 @@ document.addEventListener('click', function (e) {
         </li>
         <li class="stop">
           
-          <a class="seg" href="c/highest-2-lowest--high-and-low/">
+          <a class="seg" href="c/the-hollow-men--apocalypse-now/">
             
-            <small>［原作から再解釈へ］　事実</small>
-            <b><span class="seg-copy">誘拐劇は、60年後にアメリカへ戻った。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
-          <a class="fstop" href="w/highest-2-lowest/?c=highest-2-lowest--high-and-low">
-            <span class="st-img"><img src="img/highest.jpg" alt="『HIGHEST 2 LOWEST』" data-k="highest-2-lowest" loading="lazy" decoding="async"></span>
-            <span class="st-txt"><small>映画・2025年</small>
-              <b>『HIGHEST 2 LOWEST』</b><span>スパイク・リーが、黒澤明『天国と地獄』の構造を現代のニューヨークへ移し替えた作品。富、家族、選択の価値が問われる。</span></span>
+            <small>［カーツ大佐の朗読］　事実</small>
+            <b><span class="seg-copy">ジャングルの奥で、カーツ大佐が詩を読む。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
+          <a class="fstop" href="w/the-hollow-men/?c=the-hollow-men--apocalypse-now">
+            <span class="st-img"><img src="img/works/the-hollow-men.jpg" alt="『うつろな人々』The Hollow Men" data-k="the-hollow-men" loading="lazy" decoding="async"></span>
+            <span class="st-txt"><small>詩・1925年</small>
+              <b>『うつろな人々』The Hollow Men</b><span>「世界の終わりはこうだ、爆発ではなく、すすり泣きで」と結ばれる詩。題辞にコンラッド『闇の奥』の一行を掲げる。</span></span>
           </a>
         </li>
         <li class="stop">
           
-          <a class="seg" href="c/highest-2-lowest--kings-ransom/">
+          <a class="seg" href="c/the-hollow-men--heart-of-darkness/">
             
-            <small>［もう一本の源流］　事実</small>
-            <b><span class="seg-copy">黒澤の映画の前にも、一冊の小説があった。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
-          <a class="fstop" href="w/kings-ransom/?c=highest-2-lowest--kings-ransom">
-            <span class="st-img"><img src="img/kings-ransom.jpg" alt="エド・マクベイン『キングの身代金』" data-k="kings-ransom" loading="lazy" decoding="async"></span>
-            <span class="st-txt"><small>書籍・1959年</small>
-              <b>エド・マクベイン『キングの身代金』</b><span>架空の街アイソラの87分署を舞台にした警察小説シリーズの一作。原題『King’s Ransom』。靴会社の重役のもとに、身代金を要求する電話がかかってくる。</span></span>
+            <small>［題辞］　事実</small>
+            <b><span class="seg-copy">詩の冒頭に、小説の一行がある。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
+          <a class="fstop" href="w/heart-of-darkness/?c=the-hollow-men--heart-of-darkness">
+            <span class="st-img"><img src="img/works/heart-of-darkness.jpg" alt="ジョセフ・コンラッド『闇の奥』" data-k="heart-of-darkness" loading="lazy" decoding="async"></span>
+            <span class="st-txt"><small>書籍・1899年</small>
+              <b>ジョセフ・コンラッド『闇の奥』</b><span>象牙交易の奥地へ向かう船乗りマーロウが、消息を絶った交易所の責任者クルツを探す物語。当時のコンゴ自由国が舞台とされる。</span></span>
           </a>
         </li>
-        <li class="stop branch">
+        <li class="stop">
           
-          <a class="seg" href="c/highest-2-lowest--pluribus/">
-            <span class="seg-from">HIGHEST 2 LOWEST から分岐</span>
-            <small>［同じ配信の窓］　事実</small>
-            <b><span class="seg-copy">誘拐劇とSFが、同じ画面から届く。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
-          <a class="fstop" href="w/pluribus/?c=highest-2-lowest--pluribus">
-            <span class="st-img"><img src="img/works/pluribus.jpg" alt="ヴィンス・ギリガン『プルリブス』" data-k="pluribus" loading="lazy" decoding="async"></span>
-            <span class="st-txt"><small>ドラマ・2025年</small>
-              <b>ヴィンス・ギリガン『プルリブス』</b><span>『ブレイキング・バッド』のヴィンス・ギリガンが手がけた Apple TV のドラマ。人々の心がひとつに溶け合っていく世界で、その輪に加われない数少ない人間の一人である女性を描く。</span></span>
+          <a class="seg" href="c/t-s-eliot--the-hollow-men/">
+            
+            <small>［詩人と作品］　作者と作品</small>
+            <b><span class="seg-copy">爆発ではなく、すすり泣きで。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
+          <a class="fstop" href="w/t-s-eliot/?c=t-s-eliot--the-hollow-men">
+            <span class="st-img"><img src="img/works/t-s-eliot.jpg" alt="T・S・エリオット" data-k="t-s-eliot" loading="lazy" decoding="async"></span>
+            <span class="st-txt"><small>人物</small>
+              <b>T・S・エリオット</b><span>アメリカに生まれ、英国で活躍した詩人・批評家。『荒地』『うつろな人々』を書き、1948年にノーベル文学賞を受賞した。</span></span>
           </a>
         </li></ol>
             <div class="rail-more" id="railMore" aria-hidden="true"></div>
@@ -415,17 +417,17 @@ document.addEventListener('click', function (e) {
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 <script type="application/ld+json" id="ld">{"@context":"https://schema.org","@type":"Article","headline":"植民地を統べる者の心の奥。","alternativeHeadline":"支配する側の闇","about":[{"@type":"Book","name":"象を撃つ","description":"英領ビルマの警官である語り手「私」が、暴れた象を、群衆の前で「撃たねばならなくなった」ことを書いたエッセイ。作者自身の体験に基づくとされる。","creator":{"@type":"Person","name":"ジョージ・オーウェル"}},{"@type":"Book","name":"闇の奥","description":"象牙交易の奥地へ向かう船乗りマーロウが、消息を絶った交易所の責任者クルツを探す物語。当時のコンゴ自由国が舞台とされる。","creator":{"@type":"Person","name":"ジョセフ・コンラッド"}}],"author":{"@type":"Person","name":"生成AI（初稿）"},"datePublished":"2026-09-14T07:50:00.000Z","dateModified":"2026-09-14T07:50:00.000Z","inLanguage":"ja","articleBody":"意味の上での近さから結ばれた区間。コンラッドの『闇の奥』は、1899年に連載された。船乗りマーロウが、象牙取引の奥地コンゴで消息を絶ったクルツを探しに向かう。文明の使者であるはずのクルツが壊れていくさまを、欧州の側から描いた。オーウェルの『象を撃つ』（1936）は、ビルマで、権威ある白人警官であることを群衆に示すために象を撃つ「私」を描いた。笑われまいとして引き金を引く「私」は、白人が暴君になるとき壊されるのは自分自身の自由だ、と書き留める。どちらも、支配される側ではなく、支配する側の人間の内面に目を向けている。前田先生は2018年8月の二つの note で、『象を撃つ』に権力の側にある人間の内面的な敗北を、『闇の奥』（Heart of Darkness）に「（自称）文明人の心の闇」を読んでいる。帝国の時代を内側から見つめた英語の二つの作品は、並べて読むことで互いの輪郭をはっきりさせる。","url":"https://beautifulcontext.com/c/shooting-an-elephant--heart-of-darkness/","citation":[{"@type":"CreativeWork","name":"Heart of Darkness | Project Gutenberg","url":"https://www.gutenberg.org/cache/epub/219/pg219-images.html","publisher":{"@type":"Organization","name":"Project Gutenberg"}},{"@type":"CreativeWork","name":"Shooting an Elephant | The Orwell Foundation","url":"https://www.orwellfoundation.com/the-orwell-foundation/orwell/essays-and-other-works/shooting-an-elephant/","publisher":{"@type":"Organization","name":"The Orwell Foundation"}},{"@type":"CreativeWork","name":"ビルマからミャンマーへ, ラングーンからヤンゴンへ","url":"https://note.com/mdkh/n/n4dec6741097a","publisher":{"@type":"Organization","name":"note（前田邦宏）"}},{"@type":"CreativeWork","name":"映画『地獄の黙示録』が予兆し続ける『新しい戦争の《闇の奥》』","url":"https://note.com/mdkh/n/n534c3156ce5a","publisher":{"@type":"Organization","name":"note（前田邦宏）"}},{"@type":"CreativeWork","name":"Heart of Darkness - Wikipedia","url":"https://en.wikipedia.org/wiki/Heart_of_Darkness","publisher":{"@type":"Organization","name":"Wikipedia"}},{"@type":"CreativeWork","name":"闇の奥 - Wikipedia","url":"https://ja.wikipedia.org/wiki/%E9%97%87%E3%81%AE%E5%A5%A5","publisher":{"@type":"Organization","name":"Wikipedia"}},{"@type":"CreativeWork","name":"象を撃つ - Wikipedia","url":"https://ja.wikipedia.org/wiki/%E8%B1%A1%E3%82%92%E6%92%83%E3%81%A4","publisher":{"@type":"Organization","name":"Wikipedia"}}],"image":"https://beautifulcontext.com/img/works/shooting-an-elephant.jpg"}</script>
 
-<script src="js/config.js?v=174"></script>
-<script src="js/seed.js?v=174"></script>
-<script src="js/sources.js?v=174"></script>
-<script src="js/backend.js?v=174"></script>
-<script src="js/store.js?v=174"></script>
-<script src="js/social.js?v=174"></script>
-<script src="js/render.js?v=174"></script>
-<script src="js/login.js?v=174"></script>
-<script src="js/login-page.js?v=174"></script>
-<script src="js/report.js?v=174"></script>
-<script src="js/transition.js?v=174"></script>
-<script src="js/app.js?v=174"></script>
+<script src="js/config.js?v=183"></script>
+<script src="js/seed.js?v=183"></script>
+<script src="js/sources.js?v=183"></script>
+<script src="js/backend.js?v=183"></script>
+<script src="js/store.js?v=183"></script>
+<script src="js/social.js?v=183"></script>
+<script src="js/render.js?v=183"></script>
+<script src="js/login.js?v=183"></script>
+<script src="js/login-page.js?v=183"></script>
+<script src="js/report.js?v=183"></script>
+<script src="js/transition.js?v=183"></script>
+<script src="js/app.js?v=183"></script>
 </body>
 </html>

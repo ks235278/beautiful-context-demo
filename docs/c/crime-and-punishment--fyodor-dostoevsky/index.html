@@ -43,9 +43,9 @@ try { if (sessionStorage.getItem('bc-resume')) document.documentElement.classLis
 <link rel="preload" as="image" href="img/logo-layer-words.png">
 <!-- 台本も先に取りに行く（静的なページは台本より先に本文が描かれる。遅い回線で、触れて動くまでの間を縮める）。
      src と同じアドレス（?v= まで）でないと、二度取りに行く -->
-<link rel="preload" as="script" href="js/seed.js?v=174">
-<link rel="preload" as="script" href="js/app.js?v=174">
-<link rel="manifest" href="manifest.webmanifest?v=174">
+<link rel="preload" as="script" href="js/seed.js?v=183">
+<link rel="preload" as="script" href="js/app.js?v=183">
+<link rel="manifest" href="manifest.webmanifest?v=183">
 <link rel="apple-touch-icon" href="icon-180.png">
 <!-- タブと検索結果に出る小さな印。アプリの印（ホーム画面のアイコン）と同じ形 -->
 <link rel="icon" href="favicon.ico" sizes="16x16 32x32 48x48">
@@ -63,7 +63,7 @@ try { if (sessionStorage.getItem('bc-resume')) document.documentElement.classLis
 <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Lato:wght@300;400;700&display=swap" onload="this.onload=null;this.rel='stylesheet'">
 <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Lato:wght@300;400;700&display=swap"></noscript>
 <!-- ログインの画面の題（見本の太い明朝）。使う字だけを取る（text=。題の言葉を変えたら、ここの字も足す） -->
-<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@700;800;900&display=swap&text=%E3%80%81%E3%80%82%E3%81%84%E3%81%86%E3%81%8C%E3%81%8F%E3%81%97%E3%81%99%E3%81%A0%E3%81%A4%E3%81%A6%E3%81%A7%E3%81%A8%E3%81%AA%E3%81%AB%E3%81%AC%E3%81%BE%E3%82%8B%E3%82%8C%E3%82%92%E3%82%A2%E3%82%A4%E3%82%A6%E3%82%AB%E3%82%B0%E3%83%88%E3%83%AD%E3%83%B3%E4%B8%96%E4%BC%9A%E4%BD%9C%E5%87%BA%E6%96%87%E6%96%B0%E6%98%A0%E7%94%BB%E7%95%8C%E8%84%88%E8%91%89%E8%A6%8B%E8%A8%80" onload="this.onload=null;this.rel='stylesheet'">
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@700;800;900&display=swap&text=Geglo%E3%80%81%E3%80%82%E3%80%8C%E3%80%8D%E3%81%82%E3%81%84%E3%81%86%E3%81%88%E3%81%8A%E3%81%8B%E3%81%8C%E3%81%8F%E3%81%91%E3%81%93%E3%81%97%E3%81%99%E3%81%9B%E3%81%9F%E3%81%A0%E3%81%A3%E3%81%A4%E3%81%A6%E3%81%A7%E3%81%A8%E3%81%AA%E3%81%AB%E3%81%AC%E3%81%AE%E3%81%AF%E3%81%B8%E3%81%B9%E3%81%BE%E3%81%BF%E3%82%82%E3%82%86%E3%82%89%E3%82%8A%E3%82%8B%E3%82%8C%E3%82%92%E3%82%93%E3%82%A2%E3%82%A4%E3%82%A6%E3%82%AB%E3%82%AF%E3%82%B0%E3%82%B3%E3%82%B7%E3%82%B8%E3%82%B9%E3%82%BB%E3%82%BF%E3%83%86%E3%83%87%E3%83%88%E3%83%89%E3%83%90%E3%83%96%E3%83%97%E3%83%9A%E3%83%9E%E3%83%A1%E3%83%A9%E3%83%AD%E3%83%B3%E3%83%BB%E3%83%BC%E4%B8%80%E4%B8%96%E4%BC%9A%E4%BD%9C%E4%BE%A1%E4%BF%9D%E4%BF%A1%E5%80%A4%E5%83%8F%E5%85%88%E5%85%B8%E5%87%BA%E5%88%A9%E5%89%8A%E5%8A%9B%E5%8C%96%E5%93%81%E5%A0%B1%E5%A4%96%E5%AD%98%E5%AE%B6%E6%80%9D%E6%8E%A2%E6%96%87%E6%96%B0%E6%96%B9%E6%98%A0%E6%9E%90%E6%9E%9C%E6%A4%9C%E6%B7%B1%E7%82%B9%E7%89%A9%E7%94%9F%E7%94%A8%E7%94%BB%E7%95%8C%E7%99%BD%E7%9F%A5%E7%A4%BA%E7%AB%A0%E7%B4%84%E7%B4%A2%E7%B5%90%E8%84%88%E8%91%89%E8%A1%A8%E8%A6%8B%E8%A6%8F%E8%A6%96%E8%A7%A3%E8%A8%80%E8%AA%9E%E8%AA%AD%E8%AA%B0%E8%B1%8A%E9%80%81%E9%80%9A%E9%83%A8%E9%99%A4%E9%9D%A2%EF%BC%88%EF%BC%89" onload="this.onload=null;this.rel='stylesheet'">
 <!-- アクセス解析（Google アナリティクス 4）。表示を待たせないよう非同期で読む。何を送るかは 利用規約・プライバシー に書いた。
      本番のアドレスで開いたときだけ数える（静的なページの書き出しや、手元での確かめは数えない）。
      ページの表示は app.js が画面の替わるたびに送る（ここで送ると、表紙と # の先の道が数えられない） -->
@@ -76,13 +76,13 @@ if (location.hostname === 'beautifulcontext.com'){
   document.head.appendChild(ga);
 }
 </script>
-<script src="js/theme.js?v=174"></script>
-<link rel="stylesheet" href="app.css?v=174">
+<script src="js/theme.js?v=183"></script>
+<link rel="stylesheet" href="app.css?v=183">
 <!-- 読む画面の使い勝手（2026.10.24）。app.css のすぐあと -->
-<link rel="stylesheet" href="ux.css?v=174">
-<link rel="stylesheet" href="fade.css?v=174">
+<link rel="stylesheet" href="ux.css?v=183">
+<link rel="stylesheet" href="fade.css?v=183">
 <!-- editorial-ink（紙・墨・金）：◆ の罫と、紙の上か絵の上かで変わる決まり。ux.css のあと -->
-<link rel="stylesheet" href="ink.css?v=174">
+<link rel="stylesheet" href="ink.css?v=183">
 <!-- 台本（js）が揃うまで：まだ押しても動かないもの（‹・絵の横の ‹ ›・つながりを辿る）を少し薄くし、下の帯の上の縁に細い金の線を走らせる。
      app.js が最後に body.app-ready を付けて外す。すぐ揃うときは何も見せない（0.3 秒待ってから出す） -->
 <style>
@@ -94,7 +94,7 @@ body:not(.app-ready) .dock::before{content:"";position:absolute;z-index:3;left:0
 @keyframes bc-load{from{transform:translateX(0)}to{transform:translateX(257%)}}
 </style>
 </head>
-<body class="stage-uni viewing route" data-route="#/c/crime-and-punishment--fyodor-dostoevsky">
+<body class="stage-uni viewing has-route route" data-route="#/c/crime-and-punishment--fyodor-dostoevsky">
 <!-- 台本が届く前に触れた一回を覚えておく（つながりを辿る・‹・絵の横の ‹ ›）。app.js が起き上がったら、その一回を行う。
      遅い回線で「押したのに何も起きない」を無くす -->
 <script>
@@ -132,6 +132,8 @@ document.addEventListener('click', function (e) {
 <div class="dock" id="dock">
   <div class="map" id="map"></div>
   <p class="sel-hint" id="selHint" aria-live="polite"></p>
+  <!-- 携帯：つながりを辿るの行き先を一行で（パソコンは次の札 next-peek） -->
+  <p class="dock-next" id="dockNext"></p>
   <p class="dock-brand" id="dockBrand">BEAUTIFUL CONTEXT</p>
   <!-- 読む画面（Today・コンテクスト・作品）では NEXT UNIVERSE だけ。戻るのは左の端から右へ払う（iPhone と同じ）か、上の ‹。
        ReMixIt!（つながりを創る）は編集の側の道具なので、UniverseIt! の画面とメニューに置く -->
@@ -192,7 +194,7 @@ document.addEventListener('click', function (e) {
   <div class="view-in" id="viewIn"><!--bc-body-->
       <article class="page cpage">
         <button type="button" class="back-close" data-close="" aria-label="Today's Editor's Choice へ戻る" title="Today's Editor's Choice へ"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 4.5 7.5 12l7.5 7.5"></path></svg></button>
-        <div class="duo-hero"><a class="c-logo on-paper" href="#/" data-top="" aria-label="BEAUTIFUL CONTEXT（TOP へ戻る）"><img src="img/logo-navy.png" alt=""></a><div class="duo"><button type="button" class="duo-go" data-step="0" aria-label="罪と罰の作品ページへ"><div class="art"><img src="img/works/crime-and-punishment.jpg" alt="罪と罰" data-k="crime-and-punishment" decoding="async" fetchpriority="low"></div></button><button type="button" class="duo-go" data-step="2" aria-label="ドストエフスキーの作品ページへ"><div class="art"><img src="img/works/fyodor-dostoevsky.jpg" alt="ドストエフスキー" data-k="fyodor-dostoevsky" decoding="async" fetchpriority="low"></div></button><i class="swap" aria-hidden="true">↔</i></div><button type="button" class="ctx-nav prev" data-ctx-go="-1" aria-label="一つ前のつながりへ">‹</button><button type="button" class="ctx-nav next" data-ctx-go="1" aria-label="次のつながりへ">›</button></div>
+        <div class="duo-hero"><a class="c-logo on-paper" href="#/" data-top="" aria-label="BEAUTIFUL CONTEXT（TOP へ戻る）"><img src="img/logo-navy.png" alt=""></a><span class="only-sp"><button type="button" class="login-chip" data-login="">Login</button></span><div class="duo"><button type="button" class="duo-go" data-step="0" aria-label="罪と罰の作品ページへ"><div class="art"><img src="img/works/crime-and-punishment.jpg" alt="罪と罰" data-k="crime-and-punishment" decoding="async" fetchpriority="low"></div></button><button type="button" class="duo-go" data-step="2" aria-label="ドストエフスキーの作品ページへ"><div class="art"><img src="img/works/fyodor-dostoevsky.jpg" alt="ドストエフスキー" data-k="fyodor-dostoevsky" decoding="async" fetchpriority="low"></div></button><i class="swap" aria-hidden="true">↔</i></div><button type="button" class="ctx-nav prev" data-ctx-go="-1" aria-label="一つ前のつながりへ">‹</button><button type="button" class="ctx-nav next" data-ctx-go="1" aria-label="次へ：罪と罰">›</button></div>
         <section class="context-lead">
           
           <div class="ed-row">
@@ -207,13 +209,13 @@ document.addEventListener('click', function (e) {
         
         <section class="src-cards" aria-label="つながる二つの作品">
           <p class="meta">SOURCE CONNECTION</p>
-          <div class="src-row"><button type="button" class="src" data-step="0" aria-label="罪と罰の作品ページへ"><img src="img/works/crime-and-punishment.jpg" alt="" loading="lazy" decoding="async"><span class="src-t"><small>書籍・1866</small><b>罪と罰</b><em>ドストエフスキー</em><span class="src-s">貧しい元学生ラスコーリニコフが、自分の理屈で老婆を殺し、罪の意識に追いつめられていく長編小説。</span><i aria-hidden="true">作品ページへ　→</i></span></button><span class="src-link" aria-hidden="true">↔</span><button type="button" class="src" data-step="2" aria-label="ドストエフスキーの作品ページへ"><img src="img/works/fyodor-dostoevsky.jpg" alt="" loading="lazy" decoding="async"><span class="src-t"><small>人物</small><b>ドストエフスキー</b><em>作家（1821–1881）</em><span class="src-s">ロシアの作家。『罪と罰』『カラマーゾフの兄弟』などで、人間の内面と信仰を深く描いた。</span><i aria-hidden="true">作品ページへ　→</i></span></button></div>
+          <div class="src-row"><button type="button" class="src" data-step="0" aria-label="罪と罰の作品ページへ"><img src="img/thumb/crime-and-punishment.jpg" alt="" loading="lazy" decoding="async"><span class="src-t"><small>書籍・1866</small><b>罪と罰</b><em>ドストエフスキー</em><span class="src-s">貧しい元学生ラスコーリニコフが、自分の理屈で老婆を殺し、罪の意識に追いつめられていく長編小説。</span><i aria-hidden="true">作品ページへ　→</i></span></button><span class="src-link" aria-hidden="true">↔</span><button type="button" class="src" data-step="2" aria-label="ドストエフスキーの作品ページへ"><img src="img/thumb/fyodor-dostoevsky.jpg" alt="" loading="lazy" decoding="async"><span class="src-t"><small>人物</small><b>ドストエフスキー</b><em>作家（1821–1881）</em><span class="src-s">ロシアの作家。『罪と罰』『カラマーゾフの兄弟』などで、人間の内面と信仰を深く描いた。</span><i aria-hidden="true">作品ページへ　→</i></span></button></div>
         </section>
         
         <section class="journey" aria-label="CONTEXT JOURNEY">
           <p class="meta">CONTEXT JOURNEY<a href="#/list">一覧で見る　→</a></p>
           <p class="jr-sub">このつながりから、たどる道</p>
-          <ol class="jr"><li><a class="jr-row" href="c/the-outsider--fyodor-dostoevsky/"><i class="jr-dot"></i><span class="jr-t"><b>ここまで</b><small>着想の日の回想に、ラスコーリニコフの名。</small></span><span class="jr-pics" aria-hidden="true"><img src="img/works/the-outsider.jpg" alt="" loading="lazy" decoding="async"><img src="img/works/fyodor-dostoevsky.jpg" alt="" loading="lazy" decoding="async"></span></a></li><li class="now"><span class="jr-row" aria-current="step"><i class="jr-dot"></i><span class="jr-t"><b>いまここ</b><small>理屈で殺した青年を、罪の意識が追いつめる。</small></span><span class="jr-pics" aria-hidden="true"><img src="img/works/crime-and-punishment.jpg" alt="" loading="lazy" decoding="async"><img src="img/works/fyodor-dostoevsky.jpg" alt="" loading="lazy" decoding="async"></span></span></li><li><a class="jr-row" href="c/natsume-soseki--zhou-tokyo-diary/"><i class="jr-dot"></i><span class="jr-t"><b>つぎへ</b><small>漱石はロンドンで、周恩来は東京で書いた。</small></span><span class="jr-pics" aria-hidden="true"><img src="img/works/natsume-soseki.jpg" alt="" loading="lazy" decoding="async"><img src="img/zhou-diary.jpg" alt="" loading="lazy" decoding="async"></span></a></li><li><a class="jr-row" href="c/kanyoro--zhou-tokyo-diary/"><i class="jr-dot"></i><span class="jr-t"><b>さらに</b><small>百年前の留学生は、神田の街を歩いていた。</small></span><span class="jr-pics" aria-hidden="true"><img src="img/kanyoro.jpg" alt="" loading="lazy" decoding="async"><img src="img/zhou-diary.jpg" alt="" loading="lazy" decoding="async"></span></a></li><li><a class="jr-row" href="c/kanyoro--gyoza-sakaba-kachidoki/"><i class="jr-dot"></i><span class="jr-t"><b>その先へ</b><small>勝どきの名も、漢陽楼も日露戦争とつながる。</small></span><span class="jr-pics" aria-hidden="true"><img src="img/kanyoro.jpg" alt="" loading="lazy" decoding="async"><img src="img/works/gyoza-sakaba-kachidoki.jpg" alt="" loading="lazy" decoding="async"></span></a></li></ol>
+          <ol class="jr"><li><a class="jr-row" href="c/the-outsider--fyodor-dostoevsky/"><i class="jr-dot"></i><span class="jr-t"><b>ここまで</b><small>着想の日の回想に、ラスコーリニコフの名。</small></span><span class="jr-pics" aria-hidden="true"><img src="img/thumb/the-outsider.jpg" alt="" loading="lazy" decoding="async"><img src="img/thumb/fyodor-dostoevsky.jpg" alt="" loading="lazy" decoding="async"></span></a></li><li class="now"><span class="jr-row" aria-current="step"><i class="jr-dot"></i><span class="jr-t"><b>いまここ</b><small>理屈で殺した青年を、罪の意識が追いつめる。</small></span><span class="jr-pics" aria-hidden="true"><img src="img/thumb/crime-and-punishment.jpg" alt="" loading="lazy" decoding="async"><img src="img/thumb/fyodor-dostoevsky.jpg" alt="" loading="lazy" decoding="async"></span></span></li><li><a class="jr-row" href="c/natsume-soseki--zhou-tokyo-diary/"><i class="jr-dot"></i><span class="jr-t"><b>つぎへ</b><small>漱石はロンドンで、周恩来は東京で書いた。</small></span><span class="jr-pics" aria-hidden="true"><img src="img/thumb/natsume-soseki.jpg" alt="" loading="lazy" decoding="async"><img src="img/thumb/zhou-diary.jpg" alt="" loading="lazy" decoding="async"></span></a></li><li><a class="jr-row" href="c/kanyoro--zhou-tokyo-diary/"><i class="jr-dot"></i><span class="jr-t"><b>さらに</b><small>百年前の留学生は、神田の街を歩いていた。</small></span><span class="jr-pics" aria-hidden="true"><img src="img/thumb/kanyoro.jpg" alt="" loading="lazy" decoding="async"><img src="img/thumb/zhou-diary.jpg" alt="" loading="lazy" decoding="async"></span></a></li><li><a class="jr-row" href="c/kanyoro--gyoza-sakaba-kachidoki/"><i class="jr-dot"></i><span class="jr-t"><b>その先へ</b><small>勝どきの名も、漢陽楼も日露戦争とつながる。</small></span><span class="jr-pics" aria-hidden="true"><img src="img/thumb/kanyoro.jpg" alt="" loading="lazy" decoding="async"><img src="img/thumb/gyoza-sakaba-kachidoki.jpg" alt="" loading="lazy" decoding="async"></span></a></li></ol>
         </section>
         <article class="context-body" id="story">
           <p class="meta">CONTEXT STORY</p>
@@ -242,7 +244,7 @@ document.addEventListener('click', function (e) {
         </form>
         <p class="cm-note">送るときに、名前を一つ作ります。コメントは編集者が確かめてから表示されます。</p>
       </section>
-          <p class="meta more-label">同じルーツのコンテクスト</p><div class="ctx-cards"><a class="ctx-card" href="c/the-outsider--fyodor-dostoevsky/" aria-label="着想の日の回想に、ラスコーリニコフの名。：コリン・ウィルソン『アウトサイダー』 ＋ ドストエフスキー"><span class="cc-pics" aria-hidden="true"><img src="img/works/the-outsider.jpg" alt="" loading="lazy" decoding="async"><img src="img/works/fyodor-dostoevsky.jpg" alt="" loading="lazy" decoding="async"></span><span class="cc-t"><small><span class="rn">［アウトサイダーの系譜］</span><i class="rt">約55秒</i></small><b>着想の日の回想に、ラスコーリニコフの名。</b><em>コリン・ウィルソン『アウトサイダー』 ＋ <span class="nb">ドストエフスキー</span></em></span><span class="cc-go" aria-hidden="true">›</span></a></div>
+          <p class="meta more-label">同じ作品から出るつながり</p><div class="ctx-cards"><a class="ctx-card" href="c/the-outsider--fyodor-dostoevsky/" aria-label="着想の日の回想に、ラスコーリニコフの名。：コリン・ウィルソン『アウトサイダー』 ＋ ドストエフスキー"><span class="cc-pics" aria-hidden="true"><img src="img/thumb/the-outsider.jpg" alt="" loading="lazy" decoding="async"><img src="img/thumb/fyodor-dostoevsky.jpg" alt="" loading="lazy" decoding="async"></span><span class="cc-t"><small><span class="rn">［アウトサイダーの系譜］</span><i class="rt">約55秒</i></small><b>着想の日の回想に、ラスコーリニコフの名。</b><em>コリン・ウィルソン『アウトサイダー』 ＋ <span class="nb">ドストエフスキー</span></em></span><span class="cc-go" aria-hidden="true">›</span></a></div>
           
       <aside class="c-ad" aria-label="広告">
         <a href="#/ad">
@@ -255,7 +257,7 @@ document.addEventListener('click', function (e) {
           
           <section class="next-ctx" aria-label="次に読むつながり">
             <p class="meta">NEXT CONTEXT<small>次に読むつながり</small></p>
-            <a class="ctx-card" href="c/natsume-soseki--zhou-tokyo-diary/" aria-label="漱石はロンドンで、周恩来は東京で書いた。：夏目漱石 ＋ 周恩来『十九歳の東京日記』"><span class="cc-pics" aria-hidden="true"><img src="img/works/natsume-soseki.jpg" alt="" loading="lazy" decoding="async"><img src="img/zhou-diary.jpg" alt="" loading="lazy" decoding="async"></span><span class="cc-t"><small><span class="rn">［異国の都の記録］</span><i class="rt">約40秒</i></small><b>漱石はロンドンで、周恩来は東京で書いた。</b><em>夏目漱石 ＋ <span class="nb">周恩来『十九歳の東京日記』</span></em></span><span class="cc-go" aria-hidden="true">›</span></a>
+            <a class="ctx-card" href="c/natsume-soseki--zhou-tokyo-diary/" aria-label="漱石はロンドンで、周恩来は東京で書いた。：夏目漱石 ＋ 周恩来『十九歳の東京日記』"><span class="cc-pics" aria-hidden="true"><img src="img/thumb/natsume-soseki.jpg" alt="" loading="lazy" decoding="async"><img src="img/thumb/zhou-diary.jpg" alt="" loading="lazy" decoding="async"></span><span class="cc-t"><small><span class="rn">［異国の都の記録］</span><i class="rt">約40秒</i></small><b>漱石はロンドンで、周恩来は東京で書いた。</b><em>夏目漱石 ＋ <span class="nb">周恩来『十九歳の東京日記』</span></em></span><span class="cc-go" aria-hidden="true">›</span></a>
           </section>
           
           <section class="ctx-rail" aria-label="この先のつながり">
@@ -264,102 +266,6 @@ document.addEventListener('click', function (e) {
         <li class="stop first">
           
           
-          <a class="fstop" href="w/fyodor-dostoevsky/">
-            <span class="st-img"><img src="img/works/fyodor-dostoevsky.jpg" alt="ドストエフスキー" data-k="fyodor-dostoevsky" loading="lazy" decoding="async"></span>
-            <span class="st-txt"><small>人物</small>
-              <b>ドストエフスキー</b><span>ロシアの作家。『罪と罰』『カラマーゾフの兄弟』などで、人間の内面と信仰を深く描いた。</span></span>
-          </a>
-        </li>
-        <li class="stop">
-          
-          <a class="seg" href="c/the-outsider--fyodor-dostoevsky/">
-            
-            <small>［アウトサイダーの系譜］　事実</small>
-            <b><span class="seg-copy">着想の日の回想に、ラスコーリニコフの名。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
-          <a class="fstop" href="w/the-outsider/?c=the-outsider--fyodor-dostoevsky">
-            <span class="st-img"><img src="img/works/the-outsider.jpg" alt="コリン・ウィルソン『アウトサイダー』" data-k="the-outsider" loading="lazy" decoding="async"></span>
-            <span class="st-txt"><small>書籍・1956年</small>
-              <b>コリン・ウィルソン『アウトサイダー』</b><span>社会の中に居場所を見いだせない人間＝アウトサイダーを、カミュ、ドストエフスキー、ゴッホらの作品と生涯からたどった評論。20代半ばのデビュー作がベストセラーになった。</span></span>
-          </a>
-        </li>
-        <li class="stop">
-          
-          <a class="seg" href="c/the-outsider--tanaka-isson/">
-            
-            <small>［中央から離れて］　似ている</small>
-            <b><span class="seg-copy">画壇の外で、描き続けた画家。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
-          <a class="fstop" href="w/tanaka-isson/?c=the-outsider--tanaka-isson">
-            <span class="st-img"><img src="img/works/tanaka-isson.jpg" alt="田中一村" data-k="tanaka-isson" loading="lazy" decoding="async"></span>
-            <span class="st-txt"><small>人物・1908年</small>
-              <b>田中一村</b><span>50歳で奄美大島に移り住み、亜熱帯の植物や鳥を描き続けた日本画家。中央の画壇から離れて暮らした。</span></span>
-          </a>
-        </li>
-        <li class="stop">
-          
-          <a class="seg" href="c/tanaka-isson--kusamakura/">
-            
-            <small>［世を離れて描く］　似ている</small>
-            <b><span class="seg-copy">小説の画工を、生きたかのような画家。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
-          <a class="fstop" href="w/kusamakura/?c=tanaka-isson--kusamakura">
-            <span class="st-img"><img src="img/kusamakura.jpg" alt="夏目漱石『草枕』" data-k="kusamakura" loading="lazy" decoding="async"></span>
-            <span class="st-txt"><small>書籍・1906年</small>
-              <b>夏目漱石『草枕』</b><span>「智に働けば角が立つ。情に棹させば流される。」で始まる、画工が非人情の世界を求めて旅する小説。</span></span>
-          </a>
-        </li>
-        <li class="stop">
-          
-          <a class="seg" href="c/glenn-gould--kusamakura/">
-            
-            <small>［非人情という共通言語］　事実</small>
-            <b><span class="seg-copy">枕元にあった二冊は、聖書と『草枕』だった。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
-          <a class="fstop" href="w/glenn-gould/?c=glenn-gould--kusamakura">
-            <span class="st-img"><img src="img/gould.jpg" alt="グレン・グールド" data-k="glenn-gould" loading="lazy" decoding="async"></span>
-            <span class="st-txt"><small>人物・1932年</small>
-              <b>グレン・グールド</b><span>バッハ演奏で知られ、クラシック音楽における「演奏とは何か」という考え方そのものを変えた20世紀を代表するピアニスト。</span></span>
-          </a>
-        </li>
-        <li class="stop">
-          
-          <a class="seg" href="c/glenn-gould--goldberg-variations/">
-            
-            <small>［デビューと再録音］　事実</small>
-            <b><span class="seg-copy">デビュー盤と同じ曲を、死の前年に録り直した。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
-          <a class="fstop" href="w/goldberg-variations/?c=glenn-gould--goldberg-variations">
-            <span class="st-img"><img src="img/works/goldberg-variations.jpg" alt="バッハ『ゴールドベルク変奏曲』" data-k="goldberg-variations" loading="lazy" decoding="async"></span>
-            <span class="st-txt"><small>音楽・1741年</small>
-              <b>バッハ『ゴールドベルク変奏曲』</b><span>アリアと30の変奏からなる鍵盤作品。1741年ごろに出版された。グレン・グールドの1955年の録音によって、20世紀に広く聴かれる曲になった。</span></span>
-          </a>
-        </li>
-        <li class="stop">
-          
-          <a class="seg" href="c/goldberg-variations--brad-mehldau/">
-            
-            <small>［バッハを経由して］　ハブ</small>
-            <b><span class="seg-copy">ゴールドベルクの主題にジャズ奏者が応えた。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
-          <a class="fstop" href="w/brad-mehldau/?c=goldberg-variations--brad-mehldau">
-            <span class="st-img"><img src="img/works/brad-mehldau.jpg" alt="ブラッド・メルドー" data-k="brad-mehldau" loading="lazy" decoding="async"></span>
-            <span class="st-txt"><small>音楽・1970年</small>
-              <b>ブラッド・メルドー</b><span>アメリカのジャズ・ピアニスト。ピアノ・トリオでの演奏のほか、バッハやロックの曲を独自に解釈した録音でも知られる。</span></span>
-          </a>
-        </li>
-        <li class="stop branch">
-          
-          <a class="seg" href="c/kusamakura--natsume-soseki/">
-            <span class="seg-from">草枕 から分岐</span>
-            <small>［旅が生んだ『草枕』］　作者と作品</small>
-            <b><span class="seg-copy">「非人情」の小説には、漱石の芸術論が表れた。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
-          <a class="fstop" href="w/natsume-soseki/?c=kusamakura--natsume-soseki">
-            <span class="st-img"><img src="img/works/natsume-soseki.jpg" alt="夏目漱石" data-k="natsume-soseki" loading="lazy" decoding="async"></span>
-            <span class="st-txt"><small>人物・1867年</small>
-              <b>夏目漱石</b><span>『吾輩は猫である』『坊っちゃん』『草枕』『こころ』の作家。熊本の第五高等学校で教えたのち、1900年から英国に留学した。</span></span>
-          </a>
-        </li>
-        <li class="stop">
-          
-          <a class="seg" href="c/natsume-soseki--zhou-tokyo-diary/">
-            
-            <small>［異国の都の記録］　似ている</small>
-            <b><span class="seg-copy">漱石はロンドンで、周恩来は東京で書いた。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
           <a class="fstop" href="w/zhou-tokyo-diary/?c=natsume-soseki--zhou-tokyo-diary">
             <span class="st-img"><img src="img/zhou-diary.jpg" alt="周恩来『十九歳の東京日記』" data-k="zhou-tokyo-diary" loading="lazy" decoding="async"></span>
             <span class="st-txt"><small>書籍・1918年</small>
@@ -401,6 +307,102 @@ document.addEventListener('click', function (e) {
             <span class="st-txt"><small>酒</small>
               <b>芋焼酎『だいやめ DAIYAME』</b><span>鹿児島の芋焼酎。ライチを思わせる香りで知られる。名前は、一日の疲れを癒やす晩酌を表す鹿児島の言葉から。</span></span>
           </a>
+        </li>
+        <li class="stop">
+          
+          <a class="seg" href="c/daiyame--domaine-tetta/">
+            
+            <small>［名前が語る産地］　似ている</small>
+            <b><span class="seg-copy">焼酎の名は晩酌の言葉、ワイナリーの名は地名。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
+          <a class="fstop" href="w/domaine-tetta/?c=daiyame--domaine-tetta">
+            <span class="st-img"><img src="img/works/domaine-tetta.jpg" alt="ドメーヌ・テッタ" data-k="domaine-tetta" loading="lazy" decoding="async"></span>
+            <span class="st-txt"><small>ワイナリー</small>
+              <b>ドメーヌ・テッタ</b><span>岡山県新見市哲多町でぶどうを育て、ワインを造るワイナリー。名前は土地の名から。</span></span>
+          </a>
+        </li>
+        <li class="stop">
+          
+          <a class="seg" href="c/daiyame--tanqueray-no-ten/">
+            
+            <small>［香りで選ぶ蒸留酒］　似ている</small>
+            <b><span class="seg-copy">ライチのような芋焼酎と生の柑橘のジン。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
+          <a class="fstop" href="w/tanqueray-no-ten/?c=daiyame--tanqueray-no-ten">
+            <span class="st-img"><img src="img/works/tanqueray-no-ten.jpg" alt="タンカレー No.10" data-k="tanqueray-no-ten" loading="lazy" decoding="async"></span>
+            <span class="st-txt"><small>酒</small>
+              <b>タンカレー No.10</b><span>英国のジン、タンカレーの上位銘柄。生の柑橘を使って蒸留されることで知られる。</span></span>
+          </a>
+        </li>
+        <li class="stop">
+          
+          <a class="seg" href="c/kanyoro--nurungji/">
+            
+            <small>［東京の中の隣国］　似ている</small>
+            <b><span class="seg-copy">神田の中国料理と、赤坂の韓国料理。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
+          <a class="fstop" href="w/nurungji/?c=kanyoro--nurungji">
+            <span class="st-img"><img src="img/works/nurungji.jpg" alt="ヌルンジ（赤坂）" data-k="nurungji" loading="lazy" decoding="async"></span>
+            <span class="st-txt"><small>店</small>
+              <b>ヌルンジ（赤坂）</b><span>東京・赤坂の韓国料理店。店名の「ヌルンジ」は韓国語で、釜の底にできるおこげのこと。</span></span>
+          </a>
+        </li>
+        <li class="stop">
+          
+          <a class="seg" href="c/zhou-enlai--zhou-tokyo-diary/">
+            
+            <small>［書き手と日記］　作者と作品</small>
+            <b><span class="seg-copy">のちの総理は、十九歳で東京にいた。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
+          <a class="fstop" href="w/zhou-enlai/?c=zhou-enlai--zhou-tokyo-diary">
+            <span class="st-img"><img src="img/works/zhou-enlai.jpg" alt="周恩来" data-k="zhou-enlai" loading="lazy" decoding="async"></span>
+            <span class="st-txt"><small>人物・1898年</small>
+              <b>周恩来</b><span>1917年から1919年まで日本に留学し、帰国後は革命運動に加わった。1949年の建国から亡くなるまで、政務院総理、のち国務院総理を務めた。</span></span>
+          </a>
+        </li>
+        <li class="stop">
+          
+          <a class="seg" href="c/minakata-mandala--minakata-toki-letters/">
+            
+            <small>［手紙の中の曼荼羅］　事実</small>
+            <b><span class="seg-copy">その図は、手紙に描かれていた。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
+          <a class="fstop" href="w/minakata-toki-letters/?c=minakata-mandala--minakata-toki-letters">
+            <span class="st-img"><img src="img/works/minakata-toki-letters.jpg" alt="『南方熊楠 土宜法竜 往復書簡』" data-k="minakata-toki-letters" loading="lazy" decoding="async"></span>
+            <span class="st-txt"><small>書籍・1990年</small>
+              <b>『南方熊楠 土宜法竜 往復書簡』</b><span>ロンドンで出会った南方熊楠と、真言宗の僧・土宜法龍が交わした手紙をまとめたもの。二人は仏教と科学をめぐって長い議論を交わした。</span></span>
+          </a>
+        </li>
+        <li class="stop">
+          
+          <a class="seg" href="c/james-j-gibson--affordance/">
+            
+            <small>［名づけた人］　作者と作品</small>
+            <b><span class="seg-copy">椅子は「座る」ことを差し出している。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
+          <a class="fstop" href="w/james-j-gibson/?c=james-j-gibson--affordance">
+            <span class="st-img"><img src="img/works/james-j-gibson.jpg" alt="ジェームズ・J・ギブソン" data-k="james-j-gibson" loading="lazy" decoding="async"></span>
+            <span class="st-txt"><small>人物・1904年</small>
+              <b>ジェームズ・J・ギブソン</b><span>アメリカの知覚心理学者。環境が動物に差し出す行為の可能性を「アフォーダンス」と名づけた。</span></span>
+          </a>
+        </li>
+        <li class="stop">
+          
+          <a class="seg" href="c/think-different--uniqlock/">
+            
+            <small>［時代を刻んだ広告］　似ている</small>
+            <b><span class="seg-copy">商品の説明をせず、ブランドを語った。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
+          <a class="fstop" href="w/uniqlock/?c=think-different--uniqlock">
+            <span class="st-img"><img src="img/works/uniqlock.jpg" alt="UNIQLOCK" data-k="uniqlock" loading="lazy" decoding="async"></span>
+            <span class="st-txt"><small>CM・2007年</small>
+              <b>UNIQLOCK</b><span>ユニクロのウェブ広告。音楽とダンスと時計を組み合わせ、時刻を刻み続けるブログパーツとして世界に広まった。</span></span>
+          </a>
+        </li>
+        <li class="stop">
+          
+          <a class="seg" href="c/peter-handke--nobel-literature-laureates/">
+            
+            <small>［2019年の受賞］　事実</small>
+            <b><span class="seg-copy">『天使の詩』の脚本家がノーベル文学賞を得た。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
+          <a class="fstop" href="w/peter-handke/?c=peter-handke--nobel-literature-laureates">
+            <span class="st-img"><img src="img/works/peter-handke.jpg" alt="ペーター・ハントケ" data-k="peter-handke" loading="lazy" decoding="async"></span>
+            <span class="st-txt"><small>人物</small>
+              <b>ペーター・ハントケ</b><span>オーストリアの作家・劇作家。『ベルリン・天使の詩』の脚本に加わり、2019年にノーベル文学賞を受賞した。</span></span>
+          </a>
         </li></ol>
             <div class="rail-more" id="railMore" aria-hidden="true"></div>
           </section>
@@ -415,17 +417,17 @@ document.addEventListener('click', function (e) {
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 <script type="application/ld+json" id="ld">{"@context":"https://schema.org","@type":"Article","headline":"理屈で殺した青年を、罪の意識が追いつめる。","alternativeHeadline":"作家と作品","about":[{"@type":"Book","name":"罪と罰","description":"貧しい元学生ラスコーリニコフが、自分の理屈で老婆を殺し、罪の意識に追いつめられていく長編小説。","creator":{"@type":"Person","name":"ドストエフスキー"}},{"@type":"Person","name":"ドストエフスキー","description":"ロシアの作家。『罪と罰』『カラマーゾフの兄弟』などで、人間の内面と信仰を深く描いた。"}],"author":{"@type":"Person","name":"生成AI（初稿）"},"datePublished":"2026-09-30T05:00:00.000Z","dateModified":"2026-09-30T05:00:00.000Z","inLanguage":"ja","articleBody":"罪は、法よりも先に心を裁く。ドストエフスキーの代表作の一つ『罪と罰』は、1866年に雑誌『ロシア報知』に連載された。主人公ラスコーリニコフは、非凡な人間には法を踏み越える権利があるという自分の理屈で老婆を殺す。しかし罪の意識は、予審判事ポルフィーリーの追及より先に、彼を追いつめていく。ドストエフスキーは、熱に浮かされたような心の揺れを描いた。ポルフィーリーとの三度の論戦は、推理小説の対決のようにも読める。","url":"https://beautifulcontext.com/c/crime-and-punishment--fyodor-dostoevsky/","citation":[{"@type":"CreativeWork","name":"Crime and Punishment","url":"https://www.gutenberg.org/files/2554/2554-h/2554-h.htm","publisher":{"@type":"Organization","name":"Project Gutenberg"}},{"@type":"CreativeWork","name":"Crime and Punishment","url":"https://en.wikipedia.org/wiki/Crime_and_Punishment","publisher":{"@type":"Organization","name":"Wikipedia"}},{"@type":"CreativeWork","name":"罪と罰","url":"https://ja.wikipedia.org/wiki/%E7%BD%AA%E3%81%A8%E7%BD%B0","publisher":{"@type":"Organization","name":"Wikipedia"}},{"@type":"CreativeWork","name":"Fyodor Dostoevsky","url":"https://en.wikipedia.org/wiki/Fyodor_Dostoevsky","publisher":{"@type":"Organization","name":"Wikipedia"}}],"image":"https://beautifulcontext.com/img/works/crime-and-punishment.jpg"}</script>
 
-<script src="js/config.js?v=174"></script>
-<script src="js/seed.js?v=174"></script>
-<script src="js/sources.js?v=174"></script>
-<script src="js/backend.js?v=174"></script>
-<script src="js/store.js?v=174"></script>
-<script src="js/social.js?v=174"></script>
-<script src="js/render.js?v=174"></script>
-<script src="js/login.js?v=174"></script>
-<script src="js/login-page.js?v=174"></script>
-<script src="js/report.js?v=174"></script>
-<script src="js/transition.js?v=174"></script>
-<script src="js/app.js?v=174"></script>
+<script src="js/config.js?v=183"></script>
+<script src="js/seed.js?v=183"></script>
+<script src="js/sources.js?v=183"></script>
+<script src="js/backend.js?v=183"></script>
+<script src="js/store.js?v=183"></script>
+<script src="js/social.js?v=183"></script>
+<script src="js/render.js?v=183"></script>
+<script src="js/login.js?v=183"></script>
+<script src="js/login-page.js?v=183"></script>
+<script src="js/report.js?v=183"></script>
+<script src="js/transition.js?v=183"></script>
+<script src="js/app.js?v=183"></script>
 </body>
 </html>

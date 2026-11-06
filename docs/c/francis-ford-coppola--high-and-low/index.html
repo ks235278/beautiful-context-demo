@@ -43,9 +43,9 @@ try { if (sessionStorage.getItem('bc-resume')) document.documentElement.classLis
 <link rel="preload" as="image" href="img/logo-layer-words.png">
 <!-- 台本も先に取りに行く（静的なページは台本より先に本文が描かれる。遅い回線で、触れて動くまでの間を縮める）。
      src と同じアドレス（?v= まで）でないと、二度取りに行く -->
-<link rel="preload" as="script" href="js/seed.js?v=174">
-<link rel="preload" as="script" href="js/app.js?v=174">
-<link rel="manifest" href="manifest.webmanifest?v=174">
+<link rel="preload" as="script" href="js/seed.js?v=183">
+<link rel="preload" as="script" href="js/app.js?v=183">
+<link rel="manifest" href="manifest.webmanifest?v=183">
 <link rel="apple-touch-icon" href="icon-180.png">
 <!-- タブと検索結果に出る小さな印。アプリの印（ホーム画面のアイコン）と同じ形 -->
 <link rel="icon" href="favicon.ico" sizes="16x16 32x32 48x48">
@@ -63,7 +63,7 @@ try { if (sessionStorage.getItem('bc-resume')) document.documentElement.classLis
 <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Lato:wght@300;400;700&display=swap" onload="this.onload=null;this.rel='stylesheet'">
 <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Lato:wght@300;400;700&display=swap"></noscript>
 <!-- ログインの画面の題（見本の太い明朝）。使う字だけを取る（text=。題の言葉を変えたら、ここの字も足す） -->
-<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@700;800;900&display=swap&text=%E3%80%81%E3%80%82%E3%81%84%E3%81%86%E3%81%8C%E3%81%8F%E3%81%97%E3%81%99%E3%81%A0%E3%81%A4%E3%81%A6%E3%81%A7%E3%81%A8%E3%81%AA%E3%81%AB%E3%81%AC%E3%81%BE%E3%82%8B%E3%82%8C%E3%82%92%E3%82%A2%E3%82%A4%E3%82%A6%E3%82%AB%E3%82%B0%E3%83%88%E3%83%AD%E3%83%B3%E4%B8%96%E4%BC%9A%E4%BD%9C%E5%87%BA%E6%96%87%E6%96%B0%E6%98%A0%E7%94%BB%E7%95%8C%E8%84%88%E8%91%89%E8%A6%8B%E8%A8%80" onload="this.onload=null;this.rel='stylesheet'">
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@700;800;900&display=swap&text=Geglo%E3%80%81%E3%80%82%E3%80%8C%E3%80%8D%E3%81%82%E3%81%84%E3%81%86%E3%81%88%E3%81%8A%E3%81%8B%E3%81%8C%E3%81%8F%E3%81%91%E3%81%93%E3%81%97%E3%81%99%E3%81%9B%E3%81%9F%E3%81%A0%E3%81%A3%E3%81%A4%E3%81%A6%E3%81%A7%E3%81%A8%E3%81%AA%E3%81%AB%E3%81%AC%E3%81%AE%E3%81%AF%E3%81%B8%E3%81%B9%E3%81%BE%E3%81%BF%E3%82%82%E3%82%86%E3%82%89%E3%82%8A%E3%82%8B%E3%82%8C%E3%82%92%E3%82%93%E3%82%A2%E3%82%A4%E3%82%A6%E3%82%AB%E3%82%AF%E3%82%B0%E3%82%B3%E3%82%B7%E3%82%B8%E3%82%B9%E3%82%BB%E3%82%BF%E3%83%86%E3%83%87%E3%83%88%E3%83%89%E3%83%90%E3%83%96%E3%83%97%E3%83%9A%E3%83%9E%E3%83%A1%E3%83%A9%E3%83%AD%E3%83%B3%E3%83%BB%E3%83%BC%E4%B8%80%E4%B8%96%E4%BC%9A%E4%BD%9C%E4%BE%A1%E4%BF%9D%E4%BF%A1%E5%80%A4%E5%83%8F%E5%85%88%E5%85%B8%E5%87%BA%E5%88%A9%E5%89%8A%E5%8A%9B%E5%8C%96%E5%93%81%E5%A0%B1%E5%A4%96%E5%AD%98%E5%AE%B6%E6%80%9D%E6%8E%A2%E6%96%87%E6%96%B0%E6%96%B9%E6%98%A0%E6%9E%90%E6%9E%9C%E6%A4%9C%E6%B7%B1%E7%82%B9%E7%89%A9%E7%94%9F%E7%94%A8%E7%94%BB%E7%95%8C%E7%99%BD%E7%9F%A5%E7%A4%BA%E7%AB%A0%E7%B4%84%E7%B4%A2%E7%B5%90%E8%84%88%E8%91%89%E8%A1%A8%E8%A6%8B%E8%A6%8F%E8%A6%96%E8%A7%A3%E8%A8%80%E8%AA%9E%E8%AA%AD%E8%AA%B0%E8%B1%8A%E9%80%81%E9%80%9A%E9%83%A8%E9%99%A4%E9%9D%A2%EF%BC%88%EF%BC%89" onload="this.onload=null;this.rel='stylesheet'">
 <!-- アクセス解析（Google アナリティクス 4）。表示を待たせないよう非同期で読む。何を送るかは 利用規約・プライバシー に書いた。
      本番のアドレスで開いたときだけ数える（静的なページの書き出しや、手元での確かめは数えない）。
      ページの表示は app.js が画面の替わるたびに送る（ここで送ると、表紙と # の先の道が数えられない） -->
@@ -76,13 +76,13 @@ if (location.hostname === 'beautifulcontext.com'){
   document.head.appendChild(ga);
 }
 </script>
-<script src="js/theme.js?v=174"></script>
-<link rel="stylesheet" href="app.css?v=174">
+<script src="js/theme.js?v=183"></script>
+<link rel="stylesheet" href="app.css?v=183">
 <!-- 読む画面の使い勝手（2026.10.24）。app.css のすぐあと -->
-<link rel="stylesheet" href="ux.css?v=174">
-<link rel="stylesheet" href="fade.css?v=174">
+<link rel="stylesheet" href="ux.css?v=183">
+<link rel="stylesheet" href="fade.css?v=183">
 <!-- editorial-ink（紙・墨・金）：◆ の罫と、紙の上か絵の上かで変わる決まり。ux.css のあと -->
-<link rel="stylesheet" href="ink.css?v=174">
+<link rel="stylesheet" href="ink.css?v=183">
 <!-- 台本（js）が揃うまで：まだ押しても動かないもの（‹・絵の横の ‹ ›・つながりを辿る）を少し薄くし、下の帯の上の縁に細い金の線を走らせる。
      app.js が最後に body.app-ready を付けて外す。すぐ揃うときは何も見せない（0.3 秒待ってから出す） -->
 <style>
@@ -94,7 +94,7 @@ body:not(.app-ready) .dock::before{content:"";position:absolute;z-index:3;left:0
 @keyframes bc-load{from{transform:translateX(0)}to{transform:translateX(257%)}}
 </style>
 </head>
-<body class="stage-uni viewing route" data-route="#/c/francis-ford-coppola--high-and-low">
+<body class="stage-uni viewing has-route route" data-route="#/c/francis-ford-coppola--high-and-low">
 <!-- 台本が届く前に触れた一回を覚えておく（つながりを辿る・‹・絵の横の ‹ ›）。app.js が起き上がったら、その一回を行う。
      遅い回線で「押したのに何も起きない」を無くす -->
 <script>
@@ -132,6 +132,8 @@ document.addEventListener('click', function (e) {
 <div class="dock" id="dock">
   <div class="map" id="map"></div>
   <p class="sel-hint" id="selHint" aria-live="polite"></p>
+  <!-- 携帯：つながりを辿るの行き先を一行で（パソコンは次の札 next-peek） -->
+  <p class="dock-next" id="dockNext"></p>
   <p class="dock-brand" id="dockBrand">BEAUTIFUL CONTEXT</p>
   <!-- 読む画面（Today・コンテクスト・作品）では NEXT UNIVERSE だけ。戻るのは左の端から右へ払う（iPhone と同じ）か、上の ‹。
        ReMixIt!（つながりを創る）は編集の側の道具なので、UniverseIt! の画面とメニューに置く -->
@@ -192,7 +194,7 @@ document.addEventListener('click', function (e) {
   <div class="view-in" id="viewIn"><!--bc-body-->
       <article class="page cpage">
         <button type="button" class="back-close" data-close="" aria-label="Today's Editor's Choice へ戻る" title="Today's Editor's Choice へ"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 4.5 7.5 12l7.5 7.5"></path></svg></button>
-        <div class="duo-hero"><a class="c-logo on-paper" href="#/" data-top="" aria-label="BEAUTIFUL CONTEXT（TOP へ戻る）"><img src="img/logo-navy.png" alt=""></a><div class="duo"><button type="button" class="duo-go" data-step="0" aria-label="フランシス・フォード・コッポラの作品ページへ"><div class="art"><img src="img/works/francis-ford-coppola.jpg" alt="フランシス・フォード・コッポラ" data-k="francis-ford-coppola" decoding="async" fetchpriority="low"></div></button><button type="button" class="duo-go" data-step="2" aria-label="黒澤明『天国と地獄』の作品ページへ"><div class="art"><img src="img/highlow.jpg" alt="黒澤明『天国と地獄』" data-k="high-and-low" decoding="async" fetchpriority="low"></div></button><i class="swap" aria-hidden="true">↔</i></div><button type="button" class="ctx-nav prev" data-ctx-go="-1" aria-label="一つ前のつながりへ">‹</button><button type="button" class="ctx-nav next" data-ctx-go="1" aria-label="次のつながりへ">›</button></div>
+        <div class="duo-hero"><a class="c-logo on-paper" href="#/" data-top="" aria-label="BEAUTIFUL CONTEXT（TOP へ戻る）"><img src="img/logo-navy.png" alt=""></a><span class="only-sp"><button type="button" class="login-chip" data-login="">Login</button></span><div class="duo"><button type="button" class="duo-go" data-step="0" aria-label="フランシス・フォード・コッポラの作品ページへ"><div class="art"><img src="img/works/francis-ford-coppola.jpg" alt="フランシス・フォード・コッポラ" data-k="francis-ford-coppola" decoding="async" fetchpriority="low"></div></button><button type="button" class="duo-go" data-step="2" aria-label="黒澤明『天国と地獄』の作品ページへ"><div class="art"><img src="img/highlow.jpg" alt="黒澤明『天国と地獄』" data-k="high-and-low" decoding="async" fetchpriority="low"></div></button><i class="swap" aria-hidden="true">↔</i></div><button type="button" class="ctx-nav prev" data-ctx-go="-1" aria-label="一つ前のつながりへ">‹</button><button type="button" class="ctx-nav next" data-ctx-go="1" aria-label="次へ：黒澤明『天国と地獄』">›</button></div>
         <section class="context-lead">
           
           <div class="ed-row">
@@ -207,13 +209,13 @@ document.addEventListener('click', function (e) {
         
         <section class="src-cards" aria-label="つながる二つの作品">
           <p class="meta">SOURCE CONNECTION</p>
-          <div class="src-row"><button type="button" class="src" data-step="0" aria-label="フランシス・フォード・コッポラの作品ページへ"><img src="img/works/francis-ford-coppola.jpg" alt="" loading="lazy" decoding="async"><span class="src-t"><small>人物・1939</small><b>フランシス・フォード・コッポラ</b><em>映画監督</em><span class="src-s">『ゴッドファーザー』『地獄の黙示録』の映画監督。</span><i aria-hidden="true">作品ページへ　→</i></span></button><span class="src-link" aria-hidden="true">↔</span><button type="button" class="src" data-step="2" aria-label="黒澤明『天国と地獄』の作品ページへ"><img src="img/highlow.jpg" alt="" loading="lazy" decoding="async"><span class="src-t"><small>映画・1963</small><b>黒澤明『天国と地獄』</b><em>黒澤明監督</em><span class="src-s">エド・マクベインの小説『King’s Ransom』を原作に、誘拐事件を通じて企業家の倫理と社会の格差を描いた作品。</span><i aria-hidden="true">作品ページへ　→</i></span></button></div>
+          <div class="src-row"><button type="button" class="src" data-step="0" aria-label="フランシス・フォード・コッポラの作品ページへ"><img src="img/thumb/francis-ford-coppola.jpg" alt="" loading="lazy" decoding="async"><span class="src-t"><small>人物・1939</small><b>フランシス・フォード・コッポラ</b><em>映画監督</em><span class="src-s">『ゴッドファーザー』『地獄の黙示録』の映画監督。</span><i aria-hidden="true">作品ページへ　→</i></span></button><span class="src-link" aria-hidden="true">↔</span><button type="button" class="src" data-step="2" aria-label="黒澤明『天国と地獄』の作品ページへ"><img src="img/thumb/highlow.jpg" alt="" loading="lazy" decoding="async"><span class="src-t"><small>映画・1963</small><b>黒澤明『天国と地獄』</b><em>黒澤明監督</em><span class="src-s">エド・マクベインの小説『King’s Ransom』を原作に、誘拐事件を通じて企業家の倫理と社会の格差を描いた作品。</span><i aria-hidden="true">作品ページへ　→</i></span></button></div>
         </section>
         
         <section class="journey" aria-label="CONTEXT JOURNEY">
           <p class="meta">CONTEXT JOURNEY<a href="#/list">一覧で見る　→</a></p>
           <p class="jr-sub">このつながりから、たどる道</p>
-          <ol class="jr"><li><a class="jr-row" href="c/apocalypse-now--francis-ford-coppola/"><i class="jr-dot"></i><span class="jr-t"><b>ここまで</b><small>映画の撮影そのものが、地獄の行軍になった。</small></span><span class="jr-pics" aria-hidden="true"><img src="img/works/apocalypse-now.jpg" alt="" loading="lazy" decoding="async"><img src="img/works/francis-ford-coppola.jpg" alt="" loading="lazy" decoding="async"></span></a></li><li class="now"><span class="jr-row" aria-current="step"><i class="jr-dot"></i><span class="jr-t"><b>いまここ</b><small>コッポラとルーカスが、黒澤の映画を支えた。</small></span><span class="jr-pics" aria-hidden="true"><img src="img/works/francis-ford-coppola.jpg" alt="" loading="lazy" decoding="async"><img src="img/highlow.jpg" alt="" loading="lazy" decoding="async"></span></span></li><li><a class="jr-row" href="c/the-hollow-men--apocalypse-now/"><i class="jr-dot"></i><span class="jr-t"><b>つぎへ</b><small>ジャングルの奥で、カーツ大佐が詩を読む。</small></span><span class="jr-pics" aria-hidden="true"><img src="img/works/the-hollow-men.jpg" alt="" loading="lazy" decoding="async"><img src="img/works/apocalypse-now.jpg" alt="" loading="lazy" decoding="async"></span></a></li><li><a class="jr-row" href="c/the-hollow-men--heart-of-darkness/"><i class="jr-dot"></i><span class="jr-t"><b>さらに</b><small>詩の冒頭に、小説の一行がある。</small></span><span class="jr-pics" aria-hidden="true"><img src="img/works/the-hollow-men.jpg" alt="" loading="lazy" decoding="async"><img src="img/works/heart-of-darkness.jpg" alt="" loading="lazy" decoding="async"></span></a></li><li><a class="jr-row" href="c/t-s-eliot--the-hollow-men/"><i class="jr-dot"></i><span class="jr-t"><b>その先へ</b><small>爆発ではなく、すすり泣きで。</small></span><span class="jr-pics" aria-hidden="true"><img src="img/works/t-s-eliot.jpg" alt="" loading="lazy" decoding="async"><img src="img/works/the-hollow-men.jpg" alt="" loading="lazy" decoding="async"></span></a></li></ol>
+          <ol class="jr"><li><a class="jr-row" href="c/apocalypse-now--francis-ford-coppola/"><i class="jr-dot"></i><span class="jr-t"><b>ここまで</b><small>映画の撮影そのものが、地獄の行軍になった。</small></span><span class="jr-pics" aria-hidden="true"><img src="img/thumb/apocalypse-now.jpg" alt="" loading="lazy" decoding="async"><img src="img/thumb/francis-ford-coppola.jpg" alt="" loading="lazy" decoding="async"></span></a></li><li class="now"><span class="jr-row" aria-current="step"><i class="jr-dot"></i><span class="jr-t"><b>いまここ</b><small>コッポラとルーカスが、黒澤の映画を支えた。</small></span><span class="jr-pics" aria-hidden="true"><img src="img/thumb/francis-ford-coppola.jpg" alt="" loading="lazy" decoding="async"><img src="img/thumb/highlow.jpg" alt="" loading="lazy" decoding="async"></span></span></li><li><a class="jr-row" href="c/the-hollow-men--apocalypse-now/"><i class="jr-dot"></i><span class="jr-t"><b>つぎへ</b><small>ジャングルの奥で、カーツ大佐が詩を読む。</small></span><span class="jr-pics" aria-hidden="true"><img src="img/thumb/the-hollow-men.jpg" alt="" loading="lazy" decoding="async"><img src="img/thumb/apocalypse-now.jpg" alt="" loading="lazy" decoding="async"></span></a></li><li><a class="jr-row" href="c/the-hollow-men--heart-of-darkness/"><i class="jr-dot"></i><span class="jr-t"><b>さらに</b><small>詩の冒頭に、小説の一行がある。</small></span><span class="jr-pics" aria-hidden="true"><img src="img/thumb/the-hollow-men.jpg" alt="" loading="lazy" decoding="async"><img src="img/thumb/heart-of-darkness.jpg" alt="" loading="lazy" decoding="async"></span></a></li><li><a class="jr-row" href="c/t-s-eliot--the-hollow-men/"><i class="jr-dot"></i><span class="jr-t"><b>その先へ</b><small>爆発ではなく、すすり泣きで。</small></span><span class="jr-pics" aria-hidden="true"><img src="img/thumb/t-s-eliot.jpg" alt="" loading="lazy" decoding="async"><img src="img/thumb/the-hollow-men.jpg" alt="" loading="lazy" decoding="async"></span></a></li></ol>
         </section>
         <article class="context-body" id="story">
           <p class="meta">CONTEXT STORY</p>
@@ -242,7 +244,7 @@ document.addEventListener('click', function (e) {
         </form>
         <p class="cm-note">送るときに、名前を一つ作ります。コメントは編集者が確かめてから表示されます。</p>
       </section>
-          <p class="meta more-label">同じルーツのコンテクスト</p><div class="ctx-cards"><a class="ctx-card" href="c/highest-2-lowest--high-and-low/" aria-label="誘拐劇は、60年後にアメリカへ戻った。：『HIGHEST 2 LOWEST』 ＋ 黒澤明『天国と地獄』"><span class="cc-pics" aria-hidden="true"><img src="img/highest.jpg" alt="" loading="lazy" decoding="async"><img src="img/highlow.jpg" alt="" loading="lazy" decoding="async"></span><span class="cc-t"><small><span class="rn">［原作から再解釈へ］</span><i class="rt">約1分</i></small><b>誘拐劇は、60年後にアメリカへ戻った。</b><em>『HIGHEST 2 LOWEST』 ＋ <span class="nb">黒澤明『天国と地獄』</span></em></span><span class="cc-go" aria-hidden="true">›</span></a><a class="ctx-card" href="c/high-and-low--kings-ransom/" aria-label="身代金の電話は、横浜の高台で鳴った。：黒澤明『天国と地獄』 ＋ エド・マクベイン『キングの身代金』"><span class="cc-pics" aria-hidden="true"><img src="img/highlow.jpg" alt="" loading="lazy" decoding="async"><img src="img/kings-ransom.jpg" alt="" loading="lazy" decoding="async"></span><span class="cc-t"><small><span class="rn">［小説から映画へ］</span><i class="rt">約1分</i></small><b>身代金の電話は、横浜の高台で鳴った。</b><em>黒澤明『天国と地獄』 ＋ <span class="nb">エド・マクベイン『キングの身代金』</span></em></span><span class="cc-go" aria-hidden="true">›</span></a><a class="ctx-card" href="c/apocalypse-now--francis-ford-coppola/" aria-label="映画の撮影そのものが、地獄の行軍になった。：コッポラ『地獄の黙示録』 ＋ フランシス・フォード・コッポラ"><span class="cc-pics" aria-hidden="true"><img src="img/works/apocalypse-now.jpg" alt="" loading="lazy" decoding="async"><img src="img/works/francis-ford-coppola.jpg" alt="" loading="lazy" decoding="async"></span><span class="cc-t"><small><span class="rn">［監督も奥地へ］</span><i class="rt">約30秒</i></small><b>映画の撮影そのものが、地獄の行軍になった。</b><em>コッポラ『地獄の黙示録』 ＋ <span class="nb">フランシス・フォード・コッポラ</span></em></span><span class="cc-go" aria-hidden="true">›</span></a></div>
+          <p class="meta more-label">同じ作品から出るつながり</p><div class="ctx-cards"><a class="ctx-card" href="c/highest-2-lowest--high-and-low/" aria-label="誘拐劇は、60年後にアメリカへ戻った。：『HIGHEST 2 LOWEST』 ＋ 黒澤明『天国と地獄』"><span class="cc-pics" aria-hidden="true"><img src="img/thumb/highest.jpg" alt="" loading="lazy" decoding="async"><img src="img/thumb/highlow.jpg" alt="" loading="lazy" decoding="async"></span><span class="cc-t"><small><span class="rn">［原作から再解釈へ］</span><i class="rt">約1分</i></small><b>誘拐劇は、60年後にアメリカへ戻った。</b><em>『HIGHEST 2 LOWEST』 ＋ <span class="nb">黒澤明『天国と地獄』</span></em></span><span class="cc-go" aria-hidden="true">›</span></a><a class="ctx-card" href="c/high-and-low--kings-ransom/" aria-label="身代金の電話は、横浜の高台で鳴った。：黒澤明『天国と地獄』 ＋ エド・マクベイン『キングの身代金』"><span class="cc-pics" aria-hidden="true"><img src="img/thumb/highlow.jpg" alt="" loading="lazy" decoding="async"><img src="img/thumb/kings-ransom.jpg" alt="" loading="lazy" decoding="async"></span><span class="cc-t"><small><span class="rn">［小説から映画へ］</span><i class="rt">約1分</i></small><b>身代金の電話は、横浜の高台で鳴った。</b><em>黒澤明『天国と地獄』 ＋ <span class="nb">エド・マクベイン『キングの身代金』</span></em></span><span class="cc-go" aria-hidden="true">›</span></a><a class="ctx-card" href="c/apocalypse-now--francis-ford-coppola/" aria-label="映画の撮影そのものが、地獄の行軍になった。：コッポラ『地獄の黙示録』 ＋ フランシス・フォード・コッポラ"><span class="cc-pics" aria-hidden="true"><img src="img/thumb/apocalypse-now.jpg" alt="" loading="lazy" decoding="async"><img src="img/thumb/francis-ford-coppola.jpg" alt="" loading="lazy" decoding="async"></span><span class="cc-t"><small><span class="rn">［監督も奥地へ］</span><i class="rt">約30秒</i></small><b>映画の撮影そのものが、地獄の行軍になった。</b><em>コッポラ『地獄の黙示録』 ＋ <span class="nb">フランシス・フォード・コッポラ</span></em></span><span class="cc-go" aria-hidden="true">›</span></a></div>
           
       <aside class="c-ad" aria-label="広告">
         <a href="#/ad">
@@ -255,7 +257,7 @@ document.addEventListener('click', function (e) {
           
           <section class="next-ctx" aria-label="次に読むつながり">
             <p class="meta">NEXT CONTEXT<small>次に読むつながり</small></p>
-            <a class="ctx-card" href="c/the-hollow-men--apocalypse-now/" aria-label="ジャングルの奥で、カーツ大佐が詩を読む。：『うつろな人々』The Hollow Men ＋ コッポラ『地獄の黙示録』"><span class="cc-pics" aria-hidden="true"><img src="img/works/the-hollow-men.jpg" alt="" loading="lazy" decoding="async"><img src="img/works/apocalypse-now.jpg" alt="" loading="lazy" decoding="async"></span><span class="cc-t"><small><span class="rn">［カーツ大佐の朗読］</span><i class="rt">約25秒</i></small><b>ジャングルの奥で、カーツ大佐が詩を読む。</b><em>『うつろな人々』The Hollow Men ＋ <span class="nb">コッポラ『地獄の黙示録』</span></em></span><span class="cc-go" aria-hidden="true">›</span></a>
+            <a class="ctx-card" href="c/the-hollow-men--apocalypse-now/" aria-label="ジャングルの奥で、カーツ大佐が詩を読む。：『うつろな人々』The Hollow Men ＋ コッポラ『地獄の黙示録』"><span class="cc-pics" aria-hidden="true"><img src="img/thumb/the-hollow-men.jpg" alt="" loading="lazy" decoding="async"><img src="img/thumb/apocalypse-now.jpg" alt="" loading="lazy" decoding="async"></span><span class="cc-t"><small><span class="rn">［カーツ大佐の朗読］</span><i class="rt">約25秒</i></small><b>ジャングルの奥で、カーツ大佐が詩を読む。</b><em>『うつろな人々』The Hollow Men ＋ <span class="nb">コッポラ『地獄の黙示録』</span></em></span><span class="cc-go" aria-hidden="true">›</span></a>
           </section>
           
           <section class="ctx-rail" aria-label="この先のつながり">
@@ -264,142 +266,142 @@ document.addEventListener('click', function (e) {
         <li class="stop first">
           
           
-          <a class="fstop" href="w/high-and-low/">
-            <span class="st-img"><img src="img/highlow.jpg" alt="黒澤明『天国と地獄』" data-k="high-and-low" loading="lazy" decoding="async"></span>
-            <span class="st-txt"><small>映画・1963年</small>
-              <b>黒澤明『天国と地獄』</b><span>エド・マクベインの小説『King’s Ransom』を原作に、誘拐事件を通じて企業家の倫理と社会の格差を描いた作品。</span></span>
+          <a class="fstop" href="w/the-hollow-men/?c=the-hollow-men--apocalypse-now">
+            <span class="st-img"><img src="img/works/the-hollow-men.jpg" alt="『うつろな人々』The Hollow Men" data-k="the-hollow-men" loading="lazy" decoding="async"></span>
+            <span class="st-txt"><small>詩・1925年</small>
+              <b>『うつろな人々』The Hollow Men</b><span>「世界の終わりはこうだ、爆発ではなく、すすり泣きで」と結ばれる詩。題辞にコンラッド『闇の奥』の一行を掲げる。</span></span>
           </a>
         </li>
         <li class="stop">
           
-          <a class="seg" href="c/highest-2-lowest--high-and-low/">
+          <a class="seg" href="c/the-hollow-men--heart-of-darkness/">
             
-            <small>［原作から再解釈へ］　事実</small>
-            <b><span class="seg-copy">誘拐劇は、60年後にアメリカへ戻った。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
-          <a class="fstop" href="w/highest-2-lowest/?c=highest-2-lowest--high-and-low">
-            <span class="st-img"><img src="img/highest.jpg" alt="『HIGHEST 2 LOWEST』" data-k="highest-2-lowest" loading="lazy" decoding="async"></span>
-            <span class="st-txt"><small>映画・2025年</small>
-              <b>『HIGHEST 2 LOWEST』</b><span>スパイク・リーが、黒澤明『天国と地獄』の構造を現代のニューヨークへ移し替えた作品。富、家族、選択の価値が問われる。</span></span>
+            <small>［題辞］　事実</small>
+            <b><span class="seg-copy">詩の冒頭に、小説の一行がある。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
+          <a class="fstop" href="w/heart-of-darkness/?c=the-hollow-men--heart-of-darkness">
+            <span class="st-img"><img src="img/works/heart-of-darkness.jpg" alt="ジョセフ・コンラッド『闇の奥』" data-k="heart-of-darkness" loading="lazy" decoding="async"></span>
+            <span class="st-txt"><small>書籍・1899年</small>
+              <b>ジョセフ・コンラッド『闇の奥』</b><span>象牙交易の奥地へ向かう船乗りマーロウが、消息を絶った交易所の責任者クルツを探す物語。当時のコンゴ自由国が舞台とされる。</span></span>
           </a>
         </li>
         <li class="stop">
           
-          <a class="seg" href="c/highest-2-lowest--kings-ransom/">
+          <a class="seg" href="c/t-s-eliot--the-hollow-men/">
             
-            <small>［もう一本の源流］　事実</small>
-            <b><span class="seg-copy">黒澤の映画の前にも、一冊の小説があった。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
-          <a class="fstop" href="w/kings-ransom/?c=highest-2-lowest--kings-ransom">
-            <span class="st-img"><img src="img/kings-ransom.jpg" alt="エド・マクベイン『キングの身代金』" data-k="kings-ransom" loading="lazy" decoding="async"></span>
-            <span class="st-txt"><small>書籍・1959年</small>
-              <b>エド・マクベイン『キングの身代金』</b><span>架空の街アイソラの87分署を舞台にした警察小説シリーズの一作。原題『King’s Ransom』。靴会社の重役のもとに、身代金を要求する電話がかかってくる。</span></span>
-          </a>
-        </li>
-        <li class="stop branch">
-          
-          <a class="seg" href="c/highest-2-lowest--pluribus/">
-            <span class="seg-from">HIGHEST 2 LOWEST から分岐</span>
-            <small>［同じ配信の窓］　事実</small>
-            <b><span class="seg-copy">誘拐劇とSFが、同じ画面から届く。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
-          <a class="fstop" href="w/pluribus/?c=highest-2-lowest--pluribus">
-            <span class="st-img"><img src="img/works/pluribus.jpg" alt="ヴィンス・ギリガン『プルリブス』" data-k="pluribus" loading="lazy" decoding="async"></span>
-            <span class="st-txt"><small>ドラマ・2025年</small>
-              <b>ヴィンス・ギリガン『プルリブス』</b><span>『ブレイキング・バッド』のヴィンス・ギリガンが手がけた Apple TV のドラマ。人々の心がひとつに溶け合っていく世界で、その輪に加われない数少ない人間の一人である女性を描く。</span></span>
-          </a>
-        </li>
-        <li class="stop">
-          
-          <a class="seg" href="c/pluribus--parasyte/">
-            
-            <small>［内側から入れ替わる人類］　似ている</small>
-            <b><span class="seg-copy">隣の人が、昨日までの人ではない。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
-          <a class="fstop" href="w/parasyte/?c=pluribus--parasyte">
-            <span class="st-img"><img src="img/works/parasyte.jpg" alt="岩明均『寄生獣』" data-k="parasyte" loading="lazy" decoding="async"></span>
-            <span class="st-txt"><small>漫画・1989年</small>
-              <b>岩明均『寄生獣』</b><span>人間に寄生する生物が現れた世界で、右手に寄生された高校生・泉新一と「ミギー」の共生を描いた漫画。</span></span>
-          </a>
-        </li>
-        <li class="stop">
-          
-          <a class="seg" href="c/chainsaw-man--parasyte/">
-            
-            <small>［体に宿るもう一つの命］　似ている</small>
-            <b><span class="seg-copy">悪魔の心臓と、右手の寄生生物。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
-          <a class="fstop" href="w/chainsaw-man/?c=chainsaw-man--parasyte">
-            <span class="st-img"><img src="img/works/chainsaw-man.jpg" alt="藤本タツキ『チェンソーマン』" data-k="chainsaw-man" loading="lazy" decoding="async"></span>
-            <span class="st-txt"><small>漫画・2018年</small>
-              <b>藤本タツキ『チェンソーマン』</b><span>悪魔のポチタと一体になり、チェンソーの悪魔の力を得た少年デンジの物語。2018年に週刊少年ジャンプで連載が始まった。</span></span>
-          </a>
-        </li>
-        <li class="stop">
-          
-          <a class="seg" href="c/fujimoto-tatsuki--chainsaw-man/">
-            
-            <small>［悪魔を狩る少年］　作者と作品</small>
-            <b><span class="seg-copy">チェンソーの心臓が、借金を負う少年に宿る。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
-          <a class="fstop" href="w/fujimoto-tatsuki/?c=fujimoto-tatsuki--chainsaw-man">
-            <span class="st-img"><img src="img/works/fujimoto-tatsuki.jpg" alt="藤本タツキ" data-k="fujimoto-tatsuki" loading="lazy" decoding="async"></span>
+            <small>［詩人と作品］　作者と作品</small>
+            <b><span class="seg-copy">爆発ではなく、すすり泣きで。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
+          <a class="fstop" href="w/t-s-eliot/?c=t-s-eliot--the-hollow-men">
+            <span class="st-img"><img src="img/works/t-s-eliot.jpg" alt="T・S・エリオット" data-k="t-s-eliot" loading="lazy" decoding="async"></span>
             <span class="st-txt"><small>人物</small>
-              <b>藤本タツキ</b><span>『チェンソーマン』『ルックバック』『ファイアパンチ』の漫画家。</span></span>
+              <b>T・S・エリオット</b><span>アメリカに生まれ、英国で活躍した詩人・批評家。『荒地』『うつろな人々』を書き、1948年にノーベル文学賞を受賞した。</span></span>
           </a>
         </li>
         <li class="stop">
           
-          <a class="seg" href="c/fujimoto-tatsuki--look-back/">
+          <a class="seg" href="c/t-s-eliot--nobel-literature-laureates/">
             
-            <small>［描く人を描く］　作者と作品</small>
-            <b><span class="seg-copy">漫画家が、漫画を描く人を描いた。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
-          <a class="fstop" href="w/look-back/?c=fujimoto-tatsuki--look-back">
-            <span class="st-img"><img src="img/works/look-back.jpg" alt="藤本タツキ『ルックバック』" data-k="look-back" loading="lazy" decoding="async"></span>
-            <span class="st-txt"><small>漫画・2021年</small>
-              <b>藤本タツキ『ルックバック』</b><span>漫画を描くことに打ち込む二人の少女を描いた読み切り。2021年に少年ジャンプ＋で公開され、2024年にアニメーション映画になった。</span></span>
+            <small>［1948年の受賞］　事実</small>
+            <b><span class="seg-copy">『荒地』の詩人は、1948年に受賞した。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
+          <a class="fstop" href="w/nobel-literature-laureates/?c=t-s-eliot--nobel-literature-laureates">
+            <span class="st-img"><img src="img/works/nobel-literature-laureates.jpg" alt="ノーベル文学賞受賞者" data-k="nobel-literature-laureates" loading="lazy" decoding="async"></span>
+            <span class="st-txt"><small>人物・1901–年</small>
+              <b>ノーベル文学賞受賞者</b><span>1901年から続くノーベル文学賞を受けた作家たち。</span></span>
           </a>
         </li>
         <li class="stop">
           
-          <a class="seg" href="c/kono-sekai-no-katasumi-ni--look-back/">
+          <a class="seg" href="c/the-grapes-of-wrath--nobel-literature-laureates/">
             
-            <small>［描く手］　似ている</small>
-            <b><span class="seg-copy">描くことが好きな人が、喪失のあとを生きる。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
-          <a class="fstop" href="w/kono-sekai-no-katasumi-ni/?c=kono-sekai-no-katasumi-ni--look-back">
-            <span class="st-img"><img src="img/works/kono-sekai-no-katasumi-ni.jpg" alt="『この世界の片隅に』" data-k="kono-sekai-no-katasumi-ni" loading="lazy" decoding="async"></span>
-            <span class="st-txt"><small>映画・2016年</small>
-              <b>『この世界の片隅に』</b><span>戦時中の広島と呉を舞台に、絵を描くことが好きな主人公すずの暮らしを描いたアニメーション映画。原作はこうの史代の漫画。</span></span>
+            <small>［1962年の受賞］　ハブ</small>
+            <b><span class="seg-copy">砂嵐の時代を描く作家はノーベル文学賞を得た。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
+          <a class="fstop" href="w/the-grapes-of-wrath/?c=the-grapes-of-wrath--nobel-literature-laureates">
+            <span class="st-img"><img src="img/works/the-grapes-of-wrath.jpg" alt="ジョン・スタインベック『怒りの葡萄』" data-k="the-grapes-of-wrath" loading="lazy" decoding="async"></span>
+            <span class="st-txt"><small>書籍・1939年</small>
+              <b>ジョン・スタインベック『怒りの葡萄』</b><span>干ばつと砂嵐、そして差し押さえで土地を追われたオクラホマの農民ジョード一家が、仕事を求めてカリフォルニアへ向かう。ピューリッツァー賞を受けた。</span></span>
           </a>
         </li>
         <li class="stop">
           
-          <a class="seg" href="c/kanashikute-yarikirenai--kono-sekai-no-katasumi-ni/">
+          <a class="seg" href="c/interstellar--the-grapes-of-wrath/">
             
-            <small>［映画のはじまりの歌］　事実</small>
-            <b><span class="seg-copy">戦時下の日常は、この歌から始まる。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
-          <a class="fstop" href="w/kanashikute-yarikirenai/?c=kanashikute-yarikirenai--kono-sekai-no-katasumi-ni">
-            <span class="st-img"><img src="img/works/kanashikute-yarikirenai.jpg" alt="「悲しくてやりきれない」" data-k="kanashikute-yarikirenai" loading="lazy" decoding="async"></span>
-            <span class="st-txt"><small>音楽・1968年</small>
-              <b>「悲しくてやりきれない」</b><span>1968年に発表されたザ・フォーク・クルセダーズの歌。多くの歌い手にうたい継がれてきた。</span></span>
+            <small>［ダストボウル］　事実</small>
+            <b><span class="seg-copy">砂嵐の農場から、星の海へ。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
+          <a class="fstop" href="w/interstellar/?c=interstellar--the-grapes-of-wrath">
+            <span class="st-img"><img src="img/works/interstellar.jpg" alt="クリストファー・ノーラン『インターステラー』" data-k="interstellar" loading="lazy" decoding="async"></span>
+            <span class="st-txt"><small>映画・2014年</small>
+              <b>クリストファー・ノーラン『インターステラー』</b><span>砂嵐と作物の枯死に追い詰められた近未来の地球から、人類の移住先を探して宇宙へ向かう元宇宙飛行士と、地球に残された娘の物語。</span></span>
           </a>
         </li>
         <li class="stop">
           
-          <a class="seg" href="c/kotringo--kanashikute-yarikirenai/">
+          <a class="seg" href="c/interstellar--christopher-nolan/">
             
-            <small>［歌い直された歌］　事実</small>
-            <b><span class="seg-copy">1968年の歌を、静かな声が歌い直した。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
-          <a class="fstop" href="w/kotringo/?c=kotringo--kanashikute-yarikirenai">
-            <span class="st-img"><img src="img/works/kotringo.jpg" alt="コトリンゴ" data-k="kotringo" loading="lazy" decoding="async"></span>
-            <span class="st-txt"><small>音楽</small>
-              <b>コトリンゴ</b><span>ピアノと歌のシンガーソングライター。アニメーション映画『この世界の片隅に』の音楽を手がけ、「悲しくてやりきれない」を歌った。</span></span>
+            <small>［監督と作品］　作者と作品</small>
+            <b><span class="seg-copy">父と娘の時間のずれを、兄弟で書いた。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
+          <a class="fstop" href="w/christopher-nolan/?c=interstellar--christopher-nolan">
+            <span class="st-img"><img src="img/works/christopher-nolan.jpg" alt="クリストファー・ノーラン" data-k="christopher-nolan" loading="lazy" decoding="async"></span>
+            <span class="st-txt"><small>人物・1970年</small>
+              <b>クリストファー・ノーラン</b><span>ロンドン生まれの映画監督。『ダークナイト』『インセプション』『インターステラー』『ダンケルク』『オッペンハイマー』。</span></span>
           </a>
         </li>
-        <li class="stop branch">
+        <li class="stop">
           
-          <a class="seg" href="c/kono-sekai-no-katasumi-ni--kure/">
-            <span class="seg-from">この世界の片隅に から分岐</span>
-            <small>［嫁いだ先の町］　事実</small>
-            <b><span class="seg-copy">すずは広島から、軍港の町へ嫁いだ。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
-          <a class="fstop" href="w/kure/?c=kono-sekai-no-katasumi-ni--kure">
-            <span class="st-img"><img src="img/works/kure.jpg" alt="広島県呉市" data-k="kure" loading="lazy" decoding="async"></span>
-            <span class="st-txt"><small>場所</small>
-              <b>広島県呉市</b><span>瀬戸内海に面した港町。明治期に海軍の鎮守府が置かれ、戦艦大和が建造された海軍工廠の町として知られる。</span></span>
+          <a class="seg" href="c/war-of-the-worlds-2005--interstellar/">
+            
+            <small>［スピルバーグを経由して］　ハブ</small>
+            <b><span class="seg-copy">守る父を撮った監督は、旅立つ父の企画にいた。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
+          <a class="fstop" href="w/war-of-the-worlds-2005/?c=war-of-the-worlds-2005--interstellar">
+            <span class="st-img"><img src="img/works/war-of-the-worlds-2005.jpg" alt="スピルバーグ『宇宙戦争』" data-k="war-of-the-worlds-2005" loading="lazy" decoding="async"></span>
+            <span class="st-txt"><small>映画・2005年</small>
+              <b>スピルバーグ『宇宙戦争』</b><span>ウェルズの小説を現代のアメリカに移し、別れた妻のもとで暮らす子どもたちを連れて逃げる父親をトム・クルーズが演じた。</span></span>
+          </a>
+        </li>
+        <li class="stop">
+          
+          <a class="seg" href="c/war-of-the-worlds-2005--reacher/">
+            
+            <small>［クルーズを経由して］　ハブ</small>
+            <b><span class="seg-copy">『宇宙戦争』の主演は、リーチャーも演じた。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
+          <a class="fstop" href="w/reacher/?c=war-of-the-worlds-2005--reacher">
+            <span class="st-img"><img src="img/works/reacher.jpg" alt="『リーチャー 正義のアウトロー』" data-k="reacher" loading="lazy" decoding="async"></span>
+            <span class="st-txt"><small>ドラマ・2022年</small>
+              <b>『リーチャー 正義のアウトロー』</b><span>リー・チャイルドの小説シリーズを原作にしたドラマ。元軍人のジャック・リーチャーが、各地の事件に立ち向かう。</span></span>
+          </a>
+        </li>
+        <li class="stop">
+          
+          <a class="seg" href="c/the-war-of-the-worlds--war-of-the-worlds-2005/">
+            
+            <small>［小説から映画へ］　事実</small>
+            <b><span class="seg-copy">異星人の侵略は、父と子の逃避行になる。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
+          <a class="fstop" href="w/the-war-of-the-worlds/?c=the-war-of-the-worlds--war-of-the-worlds-2005">
+            <span class="st-img"><img src="img/works/the-war-of-the-worlds.jpg" alt="H・G・ウェルズ『宇宙戦争』" data-k="the-war-of-the-worlds" loading="lazy" decoding="async"></span>
+            <span class="st-txt"><small>書籍・1898年</small>
+              <b>H・G・ウェルズ『宇宙戦争』</b><span>火星人がロンドン近郊に降り立ち、当時最大の植民地帝国だった英国に襲いかかる。侵略SFの古典。</span></span>
+          </a>
+        </li>
+        <li class="stop">
+          
+          <a class="seg" href="c/the-planets--the-war-of-the-worlds/">
+            
+            <small>［火星、戦争をもたらす者］　似ている</small>
+            <b><span class="seg-copy">組曲の最初の星は、戦争の神だった。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
+          <a class="fstop" href="w/the-planets/?c=the-planets--the-war-of-the-worlds">
+            <span class="st-img"><img src="img/works/the-planets.jpg" alt="ホルスト『惑星』" data-k="the-planets" loading="lazy" decoding="async"></span>
+            <span class="st-txt"><small>音楽・1918年</small>
+              <b>ホルスト『惑星』</b><span>火星・金星・水星・木星・土星・天王星・海王星の七つの楽章からなる管弦楽組曲。「木星」の旋律は、のちに英国の愛国歌「我は汝に誓う、我が祖国よ」になった。</span></span>
+          </a>
+        </li>
+        <li class="stop">
+          
+          <a class="seg" href="c/interstellar--spaceship-earth/">
+            
+            <small>［地球という船］　似ている</small>
+            <b><span class="seg-copy">人類は、船を乗り換えられるか。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
+          <a class="fstop" href="w/spaceship-earth/?c=interstellar--spaceship-earth">
+            <span class="st-img"><img src="img/works/spaceship-earth.jpg" alt="バックミンスター・フラー『宇宙船地球号 操縦マニュアル』" data-k="spaceship-earth" loading="lazy" decoding="async"></span>
+            <span class="st-txt"><small>書籍・1969年</small>
+              <b>バックミンスター・フラー『宇宙船地球号 操縦マニュアル』</b><span>地球を、限られた資源で航行する一隻の宇宙船にたとえ、人類はその操縦のしかたを学ばねばならないと説いた。</span></span>
           </a>
         </li></ol>
             <div class="rail-more" id="railMore" aria-hidden="true"></div>
@@ -415,17 +417,17 @@ document.addEventListener('click', function (e) {
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 <script type="application/ld+json" id="ld">{"@context":"https://schema.org","@type":"Article","headline":"コッポラとルーカスが、黒澤の映画を支えた。","alternativeHeadline":"黒澤明を経由して","about":[{"@type":"Person","name":"フランシス・フォード・コッポラ","description":"『ゴッドファーザー』『地獄の黙示録』の映画監督。"},{"@type":"Movie","name":"天国と地獄","description":"エド・マクベインの小説『King’s Ransom』を原作に、誘拐事件を通じて企業家の倫理と社会の格差を描いた作品。","creator":{"@type":"Person","name":"黒澤明監督"}}],"author":{"@type":"Person","name":"生成AI（初稿）"},"datePublished":"2026-09-15T04:30:00.000Z","dateModified":"2026-09-15T04:30:00.000Z","inLanguage":"ja","articleBody":"ハブは黒澤明。黒澤明の『影武者』（1980）は、製作費の不足に直面していた。黒澤を敬愛していたジョージ・ルーカスとフランシス・フォード・コッポラは、その海外版に製作総指揮として名を連ねた。20世紀フォックスの出資を取りつけたのは主にルーカスで、コッポラも黒澤とともにサントリーのウイスキーCMに出演するなどして、製作を支えた。『天国と地獄』でアメリカの小説を日本に移した黒澤は、今度はアメリカの監督たちに支えられて映画を撮ることになった。のちにスパイク・リーが『天国と地獄』を再解釈したことも含めて、黒澤とアメリカ映画のあいだには、何度も往復する線が引かれている。","url":"https://beautifulcontext.com/c/francis-ford-coppola--high-and-low/","citation":[{"@type":"CreativeWork","name":"Notes and Queries","url":"https://highered.mheducation.com/sites/0073386138/student_view0/chapter27/notes_and_queries.html","publisher":{"@type":"Organization","name":"McGraw-Hill Higher Education（Film History 第3版 付属サイト、第27章）"}},{"@type":"CreativeWork","name":"A24 and Apple Original Films celebrate the New York premiere of “Highest 2 Lowest” with director Spike Lee and stars Denzel Washington, A$AP Rocky, Jeffrey Wright, Ilfenesh Hadera, Elijah Wright and more","url":"https://www.apple.com/tv-pr/news/2025/08/a24-and-apple-original-films-celebrate-the-new-york-premiere-of-highest-2-lowest-with-director-spike-lee-and-stars-denzel-washington-aap-rocky-jeffrey-wright-ilfenesh-hadera-elijah-wright-and-more","publisher":{"@type":"Organization","name":"Apple TV Press"}},{"@type":"CreativeWork","name":"Kagemusha","url":"https://en.wikipedia.org/wiki/Kagemusha","publisher":{"@type":"Organization","name":"Wikipedia"}},{"@type":"CreativeWork","name":"The Life of Akira Kurosawa – Part 10: Comeback (1978–1986)","url":"https://akirakurosawa.info/biography-part-10/","publisher":{"@type":"Organization","name":"Akira Kurosawa Info"}},{"@type":"CreativeWork","name":"Kurosawa's \"Kagemusha\" on DVD","url":"https://salon.com/2009/08/27/kagemusha","publisher":{"@type":"Organization","name":"Salon"}}],"image":"https://beautifulcontext.com/img/works/francis-ford-coppola.jpg"}</script>
 
-<script src="js/config.js?v=174"></script>
-<script src="js/seed.js?v=174"></script>
-<script src="js/sources.js?v=174"></script>
-<script src="js/backend.js?v=174"></script>
-<script src="js/store.js?v=174"></script>
-<script src="js/social.js?v=174"></script>
-<script src="js/render.js?v=174"></script>
-<script src="js/login.js?v=174"></script>
-<script src="js/login-page.js?v=174"></script>
-<script src="js/report.js?v=174"></script>
-<script src="js/transition.js?v=174"></script>
-<script src="js/app.js?v=174"></script>
+<script src="js/config.js?v=183"></script>
+<script src="js/seed.js?v=183"></script>
+<script src="js/sources.js?v=183"></script>
+<script src="js/backend.js?v=183"></script>
+<script src="js/store.js?v=183"></script>
+<script src="js/social.js?v=183"></script>
+<script src="js/render.js?v=183"></script>
+<script src="js/login.js?v=183"></script>
+<script src="js/login-page.js?v=183"></script>
+<script src="js/report.js?v=183"></script>
+<script src="js/transition.js?v=183"></script>
+<script src="js/app.js?v=183"></script>
 </body>
 </html>

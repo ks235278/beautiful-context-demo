@@ -43,9 +43,9 @@ try { if (sessionStorage.getItem('bc-resume')) document.documentElement.classLis
 <link rel="preload" as="image" href="img/logo-layer-words.png">
 <!-- 台本も先に取りに行く（静的なページは台本より先に本文が描かれる。遅い回線で、触れて動くまでの間を縮める）。
      src と同じアドレス（?v= まで）でないと、二度取りに行く -->
-<link rel="preload" as="script" href="js/seed.js?v=174">
-<link rel="preload" as="script" href="js/app.js?v=174">
-<link rel="manifest" href="manifest.webmanifest?v=174">
+<link rel="preload" as="script" href="js/seed.js?v=183">
+<link rel="preload" as="script" href="js/app.js?v=183">
+<link rel="manifest" href="manifest.webmanifest?v=183">
 <link rel="apple-touch-icon" href="icon-180.png">
 <!-- タブと検索結果に出る小さな印。アプリの印（ホーム画面のアイコン）と同じ形 -->
 <link rel="icon" href="favicon.ico" sizes="16x16 32x32 48x48">
@@ -63,7 +63,7 @@ try { if (sessionStorage.getItem('bc-resume')) document.documentElement.classLis
 <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Lato:wght@300;400;700&display=swap" onload="this.onload=null;this.rel='stylesheet'">
 <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Lato:wght@300;400;700&display=swap"></noscript>
 <!-- ログインの画面の題（見本の太い明朝）。使う字だけを取る（text=。題の言葉を変えたら、ここの字も足す） -->
-<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@700;800;900&display=swap&text=%E3%80%81%E3%80%82%E3%81%84%E3%81%86%E3%81%8C%E3%81%8F%E3%81%97%E3%81%99%E3%81%A0%E3%81%A4%E3%81%A6%E3%81%A7%E3%81%A8%E3%81%AA%E3%81%AB%E3%81%AC%E3%81%BE%E3%82%8B%E3%82%8C%E3%82%92%E3%82%A2%E3%82%A4%E3%82%A6%E3%82%AB%E3%82%B0%E3%83%88%E3%83%AD%E3%83%B3%E4%B8%96%E4%BC%9A%E4%BD%9C%E5%87%BA%E6%96%87%E6%96%B0%E6%98%A0%E7%94%BB%E7%95%8C%E8%84%88%E8%91%89%E8%A6%8B%E8%A8%80" onload="this.onload=null;this.rel='stylesheet'">
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@700;800;900&display=swap&text=Geglo%E3%80%81%E3%80%82%E3%80%8C%E3%80%8D%E3%81%82%E3%81%84%E3%81%86%E3%81%88%E3%81%8A%E3%81%8B%E3%81%8C%E3%81%8F%E3%81%91%E3%81%93%E3%81%97%E3%81%99%E3%81%9B%E3%81%9F%E3%81%A0%E3%81%A3%E3%81%A4%E3%81%A6%E3%81%A7%E3%81%A8%E3%81%AA%E3%81%AB%E3%81%AC%E3%81%AE%E3%81%AF%E3%81%B8%E3%81%B9%E3%81%BE%E3%81%BF%E3%82%82%E3%82%86%E3%82%89%E3%82%8A%E3%82%8B%E3%82%8C%E3%82%92%E3%82%93%E3%82%A2%E3%82%A4%E3%82%A6%E3%82%AB%E3%82%AF%E3%82%B0%E3%82%B3%E3%82%B7%E3%82%B8%E3%82%B9%E3%82%BB%E3%82%BF%E3%83%86%E3%83%87%E3%83%88%E3%83%89%E3%83%90%E3%83%96%E3%83%97%E3%83%9A%E3%83%9E%E3%83%A1%E3%83%A9%E3%83%AD%E3%83%B3%E3%83%BB%E3%83%BC%E4%B8%80%E4%B8%96%E4%BC%9A%E4%BD%9C%E4%BE%A1%E4%BF%9D%E4%BF%A1%E5%80%A4%E5%83%8F%E5%85%88%E5%85%B8%E5%87%BA%E5%88%A9%E5%89%8A%E5%8A%9B%E5%8C%96%E5%93%81%E5%A0%B1%E5%A4%96%E5%AD%98%E5%AE%B6%E6%80%9D%E6%8E%A2%E6%96%87%E6%96%B0%E6%96%B9%E6%98%A0%E6%9E%90%E6%9E%9C%E6%A4%9C%E6%B7%B1%E7%82%B9%E7%89%A9%E7%94%9F%E7%94%A8%E7%94%BB%E7%95%8C%E7%99%BD%E7%9F%A5%E7%A4%BA%E7%AB%A0%E7%B4%84%E7%B4%A2%E7%B5%90%E8%84%88%E8%91%89%E8%A1%A8%E8%A6%8B%E8%A6%8F%E8%A6%96%E8%A7%A3%E8%A8%80%E8%AA%9E%E8%AA%AD%E8%AA%B0%E8%B1%8A%E9%80%81%E9%80%9A%E9%83%A8%E9%99%A4%E9%9D%A2%EF%BC%88%EF%BC%89" onload="this.onload=null;this.rel='stylesheet'">
 <!-- アクセス解析（Google アナリティクス 4）。表示を待たせないよう非同期で読む。何を送るかは 利用規約・プライバシー に書いた。
      本番のアドレスで開いたときだけ数える（静的なページの書き出しや、手元での確かめは数えない）。
      ページの表示は app.js が画面の替わるたびに送る（ここで送ると、表紙と # の先の道が数えられない） -->
@@ -76,13 +76,13 @@ if (location.hostname === 'beautifulcontext.com'){
   document.head.appendChild(ga);
 }
 </script>
-<script src="js/theme.js?v=174"></script>
-<link rel="stylesheet" href="app.css?v=174">
+<script src="js/theme.js?v=183"></script>
+<link rel="stylesheet" href="app.css?v=183">
 <!-- 読む画面の使い勝手（2026.10.24）。app.css のすぐあと -->
-<link rel="stylesheet" href="ux.css?v=174">
-<link rel="stylesheet" href="fade.css?v=174">
+<link rel="stylesheet" href="ux.css?v=183">
+<link rel="stylesheet" href="fade.css?v=183">
 <!-- editorial-ink（紙・墨・金）：◆ の罫と、紙の上か絵の上かで変わる決まり。ux.css のあと -->
-<link rel="stylesheet" href="ink.css?v=174">
+<link rel="stylesheet" href="ink.css?v=183">
 <!-- 台本（js）が揃うまで：まだ押しても動かないもの（‹・絵の横の ‹ ›・つながりを辿る）を少し薄くし、下の帯の上の縁に細い金の線を走らせる。
      app.js が最後に body.app-ready を付けて外す。すぐ揃うときは何も見せない（0.3 秒待ってから出す） -->
 <style>
@@ -94,7 +94,7 @@ body:not(.app-ready) .dock::before{content:"";position:absolute;z-index:3;left:0
 @keyframes bc-load{from{transform:translateX(0)}to{transform:translateX(257%)}}
 </style>
 </head>
-<body class="stage-uni viewing route" data-route="#/c/daiyame--domaine-tetta">
+<body class="stage-uni viewing has-route route" data-route="#/c/daiyame--domaine-tetta">
 <!-- 台本が届く前に触れた一回を覚えておく（つながりを辿る・‹・絵の横の ‹ ›）。app.js が起き上がったら、その一回を行う。
      遅い回線で「押したのに何も起きない」を無くす -->
 <script>
@@ -132,6 +132,8 @@ document.addEventListener('click', function (e) {
 <div class="dock" id="dock">
   <div class="map" id="map"></div>
   <p class="sel-hint" id="selHint" aria-live="polite"></p>
+  <!-- 携帯：つながりを辿るの行き先を一行で（パソコンは次の札 next-peek） -->
+  <p class="dock-next" id="dockNext"></p>
   <p class="dock-brand" id="dockBrand">BEAUTIFUL CONTEXT</p>
   <!-- 読む画面（Today・コンテクスト・作品）では NEXT UNIVERSE だけ。戻るのは左の端から右へ払う（iPhone と同じ）か、上の ‹。
        ReMixIt!（つながりを創る）は編集の側の道具なので、UniverseIt! の画面とメニューに置く -->
@@ -192,7 +194,7 @@ document.addEventListener('click', function (e) {
   <div class="view-in" id="viewIn"><!--bc-body-->
       <article class="page cpage">
         <button type="button" class="back-close" data-close="" aria-label="Today's Editor's Choice へ戻る" title="Today's Editor's Choice へ"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 4.5 7.5 12l7.5 7.5"></path></svg></button>
-        <div class="duo-hero"><a class="c-logo on-paper" href="#/" data-top="" aria-label="BEAUTIFUL CONTEXT（TOP へ戻る）"><img src="img/logo-navy.png" alt=""></a><div class="duo"><button type="button" class="duo-go" data-step="0" aria-label="芋焼酎『だいやめ DAIYAME』の作品ページへ"><div class="art"><img src="img/works/daiyame.jpg" alt="芋焼酎『だいやめ DAIYAME』" data-k="daiyame" decoding="async" fetchpriority="low"></div></button><button type="button" class="duo-go" data-step="2" aria-label="ドメーヌ・テッタの作品ページへ"><div class="art"><img src="img/works/domaine-tetta.jpg" alt="ドメーヌ・テッタ" data-k="domaine-tetta" decoding="async" fetchpriority="low"></div></button><i class="swap" aria-hidden="true">↔</i></div><button type="button" class="ctx-nav prev" data-ctx-go="-1" aria-label="一つ前のつながりへ">‹</button><button type="button" class="ctx-nav next" data-ctx-go="1" aria-label="次のつながりへ">›</button></div>
+        <div class="duo-hero"><a class="c-logo on-paper" href="#/" data-top="" aria-label="BEAUTIFUL CONTEXT（TOP へ戻る）"><img src="img/logo-navy.png" alt=""></a><span class="only-sp"><button type="button" class="login-chip" data-login="">Login</button></span><div class="duo"><button type="button" class="duo-go" data-step="0" aria-label="芋焼酎『だいやめ DAIYAME』の作品ページへ"><div class="art"><img src="img/works/daiyame.jpg" alt="芋焼酎『だいやめ DAIYAME』" data-k="daiyame" decoding="async" fetchpriority="low"></div></button><button type="button" class="duo-go" data-step="2" aria-label="ドメーヌ・テッタの作品ページへ"><div class="art"><img src="img/works/domaine-tetta.jpg" alt="ドメーヌ・テッタ" data-k="domaine-tetta" decoding="async" fetchpriority="low"></div></button><i class="swap" aria-hidden="true">↔</i></div><button type="button" class="ctx-nav prev" data-ctx-go="-1" aria-label="一つ前のつながりへ">‹</button><button type="button" class="ctx-nav next" data-ctx-go="1" aria-label="次へ：ドメーヌ・テッタ">›</button></div>
         <section class="context-lead">
           
           <div class="ed-row">
@@ -207,13 +209,13 @@ document.addEventListener('click', function (e) {
         
         <section class="src-cards" aria-label="つながる二つの作品">
           <p class="meta">SOURCE CONNECTION</p>
-          <div class="src-row"><button type="button" class="src" data-step="0" aria-label="芋焼酎『だいやめ DAIYAME』の作品ページへ"><img src="img/works/daiyame.jpg" alt="" loading="lazy" decoding="async"><span class="src-t"><small>酒</small><b>芋焼酎『だいやめ DAIYAME』</b><em>濵田酒造（鹿児島）</em><span class="src-s">鹿児島の芋焼酎。ライチを思わせる香りで知られる。名前は、一日の疲れを癒やす晩酌を表す鹿児島の言葉から。</span><i aria-hidden="true">作品ページへ　→</i></span></button><span class="src-link" aria-hidden="true">↔</span><button type="button" class="src" data-step="2" aria-label="ドメーヌ・テッタの作品ページへ"><img src="img/works/domaine-tetta.jpg" alt="" loading="lazy" decoding="async"><span class="src-t"><small>ワイナリー</small><b>ドメーヌ・テッタ</b><em>岡山県新見市</em><span class="src-s">岡山県新見市哲多町でぶどうを育て、ワインを造るワイナリー。名前は土地の名から。</span><i aria-hidden="true">作品ページへ　→</i></span></button></div>
+          <div class="src-row"><button type="button" class="src" data-step="0" aria-label="芋焼酎『だいやめ DAIYAME』の作品ページへ"><img src="img/thumb/daiyame.jpg" alt="" loading="lazy" decoding="async"><span class="src-t"><small>酒</small><b>芋焼酎『だいやめ DAIYAME』</b><em>濵田酒造（鹿児島）</em><span class="src-s">鹿児島の芋焼酎。ライチを思わせる香りで知られる。名前は、一日の疲れを癒やす晩酌を表す鹿児島の言葉から。</span><i aria-hidden="true">作品ページへ　→</i></span></button><span class="src-link" aria-hidden="true">↔</span><button type="button" class="src" data-step="2" aria-label="ドメーヌ・テッタの作品ページへ"><img src="img/thumb/domaine-tetta.jpg" alt="" loading="lazy" decoding="async"><span class="src-t"><small>ワイナリー</small><b>ドメーヌ・テッタ</b><em>岡山県新見市</em><span class="src-s">岡山県新見市哲多町でぶどうを育て、ワインを造るワイナリー。名前は土地の名から。</span><i aria-hidden="true">作品ページへ　→</i></span></button></div>
         </section>
         
         <section class="journey" aria-label="CONTEXT JOURNEY">
           <p class="meta">CONTEXT JOURNEY<a href="#/list">一覧で見る　→</a></p>
           <p class="jr-sub">このつながりから、たどる道</p>
-          <ol class="jr"><li><a class="jr-row" href="c/gyoza-sakaba-kachidoki--daiyame/"><i class="jr-dot"></i><span class="jr-t"><b>ここまで</b><small>「だいやめ」とは、つまり今夜の一杯だ。</small></span><span class="jr-pics" aria-hidden="true"><img src="img/works/gyoza-sakaba-kachidoki.jpg" alt="" loading="lazy" decoding="async"><img src="img/works/daiyame.jpg" alt="" loading="lazy" decoding="async"></span></a></li><li class="now"><span class="jr-row" aria-current="step"><i class="jr-dot"></i><span class="jr-t"><b>いまここ</b><small>焼酎の名は晩酌の言葉、ワイナリーの名は地名。</small></span><span class="jr-pics" aria-hidden="true"><img src="img/works/daiyame.jpg" alt="" loading="lazy" decoding="async"><img src="img/works/domaine-tetta.jpg" alt="" loading="lazy" decoding="async"></span></span></li><li><a class="jr-row" href="c/daiyame--tanqueray-no-ten/"><i class="jr-dot"></i><span class="jr-t"><b>つぎへ</b><small>ライチのような芋焼酎と生の柑橘のジン。</small></span><span class="jr-pics" aria-hidden="true"><img src="img/works/daiyame.jpg" alt="" loading="lazy" decoding="async"><img src="img/works/tanqueray-no-ten.jpg" alt="" loading="lazy" decoding="async"></span></a></li><li><a class="jr-row" href="c/kanyoro--nurungji/"><i class="jr-dot"></i><span class="jr-t"><b>さらに</b><small>神田の中国料理と、赤坂の韓国料理。</small></span><span class="jr-pics" aria-hidden="true"><img src="img/kanyoro.jpg" alt="" loading="lazy" decoding="async"><img src="img/works/nurungji.jpg" alt="" loading="lazy" decoding="async"></span></a></li><li><a class="jr-row" href="c/zhou-enlai--zhou-tokyo-diary/"><i class="jr-dot"></i><span class="jr-t"><b>その先へ</b><small>のちの総理は、十九歳で東京にいた。</small></span><span class="jr-pics" aria-hidden="true"><img src="img/works/zhou-enlai.jpg" alt="" loading="lazy" decoding="async"><img src="img/zhou-diary.jpg" alt="" loading="lazy" decoding="async"></span></a></li></ol>
+          <ol class="jr"><li><a class="jr-row" href="c/gyoza-sakaba-kachidoki--daiyame/"><i class="jr-dot"></i><span class="jr-t"><b>ここまで</b><small>「だいやめ」とは、つまり今夜の一杯だ。</small></span><span class="jr-pics" aria-hidden="true"><img src="img/thumb/gyoza-sakaba-kachidoki.jpg" alt="" loading="lazy" decoding="async"><img src="img/thumb/daiyame.jpg" alt="" loading="lazy" decoding="async"></span></a></li><li class="now"><span class="jr-row" aria-current="step"><i class="jr-dot"></i><span class="jr-t"><b>いまここ</b><small>焼酎の名は晩酌の言葉、ワイナリーの名は地名。</small></span><span class="jr-pics" aria-hidden="true"><img src="img/thumb/daiyame.jpg" alt="" loading="lazy" decoding="async"><img src="img/thumb/domaine-tetta.jpg" alt="" loading="lazy" decoding="async"></span></span></li><li><a class="jr-row" href="c/daiyame--tanqueray-no-ten/"><i class="jr-dot"></i><span class="jr-t"><b>つぎへ</b><small>ライチのような芋焼酎と生の柑橘のジン。</small></span><span class="jr-pics" aria-hidden="true"><img src="img/thumb/daiyame.jpg" alt="" loading="lazy" decoding="async"><img src="img/thumb/tanqueray-no-ten.jpg" alt="" loading="lazy" decoding="async"></span></a></li><li><a class="jr-row" href="c/kanyoro--nurungji/"><i class="jr-dot"></i><span class="jr-t"><b>さらに</b><small>神田の中国料理と、赤坂の韓国料理。</small></span><span class="jr-pics" aria-hidden="true"><img src="img/thumb/kanyoro.jpg" alt="" loading="lazy" decoding="async"><img src="img/thumb/nurungji.jpg" alt="" loading="lazy" decoding="async"></span></a></li><li><a class="jr-row" href="c/zhou-enlai--zhou-tokyo-diary/"><i class="jr-dot"></i><span class="jr-t"><b>その先へ</b><small>のちの総理は、十九歳で東京にいた。</small></span><span class="jr-pics" aria-hidden="true"><img src="img/thumb/zhou-enlai.jpg" alt="" loading="lazy" decoding="async"><img src="img/thumb/zhou-diary.jpg" alt="" loading="lazy" decoding="async"></span></a></li></ol>
         </section>
         <article class="context-body" id="story">
           <p class="meta">CONTEXT STORY</p>
@@ -242,7 +244,7 @@ document.addEventListener('click', function (e) {
         </form>
         <p class="cm-note">送るときに、名前を一つ作ります。コメントは編集者が確かめてから表示されます。</p>
       </section>
-          <p class="meta more-label">同じルーツのコンテクスト</p><div class="ctx-cards"><a class="ctx-card" href="c/daiyame--tanqueray-no-ten/" aria-label="ライチのような芋焼酎と生の柑橘のジン。：芋焼酎『だいやめ DAIYAME』 ＋ タンカレー No.10"><span class="cc-pics" aria-hidden="true"><img src="img/works/daiyame.jpg" alt="" loading="lazy" decoding="async"><img src="img/works/tanqueray-no-ten.jpg" alt="" loading="lazy" decoding="async"></span><span class="cc-t"><small><span class="rn">［香りで選ぶ蒸留酒］</span><i class="rt">約30秒</i></small><b>ライチのような芋焼酎と生の柑橘のジン。</b><em>芋焼酎『だいやめ DAIYAME』 ＋ <span class="nb">タンカレー No.10</span></em></span><span class="cc-go" aria-hidden="true">›</span></a><a class="ctx-card" href="c/gyoza-sakaba-kachidoki--daiyame/" aria-label="「だいやめ」とは、つまり今夜の一杯だ。：餃子酒場（勝どき店） ＋ 芋焼酎『だいやめ DAIYAME』"><span class="cc-pics" aria-hidden="true"><img src="img/works/gyoza-sakaba-kachidoki.jpg" alt="" loading="lazy" decoding="async"><img src="img/works/daiyame.jpg" alt="" loading="lazy" decoding="async"></span><span class="cc-t"><small><span class="rn">［今夜のだいやめ］</span><i class="rt">約25秒</i></small><b>「だいやめ」とは、つまり今夜の一杯だ。</b><em>餃子酒場（勝どき店） ＋ <span class="nb">芋焼酎『だいやめ DAIYAME』</span></em></span><span class="cc-go" aria-hidden="true">›</span></a></div>
+          <p class="meta more-label">同じ作品から出るつながり</p><div class="ctx-cards"><a class="ctx-card" href="c/daiyame--tanqueray-no-ten/" aria-label="ライチのような芋焼酎と生の柑橘のジン。：芋焼酎『だいやめ DAIYAME』 ＋ タンカレー No.10"><span class="cc-pics" aria-hidden="true"><img src="img/thumb/daiyame.jpg" alt="" loading="lazy" decoding="async"><img src="img/thumb/tanqueray-no-ten.jpg" alt="" loading="lazy" decoding="async"></span><span class="cc-t"><small><span class="rn">［香りで選ぶ蒸留酒］</span><i class="rt">約30秒</i></small><b>ライチのような芋焼酎と生の柑橘のジン。</b><em>芋焼酎『だいやめ DAIYAME』 ＋ <span class="nb">タンカレー No.10</span></em></span><span class="cc-go" aria-hidden="true">›</span></a><a class="ctx-card" href="c/gyoza-sakaba-kachidoki--daiyame/" aria-label="「だいやめ」とは、つまり今夜の一杯だ。：餃子酒場（勝どき店） ＋ 芋焼酎『だいやめ DAIYAME』"><span class="cc-pics" aria-hidden="true"><img src="img/thumb/gyoza-sakaba-kachidoki.jpg" alt="" loading="lazy" decoding="async"><img src="img/thumb/daiyame.jpg" alt="" loading="lazy" decoding="async"></span><span class="cc-t"><small><span class="rn">［今夜のだいやめ］</span><i class="rt">約25秒</i></small><b>「だいやめ」とは、つまり今夜の一杯だ。</b><em>餃子酒場（勝どき店） ＋ <span class="nb">芋焼酎『だいやめ DAIYAME』</span></em></span><span class="cc-go" aria-hidden="true">›</span></a></div>
           
       <aside class="c-ad" aria-label="広告">
         <a href="#/ad">
@@ -255,7 +257,7 @@ document.addEventListener('click', function (e) {
           
           <section class="next-ctx" aria-label="次に読むつながり">
             <p class="meta">NEXT CONTEXT<small>次に読むつながり</small></p>
-            <a class="ctx-card" href="c/daiyame--tanqueray-no-ten/" aria-label="ライチのような芋焼酎と生の柑橘のジン。：芋焼酎『だいやめ DAIYAME』 ＋ タンカレー No.10"><span class="cc-pics" aria-hidden="true"><img src="img/works/daiyame.jpg" alt="" loading="lazy" decoding="async"><img src="img/works/tanqueray-no-ten.jpg" alt="" loading="lazy" decoding="async"></span><span class="cc-t"><small><span class="rn">［香りで選ぶ蒸留酒］</span><i class="rt">約30秒</i></small><b>ライチのような芋焼酎と生の柑橘のジン。</b><em>芋焼酎『だいやめ DAIYAME』 ＋ <span class="nb">タンカレー No.10</span></em></span><span class="cc-go" aria-hidden="true">›</span></a>
+            <a class="ctx-card" href="c/daiyame--tanqueray-no-ten/" aria-label="ライチのような芋焼酎と生の柑橘のジン。：芋焼酎『だいやめ DAIYAME』 ＋ タンカレー No.10"><span class="cc-pics" aria-hidden="true"><img src="img/thumb/daiyame.jpg" alt="" loading="lazy" decoding="async"><img src="img/thumb/tanqueray-no-ten.jpg" alt="" loading="lazy" decoding="async"></span><span class="cc-t"><small><span class="rn">［香りで選ぶ蒸留酒］</span><i class="rt">約30秒</i></small><b>ライチのような芋焼酎と生の柑橘のジン。</b><em>芋焼酎『だいやめ DAIYAME』 ＋ <span class="nb">タンカレー No.10</span></em></span><span class="cc-go" aria-hidden="true">›</span></a>
           </section>
           
           <section class="ctx-rail" aria-label="この先のつながり">
@@ -264,139 +266,142 @@ document.addEventListener('click', function (e) {
         <li class="stop first">
           
           
-          <a class="fstop" href="w/domaine-tetta/">
-            <span class="st-img"><img src="img/works/domaine-tetta.jpg" alt="ドメーヌ・テッタ" data-k="domaine-tetta" loading="lazy" decoding="async"></span>
-            <span class="st-txt"><small>ワイナリー</small>
-              <b>ドメーヌ・テッタ</b><span>岡山県新見市哲多町でぶどうを育て、ワインを造るワイナリー。名前は土地の名から。</span></span>
-          </a>
-        </li>
-        <li class="stop newline">
-          <p class="transfer"><span>別の路線へ</span></p>
-          
-          <a class="fstop" href="w/lumumba/">
-            <span class="st-img"><img src="img/works/lumumba.jpg" alt="ラウル・ペック『ルムンバの叫び』" data-k="lumumba" loading="lazy" decoding="async"></span>
-            <span class="st-txt"><small>映画・2000年</small>
-              <b>ラウル・ペック『ルムンバの叫び』</b><span>コンゴ独立の指導者パトリス・ルムンバの、首相就任から殺害までを描いた映画。</span></span>
+          <a class="fstop" href="w/tanqueray-no-ten/?c=daiyame--tanqueray-no-ten">
+            <span class="st-img"><img src="img/works/tanqueray-no-ten.jpg" alt="タンカレー No.10" data-k="tanqueray-no-ten" loading="lazy" decoding="async"></span>
+            <span class="st-txt"><small>酒</small>
+              <b>タンカレー No.10</b><span>英国のジン、タンカレーの上位銘柄。生の柑橘を使って蒸留されることで知られる。</span></span>
           </a>
         </li>
         <li class="stop">
           
-          <a class="seg" href="c/lumumba--heart-of-darkness/">
+          <a class="seg" href="c/kanyoro--nurungji/">
             
-            <small>［コンゴという土地］　ハブ</small>
-            <b><span class="seg-copy">植民地の奥地と、独立の叫び。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
-          <a class="fstop" href="w/heart-of-darkness/?c=lumumba--heart-of-darkness">
-            <span class="st-img"><img src="img/works/heart-of-darkness.jpg" alt="ジョセフ・コンラッド『闇の奥』" data-k="heart-of-darkness" loading="lazy" decoding="async"></span>
-            <span class="st-txt"><small>書籍・1899年</small>
-              <b>ジョセフ・コンラッド『闇の奥』</b><span>象牙交易の奥地へ向かう船乗りマーロウが、消息を絶った交易所の責任者クルツを探す物語。当時のコンゴ自由国が舞台とされる。</span></span>
+            <small>［東京の中の隣国］　似ている</small>
+            <b><span class="seg-copy">神田の中国料理と、赤坂の韓国料理。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
+          <a class="fstop" href="w/nurungji/?c=kanyoro--nurungji">
+            <span class="st-img"><img src="img/works/nurungji.jpg" alt="ヌルンジ（赤坂）" data-k="nurungji" loading="lazy" decoding="async"></span>
+            <span class="st-txt"><small>店</small>
+              <b>ヌルンジ（赤坂）</b><span>東京・赤坂の韓国料理店。店名の「ヌルンジ」は韓国語で、釜の底にできるおこげのこと。</span></span>
           </a>
         </li>
         <li class="stop">
           
-          <a class="seg" href="c/joseph-conrad--heart-of-darkness/">
+          <a class="seg" href="c/zhou-enlai--zhou-tokyo-diary/">
             
-            <small>［船乗りが見た川］　作者と作品</small>
-            <b><span class="seg-copy">作家は自分で、コンゴ川を遡っていた。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
-          <a class="fstop" href="w/joseph-conrad/?c=joseph-conrad--heart-of-darkness">
-            <span class="st-img"><img src="img/works/joseph-conrad.jpg" alt="ジョセフ・コンラッド" data-k="joseph-conrad" loading="lazy" decoding="async"></span>
-            <span class="st-txt"><small>人物・1857年</small>
-              <b>ジョセフ・コンラッド</b><span>ポーランド生まれの英国の小説家。船乗りとして世界の海を渡ったのち、英語で『闇の奥』『ロード・ジム』などを書いた。</span></span>
-          </a>
-        </li>
-        <li class="stop branch">
-          
-          <a class="seg" href="c/heart-of-darkness--apocalypse-now/">
-            <span class="seg-from">闇の奥 から分岐</span>
-            <small>［川を遡る物語］　事実</small>
-            <b><span class="seg-copy">コンゴの川は、ベトナムの川になった。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
-          <a class="fstop" href="w/apocalypse-now/?c=heart-of-darkness--apocalypse-now">
-            <span class="st-img"><img src="img/works/apocalypse-now.jpg" alt="コッポラ『地獄の黙示録』" data-k="apocalypse-now" loading="lazy" decoding="async"></span>
-            <span class="st-txt"><small>映画・1979年</small>
-              <b>コッポラ『地獄の黙示録』</b><span>ベトナム戦争のさなか、軍を離れて奥地に王国を築いたカーツ大佐の暗殺を命じられた大尉の旅。1979年のカンヌ国際映画祭でパルム・ドールを受けた。</span></span>
+            <small>［書き手と日記］　作者と作品</small>
+            <b><span class="seg-copy">のちの総理は、十九歳で東京にいた。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
+          <a class="fstop" href="w/zhou-enlai/?c=zhou-enlai--zhou-tokyo-diary">
+            <span class="st-img"><img src="img/works/zhou-enlai.jpg" alt="周恩来" data-k="zhou-enlai" loading="lazy" decoding="async"></span>
+            <span class="st-txt"><small>人物・1898年</small>
+              <b>周恩来</b><span>1917年から1919年まで日本に留学し、帰国後は革命運動に加わった。1949年の建国から亡くなるまで、政務院総理、のち国務院総理を務めた。</span></span>
           </a>
         </li>
         <li class="stop">
           
-          <a class="seg" href="c/shoplifters--apocalypse-now/">
+          <a class="seg" href="c/minakata-mandala--minakata-toki-letters/">
             
-            <small>［パルム・ドールの系譜］　ハブ</small>
-            <b><span class="seg-copy">ジャングルの奥の戦争と東京の片隅の家族。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
-          <a class="fstop" href="w/shoplifters/?c=shoplifters--apocalypse-now">
-            <span class="st-img"><img src="img/works/shoplifters.jpg" alt="是枝裕和『万引き家族』" data-k="shoplifters" loading="lazy" decoding="async"></span>
-            <span class="st-txt"><small>映画・2018年</small>
-              <b>是枝裕和『万引き家族』</b><span>万引きで暮らしを補う一家と、彼らに拾われた少女を描いた映画。2018年のカンヌ国際映画祭でパルム・ドールを受けた。</span></span>
+            <small>［手紙の中の曼荼羅］　事実</small>
+            <b><span class="seg-copy">その図は、手紙に描かれていた。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
+          <a class="fstop" href="w/minakata-toki-letters/?c=minakata-mandala--minakata-toki-letters">
+            <span class="st-img"><img src="img/works/minakata-toki-letters.jpg" alt="『南方熊楠 土宜法竜 往復書簡』" data-k="minakata-toki-letters" loading="lazy" decoding="async"></span>
+            <span class="st-txt"><small>書籍・1990年</small>
+              <b>『南方熊楠 土宜法竜 往復書簡』</b><span>ロンドンで出会った南方熊楠と、真言宗の僧・土宜法龍が交わした手紙をまとめたもの。二人は仏教と科学をめぐって長い議論を交わした。</span></span>
           </a>
         </li>
         <li class="stop">
           
-          <a class="seg" href="c/koreeda-hirokazu--shoplifters/">
+          <a class="seg" href="c/james-j-gibson--affordance/">
             
-            <small>［家族とは何か］　作者と作品</small>
-            <b><span class="seg-copy">日本映画が21年ぶりにパルム・ドールを得た。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
-          <a class="fstop" href="w/koreeda-hirokazu/?c=koreeda-hirokazu--shoplifters">
-            <span class="st-img"><img src="img/works/koreeda-hirokazu.jpg" alt="是枝裕和" data-k="koreeda-hirokazu" loading="lazy" decoding="async"></span>
-            <span class="st-txt"><small>人物・1962年</small>
-              <b>是枝裕和</b><span>テレビのドキュメンタリー演出から映画監督になった。『誰も知らない』『万引き家族』『海街diary』などを撮っている。</span></span>
+            <small>［名づけた人］　作者と作品</small>
+            <b><span class="seg-copy">椅子は「座る」ことを差し出している。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
+          <a class="fstop" href="w/james-j-gibson/?c=james-j-gibson--affordance">
+            <span class="st-img"><img src="img/works/james-j-gibson.jpg" alt="ジェームズ・J・ギブソン" data-k="james-j-gibson" loading="lazy" decoding="async"></span>
+            <span class="st-txt"><small>人物・1904年</small>
+              <b>ジェームズ・J・ギブソン</b><span>アメリカの知覚心理学者。環境が動物に差し出す行為の可能性を「アフォーダンス」と名づけた。</span></span>
           </a>
         </li>
         <li class="stop">
           
-          <a class="seg" href="c/koreeda-hirokazu--nobody-knows/">
+          <a class="seg" href="c/think-different--uniqlock/">
             
-            <small>［見過ごされた子どもたち］　作者と作品</small>
-            <b><span class="seg-copy">14歳が、カンヌで最年少の男優賞を得た。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
-          <a class="fstop" href="w/nobody-knows/?c=koreeda-hirokazu--nobody-knows">
-            <span class="st-img"><img src="img/works/nobody-knows.jpg" alt="是枝裕和『誰も知らない』" data-k="nobody-knows" loading="lazy" decoding="async"></span>
-            <span class="st-txt"><small>映画・2004年</small>
-              <b>是枝裕和『誰も知らない』</b><span>母親に置き去りにされた四人のきょうだいの暮らしを描いた映画。長男を演じた柳楽優弥がカンヌ国際映画祭で最優秀男優賞を受けた。</span></span>
-          </a>
-        </li>
-        <li class="stop branch">
-          
-          <a class="seg" href="c/apocalypse-now--francis-ford-coppola/">
-            <span class="seg-from">地獄の黙示録 から分岐</span>
-            <small>［監督も奥地へ］　作者と作品</small>
-            <b><span class="seg-copy">映画の撮影そのものが、地獄の行軍になった。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
-          <a class="fstop" href="w/francis-ford-coppola/?c=apocalypse-now--francis-ford-coppola">
-            <span class="st-img"><img src="img/works/francis-ford-coppola.jpg" alt="フランシス・フォード・コッポラ" data-k="francis-ford-coppola" loading="lazy" decoding="async"></span>
-            <span class="st-txt"><small>人物・1939年</small>
-              <b>フランシス・フォード・コッポラ</b><span>『ゴッドファーザー』『地獄の黙示録』の映画監督。</span></span>
+            <small>［時代を刻んだ広告］　似ている</small>
+            <b><span class="seg-copy">商品の説明をせず、ブランドを語った。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
+          <a class="fstop" href="w/uniqlock/?c=think-different--uniqlock">
+            <span class="st-img"><img src="img/works/uniqlock.jpg" alt="UNIQLOCK" data-k="uniqlock" loading="lazy" decoding="async"></span>
+            <span class="st-txt"><small>CM・2007年</small>
+              <b>UNIQLOCK</b><span>ユニクロのウェブ広告。音楽とダンスと時計を組み合わせ、時刻を刻み続けるブログパーツとして世界に広まった。</span></span>
           </a>
         </li>
         <li class="stop">
           
-          <a class="seg" href="c/francis-ford-coppola--high-and-low/">
+          <a class="seg" href="c/peter-handke--nobel-literature-laureates/">
             
-            <small>［黒澤明を経由して］　ハブ</small>
-            <b><span class="seg-copy">コッポラとルーカスが、黒澤の映画を支えた。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
-          <a class="fstop" href="w/high-and-low/?c=francis-ford-coppola--high-and-low">
-            <span class="st-img"><img src="img/highlow.jpg" alt="黒澤明『天国と地獄』" data-k="high-and-low" loading="lazy" decoding="async"></span>
-            <span class="st-txt"><small>映画・1963年</small>
-              <b>黒澤明『天国と地獄』</b><span>エド・マクベインの小説『King’s Ransom』を原作に、誘拐事件を通じて企業家の倫理と社会の格差を描いた作品。</span></span>
+            <small>［2019年の受賞］　事実</small>
+            <b><span class="seg-copy">『天使の詩』の脚本家がノーベル文学賞を得た。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
+          <a class="fstop" href="w/peter-handke/?c=peter-handke--nobel-literature-laureates">
+            <span class="st-img"><img src="img/works/peter-handke.jpg" alt="ペーター・ハントケ" data-k="peter-handke" loading="lazy" decoding="async"></span>
+            <span class="st-txt"><small>人物</small>
+              <b>ペーター・ハントケ</b><span>オーストリアの作家・劇作家。『ベルリン・天使の詩』の脚本に加わり、2019年にノーベル文学賞を受賞した。</span></span>
           </a>
         </li>
         <li class="stop">
           
-          <a class="seg" href="c/highest-2-lowest--high-and-low/">
+          <a class="seg" href="c/wings-of-desire--peter-handke/">
             
-            <small>［原作から再解釈へ］　事実</small>
-            <b><span class="seg-copy">誘拐劇は、60年後にアメリカへ戻った。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
-          <a class="fstop" href="w/highest-2-lowest/?c=highest-2-lowest--high-and-low">
-            <span class="st-img"><img src="img/highest.jpg" alt="『HIGHEST 2 LOWEST』" data-k="highest-2-lowest" loading="lazy" decoding="async"></span>
-            <span class="st-txt"><small>映画・2025年</small>
-              <b>『HIGHEST 2 LOWEST』</b><span>スパイク・リーが、黒澤明『天国と地獄』の構造を現代のニューヨークへ移し替えた作品。富、家族、選択の価値が問われる。</span></span>
+            <small>［天使の言葉］　事実</small>
+            <b><span class="seg-copy">劇中の詩を書いたのはのちのノーベル賞作家。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
+          <a class="fstop" href="w/wings-of-desire/?c=wings-of-desire--peter-handke">
+            <span class="st-img"><img src="img/works/wings-of-desire.jpg" alt="映画『ベルリン・天使の詩』" data-k="wings-of-desire" loading="lazy" decoding="async"></span>
+            <span class="st-txt"><small>映画・ドラマ・1987年</small>
+              <b>映画『ベルリン・天使の詩』</b><span>壁のあった時代のベルリンで、人々の心の声を聞き続けてきた天使が、人間になることを選ぶ物語。</span></span>
           </a>
         </li>
         <li class="stop">
           
-          <a class="seg" href="c/highest-2-lowest--kings-ransom/">
+          <a class="seg" href="c/bruno-ganz--wings-of-desire/">
             
-            <small>［もう一本の源流］　事実</small>
-            <b><span class="seg-copy">黒澤の映画の前にも、一冊の小説があった。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
-          <a class="fstop" href="w/kings-ransom/?c=highest-2-lowest--kings-ransom">
-            <span class="st-img"><img src="img/kings-ransom.jpg" alt="エド・マクベイン『キングの身代金』" data-k="kings-ransom" loading="lazy" decoding="async"></span>
-            <span class="st-txt"><small>書籍・1959年</small>
-              <b>エド・マクベイン『キングの身代金』</b><span>架空の街アイソラの87分署を舞台にした警察小説シリーズの一作。原題『King’s Ransom』。靴会社の重役のもとに、身代金を要求する電話がかかってくる。</span></span>
+            <small>［天使ダミエル］　作者と作品</small>
+            <b><span class="seg-copy">人の心の声を聞く天使はやがて人間になった。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
+          <a class="fstop" href="w/bruno-ganz/?c=bruno-ganz--wings-of-desire">
+            <span class="st-img"><img src="img/works/bruno-ganz.jpg" alt="ブルーノ・ガンツ" data-k="bruno-ganz" loading="lazy" decoding="async"></span>
+            <span class="st-txt"><small>人物</small>
+              <b>ブルーノ・ガンツ</b><span>スイス出身の俳優。『ベルリン・天使の詩』の天使ダミエル、『ヒトラー〜最期の12日間〜』のヒトラーを演じた。</span></span>
+          </a>
+        </li>
+        <li class="stop">
+          
+          <a class="seg" href="c/downfall--bruno-ganz/">
+            
+            <small>［ヒトラーを演じた人］　作者と作品</small>
+            <b><span class="seg-copy">天使を演じた俳優が、独裁者を演じた。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
+          <a class="fstop" href="w/downfall/?c=downfall--bruno-ganz">
+            <span class="st-img"><img src="img/works/downfall.jpg" alt="映画『ヒトラー〜最期の12日間〜』" data-k="downfall" loading="lazy" decoding="async"></span>
+            <span class="st-txt"><small>映画・ドラマ・2004年</small>
+              <b>映画『ヒトラー〜最期の12日間〜』</b><span>ベルリン陥落直前、総統地下壕で過ごしたヒトラーの最期の日々を、秘書の証言などをもとに描いたドイツ映画。</span></span>
+          </a>
+        </li>
+        <li class="stop">
+          
+          <a class="seg" href="c/the-bunker--downfall/">
+            
+            <small>［同じ地下壕］　ハブ</small>
+            <b><span class="seg-copy">地下壕の最後の日々を、二本の映画が描いた。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
+          <a class="fstop" href="w/the-bunker-1981/?c=the-bunker--downfall">
+            <span class="st-img"><img src="img/works/the-bunker-1981.jpg" alt="テレビ映画『ザ・バンカー』" data-k="the-bunker-1981" loading="lazy" decoding="async"></span>
+            <span class="st-txt"><small>映画・ドラマ・1981年</small>
+              <b>テレビ映画『ザ・バンカー』</b><span>ベルリンの総統地下壕で過ごしたヒトラーの最後の日々を、ジェームズ・P・オドネルの著書をもとに描いたアメリカのテレビ映画。アンソニー・ホプキンスがヒトラーを演じ、エミー賞（主演男優賞）を受けた。</span></span>
+          </a>
+        </li>
+        <li class="stop">
+          
+          <a class="seg" href="c/anthony-hopkins--the-bunker/">
+            
+            <small>［ヒトラーとレクター］　作者と作品</small>
+            <b><span class="seg-copy">レクター博士も、ヒトラーを演じていた。</span><span class="seg-go" aria-hidden="true">››</span></b></a>
+          <a class="fstop" href="w/anthony-hopkins/?c=anthony-hopkins--the-bunker">
+            <span class="st-img"><img src="img/works/anthony-hopkins.jpg" alt="アンソニー・ホプキンス" data-k="anthony-hopkins" loading="lazy" decoding="async"></span>
+            <span class="st-txt"><small>人物</small>
+              <b>アンソニー・ホプキンス</b><span>英国ウェールズ出身の俳優。『羊たちの沈黙』のハンニバル・レクター役でアカデミー主演男優賞を受賞した。</span></span>
           </a>
         </li></ol>
             <div class="rail-more" id="railMore" aria-hidden="true"></div>
@@ -412,17 +417,17 @@ document.addEventListener('click', function (e) {
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 <script type="application/ld+json" id="ld">{"@context":"https://schema.org","@type":"Article","headline":"焼酎の名は晩酌の言葉、ワイナリーの名は地名。","alternativeHeadline":"名前が語る産地","about":[{"@type":"CreativeWork","name":"だいやめ DAIYAME","description":"鹿児島の芋焼酎。ライチを思わせる香りで知られる。名前は、一日の疲れを癒やす晩酌を表す鹿児島の言葉から。","creator":{"@type":"Person","name":"濵田酒造（鹿児島）"}},{"@type":"CreativeWork","name":"ドメーヌ・テッタ","description":"岡山県新見市哲多町でぶどうを育て、ワインを造るワイナリー。名前は土地の名から。","creator":{"@type":"Person","name":"岡山県新見市"}}],"author":{"@type":"Person","name":"生成AI（初稿）"},"datePublished":"2026-09-15T05:50:00.000Z","dateModified":"2026-09-15T05:50:00.000Z","inLanguage":"ja","articleBody":"意味の上での近さから結ばれた区間。芋焼酎『だいやめ DAIYAME』の名は、晩酌して疲れを癒やすことを表す鹿児島の言葉から取られている。ドメーヌ・テッタの「テッタ」は、ぶどう畑のある岡山県新見市哲多町の名である。ひとつは暮らしの言葉から、ひとつは土地の名から。どちらも、名前をたどると生まれた場所に行き着く。南九州の蒸留酒と岡山のワインという遠い二本を、名前が結んでいる。","url":"https://beautifulcontext.com/c/daiyame--domaine-tetta/","citation":[{"@type":"CreativeWork","name":"だいやめ～DAIYAME～特設サイト | 濵田酒造","url":"https://www.hamadasyuzou.co.jp/daiyame_brand/","publisher":{"@type":"Organization","name":"濵田酒造"}},{"@type":"CreativeWork","name":"domaine tetta／高橋竜太さん｜岡山観光WEB【公式】- 岡山県の観光・旅行情報ならココ！","url":"https://www.okayama-kanko.jp/feature/kourousya/04","publisher":{"@type":"Organization","name":"岡山県観光連盟"}},{"@type":"CreativeWork","name":"\"Domaine tetta\" produces terroir-inspired wines from abandoned farmland / Niimi, Okayama Prefecture","url":"https://nihonmono.jp/en/?p=53301","publisher":{"@type":"Organization","name":"NIHONMONO"}},{"@type":"CreativeWork","name":"新見市 - Wikipedia","url":"https://ja.wikipedia.org/wiki/%E6%96%B0%E8%A6%8B%E5%B8%82","publisher":{"@type":"Organization","name":"Wikipedia"}}],"image":"https://beautifulcontext.com/img/works/daiyame.jpg"}</script>
 
-<script src="js/config.js?v=174"></script>
-<script src="js/seed.js?v=174"></script>
-<script src="js/sources.js?v=174"></script>
-<script src="js/backend.js?v=174"></script>
-<script src="js/store.js?v=174"></script>
-<script src="js/social.js?v=174"></script>
-<script src="js/render.js?v=174"></script>
-<script src="js/login.js?v=174"></script>
-<script src="js/login-page.js?v=174"></script>
-<script src="js/report.js?v=174"></script>
-<script src="js/transition.js?v=174"></script>
-<script src="js/app.js?v=174"></script>
+<script src="js/config.js?v=183"></script>
+<script src="js/seed.js?v=183"></script>
+<script src="js/sources.js?v=183"></script>
+<script src="js/backend.js?v=183"></script>
+<script src="js/store.js?v=183"></script>
+<script src="js/social.js?v=183"></script>
+<script src="js/render.js?v=183"></script>
+<script src="js/login.js?v=183"></script>
+<script src="js/login-page.js?v=183"></script>
+<script src="js/report.js?v=183"></script>
+<script src="js/transition.js?v=183"></script>
+<script src="js/app.js?v=183"></script>
 </body>
 </html>
